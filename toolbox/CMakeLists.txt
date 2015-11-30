@@ -1,0 +1,167 @@
+# Copyright (C) 2013-2015 Instituto Italiano di Tecnologia
+# Author: Jorhabib Eljaik, Francesco Romano
+# CopyPolicy: Released under the terms of the GNU GPL v2.0.
+
+find_package(YARP REQUIRED)
+find_package(YCM REQUIRED)
+include(YCMDefaultDirs)
+
+# Fail if YARP is not compiled as shared library
+# see https://github.com/robotology/codyco-modules/issues/44
+if(NOT ${YARP_IS_SHARED_LIBRARY})
+    message(FATAL_ERROR "YARP was found, but it was compiled as static library. A shared library version of YARP is required.")
+endif()
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH})
+include(YarpInstallationHelpers)
+yarp_configure_external_installation(codyco)
+
+find_package(Matlab	 REQUIRED
+             MX_LIBRARY
+             ENG_LIBRARY)
+
+
+if(NOT Matlab_FOUND)
+    message(FATAL_ERROR "Matlab not found")
+endif()
+
+#### Settings for rpath
+if(NOT MSVC)
+    #add the option to enable RPATH
+    option(WB-TOOLBOX_ENABLE_RPATH "Enable RPATH installation" TRUE)
+    mark_as_advanced(WB-TOOLBOX_ENABLE_RPATH)
+endif(NOT MSVC)
+
+include(AddInstallRPATHSupport)
+add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
+                          LIB_DIRS ${CMAKE_INSTALL_PREFIX}/mex ${CMAKE_INSTALL_PREFIX}/lib
+                          DEPENDS WB-TOOLBOX_ENABLE_RPATH
+                          USE_LINK_PATH)
+
+find_package(Eigen3 REQUIRED)
+find_package(yarpWholeBodyInterface REQUIRED)
+# Workaround section, aka, this stuff should be defined by imported libraries
+find_package(iDynTree REQUIRED)
+
+#On new versions of Clang, MATLAB requires C++11.
+#I enable it on all Clangs
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+        if (${CMAKE_GENERATOR} MATCHES "Xcode")
+            #this should set explictly the option in xcode. Unfortunately it does not work.
+            set(XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "C++11")
+        endif(${CMAKE_GENERATOR} MATCHES "Xcode")
+    endif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+include(Utilities)
+
+configure_block(BLOCK_NAME "Base"
+    LIST_PREFIX WBT
+    SOURCES src/base/toolbox.cpp
+            src/base/Block.cpp
+            src/base/WBIBlock.cpp
+            src/base/Error.cpp
+            src/base/WBInterface.cpp
+    HEADERS include/base/toolbox.h
+            include/base/Block.h
+            include/base/WBIBlock.h
+            include/base/Error.h
+            include/base/WBInterface.h)
+
+configure_block(BLOCK_NAME "Yarp Read"
+    LIST_PREFIX WBT
+    SOURCES src/YarpRead.cpp
+    HEADERS include/YarpRead.h)
+
+configure_block(BLOCK_NAME "Mass Matrix"
+    LIST_PREFIX WBT
+    SOURCES src/MassMatrix.cpp
+    HEADERS include/MassMatrix.h)
+
+configure_block(BLOCK_NAME "Get Bias Forces"
+    LIST_PREFIX WBT
+    SOURCES src/GetBiasForces.cpp
+    HEADERS include/GetBiasForces.h)
+
+configure_block(BLOCK_NAME "Forward Kinematics"
+    LIST_PREFIX WBT
+    SOURCES src/ForwardKinematics.cpp
+    HEADERS include/ForwardKinematics.h)
+
+get_property(ALL_HEADERS GLOBAL PROPERTY WBT_HEADERS)
+get_property(ALL_SOURCES GLOBAL PROPERTY WBT_SOURCES)
+
+add_definitions(-DMATLAB_MEX_FILE)
+include_directories(include)
+include_directories(include/base)
+
+include_directories(SYSTEM ${Matlab_INCLUDE_DIRS} "${Matlab_ROOT_DIR}/simulink/include")
+include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
+
+#Adding files used for the generation of the dynamic library
+if (CMAKE_VERSION GREATER 3.0.0)
+    matlab_add_mex(
+        NAME WBToolbox
+        SRC ${ALL_HEADERS} ${ALL_SOURCES}
+        LINK_TO ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES}
+    )
+else()
+    #Adding files used for the generation of the dynamic library
+    add_library(WBToolbox SHARED ${ALL_HEADERS} ${ALL_SOURCES})
+
+    set(SFUNCTION_SUFFIX ${Matlab_MEX_EXTENSION})
+    #Removing default dynamic library extensions (.dll for Windows, .so for UNIX) and prefixes (lib) otherwise automatically prepended to the mex file.
+    set_target_properties(WBToolbox PROPERTIES SUFFIX .${SFUNCTION_SUFFIX})
+    set_target_properties(WBToolbox PROPERTIES PREFIX "")
+
+    # This seems to be the most reliable method to date to know installed Matlab arch
+    STRING(REGEX MATCH ..$ MATLAB_ARCH Matlab_MEX_EXTENSION 64)
+
+    #In the following specific flags will be set to ensure compliance with the default settings of Matlab's mex compiler
+    if(WIN32)
+        if(NOT "${MATLAB_ARCH}" STREQUAL "64")
+            message("Flags have been passed to compiler for Matlab 32bits on a Windows computer")
+        elseif()
+            message("Flags have been passed to compiler for Matlab 64bits on a Windows computer")
+        endif()
+        if(MSVC)
+            #Setting Compiler Flags
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Z7 /nologo /W3 /WX- /O2 /Oy- /D_REENTRANT /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0 /DyWrite_EXPORTS /Gm- /EHs /Zp8 /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Gd /TP /showIncludes")
+            #Setting Linker Flags
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /INCREMENTAL:NO /NOLOGO /MANIFEST /debug /MAP.mexw64.map /MACHINE:X64 /EXPORT:mexFunction")
+            if(NOT  "${MATLAB_ARCH}" STREQUAL "64")
+                #Changing some flags according to system/MATLAB version (32, 64 bits)
+                set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /MAP.mexw32.map /MACHINE:X32")
+            endif()
+        elseif(MSVC)
+            message("You are not compiling using Microsoft Visual Studio, ERRORS might occur")
+        endif(MSVC)
+    elseif(WIN32)
+        message("No particular flags have been passed to compiler for Matlab 64bits on a UNIX computer")
+    endif(WIN32)
+
+    # Linking Libraries
+    target_link_libraries(WBToolbox ${YARP_LIBRARIES} ${Matlab_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
+endif()
+
+install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
+
+## if you export the mdl / slx library, remeber to call this command in matlab before saving it
+## set_param(gcs, 'EnableLBRepository','on');
+
+# The following line is to properly configure the installation script of the toolbox
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
+
+# Install configuration files
+install(FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/slblocks.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+#if MAJOR >= 2014 && MINOR >= b
+# Note: We had issues with Matlab 2014b and .mdl models.
+# But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
+# if (${Matlab_VERSION_STRING} GREATER "8.3")
+#     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+# else()
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+# endif()
