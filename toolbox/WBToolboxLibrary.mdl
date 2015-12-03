@@ -19,7 +19,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [963.0, 110.0, 1280.0, 715.0]
+      Location		      [0.0, 29.0, 1280.0, 715.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -67,9 +67,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Nov 30 18:02:21 2015"
-  RTWModifiedTimeStamp	  370807258
-  ModelVersionFormat	  "1.%<AutoIncrement:307>"
+  LastModifiedDate	  "Tue Dec 01 12:55:10 2015"
+  RTWModifiedTimeStamp	  370875301
+  ModelVersionFormat	  "1.%<AutoIncrement:309>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -882,7 +882,7 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary"
-    Location		    [963, 110, 2243, 825]
+    Location		    [0, 29, 1280, 744]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -2565,7 +2565,7 @@ Library {
       }
       System {
 	Name			"wholeBodyModel"
-	Location		[589, 68, 1869, 783]
+	Location		[0, 29, 1280, 744]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2596,7 +2596,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Dynamics"
-	    Location		    [589, 68, 1869, 783]
+	    Location		    [0, 29, 1280, 744]
 	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -2616,10 +2616,10 @@ Library {
 	      Ports		      [4, 1]
 	      Position		      [425, 109, 570, 176]
 	      ZOrder		      33
-	      InitFcn		      "if ~exist('WBIT_robotName','var')\n    WBIT_robotName = '';\nend\nif ~exist('WBIT_modelName','v"
-	      "ar')\n    WBIT_modelName = 'WBIT_simulink';\nend\nif ~exist('WBIT_wbiFilename','var')\n    WBIT_wbiFilename = '"
-	      "yarpWholeBodyInterface.ini';\nend\nif ~exist('WBIT_wbiList','var')\n    WBIT_wbiList = 'ROBOT_TORQUE_CONTROL_JO"
-	      "INTS';\nend"
+	      InitFcn		      "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var'"
+	      ")\n    WBT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWho"
+	      "leBodyInterface.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\ne"
+	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
 	      Object {
@@ -2646,7 +2646,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
-		    Value		    "WBIT_robotName"
+		    Value		    "WBT_robotName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2654,7 +2654,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
-		    Value		    "WBIT_modelName"
+		    Value		    "WBT_modelName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2662,7 +2662,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
-		    Value		    "WBIT_wbiFilename"
+		    Value		    "WBT_wbiFilename"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2670,7 +2670,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
-		    Value		    "WBIT_wbiList"
+		    Value		    "WBT_wbiList"
 		    Tunable		    "off"
 		  }
 		  PropName		  "Parameters"
@@ -2793,6 +2793,10 @@ Library {
 	      Ports		      [2, 1]
 	      Position		      [190, 104, 330, 171]
 	      ZOrder		      32
+	      InitFcn		      "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var'"
+	      ")\n    WBT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWho"
+	      "leBodyInterface.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\ne"
+	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
 	      Object {
@@ -2817,7 +2821,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
-		    Value		    "WBIT_robotName"
+		    Value		    "WBT_robotName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2825,7 +2829,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
-		    Value		    "WBIT_modelName"
+		    Value		    "WBT_modelName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2833,7 +2837,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
-		    Value		    "WBIT_wbiFilename"
+		    Value		    "WBT_wbiFilename"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -2841,7 +2845,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
-		    Value		    "WBIT_wbiList"
+		    Value		    "WBT_wbiList"
 		    Tunable		    "off"
 		  }
 		  PropName		  "Parameters"
@@ -2997,6 +3001,10 @@ Library {
 	      Ports		      [2, 1]
 	      Position		      [350, 103, 505, 207]
 	      ZOrder		      34
+	      InitFcn		      "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var'"
+	      ")\n    WBT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWho"
+	      "leBodyInterface.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\ne"
+	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
 	      Object {
@@ -3031,7 +3039,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
-		    Value		    "WBIT_robotName"
+		    Value		    "WBT_robotName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -3039,7 +3047,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
-		    Value		    "WBIT_modelName"
+		    Value		    "WBT_modelName"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -3047,7 +3055,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
-		    Value		    "WBIT_wbiFilename"
+		    Value		    "WBT_wbiFilename"
 		    Tunable		    "off"
 		  }
 		  Object {
@@ -3055,7 +3063,7 @@ Library {
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
-		    Value		    "WBIT_wbiList"
+		    Value		    "WBT_wbiList"
 		    Tunable		    "off"
 		  }
 		  PropName		  "Parameters"
