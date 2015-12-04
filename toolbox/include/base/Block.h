@@ -113,6 +113,9 @@ public:
      * @return true for success, false otherwise
      */
     virtual bool output(SimStruct *S, wbit::Error *error) = 0;
+
+public:
+    static bool readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter);
 };
 
 #endif /* end of include guard: WBIT_BLOCK_H */

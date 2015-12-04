@@ -71,24 +71,34 @@ configure_block(BLOCK_NAME "Base"
             include/base/WBInterface.h)
 
 configure_block(BLOCK_NAME "Yarp Read"
+    GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/YarpRead.cpp
     HEADERS include/YarpRead.h)
 
 configure_block(BLOCK_NAME "Mass Matrix"
+    GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/MassMatrix.cpp
     HEADERS include/MassMatrix.h)
 
 configure_block(BLOCK_NAME "Get Bias Forces"
+    GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/GetBiasForces.cpp
     HEADERS include/GetBiasForces.h)
 
 configure_block(BLOCK_NAME "Forward Kinematics"
+    GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/ForwardKinematics.cpp
     HEADERS include/ForwardKinematics.h)
+
+configure_block(BLOCK_NAME "Set References"
+    GROUP "Actuators"
+    LIST_PREFIX WBT
+    SOURCES src/SetReferences.cpp
+    HEADERS include/SetReferences.h)
 
 get_property(ALL_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_SOURCES GLOBAL PROPERTY WBT_SOURCES)
