@@ -1,4 +1,4 @@
-#include "ForwardKinematics.h"
+#include "Jacobian.h"
 
 #include "Error.h"
 #include "WBInterface.h"
@@ -8,21 +8,21 @@
 
 namespace wbt {
 
-    std::string ForwardKinematics::ClassName = "ForwardKinematics";
+    std::string Jacobian::ClassName = "Jacobian";
 
-    ForwardKinematics::ForwardKinematics()
+    Jacobian::Jacobian()
     : m_basePose(0)
-    , m_frameForwardKinematics(0)
+    , m_jacobian(0)
     , m_basePoseRaw(0)
     , m_configuration(0)
     , m_frameIndex(-1) {}
 
-    unsigned ForwardKinematics::numberOfParameters()
+    unsigned Jacobian::numberOfParameters()
     {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool ForwardKinematics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool Jacobian::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -55,19 +55,19 @@ namespace wbt {
         }
 
         // Output port:
-        // - (4)x(4) matrix representing the homogenous transformation between the specified frame and the world frame
+        // - (6)x(6+dofs) matrix
         if (!ssSetNumOutputPorts (S, 1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortMatrixDimensions(S, 0, 4, 4);
+        success = ssSetOutputPortMatrixDimensions(S, 0, 6, 6 + dofs);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
         return true;
     }
 
-    bool ForwardKinematics::initialize(SimStruct *S, wbt::Error *error)
+    bool Jacobian::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -94,22 +94,22 @@ namespace wbt {
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
-        m_frameForwardKinematics = new double[4 * 4];
+        m_jacobian = new double[6 * (6 + dofs)];
         m_basePoseRaw = new double[16];
         m_configuration = new double[dofs];
 
-        return m_basePose && m_frameForwardKinematics && m_basePoseRaw && m_configuration;
+        return m_basePose && m_jacobian && m_basePoseRaw && m_configuration;
     }
 
-    bool ForwardKinematics::terminate(SimStruct *S, wbt::Error *error)
+    bool Jacobian::terminate(SimStruct *S, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
             m_basePose = 0;
         }
-        if (m_frameForwardKinematics) {
-            delete [] m_frameForwardKinematics;
-            m_frameForwardKinematics = 0;
+        if (m_jacobian) {
+            delete [] m_jacobian;
+            m_jacobian = 0;
         }
         if (m_basePoseRaw) {
             delete [] m_basePoseRaw;
@@ -122,7 +122,7 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
-    bool ForwardKinematics::output(SimStruct *S, wbt::Error *error)
+    bool Jacobian::output(SimStruct *S, wbt::Error *error)
     {
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
@@ -142,15 +142,15 @@ namespace wbt {
             wbi::Frame frame;
             wbi::frameFromSerialization(basePose.data(), frame);
 
-            wbi::Frame outputFrame;
-            interface->computeH(m_configuration, frame, m_frameIndex, outputFrame);
-            outputFrame.get4x4Matrix(m_frameForwardKinematics);
+            unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+            interface->computeJacobian(m_configuration, frame, m_frameIndex, m_jacobian);
 
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > frameRowMajor(m_frameForwardKinematics);
+            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::RowMajor> > jacobianRowMajor(m_jacobian, 6, 6 + dofs);
 
             real_T *output = ssGetOutputPortRealSignal(S, 0);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > frameColMajor(output, 4, 4);
-            frameColMajor = frameRowMajor;
+            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::ColMajor> > jacobianColMajor(output, 6, 6 + dofs);
+
+            jacobianColMajor = jacobianRowMajor;
             return true;
         }
         return false;

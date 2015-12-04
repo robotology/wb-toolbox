@@ -48,6 +48,15 @@ static void mdlSetInputPortDimensionInfo(SimStruct *S, int_T port,
     ssSetInputPortDimensionInfo(S, port, dimsInfo);
 }
 
+#define MDL_SET_OUTPUT_PORT_DIMENSION_INFO
+static void mdlSetOutputPortDimensionInfo(SimStruct *S, int_T port,
+                                         const DimsInfo_T *dimsInfo)
+{
+    //TODO: for now accept the proposed size.
+    //If we want to change the behaviour we have to implement some callbacks
+    ssSetOutputPortDimensionInfo(S, port, dimsInfo);
+}
+
 // Function: mdlInitializeSizes ===============================================
 // Abstract:
 //    The sizes information is used by Simulink to determine the S-function

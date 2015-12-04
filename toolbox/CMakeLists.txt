@@ -115,6 +115,12 @@ configure_block(BLOCK_NAME "Forward Kinematics"
     SOURCES src/ForwardKinematics.cpp
     HEADERS include/ForwardKinematics.h)
 
+configure_block(BLOCK_NAME "Jacobian"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/Jacobian.cpp
+    HEADERS include/Jacobian.h)
+
 configure_block(BLOCK_NAME "Set References"
     GROUP "Actuators"
     LIST_PREFIX WBT

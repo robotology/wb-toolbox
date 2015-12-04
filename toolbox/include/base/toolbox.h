@@ -9,3 +9,4 @@
 #include "SetReferences.h"
 #include "RealTimeSynchronizer.h"
 #include "SimulatorSynchronizer.h"
+#include "Jacobian.h"

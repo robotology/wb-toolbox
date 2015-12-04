@@ -20,6 +20,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::RealTimeSynchronizer();
     } else if (blockClassName == wbt::SimulatorSynchronizer::ClassName) {
         block = new wbt::SimulatorSynchronizer();
+    } else if (blockClassName == wbt::Jacobian::ClassName) {
+        block = new wbt::Jacobian();
     }
     
     return block;
