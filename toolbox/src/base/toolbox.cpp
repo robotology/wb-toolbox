@@ -39,6 +39,14 @@ static void mdlCheckParameters(SimStruct *S)
 }
 #endif  /*MDL_CHECK_PARAMETERS*/
 
+#define MDL_SET_INPUT_PORT_DIMENSION_INFO
+static void mdlSetInputPortDimensionInfo(SimStruct *S, int_T port,
+                                         const DimsInfo_T *dimsInfo)
+{
+    //TODO: for now accept the proposed size.
+    //If we want to change the behaviour we have to implement some callbacks
+    ssSetInputPortDimensionInfo(S, port, dimsInfo);
+}
 
 // Function: mdlInitializeSizes ===============================================
 // Abstract:

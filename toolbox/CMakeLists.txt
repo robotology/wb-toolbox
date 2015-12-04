@@ -77,6 +77,12 @@ configure_block(BLOCK_NAME "Yarp Read"
     SOURCES src/YarpRead.cpp
     HEADERS include/YarpRead.h)
 
+configure_block(BLOCK_NAME "Yarp Write"
+    GROUP "Utilities"
+    LIST_PREFIX WBT
+    SOURCES src/YarpWrite.cpp
+    HEADERS include/YarpWrite.h)
+
 configure_block(BLOCK_NAME "Real Time Synchronizer"
     GROUP "Utilities"
     LIST_PREFIX WBT

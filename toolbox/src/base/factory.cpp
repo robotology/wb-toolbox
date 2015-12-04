@@ -6,6 +6,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
     
     if (blockClassName == wbt::YarpRead::ClassName) {
         block = new wbt::YarpRead();
+    } else if (blockClassName == wbt::YarpWrite::ClassName) {
+        block = new wbt::YarpWrite();
     } else if (blockClassName == wbt::MassMatrix::ClassName) {
         block = new wbt::MassMatrix();
     } else if (blockClassName == wbt::GetBiasForces::ClassName) {
