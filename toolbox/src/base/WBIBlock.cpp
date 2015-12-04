@@ -15,32 +15,23 @@ unsigned wbt::WBIBlock::numberOfParameters() { return 4; }
 
 bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
 {
-    int_T buflen, status;
-    char *buffer = NULL;
-
     //wbi config file
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_3))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_3)), buffer, buflen);
-    if (status) {
-        if (error) error->message = "Cannot retrieve string from WBI config file parameter";
+    std::string wbiConfigFile;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
+        if (error) error->message = "Could not read WBI configuration file parameter";
         return false;
     }
-    std::string wbiConfigFile = buffer;
-    mxFree(buffer); buffer = NULL;
+
     //default config file:
     if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_4))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_4)), buffer, buflen);
-    if (status) {
-        if (error) error->message = "Cannot retrieve string from WBI list parameter";
+    std::string wbiList;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
+        if (error) error->message = "Could not read WBI list parameter";
         return false;
     }
-    std::string wbiList = buffer;
-    mxFree(buffer); buffer = NULL;
+
     //default list:
     if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
 
@@ -70,56 +61,39 @@ bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
     // - wbi config file name (default: yarpWholeBodyInterface.ini): specifies the wbi config file
     // - wbi list (default ROBOT_TORQUE_CONTROL_JOINTS): specifies the WBI list
 
-    int_T buflen, status;
-    char *buffer = NULL;
-
     //robot name
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_1))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_1)), buffer, buflen);
-    if (status) {
+    std::string robotName;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_1, robotName)) {
         if (error) error->message = "Cannot retrieve string from robot parameter";
         return false;
     }
-    std::string robotName = buffer;
-    mxFree(buffer); buffer = NULL;
 
     //local name
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_2))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_2)), buffer, buflen);
-    if (status) {
+    std::string localName;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_2, localName)) {
         if (error) error->message = "Cannot retrieve string from localName parameter";
         return false;
     }
-    std::string localName = buffer;
-    mxFree(buffer); buffer = NULL;
     //default local name
     if (localName.empty()) localName = "WBIT";
 
     //wbi config file
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_3))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_3)), buffer, buflen);
-    if (status) {
+    std::string wbiConfigFile;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
         if (error) error->message = "Cannot retrieve string from WBI config file parameter";
         return false;
     }
-    std::string wbiConfigFile = buffer;
-    mxFree(buffer); buffer = NULL;
+
     //default config file:
     if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_4))) * sizeof(mxChar);
-    buffer = static_cast<char*>(mxMalloc(buflen));
-    status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_4)), buffer, buflen);
-    if (status) {
+    std::string wbiList;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
         if (error) error->message = "Cannot retrieve string from WBI list parameter";
         return false;
     }
-    std::string wbiList = buffer;
-    mxFree(buffer); buffer = NULL;
+
     //default list:
     if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
 

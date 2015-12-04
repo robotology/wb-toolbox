@@ -89,14 +89,9 @@ namespace wbt {
         m_blocking = GET_OPT_BLOCKING;
         m_errorOnMissingPort = GET_OPT_ERROR_ON_MISSING_PORT;
 
-        int_T buflen, status;
-        char *buffer = NULL;
-
-        buflen = (1 + mxGetN(ssGetSFcnParam(S, PARAM_IDX_1))) * sizeof(mxChar);
-        buffer = static_cast<char*>(mxMalloc(buflen));
-        status = mxGetString((ssGetSFcnParam(S, PARAM_IDX_1)), buffer, buflen);
-        if (status) {
-            ssSetErrorStatus(S,"Cannot retrieve string from port name parameter");
+        std::string portName;
+        if (!Block::readStringParameterAtIndex(S, PARAM_IDX_1, portName)) {
+            if (error) error->message = "Cannot retrieve string from port name parameter";
             return false;
         }
 
@@ -104,13 +99,11 @@ namespace wbt {
         std::string destinationPortName;
 
         if (m_autoconnect) {
-            sourcePortName = buffer;
+            sourcePortName = portName;
             destinationPortName = "...";
         } else {
-            destinationPortName = buffer;
+            destinationPortName = portName;
         }
-        mxFree(buffer);
-        buffer = NULL;
 
         m_port = new BufferedPort<Vector>();
 
@@ -123,9 +116,9 @@ namespace wbt {
             if (!Network::connect(sourcePortName, m_port->getName())) {
                 mexPrintf("Failed to connect %s to %s\n", sourcePortName.c_str(), m_port->getName().c_str());
                 if (m_errorOnMissingPort) {
-                    ssSetErrorStatus(S,"ERROR connecting ports!");
+                    if (error) error->message = "ERROR connecting ports";
+                    return false;
                 }
-                return false;
             }
         }
         return true;

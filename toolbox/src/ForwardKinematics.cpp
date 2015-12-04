@@ -72,20 +72,13 @@ namespace wbt {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
 
-        int_T buflen, status;
-        char *buffer = NULL;
-
         int parentParameters = WBIBlock::numberOfParameters();
         //robot name
-        buflen = (1 + mxGetN(ssGetSFcnParam(S, parentParameters))) * sizeof(mxChar);
-        buffer = static_cast<char*>(mxMalloc(buflen));
-        status = mxGetString((ssGetSFcnParam(S, parentParameters)), buffer, buflen);
-        if (status) {
+        std::string frame;
+        if (!Block::readStringParameterAtIndex(S, parentParameters, frame)) {
             if (error) error->message = "Cannot retrieve string from frame parameter";
             return false;
         }
-        std::string frame = buffer;
-        mxFree(buffer); buffer = NULL;
 
         //here obtain joint list and get the frame
         wbi::wholeBodyInterface *interface = WBInterface::sharedInstance().interface();
