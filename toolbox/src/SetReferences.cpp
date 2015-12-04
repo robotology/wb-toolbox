@@ -35,10 +35,8 @@ namespace wbt {
             return false;
         }
 
-        bool success = ssSetInputPortVectorDimension(S, 1, dofs);
-
+        bool success = ssSetInputPortVectorDimension(S, 0, dofs);
         ssSetInputPortDataType (S, 0, SS_DOUBLE);
-
         ssSetInputPortDirectFeedThrough (S, 0, 1);
 
         if (!success) {
