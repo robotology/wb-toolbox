@@ -1,13 +1,13 @@
-#ifndef WBIT_MASSMATRIX_H
-#define WBIT_MASSMATRIX_H
+#ifndef WBT_MASSMATRIX_H
+#define WBT_MASSMATRIX_H
 
 #include "WBIBlock.h"
 
-namespace wbit {
+namespace wbt {
     class MassMatrix;
 }
 
-class wbit::MassMatrix : public wbit::WBIBlock {
+class wbt::MassMatrix : public wbt::WBIBlock {
 
     double *m_basePose;
     double *m_massMatrix;
@@ -20,14 +20,14 @@ public:
     static std::string ClassName;
     MassMatrix();
 
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error);
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
-    virtual bool initialize(SimStruct *S, wbit::Error *error);
-    virtual bool terminate(SimStruct *S, wbit::Error *error);
-    virtual bool output(SimStruct *S, wbit::Error *error);
+    virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool output(SimStruct *S, wbt::Error *error);
 
 
 };
 
 
-#endif /* end of include guard: WBIT_MASSMATRIX_H */
+#endif /* end of include guard: WBT_MASSMATRIX_H */

@@ -1,9 +1,9 @@
-#ifndef WBIT_WBIBLOCK_H
-#define WBIT_WBIBLOCK_H
+#ifndef WBT_WBIBLOCK_H
+#define WBT_WBIBLOCK_H
 
 #include "Block.h"
 
-namespace wbit {
+namespace wbt {
     class WBIBlock;
 }
 
@@ -24,15 +24,15 @@ namespace wbit {
  * method overridings, unless you want to completely change the code (but at that point 
  * you probabily want to derive from Block instead)
  */
-class wbit::WBIBlock : public wbit::Block {
+class wbt::WBIBlock : public wbt::Block {
 
 public:
     virtual ~WBIBlock();
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error);
-    virtual bool initialize(SimStruct *S, wbit::Error *error);
-    virtual bool terminate(SimStruct *S, wbit::Error *error);
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
+    virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool terminate(SimStruct *S, wbt::Error *error);
 };
 
 
-#endif /* end of include guard: WBIT_WBIBLOCK_H */
+#endif /* end of include guard: WBT_WBIBLOCK_H */

@@ -1,31 +1,31 @@
 #include "Block.h"
 #include "toolbox.h"
 
-wbit::Block::~Block() {}
-void wbit::Block::parameterAtIndexIsTunable(unsigned index, bool &tunable) { tunable = false; }
-bool wbit::Block::checkParameters(SimStruct *S, wbit::Error *error) { return true; }
+wbt::Block::~Block() {}
+void wbt::Block::parameterAtIndexIsTunable(unsigned index, bool &tunable) { tunable = false; }
+bool wbt::Block::checkParameters(SimStruct *S, wbt::Error *error) { return true; }
 
 
-wbit::Block* wbit::Block::instantiateBlockWithClassName(std::string blockClassName)
+wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName)
 {
-    wbit::Block *block = NULL;
+    wbt::Block *block = NULL;
     
-    if (blockClassName == wbit::YarpRead::ClassName) {
-        block = new wbit::YarpRead();
-    } else if (blockClassName == wbit::MassMatrix::ClassName) {
-        block = new wbit::MassMatrix();
-    } else if (blockClassName == wbit::GetBiasForces::ClassName) {
-        block = new wbit::GetBiasForces();
-    } else if (blockClassName == wbit::ForwardKinematics::ClassName) {
-        block = new wbit::ForwardKinematics();
-    } else if (blockClassName == wbit::SetReferences::ClassName) {
-        block = new wbit::SetReferences();
+    if (blockClassName == wbt::YarpRead::ClassName) {
+        block = new wbt::YarpRead();
+    } else if (blockClassName == wbt::MassMatrix::ClassName) {
+        block = new wbt::MassMatrix();
+    } else if (blockClassName == wbt::GetBiasForces::ClassName) {
+        block = new wbt::GetBiasForces();
+    } else if (blockClassName == wbt::ForwardKinematics::ClassName) {
+        block = new wbt::ForwardKinematics();
+    } else if (blockClassName == wbt::SetReferences::ClassName) {
+        block = new wbt::SetReferences();
     }
     
     return block;
 }
 
-bool wbit::Block::readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter)
+bool wbt::Block::readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter)
 {
     int_T buflen, status;
     char *buffer = NULL;

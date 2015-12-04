@@ -5,7 +5,7 @@
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 
-namespace wbit {
+namespace wbt {
 
     std::string SetReferences::ClassName = "SetReferences";
 
@@ -17,7 +17,7 @@ namespace wbit {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool SetReferences::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
+    bool SetReferences::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -56,7 +56,7 @@ namespace wbit {
         return true;
     }
 
-    bool SetReferences::initialize(SimStruct *S, wbit::Error *error)
+    bool SetReferences::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -90,7 +90,7 @@ namespace wbit {
         return m_references && interface && interface->setControlMode(controlMode);
     }
 
-    bool SetReferences::terminate(SimStruct *S, wbit::Error *error)
+    bool SetReferences::terminate(SimStruct *S, wbt::Error *error)
     {
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
@@ -103,7 +103,7 @@ namespace wbit {
         return WBIBlock::terminate(S, error);
     }
 
-    bool SetReferences::output(SimStruct *S, wbit::Error *error)
+    bool SetReferences::output(SimStruct *S, wbt::Error *error)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();

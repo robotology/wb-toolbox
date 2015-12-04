@@ -1,10 +1,10 @@
-#ifndef WBIT_BLOCK_H
-#define WBIT_BLOCK_H
+#ifndef WBT_BLOCK_H
+#define WBT_BLOCK_H
 
 #include <string>
 #include "simstruc.h"
 
-namespace wbit {
+namespace wbt {
     class Block;
     class Error;
 }
@@ -20,7 +20,7 @@ namespace wbit {
  * @Note: if you need to implement a block which uses the WBI, you should derive
  * from WBIBlock as it already provides some facilities.
  */
-class wbit::Block {
+class wbt::Block {
 public:
     /**
      * Create and returns a new Block object of the specified class.
@@ -30,7 +30,7 @@ public:
      *
      * @return the newly created Block object or NULL.
      */
-    static wbit::Block* instantiateBlockWithClassName(std::string blockClassName);
+    static wbt::Block* instantiateBlockWithClassName(std::string blockClassName);
 
     /**
      * Destructor
@@ -67,7 +67,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error) = 0;
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error) = 0;
 
     /**
      * Never called.
@@ -77,7 +77,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool checkParameters(SimStruct *S, wbit::Error *error);
+    virtual bool checkParameters(SimStruct *S, wbt::Error *error);
 
     /**
      * Initialize the object for the simulation
@@ -89,7 +89,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initialize(SimStruct *S, wbit::Error *error) = 0;
+    virtual bool initialize(SimStruct *S, wbt::Error *error) = 0;
 
     /**
      * Perform model cleanup.
@@ -101,7 +101,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool terminate(SimStruct *S, wbit::Error *error) = 0;
+    virtual bool terminate(SimStruct *S, wbt::Error *error) = 0;
 
     /**
      * Compute the output of the block
@@ -112,10 +112,10 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool output(SimStruct *S, wbit::Error *error) = 0;
+    virtual bool output(SimStruct *S, wbt::Error *error) = 0;
 
 public:
     static bool readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter);
 };
 
-#endif /* end of include guard: WBIT_BLOCK_H */
+#endif /* end of include guard: WBT_BLOCK_H */

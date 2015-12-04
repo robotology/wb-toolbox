@@ -18,7 +18,7 @@
 #define GET_OPT_AUTOCONNECT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5))
 #define GET_OPT_ERROR_ON_MISSING_PORT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_6))
 
-namespace wbit {
+namespace wbt {
     
     std::string YarpRead::ClassName = "YarpRead";
 
@@ -27,7 +27,7 @@ namespace wbit {
     
     unsigned YarpRead::numberOfParameters() { return 6; }
 
-    bool YarpRead::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
+    bool YarpRead::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         // Specify I/O
         // INPUTS
@@ -72,7 +72,7 @@ namespace wbit {
         return true;
     }
 
-    bool YarpRead::initialize(SimStruct *S, wbit::Error *error)
+    bool YarpRead::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         using namespace yarp::sig;
@@ -130,7 +130,7 @@ namespace wbit {
         }
         return true;
     }
-    bool YarpRead::terminate(SimStruct *S, wbit::Error *error) 
+    bool YarpRead::terminate(SimStruct *S, wbt::Error *error) 
     {
         if (m_port) {
             m_port->close();
@@ -141,7 +141,7 @@ namespace wbit {
         return true;
     }
     
-    bool YarpRead::output(SimStruct *S, wbit::Error *error) 
+    bool YarpRead::output(SimStruct *S, wbt::Error *error) 
     {
         int timeStampPortIndex = 1;
         int connectionStatusPortIndex = 1;

@@ -1,13 +1,13 @@
-#ifndef WBIT_SETREFERENCES_H
-#define WBIT_SETREFERENCES_H
+#ifndef WBT_SETREFERENCES_H
+#define WBT_SETREFERENCES_H
 
 #include "WBIBlock.h"
 
-namespace wbit {
+namespace wbt {
     class SetReferences;
 }
 
-class wbit::SetReferences : public wbit::WBIBlock {
+class wbt::SetReferences : public wbt::WBIBlock {
 
     double *m_references;
 
@@ -16,14 +16,14 @@ public:
     SetReferences();
 
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error);
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
-    virtual bool initialize(SimStruct *S, wbit::Error *error);
-    virtual bool terminate(SimStruct *S, wbit::Error *error);
-    virtual bool output(SimStruct *S, wbit::Error *error);
+    virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool output(SimStruct *S, wbt::Error *error);
 
 
 };
 
 
-#endif /* end of include guard: WBIT_SETREFERENCES_H */
+#endif /* end of include guard: WBT_SETREFERENCES_H */

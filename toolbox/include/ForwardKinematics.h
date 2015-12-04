@@ -1,13 +1,13 @@
-#ifndef WBIT_FORWARDKINEMATICS_H
-#define WBIT_FORWARDKINEMATICS_H
+#ifndef WBT_FORWARDKINEMATICS_H
+#define WBT_FORWARDKINEMATICS_H
 
 #include "WBIBlock.h"
 
-namespace wbit {
+namespace wbt {
     class ForwardKinematics;
 }
 
-class wbit::ForwardKinematics : public wbit::WBIBlock {
+class wbt::ForwardKinematics : public wbt::WBIBlock {
 
     double *m_basePose;
     double *m_frameForwardKinematics;
@@ -23,14 +23,14 @@ public:
     ForwardKinematics();
 
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error);
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
-    virtual bool initialize(SimStruct *S, wbit::Error *error);
-    virtual bool terminate(SimStruct *S, wbit::Error *error);
-    virtual bool output(SimStruct *S, wbit::Error *error);
+    virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool output(SimStruct *S, wbt::Error *error);
 
 
 };
 
 
-#endif /* end of include guard: WBIT_FORWARDKINEMATICS_H */
+#endif /* end of include guard: WBT_FORWARDKINEMATICS_H */

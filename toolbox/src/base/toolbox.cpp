@@ -55,7 +55,7 @@ static void mdlInitializeSizes(SimStruct *S)
     char *classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
-    wbit::Block *block = wbit::Block::instantiateBlockWithClassName(className);
+    wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
 
     //We cannot save data in PWork during the initializeSizes phase
     ssSetNumPWork(S, 1);
@@ -89,7 +89,7 @@ static void mdlInitializeSizes(SimStruct *S)
     }
 #endif
 
-    wbit::Error error;
+    wbt::Error error;
     if (!block->configureSizeAndPorts(S, &error)) {
         sprintf(errorBuffer, "%s", error.message.substr(0, 511).c_str());
         ssSetErrorStatus(S, errorBuffer);
@@ -136,12 +136,12 @@ static void mdlStart(SimStruct *S)
     char *classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
-    wbit::Block *block = wbit::Block::instantiateBlockWithClassName(className);
+    wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
     ssSetPWorkValue(S, 0, block);
 
     if (ssGetNumPWork(S) > 0) {
-        wbit::Block *block = static_cast<wbit::Block*>(ssGetPWorkValue(S, 0));
-        wbit::Error error;
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
         if (!block || !block->initialize(S, &error)) {
             yError() << "[mdlStart]" << error.message;
             static char errorBuffer[1024];
@@ -159,8 +159,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 {
     UNUSED_ARG(tid);
     if (ssGetNumPWork(S) > 0) {
-        wbit::Block *block = static_cast<wbit::Block*>(ssGetPWorkValue(S, 0));
-        wbit::Error error;
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
         if (!block || !block->output(S, &error)) {
             static char errorBuffer[1024];
             sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
@@ -173,8 +173,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 static void mdlTerminate(SimStruct *S)
 {
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
-        wbit::Block *block = static_cast<wbit::Block*>(ssGetPWorkValue(S, 0));
-        wbit::Error error;
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
         if (block) {
             if (block->terminate(S, &error)) {
                 delete block;

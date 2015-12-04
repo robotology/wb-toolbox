@@ -4,7 +4,7 @@
 #include <yarp/os/ResourceFinder.h>
 #include <yarpWholeBodyInterface/yarpWholeBodyInterface.h>
 
-namespace wbit {
+namespace wbt {
 
     unsigned WBInterface::s_referenceCount = 0;
 
@@ -18,7 +18,7 @@ namespace wbit {
 
     WBInterface::WBInterface(const WBInterface&) {}
     WBInterface::~WBInterface() {}
-    WBInterface& WBInterface::operator=(const wbit::WBInterface &) { return *this; }
+    WBInterface& WBInterface::operator=(const wbt::WBInterface &) { return *this; }
 
     WBInterface& WBInterface::sharedInstance()
     {
@@ -58,7 +58,7 @@ namespace wbit {
                    const std::string & localName,
                    const std::string & wbiConfigFile,
                    const std::string & list,
-                   wbit::Error *error)
+                   wbt::Error *error)
     {
         if (m_configured) return true;
 

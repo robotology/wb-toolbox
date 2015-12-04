@@ -6,7 +6,7 @@
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
 
-namespace wbit {
+namespace wbt {
 
     std::string GetBiasForces::ClassName = "GetBiasForces";
 
@@ -18,7 +18,7 @@ namespace wbit {
     , m_baseVelocity(0)
     , m_jointsVelocity(0) {}
 
-    bool GetBiasForces::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
+    bool GetBiasForces::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -70,7 +70,7 @@ namespace wbit {
         return true;
     }
 
-    bool GetBiasForces::initialize(SimStruct *S, wbit::Error *error)
+    bool GetBiasForces::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -86,7 +86,7 @@ namespace wbit {
         return m_basePose && m_biasForces && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
     }
 
-    bool GetBiasForces::terminate(SimStruct *S, wbit::Error *error)
+    bool GetBiasForces::terminate(SimStruct *S, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
@@ -115,7 +115,7 @@ namespace wbit {
         return WBIBlock::terminate(S, error);
     }
 
-    bool GetBiasForces::output(SimStruct *S, wbit::Error *error)
+    bool GetBiasForces::output(SimStruct *S, wbt::Error *error)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();

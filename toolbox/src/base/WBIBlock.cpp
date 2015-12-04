@@ -9,11 +9,11 @@
 #define PARAM_IDX_3 3                           // wbi config file
 #define PARAM_IDX_4 4                           // wbi list
 
-wbit::WBIBlock::~WBIBlock() { }
+wbt::WBIBlock::~WBIBlock() { }
 
-unsigned wbit::WBIBlock::numberOfParameters() { return 4; }
+unsigned wbt::WBIBlock::numberOfParameters() { return 4; }
 
-bool wbit::WBIBlock::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
+bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
 {
     int_T buflen, status;
     char *buffer = NULL;
@@ -54,7 +54,7 @@ bool wbit::WBIBlock::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
     return true;
 }
 
-bool wbit::WBIBlock::initialize(SimStruct *S, wbit::Error *error)
+bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
 {
     using namespace yarp::os;
     Network::init();
@@ -138,7 +138,7 @@ bool wbit::WBIBlock::initialize(SimStruct *S, wbit::Error *error)
     return true;
 }
 
-bool wbit::WBIBlock::terminate(SimStruct *S, wbit::Error *error)
+bool wbt::WBIBlock::terminate(SimStruct *S, wbt::Error *error)
 {
     if (!WBInterface::sharedInstance().terminate()) {
         if (error) error->message = "Failed to terminate WBI";

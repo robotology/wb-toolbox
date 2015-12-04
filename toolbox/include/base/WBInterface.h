@@ -1,9 +1,9 @@
-#ifndef WBIT_WBINTERFACE_H
-#define WBIT_WBINTERFACE_H
+#ifndef WBT_WBINTERFACE_H
+#define WBT_WBINTERFACE_H
 
 #include <string>
 
-namespace wbit {
+namespace wbt {
     class WBInterface;
     class Error;
 }
@@ -22,7 +22,7 @@ namespace yarp {
  * This class holds a reference counted handle to the whole body interface object.
  * You can obtain the singleton reference to this object by calling the sharedInstance method.
  */
-class wbit::WBInterface {
+class wbt::WBInterface {
 
     // Private constructor, destructor, copy constructor and assignemnt operator
     WBInterface();
@@ -48,7 +48,7 @@ public:
      * This is the only way to obtain a reference to an instance of this class
      * @return the singleton instance
      */
-    static wbit::WBInterface& sharedInstance();
+    static wbt::WBInterface& sharedInstance();
 
     /**
      * Returns the constant pointer to the whole body interface object
@@ -97,7 +97,7 @@ public:
                    const std::string & localName,
                    const std::string & wbiConfigFile,
                    const std::string & list,
-                   wbit::Error *error);
+                   wbt::Error *error);
 
     /**
      * Clear the current configuration, so that configure can be called again.
@@ -131,4 +131,4 @@ public:
 
 };
 
-#endif /* end of include guard: WBIT_WBINTERFACE_H */
+#endif /* end of include guard: WBT_WBINTERFACE_H */

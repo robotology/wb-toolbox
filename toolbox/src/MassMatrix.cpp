@@ -6,7 +6,7 @@
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
 
-namespace wbit {
+namespace wbt {
 
     std::string MassMatrix::ClassName = "MassMatrix";
 
@@ -16,7 +16,7 @@ namespace wbit {
     , m_basePoseRaw(0)
     , m_configuration(0) {}
 
-    bool MassMatrix::configureSizeAndPorts(SimStruct *S, wbit::Error *error)
+    bool MassMatrix::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -61,7 +61,7 @@ namespace wbit {
         return true;
     }
 
-    bool MassMatrix::initialize(SimStruct *S, wbit::Error *error)
+    bool MassMatrix::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -75,7 +75,7 @@ namespace wbit {
         return m_basePose && m_massMatrix && m_basePoseRaw && m_configuration;
     }
 
-    bool MassMatrix::terminate(SimStruct *S, wbit::Error *error)
+    bool MassMatrix::terminate(SimStruct *S, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
@@ -96,7 +96,7 @@ namespace wbit {
         return WBIBlock::terminate(S, error);
     }
 
-    bool MassMatrix::output(SimStruct *S, wbit::Error *error)
+    bool MassMatrix::output(SimStruct *S, wbt::Error *error)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();

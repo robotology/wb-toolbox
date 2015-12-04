@@ -1,19 +1,19 @@
-#ifndef WBIT_ERROR_H
-#define WBIT_ERROR_H
+#ifndef WBT_ERROR_H
+#define WBT_ERROR_H
 
 #include <string>
 
-namespace wbit {
+namespace wbt {
     class Error;
 }
 
 /**
  * Basic Error class
  */
-class wbit::Error {
+class wbt::Error {
 public:
     std::string message; /*<! a string representing the error message */
 };
 
 
-#endif /* end of include guard: WBIT_ERROR_H */
+#endif /* end of include guard: WBT_ERROR_H */

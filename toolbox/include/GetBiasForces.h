@@ -1,13 +1,13 @@
-#ifndef WBIT_GETBIASFORCES_H
-#define WBIT_GETBIASFORCES_H
+#ifndef WBT_GETBIASFORCES_H
+#define WBT_GETBIASFORCES_H
 
 #include "WBIBlock.h"
 
-namespace wbit {
+namespace wbt {
     class GetBiasForces;
 }
 
-class wbit::GetBiasForces : public wbit::WBIBlock {
+class wbt::GetBiasForces : public wbt::WBIBlock {
 
     double *m_basePose;
     double *m_biasForces;
@@ -22,14 +22,14 @@ public:
     static std::string ClassName;
     GetBiasForces();
 
-    virtual bool configureSizeAndPorts(SimStruct *S, wbit::Error *error);
+    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
-    virtual bool initialize(SimStruct *S, wbit::Error *error);
-    virtual bool terminate(SimStruct *S, wbit::Error *error);
-    virtual bool output(SimStruct *S, wbit::Error *error);
+    virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool output(SimStruct *S, wbt::Error *error);
     
     
 };
 
 
-#endif /* end of include guard: WBIT_GETBIASFORCES_H */
+#endif /* end of include guard: WBT_GETBIASFORCES_H */

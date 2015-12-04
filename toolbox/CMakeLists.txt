@@ -76,6 +76,18 @@ configure_block(BLOCK_NAME "Yarp Read"
     SOURCES src/YarpRead.cpp
     HEADERS include/YarpRead.h)
 
+configure_block(BLOCK_NAME "Real Time Synchronizer"
+    GROUP "Utilities"
+    LIST_PREFIX WBT
+    SOURCES src/RealTimeSynchronizer.cpp
+    HEADERS include/RealTimeSynchronizer.h)
+
+configure_block(BLOCK_NAME "Simulator Synchronizer"
+    GROUP "Utilities"
+    LIST_PREFIX WBT
+    SOURCES src/SimulatorSynchronizer.cpp
+    HEADERS include/SimulatorSynchronizer.h)
+
 configure_block(BLOCK_NAME "Mass Matrix"
     GROUP "Model"
     LIST_PREFIX WBT
