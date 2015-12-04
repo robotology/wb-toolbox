@@ -6,3 +6,5 @@
 #include "GetBiasForces.h"
 #include "ForwardKinematics.h"
 #include "SetReferences.h"
+#include "RealTimeSynchronizer.h"
+#include "SimulatorSynchronizer.h"

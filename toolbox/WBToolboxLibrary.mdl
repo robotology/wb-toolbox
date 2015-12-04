@@ -66,9 +66,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 04 12:35:46 2015"
-  RTWModifiedTimeStamp	  371133316
-  ModelVersionFormat	  "1.%<AutoIncrement:311>"
+  LastModifiedDate	  "Fri Dec 04 15:53:45 2015"
+  RTWModifiedTimeStamp	  371145200
+  ModelVersionFormat	  "1.%<AutoIncrement:317>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -895,7 +895,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1656"
+    SIDHighWatermark	    "1658"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -915,7 +915,7 @@ Library {
       }
       System {
 	Name			"Utilities"
-	Location		[963, 110, 2243, 825]
+	Location		[194, 131, 1474, 846]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -927,7 +927,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"185"
+	ZoomFactor		"139"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "23-DoFs WBI to YARP"
@@ -1676,6 +1676,98 @@ Library {
 	  }
 	}
 	Block {
+	  BlockType		  S-Function
+	  Name			  "Real Time Synchronizer"
+	  SID			  "1657"
+	  Ports			  []
+	  Position		  [120, -11, 245, 26]
+	  ZOrder		  23
+	  ForegroundColor	  "white"
+	  BackgroundColor	  "gray"
+	  ShowName		  off
+	  FunctionName		  "WBToolbox"
+	  Parameters		  "'RealTimeSynchronizer',period"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    25
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "YARP Read"
+	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
+	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
+	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
+	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
+	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
+	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
+	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	    Display		    "disp('Real Time Synchronizer')"
+	    Object {
+	      $PropName		      "Parameters"
+	      $ObjectID		      26
+	      $ClassName	      "Simulink.MaskParameter"
+	      Type		      "edit"
+	      Name		      "period"
+	      Prompt		      "Controller Period (in seconds)"
+	      Value		      "0.01"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  S-Function
+	  Name			  "Simulator Synchronizer"
+	  SID			  "1658"
+	  Ports			  []
+	  Position		  [300, -11, 430, 26]
+	  ZOrder		  24
+	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
+	  ShowName		  off
+	  FunctionName		  "WBToolbox"
+	  Parameters		  "'SimulatorSynchronizer',period, serverPortName, clientPortName"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    27
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "YARP Read"
+	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
+	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
+	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
+	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
+	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
+	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
+	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	    Display		    "disp('Simulator Synchronizer')"
+	    Array {
+	      Type		      "Simulink.MaskParameter"
+	      Dimension		      3
+	      Object {
+		$ObjectID		28
+		Type			"edit"
+		Name			"period"
+		Prompt			"Controller Period (in seconds)"
+		Value			"0.01"
+	      }
+	      Object {
+		$ObjectID		29
+		Type			"edit"
+		Name			"serverPortName"
+		Prompt			"Server Port Name"
+		Value			"'/clock/rpc'"
+	      }
+	      Object {
+		$ObjectID		30
+		Type			"edit"
+		Name			"clientPortName"
+		Prompt			"Client Port Name"
+		Value			"'/WBT_synchronizer/rpc:o'"
+	      }
+	      PropName		      "Parameters"
+	    }
+	  }
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "TruncPinv"
 	  SID			  "109"
@@ -1687,11 +1779,11 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    25
+	    $ObjectID		    31
 	    $ClassName		    "Simulink.Mask"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      26
+	      $ObjectID		      32
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -1906,7 +1998,7 @@ Library {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    27
+	    $ObjectID		    33
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
@@ -1924,35 +2016,35 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		28
+		$ObjectID		34
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Source Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		29
+		$ObjectID		35
 		Type			"edit"
 		Name			"signalSize"
 		Prompt			"Port Size"
 		Value			"1"
 	      }
 	      Object {
-		$ObjectID		30
+		$ObjectID		36
 		Type			"checkbox"
 		Name			"blocking"
 		Prompt			"Blocking Read"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		31
+		$ObjectID		37
 		Type			"checkbox"
 		Name			"timestamp"
 		Prompt			"Read Timestamp"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		32
+		$ObjectID		38
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -1964,7 +2056,7 @@ Library {
 		"t_string"
 	      }
 	      Object {
-		$ObjectID		33
+		$ObjectID		39
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -1986,7 +2078,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    34
+	    $ObjectID		    40
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -2129,7 +2221,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    35
+	    $ObjectID		    41
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
@@ -2360,7 +2452,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    36
+	    $ObjectID		    42
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP to wbi"
 	    Description		    "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be re"
@@ -2524,7 +2616,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		37
+	$ObjectID		43
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyActuators.png'),'center')"
       }
@@ -2558,7 +2650,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    38
+	    $ObjectID		    44
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Set References"
 	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
@@ -2575,7 +2667,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		39
+		$ObjectID		45
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -2596,7 +2688,7 @@ Library {
 		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend"
 	      }
 	      Object {
-		$ObjectID		40
+		$ObjectID		46
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -2604,7 +2696,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		41
+		$ObjectID		47
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -2612,7 +2704,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		42
+		$ObjectID		48
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -2620,7 +2712,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		43
+		$ObjectID		49
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -2633,11 +2725,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		44
+		$ObjectID		50
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  45
+		  $ObjectID		  51
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -2645,46 +2737,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		46
+		$ObjectID		52
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  47
+		  $ObjectID		  53
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    48
+		    $ObjectID		    54
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    49
+		    $ObjectID		    55
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "controlType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    50
+		    $ObjectID		    56
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    51
+		    $ObjectID		    57
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    52
+		    $ObjectID		    58
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    53
+		    $ObjectID		    59
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    54
+		    $ObjectID		    60
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -2736,10 +2828,6 @@ Library {
 	      EnableBusSupport	      off
 	    }
 	    Line {
-	      FontName		      "Helvetica"
-	      FontSize		      9
-	      FontWeight	      "normal"
-	      FontAngle		      "normal"
 	      ZOrder		      6
 	      SrcBlock		      "References"
 	      SrcPort		      1
@@ -2763,7 +2851,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		55
+	$ObjectID		61
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyModel.png'),'center')"
       }
@@ -2794,7 +2882,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    56
+	    $ObjectID		    62
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('Dynamics.png'))"
 	  }
@@ -2828,7 +2916,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		57
+		$ObjectID		63
 		$ClassName		"Simulink.Mask"
 		Type			"Get Bias Forces"
 		Description		"This block retrieves the generalied bias forces of the robot.\n\nAssuming DoFs is the number of degree"
@@ -2846,7 +2934,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    58
+		    $ObjectID		    64
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -2854,7 +2942,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    59
+		    $ObjectID		    65
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -2862,7 +2950,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    60
+		    $ObjectID		    66
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -2870,7 +2958,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    61
+		    $ObjectID		    67
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3005,7 +3093,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		62
+		$ObjectID		68
 		$ClassName		"Simulink.Mask"
 		Type			"Mass Matrix"
 		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of degrees of freedom of th"
@@ -3021,7 +3109,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    63
+		    $ObjectID		    69
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3029,7 +3117,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    64
+		    $ObjectID		    70
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3037,7 +3125,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    65
+		    $ObjectID		    71
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3045,7 +3133,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    66
+		    $ObjectID		    72
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3146,7 +3234,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    67
+	    $ObjectID		    73
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('jacobian.png'))"
 	  }
@@ -3179,7 +3267,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    68
+	    $ObjectID		    74
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('forwardKinematics.png'))"
 	  }
@@ -3213,7 +3301,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		69
+		$ObjectID		75
 		$ClassName		"Simulink.Mask"
 		Type			"Forward Kinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -3232,14 +3320,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    70
+		    $ObjectID		    76
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
 		    Value		    "'frame'"
 		  }
 		  Object {
-		    $ObjectID		    71
+		    $ObjectID		    77
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3247,7 +3335,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    72
+		    $ObjectID		    78
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3255,7 +3343,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    73
+		    $ObjectID		    79
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3263,7 +3351,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    74
+		    $ObjectID		    80
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3276,11 +3364,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    75
+		    $ObjectID		    81
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    76
+		    $ObjectID		    82
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3288,46 +3376,46 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    77
+		    $ObjectID		    83
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    78
+		    $ObjectID		    84
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    79
+		    $ObjectID		    85
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    80
+		    $ObjectID		    86
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    81
+		    $ObjectID		    87
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    82
+		    $ObjectID		    88
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    83
+		    $ObjectID		    89
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    84
+		    $ObjectID		    90
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    85
+		    $ObjectID		    91
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -3437,7 +3525,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		86
+	$ObjectID		92
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }

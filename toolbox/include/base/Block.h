@@ -115,6 +115,17 @@ public:
     virtual bool output(SimStruct *S, wbt::Error *error) = 0;
 
 public:
+
+    /**
+     * Reads the parameter at the specified index and interpret it as a string
+     *
+     *
+     * @param S             simulink structure
+     * @param index         index of the parameter to be read
+     * @param [out]readParameter resulting parameter
+     *
+     * @return true if success, false otherwise
+     */
     static bool readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter);
 };
 
