@@ -14,3 +14,4 @@
 #include "InverseDynamics.h"
 #include "DotJNu.h"
 #include "GetLimits.h"
+#include "CentroidalMomentum.h"

@@ -115,6 +115,12 @@ configure_block(BLOCK_NAME "Inverse Dynamics"
     SOURCES src/InverseDynamics.cpp
     HEADERS include/InverseDynamics.h)
 
+configure_block(BLOCK_NAME "Centroidal Momentum"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/CentroidalMomentum.cpp
+    HEADERS include/CentroidalMomentum.h)
+
 configure_block(BLOCK_NAME "Forward Kinematics"
     GROUP "Model"
     LIST_PREFIX WBT

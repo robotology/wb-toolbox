@@ -30,6 +30,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::DotJNu();
     } else if (blockClassName == wbt::GetLimits::ClassName) {
         block = new wbt::GetLimits();
+    } else if (blockClassName == wbt::CentroidalMomentum::ClassName) {
+        block = new wbt::CentroidalMomentum();
     }
     
     return block;
