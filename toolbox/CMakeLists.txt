@@ -109,6 +109,12 @@ configure_block(BLOCK_NAME "Get Bias Forces"
     SOURCES src/GetBiasForces.cpp
     HEADERS include/GetBiasForces.h)
 
+configure_block(BLOCK_NAME "Inverse Dynamics"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/InverseDynamics.cpp
+    HEADERS include/InverseDynamics.h)
+
 configure_block(BLOCK_NAME "Forward Kinematics"
     GROUP "Model"
     LIST_PREFIX WBT

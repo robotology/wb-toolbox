@@ -24,6 +24,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::Jacobian();
     } else if (blockClassName == wbt::GetEstimate::ClassName) {
         block = new wbt::GetEstimate();
+    } else if (blockClassName == wbt::InverseDynamics::ClassName) {
+        block = new wbt::InverseDynamics();
     }
     
     return block;
