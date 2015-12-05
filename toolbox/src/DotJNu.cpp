@@ -1,4 +1,4 @@
-#include "DotJDotQ.h"
+#include "DotJNu.h"
 
 #include "Error.h"
 #include "WBInterface.h"
@@ -8,23 +8,23 @@
 
 namespace wbt {
 
-    std::string DotJDotQ::ClassName = "DotJDotQ";
+    std::string DotJNu::ClassName = "DotJNu";
 
-    DotJDotQ::DotJDotQ()
+    DotJNu::DotJNu()
     : m_basePose(0)
-    , m_dotJDotQ(0)
+    , m_dotJNu(0)
     , m_basePoseRaw(0)
     , m_configuration(0)
     , m_baseVelocity(0)
     , m_jointsVelocity(0)
     , m_frameIndex(-1) {}
 
-    unsigned DotJDotQ::numberOfParameters()
+    unsigned DotJNu::numberOfParameters()
     {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool DotJDotQ::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool DotJNu::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -76,7 +76,7 @@ namespace wbt {
         return true;
     }
 
-    bool DotJDotQ::initialize(SimStruct *S, wbt::Error *error)
+    bool DotJNu::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -101,24 +101,24 @@ namespace wbt {
         
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
-        m_dotJDotQ = new double[6];
+        m_dotJNu = new double[6];
         m_basePoseRaw = new double[16];
         m_configuration = new double[dofs];
         m_baseVelocity = new double[6];
         m_jointsVelocity = new double[dofs];
 
-        return m_basePose && m_dotJDotQ && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
+        return m_basePose && m_dotJNu && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
     }
 
-    bool DotJDotQ::terminate(SimStruct *S, wbt::Error *error)
+    bool DotJNu::terminate(SimStruct *S, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
             m_basePose = 0;
         }
-        if (m_dotJDotQ) {
-            delete [] m_dotJDotQ;
-            m_dotJDotQ = 0;
+        if (m_dotJNu) {
+            delete [] m_dotJNu;
+            m_dotJNu = 0;
         }
         if (m_basePoseRaw) {
             delete [] m_basePoseRaw;
@@ -139,7 +139,7 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
-    bool DotJDotQ::output(SimStruct *S, wbt::Error *error)
+    bool DotJNu::output(SimStruct *S, wbt::Error *error)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
@@ -173,11 +173,11 @@ namespace wbt {
                                    m_jointsVelocity,
                                    m_baseVelocity,
                                    m_frameIndex,
-                                   m_dotJDotQ);
+                                   m_dotJNu);
 
             real_T *output = ssGetOutputPortRealSignal(S, 0);
             for (unsigned i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
-                output[i] = m_dotJDotQ[i];
+                output[i] = m_dotJNu[i];
             }
 
             return true;

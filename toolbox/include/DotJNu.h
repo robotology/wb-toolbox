@@ -4,13 +4,13 @@
 #include "WBIBlock.h"
 
 namespace wbt {
-    class DotJDotQ;
+    class DotJNu;
 }
 
-class wbt::DotJDotQ : public wbt::WBIBlock {
+class wbt::DotJNu : public wbt::WBIBlock {
 
     double *m_basePose;
-    double *m_dotJDotQ;
+    double *m_dotJNu;
 
     //input buffers
     double *m_basePoseRaw;
@@ -22,7 +22,7 @@ class wbt::DotJDotQ : public wbt::WBIBlock {
 
 public:
     static std::string ClassName;
-    DotJDotQ();
+    DotJNu();
 
     virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);

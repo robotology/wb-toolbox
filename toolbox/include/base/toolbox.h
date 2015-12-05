@@ -12,5 +12,5 @@
 #include "Jacobian.h"
 #include "GetEstimate.h"
 #include "InverseDynamics.h"
-#include "DotJDotQ.h"
+#include "DotJNu.h"
 #include "GetLimits.h"

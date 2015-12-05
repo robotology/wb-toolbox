@@ -41,10 +41,10 @@ Library {
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
 	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"206"
+	LoadSaveID		"202"
 	Extents			[1246.0, 553.0]
-	ZoomFactor		[4.188896714022027]
-	Offset			[295.05128247203072, 164.26393803955904]
+	ZoomFactor		[3.1636363636363636]
+	Offset			[370.57471264367814, 137.10057471264366]
       }
     }
   }
@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Dec 05 10:53:42 2015"
-  RTWModifiedTimeStamp	  371213621
-  ModelVersionFormat	  "1.%<AutoIncrement:328>"
+  LastModifiedDate	  "Sat Dec 05 10:59:10 2015"
+  RTWModifiedTimeStamp	  371213949
+  ModelVersionFormat	  "1.%<AutoIncrement:329>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -3494,7 +3494,7 @@ Library {
 	  System {
 	    Name		    "Jacobians"
 	    Location		    [0, 29, 1280, 744]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -3508,7 +3508,7 @@ Library {
 	    ZoomFactor		    "316"
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "DotJ DotQ"
+	      Name		      "DotJ Nu"
 	      SID		      "1683"
 	      Ports		      [4, 1]
 	      Position		      [590, 170, 755, 265]
@@ -3523,18 +3523,20 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		82
 		$ClassName		"Simulink.Mask"
-		Type			"DotJ DotQ"
+		Type			"DotJ Nu"
 		Description		"This block computes the product between the time derivative of the\n         Jacobian of the specified"
-		" frame and the joint velocity vector.\n\nAssuming DoFs is the number of degrees of freedom of the robot,\nInput:\n- "
-		"Base pose: 4x4 matrix representing the homogenous transformation between\n             the the base frame and the wo"
-		"rld frame.\n- Joint configuration: Vector of size DoFs, representing the configuration \n                       of t"
-		"he joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix representing the homogenous transformation between\n      "
-		"       the specified frame and the world frame.\n\nParameters:\n- Frame name: the name of the frame. It should be sp"
-		"ecified in the URDF model.\n\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n              "
-		"     Set an empty string ('') to use the name specified in the \n                   Whole Body Interface configurati"
-		"on file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI filename: nam"
-		"e of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the list of joints "
-		"used to configure the Whole Body Interface\n"
+		" frame and the state (base and joints)\n        velocity vector.\n\nAssuming DoFs is the number of degrees of freedo"
+		"m of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n             th"
+		"e the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configuration \n"
+		"                       of the joints.\n- Base velocity: Vector of size 6 representing the linear and angular velocit"
+		"y\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, representing the velocity \n        "
+		"           of the joints.\n\nOutput:\n- dotJ nu: a 6-d vector representing the product between the time derivative o"
+		"f the\n         Jacobian of the specified frame and the state velocity vector\n\nParameters:\n- Frame name: the name"
+		" of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opened by the robot"
+		". (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n                   Wh"
+		"ole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body I"
+		"nterface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Nam"
+		"e: name of the list of joints used to configure the Whole Body Interface\n"
 		Display			"port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', "
 		"'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, '\\nu', 'texmode','on')\nport"
 		"_label('input', 4, 'Joint velocity')\n"
@@ -3654,8 +3656,8 @@ Library {
 		}
 	      }
 	      System {
-		Name			"DotJ DotQ"
-		Location		[0, 23, 1280, 744]
+		Name			"DotJ Nu"
+		Location		[0, 29, 1280, 744]
 		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
@@ -3711,7 +3713,7 @@ Library {
 		  Position		  [125, 4, 190, 126]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'DotJDotQ',robotName,localName,wbiFile,wbiList,frameName"
+		  Parameters		  "'DotJNu',robotName,localName,wbiFile,wbiList,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		}
@@ -4262,7 +4264,7 @@ Library {
       System {
 	Name			"wholeBodyStates"
 	Location		[0, 29, 1280, 744]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"

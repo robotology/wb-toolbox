@@ -127,11 +127,11 @@ configure_block(BLOCK_NAME "Jacobian"
     SOURCES src/Jacobian.cpp
     HEADERS include/Jacobian.h)
 
-configure_block(BLOCK_NAME "DotJ DotQ"
+configure_block(BLOCK_NAME "DotJ Nu"
     GROUP "Model"
     LIST_PREFIX WBT
-    SOURCES src/DotJDotQ.cpp
-    HEADERS include/DotJDotQ.h)
+    SOURCES src/DotJNu.cpp
+    HEADERS include/DotJNu.h)
 
 configure_block(BLOCK_NAME "Set References"
     GROUP "Actuators"

@@ -26,8 +26,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::GetEstimate();
     } else if (blockClassName == wbt::InverseDynamics::ClassName) {
         block = new wbt::InverseDynamics();
-    } else if (blockClassName == wbt::DotJDotQ::ClassName) {
-        block = new wbt::DotJDotQ();
+    } else if (blockClassName == wbt::DotJNu::ClassName) {
+        block = new wbt::DotJNu();
     } else if (blockClassName == wbt::GetLimits::ClassName) {
         block = new wbt::GetLimits();
     }
