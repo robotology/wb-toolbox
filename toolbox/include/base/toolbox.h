@@ -12,3 +12,4 @@
 #include "Jacobian.h"
 #include "GetEstimate.h"
 #include "InverseDynamics.h"
+#include "DotJDotQ.h"

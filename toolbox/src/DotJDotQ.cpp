@@ -1,4 +1,4 @@
-#include "ForwardKinematics.h"
+#include "DotJDotQ.h"
 
 #include "Error.h"
 #include "WBInterface.h"
@@ -8,21 +8,23 @@
 
 namespace wbt {
 
-    std::string ForwardKinematics::ClassName = "ForwardKinematics";
+    std::string DotJDotQ::ClassName = "DotJDotQ";
 
-    ForwardKinematics::ForwardKinematics()
+    DotJDotQ::DotJDotQ()
     : m_basePose(0)
-    , m_frameForwardKinematics(0)
+    , m_dotJDotQ(0)
     , m_basePoseRaw(0)
     , m_configuration(0)
+    , m_baseVelocity(0)
+    , m_jointsVelocity(0)
     , m_frameIndex(-1) {}
 
-    unsigned ForwardKinematics::numberOfParameters()
+    unsigned DotJDotQ::numberOfParameters()
     {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool ForwardKinematics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool DotJDotQ::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         if (!WBIBlock::configureSizeAndPorts(S, error)) {
             return false;
@@ -35,19 +37,26 @@ namespace wbt {
         // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
         // - DoFs vector for the robot (joints) configurations
 
-        if (!ssSetNumInputPorts (S, 2)) {
+        if (!ssSetNumInputPorts (S, 4)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4);
-        success = success && ssSetInputPortVectorDimension(S, 1, dofs);
+
+        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4); //base pose
+        success = success && ssSetInputPortVectorDimension(S, 1, dofs); //joint configuration
+        success = success && ssSetInputPortVectorDimension(S, 2, 6); //base velocity
+        success = success && ssSetInputPortVectorDimension(S, 3, dofs); //joints velocitity
 
         ssSetInputPortDataType (S, 0, SS_DOUBLE);
         ssSetInputPortDataType (S, 1, SS_DOUBLE);
+        ssSetInputPortDataType (S, 2, SS_DOUBLE);
+        ssSetInputPortDataType (S, 3, SS_DOUBLE);
 
         ssSetInputPortDirectFeedThrough (S, 0, 1);
         ssSetInputPortDirectFeedThrough (S, 1, 1);
+        ssSetInputPortDirectFeedThrough (S, 2, 1);
+        ssSetInputPortDirectFeedThrough (S, 3, 1);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -55,19 +64,19 @@ namespace wbt {
         }
 
         // Output port:
-        // - (4)x(4) matrix representing the homogenous transformation between the specified frame and the world frame
+        // - 6-d vector representing the \dot{J} \dot{q} vector
         if (!ssSetNumOutputPorts (S, 1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortMatrixDimensions(S, 0, 4, 4);
+        success = ssSetOutputPortVectorDimension(S, 0, 6);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
         return true;
     }
 
-    bool ForwardKinematics::initialize(SimStruct *S, wbt::Error *error)
+    bool DotJDotQ::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
@@ -78,7 +87,6 @@ namespace wbt {
             if (error) error->message = "Cannot retrieve string from frame parameter";
             return false;
         }
-
         //here obtain joint list and get the frame
         wbi::wholeBodyInterface *interface = WBInterface::sharedInstance().interface();
         if (!interface) {
@@ -90,25 +98,27 @@ namespace wbt {
             if (error) error->message = "Cannot find " + frame + " in the frame list";
             return false;
         }
-
+        
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
-        m_frameForwardKinematics = new double[4 * 4];
+        m_dotJDotQ = new double[6];
         m_basePoseRaw = new double[16];
         m_configuration = new double[dofs];
+        m_baseVelocity = new double[6];
+        m_jointsVelocity = new double[dofs];
 
-        return m_basePose && m_frameForwardKinematics && m_basePoseRaw && m_configuration;
+        return m_basePose && m_dotJDotQ && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
     }
 
-    bool ForwardKinematics::terminate(SimStruct *S, wbt::Error *error)
+    bool DotJDotQ::terminate(SimStruct *S, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
             m_basePose = 0;
         }
-        if (m_frameForwardKinematics) {
-            delete [] m_frameForwardKinematics;
-            m_frameForwardKinematics = 0;
+        if (m_dotJDotQ) {
+            delete [] m_dotJDotQ;
+            m_dotJDotQ = 0;
         }
         if (m_basePoseRaw) {
             delete [] m_basePoseRaw;
@@ -118,20 +128,37 @@ namespace wbt {
             delete [] m_configuration;
             m_configuration = 0;
         }
+        if (m_baseVelocity) {
+            delete [] m_baseVelocity;
+            m_baseVelocity = 0;
+        }
+        if (m_jointsVelocity) {
+            delete [] m_jointsVelocity;
+            m_jointsVelocity = 0;
+        }
         return WBIBlock::terminate(S, error);
     }
 
-    bool ForwardKinematics::output(SimStruct *S, wbt::Error *error)
+    bool DotJDotQ::output(SimStruct *S, wbt::Error *error)
     {
+        //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
             InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
+            InputRealPtrsType baseVelocity = ssGetInputPortRealSignalPtrs(S, 2);
+            InputRealPtrsType jointsVelocity = ssGetInputPortRealSignalPtrs(S, 3);
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
                 m_basePoseRaw[i] = *basePoseRaw[i];
             }
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
                 m_configuration[i] = *configuration[i];
+            }
+            for (unsigned i = 0; i < ssGetInputPortWidth(S, 2); ++i) {
+                m_baseVelocity[i] = *baseVelocity[i];
+            }
+            for (unsigned i = 0; i < ssGetInputPortWidth(S, 3); ++i) {
+                m_jointsVelocity[i] = *jointsVelocity[i];
             }
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
@@ -141,15 +168,18 @@ namespace wbt {
             wbi::Frame frame;
             wbi::frameFromSerialization(basePose.data(), frame);
 
-            wbi::Frame outputFrame;
-            interface->computeH(m_configuration, frame, m_frameIndex, outputFrame);
-            outputFrame.get4x4Matrix(m_frameForwardKinematics);
-
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > frameRowMajor(m_frameForwardKinematics);
+            interface->computeDJdq(m_configuration,
+                                   frame,
+                                   m_jointsVelocity,
+                                   m_baseVelocity,
+                                   m_frameIndex,
+                                   m_dotJDotQ);
 
             real_T *output = ssGetOutputPortRealSignal(S, 0);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > frameColMajor(output, 4, 4);
-            frameColMajor = frameRowMajor;
+            for (unsigned i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
+                output[i] = m_dotJDotQ[i];
+            }
+
             return true;
         }
         return false;
