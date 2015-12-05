@@ -13,3 +13,4 @@
 #include "GetEstimate.h"
 #include "InverseDynamics.h"
 #include "DotJDotQ.h"
+#include "GetLimits.h"

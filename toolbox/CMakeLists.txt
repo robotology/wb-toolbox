@@ -145,6 +145,12 @@ configure_block(BLOCK_NAME "Get Estimate"
     SOURCES src/GetEstimate.cpp
     HEADERS include/GetEstimate.h)
 
+configure_block(BLOCK_NAME "Get Limits"
+    GROUP "State"
+    LIST_PREFIX WBT
+    SOURCES src/GetLimits.cpp
+    HEADERS include/GetLimits.h)
+
 get_property(ALL_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_SOURCES GLOBAL PROPERTY WBT_SOURCES)
 
