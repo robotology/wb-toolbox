@@ -18,7 +18,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1161.0, 193.0, 1280.0, 715.0]
+      Location		      [0.0, 29.0, 1280.0, 715.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -40,11 +40,11 @@ Library {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"202"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1246.0, 553.0]
-	ZoomFactor		[7.1647058823529415]
-	Offset			[373.04597701149424, 185.90804597701151]
+	ZoomFactor		[2.7309417040358746]
+	Offset			[10.873563218390814, 7.0028735632184009]
       }
     }
   }
@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 04 18:47:11 2015"
-  RTWModifiedTimeStamp	  371154616
-  ModelVersionFormat	  "1.%<AutoIncrement:322>"
+  LastModifiedDate	  "Sat Dec 05 09:13:41 2015"
+  RTWModifiedTimeStamp	  371207617
+  ModelVersionFormat	  "1.%<AutoIncrement:325>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -869,8 +869,8 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary"
-    Location		    [1161, 193, 2441, 908]
-    Open		    off
+    Location		    [0, 29, 1280, 744]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "black"
@@ -883,7 +883,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1667"
+    SIDHighWatermark	    "1673"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -2666,7 +2666,7 @@ Library {
       }
       System {
 	Name			"wholeBodyActuators"
-	Location		[701, 170, 1981, 885]
+	Location		[0, 29, 1280, 744]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2725,6 +2725,7 @@ Library {
 		Name			"controlType"
 		Prompt			"Control Mode"
 		Value			"Position"
+		Evaluate		"off"
 		Callback		"% Get the mask parameter values. This is a cell\n%   array of strings.\nmaskStr = get_param(gcb,'controlT"
 		"ype');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelse"
 		"if strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, 1.0]');\nelsei"
@@ -3285,7 +3286,7 @@ Library {
 	  System {
 	    Name		    "Jacobians"
 	    Location		    [1161, 193, 2441, 908]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -3809,7 +3810,208 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"100"
+	ZoomFactor		"1000"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Get Estimate"
+	  SID			  "1671"
+	  Ports			  [0, 1]
+	  Position		  [425, 212, 505, 248]
+	  ZOrder		  53
+	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
+	  InitFcn		  "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var')\n    W"
+	  "BT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWholeBodyInterf"
+	  "ace.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\nend"
+	  RequestExecContextInheritance	off
+	  Variant		  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    113
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "Get Estimate"
+	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
+	    "freedom of the robot,\nOutput:\n- References: Vector of size DoFs, representing the estimate requested.\n\nParame"
+	    "ters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the ports"
+	    " opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the "
+	    "\n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by t"
+	    "he underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole B"
+	    "ody Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	    Display		    "%disp(get_param(gcb,'estimateType'))\nport_label('output',1,get_param(gcb,'estimateType'))"
+	    Array {
+	      Type		      "Simulink.MaskParameter"
+	      Dimension		      5
+	      Object {
+		$ObjectID		114
+		Type			"popup"
+		Array {
+		  Type			  "Cell"
+		  Dimension		  4
+		  Cell			  "Joints Position"
+		  Cell			  "Joints Velocity"
+		  Cell			  "Joints Acceleration"
+		  Cell			  "Joints Torque"
+		  PropName		  "TypeOptions"
+		}
+		Name			"estimateType"
+		Prompt			"Estimate Type"
+		Value			"Joints Position"
+		Evaluate		"off"
+		Callback		"% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param(gcb,'estima"
+		"teType');\nif strcmp(maskStr, 'Joints Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0"
+		"]');\nelseif strcmp(maskStr, 'Joints Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]"
+		"');\nelseif strcmp(maskStr, 'Joints Acceleration')\n    set_param(gcb,'BackgroundColor', '[0.9255, 0.8706, 0.1333, 1"
+		".0]');\nelseif strcmp(maskStr, 'Joints Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]"
+		"');\nend\nclear  maskStr"
+	      }
+	      Object {
+		$ObjectID		115
+		Type			"edit"
+		Name			"robotName"
+		Prompt			"Robot Port Name"
+		Value			"WBT_robotName"
+		Tunable			"off"
+	      }
+	      Object {
+		$ObjectID		116
+		Type			"edit"
+		Name			"localName"
+		Prompt			"Model Name"
+		Value			"WBT_modelName"
+		Tunable			"off"
+	      }
+	      Object {
+		$ObjectID		117
+		Type			"edit"
+		Name			"wbiFile"
+		Prompt			"WBI filename"
+		Value			"WBT_wbiFilename"
+		Tunable			"off"
+	      }
+	      Object {
+		$ObjectID		118
+		Type			"edit"
+		Name			"wbiList"
+		Prompt			"WBI list name"
+		Value			"WBT_wbiList"
+		Tunable			"off"
+	      }
+	      PropName		      "Parameters"
+	    }
+	    Array {
+	      Type		      "Simulink.dialog.Group"
+	      Dimension		      2
+	      Object {
+		$ObjectID		119
+		Prompt			"%<MaskType>"
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  120
+		  $ClassName		  "Simulink.dialog.Text"
+		  Prompt		  "%<MaskDescription>"
+		  Name			  "DescTextVar"
+		}
+		Name			"DescGroupVar"
+	      }
+	      Object {
+		$ObjectID		121
+		Prompt			"Simulink:studio:ToolBarParametersMenu"
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  122
+		  $ClassName		  "Simulink.dialog.TabContainer"
+		  Array {
+		    Type		    "Simulink.dialog.Tab"
+		    Dimension		    2
+		    Object {
+		    $ObjectID		    123
+		    Prompt		    "Block parameters"
+		    Object {
+		    $PropName		    "DialogControls"
+		    $ObjectID		    124
+		    $ClassName		    "Simulink.dialog.parameter.Popup"
+		    Name		    "estimateType"
+		    }
+		    Name		    "Container8"
+		    }
+		    Object {
+		    $ObjectID		    125
+		    Prompt		    "WBI parameters"
+		    Array {
+		    Type		    "Simulink.dialog.parameter.Edit"
+		    Dimension		    4
+		    Object {
+		    $ObjectID		    126
+		    Name		    "robotName"
+		    }
+		    Object {
+		    $ObjectID		    127
+		    Name		    "localName"
+		    }
+		    Object {
+		    $ObjectID		    128
+		    Name		    "wbiFile"
+		    }
+		    Object {
+		    $ObjectID		    129
+		    Name		    "wbiList"
+		    }
+		    PropName		    "DialogControls"
+		    }
+		    Name		    "Container5"
+		    }
+		    PropName		    "DialogControls"
+		  }
+		  Name			  "Container4"
+		}
+		Name			"ParameterGroupVar"
+	      }
+	      PropName		      "DialogControls"
+	    }
+	  }
+	  System {
+	    Name		    "Get Estimate"
+	    Location		    [653, 318, 2086, 1271]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "1000"
+	    Block {
+	      BlockType		      S-Function
+	      Name		      "S-Function"
+	      SID		      "1672"
+	      Ports		      [0, 1]
+	      Position		      [125, 39, 185, 71]
+	      ZOrder		      19
+	      FunctionName	      "WBToolbox"
+	      Parameters	      "'GetEstimate',robotName,localName,wbiFile,wbiList,estimateType"
+	      SFunctionDeploymentMode off
+	      EnableBusSupport	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Estimate"
+	      SID		      "1673"
+	      Position		      [210, 48, 240, 62]
+	      ZOrder		      25
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      ZOrder		      1
+	      SrcBlock		      "S-Function"
+	      SrcPort		      1
+	      DstBlock		      "Estimate"
+	      DstPort		      1
+	    }
+	  }
+	}
       }
     }
     Annotation {

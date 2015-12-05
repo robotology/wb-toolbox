@@ -10,3 +10,4 @@
 #include "RealTimeSynchronizer.h"
 #include "SimulatorSynchronizer.h"
 #include "Jacobian.h"
+#include "GetEstimate.h"

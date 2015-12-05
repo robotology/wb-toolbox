@@ -26,10 +26,6 @@ namespace wbt {
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
 
         // Specify I/O
-        // Input ports:
-        // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
-        // - DoFs vector for the robot (joints) configurations
-
         if (!ssSetNumInputPorts (S, 1)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
@@ -45,7 +41,6 @@ namespace wbt {
         }
 
         // Output port:
-        // - (DoFs + 6)x(DoFs + 6) matrix representing the mass matrix
         if (!ssSetNumOutputPorts (S, 0)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
@@ -64,7 +59,7 @@ namespace wbt {
 
         // Reading the control type
         std::string controlType;
-        if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters(), controlType)) {
+        if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 1, controlType)) {
             if (error) error->message = "Could not read control type parameter";
             return false;
         }

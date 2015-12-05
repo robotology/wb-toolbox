@@ -127,6 +127,12 @@ configure_block(BLOCK_NAME "Set References"
     SOURCES src/SetReferences.cpp
     HEADERS include/SetReferences.h)
 
+configure_block(BLOCK_NAME "Get Estimate"
+    GROUP "State"
+    LIST_PREFIX WBT
+    SOURCES src/GetEstimate.cpp
+    HEADERS include/GetEstimate.h)
+
 get_property(ALL_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_SOURCES GLOBAL PROPERTY WBT_SOURCES)
 
