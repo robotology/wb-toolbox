@@ -3,8 +3,6 @@
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
 find_package(YARP REQUIRED)
-find_package(YCM REQUIRED)
-include(YCMDefaultDirs)
 
 # Fail if YARP is not compiled as shared library
 # see https://github.com/robotology/codyco-modules/issues/44

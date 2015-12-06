@@ -6,9 +6,14 @@ cmake_minimum_required(VERSION 2.8.11)
 
 project(WB-Toolbox)
 
+find_package(YCM REQUIRED)
+include(YCMDefaultDirs)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox")
 
 add_subdirectory(toolbox)
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/images DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+
+include(AddUninstallTarget)
