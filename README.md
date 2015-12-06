@@ -6,7 +6,7 @@ Whole Body Toolbox - A Simulink Toolbox for Whole Body Control
 ### Main Goal
 > The library should allow non-programming experts or those researchers just getting acquainted with Whole Body Control to more easily deploy controllers either on simulation or a real YARP-based robotic platform, as well as to analyze their performance and take advantage of the innumerable MATLAB and Simulink toolboxes. We like to call it "rapid controller prototyping" after which a proper YARP module should be made for hard real time performance and final deployment.
 
-The following video shows CoDyCo's latest results on iCub in which the top level controller has been implemented with the WBI-Toolbox running at a 10ms rate!
+The following video shows CoDyCo's latest results on iCub in which the top level controller has been implemented with the [WBI-Toolbox](https://github.com/robotology-playground/WBI-Toolbox) running at a 10ms rate!
 
 <p align="center">
 <a href="https://www.youtube.com/watch?v=VrPBSSQEr3A
@@ -23,10 +23,10 @@ alt="iCub balancing on one foot via external force control and interacting with 
 ### Installation
 
 #### Requirements
-* Matlab V. 7.1+ and Simulink (Tested with Matlab R2014a/b, R2013a/b, R2012a/b)
+* Matlab V. 7.1+ and Simulink (Tested with Matlab R2015b, R2014a/b, R2013a/b, R2012a/b)
 * Simulink Toolboxes: Simulink Coder.
 * YARP (https://github.com/robotology/yarp) **-IMPORTANT-** Please compile as shared library. Currently a default yarp configuration option.
-* iCub (https://github.com/robotology/icub-main)
+* (Optional. Needed for some blocks) iCub (https://github.com/robotology/icub-main)
 * yarpWholeBodyInterface (https://github.com/robotology/yarp-wholebodyinterface)
 
 **Note:** You can install the dependencies either manually or by using the [codyco-superbuild](https://github.com/robotology/codyco-superbuild).
@@ -35,9 +35,9 @@ alt="iCub balancing on one foot via external force control and interacting with 
 * Gazebo Simulator (http://gazebosim.org/)
 * gazebo_yarp_plugins (https://github.com/robotology/gazebo_yarp_plugins).
 
-**Operating Systems supported: Linux, MAC OS X, Windows.**
+**Operating Systems supported: OS X, Linux, Windows.**
 
-**Note: The following instructions are for Linux distributions, but it works similarly on the other operating systems.**
+**Note: The following instructions are for *NIX systems, but it works similarly on the other operating systems.**
 
 #### Compiling the C++ Code (Mex File)
 
@@ -55,7 +55,7 @@ Otherwise follow the following instructions.
 **Note** We suggest to install the project instead of using it from the build directory. You should thus change the default installation directory by configuring the `CMAKE_INSTALL_PREFIX` variable. You can do it before running the first `cmake` command by calling `cmake .. -DCMAKE_INSTALL_PREFIX=/your/new/path`, or by configuring the project with `ccmake .`
 
 - Compile the project: `make`
-- *[Optional]* Install the project: `make install`
+- *[Optional/Suggested]* Install the project: `make install`
 
 
 #### Matlab configuration
@@ -71,10 +71,10 @@ In order to use the WB-Toolbox in Matlab you have to add the `mex` and `share/WB
 You can also use (only once after the installation) the script `startup_wbitoolbox.m` that you can find in the `share/WB-Toolbox` subdirectory of the install folder to properly configure Matlab.
 **Note** This script configures Matlab to alwasy add the WB-Toolbox to the path. This assumes Matlab is always launched from the `userpath` folder. 
 
-- **Robots' configuration files** Each robot that can be used through the Toolbox has its own configuration file. WB-Toolbox uses the Yarp `ResourceFinder`. You should thus follow the related instruction to properly configure your installation (e.g. set the `YARP_DATA_DIRS` variable)
+- **Robots' configuration files** Each robot that can be used through the Toolbox has its own configuration file. WB-Toolbox uses the Yarp [`ResourceFinder`](http://www.yarp.it/yarp_resource_finder_tutorials.html). You should thus follow the related instruction to properly configure your installation (e.g. set the `YARP_DATA_DIRS` variable)
 
 ### Troubleshooting
-- **Problems finding libraries and libstdc++.** In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on Mac OS X) with the location of the missing library. On Linux you might also have trouble with libstdc++.so since Matlab comes with its own. To use your system's libstdc++ you would need to launch Matlab something like (replace with your system's libstdc++ library):
+- **Problems finding libraries and libstdc++.** In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on Mac OS X) with the full path of the missing library. On Linux you might also have trouble with libstdc++.so since Matlab comes with its own. To use your system's libstdc++ you would need to launch Matlab something like (replace with your system's libstdc++ library):
 
 `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19   matlab`
 
@@ -109,7 +109,7 @@ If you launch Matlab from command line, it inherits the configuration from the `
 ##### Matlab variables
 
 - `WBT_robotName`: if not defined the robot name defined in the `yarpWholeBodyInterface.ini` file is taken.
-- `WBT_modelName`: if not defined by default is `simulink`.
+- `WBT_modelName`: if not defined by default is `WBT_simulink`.
 - `WBT_wbiFilename`: the name of the Yarp WholeBodyInterface file, by default `yarpWholeBodyInterface.ini`.
 - `WBT_wbiList`: the name of the robot list to be used in the Toolbox. By default `ROBOT_TORQUE_CONTROL_JOINTS`.
 
@@ -123,4 +123,4 @@ Eljaik J., del Prete, A., Traversaro, S., Randazzo, M., Nori, F.,: Whole Body In
 A Simulink Wrapper for Robot Whole Body Control. In: ICRA, Workshop on MATLAB/Simulink for Robotics, Education and Research. IEEE (2014). [Slides: http://goo.gl/2NnSrA]
 
 #### Tested OS
-Linux, MAC OS X, Windows
+OS X, Linux, Windows
