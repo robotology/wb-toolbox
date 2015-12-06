@@ -33,6 +33,11 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
     } else if (blockClassName == wbt::CentroidalMomentum::ClassName) {
         block = new wbt::CentroidalMomentum();
     }
+#ifdef WBT_USES_ICUB
+    else if (blockClassName == wbt::MinimumJerkTrajectoryGenerator::ClassName) {
+        block = new wbt::MinimumJerkTrajectoryGenerator();
+    }
+#endif
     
     return block;
 }

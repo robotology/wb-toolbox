@@ -15,3 +15,6 @@
 #include "DotJNu.h"
 #include "GetLimits.h"
 #include "CentroidalMomentum.h"
+#ifdef WBT_USES_ICUB
+#include "MinimumJerkTrajectoryGenerator.h"
+#endif

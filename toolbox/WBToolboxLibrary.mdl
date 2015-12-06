@@ -40,11 +40,11 @@ Library {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"209"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1246.0, 553.0]
-	ZoomFactor		[3.0374064837905235]
-	Offset			[65.390804597701134, -10.031609195402311]
+	ZoomFactor		[2.7309417040358746]
+	Offset			[10.873563218390814, 7.0028735632184009]
       }
     }
   }
@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Dec 05 15:23:10 2015"
-  RTWModifiedTimeStamp	  371229782
-  ModelVersionFormat	  "1.%<AutoIncrement:330>"
+  LastModifiedDate	  "Sun Dec 06 09:47:26 2015"
+  RTWModifiedTimeStamp	  371296033
+  ModelVersionFormat	  "1.%<AutoIncrement:333>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -870,7 +870,7 @@ Library {
   System {
     Name		    "WBToolboxLibrary"
     Location		    [0, 29, 1280, 744]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "black"
@@ -883,7 +883,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1700"
+    SIDHighWatermark	    "1701"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -915,13 +915,13 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"139"
+	ZoomFactor		"143"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "23-DoFs WBI to YARP"
 	  SID			  "1485"
 	  Ports			  [1, 5]
-	  Position		  [450, 161, 560, 239]
+	  Position		  [435, 281, 545, 359]
 	  ZOrder		  19
 	  BackgroundColor	  "lightBlue"
 	  DropShadow		  on
@@ -1206,7 +1206,7 @@ Library {
 	  Name			  "25-DoFs WBI to yarp"
 	  SID			  "730"
 	  Ports			  [1, 5]
-	  Position		  [290, 161, 400, 239]
+	  Position		  [105, 286, 215, 364]
 	  ZOrder		  -7
 	  BackgroundColor	  "[0.180000, 0.348000, 0.600000]"
 	  RequestExecContextInheritance	off
@@ -1451,7 +1451,7 @@ Library {
 	  Name			  "DampPinv"
 	  SID			  "104"
 	  Ports			  [2, 1]
-	  Position		  [490, 83, 560, 127]
+	  Position		  [445, 193, 515, 237]
 	  ZOrder		  -1
 	  BackgroundColor	  "[0.848000, 0.128048, 0.320035]"
 	  RequestExecContextInheritance	off
@@ -1665,10 +1665,157 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
+	  Name			  "Minimum Jerk Trajectory Generator"
+	  SID			  "1701"
+	  Ports			  [1, 3]
+	  Position		  [360, 83, 515, 137]
+	  ZOrder		  74
+	  FunctionName		  "WBToolbox"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator',sampleTime, settlingTime, firstDerivatives, secondDerivatives, expl"
+	  "icitInitialValue"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    24
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "Minimum Jerk Trajectory Generator"
+	    Description		    "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk "
+	    "Trajectory Generator is approximated using a \n3rd order LTI dynamical system \n(for more details see [1]). \nPos"
+	    "ition, velocity and acceleration trajectories are computed.\n The main advantage with respect to the standard pol"
+	    "ynomial \nform is that if the reference value yd changes \nthere is no need to recompute the filter coefficients."
+	    "\n\n[1] Pattacini, U.; Nori, F.; Natale, L.; Metta, G.; Sandini, G., \"An experimental evaluation of a novel mini"
+	    "mum-jerk cartesian controller for humanoid robots,\" in Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ Inte"
+	    "rnational Conference on , vol., no., pp.1668-1674, 18-22 Oct. 2010\ndoi: 10.1109/IROS.2010.5650851\nURL: http://i"
+	    "eeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5650851&isnumber=5648787"
+	    Display		    "firstDer = get_param(gcb, 'firstDerivatives');\nsecondDer = get_param(gcb, 'secondDerivatives');\ni"
+	    "nitialValues = get_param(gcb, 'explicitInitialValue');\n\n%Inputs\nport_label('input', 1, 'Reference')\nif(strcmp"
+	    "(initialValues, 'on'))\n    port_label('input', 2, 'Initial Value')\nend\n\n%Outputs\nport_label('output', 1, 'Si"
+	    "gnal')\nsecondDerPortIndex = 2;\nif(strcmp(firstDer, 'on'))\n    port_label('output', 2, 'First Derivative')\n   "
+	    " secondDerPortIndex = secondDerPortIndex + 1;\nend\nif(strcmp(secondDer, 'on'))\n    port_label('output', secondD"
+	    "erPortIndex, 'Second Derivative')\nend\n\n\n"
+	    Array {
+	      Type		      "Simulink.MaskParameter"
+	      Dimension		      5
+	      Object {
+		$ObjectID		25
+		Type			"edit"
+		Name			"settlingTime"
+		Prompt			"Settling Time"
+		Value			"3"
+	      }
+	      Object {
+		$ObjectID		26
+		Type			"edit"
+		Name			"sampleTime"
+		Prompt			"Sample Time"
+		Value			"0.01"
+	      }
+	      Object {
+		$ObjectID		27
+		Type			"checkbox"
+		Name			"firstDerivatives"
+		Prompt			"Output First Derivative"
+		Value			"on"
+	      }
+	      Object {
+		$ObjectID		28
+		Type			"checkbox"
+		Name			"secondDerivatives"
+		Prompt			"Output Second Derivative"
+		Value			"on"
+	      }
+	      Object {
+		$ObjectID		29
+		Type			"checkbox"
+		Name			"explicitInitialValue"
+		Prompt			"Explicit Initial Value"
+		Value			"off"
+		Visible			"off"
+	      }
+	      PropName		      "Parameters"
+	    }
+	    Array {
+	      Type		      "Simulink.dialog.Group"
+	      Dimension		      2
+	      Object {
+		$ObjectID		30
+		Prompt			"%<MaskType>"
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  31
+		  $ClassName		  "Simulink.dialog.Text"
+		  Prompt		  "%<MaskDescription>"
+		  Name			  "DescTextVar"
+		}
+		Name			"DescGroupVar"
+	      }
+	      Object {
+		$ObjectID		32
+		Prompt			"Simulink:studio:ToolBarParametersMenu"
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  33
+		  $ClassName		  "Simulink.dialog.TabContainer"
+		  Array {
+		    Type		    "Simulink.dialog.Tab"
+		    Dimension		    2
+		    Object {
+		    $ObjectID		    34
+		    Prompt		    "Trajectory Parameters"
+		    Array {
+		    Type		    "Simulink.dialog.parameter.Edit"
+		    Dimension		    2
+		    Object {
+		    $ObjectID		    35
+		    Name		    "settlingTime"
+		    }
+		    Object {
+		    $ObjectID		    36
+		    Name		    "sampleTime"
+		    }
+		    PropName		    "DialogControls"
+		    }
+		    Name		    "Tab1"
+		    }
+		    Object {
+		    $ObjectID		    37
+		    Prompt		    "Input/Output"
+		    Array {
+		    Type		    "Simulink.dialog.parameter.CheckBox"
+		    Dimension		    3
+		    Object {
+		    $ObjectID		    38
+		    Name		    "firstDerivatives"
+		    }
+		    Object {
+		    $ObjectID		    39
+		    Name		    "secondDerivatives"
+		    }
+		    Object {
+		    $ObjectID		    40
+		    Name		    "explicitInitialValue"
+		    }
+		    PropName		    "DialogControls"
+		    }
+		    Name		    "Tab2"
+		    }
+		    PropName		    "DialogControls"
+		  }
+		  Name			  "Container3"
+		}
+		Name			"ParameterGroupVar"
+	      }
+	      PropName		      "DialogControls"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  S-Function
 	  Name			  "Real Time Synchronizer"
 	  SID			  "1657"
 	  Ports			  []
-	  Position		  [120, -11, 245, 26]
+	  Position		  [155, 14, 280, 51]
 	  ZOrder		  23
 	  ForegroundColor	  "white"
 	  BackgroundColor	  "gray"
@@ -1679,7 +1826,7 @@ Library {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    24
+	    $ObjectID		    41
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
@@ -1692,7 +1839,7 @@ Library {
 	    Display		    "disp('Real Time Synchronizer')"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      25
+	      $ObjectID		      42
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "period"
@@ -1706,7 +1853,7 @@ Library {
 	  Name			  "Simulator Synchronizer"
 	  SID			  "1658"
 	  Ports			  []
-	  Position		  [300, -11, 430, 26]
+	  Position		  [335, 14, 465, 51]
 	  ZOrder		  24
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  ShowName		  off
@@ -1716,7 +1863,7 @@ Library {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    26
+	    $ObjectID		    43
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
@@ -1731,21 +1878,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		27
+		$ObjectID		44
 		Type			"edit"
 		Name			"period"
 		Prompt			"Controller Period (in seconds)"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		28
+		$ObjectID		45
 		Type			"edit"
 		Name			"serverPortName"
 		Prompt			"Server Port Name"
 		Value			"'/clock/rpc'"
 	      }
 	      Object {
-		$ObjectID		29
+		$ObjectID		46
 		Type			"edit"
 		Name			"clientPortName"
 		Prompt			"Client Port Name"
@@ -1760,18 +1907,18 @@ Library {
 	  Name			  "TruncPinv"
 	  SID			  "109"
 	  Ports			  [2, 1]
-	  Position		  [390, 83, 460, 127]
+	  Position		  [345, 193, 415, 237]
 	  ZOrder		  -3
 	  BackgroundColor	  "[0.534601, 0.470279, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    30
+	    $ObjectID		    47
 	    $ClassName		    "Simulink.Mask"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      31
+	      $ObjectID		      48
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -1986,7 +2133,7 @@ Library {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    32
+	    $ObjectID		    49
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
@@ -2004,35 +2151,35 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		33
+		$ObjectID		50
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Source Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		34
+		$ObjectID		51
 		Type			"edit"
 		Name			"signalSize"
 		Prompt			"Port Size"
 		Value			"1"
 	      }
 	      Object {
-		$ObjectID		35
+		$ObjectID		52
 		Type			"checkbox"
 		Name			"blocking"
 		Prompt			"Blocking Read"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		36
+		$ObjectID		53
 		Type			"checkbox"
 		Name			"timestamp"
 		Prompt			"Read Timestamp"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		37
+		$ObjectID		54
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -2044,7 +2191,7 @@ Library {
 		"t_string"
 	      }
 	      Object {
-		$ObjectID		38
+		$ObjectID		55
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -2068,7 +2215,7 @@ Library {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    39
+	    $ObjectID		    56
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -2081,14 +2228,14 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		40
+		$ObjectID		57
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		41
+		$ObjectID		58
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -2099,7 +2246,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		42
+		$ObjectID		59
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -2115,14 +2262,14 @@ Library {
 	  Name			  "errors"
 	  SID			  "714"
 	  Ports			  [2, 2]
-	  Position		  [200, 163, 260, 207]
+	  Position		  [210, 193, 270, 237]
 	  ZOrder		  -9
 	  BackgroundColor	  "[0.300000, 0.580000, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    43
+	    $ObjectID		    60
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -2258,14 +2405,14 @@ Library {
 	  Name			  "holder\n"
 	  SID			  "1296"
 	  Ports			  [1, 1]
-	  Position		  [105, 162, 165, 208]
+	  Position		  [115, 192, 175, 238]
 	  ZOrder		  14
 	  BackgroundColor	  "[0.537255, 0.721569, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    44
+	    $ObjectID		    61
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
@@ -2489,14 +2636,14 @@ Library {
 	  Name			  "yarp to WBI"
 	  SID			  "721"
 	  Ports			  [5, 1]
-	  Position		  [450, 267, 565, 353]
+	  Position		  [275, 282, 390, 368]
 	  ZOrder		  -14
 	  BackgroundColor	  "[0.240000, 0.464000, 0.800000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    45
+	    $ObjectID		    62
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP to wbi"
 	    Description		    "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be re"
@@ -2660,7 +2807,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		46
+	$ObjectID		63
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyActuators.png'),'center')"
       }
@@ -2694,7 +2841,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    47
+	    $ObjectID		    64
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Set References"
 	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
@@ -2711,7 +2858,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		48
+		$ObjectID		65
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -2733,7 +2880,7 @@ Library {
 		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		49
+		$ObjectID		66
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -2741,7 +2888,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		50
+		$ObjectID		67
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -2749,7 +2896,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		51
+		$ObjectID		68
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -2757,7 +2904,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		52
+		$ObjectID		69
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -2770,11 +2917,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		53
+		$ObjectID		70
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  54
+		  $ObjectID		  71
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -2782,46 +2929,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		55
+		$ObjectID		72
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  56
+		  $ObjectID		  73
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    57
+		    $ObjectID		    74
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    58
+		    $ObjectID		    75
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "controlType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    59
+		    $ObjectID		    76
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    60
+		    $ObjectID		    77
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    61
+		    $ObjectID		    78
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    62
+		    $ObjectID		    79
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    63
+		    $ObjectID		    80
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -2896,14 +3043,14 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		64
+	$ObjectID		81
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyModel.png'),'center')"
       }
       System {
 	Name			"wholeBodyModel"
 	Location		[0, 29, 1280, 744]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -2927,7 +3074,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    65
+	    $ObjectID		    82
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('Dynamics.png'))"
 	  }
@@ -2961,7 +3108,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		66
+		$ObjectID		83
 		$ClassName		"Simulink.Mask"
 		Type			"Centroidal Momentum"
 		Description		"This block computed the 6 element centroidal momentum, as defined in:\n\"Centroidal dynamics of a huma"
@@ -2980,7 +3127,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    67
+		    $ObjectID		    84
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -2988,7 +3135,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    68
+		    $ObjectID		    85
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -2996,7 +3143,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    69
+		    $ObjectID		    86
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3004,7 +3151,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    70
+		    $ObjectID		    87
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3136,7 +3283,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		71
+		$ObjectID		88
 		$ClassName		"Simulink.Mask"
 		Type			"Get Bias Forces"
 		Description		"This block retrieves the generalied bias forces of the robot.\n\nAssuming DoFs is the number of degree"
@@ -3154,7 +3301,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    72
+		    $ObjectID		    89
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3162,7 +3309,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    73
+		    $ObjectID		    90
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3170,7 +3317,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    74
+		    $ObjectID		    91
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3178,7 +3325,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    75
+		    $ObjectID		    92
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3313,7 +3460,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		76
+		$ObjectID		93
 		$ClassName		"Simulink.Mask"
 		Type			"Inverse Dynamics"
 		Description		"This block compute the inverse dynamics of the robot.\n\nAssuming DoFs is the number of degrees of fre"
@@ -3333,7 +3480,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    77
+		    $ObjectID		    94
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3341,7 +3488,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    78
+		    $ObjectID		    95
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3349,7 +3496,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    79
+		    $ObjectID		    96
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3357,7 +3504,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    80
+		    $ObjectID		    97
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3521,7 +3668,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		81
+		$ObjectID		98
 		$ClassName		"Simulink.Mask"
 		Type			"Mass Matrix"
 		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of degrees of freedom of th"
@@ -3537,7 +3684,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    82
+		    $ObjectID		    99
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3545,7 +3692,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    83
+		    $ObjectID		    100
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3553,7 +3700,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    84
+		    $ObjectID		    101
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3561,7 +3708,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    85
+		    $ObjectID		    102
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3662,7 +3809,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    86
+	    $ObjectID		    103
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('jacobian.png'))"
 	  }
@@ -3696,7 +3843,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		87
+		$ObjectID		104
 		$ClassName		"Simulink.Mask"
 		Type			"DotJ Nu"
 		Description		"This block computes the product between the time derivative of the\n         Jacobian of the specified"
@@ -3719,14 +3866,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    88
+		    $ObjectID		    105
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
 		    Value		    "'frame'"
 		  }
 		  Object {
-		    $ObjectID		    89
+		    $ObjectID		    106
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3734,7 +3881,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    90
+		    $ObjectID		    107
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3742,7 +3889,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    91
+		    $ObjectID		    108
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3750,7 +3897,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    92
+		    $ObjectID		    109
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3763,11 +3910,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    93
+		    $ObjectID		    110
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    94
+		    $ObjectID		    111
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3775,46 +3922,46 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    95
+		    $ObjectID		    112
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    96
+		    $ObjectID		    113
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    97
+		    $ObjectID		    114
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    98
+		    $ObjectID		    115
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    99
+		    $ObjectID		    116
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    100
+		    $ObjectID		    117
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    101
+		    $ObjectID		    118
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    102
+		    $ObjectID		    119
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    103
+		    $ObjectID		    120
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -3953,7 +4100,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		104
+		$ObjectID		121
 		$ClassName		"Simulink.Mask"
 		Type			"Jacobian"
 		Description		"This block retrieves the Jacobian of the specified frame.\n\nAssuming DoFs is the number of degrees of"
@@ -3972,14 +4119,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    105
+		    $ObjectID		    122
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
 		    Value		    "'frame'"
 		  }
 		  Object {
-		    $ObjectID		    106
+		    $ObjectID		    123
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3987,7 +4134,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    107
+		    $ObjectID		    124
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3995,7 +4142,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    108
+		    $ObjectID		    125
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4003,7 +4150,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    109
+		    $ObjectID		    126
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4016,11 +4163,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    110
+		    $ObjectID		    127
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    111
+		    $ObjectID		    128
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -4028,46 +4175,46 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    112
+		    $ObjectID		    129
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    113
+		    $ObjectID		    130
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    114
+		    $ObjectID		    131
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    115
+		    $ObjectID		    132
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    116
+		    $ObjectID		    133
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    117
+		    $ObjectID		    134
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    118
+		    $ObjectID		    135
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    119
+		    $ObjectID		    136
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    120
+		    $ObjectID		    137
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -4174,7 +4321,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    121
+	    $ObjectID		    138
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('forwardKinematics.png'))"
 	  }
@@ -4208,7 +4355,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		122
+		$ObjectID		139
 		$ClassName		"Simulink.Mask"
 		Type			"Forward Kinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -4227,14 +4374,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    123
+		    $ObjectID		    140
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
 		    Value		    "'frame'"
 		  }
 		  Object {
-		    $ObjectID		    124
+		    $ObjectID		    141
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4242,7 +4389,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    125
+		    $ObjectID		    142
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4250,7 +4397,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    126
+		    $ObjectID		    143
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4258,7 +4405,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    127
+		    $ObjectID		    144
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4271,11 +4418,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    128
+		    $ObjectID		    145
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    129
+		    $ObjectID		    146
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -4283,46 +4430,46 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    130
+		    $ObjectID		    147
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    131
+		    $ObjectID		    148
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    132
+		    $ObjectID		    149
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    133
+		    $ObjectID		    150
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    134
+		    $ObjectID		    151
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    135
+		    $ObjectID		    152
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    136
+		    $ObjectID		    153
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    137
+		    $ObjectID		    154
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    138
+		    $ObjectID		    155
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -4432,7 +4579,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		139
+	$ObjectID		156
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }
@@ -4466,7 +4613,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    140
+	    $ObjectID		    157
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -4481,7 +4628,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		141
+		$ObjectID		158
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4504,7 +4651,7 @@ Library {
 		"');\nend\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		142
+		$ObjectID		159
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -4512,7 +4659,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		143
+		$ObjectID		160
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -4520,7 +4667,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		144
+		$ObjectID		161
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -4528,7 +4675,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		145
+		$ObjectID		162
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -4541,11 +4688,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		146
+		$ObjectID		163
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  147
+		  $ObjectID		  164
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4553,46 +4700,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		148
+		$ObjectID		165
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  149
+		  $ObjectID		  166
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    150
+		    $ObjectID		    167
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    151
+		    $ObjectID		    168
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "estimateType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    152
+		    $ObjectID		    169
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    153
+		    $ObjectID		    170
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    154
+		    $ObjectID		    171
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    155
+		    $ObjectID		    172
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    156
+		    $ObjectID		    173
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -4667,7 +4814,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    157
+	    $ObjectID		    174
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -4682,7 +4829,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		158
+		$ObjectID		175
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4702,7 +4849,7 @@ Library {
 		";\nend\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		159
+		$ObjectID		176
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -4710,7 +4857,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		160
+		$ObjectID		177
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -4718,7 +4865,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		161
+		$ObjectID		178
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -4726,7 +4873,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		162
+		$ObjectID		179
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -4739,11 +4886,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		163
+		$ObjectID		180
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  164
+		  $ObjectID		  181
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4751,46 +4898,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		165
+		$ObjectID		182
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  166
+		  $ObjectID		  183
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    167
+		    $ObjectID		    184
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    168
+		    $ObjectID		    185
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "limitsType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    169
+		    $ObjectID		    186
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    170
+		    $ObjectID		    187
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    171
+		    $ObjectID		    188
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    172
+		    $ObjectID		    189
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    173
+		    $ObjectID		    190
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
