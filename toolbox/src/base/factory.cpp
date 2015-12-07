@@ -10,8 +10,6 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::YarpWrite();
     } else if (blockClassName == wbt::MassMatrix::ClassName) {
         block = new wbt::MassMatrix();
-    } else if (blockClassName == wbt::GetBiasForces::ClassName) {
-        block = new wbt::GetBiasForces();
     } else if (blockClassName == wbt::ForwardKinematics::ClassName) {
         block = new wbt::ForwardKinematics();
     } else if (blockClassName == wbt::SetReferences::ClassName) {
