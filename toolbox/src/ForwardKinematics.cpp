@@ -64,7 +64,7 @@ namespace wbt {
         success = ssSetOutputPortMatrixDimensions(S, 0, 4, 4);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
-        return true;
+        return success;
     }
 
     bool ForwardKinematics::initialize(SimStruct *S, wbt::Error *error)

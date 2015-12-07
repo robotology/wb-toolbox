@@ -73,7 +73,7 @@ namespace wbt {
         success = ssSetOutputPortVectorDimension(S, 0, 6);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
-        return true;
+        return success;
     }
 
     bool DotJNu::initialize(SimStruct *S, wbt::Error *error)

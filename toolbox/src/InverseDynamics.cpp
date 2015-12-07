@@ -75,7 +75,7 @@ namespace wbt {
         success = ssSetOutputPortVectorDimension(S, 0, dofs + 6);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
-        return true;
+        return success;
     }
 
     bool InverseDynamics::initialize(SimStruct *S, wbt::Error *error)

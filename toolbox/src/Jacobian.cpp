@@ -64,7 +64,7 @@ namespace wbt {
         success = ssSetOutputPortMatrixDimensions(S, 0, 6, 6 + dofs);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
-        return true;
+        return success;
     }
 
     bool Jacobian::initialize(SimStruct *S, wbt::Error *error)

@@ -58,7 +58,7 @@ namespace wbt {
         success = ssSetOutputPortMatrixDimensions(S, 0, dofs + 6, dofs + 6);
         ssSetOutputPortDataType (S, 0, SS_DOUBLE);
 
-        return true;
+        return success;
     }
 
     bool MassMatrix::initialize(SimStruct *S, wbt::Error *error)
