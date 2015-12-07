@@ -1,7 +1,7 @@
-#include "Block.h"
-
 #ifndef WBT_YARPREAD_H
 #define WBT_YARPREAD_H
+
+#include "Block.h"
 
 namespace wbt {
     class YarpRead;
@@ -31,10 +31,10 @@ public:
     virtual bool output(SimStruct *S, wbt::Error *error);
     
 private:
-    int_T m_autoconnect;
-    int_T m_blocking;
-    int_T m_shouldReadTimestamp;
-    int_T m_errorOnMissingPort;
+    bool m_autoconnect;
+    bool m_blocking;
+    bool m_shouldReadTimestamp;
+    bool m_errorOnMissingPort;
     
     yarp::os::BufferedPort<yarp::sig::Vector> *m_port;
 };

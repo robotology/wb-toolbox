@@ -31,15 +31,15 @@ class wbt::WBInterface {
     ~WBInterface();
 
 
-    wbi::wholeBodyInterface* m_interface; /*<! Reference to the interface object */
-    wbi::IDList *m_robotList; /*<! Reference to the joint list object */
-    yarp::os::Property *m_configuration; /*<! Reference to the configuration used to configure the interface */
+    wbi::wholeBodyInterface* m_interface; /**< Reference to the interface object */
+    wbi::IDList *m_robotList; /**< Reference to the joint list object */
+    yarp::os::Property *m_configuration; /**< Reference to the configuration used to configure the interface */
 
-    bool m_initialized; /*<! true if the interface has been initialized */
-    bool m_configured; /*<! true if the interface has been configured */
-    int m_dofs; /*<! dofs modelled by the interface */
+    bool m_initialized; /**< true if the interface has been initialized */
+    bool m_configured; /**< true if the interface has been configured */
+    int m_dofs; /**< dofs modelled by the interface */
 
-    static unsigned s_referenceCount; /*<! number of blocks currently initialized */
+    static unsigned s_referenceCount; /**< number of blocks currently initialized */
     
 public:
     /**

@@ -1,7 +1,7 @@
-#include "Block.h"
-
 #ifndef WBT_YARPWRITE_H
 #define WBT_YARPWRITE_H
+
+#include "Block.h"
 
 namespace wbt {
     class YarpWrite;
@@ -22,7 +22,6 @@ public:
     static std::string ClassName;
     
     YarpWrite();
-    virtual ~YarpWrite();
     
     virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
@@ -31,8 +30,8 @@ public:
     virtual bool output(SimStruct *S, wbt::Error *error);
     
 private:
-    int_T m_autoconnect;
-    int_T m_errorOnMissingPort;
+    bool m_autoconnect;
+    bool m_errorOnMissingPort;
 
     std::string m_destinationPortName;
     yarp::os::BufferedPort<yarp::sig::Vector> *m_port;

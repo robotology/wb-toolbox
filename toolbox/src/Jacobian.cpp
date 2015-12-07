@@ -122,7 +122,7 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
-    bool Jacobian::output(SimStruct *S, wbt::Error *error)
+    bool Jacobian::output(SimStruct *S, wbt::Error */*error*/)
     {
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {

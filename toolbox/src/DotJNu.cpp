@@ -139,7 +139,7 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
-    bool DotJNu::output(SimStruct *S, wbt::Error *error)
+    bool DotJNu::output(SimStruct *S, wbt::Error */*error*/)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();

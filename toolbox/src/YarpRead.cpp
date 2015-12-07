@@ -13,10 +13,10 @@
 #define PARAM_IDX_5 5                           // Autoconnect boolean
 #define PARAM_IDX_6 6                           // Error on missing port if autoconnect is on boolean
 #define GET_OPT_SIGNAL_SIZE mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2))
-#define GET_OPT_BLOCKING  mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3))
-#define GET_OPT_TIMESTAMP mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_4))
-#define GET_OPT_AUTOCONNECT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5))
-#define GET_OPT_ERROR_ON_MISSING_PORT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_6))
+#define GET_OPT_BLOCKING  static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3)))
+#define GET_OPT_TIMESTAMP static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_4)))
+#define GET_OPT_AUTOCONNECT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5)))
+#define GET_OPT_ERROR_ON_MISSING_PORT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_6)))
 
 namespace wbt {
     
@@ -37,9 +37,9 @@ namespace wbt {
         }
         
         // OUTPUTS
-        int_T shouldReadTimestamp = GET_OPT_TIMESTAMP;
-        int_T signalSize = GET_OPT_SIGNAL_SIZE;
-        int_T autoconnect = GET_OPT_AUTOCONNECT;
+        bool shouldReadTimestamp = GET_OPT_TIMESTAMP;
+        int_T signalSize = static_cast<int_T>(GET_OPT_SIGNAL_SIZE);
+        bool autoconnect = GET_OPT_AUTOCONNECT;
 
         if (signalSize < 0) {
             if (error) error->message = "Signal size must be non negative";
@@ -123,7 +123,7 @@ namespace wbt {
         }
         return true;
     }
-    bool YarpRead::terminate(SimStruct *S, wbt::Error *error) 
+    bool YarpRead::terminate(SimStruct */*S*/, wbt::Error */*error*/)
     {
         if (m_port) {
             m_port->close();
@@ -134,7 +134,7 @@ namespace wbt {
         return true;
     }
     
-    bool YarpRead::output(SimStruct *S, wbt::Error *error) 
+    bool YarpRead::output(SimStruct *S, wbt::Error */*error*/)
     {
         int timeStampPortIndex = 1;
         int connectionStatusPortIndex = 1;
@@ -168,5 +168,4 @@ namespace wbt {
         }
         return true;
     }
-
 }

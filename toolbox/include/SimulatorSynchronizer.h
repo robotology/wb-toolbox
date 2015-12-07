@@ -1,7 +1,7 @@
-#include "Block.h"
-
 #ifndef WBT_SIMULATORSYNCHRONIZER_H
 #define WBT_SIMULATORSYNCHRONIZER_H
+
+#include "Block.h"
 
 namespace wbt {
     class SimulatorSynchronizer;

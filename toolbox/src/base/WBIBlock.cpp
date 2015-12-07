@@ -112,7 +112,7 @@ bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
     return true;
 }
 
-bool wbt::WBIBlock::terminate(SimStruct *S, wbt::Error *error)
+bool wbt::WBIBlock::terminate(SimStruct */*S*/, wbt::Error *error)
 {
     if (!WBInterface::sharedInstance().terminate()) {
         if (error) error->message = "Failed to terminate WBI";

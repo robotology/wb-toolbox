@@ -12,7 +12,7 @@ namespace wbt {
  */
 class wbt::Error {
 public:
-    std::string message; /*<! a string representing the error message */
+    std::string message; /**< a string representing the error message */
 };
 
 

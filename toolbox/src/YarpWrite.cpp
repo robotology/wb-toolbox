@@ -9,8 +9,8 @@
 #define PARAM_IDX_1 1                           // port name
 #define PARAM_IDX_2 2                           // Autoconnect boolean
 #define PARAM_IDX_3 3                           // Error on missing port if autoconnect is on boolean
-#define GET_OPT_AUTOCONNECT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2))
-#define GET_OPT_ERROR_ON_MISSING_PORT mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3))
+#define GET_OPT_AUTOCONNECT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2)))
+#define GET_OPT_ERROR_ON_MISSING_PORT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3)))
 
 namespace wbt {
     
@@ -20,8 +20,6 @@ namespace wbt {
     : m_autoconnect(false)
     , m_errorOnMissingPort(true)
     , m_destinationPortName("") {}
-
-    YarpWrite::~YarpWrite() {}
     
     unsigned YarpWrite::numberOfParameters() { return 3; }
 
@@ -94,7 +92,7 @@ namespace wbt {
         return true;
     }
 
-    bool YarpWrite::terminate(SimStruct *S, wbt::Error *error)
+    bool YarpWrite::terminate(SimStruct */*S*/, wbt::Error */*error*/)
     {
         if (m_port) {
             if (m_autoconnect)
@@ -107,7 +105,7 @@ namespace wbt {
         return true;
     }
     
-    bool YarpWrite::output(SimStruct *S, wbt::Error *error)
+    bool YarpWrite::output(SimStruct *S, wbt::Error */*error*/)
     {
         if (!m_port) return false;
         yarp::sig::Vector &outputVector = m_port->prepare();

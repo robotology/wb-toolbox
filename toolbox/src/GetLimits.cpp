@@ -113,7 +113,7 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
-    bool GetLimits::output(SimStruct *S, wbt::Error *error)
+    bool GetLimits::output(SimStruct *S, wbt::Error */*error*/)
     {
         if (!m_limits) return false;
 

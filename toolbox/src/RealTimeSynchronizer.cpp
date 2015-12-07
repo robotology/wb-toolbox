@@ -34,19 +34,19 @@ namespace wbt {
         return true;
     }
 
-    bool RealTimeSynchronizer::initialize(SimStruct *S, wbt::Error *error)
+    bool RealTimeSynchronizer::initialize(SimStruct *S, wbt::Error */*error*/)
     {
         m_period = GET_PERIOD_PARAMETER;
         m_counter = 0;
         return m_period > 0;
     }
     
-    bool RealTimeSynchronizer::terminate(SimStruct *S, wbt::Error *error)
+    bool RealTimeSynchronizer::terminate(SimStruct */*S*/, wbt::Error */*error*/)
     {
         return true;
     }
     
-    bool RealTimeSynchronizer::output(SimStruct *S, wbt::Error *error)
+    bool RealTimeSynchronizer::output(SimStruct */*S*/, wbt::Error */*error*/)
     {
         using namespace yarp::os;
 

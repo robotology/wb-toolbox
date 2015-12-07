@@ -1,7 +1,7 @@
-#include "Block.h"
-
 #ifndef WBT_REALTIMESYNCHRONIZER_H
 #define WBT_REALTIMESYNCHRONIZER_H
+
+#include "Block.h"
 
 namespace wbt {
     class RealTimeSynchronizer;

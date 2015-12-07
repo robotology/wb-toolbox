@@ -115,12 +115,6 @@ configure_block(BLOCK_NAME "Mass Matrix"
     SOURCES src/MassMatrix.cpp
     HEADERS include/MassMatrix.h)
 
-configure_block(BLOCK_NAME "Get Bias Forces"
-    GROUP "Model"
-    LIST_PREFIX WBT
-    SOURCES src/GetBiasForces.cpp
-    HEADERS include/GetBiasForces.h)
-
 configure_block(BLOCK_NAME "Inverse Dynamics"
     GROUP "Model"
     LIST_PREFIX WBT

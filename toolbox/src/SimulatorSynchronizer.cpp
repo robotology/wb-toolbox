@@ -4,6 +4,7 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
 #include <thrift/ClockServer.h>
+#include <cmath>
 
 #define PARAM_IDX_1 1                           // Period
 #define PARAM_IDX_2 2                           // Gazebo clock port
@@ -90,14 +91,14 @@ namespace wbt {
 
         double stepSize = m_rpcData->clockServer.getStepSize();
 
-        m_rpcData->configuration.numberOfSteps = m_period / stepSize;
+        m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
 
         m_firstRun = true;
 
         return true;
     }
     
-    bool SimulatorSynchronizer::terminate(SimStruct *S, wbt::Error *error)
+    bool SimulatorSynchronizer::terminate(SimStruct */*S*/, wbt::Error *error)
     {
         if (m_rpcData) {
             m_rpcData->clockServer.continueSimulation();
@@ -112,7 +113,7 @@ namespace wbt {
         return true;
     }
     
-    bool SimulatorSynchronizer::output(SimStruct *S, wbt::Error *error) 
+    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error */*error*/)
     {
         if (m_firstRun) {
             m_firstRun = false;

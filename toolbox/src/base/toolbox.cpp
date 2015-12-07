@@ -35,6 +35,7 @@
 #if defined(MDL_CHECK_PARAMETERS) && defined(MATLAB_MEX_FILE)
 static void mdlCheckParameters(SimStruct *S)
 {
+    UNUSED_ARG(S);
     //TODO: still to find a way to call Block implementation
 }
 #endif  /*MDL_CHECK_PARAMETERS*/
@@ -156,16 +157,14 @@ static void mdlStart(SimStruct *S)
     wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
     ssSetPWorkValue(S, 0, block);
 
-    if (ssGetNumPWork(S) > 0) {
-        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-        wbt::Error error;
-        if (!block || !block->initialize(S, &error)) {
-            yError() << "[mdlStart]" << error.message;
-            static char errorBuffer[1024];
-            sprintf(errorBuffer, "[mdlStart]%s", error.message.substr(0, 1023 - strlen("[mdlStart]")).c_str());
-            ssSetErrorStatus(S, errorBuffer);
-        }
+    wbt::Error error;
+    if (!block || !block->initialize(S, &error)) {
+        yError() << "[mdlStart]" << error.message;
+        static char errorBuffer[1024];
+        sprintf(errorBuffer, "[mdlStart]%s", error.message.substr(0, 1023 - strlen("[mdlStart]")).c_str());
+        ssSetErrorStatus(S, errorBuffer);
     }
+
 }
 
 // Function: mdlOutputs =======================================================
