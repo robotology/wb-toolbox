@@ -1,5 +1,5 @@
 Library {
-  Name			  "WBToolboxLibrary"
+  Name			  "WBToolboxLibrary_repository"
   Version		  8.6
   MdlSubVersion		  0
   SavedCharacterEncoding  "US-ASCII"
@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 09 12:21:49 2015"
-  RTWModifiedTimeStamp	  371397978
-  ModelVersionFormat	  "1.%<AutoIncrement:340>"
+  LastModifiedDate	  "Wed Dec 09 16:24:33 2015"
+  RTWModifiedTimeStamp	  371579068
+  ModelVersionFormat	  "1.%<AutoIncrement:341>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -896,9 +896,9 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary"
+    Name		    "WBToolboxLibrary_repository"
     Location		    [0, 29, 1280, 744]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "black"
@@ -1785,7 +1785,7 @@ Library {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
 		  SID			  "107::1584"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
 		  ZOrder		  73
@@ -2370,7 +2370,7 @@ Library {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
 		  SID			  "112::1584"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
 		  ZOrder		  73
@@ -3036,7 +3036,7 @@ Library {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
 		  SID			  "1300::1584"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
 		  ZOrder		  61
@@ -4459,8 +4459,8 @@ Library {
 		"nterface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Nam"
 		"e: name of the list of joints used to configure the Whole Body Interface\n"
 		Display			"port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', "
-		"'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, '\\nu', 'texmode','on')\nport"
-		"_label('input', 4, 'Joint velocity')\n"
+		"'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, 'Base velocity')\nport_label("
+		"'input', 4, 'Joint velocity')\n"
 		Array {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
@@ -5651,7 +5651,7 @@ Library {
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary"
+    name		    "WBToolboxLibrary_repository"
     created		    "06-Feb-2014 11:51:26"
     isLibrary		    1
     firstTarget		    26

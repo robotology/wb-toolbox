@@ -236,7 +236,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINA
 # Custom script to generate the library to be committed on the repository
 # This target is excluded from the normal build and must be called explicitly by the
 # developer who modifies the library
-add_custom_target(export_libraries ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r export_library WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_custom_target(export_libraries ${Matlab_MAIN_PROGRAM} -nosplash  -r export_library WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 # Install configuration files

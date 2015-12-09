@@ -1,4 +1,4 @@
-% addpath(genpath('../'))
+addpath(genpath('../images'));
 
 fprintf('\nWhole Body toolbox exporting library to multiple versions\n');
 
@@ -10,17 +10,19 @@ end
 libraryName = 'WBToolboxLibrary_repository';
 
 try
-  load_system(libraryName);
+  open_system(libraryName,'loadonly');
   fprintf('\nLibrary loaded\n');
   if (strcmp(get_param(libraryName, 'EnableLBRepository'), 'off'))
     set_param(libraryName, 'Lock', 'off');
     set_param(libraryName, 'EnableLBRepository', 'on');
     set_param(libraryName, 'Lock', 'on');
   end;
+  fprintf('\nExporting for 2014b\n');
+  % This does not completely work: images are not saved.
+  % Instad if saved form the GUI it works..
+  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
   fprintf('\nExporting for 2012a\n');
   save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2012A_MDL');
-  fprintf('\nExporting for 2014b\n');
-  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
   close_system(libraryName);
 catch ex;
 end
