@@ -16,7 +16,8 @@ yarp_configure_external_installation(codyco)
 
 find_package(Matlab	 REQUIRED
              MX_LIBRARY
-             ENG_LIBRARY)
+             ENG_LIBRARY
+             MAIN_PROGRAM)
 
 
 if(NOT Matlab_FOUND)
@@ -232,14 +233,17 @@ install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 # The following line is to properly configure the installation script of the toolbox
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
 
+## Run the script before install
+# add_custom_target(configure_library ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r configure_library)
+
 # Install configuration files
 install(FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/slblocks.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
 #if MAJOR >= 2014 && MINOR >= b
 # Note: We had issues with Matlab 2014b and .mdl models.
 # But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
-# if (${Matlab_VERSION_STRING} GREATER "8.3")
-#     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# else()
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# endif()
+if (${Matlab_VERSION_STRING} GREATER "8.3")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+else()
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+endif()

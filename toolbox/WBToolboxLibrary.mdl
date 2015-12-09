@@ -1,6 +1,6 @@
 Library {
   Name			  "WBToolboxLibrary"
-  Version		  8.6
+  Version		  7.9
   MdlSubVersion		  0
   SavedCharacterEncoding  "US-ASCII"
   LibraryType		  "BlockLibrary"
@@ -9,54 +9,15 @@ Library {
   DisableAllScopes	  off
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  Object {
-    $PropName		    "BdWindowsInfo"
-    $ObjectID		    1
-    $ClassName		    "Simulink.BDWindowsInfo"
-    Object {
-      $PropName		      "WindowsInfo"
-      $ObjectID		      2
-      $ClassName	      "Simulink.WindowInfo"
-      IsActive		      [1]
-      Location		      [0.0, 29.0, 1280.0, 715.0]
-      Object {
-	$PropName		"ModelBrowserInfo"
-	$ObjectID		3
-	$ClassName		"Simulink.ModelBrowserInfo"
-	Visible			[0]
-	DockPosition		"Left"
-	Width			[50]
-	Height			[50]
-	Filter			[9]
-      }
-      Object {
-	$PropName		"ExplorerBarInfo"
-	$ObjectID		4
-	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
-      }
-      Object {
-	$PropName		"EditorsInfo"
-	$ObjectID		5
-	$ClassName		"Simulink.EditorInfo"
-	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1246.0, 553.0]
-	ZoomFactor		[2.7309417040358746]
-	Offset			[10.873563218390814, 7.0028735632184009]
-      }
-    }
-  }
   Created		  "Thu Feb 06 02:21:39 2014"
   Creator		  "jorhabib"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 09 12:17:50 2015"
-  RTWModifiedTimeStamp	  371397978
-  ModelVersionFormat	  "1.%<AutoIncrement:340>"
+  LastModifiedDate	  "Wed Dec 09 15:03:51 2015"
+  RTWModifiedTimeStamp	  371574231
+  ModelVersionFormat	  "1.%<AutoIncrement:341>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -74,8 +35,6 @@ Library {
   SortedOrder		  off
   ExecutionContextIcon	  off
   ShowLinearizationAnnotations on
-  ShowVisualizeInsertedRTB on
-  ShowMarkup		  on
   BlockNameDataTip	  off
   BlockParametersDataTip  off
   BlockDescriptionStringDataTip	off
@@ -84,14 +43,21 @@ Library {
   BrowserShowLibraryLinks off
   BrowserLookUnderMasks	  off
   SimulationMode	  "normal"
-  PauseTimes		  "5"
-  NumberOfSteps		  1
-  SnapshotBufferSize	  10
-  SnapshotInterval	  10
-  NumberOfLastSnapshots	  0
   LinearizationMsg	  "none"
   Profile		  off
   ParamWorkspaceSource	  "MATLABWorkspace"
+  RecordCoverage	  off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -120,13 +86,13 @@ Library {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      6
-      Version		      "1.15.1"
+      Version		      "1.12.0"
       Array {
 	Type			"Handle"
-	Dimension		10
+	Dimension		9
 	Simulink.SolverCC {
 	  $ObjectID		  7
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
@@ -153,8 +119,6 @@ Library {
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Nonadaptive"
 	  AlgebraicLoopSolver	  "TrustRegion"
-	  SolverInfoToggleStatus  off
-	  IsAutoAppliedInSIP	  off
 	  SolverResetMethod	  "Fast"
 	  PositivePriorityOrder	  off
 	  AutoInsertRateTranBlk	  off
@@ -163,7 +127,7 @@ Library {
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  8
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -181,9 +145,6 @@ Library {
 	  SignalLogging		  on
 	  DSMLogging		  on
 	  InspectSignalLogs	  off
-	  VisualizeSimOutput	  on
-	  StreamToWorkspace	  off
-	  StreamVariableName	  "streamout"
 	  SaveTime		  on
 	  ReturnWorkspaceOutputs  off
 	  StateSaveName		  "xout"
@@ -195,11 +156,10 @@ Library {
 	  OutputTimes		  "[]"
 	  ReturnWorkspaceOutputsName "out"
 	  Refine		  "1"
-	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
 	  $ObjectID		  9
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    8
@@ -216,17 +176,13 @@ Library {
 	  BlockReduction	  on
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
-	  DefaultParameterBehavior "Tunable"
-	  UseDivisionForNetSlopeComputation "off"
+	  InlineParams		  off
 	  UseFloatMulNetSlope	  off
-	  DefaultUnderspecifiedDataType	"double"
 	  UseSpecifiedMinMax	  off
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
 	  BufferReuse		  on
 	  EnhancedBackFolding	  off
-	  CachingGlobalReferences off
-	  GlobalBufferReuse	  on
 	  StrengthReduction	  off
 	  ExpressionFolding	  on
 	  BooleansAsBitfields	  off
@@ -234,13 +190,11 @@ Library {
 	  EnableMemcpy		  on
 	  MemcpyThreshold	  64
 	  PassReuseOutputArgsAs	  "Structure reference"
-	  PassReuseOutputArgsThreshold 12
 	  ExpressionDepthLimit	  2147483647
 	  LocalBlockOutputs	  on
 	  RollThreshold		  5
 	  StateBitsets		  off
 	  DataBitsets		  off
-	  ActiveStateOutputEnumStorageType "Native Integer"
 	  ZeroExternalMemoryAtStartup on
 	  ZeroInternalMemoryAtStartup on
 	  InitFltsAndDblsToZero	  off
@@ -251,12 +205,13 @@ Library {
 	  LifeSpan		  "inf"
 	  MaxStackSize		  "Inherit from target"
 	  BufferReusableBoundary  on
-	  SimCompilerOptimization "off"
+	  SimCompilerOptimization "Off"
 	  AccelVerboseBuild	  off
+	  UseIntDivNetSlope	  off
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  10
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -304,7 +259,7 @@ Library {
 	  UnnecessaryDatatypeConvMsg "none"
 	  VectorMatrixConversionMsg "none"
 	  InvalidFcnCallConnMsg	  "error"
-	  FcnCallInpInsideContextMsg "EnableAllAsWarning"
+	  FcnCallInpInsideContextMsg "Enable All"
 	  SignalLabelMismatchMsg  "none"
 	  UnconnectedInputMsg	  "warning"
 	  UnconnectedOutputMsg	  "warning"
@@ -315,7 +270,6 @@ Library {
 	  BusObjectLabelMismatch  "warning"
 	  RootOutportRequireBusObject "warning"
 	  AssertControl		  "UseLocalSettings"
-	  AllowSymbolicDim	  off
 	  ModelReferenceIOMsg	  "none"
 	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
 	  ModelReferenceVersionMismatchMessage "none"
@@ -331,7 +285,6 @@ Library {
 	  StrictBusMsg		  "ErrorLevel1"
 	  BusNameAdapt		  "WarnAndRepair"
 	  NonBusSignalsTreatedAsBus "none"
-	  SymbolicDimMinMaxWarning "warning"
 	  BlockIODiagnostic	  "none"
 	  SFUnusedDataAndEventsDiag "warning"
 	  SFUnexpectedBacktrackingDiag "warning"
@@ -339,19 +292,15 @@ Library {
 	  SFNoUnconditionalDefaultTransitionDiag "warning"
 	  SFTransitionOutsideNaturalParentDiag "warning"
 	  SFUnconditionalTransitionShadowingDiag "warning"
-	  SFUndirectedBroadcastEventsDiag "warning"
-	  SFTransitionActionBeforeConditionDiag	"warning"
-	  SFOutputUsedAsStateInMooreChartDiag "error"
-	  IntegerSaturationMsg	  "warning"
+	  ModelReferenceCSMismatchMessage "none"
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  11
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
 	  ProdBitPerLong	  32
-	  ProdBitPerLongLong	  64
 	  ProdBitPerFloat	  32
 	  ProdBitPerDouble	  64
 	  ProdBitPerPointer	  32
@@ -361,20 +310,17 @@ Library {
 	  ProdEndianess		  "Unspecified"
 	  ProdWordSize		  32
 	  ProdShiftRightIntArith  on
-	  ProdLongLongMode	  off
 	  ProdHWDeviceType	  "32-bit Generic"
 	  TargetBitPerChar	  8
 	  TargetBitPerShort	  16
 	  TargetBitPerInt	  32
 	  TargetBitPerLong	  32
-	  TargetBitPerLongLong	  64
 	  TargetBitPerFloat	  32
 	  TargetBitPerDouble	  64
 	  TargetBitPerPointer	  32
 	  TargetLargestAtomicInteger "Char"
 	  TargetLargestAtomicFloat "None"
 	  TargetShiftRightIntArith on
-	  TargetLongLongMode	  off
 	  TargetIntDivRoundTo	  "Undefined"
 	  TargetEndianess	  "Unspecified"
 	  TargetWordSize	  32
@@ -386,9 +332,8 @@ Library {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  12
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
-	  EnableRefExpFcnMdlSchedulingChecks on
 	  CheckModelReferenceTargetMessage "error"
 	  EnableParallelModelReferenceBuilds off
 	  ParallelModelReferenceErrorOnInvalidPool on
@@ -402,19 +347,18 @@ Library {
 	}
 	Simulink.SFSimCC {
 	  $ObjectID		  13
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  SFSimEcho		  on
 	  SimCtrlC		  on
 	  SimIntegrity		  on
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
 	  SimBuildMode		  "sf_incremental_build"
-	  SimGenImportedTypeDefs  off
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
 	  $ObjectID		  14
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    9
@@ -434,7 +378,6 @@ Library {
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
 	  GenerateMakefile	  on
-	  PackageGeneratedCodeAndArtifacts off
 	  TemplateMakefile	  "grt_default_tmf"
 	  PostCodeGenCommand	  ""
 	  Description		  ""
@@ -448,17 +391,8 @@ Library {
 	  TLCAssert		  off
 	  RTWUseLocalCustomCode	  off
 	  RTWUseSimCustomCode	  off
-	  Toolchain		  "Automatically locate an installed toolchain"
-	  BuildConfiguration	  "Faster Builds"
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
-	  PortableWordSizes	  off
-	  CreateSILPILBlock	  "None"
-	  CodeExecutionProfiling  off
-	  CodeExecutionProfileVariable "executionProfile"
-	  CodeProfilingSaveOptions "SummaryOnly"
-	  CodeProfilingInstrumentation off
-	  SILDebugging		  off
 	  TargetLang		  "C"
 	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
 	  GenerateTraceInfo	  off
@@ -469,17 +403,15 @@ Library {
 	  GenerateWebview	  off
 	  GenerateCodeMetricsReport off
 	  GenerateCodeReplacementReport	off
-	  GenerateMissedCodeReplacementReport off
-	  RTWCompilerOptimization "off"
+	  RTWCompilerOptimization "Off"
 	  RTWCustomCompilerOptimizations ""
 	  CheckMdlBeforeBuild	  "Off"
-	  SharedConstantsCachingThreshold 1024
 	  Array {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
 	      $ObjectID		      15
-	      Version		      "1.15.1"
+	      Version		      "1.12.0"
 	      Array {
 		Type			"Cell"
 		Dimension		21
@@ -508,7 +440,6 @@ Library {
 	      }
 	      ForceParamTrailComments off
 	      GenerateComments	      on
-	      CommentStyle	      "Auto"
 	      IgnoreCustomStorageClasses on
 	      IgnoreTestpoints	      off
 	      IncHierarchyInIds	      off
@@ -516,7 +447,6 @@ Library {
 	      PreserveName	      off
 	      PreserveNameWithParent  off
 	      ShowEliminatedStatement off
-	      OperatorAnnotations     off
 	      IncAutoGenComments      off
 	      SimulinkDataObjDesc     off
 	      SFDataObjDesc	      off
@@ -531,7 +461,6 @@ Library {
 	      CustomSymbolStrBlkIO    "rtb_$N$M"
 	      CustomSymbolStrTmpVar   "$N$M"
 	      CustomSymbolStrMacro    "$R$N$M"
-	      CustomSymbolStrUtil     "$N$C"
 	      DefineNamingRule	      "None"
 	      ParamNamingRule	      "None"
 	      SignalNamingRule	      "None"
@@ -540,7 +469,6 @@ Library {
 	      SimulinkBlockComments   on
 	      MATLABSourceComments    off
 	      EnableCustomComments    off
-	      InternalIdentifier      "Shortened"
 	      InlinedPrmAccess	      "Literals"
 	      ReqsInCode	      off
 	      UseSimReservedNames     off
@@ -548,7 +476,7 @@ Library {
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
 	      $ObjectID		      16
-	      Version		      "1.15.1"
+	      Version		      "1.12.0"
 	      Array {
 		Type			"Cell"
 		Dimension		15
@@ -566,21 +494,18 @@ Library {
 		Cell			"SupportComplex"
 		Cell			"SupportAbsoluteTime"
 		Cell			"SupportContinuousTime"
-		Cell			"GenerateAllocFcn"
+		Cell			"MultiInstanceERTCode"
 		PropName		"DisabledProps"
 	      }
 	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
 	      TargetLibSuffix	      ""
 	      TargetPreCompLibLocation ""
-	      GenFloatMathFcnCalls    "NOT IN USE"
-	      TargetLangStandard      "C89/C90 (ANSI)"
 	      CodeReplacementLibrary  "None"
 	      UtilityFuncGeneration   "Auto"
 	      ERTMultiwordTypeDef     "System defined"
 	      ERTMultiwordLength      256
 	      MultiwordLength	      2048
 	      GenerateFullHeader      on
-	      InferredTypesCompatibility off
 	      GenerateSampleERTMain   off
 	      GenerateTestInterfaces  off
 	      ModelReferenceCompliant on
@@ -599,7 +524,6 @@ Library {
 	      LogVarNameModifier      "rt_"
 	      MatFileLogging	      on
 	      MultiInstanceERTCode    off
-	      CodeInterfacePackaging  "Nonreusable function"
 	      SupportNonFinite	      on
 	      SupportComplex	      on
 	      PurelyIntegerCode	      off
@@ -607,15 +531,10 @@ Library {
 	      SupportNonInlinedSFcns  on
 	      SupportVariableSizeSignals off
 	      ParenthesesLevel	      "Nominal"
-	      CastingMode	      "Nominal"
-	      MATLABClassNameForMDSCustomization "Simulink.SoftwareTarget.GRTCustomization"
 	      ModelStepFunctionPrototypeControlCompliant off
 	      CPPClassGenCompliant    on
 	      AutosarCompliant	      off
 	      GRTInterface	      on
-	      GenerateAllocFcn	      off
-	      UseToolchainInfoCompliant	on
-	      GenerateSharedConstants on
 	      UseMalloc		      off
 	      ExtMode		      off
 	      ExtModeStaticAlloc      off
@@ -629,41 +548,13 @@ Library {
 	      RTWCAPIStates	      off
 	      RTWCAPIRootIO	      off
 	      GenerateASAP2	      off
-	      MultiInstanceErrorCode  "Error"
 	    }
 	    PropName		    "Components"
 	  }
 	}
-	SlCovCC.ConfigComp {
-	  $ObjectID		  17
-	  Version		  "1.15.1"
-	  Description		  "Simulink Coverage Configuration Component"
-	  Name			  "Simulink Coverage"
-	  RecordCoverage	  off
-	  CovPath		  "/"
-	  CovSaveName		  "covdata"
-	  CovMetricSettings	  "dw"
-	  CovNameIncrementing	  off
-	  CovHtmlReporting	  on
-	  CovForceBlockReductionOff on
-	  CovEnableCumulative	  on
-	  CovSaveCumulativeToWorkspaceVar on
-	  CovSaveSingleToWorkspaceVar on
-	  CovCumulativeVarName	  "covCumulativeData"
-	  CovCumulativeReport	  off
-	  CovReportOnPause	  on
-	  CovModelRefEnable	  "Off"
-	  CovExternalEMLEnable	  off
-	  CovSFcnEnable		  off
-	  CovBoundaryAbsTol	  1e-05
-	  CovBoundaryRelTol	  0.01
-	  CovUseTimeInterval	  off
-	  CovStartTime		  0
-	  CovStopTime		  0
-	}
 	hdlcoderui.hdlcc {
 	  $ObjectID		  18
-	  Version		  "1.15.1"
+	  Version		  "1.12.0"
 	  Description		  "HDL Coder custom configuration component"
 	  Name			  "HDL Coder"
 	  Array {
@@ -678,7 +569,7 @@ Library {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 963, 135, 1843, 765 ] 
+      ConfigPrmDlgPosition    [ 963, 135, 1843, 765 ]  
     }
     PropName		    "ConfigurationSets"
   }
@@ -713,25 +604,6 @@ Library {
     FontSize		    9
     FontWeight		    "normal"
     FontAngle		    "normal"
-  }
-  MaskDefaults {
-    SelfModifiable	    "off"
-    IconFrame		    "on"
-    IconOpaque		    "on"
-    RunInitForIconRedraw    "off"
-    IconRotate		    "none"
-    PortRotate		    "default"
-    IconUnits		    "autoscale"
-  }
-  MaskParameterDefaults {
-    Evaluate		    "on"
-    Tunable		    "on"
-    NeverSave		    "off"
-    Internal		    "off"
-    ReadOnly		    "off"
-    Enabled		    "on"
-    Visible		    "on"
-    ToolTip		    "on"
   }
   BlockParameterDefaults {
     Block {
@@ -850,15 +722,10 @@ Library {
       Permissions	      "ReadWrite"
       PermitHierarchicalResolution "All"
       TreatAsAtomicUnit	      off
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
       CheckFcnCallInpInsideContextMsg off
       SystemSampleTime	      "-1"
-      RTWSystemCode	      "Auto"
       RTWFcnNameOpts	      "Auto"
       RTWFileNameOpts	      "Auto"
-      FunctionInterfaceSpec   "void_void"
-      FunctionWithSeparateData off
       RTWMemSecFuncInitTerm   "Inherit from model"
       RTWMemSecFuncExecute    "Inherit from model"
       RTWMemSecDataConstants  "Inherit from model"
@@ -868,12 +735,8 @@ Library {
       DataTypeOverride	      "UseLocalSettings"
       DataTypeOverrideAppliesTo	"AllNumericTypes"
       MinMaxOverflowLogging   "UseLocalSettings"
-      Opaque		      off
-      MaskHideContents	      off
       SFBlockType	      "NONE"
       GeneratePreprocessorConditionals off
-      ContentPreviewEnabled   off
-      IsWebBlock	      off
     }
     Block {
       BlockType		      Sum
@@ -923,12 +786,12 @@ Library {
       DropShadow	      on
       RequestExecContextInheritance off
       Variant		      off
-      Object {
-	$PropName		"MaskObject"
-	$ObjectID		19
-	$ClassName		"Simulink.Mask"
-	Display			"image(imread('utilities.png'))"
-      }
+      MaskDisplay	      "image(imread('utilities.png'))"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
       System {
 	Name			"Utilities"
 	Location		[0, 29, 1280, 744]
@@ -955,13 +818,13 @@ Library {
 	  DropShadow		  on
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    20
-	    $ClassName		    "Simulink.Mask"
-	    Description		    "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a"
-	    " WBI whole body state reading."
-	  }
+	  MaskDescription	  "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a "
+	  "WBI whole body state reading."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "15-DoFs WBI to YARP"
 	    Location		    [0, 29, 1280, 744]
@@ -1078,7 +941,6 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
 	      DstBlock		      "Selector6"
@@ -1086,7 +948,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "torso"
-	      ZOrder		      2
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector6"
 	      SrcPort		      1
@@ -1094,26 +955,21 @@ Library {
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "WBI Ordered"
 	      SrcPort		      1
 	      Points		      [75, 0]
 	      Branch {
-		ZOrder			16
 		Points			[0, -55]
 		Branch {
-		  ZOrder		  11
 		  DstBlock		  "Selector3"
 		  DstPort		  1
 		}
 		Branch {
-		  ZOrder		  4
 		  DstBlock		  "Selector"
 		  DstPort		  1
 		}
 	      }
 	      Branch {
-		ZOrder			7
 		Points			[0, 15]
 		DstBlock		"Selector4"
 		DstPort			1
@@ -1121,7 +977,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "leftLeg"
-	      ZOrder		      14
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector3"
 	      SrcPort		      1
@@ -1130,7 +985,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "rightLeg"
-	      ZOrder		      15
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector4"
 	      SrcPort		      1
@@ -1138,6 +992,12 @@ Library {
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -1150,13 +1010,13 @@ Library {
 	  DropShadow		  on
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    21
-	    $ClassName		    "Simulink.Mask"
-	    Description		    "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a"
-	    " WBI whole body state reading."
-	  }
+	  MaskDescription	  "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a "
+	  "WBI whole body state reading."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "23-DoFs WBI to YARP"
 	    Location		    [66, 45, 914, 802]
@@ -1327,7 +1187,6 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
 	      DstBlock		      "Selector6"
@@ -1335,7 +1194,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "torso"
-	      ZOrder		      2
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector6"
 	      SrcPort		      1
@@ -1343,43 +1201,34 @@ Library {
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "WBI Ordered"
 	      SrcPort		      1
 	      Points		      [75, 0]
 	      Branch {
-		ZOrder			4
 		Points			[0, -55]
 		Branch {
-		  ZOrder		  5
 		  DstBlock		  "Selector"
 		  DstPort		  1
 		}
 		Branch {
-		  ZOrder		  6
 		  DstBlock		  "Selector1"
 		  DstPort		  1
 		}
 	      }
 	      Branch {
-		ZOrder			7
 		Points			[0, 10]
 		Branch {
-		  ZOrder		  8
 		  DstBlock		  "Selector2"
 		  DstPort		  1
 		}
 		Branch {
-		  ZOrder		  9
 		  Points		  [0, 65]
 		  Branch {
-		    ZOrder		    10
 		    Points		    [0, 70]
 		    DstBlock		    "Selector4"
 		    DstPort		    1
 		  }
 		  Branch {
-		    ZOrder		    11
 		    DstBlock		    "Selector3"
 		    DstPort		    1
 		  }
@@ -1388,7 +1237,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "leftArm"
-	      ZOrder		      12
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector1"
 	      SrcPort		      1
@@ -1397,7 +1245,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "rightArm"
-	      ZOrder		      13
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector2"
 	      SrcPort		      1
@@ -1406,7 +1253,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "leftLeg"
-	      ZOrder		      14
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector3"
 	      SrcPort		      1
@@ -1415,7 +1261,6 @@ Library {
 	    }
 	    Line {
 	      Name		      "rightLeg"
-	      ZOrder		      15
 	      Labels		      [1, 1]
 	      SrcBlock		      "Selector4"
 	      SrcPort		      1
@@ -1423,6 +1268,12 @@ Library {
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -1434,14 +1285,14 @@ Library {
 	  BackgroundColor	  "[0.180000, 0.348000, 0.600000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    22
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "WBI to YARP"
-	    Description		    "This is a 25-DOF iCub specific block that swaps first and third joints of the iCub torso from a"
-	    " WBI whole body state reading."
-	  }
+	  MaskType		  "WBI to YARP"
+	  MaskDescription	  "This is a 25-DOF iCub specific block that swaps first and third joints of the iCub torso from a "
+	  "WBI whole body state reading."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "25-DoFs WBI to yarp"
 	    Location		    [0, 29, 1280, 744]
@@ -1582,71 +1433,58 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Selector1"
 	      SrcPort		      1
 	      DstBlock		      "leftArm"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "Selector2"
 	      SrcPort		      1
 	      DstBlock		      "rightArm"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "Selector3"
 	      SrcPort		      1
 	      DstBlock		      "leftLeg"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      4
 	      SrcBlock		      "Selector4"
 	      SrcPort		      1
 	      DstBlock		      "rightLeg"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      5
 	      SrcBlock		      "WBI ordered"
 	      SrcPort		      1
 	      Points		      [25, 0]
 	      Branch {
-		ZOrder			6
 		Points			[0, -55]
 		Branch {
-		  ZOrder		  7
 		  DstBlock		  "Selector"
 		  DstPort		  1
 		}
 		Branch {
-		  ZOrder		  8
 		  DstBlock		  "Selector1"
 		  DstPort		  1
 		}
 	      }
 	      Branch {
-		ZOrder			9
 		Points			[0, 10]
 		Branch {
-		  ZOrder		  10
 		  DstBlock		  "Selector2"
 		  DstPort		  1
 		}
 		Branch {
-		  ZOrder		  11
 		  Points		  [0, 65]
 		  Branch {
-		    ZOrder		    12
 		    Points		    [0, 70]
 		    DstBlock		    "Selector4"
 		    DstPort		    1
 		  }
 		  Branch {
-		    ZOrder		    13
 		    DstBlock		    "Selector3"
 		    DstPort		    1
 		  }
@@ -1654,20 +1492,24 @@ Library {
 	      }
 	    }
 	    Line {
-	      ZOrder		      14
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
 	      DstBlock		      "Selector6"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      15
 	      SrcBlock		      "Selector6"
 	      SrcPort		      1
 	      DstBlock		      "torso"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -1679,20 +1521,19 @@ Library {
 	  BackgroundColor	  "[0.848000, 0.128048, 0.320035]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    23
-	    $ClassName		    "Simulink.Mask"
-	    Object {
-	      $PropName		      "Parameters"
-	      $ObjectID		      24
-	      $ClassName	      "Simulink.MaskParameter"
-	      Type		      "edit"
-	      Name		      "tol"
-	      Prompt		      "Tolerance"
-	      Value		      "1e-4"
-	    }
-	  }
+	  MaskPromptString	  "Tolerance"
+	  MaskStyleString	  "edit"
+	  MaskVariables		  "tol=@1;"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "1e-4"
 	  System {
 	    Name		    "DampPinv"
 	    Location		    [0, 29, 1280, 744]
@@ -1734,11 +1575,21 @@ Library {
 	      ZOrder		      -4
 	      LibraryVersion	      "1.32"
 	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
+	      PermitHierarchicalResolution "ParametersOnly"
 	      TreatAsAtomicUnit	      on
 	      RequestExecContextInheritance off
 	      SFBlockType	      "MATLAB Function"
 	      Variant		      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskSelfModifiable      on
+	      MaskDisplay	      "bgColor = Simulink.Root.ColorString2Rgb(get_param(gcbh, 'BackgroundColor')); image(imread('p"
+	      "rivate/eml_membrane_16.png','png','BackgroundColor',bgColor(1:3)),'center'); disp([10 10 'fcn']);"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "normalized"
 	      System {
 		Name			"Damped Pseudo Inverse"
 		Location		[12, 45, 1279, 3773]
@@ -1754,7 +1605,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1586"
+		SIDHighWatermark	"1745"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1816,7 +1667,6 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  21
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -1824,7 +1674,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  22
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -1832,7 +1681,6 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  23
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -1840,20 +1688,24 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  24
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  25
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
 		  DstPort		  1
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -1864,27 +1716,30 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "sigma"
 	      SrcPort		      1
 	      DstBlock		      "Damped Pseudo Inverse"
 	      DstPort		      2
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "Damped Pseudo Inverse"
 	      SrcPort		      1
 	      DstBlock		      "DPinv"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "mat"
 	      SrcPort		      1
 	      DstBlock		      "Damped Pseudo Inverse"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  S-Function
@@ -1898,140 +1753,37 @@ Library {
 	  "icitInitialValue"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    25
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Minimum Jerk Trajectory Generator"
-	    Description		    "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk "
-	    "Trajectory Generator is approximated using a \n3rd order LTI dynamical system \n(for more details see [1]). \nPos"
-	    "ition, velocity and acceleration trajectories are computed.\n The main advantage with respect to the standard pol"
-	    "ynomial \nform is that if the reference value yd changes \nthere is no need to recompute the filter coefficients."
-	    "\n\n[1] Pattacini, U.; Nori, F.; Natale, L.; Metta, G.; Sandini, G., \"An experimental evaluation of a novel mini"
-	    "mum-jerk cartesian controller for humanoid robots,\" in Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ Inte"
-	    "rnational Conference on , vol., no., pp.1668-1674, 18-22 Oct. 2010\ndoi: 10.1109/IROS.2010.5650851\nURL: http://i"
-	    "eeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5650851&isnumber=5648787"
-	    Display		    "firstDer = get_param(gcb, 'firstDerivatives');\nsecondDer = get_param(gcb, 'secondDerivatives');\ni"
-	    "nitialValues = get_param(gcb, 'explicitInitialValue');\n\n%Inputs\nport_label('input', 1, 'Reference')\nif(strcmp"
-	    "(initialValues, 'on'))\n    port_label('input', 2, 'Initial Value')\nend\n\n%Outputs\nport_label('output', 1, 'Si"
-	    "gnal')\nsecondDerPortIndex = 2;\nif(strcmp(firstDer, 'on'))\n    port_label('output', 2, 'First Derivative')\n   "
-	    " secondDerPortIndex = secondDerPortIndex + 1;\nend\nif(strcmp(secondDer, 'on'))\n    port_label('output', secondD"
-	    "erPortIndex, 'Second Derivative')\nend\n\n\n"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      5
-	      Object {
-		$ObjectID		26
-		Type			"edit"
-		Name			"settlingTime"
-		Prompt			"Settling Time"
-		Value			"3"
-	      }
-	      Object {
-		$ObjectID		27
-		Type			"edit"
-		Name			"sampleTime"
-		Prompt			"Sample Time"
-		Value			"0.01"
-	      }
-	      Object {
-		$ObjectID		28
-		Type			"checkbox"
-		Name			"firstDerivatives"
-		Prompt			"Output First Derivative"
-		Value			"on"
-	      }
-	      Object {
-		$ObjectID		29
-		Type			"checkbox"
-		Name			"secondDerivatives"
-		Prompt			"Output Second Derivative"
-		Value			"on"
-	      }
-	      Object {
-		$ObjectID		30
-		Type			"checkbox"
-		Name			"explicitInitialValue"
-		Prompt			"Explicit Initial Value"
-		Value			"off"
-		Visible			"off"
-	      }
-	      PropName		      "Parameters"
-	    }
-	    Array {
-	      Type		      "Simulink.dialog.Group"
-	      Dimension		      2
-	      Object {
-		$ObjectID		31
-		Prompt			"%<MaskType>"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  32
-		  $ClassName		  "Simulink.dialog.Text"
-		  Prompt		  "%<MaskDescription>"
-		  Name			  "DescTextVar"
-		}
-		Name			"DescGroupVar"
-	      }
-	      Object {
-		$ObjectID		33
-		Prompt			"Simulink:studio:ToolBarParametersMenu"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  34
-		  $ClassName		  "Simulink.dialog.TabContainer"
-		  Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    35
-		    Prompt		    "Trajectory Parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    36
-		    Name		    "settlingTime"
-		    }
-		    Object {
-		    $ObjectID		    37
-		    Name		    "sampleTime"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Tab1"
-		    }
-		    Object {
-		    $ObjectID		    38
-		    Prompt		    "Input/Output"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.CheckBox"
-		    Dimension		    3
-		    Object {
-		    $ObjectID		    39
-		    Name		    "firstDerivatives"
-		    }
-		    Object {
-		    $ObjectID		    40
-		    Name		    "secondDerivatives"
-		    }
-		    Object {
-		    $ObjectID		    41
-		    Name		    "explicitInitialValue"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Tab2"
-		    }
-		    PropName		    "DialogControls"
-		  }
-		  Name			  "Container3"
-		}
-		Name			"ParameterGroupVar"
-	      }
-	      PropName		      "DialogControls"
-	    }
-	  }
+	  MaskType		  "Minimum Jerk Trajectory Generator"
+	  MaskDescription	  "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk T"
+	  "rajectory Generator is approximated using a \n3rd order LTI dynamical system \n(for more details see [1]). \nPositi"
+	  "on, velocity and acceleration trajectories are computed.\n The main advantage with respect to the standard polynomi"
+	  "al \nform is that if the reference value yd changes \nthere is no need to recompute the filter coefficients.\n\n[1]"
+	  " Pattacini, U.; Nori, F.; Natale, L.; Metta, G.; Sandini, G., \"An experimental evaluation of a novel minimum-jerk "
+	  "cartesian controller for humanoid robots,\" in Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International C"
+	  "onference on , vol., no., pp.1668-1674, 18-22 Oct. 2010\ndoi: 10.1109/IROS.2010.5650851\nURL: http://ieeexplore.iee"
+	  "e.org/stamp/stamp.jsp?tp=&arnumber=5650851&isnumber=5648787"
+	  MaskPromptString	  "Settling Time|Sample Time|Output First Derivative|Output Second Derivative|Explicit Initial Val"
+	  "ue"
+	  MaskStyleString	  "edit,edit,checkbox,checkbox,checkbox"
+	  MaskVariables		  "settlingTime=@1;sampleTime=@2;firstDerivatives=@3;secondDerivatives=@4;explicitInitialValue=@5;"
+	  MaskTunableValueString  "on,on,on,on,on"
+	  MaskCallbackString	  "||||"
+	  MaskEnableString	  "on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskDisplay		  "firstDer = get_param(gcb, 'firstDerivatives');\nsecondDer = get_param(gcb, 'secondDerivatives');\ni"
+	  "nitialValues = get_param(gcb, 'explicitInitialValue');\n\n%Inputs\nport_label('input', 1, 'Reference')\nif(strcmp(i"
+	  "nitialValues, 'on'))\n    port_label('input', 2, 'Initial Value')\nend\n\n%Outputs\nport_label('output', 1, 'Signal"
+	  "')\nsecondDerPortIndex = 2;\nif(strcmp(firstDer, 'on'))\n    port_label('output', 2, 'First Derivative')\n    secon"
+	  "dDerPortIndex = secondDerPortIndex + 1;\nend\nif(strcmp(secondDer, 'on'))\n    port_label('output', secondDerPortIn"
+	  "dex, 'Second Derivative')\nend\n\n\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "3|0.01|on|on|off"
+	  MaskTabNameString	  "Trajectory Parameters,Trajectory Parameters,Input/Output,Input/Output,Input/Output"
 	}
 	Block {
 	  BlockType		  S-Function
@@ -2047,29 +1799,28 @@ Library {
 	  Parameters		  "'RealTimeSynchronizer',period"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    42
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Read"
-	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
-	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
-	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
-	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
-	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
-	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
-	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
-	    Display		    "disp('Real Time Synchronizer')"
-	    Object {
-	      $PropName		      "Parameters"
-	      $ObjectID		      43
-	      $ClassName	      "Simulink.MaskParameter"
-	      Type		      "edit"
-	      Name		      "period"
-	      Prompt		      "Controller Period (in seconds)"
-	      Value		      "0.01"
-	    }
-	  }
+	  MaskType		  "YARP Read"
+	  MaskDescription	  "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' acti"
+	  "ve, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings are "
+	  "desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unchecks '"
+	  "Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create \nbut "
+	  "won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto some othe"
+	  "r port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, called 'signa"
+	  "l' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	  MaskPromptString	  "Controller Period (in seconds)"
+	  MaskStyleString	  "edit"
+	  MaskVariables		  "period=@1;"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskDisplay		  "disp('Real Time Synchronizer')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "0.01"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2081,15 +1832,15 @@ Library {
 	  BackgroundColor	  "[0.240000, 0.464000, 0.800000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    44
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP to wbi"
-	    Description		    "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be re"
-	    "moved from the Library\n\nThis is a 25-DOF iCub specific block which swaps the readings of the first and third jo"
-	    "int of the torso to comply with WBI order."
-	  }
+	  MaskType		  "YARP to wbi"
+	  MaskDescription	  "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be rem"
+	  "oved from the Library\n\nThis is a 25-DOF iCub specific block which swaps the readings of the first and third joint"
+	  " of the torso to comply with WBI order."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "Reduced Yarp to WBI"
 	    Location		    [0, 29, 1280, 744]
@@ -2164,41 +1915,42 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "torso"
 	      SrcPort		      1
 	      DstBlock		      "Selector"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      5
 	      SrcBlock		      "Mux3"
 	      SrcPort		      1
 	      DstBlock		      "WBI ordered"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      8
 	      SrcBlock		      "leftLeg"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      2
 	    }
 	    Line {
-	      ZOrder		      9
 	      SrcBlock		      "rightLeg"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      3
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  S-Function
@@ -2213,46 +1965,29 @@ Library {
 	  Parameters		  "'SimulatorSynchronizer',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    45
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Read"
-	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
-	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
-	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
-	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
-	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
-	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
-	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
-	    Display		    "disp('Simulator Synchronizer')"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      3
-	      Object {
-		$ObjectID		46
-		Type			"edit"
-		Name			"period"
-		Prompt			"Controller Period (in seconds)"
-		Value			"0.01"
-	      }
-	      Object {
-		$ObjectID		47
-		Type			"edit"
-		Name			"serverPortName"
-		Prompt			"Server Port Name"
-		Value			"'/clock/rpc'"
-	      }
-	      Object {
-		$ObjectID		48
-		Type			"edit"
-		Name			"clientPortName"
-		Prompt			"Client Port Name"
-		Value			"'/WBT_synchronizer/rpc:o'"
-	      }
-	      PropName		      "Parameters"
-	    }
-	  }
+	  MaskType		  "YARP Read"
+	  MaskDescription	  "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' acti"
+	  "ve, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings are "
+	  "desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unchecks '"
+	  "Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create \nbut "
+	  "won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto some othe"
+	  "r port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, called 'signa"
+	  "l' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	  MaskPromptString	  "Controller Period (in seconds)|Server Port Name|Client Port Name"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskVariables		  "period=@1;serverPortName=@2;clientPortName=@3;"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskDisplay		  "disp('Simulator Synchronizer')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "0.01|'/clock/rpc'|'/WBT_synchronizer/rpc:o'"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2264,20 +1999,19 @@ Library {
 	  BackgroundColor	  "[0.534601, 0.470279, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    49
-	    $ClassName		    "Simulink.Mask"
-	    Object {
-	      $PropName		      "Parameters"
-	      $ObjectID		      50
-	      $ClassName	      "Simulink.MaskParameter"
-	      Type		      "edit"
-	      Name		      "tol"
-	      Prompt		      "Tolerance"
-	      Value		      "1e-4"
-	    }
-	  }
+	  MaskPromptString	  "Tolerance"
+	  MaskStyleString	  "edit"
+	  MaskVariables		  "tol=@1;"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "1e-4"
 	  System {
 	    Name		    "TruncPinv"
 	    Location		    [0, 29, 1280, 744]
@@ -2319,11 +2053,21 @@ Library {
 	      ZOrder		      -4
 	      LibraryVersion	      "1.32"
 	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
+	      PermitHierarchicalResolution "ParametersOnly"
 	      TreatAsAtomicUnit	      on
 	      RequestExecContextInheritance off
 	      SFBlockType	      "MATLAB Function"
 	      Variant		      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskSelfModifiable      on
+	      MaskDisplay	      "bgColor = Simulink.Root.ColorString2Rgb(get_param(gcbh, 'BackgroundColor')); image(imread('p"
+	      "rivate/eml_membrane_16.png','png','BackgroundColor',bgColor(1:3)),'center'); disp([10 10 'fcn']);"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "normalized"
 	      System {
 		Name			"Truncated PseudoInverse"
 		Location		[12, 45, 1279, 3773]
@@ -2339,7 +2083,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1586"
+		SIDHighWatermark	"1745"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2401,7 +2145,6 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  21
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -2409,7 +2152,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  22
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -2417,7 +2159,6 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  23
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -2425,20 +2166,24 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  24
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  25
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
 		  DstPort		  1
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -2449,27 +2194,30 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "S"
 	      SrcPort		      1
 	      DstBlock		      "Truncated PseudoInverse"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "Truncated PseudoInverse"
 	      SrcPort		      1
 	      DstBlock		      "Tpinv"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "tol"
 	      SrcPort		      1
 	      DstBlock		      "Truncated PseudoInverse"
 	      DstPort		      2
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  S-Function
@@ -2483,75 +2231,36 @@ Library {
 	  Parameters		  "'YarpRead',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    51
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Read"
-	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
-	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
-	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
-	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
-	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
-	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
-	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
-	    SelfModifiable	    "on"
-	    Display		    "port_label('output', 1, 'signal');\nportNumber = 1;\nif (timestamp)\n    portNumber = portNumber + "
-	    "1;\n    port_label('output', portNumber, 'timestamp');\nend\n\nif (~autoconnect)\n    portNumber = portNumber + 1"
-	    ";\n    port_label('output', portNumber, 'status');\nend\n\n"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      6
-	      Object {
-		$ObjectID		52
-		Type			"edit"
-		Name			"portName"
-		Prompt			"Source Port Name"
-		Value			"'/portname'"
-	      }
-	      Object {
-		$ObjectID		53
-		Type			"edit"
-		Name			"signalSize"
-		Prompt			"Port Size"
-		Value			"1"
-	      }
-	      Object {
-		$ObjectID		54
-		Type			"checkbox"
-		Name			"blocking"
-		Prompt			"Blocking Read"
-		Value			"off"
-	      }
-	      Object {
-		$ObjectID		55
-		Type			"checkbox"
-		Name			"timestamp"
-		Prompt			"Read Timestamp"
-		Value			"on"
-	      }
-	      Object {
-		$ObjectID		56
-		Type			"checkbox"
-		Name			"autoconnect"
-		Prompt			"Autoconnect"
-		Value			"on"
-		Callback		"autoconnect_val = get_param(gcb, 'Autoconnect');\nprompt_string = get_param(gcb, 'MaskPrompts');\nif(strc"
-		"mp(autoconnect_val, 'on'))\n    prompt_string{1} = 'Source Port Name';\n    set_param(gcb, 'MaskVisibilities',{'on';"
-		"'on';'on';'on';'on';'on'});\nelse\n    prompt_string{1} = 'Opened Port Name';\n    set_param(gcb, 'MaskVisibilities'"
-		",{'on';'on';'on';'on';'on';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val promp"
-		"t_string"
-	      }
-	      Object {
-		$ObjectID		57
-		Type			"checkbox"
-		Name			"errorOnConnection"
-		Prompt			"Error on missing connection"
-		Value			"on"
-	      }
-	      PropName		      "Parameters"
-	    }
-	  }
+	  MaskType		  "YARP Read"
+	  MaskDescription	  "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' acti"
+	  "ve, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings are "
+	  "desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unchecks '"
+	  "Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create \nbut "
+	  "won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto some othe"
+	  "r port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, called 'signa"
+	  "l' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	  MaskPromptString	  "Source Port Name|Port Size|Blocking Read|Read Timestamp|Autoconnect|Error on missing connection"
+	  MaskStyleString	  "edit,edit,checkbox,checkbox,checkbox,checkbox"
+	  MaskVariables		  "portName=@1;signalSize=@2;blocking=@3;timestamp=@4;autoconnect=@5;errorOnConnection=@6;"
+	  MaskTunableValueString  "on,on,on,on,on,on"
+	  MaskCallbackString	  "||||autoconnect_val = get_param(gcb, 'Autoconnect');\nprompt_string = get_param(gcb, 'MaskPro"
+	  "mpts');\nif(strcmp(autoconnect_val, 'on'))\n    prompt_string{1} = 'Source Port Name';\n    set_param(gcb, 'MaskVis"
+	  "ibilities',{'on';'on';'on';'on';'on';'on'});\nelse\n    prompt_string{1} = 'Opened Port Name';\n    set_param(gcb, "
+	  "'MaskVisibilities',{'on';'on';'on';'on';'on';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear au"
+	  "toconnect_val prompt_string|"
+	  MaskEnableString	  "on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "port_label('output', 1, 'signal');\nportNumber = 1;\nif (timestamp)\n    portNumber = portNumber + "
+	  "1;\n    port_label('output', portNumber, 'timestamp');\nend\n\nif (~autoconnect)\n    portNumber = portNumber + 1;\n"
+	  "    port_label('output', portNumber, 'status');\nend\n\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "'/portname'|1|off|on|on|on"
 	}
 	Block {
 	  BlockType		  S-Function
@@ -2565,49 +2274,30 @@ Library {
 	  Parameters		  "'YarpWrite',portName,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    58
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Write"
-	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
-	    " the \"Opened Port Name\" parameter\nand stream the input signal to that port.\nIf the option \"Autoconnect\" is "
-	    "specified, the first parameter become the\nname of the target port to which the data will be stramed, \ne.g. like"
-	    " \"yarp write ... /destinationPort\"\n"
-	    SelfModifiable	    "on"
-	    Display		    "disp('Yarp Write')"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      3
-	      Object {
-		$ObjectID		59
-		Type			"edit"
-		Name			"portName"
-		Prompt			"Opened Port Name"
-		Value			"'/portname'"
-	      }
-	      Object {
-		$ObjectID		60
-		Type			"checkbox"
-		Name			"autoconnect"
-		Prompt			"Autoconnect"
-		Value			"off"
-		Callback		"autoconnect_val = get_param(gcb, 'Autoconnect');\nprompt_string = get_param(gcb, 'MaskPrompts');\nif(strc"
-		"mp(autoconnect_val, 'on'))\n    prompt_string{1} = 'Destination Port Name';\n    set_param(gcb, 'MaskVisibilities',{"
-		"'on';'on';'on'});\nelse\n    prompt_string{1} = 'Opened Port Name';\n    set_param(gcb, 'MaskVisibilities',{'on';'on"
-		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
-	      }
-	      Object {
-		$ObjectID		61
-		Type			"checkbox"
-		Name			"errorOnConnection"
-		Prompt			"Error on missing connection"
-		Value			"on"
-		Visible			"off"
-	      }
-	      PropName		      "Parameters"
-	    }
-	  }
+	  MaskType		  "YARP Write"
+	  MaskDescription	  "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as "
+	  "the \"Opened Port Name\" parameter\nand stream the input signal to that port.\nIf the option \"Autoconnect\" is spe"
+	  "cified, the first parameter become the\nname of the target port to which the data will be stramed, \ne.g. like \"ya"
+	  "rp write ... /destinationPort\"\n"
+	  MaskPromptString	  "Opened Port Name|Autoconnect|Error on missing connection"
+	  MaskStyleString	  "edit,checkbox,checkbox"
+	  MaskVariables		  "portName=@1;autoconnect=@2;errorOnConnection=@3;"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "|autoconnect_val = get_param(gcb, 'Autoconnect');\nprompt_string = get_param(gcb, 'MaskPrompt"
+	  "s');\nif(strcmp(autoconnect_val, 'on'))\n    prompt_string{1} = 'Destination Port Name';\n    set_param(gcb, 'MaskV"
+	  "isibilities',{'on';'on';'on'});\nelse\n    prompt_string{1} = 'Opened Port Name';\n    set_param(gcb, 'MaskVisibili"
+	  "ties',{'on';'on';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string|"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,off"
+	  MaskToolTipString	  "on,on,on"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "disp('Yarp Write')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "'/portname'|off|on"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2619,15 +2309,15 @@ Library {
 	  BackgroundColor	  "[0.240000, 0.464000, 0.800000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    62
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP to wbi"
-	    Description		    "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be re"
-	    "moved from the Library\n\nThis is a 25-DOF iCub specific block which swaps the readings of the first and third jo"
-	    "int of the torso to comply with WBI order."
-	  }
+	  MaskType		  "YARP to wbi"
+	  MaskDescription	  "DEPRECATED\n\nPlease use the explicit 25-DOF or the 23-DOF utility.\nThis block will soon be rem"
+	  "oved from the Library\n\nThis is a 25-DOF iCub specific block which swaps the readings of the first and third joint"
+	  " of the torso to comply with WBI order."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "Yarp to WBI"
 	    Location		    [0, 29, 1280, 744]
@@ -2720,55 +2410,54 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "torso"
 	      SrcPort		      1
 	      DstBlock		      "Selector"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "leftArm"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      2
 	    }
 	    Line {
-	      ZOrder		      4
 	      SrcBlock		      "rightArm"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      3
 	    }
 	    Line {
-	      ZOrder		      5
 	      SrcBlock		      "Mux3"
 	      SrcPort		      1
 	      DstBlock		      "WBI ordered"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      6
 	      SrcBlock		      "leftLeg"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      4
 	    }
 	    Line {
-	      ZOrder		      7
 	      SrcBlock		      "rightLeg"
 	      SrcPort		      1
 	      DstBlock		      "Mux3"
 	      DstPort		      5
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2780,14 +2469,14 @@ Library {
 	  BackgroundColor	  "[0.300000, 0.580000, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    63
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Errors"
-	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
-	    "d is the ratio (x-y)/y."
-	  }
+	  MaskType		  "Errors"
+	  MaskDescription	  "Computes two kinds of errors. The first is just the difference between x\nand y while the second"
+	  " is the ratio (x-y)/y."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "errors"
 	    Location		    [0, 29, 1280, 744]
@@ -2863,55 +2552,53 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Add"
 	      SrcPort		      1
 	      Points		      [10, 0]
 	      Branch {
-		ZOrder			2
 		DstBlock		"Divide"
 		DstPort			1
 	      }
 	      Branch {
-		ZOrder			3
 		Points			[0, -25]
 		DstBlock		"x-y"
 		DstPort			1
 	      }
 	    }
 	    Line {
-	      ZOrder		      4
 	      SrcBlock		      "x"
 	      SrcPort		      1
 	      DstBlock		      "Add"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      5
 	      SrcBlock		      "y"
 	      SrcPort		      1
 	      Points		      [15, 0]
 	      Branch {
-		ZOrder			6
 		Points			[0, -60]
 		DstBlock		"Add"
 		DstPort			2
 	      }
 	      Branch {
-		ZOrder			7
 		Points			[60, 0; 0, -50]
 		DstBlock		"Divide"
 		DstPort			2
 	      }
 	    }
 	    Line {
-	      ZOrder		      8
 	      SrcBlock		      "Divide"
 	      SrcPort		      1
 	      DstBlock		      "(x-y)./y"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2923,13 +2610,13 @@ Library {
 	  BackgroundColor	  "[0.537255, 0.721569, 1.000000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    64
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Holder"
-	    Description		    "This block holds the first input value during the simulation."
-	  }
+	  MaskType		  "Holder"
+	  MaskDescription	  "This block holds the first input value during the simulation."
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "holder\n"
 	    Location		    [12, 45, 1340, 980]
@@ -2970,7 +2657,6 @@ Library {
 	      LibraryVersion	      "1.358"
 	      SourceBlock	      "simulink/Logic and Bit\nOperations/Compare\nTo Constant"
 	      SourceType	      "Compare To Constant"
-	      ContentPreviewEnabled   off
 	      relop		      "=="
 	      const		      "0"
 	      OutDataTypeStr	      "boolean"
@@ -2985,11 +2671,21 @@ Library {
 	      ZOrder		      15
 	      LibraryVersion	      "1.32"
 	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
+	      PermitHierarchicalResolution "ParametersOnly"
 	      TreatAsAtomicUnit	      on
 	      RequestExecContextInheritance off
 	      SFBlockType	      "MATLAB Function"
 	      Variant		      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskSelfModifiable      on
+	      MaskDisplay	      "bgColor = Simulink.Root.ColorString2Rgb(get_param(gcbh, 'BackgroundColor')); image(imread('p"
+	      "rivate/eml_membrane_16.png','png','BackgroundColor',bgColor(1:3)),'center'); disp([10 10 'fcn']);"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "normalized"
 	      System {
 		Name			"MATLAB Function"
 		Location		[12, 45, 1135, 3068]
@@ -3005,7 +2701,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1586"
+		SIDHighWatermark	"1745"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -3067,7 +2763,6 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  21
 		  SrcBlock		  "s"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -3075,7 +2770,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  22
 		  SrcBlock		  "unused"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -3083,7 +2777,6 @@ Library {
 		}
 		Line {
 		  Name			  "s0"
-		  ZOrder		  23
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -3091,20 +2784,24 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  24
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  25
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
 		  DstPort		  1
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -3115,36 +2812,44 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "Clock"
 	      SrcPort		      1
 	      DstBlock		      "Compare\nTo Constant"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "MATLAB Function"
 	      SrcPort		      1
 	      DstBlock		      "s(0)"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      3
 	      SrcBlock		      "s"
 	      SrcPort		      1
 	      DstBlock		      "MATLAB Function"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      4
 	      SrcBlock		      "Compare\nTo Constant"
 	      SrcPort		      1
 	      DstBlock		      "MATLAB Function"
 	      DstPort		      2
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
       }
+      RTWSystemCode	      "Auto"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      FunctionWithSeparateData off
+      Opaque		      off
+      MaskHideContents	      off
     }
     Block {
       BlockType		      SubSystem
@@ -3157,12 +2862,12 @@ Library {
       DropShadow	      on
       RequestExecContextInheritance off
       Variant		      off
-      Object {
-	$PropName		"MaskObject"
-	$ObjectID		65
-	$ClassName		"Simulink.Mask"
-	Display			"image(imread('wholeBodyActuators.png'),'center')"
-      }
+      MaskDisplay	      "image(imread('wholeBodyActuators.png'),'center')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
       System {
 	Name			"wholeBodyActuators"
 	Location		[0, 29, 1280, 744]
@@ -3191,151 +2896,36 @@ Library {
 	  "ace.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\nend"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    66
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Set References"
-	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
-	    "as a parameter in the block.\n\nAssuming DoFs is the number of degrees of freedom of the robot,\nInput:\n- Refere"
-	    "nces: Vector of size DoFs, representing the references to be sent \n                to the robot controlled joint"
-	    "s.\n\nParameters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name "
-	    "of the ports opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name speci"
-	    "fied in the \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports"
-	    " opened by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of"
-	    " the Whole Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface"
-	    "\n"
-	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      5
-	      Object {
-		$ObjectID		67
-		Type			"popup"
-		Array {
-		  Type			  "Cell"
-		  Dimension		  4
-		  Cell			  "Position"
-		  Cell			  "Position Direct"
-		  Cell			  "Velocity"
-		  Cell			  "Torque"
-		  PropName		  "TypeOptions"
-		}
-		Name			"controlType"
-		Prompt			"Control Mode"
-		Value			"Position"
-		Evaluate		"off"
-		Callback		"% Get the mask parameter values. This is a cell\n%   array of strings.\nmaskStr = get_param(gcb,'controlT"
-		"ype');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelse"
-		"if strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, 1.0]');\nelsei"
-		"f strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\nelseif strcmp"
-		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\nclear  maskStr"
-	      }
-	      Object {
-		$ObjectID		68
-		Type			"edit"
-		Name			"robotName"
-		Prompt			"Robot Port Name"
-		Value			"WBT_robotName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		69
-		Type			"edit"
-		Name			"localName"
-		Prompt			"Model Name"
-		Value			"WBT_modelName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		70
-		Type			"edit"
-		Name			"wbiFile"
-		Prompt			"WBI filename"
-		Value			"WBT_wbiFilename"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		71
-		Type			"edit"
-		Name			"wbiList"
-		Prompt			"WBI list name"
-		Value			"WBT_wbiList"
-		Tunable			"off"
-	      }
-	      PropName		      "Parameters"
-	    }
-	    Array {
-	      Type		      "Simulink.dialog.Group"
-	      Dimension		      2
-	      Object {
-		$ObjectID		72
-		Prompt			"%<MaskType>"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  73
-		  $ClassName		  "Simulink.dialog.Text"
-		  Prompt		  "%<MaskDescription>"
-		  Name			  "DescTextVar"
-		}
-		Name			"DescGroupVar"
-	      }
-	      Object {
-		$ObjectID		74
-		Prompt			"Simulink:studio:ToolBarParametersMenu"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  75
-		  $ClassName		  "Simulink.dialog.TabContainer"
-		  Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    76
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    77
-		    $ClassName		    "Simulink.dialog.parameter.Popup"
-		    Name		    "controlType"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    78
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    79
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    80
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    81
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    82
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		  }
-		  Name			  "Container4"
-		}
-		Name			"ParameterGroupVar"
-	      }
-	      PropName		      "DialogControls"
-	    }
-	  }
+	  MaskType		  "Set References"
+	  MaskDescription	  "This block sets the references for the robot actuators.\nThe type of control mode is specified a"
+	  "s a parameter in the block.\n\nAssuming DoFs is the number of degrees of freedom of the robot,\nInput:\n- Reference"
+	  "s: Vector of size DoFs, representing the references to be sent \n                to the robot controlled joints.\n\n"
+	  "Parameters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the p"
+	  "orts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in th"
+	  "e \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by t"
+	  "he underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Bod"
+	  "y Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	  MaskPromptString	  "Control Mode|Robot Port Name|Model Name|WBI filename|WBI list name"
+	  MaskStyleString	  "popup(Position|Position Direct|Velocity|Torque),edit,edit,edit,edit"
+	  MaskVariables		  "controlType=&1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	  MaskTunableValueString  "on,off,off,off,off"
+	  MaskCallbackString	  "% Get the mask parameter values. This is a cell\n%   array of strings.\nmaskStr = get_param(g"
+	  "cb,'controlType');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, "
+	  "1.0]');\nelseif strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, "
+	  "1.0]');\nelseif strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');"
+	  "\nelseif strcmp(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\ncl"
+	  "ear  maskStr||||"
+	  MaskEnableString	  "on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskDisplay		  "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Position|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	  MaskTabNameString	  "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	  System {
 	    Name		    "Set References"
 	    Location		    [208, 105, 1008, 627]
@@ -3372,15 +2962,26 @@ Library {
 	      EnableBusSupport	      off
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "References"
 	      SrcPort		      1
 	      DstBlock		      "S-Function"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
       }
+      RTWSystemCode	      "Auto"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      FunctionWithSeparateData off
+      Opaque		      off
+      MaskHideContents	      off
     }
     Block {
       BlockType		      SubSystem
@@ -3393,12 +2994,12 @@ Library {
       DropShadow	      on
       RequestExecContextInheritance off
       Variant		      off
-      Object {
-	$PropName		"MaskObject"
-	$ObjectID		83
-	$ClassName		"Simulink.Mask"
-	Display			"image(imread('wholeBodyModel.png'),'center')"
-      }
+      MaskDisplay	      "image(imread('wholeBodyModel.png'),'center')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
       System {
 	Name			"wholeBodyModel"
 	Location		[0, 29, 1280, 744]
@@ -3424,12 +3025,12 @@ Library {
 	  DropShadow		  on
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    84
-	    $ClassName		    "Simulink.Mask"
-	    Display		    "image(imread('Dynamics.png'))"
-	  }
+	  MaskDisplay		  "image(imread('Dynamics.png'))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "Dynamics"
 	    Location		    [0, 29, 1280, 744]
@@ -3458,61 +3059,34 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		85
-		$ClassName		"Simulink.Mask"
-		Type			"Centroidal Momentum"
-		Description		"This block computed the 6 element centroidal momentum, as defined in:\n\"Centroidal dynamics of a huma"
-		"noid robot\" - DE Orin, A Goswami, SH Lee - \nAutonomous Robots 35 (2-3), 161-176\n\nAssuming DoFs is the number of "
-		"degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between"
-		"\n             the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the con"
-		"figuration \n                       of the joints.\n- Base velocity: Vector of size 6 representing the linear and an"
-		"gular velocity\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, representing the veloci"
-		"ty \n                   of the joints.\n\nOutput:\n- Centroidal Momentum: 6-element vector containg the centroidal m"
-		"omentum \n                (3 value for linear momentum and 3 for angular momentum)\n\nParameters:\n- Robot Port Name"
-		": Name of the ports opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name s"
-		"pecified in the \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the port"
-		"s opened by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of t"
-		"he Whole Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  4
-		  Object {
-		    $ObjectID		    86
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    87
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    88
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    89
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-	      }
+	      MaskType		      "Centroidal Momentum"
+	      MaskDescription	      "This block computed the 6 element centroidal momentum, as defined in:\n\"Centroidal dyna"
+	      "mics of a humanoid robot\" - DE Orin, A Goswami, SH Lee - \nAutonomous Robots 35 (2-3), 161-176\n\nAssuming DoF"
+	      "s is the number of degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenou"
+	      "s transformation between\n             the base frame and the world frame.\n- Joint configuration: Vector of si"
+	      "ze DoFs, representing the configuration \n                       of the joints.\n- Base velocity: Vector of siz"
+	      "e 6 representing the linear and angular velocity\n                 of the base frame.\n- Joints velocity: Vecto"
+	      "r of size DoFs, representing the velocity \n                   of the joints.\n\nOutput:\n- Centroidal Momentum"
+	      ": 6-element vector containg the centroidal momentum \n                (3 value for linear momentum and 3 for an"
+	      "gular momentum)\n\nParameters:\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n       "
+	      "            Set an empty string ('') to use the name specified in the \n                   Whole Body Interface"
+	      " configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- "
+	      "WBI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name "
+	      "of the list of joints used to configure the Whole Body Interface\n"
+	      MaskPromptString	      "Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit"
+	      MaskVariables	      "robotName=@1;localName=@2;wbiFile=@3;wbiList=@4;"
+	      MaskTunableValueString  "off,off,off,off"
+	      MaskCallbackString      "|||"
+	      MaskEnableString	      "on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
 	      System {
 		Name			"Centroidal Momentum"
 		Location		[0, 23, 1280, 744]
@@ -3584,41 +3158,42 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Centroidal Momentum"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  2
 		}
 		Line {
-		  ZOrder		  4
 		  SrcBlock		  "Base velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  3
 		}
 		Line {
-		  ZOrder		  5
 		  SrcBlock		  "Joints velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  4
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -3633,60 +3208,33 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		90
-		$ClassName		"Simulink.Mask"
-		Type			"Get Generalized Bias Forces"
-		Description		"This block retrieves the generalied bias forces of the robot.\n\nAssuming DoFs is the number of degree"
-		"s of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n    "
-		"        the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configurat"
-		"ion \n                    of the joints.\n- Base velocity: Vector of size 6 representing the linear and angular velo"
-		"city\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, representing the velocity of the "
-		"joints.\n\nOutput:\n- Bias Forces: a Dofs + 6 vector representing the generalized bias forces\n            of the ro"
-		"bot\n\nParameters:\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n                   Set a"
-		"n empty string ('') to use the name specified in the                    \n                    Whole Body Interface c"
-		"onfiguration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI fil"
-		"ename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the list "
-		"of joints used to configure the Whole Body Interface\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  4
-		  Object {
-		    $ObjectID		    91
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    92
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    93
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    94
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-	      }
+	      MaskType		      "Get Generalized Bias Forces"
+	      MaskDescription	      "This block retrieves the generalied bias forces of the robot.\n\nAssuming DoFs is the nu"
+	      "mber of degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transform"
+	      "ation between\n            the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, rep"
+	      "resenting the configuration \n                    of the joints.\n- Base velocity: Vector of size 6 representin"
+	      "g the linear and angular velocity\n                 of the base frame.\n- Joints velocity: Vector of size DoFs,"
+	      " representing the velocity of the joints.\n\nOutput:\n- Bias Forces: a Dofs + 6 vector representing the general"
+	      "ized bias forces\n            of the robot\n\nParameters:\n- Robot Port Name: Name of the ports opened by the r"
+	      "obot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the               "
+	      "     \n                    Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports ope"
+	      "ned by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of t"
+	      "he Whole Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface"
+	      "\n"
+	      MaskPromptString	      "Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit"
+	      MaskVariables	      "robotName=@1;localName=@2;wbiFile=@3;wbiList=@4;"
+	      MaskTunableValueString  "off,off,off,off"
+	      MaskCallbackString      "|||"
+	      MaskEnableString	      "on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
 	      System {
 		Name			"Get Bias Forces"
 		Location		[0, 29, 1280, 744]
@@ -3706,7 +3254,7 @@ Library {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1725"
-		  Position		  [10, 38, 40, 52]
+		  Position		  [35, 38, 65, 52]
 		  ZOrder		  22
 		  IconDisplay		  "Port number"
 		}
@@ -3714,7 +3262,7 @@ Library {
 		  BlockType		  Inport
 		  Name			  "Joint configuration"
 		  SID			  "1726"
-		  Position		  [10, 68, 40, 82]
+		  Position		  [35, 68, 65, 82]
 		  ZOrder		  24
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -3723,7 +3271,7 @@ Library {
 		  BlockType		  Inport
 		  Name			  "Base velocity"
 		  SID			  "1727"
-		  Position		  [10, 98, 40, 112]
+		  Position		  [35, 98, 65, 112]
 		  ZOrder		  26
 		  Port			  "3"
 		  IconDisplay		  "Port number"
@@ -3732,7 +3280,7 @@ Library {
 		  BlockType		  Inport
 		  Name			  "Joints velocity"
 		  SID			  "1728"
-		  Position		  [10, 128, 40, 142]
+		  Position		  [35, 128, 65, 142]
 		  ZOrder		  27
 		  Port			  "4"
 		  IconDisplay		  "Port number"
@@ -3741,7 +3289,7 @@ Library {
 		  BlockType		  Constant
 		  Name			  "Constant"
 		  SID			  "1742"
-		  Position		  [-5, 157, 50, 173]
+		  Position		  [20, 157, 75, 173]
 		  ZOrder		  30
 		  ShowName		  off
 		  Value			  "zeros(6,1)"
@@ -3750,7 +3298,7 @@ Library {
 		  BlockType		  Gain
 		  Name			  "Gain"
 		  SID			  "1743"
-		  Position		  [110, 180, 140, 210]
+		  Position		  [135, 180, 165, 210]
 		  ZOrder		  31
 		  ShowName		  off
 		  Gain			  "0"
@@ -3763,7 +3311,7 @@ Library {
 		  Name			  "S-Function"
 		  SID			  "1731"
 		  Ports			  [6, 1]
-		  Position		  [180, 24, 240, 216]
+		  Position		  [205, 24, 265, 216]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
 		  Parameters		  "'InverseDynamics',robotName,localName,wbiFile,wbiList"
@@ -3774,70 +3322,67 @@ Library {
 		  BlockType		  Outport
 		  Name			  "Bias Forces"
 		  SID			  "1732"
-		  Position		  [300, 113, 330, 127]
+		  Position		  [325, 113, 355, 127]
 		  ZOrder		  25
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Bias Forces"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  2
 		}
 		Line {
-		  ZOrder		  4
 		  SrcBlock		  "Base velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  3
 		}
 		Line {
-		  ZOrder		  5
 		  SrcBlock		  "Joints velocity"
 		  SrcPort		  1
 		  Points		  [44, 0]
 		  Branch {
-		    ZOrder		    11
 		    Points		    [0, 60]
 		    DstBlock		    "Gain"
 		    DstPort		    1
 		  }
 		  Branch {
-		    ZOrder		    10
 		    DstBlock		    "S-Function"
 		    DstPort		    4
 		  }
 		}
 		Line {
-		  ZOrder		  8
 		  SrcBlock		  "Constant"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  5
 		}
 		Line {
-		  ZOrder		  9
 		  SrcBlock		  "Gain"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  6
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -3852,58 +3397,30 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		95
-		$ClassName		"Simulink.Mask"
-		Type			"Gravity bias"
-		Description		"This block compute the generalized bias forces due to the gravity\n\nAssuming DoFs is the number of de"
-		"grees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n"
-		"             the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the confi"
-		"guration \n                       of the joints.\n\nOutput:\n- Gravity: a Dofs + 6 vector representing the torques d"
-		"ue to the gravity.\n\nParameters:\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n         "
-		"          Set an empty string ('') to use the name specified in the \n                   Whole Body Interface config"
-		"uration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI filename"
-		": name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the list of jo"
-		"ints used to configure the Whole Body Interface\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  4
-		  Object {
-		    $ObjectID		    96
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    97
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    98
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    99
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-	      }
+	      MaskType		      "Gravity bias"
+	      MaskDescription	      "This block compute the generalized bias forces due to the gravity\n\nAssuming DoFs is th"
+	      "e number of degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous trans"
+	      "formation between\n             the base frame and the world frame.\n- Joint configuration: Vector of size DoFs"
+	      ", representing the configuration \n                       of the joints.\n\nOutput:\n- Gravity: a Dofs + 6 vect"
+	      "or representing the torques due to the gravity.\n\nParameters:\n- Robot Port Name: Name of the ports opened by "
+	      "the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n       "
+	      "            Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the unde"
+	      "rlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body I"
+	      "nterface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	      MaskPromptString	      "Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit"
+	      MaskVariables	      "robotName=@1;localName=@2;wbiFile=@3;wbiList=@4;"
+	      MaskTunableValueString  "off,off,off,off"
+	      MaskCallbackString      "|||"
+	      MaskEnableString	      "on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
 	      System {
 		Name			"Get Gravity Forces"
 		Location		[0, 29, 1280, 744]
@@ -3978,71 +3495,66 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Gravity"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  Points		  [41, 0]
 		  Branch {
-		    ZOrder		    12
 		    Points		    [0, 60]
 		    DstBlock		    "Gain"
 		    DstPort		    1
 		  }
 		  Branch {
-		    ZOrder		    11
 		    DstBlock		    "S-Function"
 		    DstPort		    2
 		  }
 		}
 		Line {
-		  ZOrder		  8
 		  SrcBlock		  "Constant"
 		  SrcPort		  1
 		  Points		  [4, 0]
 		  Branch {
-		    ZOrder		    10
 		    Points		    [0, 60]
 		    DstBlock		    "S-Function"
 		    DstPort		    5
 		  }
 		  Branch {
-		    ZOrder		    9
 		    DstBlock		    "S-Function"
 		    DstPort		    3
 		  }
 		}
 		Line {
-		  ZOrder		  13
 		  SrcBlock		  "Gain"
 		  SrcPort		  1
 		  Points		  [13, 0]
 		  Branch {
-		    ZOrder		    15
 		    Points		    [0, 60]
 		    DstBlock		    "S-Function"
 		    DstPort		    6
 		  }
 		  Branch {
-		    ZOrder		    14
 		    DstBlock		    "S-Function"
 		    DstPort		    4
 		  }
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -4057,62 +3569,35 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		100
-		$ClassName		"Simulink.Mask"
-		Type			"Inverse Dynamics"
-		Description		"This block compute the inverse dynamics of the robot.\n\nAssuming DoFs is the number of degrees of fre"
-		"edom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n            "
-		" the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configuration \n "
-		"                      of the joints.\n- Base velocity: Vector of size 6 representing the linear and angular velocity"
-		"\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, representing the velocity \n         "
-		"          of the joints.\n- Base acceleration: Vector of size 6 representing the linear and angular acceleration\n  "
-		"               of the base frame.\n- Joints acceleration: Vector of size DoFs, representing the acceleration \n     "
-		"              of the joints.\n\n\nOutput:\n- Torques: a Dofs + 6 vector representing the corresponding torques requi"
-		"red\n           to achive the desired accelerations given the robot state\n\nParameters:\n- Robot Port Name: Name of"
-		" the ports opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified "
-		"in the \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened "
-		"by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole "
-		"Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  4
-		  Object {
-		    $ObjectID		    101
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    102
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    103
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    104
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-	      }
+	      MaskType		      "Inverse Dynamics"
+	      MaskDescription	      "This block compute the inverse dynamics of the robot.\n\nAssuming DoFs is the number of "
+	      "degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation be"
+	      "tween\n             the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representi"
+	      "ng the configuration \n                       of the joints.\n- Base velocity: Vector of size 6 representing th"
+	      "e linear and angular velocity\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, rep"
+	      "resenting the velocity \n                   of the joints.\n- Base acceleration: Vector of size 6 representing "
+	      "the linear and angular acceleration\n                 of the base frame.\n- Joints acceleration: Vector of size"
+	      " DoFs, representing the acceleration \n                   of the joints.\n\n\nOutput:\n- Torques: a Dofs + 6 ve"
+	      "ctor representing the corresponding torques required\n           to achive the desired accelerations given the "
+	      "robot state\n\nParameters:\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n           "
+	      "        Set an empty string ('') to use the name specified in the \n                   Whole Body Interface con"
+	      "figuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI "
+	      "filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of t"
+	      "he list of joints used to configure the Whole Body Interface\n"
+	      MaskPromptString	      "Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit"
+	      MaskVariables	      "robotName=@1;localName=@2;wbiFile=@3;wbiList=@4;"
+	      MaskTunableValueString  "off,off,off,off"
+	      MaskCallbackString      "|||"
+	      MaskEnableString	      "on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
 	      System {
 		Name			"Inverse Dynamics"
 		Location		[0, 23, 1280, 744]
@@ -4202,55 +3687,54 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Torques"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  2
 		}
 		Line {
-		  ZOrder		  4
 		  SrcBlock		  "Base velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  3
 		}
 		Line {
-		  ZOrder		  5
 		  SrcBlock		  "Joints velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  4
 		}
 		Line {
-		  ZOrder		  6
 		  SrcBlock		  "Base acceleration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  5
 		}
 		Line {
-		  ZOrder		  7
 		  SrcBlock		  "Joints acceleration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  6
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -4265,58 +3749,30 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		105
-		$ClassName		"Simulink.Mask"
-		Type			"Mass Matrix"
-		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of degrees of freedom of th"
-		"e robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n             the base "
-		"frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configuration \n           "
-		"            of the joints.\n\nOutput:\n- Mass Matrix: a (Dofs + 6) x (Dofs + 6) matrix representing the mass matrix "
-		"\n               of the robot\n\nParameters:\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub)."
-		"\n                   Set an empty string ('') to use the name specified in the \n                   Whole Body Inter"
-		"face configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- W"
-		"BI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the"
-		" list of joints used to configure the Whole Body Interface\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  4
-		  Object {
-		    $ObjectID		    106
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    107
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    108
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    109
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-	      }
+	      MaskType		      "Mass Matrix"
+	      MaskDescription	      "This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of degrees of"
+	      " freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n   "
+	      "          the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the con"
+	      "figuration \n                       of the joints.\n\nOutput:\n- Mass Matrix: a (Dofs + 6) x (Dofs + 6) matrix "
+	      "representing the mass matrix \n               of the robot\n\nParameters:\n- Robot Port Name: Name of the ports"
+	      " opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in th"
+	      "e \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened "
+	      "by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the W"
+	      "hole Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	      MaskPromptString	      "Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit"
+	      MaskVariables	      "robotName=@1;localName=@2;wbiFile=@3;wbiList=@4;"
+	      MaskTunableValueString  "off,off,off,off"
+	      MaskCallbackString      "|||"
+	      MaskEnableString	      "on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
 	      System {
 		Name			"Mass Matrix"
 		Location		[589, 68, 1869, 783]
@@ -4370,14 +3826,12 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Mass Matrix"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  Points		  [36, 0; 0, 15]
@@ -4385,7 +3839,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  Points		  [33, 0; 0, -10]
@@ -4393,8 +3846,20 @@ Library {
 		  DstPort		  2
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -4406,12 +3871,12 @@ Library {
 	  DropShadow		  on
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    110
-	    $ClassName		    "Simulink.Mask"
-	    Display		    "image(imread('jacobian.png'))"
-	  }
+	  MaskDisplay		  "image(imread('jacobian.png'))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "Jacobians"
 	    Location		    [0, 29, 1280, 744]
@@ -4440,142 +3905,39 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		111
-		$ClassName		"Simulink.Mask"
-		Type			"DotJ Nu"
-		Description		"This block computes the product between the time derivative of the\n         Jacobian of the specified"
-		" frame and the state (base and joints)\n        velocity vector.\n\nAssuming DoFs is the number of degrees of freedo"
-		"m of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n             th"
-		"e the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configuration \n"
-		"                       of the joints.\n- Base velocity: Vector of size 6 representing the linear and angular velocit"
-		"y\n                 of the base frame.\n- Joints velocity: Vector of size DoFs, representing the velocity \n        "
-		"           of the joints.\n\nOutput:\n- dotJ nu: a 6-d vector representing the product between the time derivative o"
-		"f the\n         Jacobian of the specified frame and the state velocity vector\n\nParameters:\n- Frame name: the name"
-		" of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opened by the robot"
-		". (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n                   Wh"
-		"ole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body I"
-		"nterface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Nam"
-		"e: name of the list of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', "
-		"'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, '\\nu', 'texmode','on')\nport"
-		"_label('input', 4, 'Joint velocity')\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  5
-		  Object {
-		    $ObjectID		    112
-		    Type		    "edit"
-		    Name		    "frameName"
-		    Prompt		    "Frame name"
-		    Value		    "'frame'"
-		  }
-		  Object {
-		    $ObjectID		    113
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    114
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    115
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    116
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-		Array {
-		  Type			  "Simulink.dialog.Group"
-		  Dimension		  2
-		  Object {
-		    $ObjectID		    117
-		    Prompt		    "%<MaskType>"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    118
-		    $ClassName		    "Simulink.dialog.Text"
-		    Prompt		    "%<MaskDescription>"
-		    Name		    "DescTextVar"
-		    }
-		    Name		    "DescGroupVar"
-		  }
-		  Object {
-		    $ObjectID		    119
-		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    120
-		    $ClassName		    "Simulink.dialog.TabContainer"
-		    Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    121
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    122
-		    $ClassName		    "Simulink.dialog.parameter.Edit"
-		    Name		    "frameName"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    123
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    124
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    125
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    126
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    127
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container4"
-		    }
-		    Name		    "ParameterGroupVar"
-		  }
-		  PropName		  "DialogControls"
-		}
-	      }
+	      MaskType		      "DotJ Nu"
+	      MaskDescription	      "This block computes the product between the time derivative of the\n         Jacobian of"
+	      " the specified frame and the state (base and joints)\n        velocity vector.\n\nAssuming DoFs is the number o"
+	      "f degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation "
+	      "between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, repr"
+	      "esenting the configuration \n                       of the joints.\n- Base velocity: Vector of size 6 represent"
+	      "ing the linear and angular velocity\n                 of the base frame.\n- Joints velocity: Vector of size DoF"
+	      "s, representing the velocity \n                   of the joints.\n\nOutput:\n- dotJ nu: a 6-d vector representi"
+	      "ng the product between the time derivative of the\n         Jacobian of the specified frame and the state veloc"
+	      "ity vector\n\nParameters:\n- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- "
+	      "Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n                   Set an empty string ('"
+	      "') to use the name specified in the \n                   Whole Body Interface configuration file.\n- Model Name"
+	      ": Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI filename: name of the file con"
+	      "taining the configuration of the Whole Body Interface\n- WBI List Name: name of the list of joints used to conf"
+	      "igure the Whole Body Interface\n"
+	      MaskPromptString	      "Frame name|Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit,edit"
+	      MaskVariables	      "frameName=@1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	      MaskTunableValueString  "on,off,off,off,off"
+	      MaskCallbackString      "||||"
+	      MaskEnableString	      "on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on,on"
+	      MaskDisplay	      "port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world"
+	      "} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, '\\nu', 'te"
+	      "xmode','on')\nport_label('input', 4, 'Joint velocity')\n"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "'frame'|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	      MaskTabNameString	      "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	      System {
 		Name			"DotJ Nu"
 		Location		[0, 29, 1280, 744]
@@ -4647,21 +4009,18 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  2
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  Points		  [20, 0; 0, -15]
@@ -4669,20 +4028,24 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  4
 		  SrcBlock		  "Base velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  3
 		}
 		Line {
-		  ZOrder		  5
 		  SrcBlock		  "Joints velocity"
 		  SrcPort		  1
 		  DstBlock		  "S-Function"
 		  DstPort		  4
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -4697,138 +4060,34 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		128
-		$ClassName		"Simulink.Mask"
-		Type			"Jacobian"
-		Description		"This block retrieves the Jacobian of the specified frame.\n\nAssuming DoFs is the number of degrees of"
-		" freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between\n        "
-		"     the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the configura"
-		"tion \n                       of the joints.\n\nOutput:\n- Jacobian: a 6x6+dofs matrix representing the Jacobian of\n"
-		"             the specified frame written in the world frame.\n\nParameters:\n- Frame name: the name of the frame. It"
-		" should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opened by the robot. (e.g. icub).\n "
-		"                  Set an empty string ('') to use the name specified in the \n                   Whole Body Interfac"
-		"e configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI "
-		"filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the li"
-		"st of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, '{}^{world} J_{frame}', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{"
-		"base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  5
-		  Object {
-		    $ObjectID		    129
-		    Type		    "edit"
-		    Name		    "frameName"
-		    Prompt		    "Frame name"
-		    Value		    "'frame'"
-		  }
-		  Object {
-		    $ObjectID		    130
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    131
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    132
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    133
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-		Array {
-		  Type			  "Simulink.dialog.Group"
-		  Dimension		  2
-		  Object {
-		    $ObjectID		    134
-		    Prompt		    "%<MaskType>"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    135
-		    $ClassName		    "Simulink.dialog.Text"
-		    Prompt		    "%<MaskDescription>"
-		    Name		    "DescTextVar"
-		    }
-		    Name		    "DescGroupVar"
-		  }
-		  Object {
-		    $ObjectID		    136
-		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    137
-		    $ClassName		    "Simulink.dialog.TabContainer"
-		    Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    138
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    139
-		    $ClassName		    "Simulink.dialog.parameter.Edit"
-		    Name		    "frameName"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    140
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    141
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    142
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    143
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    144
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container4"
-		    }
-		    Name		    "ParameterGroupVar"
-		  }
-		  PropName		  "DialogControls"
-		}
-	      }
+	      MaskType		      "Jacobian"
+	      MaskDescription	      "This block retrieves the Jacobian of the specified frame.\n\nAssuming DoFs is the number"
+	      " of degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
+	      "n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, re"
+	      "presenting the configuration \n                       of the joints.\n\nOutput:\n- Jacobian: a 6x6+dofs matrix "
+	      "representing the Jacobian of\n             the specified frame written in the world frame.\n\nParameters:\n- Fr"
+	      "ame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the po"
+	      "rts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in"
+	      " the \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports open"
+	      "ed by the underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of th"
+	      "e Whole Body Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	      MaskPromptString	      "Frame name|Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit,edit"
+	      MaskVariables	      "frameName=@1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	      MaskTunableValueString  "on,off,off,off,off"
+	      MaskCallbackString      "||||"
+	      MaskEnableString	      "on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on,on"
+	      MaskDisplay	      "port_label('output', 1, '{}^{world} J_{frame}', 'texmode','on')\n\nport_label('input', 1, '{"
+	      "}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "'frame'|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	      MaskTabNameString	      "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	      System {
 		Name			"Jacobian"
 		Location		[208, 105, 1008, 627]
@@ -4882,14 +4141,12 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Forward Kinematics"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  Points		  [36, 0; 0, 15]
@@ -4897,7 +4154,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  Points		  [33, 0; 0, -10]
@@ -4905,8 +4161,20 @@ Library {
 		  DstPort		  2
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -4918,12 +4186,12 @@ Library {
 	  DropShadow		  on
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    145
-	    $ClassName		    "Simulink.Mask"
-	    Display		    "image(imread('forwardKinematics.png'))"
-	  }
+	  MaskDisplay		  "image(imread('forwardKinematics.png'))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
 	  System {
 	    Name		    "Kinematics"
 	    Location		    [0, 29, 1280, 744]
@@ -4952,138 +4220,35 @@ Library {
 	      "nd"
 	      RequestExecContextInheritance off
 	      Variant		      off
-	      Object {
-		$PropName		"MaskObject"
-		$ObjectID		146
-		$ClassName		"Simulink.Mask"
-		Type			"Forward Kinematics"
-		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
-		"degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between"
-		"\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the"
-		" configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix representing t"
-		"he homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n- Frame "
-		"name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opene"
-		"d by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n       "
-		"            Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlyin"
-		"g Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n"
-		"- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, '{}^{world} H_{frame}', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{"
-		"base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
-		Array {
-		  Type			  "Simulink.MaskParameter"
-		  Dimension		  5
-		  Object {
-		    $ObjectID		    147
-		    Type		    "edit"
-		    Name		    "frameName"
-		    Prompt		    "Frame name"
-		    Value		    "'frame'"
-		  }
-		  Object {
-		    $ObjectID		    148
-		    Type		    "edit"
-		    Name		    "robotName"
-		    Prompt		    "Robot Port Name"
-		    Value		    "WBT_robotName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    149
-		    Type		    "edit"
-		    Name		    "localName"
-		    Prompt		    "Model Name"
-		    Value		    "WBT_modelName"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    150
-		    Type		    "edit"
-		    Name		    "wbiFile"
-		    Prompt		    "WBI filename"
-		    Value		    "WBT_wbiFilename"
-		    Tunable		    "off"
-		  }
-		  Object {
-		    $ObjectID		    151
-		    Type		    "edit"
-		    Name		    "wbiList"
-		    Prompt		    "WBI list name"
-		    Value		    "WBT_wbiList"
-		    Tunable		    "off"
-		  }
-		  PropName		  "Parameters"
-		}
-		Array {
-		  Type			  "Simulink.dialog.Group"
-		  Dimension		  2
-		  Object {
-		    $ObjectID		    152
-		    Prompt		    "%<MaskType>"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    153
-		    $ClassName		    "Simulink.dialog.Text"
-		    Prompt		    "%<MaskDescription>"
-		    Name		    "DescTextVar"
-		    }
-		    Name		    "DescGroupVar"
-		  }
-		  Object {
-		    $ObjectID		    154
-		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    155
-		    $ClassName		    "Simulink.dialog.TabContainer"
-		    Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    156
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    157
-		    $ClassName		    "Simulink.dialog.parameter.Edit"
-		    Name		    "frameName"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    158
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    159
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    160
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    161
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    162
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container4"
-		    }
-		    Name		    "ParameterGroupVar"
-		  }
-		  PropName		  "DialogControls"
-		}
-	      }
+	      MaskType		      "Forward Kinematics"
+	      MaskDescription	      "This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is "
+	      "the number of degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous tra"
+	      "nsformation between\n             the the base frame and the world frame.\n- Joint configuration: Vector of siz"
+	      "e DoFs, representing the configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics"
+	      ": a 4x4 matrix representing the homogenous transformation between\n             the specified frame and the wor"
+	      "ld frame.\n\nParameters:\n- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- R"
+	      "obot Port Name: Name of the ports opened by the robot. (e.g. icub).\n                   Set an empty string (''"
+	      ") to use the name specified in the \n                   Whole Body Interface configuration file.\n- Model Name:"
+	      " Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI filename: name of the file cont"
+	      "aining the configuration of the Whole Body Interface\n- WBI List Name: name of the list of joints used to confi"
+	      "gure the Whole Body Interface\n"
+	      MaskPromptString	      "Frame name|Robot Port Name|Model Name|WBI filename|WBI list name"
+	      MaskStyleString	      "edit,edit,edit,edit,edit"
+	      MaskVariables	      "frameName=@1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	      MaskTunableValueString  "on,off,off,off,off"
+	      MaskCallbackString      "||||"
+	      MaskEnableString	      "on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on,on"
+	      MaskDisplay	      "port_label('output', 1, '{}^{world} H_{frame}', 'texmode','on')\n\nport_label('input', 1, '{"
+	      "}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskPortRotate	      "default"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "'frame'|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	      MaskTabNameString	      "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	      System {
 		Name			"Forward Kinematics"
 		Location		[0, 29, 1280, 744]
@@ -5137,14 +4302,12 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
 		  DstBlock		  "Forward Kinematics"
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  2
 		  SrcBlock		  "Base Pose"
 		  SrcPort		  1
 		  Points		  [36, 0; 0, 15]
@@ -5152,7 +4315,6 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  3
 		  SrcBlock		  "Joint configuration"
 		  SrcPort		  1
 		  Points		  [33, 0; 0, -10]
@@ -5160,10 +4322,28 @@ Library {
 		  DstPort		  2
 		}
 	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
       }
+      RTWSystemCode	      "Auto"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      FunctionWithSeparateData off
+      Opaque		      off
+      MaskHideContents	      off
     }
     Block {
       BlockType		      SubSystem
@@ -5176,12 +4356,12 @@ Library {
       DropShadow	      on
       RequestExecContextInheritance off
       Variant		      off
-      Object {
-	$PropName		"MaskObject"
-	$ObjectID		163
-	$ClassName		"Simulink.Mask"
-	Display			"image(imread('wholeBodyStates.png'),'center');"
-      }
+      MaskDisplay	      "image(imread('wholeBodyStates.png'),'center');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
       System {
 	Name			"wholeBodyStates"
 	Location		[0, 29, 1280, 744]
@@ -5210,150 +4390,35 @@ Library {
 	  "ace.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\nend"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    164
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Get Estimate"
-	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
-	    "freedom of the robot,\nOutput:\n- References: Vector of size DoFs, representing the estimate requested.\n\nParame"
-	    "ters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the ports"
-	    " opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the "
-	    "\n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by t"
-	    "he underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole B"
-	    "ody Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-	    Display		    "%disp(get_param(gcb,'estimateType'))\nport_label('output',1,get_param(gcb,'estimateType'))"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      5
-	      Object {
-		$ObjectID		165
-		Type			"popup"
-		Array {
-		  Type			  "Cell"
-		  Dimension		  4
-		  Cell			  "Joints Position"
-		  Cell			  "Joints Velocity"
-		  Cell			  "Joints Acceleration"
-		  Cell			  "Joints Torque"
-		  PropName		  "TypeOptions"
-		}
-		Name			"estimateType"
-		Prompt			"Estimate Type"
-		Value			"Joints Position"
-		Evaluate		"off"
-		Callback		"% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param(gcb,'estima"
-		"teType');\nif strcmp(maskStr, 'Joints Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0"
-		"]');\nelseif strcmp(maskStr, 'Joints Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]"
-		"');\nelseif strcmp(maskStr, 'Joints Acceleration')\n    set_param(gcb,'BackgroundColor', '[0.9255, 0.8706, 0.1333, 1"
-		".0]');\nelseif strcmp(maskStr, 'Joints Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]"
-		"');\nend\nclear  maskStr"
-	      }
-	      Object {
-		$ObjectID		166
-		Type			"edit"
-		Name			"robotName"
-		Prompt			"Robot Port Name"
-		Value			"WBT_robotName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		167
-		Type			"edit"
-		Name			"localName"
-		Prompt			"Model Name"
-		Value			"WBT_modelName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		168
-		Type			"edit"
-		Name			"wbiFile"
-		Prompt			"WBI filename"
-		Value			"WBT_wbiFilename"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		169
-		Type			"edit"
-		Name			"wbiList"
-		Prompt			"WBI list name"
-		Value			"WBT_wbiList"
-		Tunable			"off"
-	      }
-	      PropName		      "Parameters"
-	    }
-	    Array {
-	      Type		      "Simulink.dialog.Group"
-	      Dimension		      2
-	      Object {
-		$ObjectID		170
-		Prompt			"%<MaskType>"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  171
-		  $ClassName		  "Simulink.dialog.Text"
-		  Prompt		  "%<MaskDescription>"
-		  Name			  "DescTextVar"
-		}
-		Name			"DescGroupVar"
-	      }
-	      Object {
-		$ObjectID		172
-		Prompt			"Simulink:studio:ToolBarParametersMenu"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  173
-		  $ClassName		  "Simulink.dialog.TabContainer"
-		  Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    174
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    175
-		    $ClassName		    "Simulink.dialog.parameter.Popup"
-		    Name		    "estimateType"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    176
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    177
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    178
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    179
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    180
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		  }
-		  Name			  "Container4"
-		}
-		Name			"ParameterGroupVar"
-	      }
-	      PropName		      "DialogControls"
-	    }
-	  }
+	  MaskType		  "Get Estimate"
+	  MaskDescription	  "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of f"
+	  "reedom of the robot,\nOutput:\n- References: Vector of size DoFs, representing the estimate requested.\n\nParameter"
+	  "s:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the ports open"
+	  "ed by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n     "
+	  "              Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underl"
+	  "ying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interfa"
+	  "ce\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	  MaskPromptString	  "Estimate Type|Robot Port Name|Model Name|WBI filename|WBI list name"
+	  MaskStyleString	  "popup(Joints Position|Joints Velocity|Joints Acceleration|Joints Torque),edit,edit,edit,edit"
+	  MaskVariables		  "estimateType=&1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	  MaskTunableValueString  "on,off,off,off,off"
+	  MaskCallbackString	  "% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param"
+	  "(gcb,'estimateType');\nif strcmp(maskStr, 'Joints Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510"
+	  ", 0.6706, 1.0]');\nelseif strcmp(maskStr, 'Joints Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745"
+	  ", 1.0000, 1.0]');\nelseif strcmp(maskStr, 'Joints Acceleration')\n    set_param(gcb,'BackgroundColor', '[0.9255, 0."
+	  "8706, 0.1333, 1.0]');\nelseif strcmp(maskStr, 'Joints Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.57"
+	  "65, 0.6039, 1.0]');\nend\nclear  maskStr||||"
+	  MaskEnableString	  "on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskDisplay		  "%disp(get_param(gcb,'estimateType'))\nport_label('output',1,get_param(gcb,'estimateType'))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Joints Position|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	  MaskTabNameString	  "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	  System {
 	    Name		    "Get Estimate"
 	    Location		    [653, 318, 2086, 1271]
@@ -5390,13 +4455,18 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "S-Function"
 	      SrcPort		      1
 	      DstBlock		      "Estimate"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -5411,147 +4481,35 @@ Library {
 	  "ace.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\nend"
 	  RequestExecContextInheritance	off
 	  Variant		  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    181
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Get Estimate"
-	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
-	    "freedom of the robot,\nOutput:\n- References: Vector of size DoFs, representing the estimate requested.\n\nParame"
-	    "ters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the ports"
-	    " opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the "
-	    "\n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by t"
-	    "he underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole B"
-	    "ody Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-	    Display		    "disp(get_param(gcb,'limitsType'))\nport_label('output',1,'Min')\nport_label('output',2,'Max')"
-	    Array {
-	      Type		      "Simulink.MaskParameter"
-	      Dimension		      5
-	      Object {
-		$ObjectID		182
-		Type			"popup"
-		Array {
-		  Type			  "Cell"
-		  Dimension		  1
-		  Cell			  "Position"
-		  PropName		  "TypeOptions"
-		}
-		Name			"limitsType"
-		Prompt			"Limits Type"
-		Value			"Position"
-		Evaluate		"off"
-		Callback		"% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param(gcb,'limits"
-		"Type');\nif strcmp(maskStr, 'Joints Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]'"
-		");\nelseif strcmp(maskStr, 'Joints Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]')"
-		";\nelseif strcmp(maskStr, 'Joints Acceleration')\n    set_param(gcb,'BackgroundColor', '[0.9255, 0.8706, 0.1333, 1.0"
-		"]');\nelseif strcmp(maskStr, 'Joints Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]')"
-		";\nend\nclear  maskStr"
-	      }
-	      Object {
-		$ObjectID		183
-		Type			"edit"
-		Name			"robotName"
-		Prompt			"Robot Port Name"
-		Value			"WBT_robotName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		184
-		Type			"edit"
-		Name			"localName"
-		Prompt			"Model Name"
-		Value			"WBT_modelName"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		185
-		Type			"edit"
-		Name			"wbiFile"
-		Prompt			"WBI filename"
-		Value			"WBT_wbiFilename"
-		Tunable			"off"
-	      }
-	      Object {
-		$ObjectID		186
-		Type			"edit"
-		Name			"wbiList"
-		Prompt			"WBI list name"
-		Value			"WBT_wbiList"
-		Tunable			"off"
-	      }
-	      PropName		      "Parameters"
-	    }
-	    Array {
-	      Type		      "Simulink.dialog.Group"
-	      Dimension		      2
-	      Object {
-		$ObjectID		187
-		Prompt			"%<MaskType>"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  188
-		  $ClassName		  "Simulink.dialog.Text"
-		  Prompt		  "%<MaskDescription>"
-		  Name			  "DescTextVar"
-		}
-		Name			"DescGroupVar"
-	      }
-	      Object {
-		$ObjectID		189
-		Prompt			"Simulink:studio:ToolBarParametersMenu"
-		Object {
-		  $PropName		  "DialogControls"
-		  $ObjectID		  190
-		  $ClassName		  "Simulink.dialog.TabContainer"
-		  Array {
-		    Type		    "Simulink.dialog.Tab"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    191
-		    Prompt		    "Block parameters"
-		    Object {
-		    $PropName		    "DialogControls"
-		    $ObjectID		    192
-		    $ClassName		    "Simulink.dialog.parameter.Popup"
-		    Name		    "limitsType"
-		    }
-		    Name		    "Container8"
-		    }
-		    Object {
-		    $ObjectID		    193
-		    Prompt		    "WBI parameters"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    4
-		    Object {
-		    $ObjectID		    194
-		    Name		    "robotName"
-		    }
-		    Object {
-		    $ObjectID		    195
-		    Name		    "localName"
-		    }
-		    Object {
-		    $ObjectID		    196
-		    Name		    "wbiFile"
-		    }
-		    Object {
-		    $ObjectID		    197
-		    Name		    "wbiList"
-		    }
-		    PropName		    "DialogControls"
-		    }
-		    Name		    "Container5"
-		    }
-		    PropName		    "DialogControls"
-		  }
-		  Name			  "Container4"
-		}
-		Name			"ParameterGroupVar"
-	      }
-	      PropName		      "DialogControls"
-	    }
-	  }
+	  MaskType		  "Get Estimate"
+	  MaskDescription	  "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of f"
+	  "reedom of the robot,\nOutput:\n- References: Vector of size DoFs, representing the estimate requested.\n\nParameter"
+	  "s:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the ports open"
+	  "ed by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n     "
+	  "              Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underl"
+	  "ying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interfa"
+	  "ce\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	  MaskPromptString	  "Limits Type|Robot Port Name|Model Name|WBI filename|WBI list name"
+	  MaskStyleString	  "popup(Position),edit,edit,edit,edit"
+	  MaskVariables		  "limitsType=&1;robotName=@2;localName=@3;wbiFile=@4;wbiList=@5;"
+	  MaskTunableValueString  "on,off,off,off,off"
+	  MaskCallbackString	  "% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param"
+	  "(gcb,'limitsType');\nif strcmp(maskStr, 'Joints Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, "
+	  "0.6706, 1.0]');\nelseif strcmp(maskStr, 'Joints Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, "
+	  "1.0000, 1.0]');\nelseif strcmp(maskStr, 'Joints Acceleration')\n    set_param(gcb,'BackgroundColor', '[0.9255, 0.87"
+	  "06, 0.1333, 1.0]');\nelseif strcmp(maskStr, 'Joints Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765"
+	  ", 0.6039, 1.0]');\nend\nclear  maskStr||||"
+	  MaskEnableString	  "on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskDisplay		  "disp(get_param(gcb,'limitsType'))\nport_label('output',1,'Min')\nport_label('output',2,'Max')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Position|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	  MaskTabNameString	  "Block parameters,WBI parameters,WBI parameters,WBI parameters,WBI parameters"
 	  System {
 	    Name		    "Get Limits"
 	    Location		    [0, 23, 1280, 744]
@@ -5597,33 +4555,39 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Line {
-	      ZOrder		      1
 	      SrcBlock		      "S-Function"
 	      SrcPort		      1
 	      DstBlock		      "Min"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
 	      SrcBlock		      "S-Function"
 	      SrcPort		      2
 	      DstBlock		      "Max"
 	      DstPort		      1
 	    }
 	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
 	}
       }
+      RTWSystemCode	      "Auto"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      FunctionWithSeparateData off
+      Opaque		      off
+      MaskHideContents	      off
     }
     Annotation {
       SID		      "1213"
       Name		      "WHOLE BODY INTERFACE TOOLBOX"
-      Position		      [241, 157, 448, 174]
-      InternalMargins	      [0, 0, 0, 0]
-      FixedHeight	      off
-      FixedWidth	      off
+      Position		      [241, 157]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
-      ZOrder		      -1
       FontName		      "Sans Serif"
       FontSize		      12
     }
@@ -5632,13 +4596,9 @@ Library {
       Name		      "Copyright  2013-2014 Robotics, Brain and Cognitive Sciences Department, Istituto Italiano di Tecnol"
       "ogia\nThis software was supported by the FP7 EU Project CoDyCO (No. 600716 ICT 2011.2.1 Cognitive Systems and Ro"
       "botics (b))\nhttp://www.codyco.eu"
-      Position		      [241, 192, 518, 209]
-      InternalMargins	      [0, 0, 0, 0]
-      FixedHeight	      off
-      FixedWidth	      off
+      Position		      [241, 192]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
-      ZOrder		      -2
       FontSize		      5
     }
   }
@@ -5655,7 +4615,7 @@ Stateflow {
     created		    "06-Feb-2014 11:51:26"
     isLibrary		    1
     firstTarget		    26
-    sfVersion		    80000006
+    sfVersion		    76014001.0004
   }
   chart {
     id			    2
