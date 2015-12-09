@@ -30,21 +30,22 @@ function blkStruct = slblocks
 %  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
 %  Public License for more details
 
-Browser.Library   = 'WBToolbox';     %Name of the .mdl file
+Browser.Library   = 'WBToolboxLibrary';     %Name of the .mdl file
 Browser.Name      = 'Whole Body Toolbox';    
 Browser.IsFlat    =  0;
 
 if (~verLessThan('matlab', '8.4'))  % R2014b
   % Add repository information if not yet done
+  % ???: is this part really needed?
   try
-    load_system('WBToolbox');
-    if (strcmp(get_param('WBToolbox', 'EnableLBRepository'), 'off'))
-      set_param('WBToolbox', 'Lock', 'off');
-      set_param('WBToolbox', 'EnableLBRepository', 'on');
-      set_param('WBToolbox', 'Lock', 'on');
-      save_system('WBToolbox');
+    load_system(Browser.Library);
+    if (strcmp(get_param(Browser.Library, 'EnableLBRepository'), 'off'))
+      set_param(Browser.Library, 'Lock', 'off');
+      set_param(Browser.Library, 'EnableLBRepository', 'on');
+      set_param(Browser.Library, 'Lock', 'on');
+      save_system(Browser.Library);
     end;
-    close_system('WBToolbox');
+    close_system(Browser.Library);
   catch ex;
   end
 end;

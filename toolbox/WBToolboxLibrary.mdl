@@ -54,7 +54,7 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Dec 07 14:06:22 2015"
+  LastModifiedDate	  "Wed Dec 09 12:17:50 2015"
   RTWModifiedTimeStamp	  371397978
   ModelVersionFormat	  "1.%<AutoIncrement:340>"
   ConfigurationManager	  "none"
@@ -898,7 +898,7 @@ Library {
   System {
     Name		    "WBToolboxLibrary"
     Location		    [0, 29, 1280, 744]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "black"
@@ -2167,7 +2167,6 @@ Library {
 	      ZOrder		      1
 	      SrcBlock		      "Selector"
 	      SrcPort		      1
-	      Points		      [25, 0]
 	      DstBlock		      "Mux3"
 	      DstPort		      1
 	    }
