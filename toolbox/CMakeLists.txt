@@ -233,8 +233,11 @@ install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 # The following line is to properly configure the installation script of the toolbox
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
 
-## Run the script before install
-# add_custom_target(configure_library ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r configure_library)
+# Custom script to generate the library to be committed on the repository
+# This target is excluded from the normal build and must be called explicitly by the
+# developer who modifies the library
+add_custom_target(export_libraries ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r export_library WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 # Install configuration files
 install(FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
