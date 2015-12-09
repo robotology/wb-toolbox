@@ -70,7 +70,7 @@ configure_block(BLOCK_NAME "Base"
             include/base/Error.h
             include/base/WBInterface.h)
 
-option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" OFF)
+option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)
     find_package(ICUB REQUIRED)
     add_definitions(-DWBT_USES_ICUB)

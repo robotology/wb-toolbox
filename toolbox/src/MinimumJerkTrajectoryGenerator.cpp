@@ -13,12 +13,14 @@
 #define PARAM_IDX_3 3 //Output first derivative (boolean)
 #define PARAM_IDX_4 4 //Output second derivative (boolean)
 #define PARAM_IDX_5 5 //Initial signal value as input (boolean)
+#define PARAM_IDX_6 6 //Control if the settling time comes from external port or static parameter
 
 #define GET_OPT_SAMPLE_TIME mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1))
 #define GET_OPT_SETTLING_TIME  mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2))
-#define GET_OPT_OUTPUT_1_DERIVATIVE mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3))
-#define GET_OPT_OUTPUT_2_DERIVATIVE mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_4))
-#define GET_OPT_EXPLICIT_INITIAL_VALUE mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5))
+#define GET_OPT_OUTPUT_1_DERIVATIVE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3)))
+#define GET_OPT_OUTPUT_2_DERIVATIVE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_4)))
+#define GET_OPT_EXPLICIT_INITIAL_VALUE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5)))
+#define GET_OPT_EXTERNAL_SETTLING_TIME static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_6)))
 
 namespace wbt {
     
@@ -28,17 +30,27 @@ namespace wbt {
     : m_generator(0)
     , m_outputFirstDerivativeIndex(-1)
     , m_outputSecondDerivativeIndex(-1)
-    , m_firstRun(true) {}
+    , m_firstRun(true)
+    , m_explicitInitialValue(false)
+    , m_externalSettlingTime(false)
+    , m_initialValues(0)
+    , m_reference(0) {}
     
-    unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 5; }
+    unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 6; }
 
     bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
-        int_T outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
-        int_T outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
-        int_T explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
+        bool outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
+        bool outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
+        bool explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
+        bool externalSettlingTime = GET_OPT_EXTERNAL_SETTLING_TIME;
 
-        int numberOfInputPorts = explicitInitialValue ? 2 : 1;
+        int numberOfInputPorts = 1;
+        if (explicitInitialValue)
+            numberOfInputPorts++;
+        if (externalSettlingTime)
+            numberOfInputPorts++;
+
         // Specify I/O
         // INPUTS
         if(!ssSetNumInputPorts(S, numberOfInputPorts)) {
@@ -50,10 +62,21 @@ namespace wbt {
         ssSetInputPortDataType(S, 0, SS_DOUBLE);
         ssSetInputPortDirectFeedThrough(S, 0, 1);
 
+        unsigned portIndex = 1;
+
         if (explicitInitialValue) {
-            ssSetInputPortWidth(S, 1, DYNAMICALLY_SIZED);
-            ssSetInputPortDataType(S, 1, SS_DOUBLE);
-            ssSetInputPortDirectFeedThrough(S, 1, 1);
+            ssSetInputPortWidth(S, portIndex, DYNAMICALLY_SIZED);
+            ssSetInputPortDataType(S, portIndex, SS_DOUBLE);
+            ssSetInputPortDirectFeedThrough(S, portIndex, 1);
+            portIndex++;
+        }
+
+        if (externalSettlingTime)
+        {
+            ssSetInputPortWidth(S, portIndex, 1);
+            ssSetInputPortDataType(S, portIndex, SS_DOUBLE);
+            ssSetInputPortDirectFeedThrough(S, portIndex, 1);
+            portIndex++;
         }
 
         // OUTPUTS
@@ -76,19 +99,9 @@ namespace wbt {
 
     bool MinimumJerkTrajectoryGenerator::initialize(SimStruct *S, wbt::Error *error)
     {
-//        using namespace yarp::os;
-//        using namespace yarp::sig;
-
-//        Network::init();
-//
-//        if (!Network::initialized() || !Network::checkNetwork(5.0)){
-//            if (error) error->message = "YARP server wasn't found active!! \n";
-//            return false;
-//        }
-
         //Save parameters
-        int_T outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
-        int_T outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
+        bool outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
+        bool outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
         if (outputFirstDerivative) m_outputFirstDerivativeIndex = 1;
         if (outputSecondDerivative) {
             m_outputSecondDerivativeIndex = outputFirstDerivative ? 2 : 1;
@@ -96,6 +109,9 @@ namespace wbt {
 
         double sampleTime = GET_OPT_SAMPLE_TIME;
         double settlingTime = GET_OPT_SETTLING_TIME;
+
+        m_explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
+        m_externalSettlingTime = GET_OPT_EXTERNAL_SETTLING_TIME;
 
         int_T size = ssGetInputPortWidth(S, 0);
 
@@ -135,8 +151,8 @@ namespace wbt {
         if (m_firstRun) {
             m_firstRun = false;
             InputRealPtrsType initialValues = 0;
-            int portIndex = 0;
-            if (ssGetNumInputPorts(S) == 2) {
+            unsigned portIndex = 0;
+            if (m_explicitInitialValue) {
                 portIndex = 1;
             }
             initialValues = ssGetInputPortRealSignalPtrs(S, portIndex);
@@ -145,6 +161,16 @@ namespace wbt {
             }
             m_generator->init(*m_initialValues);
         }
+
+        if (m_externalSettlingTime) {
+            unsigned portIndex = 1;
+            if (m_explicitInitialValue) portIndex++;
+
+            InputRealPtrsType externalTimePort = ssGetInputPortRealSignalPtrs(S, portIndex);
+            double externalTime = *externalTimePort[0];
+            m_generator->setT(externalTime);
+        }
+
 
         InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
         for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {

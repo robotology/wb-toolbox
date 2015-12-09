@@ -39,6 +39,8 @@ private:
     int_T m_outputSecondDerivativeIndex;
 
     bool m_firstRun;
+    bool m_explicitInitialValue;
+    bool m_externalSettlingTime;
     yarp::sig::Vector *m_initialValues;
     yarp::sig::Vector *m_reference;
     

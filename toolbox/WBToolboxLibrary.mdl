@@ -15,9 +15,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 09 16:25:33 2015"
-  RTWModifiedTimeStamp	  371579133
-  ModelVersionFormat	  "1.%<AutoIncrement:342>"
+  LastModifiedDate	  "Wed Dec 09 18:05:43 2015"
+  RTWModifiedTimeStamp	  371585143
+  ModelVersionFormat	  "1.%<AutoIncrement:343>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -774,7 +774,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1745"
+    SIDHighWatermark	    "1747"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -1605,7 +1605,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1745"
+		SIDHighWatermark	"1747"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1744,13 +1744,13 @@ Library {
 	Block {
 	  BlockType		  S-Function
 	  Name			  "Minimum Jerk Trajectory Generator"
-	  SID			  "1701"
+	  SID			  "1747"
 	  Ports			  [1, 3]
-	  Position		  [345, 73, 500, 127]
-	  ZOrder		  74
+	  Position		  [335, 73, 490, 127]
+	  ZOrder		  78
 	  FunctionName		  "WBToolbox"
 	  Parameters		  "'MinimumJerkTrajectoryGenerator',sampleTime, settlingTime, firstDerivatives, secondDerivatives, expl"
-	  "icitInitialValue"
+	  "icitInitialValue, externalSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  MaskType		  "Minimum Jerk Trajectory Generator"
@@ -1762,28 +1762,34 @@ Library {
 	  "cartesian controller for humanoid robots,\" in Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International C"
 	  "onference on , vol., no., pp.1668-1674, 18-22 Oct. 2010\ndoi: 10.1109/IROS.2010.5650851\nURL: http://ieeexplore.iee"
 	  "e.org/stamp/stamp.jsp?tp=&arnumber=5650851&isnumber=5648787"
-	  MaskPromptString	  "Settling Time|Sample Time|Output First Derivative|Output Second Derivative|Explicit Initial Val"
-	  "ue"
-	  MaskStyleString	  "edit,edit,checkbox,checkbox,checkbox"
-	  MaskVariables		  "settlingTime=@1;sampleTime=@2;firstDerivatives=@3;secondDerivatives=@4;explicitInitialValue=@5;"
-	  MaskTunableValueString  "on,on,on,on,on"
-	  MaskCallbackString	  "||||"
-	  MaskEnableString	  "on,on,on,on,on"
-	  MaskVisibilityString	  "on,on,on,on,off"
-	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskPromptString	  "External Settling Time|Settling Time|Sample Time|Output First Derivative|Output Second Derivati"
+	  "ve|Explicit Initial Value"
+	  MaskStyleString	  "checkbox,edit,edit,checkbox,checkbox,checkbox"
+	  MaskVariables		  "externalSettlingTime=@1;settlingTime=@2;sampleTime=@3;firstDerivatives=@4;secondDerivatives=@5;ex"
+	  "plicitInitialValue=@6;"
+	  MaskTunableValueString  "on,on,on,on,on,on"
+	  MaskCallbackString	  "externalSettlingTime = get_param(gcb, 'externalSettlingTime');\nvisibility = get_param(gcb, '"
+	  "MaskVisibilities');\nif(strcmp(externalSettlingTime, 'on'))\n    visibility{2} = 'off';\nelse\n    visibility{2} = "
+	  "'on';\nend\nset_param(gcb, 'MaskVisibilities',visibility);\nclear externalSettlingTime|||||"
+	  MaskEnableString	  "on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on,on,on"
 	  MaskDisplay		  "firstDer = get_param(gcb, 'firstDerivatives');\nsecondDer = get_param(gcb, 'secondDerivatives');\ni"
-	  "nitialValues = get_param(gcb, 'explicitInitialValue');\n\n%Inputs\nport_label('input', 1, 'Reference')\nif(strcmp(i"
-	  "nitialValues, 'on'))\n    port_label('input', 2, 'Initial Value')\nend\n\n%Outputs\nport_label('output', 1, 'Signal"
-	  "')\nsecondDerPortIndex = 2;\nif(strcmp(firstDer, 'on'))\n    port_label('output', 2, 'First Derivative')\n    secon"
-	  "dDerPortIndex = secondDerPortIndex + 1;\nend\nif(strcmp(secondDer, 'on'))\n    port_label('output', secondDerPortIn"
-	  "dex, 'Second Derivative')\nend\n\n\n"
+	  "nitialValues = get_param(gcb, 'explicitInitialValue');\nexternalSettlingTimeParam = get_param(gcb, 'externalSettlin"
+	  "gTime');\n\n%Inputs\nportIndex = 2;\nport_label('input', 1, 'Reference')\nif(strcmp(initialValues, 'on'))\n    port"
+	  "_label('input', portIndex, 'Initial Value')\n    portIndex = portIndex + 1;\nend\n\nif(strcmp(externalSettlingTimeP"
+	  "aram, 'on'))\n    port_label('input', portIndex, 'Settling Time')\n    portIndex = portIndex + 1;\nend\n\n%Outputs\n"
+	  "port_label('output', 1, 'Signal')\nsecondDerPortIndex = 2;\nif(strcmp(firstDer, 'on'))\n    port_label('output', 2,"
+	  " 'First Derivative')\n    secondDerPortIndex = secondDerPortIndex + 1;\nend\nif(strcmp(secondDer, 'on'))\n    port_"
+	  "label('output', secondDerPortIndex, 'Second Derivative')\nend\n\n\n"
 	  MaskIconFrame		  on
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
 	  MaskPortRotate	  "default"
 	  MaskIconUnits		  "autoscale"
-	  MaskValueString	  "3|0.01|on|on|off"
-	  MaskTabNameString	  "Trajectory Parameters,Trajectory Parameters,Input/Output,Input/Output,Input/Output"
+	  MaskValueString	  "off|3|0.01|on|on|off"
+	  MaskTabNameString	  "Trajectory Parameters,Trajectory Parameters,Trajectory Parameters,Input/Output,Input/Output,In"
+	  "put/Output"
 	}
 	Block {
 	  BlockType		  S-Function
@@ -2083,7 +2089,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1745"
+		SIDHighWatermark	"1747"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2701,7 +2707,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1745"
+		SIDHighWatermark	"1747"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
