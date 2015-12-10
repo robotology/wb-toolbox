@@ -19,7 +19,8 @@ namespace wbt {
     YarpWrite::YarpWrite()
     : m_autoconnect(false)
     , m_errorOnMissingPort(true)
-    , m_destinationPortName("") {}
+    , m_destinationPortName("")
+    , m_port(0) {}
     
     unsigned YarpWrite::numberOfParameters() { return 3; }
 

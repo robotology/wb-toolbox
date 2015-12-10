@@ -22,7 +22,6 @@ public:
     static std::string ClassName;
     
     YarpRead();
-    virtual ~YarpRead();
     
     virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);

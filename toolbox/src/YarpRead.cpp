@@ -22,9 +22,13 @@ namespace wbt {
     
     std::string YarpRead::ClassName = "YarpRead";
 
-    YarpRead::YarpRead() {}
-    YarpRead::~YarpRead() {}
-    
+    YarpRead::YarpRead()
+    : m_autoconnect(false)
+    , m_blocking(false)
+    , m_shouldReadTimestamp(false)
+    , m_errorOnMissingPort(true)
+    , m_port(0) {}
+
     unsigned YarpRead::numberOfParameters() { return 6; }
 
     bool YarpRead::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
