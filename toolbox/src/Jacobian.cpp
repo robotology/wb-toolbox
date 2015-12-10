@@ -87,9 +87,13 @@ namespace wbt {
             return false;
         }
         wbi::IDList frames =  interface->getFrameList();
-        if (!frames.idToIndex(wbi::ID(frame), m_frameIndex)) {
-            if (error) error->message = "Cannot find " + frame + " in the frame list";
-            return false;
+        if (frame != "com") {
+            if (!frames.idToIndex(wbi::ID(frame), m_frameIndex)) {
+                if (error) error->message = "Cannot find " + frame + " in the frame list";
+                return false;
+            }
+        } else {
+            m_frameIndex = wbi::wholeBodyInterface::COM_LINK_ID;
         }
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
