@@ -65,8 +65,8 @@ namespace wbt {
             if (error) error->message = "Could not read control type parameter";
             return false;
         }
-        
-        wbi::ControlMode m_controlMode = wbi::CTRL_MODE_UNKNOWN;
+
+        m_controlMode = wbi::CTRL_MODE_UNKNOWN;
         if (controlType == "Position") {
             m_controlMode = wbi::CTRL_MODE_POS;
         } else if (controlType == "Position Direct") {
