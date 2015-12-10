@@ -1,7 +1,7 @@
 ![](http://drive.google.com/uc?export=view&id=0B6zDGh11iY6oc0gtM0lMdDNweWM)
 Whole Body Toolbox - A Simulink Toolbox for Whole Body Control
 -------------------------------------------------------------
-### This toolbox is intended as a replacement (a 2.0 version) of the  [WBI-Toolbox](https://github.com/robotology-playground/WBI-Toolbox). It is not still feature-complete replacement for now, to track its advancement please check https://github.com/robotology-playground/WB-Toolbox/issues/2 . 
+### This toolbox is intended as a replacement (a 2.0 version) of the  [WBI-Toolbox](https://github.com/robotology-playground/WBI-Toolbox).
 
 ### Main Goal
 > The library should allow non-programming experts or those researchers just getting acquainted with Whole Body Control to more easily deploy controllers either on simulation or a real YARP-based robotic platform, as well as to analyze their performance and take advantage of the innumerable MATLAB and Simulink toolboxes. We like to call it "rapid controller prototyping" after which a proper YARP module should be made for hard real time performance and final deployment.
