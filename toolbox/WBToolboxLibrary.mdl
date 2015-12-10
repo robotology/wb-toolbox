@@ -15,9 +15,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 09 18:05:43 2015"
-  RTWModifiedTimeStamp	  371585143
-  ModelVersionFormat	  "1.%<AutoIncrement:343>"
+  LastModifiedDate	  "Thu Dec 10 10:35:20 2015"
+  RTWModifiedTimeStamp	  371644520
+  ModelVersionFormat	  "1.%<AutoIncrement:344>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1805,14 +1805,9 @@ Library {
 	  Parameters		  "'RealTimeSynchronizer',period"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  MaskType		  "YARP Read"
-	  MaskDescription	  "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' acti"
-	  "ve, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings are "
-	  "desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unchecks '"
-	  "Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create \nbut "
-	  "won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto some othe"
-	  "r port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, called 'signa"
-	  "l' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	  MaskType		  "Real Time Synchronizer"
+	  MaskDescription	  "This block slows down the simulation trying to match the period specified \nas parameter (in sec"
+	  "onds).\nThe bigger the period the more probable \nis that Simulink can remain synched with it.\n"
 	  MaskPromptString	  "Controller Period (in seconds)"
 	  MaskStyleString	  "edit"
 	  MaskVariables		  "period=@1;"
@@ -1971,14 +1966,9 @@ Library {
 	  Parameters		  "'SimulatorSynchronizer',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  MaskType		  "YARP Read"
-	  MaskDescription	  "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' acti"
-	  "ve, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings are "
-	  "desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unchecks '"
-	  "Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create \nbut "
-	  "won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto some othe"
-	  "r port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, called 'signa"
-	  "l' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	  MaskType		  "Simulator Synchronizer"
+	  MaskDescription	  "This block synchronizes with the external simulation on a simulator \n(only Gazebo is supported "
+	  "at the moment).\n\n"
 	  MaskPromptString	  "Controller Period (in seconds)|Server Port Name|Client Port Name"
 	  MaskStyleString	  "edit,edit,edit"
 	  MaskVariables		  "period=@1;serverPortName=@2;clientPortName=@3;"

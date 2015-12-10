@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 09 18:05:17 2015"
-  RTWModifiedTimeStamp	  371585113
-  ModelVersionFormat	  "1.%<AutoIncrement:342>"
+  LastModifiedDate	  "Thu Dec 10 10:34:31 2015"
+  RTWModifiedTimeStamp	  371644465
+  ModelVersionFormat	  "1.%<AutoIncrement:343>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -2070,14 +2070,9 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    44
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Read"
-	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
-	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
-	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
-	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
-	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
-	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
-	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	    Type		    "Real Time Synchronizer"
+	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
+	    "conds).\nThe bigger the period the more probable \nis that Simulink can remain synched with it.\n"
 	    Display		    "disp('Real Time Synchronizer')"
 	    Object {
 	      $PropName		      "Parameters"
@@ -2236,14 +2231,9 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    47
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "YARP Read"
-	    Description		    "This block behaves as the command 'yarp read'. \nBy default it has the option 'Autoconnect' act"
-	    "ive, which means that the user \ncan only specify the name of the port ('Source Port Name') from which readings a"
-	    "re desired,\nalong with the size of the expected data (e.g. 3 when reading the torso state).\nWhen the user unche"
-	    "cks 'Autoconnect' 'Opened Port Name' field shows up \ncorresponding to the name of the port the block will create"
-	    " \nbut won't connect to anything. \nAt this point the output will be always zero, until the user connects it\nto "
-	    "some other port from command line by issuing 'yarp connect [from] [dest]'.\nIn this case an additional output, ca"
-	    "lled 'signal' will be added which will output\n1 if the port has received at least one data, or 0 otherwise.\n"
+	    Type		    "Simulator Synchronizer"
+	    Description		    "This block synchronizes with the external simulation on a simulator \n(only Gazebo is supported"
+	    " at the moment).\n\n"
 	    Display		    "disp('Simulator Synchronizer')"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
