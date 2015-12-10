@@ -2,6 +2,7 @@
 #define WBT_SETREFERENCES_H
 
 #include "WBIBlock.h"
+#include <wbi/wbiConstants.h>
 
 namespace wbt {
     class SetReferences;
@@ -10,6 +11,8 @@ namespace wbt {
 class wbt::SetReferences : public wbt::WBIBlock {
 
     double *m_references;
+    bool m_firstRun;
+    wbi::ControlMode m_controlMode;
 
 public:
     static std::string ClassName;

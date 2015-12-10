@@ -10,7 +10,9 @@ namespace wbt {
     std::string SetReferences::ClassName = "SetReferences";
 
     SetReferences::SetReferences()
-    : m_references(0) {}
+    : m_references(0)
+    , m_firstRun(true)
+    , m_controlMode(wbi::CTRL_MODE_UNKNOWN) {}
 
     unsigned SetReferences::numberOfParameters()
     {
@@ -64,23 +66,22 @@ namespace wbt {
             return false;
         }
         
-        wbi::ControlMode controlMode = wbi::CTRL_MODE_UNKNOWN;
+        wbi::ControlMode m_controlMode = wbi::CTRL_MODE_UNKNOWN;
         if (controlType == "Position") {
-            controlMode = wbi::CTRL_MODE_POS;
+            m_controlMode = wbi::CTRL_MODE_POS;
         } else if (controlType == "Position Direct") {
-            controlMode = wbi::CTRL_MODE_DIRECT_POSITION;
+            m_controlMode = wbi::CTRL_MODE_DIRECT_POSITION;
         } else if (controlType == "Velocity") {
-            controlMode = wbi::CTRL_MODE_VEL;
+            m_controlMode = wbi::CTRL_MODE_VEL;
         } else if (controlType == "Torque") {
-            controlMode = wbi::CTRL_MODE_TORQUE;
+            m_controlMode = wbi::CTRL_MODE_TORQUE;
         } else {
             if (error) error->message = "Control Mode not supported";
             return false;
         }
 
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-
-        return m_references && interface && interface->setControlMode(controlMode);
+        m_firstRun = true;
+        return m_references;
     }
 
     bool SetReferences::terminate(SimStruct *S, wbt::Error *error)
@@ -101,6 +102,10 @@ namespace wbt {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
+            if (m_firstRun) {
+                m_firstRun = false;
+                interface->setControlMode(m_controlMode); //should I return an error here?
+            }
             InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
                 m_references[i] = *references[i];
