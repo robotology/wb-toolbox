@@ -15,10 +15,10 @@ alt="iCub balancing on one foot via external force control and interacting with 
 </p>
 
 
-- [Installation](https://github.com/robotology-playground/WB-Toolbox#Installation)
-- [Troubleshooting](https://github.com/robotology-playground/WB-Toolbox#Troubleshooting)
-- [Using the Toolbox](https://github.com/robotology-playground/WB-Toolbox#Using the Toolbox)
-- [Citing this work](https://github.com/robotology-playground/WB-Toolbox#citing-this-work)
+- [Installation](https://github.com/robotology/WB-Toolbox#Installation)
+- [Troubleshooting](https://github.com/robotology/WB-Toolbox#Troubleshooting)
+- [Using the Toolbox](https://github.com/robotology/WB-Toolbox#Using the Toolbox)
+- [Citing this work](https://github.com/robotology/WB-Toolbox#citing-this-work)
 
 ### Installation
 
@@ -44,10 +44,10 @@ alt="iCub balancing on one foot via external force control and interacting with 
 **Prerequisite: Check the Matlab configuration.** Before going ahead with the compilation of the library, make sure that you have MATLAB and Simulink properly installed and running. Then, check that the MEX compiler for MATLAB is setup and working. For this you can try compiling some of the MATLAB C code examples as described in [http://www.mathworks.com/help/matlab/ref/mex.html#btz1tb5-12]. **If you installed Matlab in a location different from the default one, please set an environmental variable called either `MATLABDIR` or `MATLAB_DIR` with the root of your Matlab installation**, e.g. add a line to your `~/.bashrc` such as: `export MATLAB_DIR=/usr/local/bin/matlab`
 
 
-If you used the [codyco-superbuild](https://github.com/robotology-playground/codyco-superbuild) you can skip this step and go directly to the Matlab configuration step.
+If you used the [codyco-superbuild](https://github.com/robotology/codyco-superbuild) you can skip this step and go directly to the Matlab configuration step.
 Otherwise follow the following instructions.
 
-- Clone this repository: `git clone https://github.com/robotology-playground/WB-Toolbox.git`
+- Clone this repository: `git clone https://github.com/robotology/WB-Toolbox.git`
 - Create the build directory: `mkdir -p WB-Toolbox/build`
 - Move inside the build directory: `cd WB-Toolbox/build`
 - Configure the project: `cmake ..`
