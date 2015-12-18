@@ -15,9 +15,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Dec 10 10:35:20 2015"
-  RTWModifiedTimeStamp	  371644520
-  ModelVersionFormat	  "1.%<AutoIncrement:344>"
+  LastModifiedDate	  "Fri Dec 18 18:13:45 2015"
+  RTWModifiedTimeStamp	  372363225
+  ModelVersionFormat	  "1.%<AutoIncrement:345>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -3924,9 +3924,10 @@ Library {
 	      MaskEnableString	      "on,on,on,on,on"
 	      MaskVisibilityString    "on,on,on,on,on"
 	      MaskToolTipString	      "on,on,on,on,on"
-	      MaskDisplay	      "port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world"
-	      "} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, 'Base veloc"
-	      "ity')\nport_label('input', 4, 'Joint velocity')\n"
+	      MaskDisplay	      "escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('dot J_{',"
+	      "escapedFrameName,'} \\nu'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\np"
+	      "ort_label('input', 2, 'Joint configuration')\nport_label('input', 3, 'Base velocity')\nport_label('input', 4, '"
+	      "Joint velocity')\n\nclear escapedFrameName;"
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
@@ -4075,8 +4076,9 @@ Library {
 	      MaskEnableString	      "on,on,on,on,on"
 	      MaskVisibilityString    "on,on,on,on,on"
 	      MaskToolTipString	      "on,on,on,on,on"
-	      MaskDisplay	      "port_label('output', 1, '{}^{world} J_{frame}', 'texmode','on')\n\nport_label('input', 1, '{"
-	      "}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+	      MaskDisplay	      "escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('{}^{world"
+	      "} J_{',escapedFrameName,'}'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\n"
+	      "port_label('input', 2, 'Joint configuration')\n\nclear escapedFrameName;"
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
@@ -4236,8 +4238,9 @@ Library {
 	      MaskEnableString	      "on,on,on,on,on"
 	      MaskVisibilityString    "on,on,on,on,on"
 	      MaskToolTipString	      "on,on,on,on,on"
-	      MaskDisplay	      "port_label('output', 1, '{}^{world} H_{frame}', 'texmode','on')\n\nport_label('input', 1, '{"
-	      "}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+	      MaskDisplay	      "escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('{}^{world"
+	      "} H_{',escapedFrameName,'}'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\n"
+	      "port_label('input', 2, 'Joint configuration')\n\nclear escapedFrameName;"
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"

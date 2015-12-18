@@ -54,9 +54,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Dec 10 10:34:31 2015"
-  RTWModifiedTimeStamp	  371644465
-  ModelVersionFormat	  "1.%<AutoIncrement:343>"
+  LastModifiedDate	  "Fri Dec 18 18:13:14 2015"
+  RTWModifiedTimeStamp	  372363168
+  ModelVersionFormat	  "1.%<AutoIncrement:344>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -4467,9 +4467,10 @@ Library {
 		"ole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body I"
 		"nterface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Nam"
 		"e: name of the list of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, 'dJ_{dt} \\nu', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', "
-		"'texmode','on')\nport_label('input', 2, 'Joint configuration')\nport_label('input', 3, 'Base velocity')\nport_label("
-		"'input', 4, 'Joint velocity')\n"
+		Display			"escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('dot J_{',escapedFrameN"
+		"ame,'} \\nu'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\nport_label('input',"
+		" 2, 'Joint configuration')\nport_label('input', 3, 'Base velocity')\nport_label('input', 4, 'Joint velocity')\n\ncle"
+		"ar escapedFrameName;"
 		Array {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
@@ -4721,8 +4722,9 @@ Library {
 		"e configuration file.\n- Model Name: Prefix name of the ports opened by the underlying Whole Body Interface.\n- WBI "
 		"filename: name of the file containing the configuration of the Whole Body Interface\n- WBI List Name: name of the li"
 		"st of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, '{}^{world} J_{frame}', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{"
-		"base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+		Display			"escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('{}^{world} J_{',escape"
+		"dFrameName,'}'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\nport_label('input"
+		"', 2, 'Joint configuration')\n\nclear escapedFrameName;"
 		Array {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
@@ -4976,8 +4978,9 @@ Library {
 		"            Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlyin"
 		"g Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n"
 		"- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
-		Display			"port_label('output', 1, '{}^{world} H_{frame}', 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{"
-		"base}', 'texmode','on')\nport_label('input', 2, 'Joint configuration')\n"
+		Display			"escapedFrameName = strrep(frameName, '_', '\\_');\nport_label('output', 1, strcat('{}^{world} H_{',escape"
+		"dFrameName,'}'), 'texmode','on')\n\nport_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\nport_label('input"
+		"', 2, 'Joint configuration')\n\nclear escapedFrameName;"
 		Array {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
