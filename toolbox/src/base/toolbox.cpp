@@ -199,8 +199,6 @@ static void mdlTerminate(SimStruct *S)
                 static char errorBuffer[1024];
                 sprintf(errorBuffer, "[mdlTerminate]%s", error.message.substr(0, 1023 - strlen("[mdlTerminate]")).c_str());
                 ssSetErrorStatus(S, errorBuffer);
-
-                ssSetErrorStatus(S, errorBuffer);
             }
         }
     }
