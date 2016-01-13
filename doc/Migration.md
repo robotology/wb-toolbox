@@ -1,5 +1,5 @@
-### MIGRATION TO WB-Toolbox
-Given a simulink model with some WBI-Toolbox blocks inside, the general procedure is to **substitute each block with the corresponding one from WB-Toolbox**. However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolbox. For more info about the WBI-Toolbox, please have a look at the [WBI_README](https://github.com/robotology-playground/WBI-Toolbox).
+## Migration from WB**I**-Toolbox To WB-Toolbox
+Given a simulink model with some WBI-Toolbox blocks inside, the general procedure is to **substitute each block with the corresponding one from WB-Toolbox**. However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolbox. For more info about the WBI-Toolbox, please have a look at the [WBI-Toolbox README](https://github.com/robotology-playground/WBI-Toolbox/blob/master/README.md).
 
 This guide follows the WBI and WB Toolbox blocks partition in Simulink library. It is divided in the following sections:
 - Required variables;
@@ -8,7 +8,7 @@ This guide follows the WBI and WB Toolbox blocks partition in Simulink library. 
 - wholeBodyStates;
 
 ### Required variables
-As explained in the [WBT_README](https://github.com/robotology/WB-Toolbox#Using the Toolbox), first of all the user should define the following variables:
+As explained in the [WB-Toolbox README](https://github.com/robotology/WB-Toolbox#Using the Toolbox), first of all the user should define the following variables:
 - WBT_modelName
 - WBT_wbiList
 - WBT_wbiFilename
@@ -18,7 +18,12 @@ In particular, for iCub torque balancing simulator with 23 DOF, define:
 - **WBT_modelname = 'matlabTorqueBalancing'**
 - **WBT_wbiList   = 'ROBOT_TORQUE_CONTROL_JOINTS_WITHOUT_PRONOSUP'**
 
-**Furthermore, in the WB-Toolbox the world-to-base rototraslation is not calculated inside each block, but it must be provided from the Simulink model as a block input.** It can be obtained using forward kinematics block as in the following example: 
+#### Floating base position estimate
+**In the WB-Toolbox the world-to-base rototraslation is not calculated inside each block, but it must be provided from the Simulink model as a block input.**
+
+--> Briefly explain the computation of the world-to-base <-- 
+
+It can be obtained using forward kinematics block as in the following example: 
 
 ![](https://cloud.githubusercontent.com/assets/12396934/12293044/3337da3c-b9f1-11e5-959f-b40418b5469d.png)
 
