@@ -118,6 +118,9 @@ Before using or creating a new model keep in mind that WB-Toolbox is discrete in
 
 To start dragging and dropping blocks from the Toolbox open Simulink and search for `Whole Body Toolbox` in the libraries tree.
 
+### Migrating from WBI-Toolbox
+Please see [here](doc/Migration.md).
+
 ### Citing this work
 Eljaik J., del Prete, A., Traversaro, S., Randazzo, M., Nori, F.,: Whole Body Interface Toolbox (WBI-T):
 A Simulink Wrapper for Robot Whole Body Control. In: ICRA, Workshop on MATLAB/Simulink for Robotics, Education and Research. IEEE (2014). [Slides: http://goo.gl/2NnSrA]
