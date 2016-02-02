@@ -29,6 +29,11 @@ namespace wbt {
 
     wbi::wholeBodyInterface * const WBInterface::interface() { return m_interface; }
 
+    std::weak_ptr<wbi::iWholeBodyModel> WBInterface::model()
+    {
+        return ((yarpWbi::yarpWholeBodyInterface*)m_interface)->wholeBodyModel();
+    }
+
 
     int WBInterface::numberOfDoFs() const { return m_dofs; }
 

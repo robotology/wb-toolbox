@@ -10,6 +10,7 @@ namespace wbt {
 
 namespace wbi {
     class wholeBodyInterface;
+    class iWholeBodyModel;
     class IDList;
 }
 namespace yarp {
@@ -56,6 +57,11 @@ public:
      * @return the whole body interface object
      */
     wbi::wholeBodyInterface * const interface();
+
+    /**
+     * @return a weak pointer to the model;
+     */
+    std::weak_ptr<wbi::iWholeBodyModel> model();
 
     /**
      * Returns the degrees of freedom associated with the interface object

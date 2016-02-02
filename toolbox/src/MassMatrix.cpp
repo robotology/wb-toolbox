@@ -99,7 +99,7 @@ namespace wbt {
     bool MassMatrix::output(SimStruct *S, wbt::Error */*error*/)
     {
         //get input
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
+        std::shared_ptr<wbi::iWholeBodyModel> interface = WBInterface::sharedInstance().model().lock();
         if (interface) {
             InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
