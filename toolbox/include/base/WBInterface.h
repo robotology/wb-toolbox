@@ -33,6 +33,8 @@ class wbt::WBInterface {
 
 
     wbi::wholeBodyInterface* m_interface; /**< Reference to the interface object */
+    std::shared_ptr<wbi::iWholeBodyModel> m_model; /**< Reference to the model object */
+
     wbi::IDList *m_robotList; /**< Reference to the joint list object */
     yarp::os::Property *m_configuration; /**< Reference to the configuration used to configure the interface */
 
@@ -41,7 +43,8 @@ class wbt::WBInterface {
     int m_dofs; /**< dofs modelled by the interface */
 
     static unsigned s_referenceCount; /**< number of blocks currently initialized */
-    
+    static unsigned s_modelReferenceCount; /**< number of model blocks currently initialized */
+
 public:
     /**
      * Returns the singleton instance to this object.
@@ -117,7 +120,7 @@ public:
      * @Note: Each initialize call should be matched by a subsequent call to terminate.
      * @return: true if configure is successful, false otherwise.
      */
-    bool initialize();
+    bool initialize(bool onlyModel = false);
 
     /**
      * Release the resources associated with the whole body interface

@@ -1,13 +1,13 @@
 #ifndef WBT_FORWARDKINEMATICS_H
 #define WBT_FORWARDKINEMATICS_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class ForwardKinematics;
 }
 
-class wbt::ForwardKinematics : public wbt::WBIBlock {
+class wbt::ForwardKinematics : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_frameForwardKinematics;

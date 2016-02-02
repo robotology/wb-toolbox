@@ -1,13 +1,13 @@
 #ifndef WBT_CENTROIDALMOMENTUM_H
 #define WBT_CENTROIDALMOMENTUM_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class CentroidalMomentum;
 }
 
-class wbt::CentroidalMomentum : public wbt::WBIBlock {
+class wbt::CentroidalMomentum : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_centroidalMomentum;

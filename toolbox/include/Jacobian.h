@@ -1,13 +1,13 @@
 #ifndef WBT_JACOBIAN_H
 #define WBT_JACOBIAN_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class Jacobian;
 }
 
-class wbt::Jacobian : public wbt::WBIBlock {
+class wbt::Jacobian : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_jacobian;

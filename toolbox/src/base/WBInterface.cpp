@@ -31,7 +31,9 @@ namespace wbt {
 
     std::weak_ptr<wbi::iWholeBodyModel> WBInterface::model()
     {
-        return ((yarpWbi::yarpWholeBodyInterface*)m_interface)->wholeBodyModel();
+        if (!m_model)
+            return ((yarpWbi::yarpWholeBodyInterface*)m_interface)->wholeBodyModel();
+        return m_model;
     }
 
 
@@ -125,8 +127,13 @@ namespace wbt {
         }
     }
 
-    bool WBInterface::initialize()
+    bool WBInterface::initialize(bool onlyModel)
     {
+        //cases: 4 different possibilities
+        // - yarpwbi already allocated / not allocated
+
+
+
         if (m_initialized) {
             s_referenceCount++;
             return true;

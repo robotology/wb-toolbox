@@ -1,13 +1,13 @@
 #ifndef WBT_INVERSEDYNAMICS_H
 #define WBT_INVERSEDYNAMICS_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class InverseDynamics;
 }
 
-class wbt::InverseDynamics : public wbt::WBIBlock {
+class wbt::InverseDynamics : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_torques;

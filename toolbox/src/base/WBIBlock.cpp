@@ -13,47 +13,8 @@ wbt::WBIBlock::~WBIBlock() { }
 
 unsigned wbt::WBIBlock::numberOfParameters() { return 4; }
 
-bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
 {
-    //wbi config file
-    std::string wbiConfigFile;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
-        if (error) error->message = "Could not read WBI configuration file parameter";
-        return false;
-    }
-
-    //default config file:
-    if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
-
-    //wbi list name
-    std::string wbiList;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
-        if (error) error->message = "Could not read WBI list parameter";
-        return false;
-    }
-
-    //default list:
-    if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
-
-    WBInterface &interface = WBInterface::sharedInstance();
-
-    if (interface.dofsForConfigurationFileAndList(wbiConfigFile, wbiList) < 0) {
-        if (error) error->message = "Failed to configure WholeBodyInterface with error ";
-        return false;
-    }
-    
-    return true;
-}
-
-bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
-{
-    using namespace yarp::os;
-    Network::init();
-    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        if (error) error->message = "YARP server wasn't found active";
-        return false;
-    }
-
     //parameters needed by this block:
     // - YARP_ROBOT_NAME: needed by resource finder for resource lookup (for now it is taken by the environment)
     // - robot: robot port. If defined overrides the one specified by wbi file
@@ -104,7 +65,55 @@ bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
         if (error) error->message = "Failed to configure WholeBodyInterface with error " + interfaceError.message;
         return false;
     }
+    return true;
+}
 
+bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+{
+    //wbi config file
+    std::string wbiConfigFile;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
+        if (error) error->message = "Could not read WBI configuration file parameter";
+        return false;
+    }
+
+    //default config file:
+    if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
+
+    //wbi list name
+    std::string wbiList;
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
+        if (error) error->message = "Could not read WBI list parameter";
+        return false;
+    }
+
+    //default list:
+    if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
+
+    WBInterface &interface = WBInterface::sharedInstance();
+
+    if (interface.dofsForConfigurationFileAndList(wbiConfigFile, wbiList) < 0) {
+        if (error) error->message = "Failed to configure WholeBodyInterface with error ";
+        return false;
+    }
+    
+    return true;
+}
+
+bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
+{
+    using namespace yarp::os;
+    Network::init();
+    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+        if (error) error->message = "YARP server wasn't found active";
+        return false;
+    }
+
+    if (!configureWBIParameters(S, error)) {
+        return false;
+    }
+
+    WBInterface &interface = WBInterface::sharedInstance();
     if (!interface.initialize()) {
         if (error) error->message = "Failed to initialize WBI";
         return false;
