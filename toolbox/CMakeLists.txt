@@ -38,7 +38,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           USE_LINK_PATH)
 
 find_package(Eigen3 REQUIRED)
-find_package(yarpWholeBodyInterface 0.3 REQUIRED)
+find_package(yarpWholeBodyInterface 0.2.3 REQUIRED)
 # Workaround section, aka, this stuff should be defined by imported libraries
 find_package(iDynTree REQUIRED)
 
@@ -64,11 +64,13 @@ configure_block(BLOCK_NAME "Base"
             src/base/Error.cpp
             src/base/WBInterface.cpp
             src/base/factory.cpp
+            src/base/WBIModelBlock.cpp
     HEADERS include/base/toolbox.h
             include/base/Block.h
             include/base/WBIBlock.h
             include/base/Error.h
-            include/base/WBInterface.h)
+            include/base/WBInterface.h
+            include/base/WBIModelBlock.h)
 
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)

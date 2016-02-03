@@ -33,12 +33,13 @@ class wbt::WBInterface {
 
 
     wbi::wholeBodyInterface* m_interface; /**< Reference to the interface object */
-    std::shared_ptr<wbi::iWholeBodyModel> m_model; /**< Reference to the model object */
+    wbi::iWholeBodyModel* m_model; /**< Reference to the model object */
 
     wbi::IDList *m_robotList; /**< Reference to the joint list object */
     yarp::os::Property *m_configuration; /**< Reference to the configuration used to configure the interface */
 
     bool m_initialized; /**< true if the interface has been initialized */
+    bool m_modelInitialized; /**< true if the model has been initialized */
     bool m_configured; /**< true if the interface has been configured */
     int m_dofs; /**< dofs modelled by the interface */
 
@@ -64,7 +65,7 @@ public:
     /**
      * @return a weak pointer to the model;
      */
-    std::weak_ptr<wbi::iWholeBodyModel> model();
+    wbi::iWholeBodyModel * const model();
 
     /**
      * Returns the degrees of freedom associated with the interface object
@@ -120,7 +121,9 @@ public:
      * @Note: Each initialize call should be matched by a subsequent call to terminate.
      * @return: true if configure is successful, false otherwise.
      */
-    bool initialize(bool onlyModel = false);
+    bool initialize();
+
+    bool initializeModel();
 
     /**
      * Release the resources associated with the whole body interface
@@ -130,6 +133,8 @@ public:
      * @return true if configure is successful, false otherwise.
      */
     bool terminate();
+
+    bool terminateModel();
 
     /**
      * Returns true if the interface is initialized. False otherwise

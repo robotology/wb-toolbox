@@ -88,7 +88,7 @@ namespace wbt {
             return false;
         }
         //here obtain joint list and get the frame
-        std::shared_ptr<wbi::iWholeBodyModel> interface = WBInterface::sharedInstance().model().lock();
+        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (!interface) {
             if (error) error->message = "Cannot retrieve handle to WBI interface";
             return false;
@@ -146,7 +146,7 @@ namespace wbt {
     bool DotJNu::output(SimStruct *S, wbt::Error */*error*/)
     {
         //get input
-        std::shared_ptr<wbi::iWholeBodyModel> interface = WBInterface::sharedInstance().model().lock();
+        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
             InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);

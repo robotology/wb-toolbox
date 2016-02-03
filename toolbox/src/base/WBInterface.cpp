@@ -7,12 +7,15 @@
 namespace wbt {
 
     unsigned WBInterface::s_referenceCount = 0;
+    unsigned WBInterface::s_modelReferenceCount = 0;
 
     WBInterface::WBInterface()
     : m_interface(0)
+    , m_model(0)
     , m_robotList(0)
     , m_configuration(0)
     , m_initialized(false)
+    , m_modelInitialized(false)
     , m_configured(false)
     , m_dofs(-1) {}
 
@@ -29,7 +32,7 @@ namespace wbt {
 
     wbi::wholeBodyInterface * const WBInterface::interface() { return m_interface; }
 
-    std::weak_ptr<wbi::iWholeBodyModel> WBInterface::model()
+    wbi::iWholeBodyModel * const WBInterface::model()
     {
         if (!m_model)
             return ((yarpWbi::yarpWholeBodyInterface*)m_interface)->wholeBodyModel();
@@ -127,13 +130,8 @@ namespace wbt {
         }
     }
 
-    bool WBInterface::initialize(bool onlyModel)
+    bool WBInterface::initialize()
     {
-        //cases: 4 different possibilities
-        // - yarpwbi already allocated / not allocated
-
-
-
         if (m_initialized) {
             s_referenceCount++;
             return true;
@@ -166,6 +164,40 @@ namespace wbt {
         return true;
     }
 
+    bool WBInterface::initializeModel()
+    {
+        if (m_modelInitialized) {
+            s_modelReferenceCount++;
+            return true;
+        }
+
+        if (!m_configuration || !m_robotList) return false;
+
+        if (m_model) {
+            m_model->close();
+            delete m_model;
+            m_model = 0;
+        }
+
+        m_model = new yarpWbi::yarpWholeBodyModel(m_configuration->find("localName").toString().c_str(), *m_configuration);
+        if (!m_model) return false;
+
+        s_modelReferenceCount = 1;
+
+        if (!m_model->addJoints(*m_robotList)) {
+            terminateModel();
+            return false;
+        }
+
+        if (!m_model->init()) {
+            terminateModel();
+            return false;
+        }
+        
+        m_modelInitialized = true;
+        return true;
+    }
+
     bool WBInterface::terminate()
     {
         if (s_referenceCount > 1) {
@@ -182,10 +214,33 @@ namespace wbt {
             }
         }
 
-        //clean also configuration
-        clearConfiguration();
+        //clean also configuration if also model has been removed
+        if (!m_modelInitialized) clearConfiguration();
         m_initialized = false;
         s_referenceCount = 0;
+        return result;
+    }
+
+    bool WBInterface::terminateModel()
+    {
+        if (s_modelReferenceCount > 1) {
+            s_modelReferenceCount--;
+            return true;
+        }
+
+        bool result = true;
+        if (m_model) {
+            result = m_model->close();
+            if (result) {
+                delete m_model;
+                m_model = 0;
+            }
+        }
+
+        //clean also configuration if also interface has been removed
+        if (!m_initialized) clearConfiguration();
+        m_modelInitialized = false;
+        s_modelReferenceCount = 0;
         return result;
     }
 
