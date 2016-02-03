@@ -70,7 +70,7 @@ namespace wbt {
     bool Jacobian::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(S, error)) return false;
 
         int parentParameters = WBIBlock::numberOfParameters() + 1;
         //robot name
@@ -81,7 +81,7 @@ namespace wbt {
         }
 
         //here obtain joint list and get the frame
-        wbi::wholeBodyInterface *interface = WBInterface::sharedInstance().interface();
+        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (!interface) {
             if (error) error->message = "Cannot retrieve handle to WBI interface";
             return false;
@@ -128,7 +128,7 @@ namespace wbt {
 
     bool Jacobian::output(SimStruct *S, wbt::Error */*error*/)
     {
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
+        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
             InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);

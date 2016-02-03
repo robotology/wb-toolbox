@@ -1,13 +1,13 @@
 #ifndef WBT_MASSMATRIX_H
 #define WBT_MASSMATRIX_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class MassMatrix;
 }
 
-class wbt::MassMatrix : public wbt::WBIBlock {
+class wbt::MassMatrix : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_massMatrix;

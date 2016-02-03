@@ -1,13 +1,13 @@
 #ifndef WBT_DOTJDOTQ_H
 #define WBT_DOTJDOTQ_H
 
-#include "WBIBlock.h"
+#include "WBIModelBlock.h"
 
 namespace wbt {
     class DotJNu;
 }
 
-class wbt::DotJNu : public wbt::WBIBlock {
+class wbt::DotJNu : public wbt::WBIModelBlock {
 
     double *m_basePose;
     double *m_dotJNu;

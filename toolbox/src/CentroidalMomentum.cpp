@@ -73,7 +73,7 @@ namespace wbt {
     bool CentroidalMomentum::initialize(SimStruct *S, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(S, error)) return false;
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
@@ -119,7 +119,7 @@ namespace wbt {
     bool CentroidalMomentum::output(SimStruct *S, wbt::Error */*error*/)
     {
         //get input
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
+        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
             InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
