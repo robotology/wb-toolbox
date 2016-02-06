@@ -113,7 +113,7 @@ namespace wbt {
             m_jointsVelocity = 0;
         }
 
-        return WBIBlock::terminate(S, error);
+        return WBIModelBlock::terminate(S, error);
     }
 
     bool CentroidalMomentum::output(SimStruct *S, wbt::Error */*error*/)

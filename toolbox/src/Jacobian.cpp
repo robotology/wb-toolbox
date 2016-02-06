@@ -123,7 +123,7 @@ namespace wbt {
             delete [] m_configuration;
             m_configuration = 0;
         }
-        return WBIBlock::terminate(S, error);
+        return WBIModelBlock::terminate(S, error);
     }
 
     bool Jacobian::output(SimStruct *S, wbt::Error */*error*/)

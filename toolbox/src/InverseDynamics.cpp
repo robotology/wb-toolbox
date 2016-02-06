@@ -133,7 +133,7 @@ namespace wbt {
             m_jointsAcceleration = 0;
         }
 
-        return WBIBlock::terminate(S, error);
+        return WBIModelBlock::terminate(S, error);
     }
 
     bool InverseDynamics::output(SimStruct *S, wbt::Error */*error*/)

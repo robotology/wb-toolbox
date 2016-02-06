@@ -140,7 +140,7 @@ namespace wbt {
             delete [] m_jointsVelocity;
             m_jointsVelocity = 0;
         }
-        return WBIBlock::terminate(S, error);
+        return WBIModelBlock::terminate(S, error);
     }
 
     bool DotJNu::output(SimStruct *S, wbt::Error */*error*/)
