@@ -6,7 +6,7 @@ Whole Body Toolbox - A Simulink Toolbox for Whole Body Control
 ### Main Goal
 > The library should allow non-programming experts or those researchers just getting acquainted with Whole Body Control to more easily deploy controllers either on simulation or a real YARP-based robotic platform, as well as to analyze their performance and take advantage of the innumerable MATLAB and Simulink toolboxes. We like to call it "rapid controller prototyping" after which a proper YARP module should be made for hard real time performance and final deployment.
 
-The following video shows CoDyCo's latest results on iCub in which the top level controller has been implemented with the [WBI-Toolbox](https://github.com/robotology-playground/WBI-Toolbox) running at a 10ms rate!
+The following video shows CoDyCo's latest results on iCub in which the top level controller has been implemented with the [WB-Toolbox](https://github.com/robotology/WB-Toolbox) running at a 10ms rate!
 
 <p align="center">
 <a href="https://www.youtube.com/watch?v=VrPBSSQEr3A
