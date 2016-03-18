@@ -18,6 +18,7 @@ alt="iCub balancing on one foot via external force control and interacting with 
 - [Installation](https://github.com/robotology/WB-Toolbox#Installation)
 - [Troubleshooting](https://github.com/robotology/WB-Toolbox#Troubleshooting)
 - [Using the Toolbox](https://github.com/robotology/WB-Toolbox#Using the Toolbox)
+- [Modifying the Toolbox](https://github.com/robotology/WB-Toolbox#modifyng-the-toolbox)
 - [Citing this work](https://github.com/robotology/WB-Toolbox#citing-this-work)
 
 ### Installation
@@ -120,6 +121,11 @@ To start dragging and dropping blocks from the Toolbox open Simulink and search 
 
 ### Migrating from WBI-Toolbox
 Please see [here](doc/Migration.md).
+
+### Modifying the Toolbox
+If you want to modify the toolbox, please check developers documentation:
+- [Add a new C++ block](doc/dev/create_new_block.md)
+- [Tip and tricks on creating simulink blocks](doc/dev/sim_tricks.md)
 
 ### Citing this work
 Eljaik J., del Prete, A., Traversaro, S., Randazzo, M., Nori, F.,: Whole Body Interface Toolbox (WBI-T):
