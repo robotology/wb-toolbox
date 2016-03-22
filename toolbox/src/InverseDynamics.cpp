@@ -6,6 +6,9 @@
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
 
+#define PARAM_IDX_1 5
+#define GET_OPT_EXPLICIT_GRAVITY static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1)))
+
 namespace wbt {
 
     std::string InverseDynamics::ClassName = "InverseDynamics";
@@ -13,12 +16,23 @@ namespace wbt {
     InverseDynamics::InverseDynamics()
     : m_basePose(0)
     , m_torques(0)
+    , m_explicitGravity(false)
     , m_basePoseRaw(0)
     , m_configuration(0)
     , m_baseVelocity(0)
     , m_jointsVelocity(0)
     , m_baseAcceleration(0)
-    , m_jointsAcceleration(0) {}
+    , m_jointsAcceleration(0)
+    {
+        m_gravity[0] = 0;
+        m_gravity[1] = 0;
+        m_gravity[2] = -9.81;
+    }
+
+    unsigned InverseDynamics::numberOfParameters()
+    {
+        return WBIBlock::numberOfParameters() + 1;
+    }
 
     bool InverseDynamics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
@@ -33,7 +47,12 @@ namespace wbt {
         // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
         // - DoFs vector for the robot (joints) configurations
 
-        if (!ssSetNumInputPorts (S, 6)) {
+        m_explicitGravity = GET_OPT_EXPLICIT_GRAVITY;
+
+        int_T portNumber = 6;
+        if (m_explicitGravity) portNumber++;
+
+        if (!ssSetNumInputPorts (S, portNumber)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
@@ -45,6 +64,8 @@ namespace wbt {
         success = success && ssSetInputPortVectorDimension(S, 3, dofs); //joints velocitity
         success = success && ssSetInputPortVectorDimension(S, 4, 6); //base acceleration
         success = success && ssSetInputPortVectorDimension(S, 5, dofs); //joints acceleration
+        if (m_explicitGravity)
+            success = success && ssSetInputPortVectorDimension(S, 6, 3); //gravity acceleration
 
         ssSetInputPortDataType (S, 0, SS_DOUBLE);
         ssSetInputPortDataType (S, 1, SS_DOUBLE);
@@ -52,6 +73,8 @@ namespace wbt {
         ssSetInputPortDataType (S, 3, SS_DOUBLE);
         ssSetInputPortDataType (S, 4, SS_DOUBLE);
         ssSetInputPortDataType (S, 5, SS_DOUBLE);
+        if (m_explicitGravity)
+            ssSetInputPortDataType (S, 6, SS_DOUBLE);
 
         ssSetInputPortDirectFeedThrough (S, 0, 1);
         ssSetInputPortDirectFeedThrough (S, 1, 1);
@@ -59,6 +82,8 @@ namespace wbt {
         ssSetInputPortDirectFeedThrough (S, 3, 1);
         ssSetInputPortDirectFeedThrough (S, 4, 1);
         ssSetInputPortDirectFeedThrough (S, 5, 1);
+        if (m_explicitGravity)
+            ssSetInputPortDirectFeedThrough (S, 6, 1);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -82,6 +107,8 @@ namespace wbt {
     {
         using namespace yarp::os;
         if (!WBIModelBlock::initialize(S, error)) return false;
+
+        m_explicitGravity = GET_OPT_EXPLICIT_GRAVITY;
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
@@ -167,6 +194,13 @@ namespace wbt {
                 m_jointsAcceleration[i] = *jointsAcceleration[i];
             }
 
+            if (m_explicitGravity) {
+                InputRealPtrsType gravity = ssGetInputPortRealSignalPtrs(S, 6);
+                for (unsigned i = 0; i < ssGetInputPortWidth(S, 6); ++i) {
+                    m_gravity[i] = *gravity[i];
+                }
+            }
+
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_basePose);
             basePose = basePoseColMajor;
@@ -174,14 +208,13 @@ namespace wbt {
             wbi::Frame frame;
             wbi::frameFromSerialization(basePose.data(), frame);
 
-            double gravity[3] = {0,0,-9.81};
             interface->inverseDynamics(m_configuration,
                                        frame,
                                        m_jointsVelocity,
                                        m_baseVelocity,
                                        m_jointsAcceleration,
                                        m_baseAcceleration,
-                                       gravity,
+                                       m_gravity,
                                        m_torques);
 
             real_T *output = ssGetOutputPortRealSignal(S, 0);
