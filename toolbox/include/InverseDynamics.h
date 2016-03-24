@@ -12,6 +12,8 @@ class wbt::InverseDynamics : public wbt::WBIModelBlock {
     double *m_basePose;
     double *m_torques;
 
+    bool m_explicitGravity;
+
     //input buffers
     double *m_basePoseRaw;
     double *m_configuration;
@@ -19,11 +21,13 @@ class wbt::InverseDynamics : public wbt::WBIModelBlock {
     double *m_jointsVelocity;
     double *m_baseAcceleration;
     double *m_jointsAcceleration;
+    double m_gravity[3];
 
 public:
     static std::string ClassName;
     InverseDynamics();
 
+    virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
     virtual bool initialize(SimStruct *S, wbt::Error *error);
