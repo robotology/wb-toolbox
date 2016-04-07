@@ -81,18 +81,6 @@ namespace wbt {
         m_rpcData->configuration.clientPortName = clientPortName;
         m_rpcData->configuration.serverPortName = serverPortName;
 
-        m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName);
-        if (!yarp::os::Network::connect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
-            if (error) error->message = "Error connecting to simulator clock server";
-            return false;
-        }
-
-        m_rpcData->clockServer.yarp().attachAsClient(m_rpcData->clientPort);
-
-        double stepSize = m_rpcData->clockServer.getStepSize();
-
-        m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
-
         m_firstRun = true;
 
         return true;
@@ -101,11 +89,13 @@ namespace wbt {
     bool SimulatorSynchronizer::terminate(SimStruct */*S*/, wbt::Error *error)
     {
         if (m_rpcData) {
-            m_rpcData->clockServer.continueSimulation();
-            if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
-                if (error) error->message = "Error disconnecting from simulator clock server";
+            if (m_rpcData->clientPort.isOpen()) {
+                m_rpcData->clockServer.continueSimulation();
+                if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
+                    if (error) error->message = "Error disconnecting from simulator clock server";
+                }
+                m_rpcData->clientPort.close();
             }
-            m_rpcData->clientPort.close();
             delete m_rpcData;
             m_rpcData = 0;
         }
@@ -113,10 +103,21 @@ namespace wbt {
         return true;
     }
     
-    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error */*error*/)
+    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
     {
         if (m_firstRun) {
             m_firstRun = false;
+
+            if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName)
+                || !yarp::os::Network::connect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
+                if (error) error->message = "Error connecting to simulator clock server";
+                return false;
+            }
+
+            m_rpcData->clockServer.yarp().attachAsClient(m_rpcData->clientPort);
+
+            double stepSize = m_rpcData->clockServer.getStepSize();
+            m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
             m_rpcData->clockServer.pauseSimulation();
         }
 
