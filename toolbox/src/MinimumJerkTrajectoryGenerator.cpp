@@ -148,6 +148,15 @@ namespace wbt {
     {
         if (!m_generator) return false;
 
+        if (m_externalSettlingTime) {
+            unsigned portIndex = 1;
+            if (m_explicitInitialValue) portIndex++;
+            
+            InputRealPtrsType externalTimePort = ssGetInputPortRealSignalPtrs(S, portIndex);
+            double externalTime = *externalTimePort[0];
+            m_generator->setT(externalTime);
+        }
+        
         if (m_firstRun) {
             m_firstRun = false;
             InputRealPtrsType initialValues = 0;
@@ -161,16 +170,6 @@ namespace wbt {
             }
             m_generator->init(*m_initialValues);
         }
-
-        if (m_externalSettlingTime) {
-            unsigned portIndex = 1;
-            if (m_explicitInitialValue) portIndex++;
-
-            InputRealPtrsType externalTimePort = ssGetInputPortRealSignalPtrs(S, portIndex);
-            double externalTime = *externalTimePort[0];
-            m_generator->setT(externalTime);
-        }
-
 
         InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
         for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
