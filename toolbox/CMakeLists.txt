@@ -178,7 +178,7 @@ include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE
 
 list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
 if (WBT_USES_ICUB)
-    list(APPEND LINKED_LIBRARIES ${ctrlLib_LIBRARIES})
+    list(APPEND LINKED_LIBRARIES ${ICUB_LIBRARIES})
 endif()
 
 #Adding files used for the generation of the dynamic library
