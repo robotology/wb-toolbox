@@ -20,7 +20,10 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
     // - robot: robot port. If defined overrides the one specified by wbi file
     // - moduleName: local (opened) ports.
     // - wbi config file name (default: yarpWholeBodyInterface.ini): specifies the wbi config file
-    // - wbi list (default ROBOT_TORQUE_CONTROL_JOINTS): specifies the WBI list
+    // - wbi list (default ROBOT_TORQUE_CONTROL_JOINTS): specifies the WBI list .
+    //            It it is a normal string, it is interpreted as a named list of joints that is loaded from the
+    //            yarpWholeBodyInterface.ini file. If instead it s
+
 
     //robot name
     std::string robotName;
@@ -96,7 +99,7 @@ bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
         if (error) error->message = "Failed to configure WholeBodyInterface with error ";
         return false;
     }
-    
+
     return true;
 }
 

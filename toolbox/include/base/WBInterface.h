@@ -75,13 +75,26 @@ public:
     int numberOfDoFs() const;
 
     /**
-     * Returns the degrees of freedom for the specified configuration file and joint list
+     * Load the used wbi::IDList from the WBI configuration and the list parameter
+     *
+     * @param wbiConfigFile wbi configuration file
+     * @param list          either the name of joint list to be found in the wbi configuration file,
+     *                      or directly a list in the format (Value1 value2 value3)
+     * @return true if loading the list was successful, false otherwise.
+     */
+    bool wbdIDListFromConfigPropAndList(const yarp::os::Property & wbiConfigProp,
+                                        const std::string & list,
+                                        wbi::IDList & idList);
+
+    /**
+     * Returns the degrees of freedom for the specified configuration file and the list parameter
      *
      * @Note: this method also save the dofs in the internal state. It is thus possible to retrieve it
-     * by calling numberOfDofs. 
+     * by calling numberOfDofs.
      * @todo: maybe we should transform this method into const?
      * @param wbiConfigFile wbi configuration file
-     * @param list          joint list to be found in the configuration file
+     * @param list          either the name of joint list to be found in the wbi configuration file,
+     *                      or directly a list in the format (Value1 value2 value3)
      *
      * @return the degrees of freedom of the specified list
      */
@@ -95,10 +108,11 @@ public:
      * @param robotName     name of the robot (The model will connect to port with this name as prefix).
      *                      empty the one specified in the configuration file is taken
      * @param localName     name of the model (ports will be open with this name)
-     * @param wbiConfigFile name of the wbi configuration file. The file will be looked for by using 
+     * @param wbiConfigFile name of the wbi configuration file. The file will be looked for by using
      *                      yarp::os::ResourceFinder policies
-     * @param list          The joint list to be configured
-     * @param [out]error    Pointer to the error object to be filled in case of error. 
+     * @param list          either the name of joint list to be found in the wbi configuration file,
+     *                      or directly a list in the format (Value1 value2 value3)
+     * @param [out]error    Pointer to the error object to be filled in case of error.
      *                      Check for NULL before using it
      *
      * @return true if configure is successful, false otherwise.

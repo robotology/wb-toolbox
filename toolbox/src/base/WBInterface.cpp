@@ -42,6 +42,37 @@ namespace wbt {
 
     int WBInterface::numberOfDoFs() const { return m_dofs; }
 
+    bool WBInterface::wbdIDListFromConfigPropAndList(const yarp::os::Property& wbiConfigProp,
+                                                     const std::string& list, wbi::IDList& idList) {
+        // There are two ways of specifying the list throuth the mask parameter:
+        // either the specified parameter is a list (in the sense of YARP configuration file list,
+        // so something like (joint1,joint2,joint3) ) and it that case it is
+        // considered to by directly the list of joints to load, or otherwise
+        // the wbi list is just a string, and it is considered the name of the list
+        // in the yarpWholeBodyInterface.ini file
+
+        // Reset the idList
+        idList.removeAllIDs();
+
+        // Check if the list string is actually a list
+        yarp::os::Value listAsValue;
+        listAsValue.fromString(list.c_str());
+
+        if (listAsValue.isList()) {
+            // If the list param is a (YARP) list, load the IDList from it
+            for (int jnt = 0; jnt < listAsValue.asList()->size(); jnt++)
+            {
+                yarp::os::ConstString jntName = listAsValue.asList()->get(jnt).asString();
+                idList.addID(wbi::ID(jntName.c_str()));
+            }
+        } else {
+            // Otherwise consider the list to be a
+            if (!yarpWbi::loadIdListFromConfig(list, wbiConfigProp, idList)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     int WBInterface::dofsForConfigurationFileAndList(const std::string & wbiConfigFile, const std::string & list)
     {
@@ -57,9 +88,10 @@ namespace wbt {
 
         wbi::IDList jointList;
 
-        if (!yarpWbi::loadIdListFromConfig(list, configurations, jointList)) {
+        if (!wbdIDListFromConfigPropAndList(configurations,list,jointList)) {
             return -1;
         }
+
         m_dofs = jointList.size();
         return m_dofs;
     }
@@ -81,7 +113,9 @@ namespace wbt {
         // - robot: robot port. If defined overrides the one specified by wbi file
         // - moduleName: local (opened) ports.
         // - wbi config file name (default: yarpWholeBodyInterface.ini): specifies the wbi config file
-        // - wbi list (default ROBOT_TORQUE_CONTROL_JOINTS): specifies the WBI list
+        // - wbi list (default ROBOT_TORQUE_CONTROL_JOINTS): specifies the WBI list.
+        //            If it is a list [of style: (value1 value2 value3)] it specifies directly the list of joints to control,
+        //            otherwise its value specifies the name of list present the wbi config file.
 
         if (m_configuration) {
             delete m_configuration;
@@ -105,12 +139,14 @@ namespace wbt {
             delete m_robotList;
             m_robotList = 0;
         }
+
         m_robotList = new wbi::IDList();
 
-        if (!yarpWbi::loadIdListFromConfig(list, *m_configuration, *m_robotList)) {
-            if (error) error->message = "Could not load the specified WBI list";
+        if (!wbdIDListFromConfigPropAndList(*m_configuration,list,*m_robotList)) {
+            if(error) error->message = "Could not load the specified WBI list (list param: " + list + " )";
             return false;
         }
+
         m_dofs = m_robotList->size();
 
         m_configured = true;
@@ -193,7 +229,7 @@ namespace wbt {
             terminateModel();
             return false;
         }
-        
+
         m_modelInitialized = true;
         return true;
     }
