@@ -9,13 +9,13 @@ namespace wbt {
     class SetLowLevelPID;
 }
 
-namespace codyco {
-    class PIDList;
-}
-
 namespace wbi {
     class wholeBodyInterface;
     class iWholeBodyActuators;
+}
+
+namespace yarpWbi {
+    class PIDList;
 }
 
 namespace yarp {
@@ -24,7 +24,7 @@ namespace yarp {
     }
 }
 
-typedef std::map<std::string, codyco::PIDList> PidMap;
+typedef std::map<std::string, yarpWbi::PIDList> PidMap;
 
 class wbt::SetLowLevelPID : public wbt::WBIBlock {
 
@@ -34,9 +34,9 @@ class wbt::SetLowLevelPID : public wbt::WBIBlock {
     wbi::ControlMode m_controlMode;
 
     bool loadLowLevelGainsFromFile(std::string filename,
-                                   const codyco::PIDList &originalList,
+                                   const yarpWbi::PIDList &originalList,
                                    wbi::wholeBodyInterface& interface,
-                                   codyco::PIDList &loadedPIDs);
+                                   yarpWbi::PIDList &loadedPIDs);
 
     bool loadGainsFromValue(const yarp::os::Value &gains,
                             PidMap &pidMap,

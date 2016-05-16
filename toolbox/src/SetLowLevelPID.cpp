@@ -4,8 +4,8 @@
 #include "WBInterface.h"
 #include <yarpWholeBodyInterface/yarpWholeBodyInterface.h>
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
+#include <yarpWholeBodyInterface/PIDList.h>
 #include <wbi/wholeBodyInterface.h>
-#include <codyco/PIDList.h>
 #include <yarp/os/ResourceFinder.h>
 #include <map>
 
@@ -25,9 +25,9 @@ namespace wbt {
 
 
     bool SetLowLevelPID::loadLowLevelGainsFromFile(std::string filename,
-                                                   const codyco::PIDList &originalList,
+                                                   const yarpWbi::PIDList &originalList,
                                                    wbi::wholeBodyInterface& interface,
-                                                   codyco::PIDList &loadedPIDs)
+                                                   yarpWbi::PIDList &loadedPIDs)
     {
         //List of list. Each element has a key: joint name, and a list of pairs: kp, kd, ki and its respective value
         using namespace yarp::os;
@@ -77,7 +77,7 @@ namespace wbt {
         }
 
         //Load original gains from controlboards and save them to the original key.
-        codyco::PIDList originalGains(interface.getDoFs());
+        yarpWbi::PIDList originalGains(interface.getDoFs());
         yarpWbi::yarpWholeBodyActuators *actuators = yarpInterface->wholeBodyActuator();
         if (!actuators) {
             return false;
@@ -90,7 +90,7 @@ namespace wbt {
         //Now load additional gains
         bool result = true;
         if (gains.isString()) {
-            codyco::PIDList pids(interface.getDoFs());
+            yarpWbi::PIDList pids(interface.getDoFs());
             result = loadLowLevelGainsFromFile(gains.asString(), originalGains, interface, pids);
             pidMap.insert(PidMap::value_type(TorquePIDDefaultKey, pids));
         } else if (gains.isList()) {
@@ -101,7 +101,7 @@ namespace wbt {
             for (int i = 0; i < list->size(); ++i) {
                 if (!list->get(i).isString()) continue;
                 std::string filename = list->get(i).asString();
-                codyco::PIDList pids(interface.getDoFs());
+                yarpWbi::PIDList pids(interface.getDoFs());
                 result = loadLowLevelGainsFromFile(filename, originalGains, interface, pids);
 
                 if (result) {
