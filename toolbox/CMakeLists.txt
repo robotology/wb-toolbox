@@ -38,10 +38,9 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           USE_LINK_PATH)
 
 find_package(Eigen3 REQUIRED)
-find_package(yarpWholeBodyInterface 0.3.0 REQUIRED)
+find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
 # Workaround section, aka, this stuff should be defined by imported libraries
 find_package(iDynTree REQUIRED)
-find_package(codycoCommons 0.2)
 
 #On new versions of Clang, MATLAB requires C++11.
 #I enable it on all Clangs
@@ -155,15 +154,11 @@ configure_block(BLOCK_NAME "Set References"
     SOURCES src/SetReferences.cpp
     HEADERS include/SetReferences.h)
 
-if (codycoCommons_FOUND)
-    add_definitions(-DWBT_USES_CODYCO_COMMONS)
-    include_directories(SYSTEM ${codycoCommons_INCLUDE_DIRS})
-    configure_block(BLOCK_NAME "Set Low-Level PIDs"
-        GROUP "Actuators"
-        LIST_PREFIX WBT
-        SOURCES src/SetLowLevelPID.cpp
-        HEADERS include/SetLowLevelPID.h)
-endif()
+configure_block(BLOCK_NAME "Set Low-Level PIDs"
+    GROUP "Actuators"
+    LIST_PREFIX WBT
+    SOURCES src/SetLowLevelPID.cpp
+    HEADERS include/SetLowLevelPID.h)
 
 configure_block(BLOCK_NAME "Get Estimate"
     GROUP "State"
@@ -190,9 +185,6 @@ include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE
 list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
-endif()
-if (codycoCommons_FOUND)
-    list(APPEND LINKED_LIBRARIES ${codycoCommons_LIBRARIES})
 endif()
 
 #Adding files used for the generation of the dynamic library
