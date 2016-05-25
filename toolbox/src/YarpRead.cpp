@@ -6,6 +6,8 @@
 #include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
 
+#include <algorithm>
+
 #define PARAM_IDX_1 1                           // port name
 #define PARAM_IDX_2 2                           // Size of the port you're reading
 #define PARAM_IDX_3 3                           // boolean for blocking reading
