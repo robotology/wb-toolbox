@@ -81,15 +81,15 @@ namespace wbt {
         resourceFinder.configure(0, 0);
 
         Property configurations;
-        //loading defaults
+        //loading defaults from configuration file
         if (!configurations.fromConfigFile(resourceFinder.findFile(wbiConfigFile))) {
             return -1;
         }
 
         wbi::IDList jointList;
-
+        //parse the file to get the joint list
         if (!wbdIDListFromConfigPropAndList(configurations,list,jointList)) {
-            return -1;
+            return -2;
         }
 
         m_dofs = jointList.size();

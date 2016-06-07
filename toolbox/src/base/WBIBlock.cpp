@@ -95,7 +95,11 @@ bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
 
     WBInterface &interface = WBInterface::sharedInstance();
 
-    if (interface.dofsForConfigurationFileAndList(wbiConfigFile, wbiList) < 0) {
+    int dofs = interface.dofsForConfigurationFileAndList(wbiConfigFile, wbiList);
+    if (dofs == -1) {
+        if (error) error->message = "Failed to configure WholeBodyInterface. Could not load WBI properties from file";
+        return false;
+    } else if (dofs == -2) {
         if (error) error->message = "Failed to configure WholeBodyInterface. WBI joint list not found or failed to configure. Check if joint list exists.";
         return false;
     }

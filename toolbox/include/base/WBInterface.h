@@ -89,7 +89,7 @@ public:
     /**
      * Returns the degrees of freedom for the specified configuration file and the list parameter
      *
-     * @Note: this method also save the dofs in the internal state. It is thus possible to retrieve it
+     * @note this method also save the dofs in the internal state. It is thus possible to retrieve it
      * by calling numberOfDofs.
      * @todo: maybe we should transform this method into const?
      * @param wbiConfigFile wbi configuration file
