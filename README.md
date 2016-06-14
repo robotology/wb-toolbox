@@ -70,7 +70,21 @@ In order to use the WB-Toolbox in Matlab you have to add the `mex` and `share/WB
 ```
 
 You can also use (only once after the installation) the script `startup_wbitoolbox.m` that you can find in the `share/WB-Toolbox` subdirectory of the install folder to properly configure Matlab.
-**Note** This script configures Matlab to alwasy add the WB-Toolbox to the path. This assumes Matlab is always launched from the `userpath` folder. 
+**Note** This script configures Matlab to alwasy add the WB-Toolbox to the path. This assumes Matlab is always launched from the `userpath` folder.
+
+- **Launching Matlab** By default, Matlab has different startup behaviours depending on the Operating Systems and how it is launched. For Windows and OS X (if launched in the Finder) Matlab starts in the `userpath` folder. If this is your common workflow you can skip the rest of this note. Instead, if you launch Matlab from the command line (Linux and OS X users), Matlab starts in the folder where the command is typed, and thus the `path.m` file generated in the previous phase is no longer loaded. You thus have two options:
+  -  create a Bash alias, such that Matlab is always launched in the `userpath`, e.g. 
+  ```
+     alias matlab='cd ~/Documents/MATLAB && /path/to/matlab
+  ```
+    (add the above line in your `.bashrc`/`.bash_profile` file)
+  -  create a `startup.m` file in your `userpath` folder and add the following lines
+  ```
+    if strcmp(userpath, pwd) == 0
+        path(pathdef())
+    end
+  ```
+
 
 - **Robots' configuration files** Each robot that can be used through the Toolbox has its own configuration file. WB-Toolbox uses the Yarp [`ResourceFinder`](http://www.yarp.it/yarp_resource_finder_tutorials.html). You should thus follow the related instruction to properly configure your installation (e.g. set the `YARP_DATA_DIRS` variable)
 
