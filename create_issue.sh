@@ -4,7 +4,7 @@
 # iCub Facility, Istituto Italiano di Tecnologia - 2015
 
 set -e
-WBI_TOOLBOX_ISSUE_URL=${WBI_TOOLBOX_ISSUE_URL:-"https://github.com/robotology-playground/WBI-Toolbox/issues/new"}
+WBI_TOOLBOX_ISSUE_URL=${WBI_TOOLBOX_ISSUE_URL:-"https://github.com/robotology/WB-Toolbox/issues/new"}
 WBI_TOOLBOX_ISSUE_NAME_DEFAULT_TITLE=${WBI_TOOLBOX_ISSUE_NAME_DEFAULT_TITLE:-"[branch_name]: Title of your issue"}
 
 # pulled from https://gist.github.com/cdown/1163649
