@@ -16,6 +16,7 @@
 #include "CentroidalMomentum.h"
 #ifdef WBT_USES_ICUB
 #include "MinimumJerkTrajectoryGenerator.h"
+#include "InverseKinematics.h"
 #endif
 #ifdef WBT_USES_CODYCO_COMMONS
 #include "SetLowLevelPID.h"

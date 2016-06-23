@@ -83,6 +83,14 @@ if (WBT_USES_ICUB)
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
 
+    if (${ICUB_USE_IPOPT})
+        configure_block(BLOCK_NAME "Inverse Kinematics"
+            GROUP "Model"
+            LIST_PREFIX WBT
+            SOURCES src/InverseKinematics.cpp
+            HEADERS include/InverseKinematics.h)
+    endif()
+
     include_directories(SYSTEM ${ctrlLib_INCLUDE_DIRS})
 endif()
 
@@ -185,6 +193,9 @@ include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE
 list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
+    if (${ICUB_USE_IPOPT})
+        list(APPEND LINKED_LIBRARIES iKin)
+    endif()
 endif()
 
 #Adding files used for the generation of the dynamic library
