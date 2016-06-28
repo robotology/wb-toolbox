@@ -9,6 +9,7 @@
 #include <iCub/iKin/iKinIpOpt.h>
 #include <yarp/sig/Matrix.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/os/ResourceFinder.h>
 
 namespace wbt {
 
@@ -19,7 +20,7 @@ namespace wbt {
         double *m_currentBasePoseRaw;
         double *m_currentBasePose;
 
-        iCub::iKin::iCubLeg *m_leg;
+        iCub::iKin::iKinChain *m_leg;
         iCub::iKin::iKinIpOptMin *m_solver;
 
         yarp::sig::Matrix m_desiredPoseAsMatrix;
@@ -151,10 +152,20 @@ namespace wbt {
             return false;
         }
 
-        m_piml->m_leg = new iCub::iKin::iCubLeg(robotSide);
+        std::string partPrefix = robotSide == "left" ? "l_" : "r_";
+        //Looking for chain parameters
+        yarp::os::ResourceFinder &finder = yarp::os::ResourceFinder::getResourceFinderSingleton();
+        std::string filePath = finder.findFileByName(partPrefix + "sole_dh_params.ini");
+        if (filePath.empty()) {
+            m_piml->m_leg = new iCub::iKin::iCubLeg(robotSide);
+        } else {
+            yarp::os::Property chain;
+            if (!chain.fromConfigFile(filePath)) return false;
+            m_piml->m_leg = new iCub::iKin::iKinLimb(chain);
+        }
         if (!m_piml->m_leg) return false;
 
-        m_piml->m_solver = new iCub::iKin::iKinIpOptMin(*m_piml->m_leg->asChain(), IKINCTRL_POSE_XYZ, 1e-3, 1e-6, 100);
+        m_piml->m_solver = new iCub::iKin::iKinIpOptMin(*m_piml->m_leg, IKINCTRL_POSE_XYZ, 1e-3, 1e-6, 100);
         if (!m_piml->m_solver) return false;
 
         m_piml->m_solver->setUserScaling(true, 100.0, 100.0, 100.0);
@@ -172,7 +183,6 @@ namespace wbt {
 
 
         //Look for joint indexes
-        std::string partPrefix = robotSide == "left" ? "l_" : "r_";
         m_piml->m_jointIndexes.reserve(6);
         wbi::IDList jointList = WBInterface::sharedInstance().model()->getJointList();
         int index = -1;
@@ -228,19 +238,12 @@ namespace wbt {
             //Map initial configuration to chain joints
             for (size_t index = 0; index < m_piml->m_jointIndexes.size(); ++index) {
                 if (m_piml->m_jointIndexes[index] == -1) continue;
-                m_piml->m_leg->asChain()->setAng(index, m_piml->m_configuration[m_piml->m_jointIndexes[index]]);
+                m_piml->m_leg->setAng(index, m_piml->m_configuration[m_piml->m_jointIndexes[index]]);
             }
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_piml->m_currentBasePoseRaw);
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_piml->m_currentBasePose);
             basePose = basePoseColMajor;
-
-            wbi::Frame w_H_base;
-            wbi::frameFromSerialization(basePose.data(), w_H_base);
-
-            wbi::Frame root_H_w;
-            interface->computeH(m_piml->m_configuration, w_H_base, m_piml->m_rootFrameIndex, root_H_w);
-            root_H_w.setToInverse();
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > desiredPoseColMajor(m_piml->m_desiredPoseRaw);
             //Convert desiredPoseColMajor to yarp matrix
@@ -250,14 +253,23 @@ namespace wbt {
                 }
             }
 
-            double root_H_w_data[16];
-            root_H_w.get4x4Matrix(root_H_w_data);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > root_H_w_eigen(root_H_w_data);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > desiredPose(m_piml->m_desiredPoseAsMatrix.data());
+            if (typeid(*m_piml->m_leg) == typeid(iCub::iKin::iCubLeg)) {
+                wbi::Frame w_H_base;
+                wbi::frameFromSerialization(basePose.data(), w_H_base);
 
-            //iKin expect frames in root_link but we provide them in world
-            //root_H_foot = root_H_w * w_H_foot
-            desiredPose = root_H_w_eigen * desiredPose;
+                wbi::Frame root_H_w;
+                interface->computeH(m_piml->m_configuration, w_H_base, m_piml->m_rootFrameIndex, root_H_w);
+                root_H_w.setToInverse();
+
+                double root_H_w_data[16];
+                root_H_w.get4x4Matrix(root_H_w_data);
+                Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > root_H_w_eigen(root_H_w_data);
+                Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > desiredPose(m_piml->m_desiredPoseAsMatrix.data());
+
+                //iKin expect frames in root_link but we provide them in world
+                //root_H_foot = root_H_w * w_H_foot
+                desiredPose = root_H_w_eigen * desiredPose;
+            }
 
             //To vector
             m_piml->m_desiredPoseAsAngleAxis(0) = m_piml->m_desiredPoseAsMatrix(0, 3);
@@ -267,7 +279,7 @@ namespace wbt {
             m_piml->m_desiredAngleAxisOrientation = yarp::math::dcm2axis(m_piml->m_desiredPoseAsMatrix);
             m_piml->m_desiredPoseAsAngleAxis.setSubvector(3, m_piml->m_desiredAngleAxisOrientation);
 
-            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_leg->asChain()->getAng(), m_piml->m_desiredPoseAsAngleAxis);
+            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_leg->getAng(), m_piml->m_desiredPoseAsAngleAxis);
 
             real_T *output = ssGetOutputPortRealSignal(S, 1);
             Eigen::Map<Eigen::VectorXd > outputPort(output, ssGetOutputPortWidth(S, 1));
