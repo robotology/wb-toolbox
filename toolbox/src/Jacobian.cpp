@@ -2,6 +2,8 @@
 
 #include "Error.h"
 #include "WBInterface.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
@@ -22,9 +24,9 @@ namespace wbt {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool Jacobian::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool Jacobian::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
@@ -35,19 +37,16 @@ namespace wbt {
         // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
         // - DoFs vector for the robot (joints) configurations
 
-        if (!ssSetNumInputPorts (S, 2)) {
+        if (!blockInfo->setNumberOfInputPorts(2)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4);
-        success = success && ssSetInputPortVectorDimension(S, 1, dofs);
+        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4);
+        success = success && blockInfo->setInputPortVectorSize(1, dofs);
 
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDataType (S, 1, SS_DOUBLE);
-
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
-        ssSetInputPortDirectFeedThrough (S, 1, 1);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
+        blockInfo->setInputPortType(1, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -56,26 +55,26 @@ namespace wbt {
 
         // Output port:
         // - (6)x(6+dofs) matrix
-        if (!ssSetNumOutputPorts (S, 1)) {
+        if (!blockInfo->setNumberOfOuputPorts(1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortMatrixDimensions(S, 0, 6, 6 + dofs);
-        ssSetOutputPortDataType (S, 0, SS_DOUBLE);
+        success = blockInfo->setOutputPortMatrixSize(0, 6, 6 + dofs);
+        blockInfo->setOutputPortType(0, PortDataTypeDouble);
 
         return success;
     }
 
-    bool Jacobian::initialize(SimStruct *S, wbt::Error *error)
+    bool Jacobian::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIModelBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
 
         int parentParameters = WBIBlock::numberOfParameters() + 1;
         //robot name
         std::string frame;
-        if (!Block::readStringParameterAtIndex(S, parentParameters, frame)) {
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, frame)) {
             if (error) error->message = "Cannot retrieve string from frame parameter";
             return false;
         }
@@ -105,7 +104,7 @@ namespace wbt {
         return m_basePose && m_jacobian && m_basePoseRaw && m_configuration;
     }
 
-    bool Jacobian::terminate(SimStruct *S, wbt::Error *error)
+    bool Jacobian::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
@@ -123,20 +122,20 @@ namespace wbt {
             delete [] m_configuration;
             m_configuration = 0;
         }
-        return WBIModelBlock::terminate(S, error);
+        return WBIModelBlock::terminate(blockInfo, error);
     }
 
-    bool Jacobian::output(SimStruct *S, wbt::Error */*error*/)
+    bool Jacobian::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
-            InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
-            InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                m_basePoseRaw[i] = *basePoseRaw[i];
+            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
+            Signal configuration = blockInfo->getInputPortSignal(1);
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
-                m_configuration[i] = *configuration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
+                m_configuration[i] = configuration.get(i).doubleData();
             }
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
@@ -151,8 +150,8 @@ namespace wbt {
 
             Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::RowMajor> > jacobianRowMajor(m_jacobian, 6, 6 + dofs);
 
-            real_T *output = ssGetOutputPortRealSignal(S, 0);
-            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::ColMajor> > jacobianColMajor(output, 6, 6 + dofs);
+            Signal output = blockInfo->getOutputPortSignal(0);
+            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::ColMajor> > jacobianColMajor((double*)output.getContiguousBuffer(), 6, 6 + dofs);
 
             jacobianColMajor = jacobianRowMajor;
             return true;

@@ -6,6 +6,7 @@
 
 namespace wbt {
     class WBIBlock;
+    class BlockInformation;
 }
 
 /**
@@ -32,15 +33,15 @@ protected:
     std::string m_wbiConfigurationFileName;
     std::string m_wbiListName;
 
-    bool configureWBIParameters(SimStruct *S, wbt::Error *error);
+    bool configureWBIParameters(BlockInformation *blockInfo, wbt::Error *error);
 
 public:
     WBIBlock();
     virtual ~WBIBlock();
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
-    virtual bool initialize(SimStruct *S, wbt::Error *error);
-    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
 };
 
 

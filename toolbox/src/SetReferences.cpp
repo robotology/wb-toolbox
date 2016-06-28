@@ -2,6 +2,8 @@
 
 #include "Error.h"
 #include "WBInterface.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 
@@ -23,20 +25,20 @@ namespace wbt {
         return WBIBlock::numberOfParameters() + 3;
     }
 
-    bool SetReferences::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool SetReferences::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
 
-        m_fullControl = static_cast<int>(mxGetScalar(ssGetSFcnParam(S,WBIBlock::numberOfParameters() + 2))) == 1;
+        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).booleanData();
 
         if (!m_fullControl) {
             //sublist
             std::string controlledList;
-            if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 3, controlledList)) {
+            if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 3, controlledList)) {
                 if (error) error->message = "Could not read control type parameter";
                 return false;
             }
@@ -49,14 +51,13 @@ namespace wbt {
         }
 
         // Specify I/O
-        if (!ssSetNumInputPorts (S, 1)) {
+        if (!blockInfo->setNumberOfInputPorts(1)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
 
-        bool success = ssSetInputPortVectorDimension(S, 0, dofs);
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
+        bool success = blockInfo->setInputPortVectorSize(0, dofs);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -64,7 +65,7 @@ namespace wbt {
         }
 
         // Output port:
-        if (!ssSetNumOutputPorts (S, 0)) {
+        if (!blockInfo->setNumberOfOuputPorts(0)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
@@ -72,14 +73,14 @@ namespace wbt {
         return true;
     }
 
-    bool SetReferences::initialize(SimStruct *S, wbt::Error *error)
+    bool SetReferences::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIBlock::initialize(S, error)) return false;
+        if (!WBIBlock::initialize(blockInfo, error)) return false;
 
         // Reading the control type
         std::string controlType;
-        if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 1, controlType)) {
+        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 1, controlType)) {
             if (error) error->message = "Could not read control type parameter";
             return false;
         }
@@ -101,13 +102,13 @@ namespace wbt {
         }
 
         //Read if full or sublist control
-        m_fullControl = static_cast<int>(mxGetScalar(ssGetSFcnParam(S,WBIBlock::numberOfParameters() + 2))) == 1;
+        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).booleanData();
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         if (!m_fullControl) {
             //sublist
             std::string controlledList;
-            if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 3, controlledList)) {
+            if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 3, controlledList)) {
                 if (error) error->message = "Could not read control type parameter";
                 return false;
             }
@@ -136,7 +137,7 @@ namespace wbt {
         return m_references;
     }
 
-    bool SetReferences::terminate(SimStruct *S, wbt::Error *error)
+    bool SetReferences::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
@@ -152,10 +153,10 @@ namespace wbt {
             delete [] m_references;
             m_references = 0;
         }
-        return WBIBlock::terminate(S, error);
+        return WBIBlock::terminate(blockInfo, error);
     }
 
-    bool SetReferences::initializeInitialConditions(SimStruct */*S*/, wbt::Error */*error*/)
+    bool SetReferences::initializeInitialConditions(BlockInformation */*blockInfo*/, wbt::Error */*error*/)
     {
         //Simply reset the variable m_resetControlMode
         //It will be read at the first cycle of output
@@ -163,15 +164,15 @@ namespace wbt {
         return true;
     }
 
-    bool SetReferences::output(SimStruct *S, wbt::Error */*error*/)
+    bool SetReferences::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (!interface) return false;
 
-        InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
-        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-            m_references[i] = *references[i];
+        Signal references = blockInfo->getInputPortSignal(0);
+        for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+            m_references[i] = references.get(i).doubleData();
         }
 
         if (m_resetControlMode) {
@@ -185,6 +186,7 @@ namespace wbt {
                     interface->setControlMode(m_controlMode, &m_references[i], m_controlledJoints[i]);
                 }
             }
+            return true;
         }
 
         if (m_fullControl) {

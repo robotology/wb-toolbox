@@ -22,6 +22,8 @@ namespace yarp {
 /**
  * This class holds a reference counted handle to the whole body interface object.
  * You can obtain the singleton reference to this object by calling the sharedInstance method.
+ * @note at the current state, and because of how the wbi is structured, the model and the interface are
+ * two different objects, even if this should not lead to any problem
  */
 class wbt::WBInterface {
 
@@ -70,6 +72,9 @@ public:
      */
     wbi::iWholeBodyModel * const model();
 
+    /**
+     * @return the current configuration used for the interface and/or model
+     */
     const yarp::os::Property * const currentConfiguration() const;
 
     /**
@@ -142,6 +147,13 @@ public:
      */
     bool initialize();
 
+    /**
+     * Initialize the model.
+     *
+     * This call has effect only the first time. Subsequent calls only increase the reference count
+     * @Note: Each initialize call should be matched by a subsequent call to terminateModel.
+     * @return: true if configure is successful, false otherwise.
+     */
     bool initializeModel();
 
     /**
@@ -153,6 +165,13 @@ public:
      */
     bool terminate();
 
+    /**
+     * Release the resources associated with the model
+     *
+     * @Note: resources are released only if the call is made by the last object using the interface
+     * otherwise the reference count is decreased and no resources are relased.
+     * @return true if configure is successful, false otherwise.
+     */
     bool terminateModel();
 
     /**

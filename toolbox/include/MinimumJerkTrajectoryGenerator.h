@@ -5,6 +5,7 @@
 
 namespace wbt {
     class MinimumJerkTrajectoryGenerator;
+    class BlockInformation;
 }
 
 namespace iCub {
@@ -26,17 +27,17 @@ public:
     MinimumJerkTrajectoryGenerator();
     
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
-    virtual bool initialize(SimStruct *S, wbt::Error *error);
-    virtual bool terminate(SimStruct *S, wbt::Error *error);
-    virtual bool output(SimStruct *S, wbt::Error *error);
+    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
     
 private:
 
     iCub::ctrl::minJerkTrajGen *m_generator;
 
-    int_T m_outputFirstDerivativeIndex;
-    int_T m_outputSecondDerivativeIndex;
+    int m_outputFirstDerivativeIndex;
+    int m_outputSecondDerivativeIndex;
 
     double m_previousSettlingTime;
 

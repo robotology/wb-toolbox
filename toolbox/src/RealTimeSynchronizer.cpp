@@ -1,10 +1,10 @@
 #include "RealTimeSynchronizer.h"
 #include "Error.h"
+#include "BlockInformation.h"
 
 #include <yarp/os/Time.h>
 
 #define PARAM_IDX_1 1                           // Period
-#define GET_PERIOD_PARAMETER mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1))
 
 namespace wbt {
     
@@ -19,14 +19,14 @@ namespace wbt {
     
     unsigned RealTimeSynchronizer::numberOfParameters() { return 1; }
 
-    bool RealTimeSynchronizer::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if(!ssSetNumInputPorts(S, 0)) {
+        if (!blockInfo->setNumberOfInputPorts(0)) {
             if (error) error->message = "Failed to set input port number to 0";
             return false;
         }
         
-        if (!ssSetNumOutputPorts(S, 0)) {
+        if (!blockInfo->setNumberOfOuputPorts(0)) {
             if (error) error->message = "Failed to set output port number";
             return false;
         }
@@ -34,19 +34,19 @@ namespace wbt {
         return true;
     }
 
-    bool RealTimeSynchronizer::initialize(SimStruct *S, wbt::Error */*error*/)
+    bool RealTimeSynchronizer::initialize(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
-        m_period = GET_PERIOD_PARAMETER;
+        m_period = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).doubleData();
         m_counter = 0;
         return m_period > 0;
     }
     
-    bool RealTimeSynchronizer::terminate(SimStruct */*S*/, wbt::Error */*error*/)
+    bool RealTimeSynchronizer::terminate(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         return true;
     }
     
-    bool RealTimeSynchronizer::output(SimStruct */*S*/, wbt::Error */*error*/)
+    bool RealTimeSynchronizer::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         using namespace yarp::os;
 

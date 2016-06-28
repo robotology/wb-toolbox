@@ -1,5 +1,8 @@
 #include "MinimumJerkTrajectoryGenerator.h"
+
 #include "Error.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 
 #include <iCub/ctrl/minJerkCtrl.h>
 
@@ -18,13 +21,6 @@
 #define PARAM_IDX_6 6 //Control if the settling time comes from external port or static parameter
 #define PARAM_IDX_7 7 //True if the block should reset the traj generator in case settling time changes
 
-#define GET_OPT_SAMPLE_TIME mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1))
-#define GET_OPT_SETTLING_TIME  mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2))
-#define GET_OPT_OUTPUT_1_DERIVATIVE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3)))
-#define GET_OPT_OUTPUT_2_DERIVATIVE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_4)))
-#define GET_OPT_EXPLICIT_INITIAL_VALUE static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_5)))
-#define GET_OPT_EXTERNAL_SETTLING_TIME static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_6)))
-
 namespace wbt {
     
     std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
@@ -42,12 +38,12 @@ namespace wbt {
     
     unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 7; }
 
-    bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        bool outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
-        bool outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
-        bool explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
-        bool externalSettlingTime = GET_OPT_EXTERNAL_SETTLING_TIME;
+        bool outputFirstDerivative = blockInfo->getScalarParameterAtIndex(PARAM_IDX_3).booleanData();
+        bool outputSecondDerivative = blockInfo->getScalarParameterAtIndex(PARAM_IDX_4).booleanData();
+        bool explicitInitialValue = blockInfo->getScalarParameterAtIndex(PARAM_IDX_5).booleanData();
+        bool externalSettlingTime = blockInfo->getScalarParameterAtIndex(PARAM_IDX_6).booleanData();
 
         int numberOfInputPorts = 1;
         if (explicitInitialValue)
@@ -57,29 +53,26 @@ namespace wbt {
 
         // Specify I/O
         // INPUTS
-        if(!ssSetNumInputPorts(S, numberOfInputPorts)) {
+        if(!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
             if (error) error->message = "Failed to set input port number";
             return false;
         }
 
-        ssSetInputPortWidth(S, 0, DYNAMICALLY_SIZED);
-        ssSetInputPortDataType(S, 0, SS_DOUBLE);
-        ssSetInputPortDirectFeedThrough(S, 0, 1);
+        blockInfo->setInputPortVectorSize(0, -1);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
 
         unsigned portIndex = 1;
 
         if (explicitInitialValue) {
-            ssSetInputPortWidth(S, portIndex, DYNAMICALLY_SIZED);
-            ssSetInputPortDataType(S, portIndex, SS_DOUBLE);
-            ssSetInputPortDirectFeedThrough(S, portIndex, 1);
+            blockInfo->setInputPortVectorSize(portIndex, -1);
+            blockInfo->setInputPortType(portIndex, PortDataTypeDouble);
             portIndex++;
         }
 
         if (externalSettlingTime)
         {
-            ssSetInputPortWidth(S, portIndex, 1);
-            ssSetInputPortDataType(S, portIndex, SS_DOUBLE);
-            ssSetInputPortDirectFeedThrough(S, portIndex, 1);
+            blockInfo->setInputPortVectorSize(portIndex, 1);
+            blockInfo->setInputPortType(portIndex, PortDataTypeDouble);
             portIndex++;
         }
 
@@ -88,37 +81,38 @@ namespace wbt {
         if (outputFirstDerivative) numberOfOutputPorts++;
         if (outputSecondDerivative) numberOfOutputPorts++;
 
-        if (!ssSetNumOutputPorts(S, numberOfOutputPorts)) {
+        if (!blockInfo->setNumberOfOuputPorts(numberOfOutputPorts)) {
             if (error) error->message = "Failed to set output port number";
             return false;
         }
 
         for (int i = 0; i < numberOfOutputPorts; ++i) {
-            ssSetOutputPortWidth(S, i, DYNAMICALLY_SIZED);
-            ssSetOutputPortDataType(S, i, SS_DOUBLE);
+            blockInfo->setOutputPortVectorSize(i, -1);
+            blockInfo->setOutputPortType(i, PortDataTypeDouble);
         }
 
         return true;
     }
 
-    bool MinimumJerkTrajectoryGenerator::initialize(SimStruct *S, wbt::Error *error)
+    bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         //Save parameters
-        bool outputFirstDerivative = GET_OPT_OUTPUT_1_DERIVATIVE;
-        bool outputSecondDerivative = GET_OPT_OUTPUT_2_DERIVATIVE;
+        bool outputFirstDerivative = blockInfo->getScalarParameterAtIndex(PARAM_IDX_3).booleanData();
+        bool outputSecondDerivative = blockInfo->getScalarParameterAtIndex(PARAM_IDX_4).booleanData();
+
         if (outputFirstDerivative) m_outputFirstDerivativeIndex = 1;
         if (outputSecondDerivative) {
             m_outputSecondDerivativeIndex = outputFirstDerivative ? 2 : 1;
         }
 
-        double sampleTime = GET_OPT_SAMPLE_TIME;
-        double settlingTime = GET_OPT_SETTLING_TIME;
+        double sampleTime = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).doubleData();
+        double settlingTime = blockInfo->getScalarParameterAtIndex(PARAM_IDX_2).doubleData();
 
-        m_explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
-        m_externalSettlingTime = GET_OPT_EXTERNAL_SETTLING_TIME;
-        m_resetOnSettlingTimeChange = static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_7)));
+        m_explicitInitialValue = blockInfo->getScalarParameterAtIndex(PARAM_IDX_5).booleanData();
+        m_externalSettlingTime = blockInfo->getScalarParameterAtIndex(PARAM_IDX_6).booleanData();
+        m_resetOnSettlingTimeChange = blockInfo->getScalarParameterAtIndex(PARAM_IDX_7).booleanData();
 
-        int_T size = ssGetInputPortWidth(S, 0);
+        unsigned size = blockInfo->getInputPortWidth(0);
 
         m_generator = new iCub::ctrl::minJerkTrajGen(size, sampleTime, settlingTime);
         m_previousSettlingTime = settlingTime;
@@ -133,7 +127,7 @@ namespace wbt {
         return true;
     }
 
-    bool MinimumJerkTrajectoryGenerator::terminate(SimStruct *S, wbt::Error *error) 
+    bool MinimumJerkTrajectoryGenerator::terminate(BlockInformation *blockInfo, wbt::Error *error) 
     {
         if (m_generator) {
             delete m_generator;
@@ -150,16 +144,15 @@ namespace wbt {
         return true;
     }
     
-    bool MinimumJerkTrajectoryGenerator::output(SimStruct *S, wbt::Error *error) 
+    bool MinimumJerkTrajectoryGenerator::output(BlockInformation *blockInfo, wbt::Error *error) 
     {
         if (!m_generator) return false;
 
         if (m_externalSettlingTime) {
             unsigned portIndex = 1;
             if (m_explicitInitialValue) portIndex++;
-
-            InputRealPtrsType externalTimePort = ssGetInputPortRealSignalPtrs(S, portIndex);
-            double externalTime = *externalTimePort[0];
+            Signal externalTimePort = blockInfo->getInputPortSignal(portIndex);
+            double externalTime = externalTimePort.get(0).doubleData();
 
             if (std::abs(m_previousSettlingTime - externalTime) > 1e-5) {
                 m_previousSettlingTime = externalTime;
@@ -173,44 +166,42 @@ namespace wbt {
 
         if (m_firstRun) {
             m_firstRun = false;
-            InputRealPtrsType initialValues = 0;
+            Signal initialValues;
             unsigned portIndex = 0;
             if (m_explicitInitialValue) {
                 portIndex = 1;
             }
-            initialValues = ssGetInputPortRealSignalPtrs(S, portIndex);
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, portIndex); ++i) {
-                (*m_initialValues)[i] = *initialValues[i];
+            initialValues = blockInfo->getInputPortSignal(portIndex);
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(portIndex); ++i) {
+                (*m_initialValues)[i] = initialValues.get(i).doubleData();
             }
             m_generator->init(*m_initialValues);
         }
 
-        InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
-        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-            (*m_reference)[i] = *references[i];
+
+        Signal references = blockInfo->getInputPortSignal(0);
+        for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+            (*m_reference)[i] = references.get(i).doubleData();
         }
         m_generator->computeNextValues(*m_reference);
 
         const yarp::sig::Vector &signal = m_generator->getPos();
-        real_T *output = ssGetOutputPortRealSignal(S, 0);
-        for (unsigned i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
-            output[i] = signal[i];
-        }
+        Signal output = blockInfo->getOutputPortSignal(0);
+        output.setBuffer(signal.data(), signal.size());
+//        for (unsigned i = 0; i < blockInfo->getOutputPortWidth(0); ++i) {
+//            output.set(i, signal[i]);
+//        }
         //note: index of the port is not known a priori.
         //I should save it in the initialization phase
         if (m_outputFirstDerivativeIndex != -1) {
             const yarp::sig::Vector &derivative = m_generator->getVel();
-            real_T *derivativeOutput = ssGetOutputPortRealSignal(S, m_outputFirstDerivativeIndex);
-            for (unsigned i = 0; i < ssGetOutputPortWidth(S, m_outputFirstDerivativeIndex); ++i) {
-                derivativeOutput[i] = derivative[i];
-            }
+            Signal derivativeOutput = blockInfo->getOutputPortSignal(m_outputFirstDerivativeIndex);
+            derivativeOutput.setBuffer(derivative.data(), blockInfo->getOutputPortWidth(m_outputFirstDerivativeIndex));
         }
         if (m_outputSecondDerivativeIndex != -1) {
             const yarp::sig::Vector &derivative = m_generator->getAcc();
-            real_T *derivativeOutput = ssGetOutputPortRealSignal(S, m_outputSecondDerivativeIndex);
-            for (unsigned i = 0; i < ssGetOutputPortWidth(S, m_outputSecondDerivativeIndex); ++i) {
-                derivativeOutput[i] = derivative[i];
-            }
+            Signal derivativeOutput = blockInfo->getOutputPortSignal(m_outputSecondDerivativeIndex);
+            derivativeOutput.setBuffer(derivative.data(), blockInfo->getOutputPortWidth(m_outputSecondDerivativeIndex));
         }
 
         return true;

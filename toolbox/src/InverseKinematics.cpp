@@ -2,6 +2,8 @@
 
 #include "Error.h"
 #include "WBInterface.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
@@ -98,9 +100,9 @@ namespace wbt {
         //Parameter 3: type of solution (Int)
     }
 
-    bool InverseKinematics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool InverseKinematics::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
@@ -110,22 +112,18 @@ namespace wbt {
         // Input ports:
         // - 4x4 matrix (homogenous transformation for the desired end effector pose w.r.t. world)
 
-        if (!ssSetNumInputPorts (S, 3)) {
+        if (!blockInfo->setNumberOfInputPorts(3)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4);
-        success = success && ssSetInputPortMatrixDimensions(S,  1, 4, 4);
-        success = success && ssSetInputPortVectorDimension(S, 2, dofs); //joint configuration
+        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4);
+        success = success && blockInfo->setInputPortMatrixSize(1, 4, 4);
+        success = success && blockInfo->setInputPortVectorSize(2, dofs); //joint configuration
 
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDataType (S, 1, SS_DOUBLE);
-        ssSetInputPortDataType (S, 2, SS_DOUBLE);
-
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
-        ssSetInputPortDirectFeedThrough (S, 1, 1);
-        ssSetInputPortDirectFeedThrough (S, 2, 1);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
+        blockInfo->setInputPortType(1, PortDataTypeDouble);
+        blockInfo->setInputPortType(2, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -135,23 +133,23 @@ namespace wbt {
         // Output port:
         // - 4 x 4 homogenoues transformation matrix representing the desired base position
         // - DoFs desired joints configuration
-        if (!ssSetNumOutputPorts (S, 2)) {
+        if (!blockInfo->setNumberOfOuputPorts(2)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortMatrixDimensions(S, 0, 4, 4);
-        success = ssSetOutputPortVectorDimension(S, 1, dofs);
-        ssSetOutputPortDataType (S, 0, SS_DOUBLE);
-        ssSetOutputPortDataType (S, 1, SS_DOUBLE);
+        success = blockInfo->setOutputPortMatrixSize(0, 4, 4);
+        success = success && blockInfo->setOutputPortVectorSize(1, dofs);
+        blockInfo->setOutputPortType(0, PortDataTypeDouble);
+        blockInfo->setOutputPortType(1, PortDataTypeDouble);
 
         return success;
     }
 
-    bool InverseKinematics::initialize(SimStruct *S, wbt::Error *error)
+    bool InverseKinematics::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIModelBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
 
         m_piml = new InverseKinematicsPimpl();
         if (!m_piml) return false;
@@ -165,13 +163,13 @@ namespace wbt {
 
         int parentParameters = WBIBlock::numberOfParameters() + 1;
         std::string baseLink;
-        if (!Block::readStringParameterAtIndex(S, parentParameters, baseLink)) {
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, baseLink)) {
             if (error) error->message = "Cannot retrieve string from base link parameter";
             return false;
         }
         parentParameters++;
         std::string endEffectorLink;
-        if (!Block::readStringParameterAtIndex(S, parentParameters, endEffectorLink)) {
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, endEffectorLink)) {
             if (error) error->message = "Cannot retrieve string from endeffector link parameter";
             return false;
         }
@@ -186,11 +184,18 @@ namespace wbt {
             if (error) error->message = "Cannot find " + endEffectorLink + " frame";
             return false;
         }
+        //TODO: check this part
+        parentParameters++;
+        std::string robotSide;
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, robotSide)) {
+            if (error) error->message = "Cannot retrieve string from robot part parameter";
+            return false;
+        }
 
         std::string urdfFile;
         //wbi config file
         std::string wbiConfigFile;
-        if (!Block::readStringParameterAtIndex(S, 3, wbiConfigFile)) {
+        if (!blockInfo->getStringParameterAtIndex(3, wbiConfigFile)) {
             if (error) error->message = "Could not read WBI configuration file parameter";
             return false;
         }
@@ -216,7 +221,7 @@ namespace wbt {
 
         m_piml->m_solver->setUserScaling(true, 100.0, 100.0, 100.0);
 
-        int optOption = mxGetScalar(ssGetSFcnParam(S,parentParameters + 1));
+        int optOption = blockInfo->getScalarParameterAtIndex(parentParameters + 1).int32Data();
         if (optOption == 1)
             m_piml->m_solver->set_ctrlPose(IKINCTRL_POSE_FULL);
         else
@@ -243,37 +248,37 @@ namespace wbt {
         return true;
     }
 
-    bool InverseKinematics::terminate(SimStruct *S, wbt::Error *error)
+    bool InverseKinematics::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         if (m_piml) {
             delete m_piml;
             m_piml = 0;
         }
-        return WBIModelBlock::terminate(S, error);
+        return WBIModelBlock::terminate(blockInfo, error);
     }
 
-    bool InverseKinematics::output(SimStruct *S, wbt::Error */*error*/)
+    bool InverseKinematics::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         //get input
         wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
-            InputRealPtrsType desiredPoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
-            InputRealPtrsType currentBaseRaw = ssGetInputPortRealSignalPtrs(S, 1);
-            InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 2);
+            Signal desiredPoseRaw = blockInfo->getInputPortSignal(0);
+            Signal currentBaseRaw = blockInfo->getInputPortSignal(1);
+            Signal configuration = blockInfo->getInputPortSignal(2);
 
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                m_piml->m_desiredPoseRaw[i] = *desiredPoseRaw[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+                m_piml->m_desiredPoseRaw[i] = desiredPoseRaw.get(i).doubleData();
             }
 
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
-                m_piml->m_currentBasePoseRaw[i] = *currentBaseRaw[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
+                m_piml->m_currentBasePoseRaw[i] = currentBaseRaw.get(i).doubleData();
             }
 
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 2); ++i) {
-                m_piml->m_configuration[i] = *configuration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(2); ++i) {
+                m_piml->m_configuration[i] = configuration.get(i).doubleData();
             }
 
-            Eigen::Map<Eigen::VectorXd > inputConfiguration(m_piml->m_configuration, ssGetInputPortWidth(S, 2));
+            Eigen::Map<Eigen::VectorXd > inputConfiguration(m_piml->m_configuration, blockInfo->getInputPortWidth(2));
 
             //Map initial configuration to chain joints
             for (size_t index = 0; index < m_piml->m_jointIndexes.size(); ++index) {
@@ -317,8 +322,8 @@ namespace wbt {
             if (exitCode != 0)
                 std::cerr << "Exit code: " << exitCode << "\n";
 
-            real_T *output = ssGetOutputPortRealSignal(S, 1);
-            Eigen::Map<Eigen::VectorXd > outputPort(output, ssGetOutputPortWidth(S, 1));
+            Signal output = blockInfo->getOutputPortSignal(1);
+            Eigen::Map<Eigen::VectorXd > outputPort((double*)output.getContiguousBuffer(), blockInfo->getOutputPortWidth(1));
             outputPort = inputConfiguration;
 
 

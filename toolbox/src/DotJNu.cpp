@@ -2,6 +2,8 @@
 
 #include "Error.h"
 #include "WBInterface.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
@@ -24,9 +26,9 @@ namespace wbt {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool DotJNu::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool DotJNu::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
@@ -37,26 +39,21 @@ namespace wbt {
         // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
         // - DoFs vector for the robot (joints) configurations
 
-        if (!ssSetNumInputPorts (S, 4)) {
+        if (!blockInfo->setNumberOfInputPorts(4)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
 
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4); //base pose
-        success = success && ssSetInputPortVectorDimension(S, 1, dofs); //joint configuration
-        success = success && ssSetInputPortVectorDimension(S, 2, 6); //base velocity
-        success = success && ssSetInputPortVectorDimension(S, 3, dofs); //joints velocitity
+        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4); //base pose
+        success = success && blockInfo->setInputPortVectorSize(1, dofs); //joint configuration
+        success = success && blockInfo->setInputPortVectorSize(2, 6); //base velocity
+        success = success && blockInfo->setInputPortVectorSize(3, dofs); //joints velocitity
 
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDataType (S, 1, SS_DOUBLE);
-        ssSetInputPortDataType (S, 2, SS_DOUBLE);
-        ssSetInputPortDataType (S, 3, SS_DOUBLE);
-
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
-        ssSetInputPortDirectFeedThrough (S, 1, 1);
-        ssSetInputPortDirectFeedThrough (S, 2, 1);
-        ssSetInputPortDirectFeedThrough (S, 3, 1);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
+        blockInfo->setInputPortType(1, PortDataTypeDouble);
+        blockInfo->setInputPortType(2, PortDataTypeDouble);
+        blockInfo->setInputPortType(3, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -65,25 +62,25 @@ namespace wbt {
 
         // Output port:
         // - 6-d vector representing the \dot{J} \dot{q} vector
-        if (!ssSetNumOutputPorts (S, 1)) {
+        if (!blockInfo->setNumberOfOuputPorts(1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortVectorDimension(S, 0, 6);
-        ssSetOutputPortDataType (S, 0, SS_DOUBLE);
+        success = blockInfo->setOutputPortVectorSize(0, 6);
+        blockInfo->setOutputPortType(0, PortDataTypeDouble);
 
         return success;
     }
 
-    bool DotJNu::initialize(SimStruct *S, wbt::Error *error)
+    bool DotJNu::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIModelBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
 
         int parentParameters = WBIBlock::numberOfParameters() + 1;
         std::string frame;
-        if (!Block::readStringParameterAtIndex(S, parentParameters, frame)) {
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, frame)) {
             if (error) error->message = "Cannot retrieve string from frame parameter";
             return false;
         }
@@ -114,7 +111,7 @@ namespace wbt {
         return m_basePose && m_dotJNu && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
     }
 
-    bool DotJNu::terminate(SimStruct *S, wbt::Error *error)
+    bool DotJNu::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
@@ -140,29 +137,29 @@ namespace wbt {
             delete [] m_jointsVelocity;
             m_jointsVelocity = 0;
         }
-        return WBIModelBlock::terminate(S, error);
+        return WBIModelBlock::terminate(blockInfo, error);
     }
 
-    bool DotJNu::output(SimStruct *S, wbt::Error */*error*/)
+    bool DotJNu::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         //get input
         wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
-            InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
-            InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
-            InputRealPtrsType baseVelocity = ssGetInputPortRealSignalPtrs(S, 2);
-            InputRealPtrsType jointsVelocity = ssGetInputPortRealSignalPtrs(S, 3);
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                m_basePoseRaw[i] = *basePoseRaw[i];
+            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
+            Signal configuration = blockInfo->getInputPortSignal(1);
+            Signal baseVelocity = blockInfo->getInputPortSignal(2);
+            Signal jointsVelocity = blockInfo->getInputPortSignal(3);
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
-                m_configuration[i] = *configuration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
+                m_configuration[i] = configuration.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 2); ++i) {
-                m_baseVelocity[i] = *baseVelocity[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(2); ++i) {
+                m_baseVelocity[i] = baseVelocity.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 3); ++i) {
-                m_jointsVelocity[i] = *jointsVelocity[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(3); ++i) {
+                m_jointsVelocity[i] = jointsVelocity.get(i).doubleData();
             }
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
@@ -179,10 +176,8 @@ namespace wbt {
                                    m_frameIndex,
                                    m_dotJNu);
 
-            real_T *output = ssGetOutputPortRealSignal(S, 0);
-            for (unsigned i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
-                output[i] = m_dotJNu[i];
-            }
+            Signal output = blockInfo->getOutputPortSignal(0);
+            output.setBuffer(m_dotJNu, blockInfo->getOutputPortWidth(0));
 
             return true;
         }

@@ -5,6 +5,7 @@
 
 namespace wbt {
     class WBIModelBlock;
+    class BlockInformation;
 }
 
 /**
@@ -28,8 +29,8 @@ class wbt::WBIModelBlock : public wbt::WBIBlock {
 
 public:
     virtual ~WBIModelBlock();
-    virtual bool initialize(SimStruct *S, wbt::Error *error);
-    virtual bool terminate(SimStruct *S, wbt::Error *error);
+    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
 };
 
 #endif /* WBT_WBIMODELBLOCK_H */

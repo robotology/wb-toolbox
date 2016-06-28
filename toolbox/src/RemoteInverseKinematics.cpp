@@ -1,6 +1,8 @@
 #include "RemoteInverseKinematics.h"
 
 #include "Error.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include <Eigen/Core>
 #include <yarp/math/Math.h>
 #include <yarp/sig/Matrix.h>
@@ -151,27 +153,24 @@ namespace wbt {
 
     unsigned RemoteInverseKinematics::numberOfDiscreteStates() { return 1; } //fake state to force the call of the output
 
-    bool RemoteInverseKinematics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool RemoteInverseKinematics::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        int dofs = mxGetScalar(ssGetSFcnParam(S, 2));
+        int dofs = blockInfo->getScalarParameterAtIndex(2).int32Data();
 
         // Specify I/O
         // Input ports:
         // - 4x4 matrix (homogenous transformation for the desired end effector pose w.r.t. world)
 
-        if (!ssSetNumInputPorts (S, 2)) {
+        if (!blockInfo->setNumberOfInputPorts(2)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4); //desired pose
-        success = success && ssSetInputPortVectorDimension(S, 1, dofs); //joint configuration
+        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4); //desired pose
+        success = success && blockInfo->setInputPortVectorSize(1, dofs); //joint configuration
 
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDataType (S, 1, SS_DOUBLE);
-
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
-        ssSetInputPortDirectFeedThrough (S, 1, 1);
+        success = success && blockInfo->setInputPortType(0, PortDataTypeDouble);
+        success = success && blockInfo->setInputPortType(1, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -180,18 +179,18 @@ namespace wbt {
 
         // Output port:
         // - DoFs desired joints configuration
-        if (!ssSetNumOutputPorts (S, 1)) {
+        if (!blockInfo->setNumberOfOuputPorts(1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortVectorDimension(S, 0, dofs);
-        ssSetOutputPortDataType (S, 0, SS_DOUBLE);
+        success = blockInfo->setOutputPortVectorSize(0, dofs);
+        success = success && blockInfo->setOutputPortType(0, PortDataTypeDouble);
 
         return success;
     }
 
-    bool RemoteInverseKinematics::initialize(SimStruct *S, wbt::Error *error)
+    bool RemoteInverseKinematics::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
 
@@ -207,16 +206,16 @@ namespace wbt {
 
         int parentParameters = 1;
         std::string solverName;
-        if (!Block::readStringParameterAtIndex(S, parentParameters, solverName)) {
+        if (!blockInfo->getStringParameterAtIndex(parentParameters, solverName)) {
             if (error) error->message = "Cannot retrieve string from solver yarp name";
             return false;
         }
         parentParameters++;
-        int dofs = mxGetScalar(ssGetSFcnParam(S,parentParameters));
+        int dofs = blockInfo->getScalarParameterAtIndex(2).int32Data();
 
         parentParameters++;
 
-        int optOption = mxGetScalar(ssGetSFcnParam(S,parentParameters));
+        int optOption = blockInfo->getScalarParameterAtIndex(2).int8Data();
 
         m_piml->m_configuration.resize(dofs);
 
@@ -250,7 +249,7 @@ namespace wbt {
         return m_piml->m_solverThread && m_piml->m_solverThread->start();
     }
 
-    bool RemoteInverseKinematics::terminate(SimStruct *S, wbt::Error *error)
+    bool RemoteInverseKinematics::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         bool result = true;
         if (m_piml) {
@@ -269,26 +268,26 @@ namespace wbt {
         return result;
     }
 
-    bool RemoteInverseKinematics::output(SimStruct *S, wbt::Error */*error*/)
+    bool RemoteInverseKinematics::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         //get input
         if (m_piml->m_firstTime) {
             m_piml->m_firstTime = false;
-            InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
+            Signal configuration = blockInfo->getInputPortSignal(1);
 
             std::lock_guard<std::mutex> outputLock(m_piml->m_outputMutex);
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
-                m_piml->m_configuration[i] = *configuration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
+                m_piml->m_configuration[i] = configuration.get(i).doubleData();
             }
         }
 
         //to do the request we have to read the inputs..
-        InputRealPtrsType desiredPoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
+        Signal desiredPoseRaw = blockInfo->getInputPortSignal(0);
 
         double desiredPoseColMajorRaw[16];
 
-        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-            desiredPoseColMajorRaw[i] = *desiredPoseRaw[i];
+        for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+            desiredPoseColMajorRaw[i] = desiredPoseRaw.get(i).doubleData();
         }
 
         Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > desiredPoseColMajor(desiredPoseColMajorRaw);
@@ -309,11 +308,9 @@ namespace wbt {
 
         ((RemoteInverseKinematicsPimpl::SolverRPCReader*)m_piml->m_solverThread)->addRequest(m_piml->m_desiredPoseAsAngleAxis, m_piml->m_configuration);
 
-        real_T *output = ssGetOutputPortRealSignal(S, 0);
+        Signal output = blockInfo->getOutputPortSignal(0);
         std::lock_guard<std::mutex> outputLock(m_piml->m_outputMutex);
-        for (int i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
-            output[i] = m_piml->m_configuration[i];
-        }
+        output.setBuffer(m_piml->m_configuration.data(), blockInfo->getOutputPortWidth(0));
 
         return true;
 
