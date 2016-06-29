@@ -34,7 +34,10 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
 #ifdef WBT_USES_ICUB
     else if (blockClassName == wbt::MinimumJerkTrajectoryGenerator::ClassName) {
         block = new wbt::MinimumJerkTrajectoryGenerator();
-    } else if (blockClassName == wbt::InverseKinematics::ClassName) {
+    } 
+#endif
+#ifdef WBT_USES_IPOPT
+    else if (blockClassName == wbt::InverseKinematics::ClassName) {
         block = new wbt::InverseKinematics();
     }
 #endif
