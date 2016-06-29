@@ -254,23 +254,21 @@ namespace wbt {
                 }
             }
 
-            if (typeid(*m_piml->m_leg) == typeid(iCub::iKin::iCubLeg)) {
-                wbi::Frame w_H_base;
-                wbi::frameFromSerialization(basePose.data(), w_H_base);
+            wbi::Frame w_H_base;
+            wbi::frameFromSerialization(basePose.data(), w_H_base);
 
-                wbi::Frame root_H_w;
-                interface->computeH(m_piml->m_configuration, w_H_base, m_piml->m_rootFrameIndex, root_H_w);
-                root_H_w.setToInverse();
+            wbi::Frame root_H_w;
+            interface->computeH(m_piml->m_configuration, w_H_base, m_piml->m_rootFrameIndex, root_H_w);
+            root_H_w.setToInverse();
 
-                double root_H_w_data[16];
-                root_H_w.get4x4Matrix(root_H_w_data);
-                Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > root_H_w_eigen(root_H_w_data);
-                Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > desiredPose(m_piml->m_desiredPoseAsMatrix.data());
+            double root_H_w_data[16];
+            root_H_w.get4x4Matrix(root_H_w_data);
+            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > root_H_w_eigen(root_H_w_data);
+            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > desiredPose(m_piml->m_desiredPoseAsMatrix.data());
 
-                //iKin expect frames in root_link but we provide them in world
-                //root_H_foot = root_H_w * w_H_foot
-                desiredPose = root_H_w_eigen * desiredPose;
-            }
+            //iKin expect frames in root_link but we provide them in world
+            //root_H_foot = root_H_w * w_H_foot
+            desiredPose = root_H_w_eigen * desiredPose;
 
             //To vector
             m_piml->m_desiredPoseAsAngleAxis(0) = m_piml->m_desiredPoseAsMatrix(0, 3);
@@ -280,7 +278,15 @@ namespace wbt {
             m_piml->m_desiredAngleAxisOrientation = yarp::math::dcm2axis(m_piml->m_desiredPoseAsMatrix);
             m_piml->m_desiredPoseAsAngleAxis.setSubvector(3, m_piml->m_desiredAngleAxisOrientation);
 
-            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_leg->getAng(), m_piml->m_desiredPoseAsAngleAxis);
+            int exitCode = -5;
+
+            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_leg->getAng(), m_piml->m_desiredPoseAsAngleAxis,
+                                                               0, m_piml->m_desiredPoseAsAngleAxis, m_piml->m_desiredPoseAsAngleAxis,
+                                                               0, m_piml->m_desiredPoseAsAngleAxis, m_piml->m_desiredPoseAsAngleAxis,
+                                                               &exitCode);
+
+            if (exitCode != 0)
+                std::cerr << "Exit code: " << exitCode << "\n";
 
             real_T *output = ssGetOutputPortRealSignal(S, 1);
             Eigen::Map<Eigen::VectorXd > outputPort(output, ssGetOutputPortWidth(S, 1));
