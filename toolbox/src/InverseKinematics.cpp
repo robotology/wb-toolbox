@@ -10,6 +10,7 @@
 #include <yarp/sig/Matrix.h>
 #include <yarp/sig/Vector.h>
 #include <yarp/os/ResourceFinder.h>
+#include <typeinfo>
 
 namespace wbt {
 
