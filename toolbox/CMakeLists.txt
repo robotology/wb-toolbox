@@ -84,6 +84,7 @@ if (WBT_USES_ICUB)
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
 
     if (${ICUB_USE_IPOPT})
+        find_package(iDynTree REQUIRED)
         configure_block(BLOCK_NAME "Inverse Kinematics"
             GROUP "Model"
             LIST_PREFIX WBT
@@ -194,7 +195,7 @@ list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIE
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
     if (${ICUB_USE_IPOPT})
-        list(APPEND LINKED_LIBRARIES iKin)
+        list(APPEND LINKED_LIBRARIES iKin ${iDynTree_LIBRARIES})
     endif()
 endif()
 
