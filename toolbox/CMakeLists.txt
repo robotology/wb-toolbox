@@ -91,6 +91,7 @@ if (WBT_USES_ICUB)
             LIST_PREFIX WBT
             SOURCES src/InverseKinematics.cpp
             HEADERS include/InverseKinematics.h)
+        include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
     endif()
 
     include_directories(SYSTEM ${ctrlLib_INCLUDE_DIRS})
