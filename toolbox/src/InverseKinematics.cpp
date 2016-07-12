@@ -27,6 +27,7 @@ namespace wbt {
     static bool iKinLimbFromUrdfFile(const std::string &urdf_file_name, const std::string &base_link_name, const std::string& end_effector_link_name, iCub::iKin::iKinLimb &convertedChain, std::vector<std::string>& jointNames);
 
     struct InverseKinematics::InverseKinematicsPimpl {
+        bool m_firstTime;
         //input buffers
         double *m_configuration;
         double *m_desiredPoseRaw;
@@ -46,7 +47,8 @@ namespace wbt {
         int m_rootFrameIndex;
 
         InverseKinematicsPimpl()
-        : m_configuration(0)
+        : m_firstTime(true)
+        , m_configuration(0)
         , m_desiredPoseRaw(0)
         , m_currentBasePoseRaw(0)
         , m_currentBasePose(0)
@@ -223,7 +225,7 @@ namespace wbt {
         m_piml->m_desiredPoseAsMatrix.resize(4, 4);
         m_piml->m_desiredPoseAsAngleAxis.resize(7, 0.0);
         m_piml->m_desiredAngleAxisOrientation.resize(4, 0.0);
-        m_piml->m_solverSolution.resize(6, 0.0);
+        m_piml->m_solverSolution.resize(m_piml->m_leg->getDOF(), 0.0);
 
 
         //Look for joint indexes
@@ -235,6 +237,8 @@ namespace wbt {
             if (jointList.idToIndex(*it, index))
                 m_piml->m_jointIndexes.push_back(index);
         }
+
+        m_piml->m_firstTime = true;
 
         return true;
     }
@@ -275,7 +279,12 @@ namespace wbt {
             for (size_t index = 0; index < m_piml->m_jointIndexes.size(); ++index) {
                 if (m_piml->m_jointIndexes[index] == -1) continue;
                 m_piml->m_leg->setAng(index, m_piml->m_configuration[m_piml->m_jointIndexes[index]]);
+                if (m_piml->m_firstTime) {
+                    m_piml->m_solverSolution(index) = m_piml->m_configuration[m_piml->m_jointIndexes[index]];
+                }
             }
+
+            m_piml->m_firstTime = false;
 
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_piml->m_currentBasePoseRaw);
             Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_piml->m_currentBasePose);
@@ -299,7 +308,8 @@ namespace wbt {
 
             int exitCode = -5;
 
-            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_leg->getAng(), m_piml->m_desiredPoseAsAngleAxis,
+            m_piml->m_solverSolution = m_piml->m_solver->solve(m_piml->m_solverSolution,
+                                                               m_piml->m_desiredPoseAsAngleAxis,
                                                                0, m_piml->m_desiredPoseAsAngleAxis, m_piml->m_desiredPoseAsAngleAxis,
                                                                0, m_piml->m_desiredPoseAsAngleAxis, m_piml->m_desiredPoseAsAngleAxis,
                                                                &exitCode);
