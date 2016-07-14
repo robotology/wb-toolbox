@@ -59,6 +59,8 @@ namespace wbt {
         //Parameter 3: type of solution (Int)
     }
 
+    unsigned RemoteInverseKinematics::numberOfDiscreteStates() { return 1; } //fake state to force the call of the output
+
     bool RemoteInverseKinematics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         int dofs = mxGetScalar(ssGetSFcnParam(S, 2));

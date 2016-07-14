@@ -120,6 +120,9 @@ static void mdlInitializeSizes(SimStruct *S)
 
     ssSetSimStateCompliance(S, USE_CUSTOM_SIM_STATE); //??
 
+    ssSetNumDiscStates(S, block->numberOfDiscreteStates());
+    ssSetNumContStates(S, 0);//block->numberOfContinuousStates());
+
     ssSetOptions(S,
                  SS_OPTION_WORKS_WITH_CODE_REUSE |
                  SS_OPTION_EXCEPTION_FREE_CODE |
@@ -164,6 +167,33 @@ static void mdlStart(SimStruct *S)
     }
 
 }
+
+#define MDL_UPDATE
+#if defined(MDL_UPDATE) && defined(MATLAB_MEX_FILE)
+static void mdlUpdate(SimStruct *S, int_T tid)
+{
+    UNUSED_ARG(tid);
+    if (ssGetNumPWork(S) > 0) {
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
+        if (!block || !block->updateDiscreteState(S, &error)) {
+            static char errorBuffer[1024];
+            sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
+            ssSetErrorStatus(S, errorBuffer);
+        }
+    }
+}
+#endif
+
+
+#define MDL_DERIVATIVES
+#if defined(MDL_DERIVATIVES) && defined(MATLAB_MEX_FILE)
+static void mdlDerivatives(SimStruct *S)
+{
+    /* Add mdlDerivatives code here */
+}
+#endif
+
 
 // Function: mdlOutputs =======================================================
 // Abstract:

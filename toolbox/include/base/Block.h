@@ -46,6 +46,44 @@ public:
     virtual unsigned numberOfParameters() = 0;
 
     /**
+     * Returns the number of discrete states of the block.
+     *
+     * The base implementation returns 0, i.e. no discrete states
+     * @note if you return a number > 0, you should implement the 
+     * updateDiscreteState function
+     * @return the number of discrete states
+     */
+    virtual unsigned numberOfDiscreteStates();
+
+    /**
+     * Returns the number of continuous states of the block.
+     *
+     * The base implementation returns 0, i.e. no continuous states
+     * @note if you return a number > 0, you should implement the
+     * stateDerivative function
+     * @return the number of continuous states
+     */
+    virtual unsigned numberOfContinuousStates();
+
+    /**
+     * Called to update the internal discrete state
+     *
+     * i.e. x[i+1] = f(x[i])
+     * @param S the SimStruct structure
+     * @return true for success, false otherwise
+     */
+    virtual bool updateDiscreteState(SimStruct *S, wbt::Error *error);
+
+    /**
+     * Not called for now
+     *
+     * @param S the SimStruct structure
+     * @return true for success, false otherwise
+     */
+    virtual bool stateDerivative(SimStruct *S, wbt::Error *error);
+
+
+    /**
      * Specify if the parameter at the specified index is tunable
      *
      * Tunable means that it can be changed during the simulation.
@@ -102,6 +140,8 @@ public:
      * @return true for success, false otherwise
      */
     virtual bool terminate(SimStruct *S, wbt::Error *error) = 0;
+
+
 
     /**
      * Compute the output of the block

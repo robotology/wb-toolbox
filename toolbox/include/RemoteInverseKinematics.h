@@ -17,6 +17,7 @@ public:
     RemoteInverseKinematics();
 
     virtual unsigned numberOfParameters();
+    virtual unsigned numberOfDiscreteStates();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
     virtual bool initialize(SimStruct *S, wbt::Error *error);
