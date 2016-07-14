@@ -72,6 +72,12 @@ configure_block(BLOCK_NAME "Base"
             include/base/WBInterface.h
             include/base/WBIModelBlock.h)
 
+configure_block(BLOCK_NAME "Inverse Kinematics"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/RemoteInverseKinematics.cpp
+    HEADERS include/RemoteInverseKinematics.h)
+
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)
     find_package(ICUB REQUIRED)
@@ -82,13 +88,6 @@ if (WBT_USES_ICUB)
         LIST_PREFIX WBT
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
-
-    configure_block(BLOCK_NAME "Inverse Kinematics"
-        GROUP "Model"
-        LIST_PREFIX WBT
-        SOURCES src/RemoteInverseKinematics.cpp
-        HEADERS include/RemoteInverseKinematics.h)
-
 
     if (${ICUB_USE_IPOPT})
         find_package(iDynTree REQUIRED)
