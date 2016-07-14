@@ -17,7 +17,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 23.0, 1280.0, 721.0]
+      Location		      [780.0, 170.0, 1280.0, 721.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 29 16:29:56 2016"
-  RTWModifiedTimeStamp	  389118596
-  ModelVersionFormat	  "1.%<AutoIncrement:367>"
+  LastModifiedDate	  "Thu Jul 14 10:44:12 2016"
+  RTWModifiedTimeStamp	  390393852
+  ModelVersionFormat	  "1.%<AutoIncrement:369>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -829,7 +829,7 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary"
-    Location		    [0, 23, 1280, 744]
+    Location		    [780, 170, 2060, 891]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -843,7 +843,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1760"
+    SIDHighWatermark	    "1765"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -1677,7 +1677,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1760"
+		SIDHighWatermark	"1765"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1698,20 +1698,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1594"
+		  SID			  "107::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1593"
+		  SID			  "107::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1726,9 +1726,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1595"
+		  SID			  "107::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -2214,7 +2214,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1760"
+		SIDHighWatermark	"1765"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2235,20 +2235,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1594"
+		  SID			  "112::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1593"
+		  SID			  "112::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2263,9 +2263,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1595"
+		  SID			  "112::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -2892,7 +2892,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1760"
+		SIDHighWatermark	"1765"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -2913,20 +2913,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1594"
+		  SID			  "1300::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  71
+		  ZOrder		  74
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1593"
+		  SID			  "1300::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  70
+		  ZOrder		  73
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2941,9 +2941,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1595"
+		  SID			  "1300::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  72
+		  ZOrder		  75
 		}
 		Block {
 		  BlockType		  Outport
@@ -3380,7 +3380,7 @@ Library {
       }
       System {
 	Name			"wholeBodyModel"
-	Location		[0, 23, 1280, 744]
+	Location		[780, 170, 2060, 891]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -4688,7 +4688,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Kinematics"
-	    Location		    [0, 23, 1280, 744]
+	    Location		    [780, 170, 2060, 891]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -4700,7 +4700,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "307"
+	    ZoomFactor		    "175"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Forward Kinematics"
@@ -5078,6 +5078,159 @@ Library {
 	      Opaque		      off
 	      MaskHideContents	      off
 	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Remote Inverse Kinematics"
+	      SID		      "1761"
+	      Ports		      [2, 1]
+	      Position		      [560, 105, 720, 165]
+	      ZOrder		      66
+	      InitFcn		      "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var'"
+	      ")\n    WBT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWho"
+	      "leBodyInterface.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\ne"
+	      "nd"
+	      RequestExecContextInheritance off
+	      Variant		      off
+	      Object {
+		$PropName		"MaskObject"
+		$ObjectID		130
+		$ClassName		"Simulink.Mask"
+		Type			"Forward Kinematics"
+		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
+		"degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between"
+		"\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the"
+		" configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix representing t"
+		"he homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n- Frame "
+		"name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opene"
+		"d by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n       "
+		"            Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlyin"
+		"g Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n"
+		"- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+		Display			"disp(solverName)\n\n\n\n% escapedBaseFrameName = strrep(baseFrame, '_', '\\_');\n% escapedEndEffFrameName"
+		" = strrep(endEffFrame, '_', '\\_');\n% \n% %port_label('output', 1, strcat('{}^{world} H_{',escapedFrameName,'}'), '"
+		"texmode','on')\n% \n% %port_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\n% %port_label('input', 2, 'Joi"
+		"nt configuration')\n% \n% %clear escapedFrameName;\n% \n% \n% % if strcmp(robotPart, 'left')\n% %     prefix = 'l';\n"
+		"% % else\n% %     prefix = 'r';\n% % end\n% % \n\nport_label('input', 1, 'H^d', 'texmode','on');\n% port_label('inpu"
+		"t', 1, strcat('{}^{',escapedBaseFrameName,'} H_{',escapedEndEffFrameName,'}^d'), 'texmode','on');\n% \n% port_label("
+		"'input', 2, '{}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'q_j(0)', 'texmode','on');\n% % \n% % \n%"
+		" port_label('output', 1, '{}^{world} H_{base}^d', 'texmode','on')\nport_label('output', 1, 'q_j^d', 'texmode','on');"
+		"\n\n"
+		Array {
+		  Type			  "Simulink.MaskParameter"
+		  Dimension		  3
+		  Object {
+		    $ObjectID		    131
+		    Type		    "edit"
+		    Name		    "solverName"
+		    Prompt		    "Solver Name"
+		    Value		    "'/cartesianSolver'"
+		    TabName		    "Block parameters"
+		  }
+		  Object {
+		    $ObjectID		    132
+		    Type		    "edit"
+		    Name		    "dofs"
+		    Prompt		    "#Dofs"
+		    Value		    "12"
+		    Tunable		    "off"
+		    TabName		    "Block parameters"
+		  }
+		  Object {
+		    $ObjectID		    133
+		    Type		    "popup"
+		    Array {
+		    Type		    "Cell"
+		    Dimension		    2
+		    Cell		    "Full Constraint (Position and Orientation)"
+		    Cell		    "Position only constraint"
+		    PropName		    "TypeOptions"
+		    }
+		    Name		    "optOption"
+		    Prompt		    "Optimization Option"
+		    Value		    "Full Constraint (Position and Orientation)"
+		    TabName		    "Block parameters"
+		  }
+		  PropName		  "Parameters"
+		}
+	      }
+	      System {
+		Name			"Remote Inverse Kinematics"
+		Location		[853, 51, 2214, 1013]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"375"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Desired frame pose"
+		  SID			  "1762"
+		  Position		  [10, 23, 40, 37]
+		  ZOrder		  26
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Current Joint configuration"
+		  SID			  "1763"
+		  Position		  [10, 68, 40, 82]
+		  ZOrder		  24
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  S-Function
+		  Name			  "S-Function"
+		  SID			  "1764"
+		  Ports			  [2, 1]
+		  Position		  [145, 6, 225, 99]
+		  ZOrder		  19
+		  FunctionName		  "WBToolbox"
+		  Parameters		  "'RemoteInverseKinematics',solverName, dofs, optOption"
+		  SFunctionDeploymentMode off
+		  EnableBusSupport	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Desired Joint Configuration"
+		  SID			  "1765"
+		  Position		  [285, 48, 315, 62]
+		  ZOrder		  27
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  SrcBlock		  "S-Function"
+		  SrcPort		  1
+		  DstBlock		  "Desired Joint Configuration"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Desired frame pose"
+		  SrcPort		  1
+		  DstBlock		  "S-Function"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Current Joint configuration"
+		  SrcPort		  1
+		  DstBlock		  "S-Function"
+		  DstPort		  2
+		}
+	      }
+	      RTWSystemCode	      "Auto"
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      MaskHideContents	      off
+	    }
 	  }
 	  RTWSystemCode		  "Auto"
 	  MinAlgLoopOccurrences	  off
@@ -5107,7 +5260,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		130
+	$ObjectID		134
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }
@@ -5141,7 +5294,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    131
+	    $ObjectID		    135
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5156,7 +5309,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		132
+		$ObjectID		136
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5180,7 +5333,7 @@ Library {
 		TabName			"Block parameters"
 	      }
 	      Object {
-		$ObjectID		133
+		$ObjectID		137
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5189,7 +5342,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		134
+		$ObjectID		138
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5198,7 +5351,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		135
+		$ObjectID		139
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5207,7 +5360,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		136
+		$ObjectID		140
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -5282,7 +5435,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    137
+	    $ObjectID		    141
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5297,7 +5450,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		138
+		$ObjectID		142
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5318,7 +5471,7 @@ Library {
 		TabName			"Block parameters"
 	      }
 	      Object {
-		$ObjectID		139
+		$ObjectID		143
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5327,7 +5480,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		140
+		$ObjectID		144
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5336,7 +5489,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		141
+		$ObjectID		145
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5345,7 +5498,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		142
+		$ObjectID		146
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"

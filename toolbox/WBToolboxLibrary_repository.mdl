@@ -1,5 +1,5 @@
 Library {
-  Name			  "WBToolboxLibrary_repository_new"
+  Name			  "WBToolboxLibrary_repository_b"
   Version		  8.4
   SavedCharacterEncoding  "US-ASCII"
   LibraryType		  "BlockLibrary"
@@ -17,7 +17,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 23.0, 1280.0, 721.0]
+      Location		      [780.0, 170.0, 1280.0, 721.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 29 16:29:24 2016"
-  RTWModifiedTimeStamp	  389118564
-  ModelVersionFormat	  "1.%<AutoIncrement:367>"
+  LastModifiedDate	  "Thu Jul 14 10:44:45 2016"
+  RTWModifiedTimeStamp	  390393885
+  ModelVersionFormat	  "1.%<AutoIncrement:369>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -873,8 +873,8 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary_repository_new"
-    Location		    [0, 23, 1280, 744]
+    Name		    "WBToolboxLibrary_repository_b"
+    Location		    [780, 170, 2060, 891]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -888,7 +888,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1760"
+    SIDHighWatermark	    "1765"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -1731,7 +1731,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1595"
+		SIDHighWatermark	"1598"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1752,20 +1752,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1594"
+		  SID			  "107::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1593"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 6"
+		  SID			  "107::1596"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_b 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1780,9 +1780,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1595"
+		  SID			  "107::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -1793,7 +1793,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  36
+		  ZOrder		  41
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -1801,7 +1801,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  37
+		  ZOrder		  42
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -1809,7 +1809,7 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  38
+		  ZOrder		  43
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -1817,14 +1817,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  39
+		  ZOrder		  44
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  40
+		  ZOrder		  45
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -2325,7 +2325,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1595"
+		SIDHighWatermark	"1598"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2346,20 +2346,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1594"
+		  SID			  "112::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1593"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 7"
+		  SID			  "112::1596"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_b 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2374,9 +2374,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1595"
+		  SID			  "112::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -2387,7 +2387,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  36
+		  ZOrder		  41
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -2395,7 +2395,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  37
+		  ZOrder		  42
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -2403,7 +2403,7 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  38
+		  ZOrder		  43
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -2411,14 +2411,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  39
+		  ZOrder		  44
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  40
+		  ZOrder		  45
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -2991,7 +2991,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1595"
+		SIDHighWatermark	"1598"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -3012,20 +3012,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1594"
+		  SID			  "1300::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  71
+		  ZOrder		  74
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1593"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 1"
+		  SID			  "1300::1596"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_b 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  70
+		  ZOrder		  73
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -3040,9 +3040,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1595"
+		  SID			  "1300::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  72
+		  ZOrder		  75
 		}
 		Block {
 		  BlockType		  Outport
@@ -3053,7 +3053,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  36
+		  ZOrder		  41
 		  SrcBlock		  "s"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -3061,7 +3061,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  37
+		  ZOrder		  42
 		  SrcBlock		  "unused"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -3069,7 +3069,7 @@ Library {
 		}
 		Line {
 		  Name			  "s0"
-		  ZOrder		  38
+		  ZOrder		  43
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -3077,14 +3077,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  39
+		  ZOrder		  44
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  40
+		  ZOrder		  45
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -3592,7 +3592,7 @@ Library {
       }
       System {
 	Name			"wholeBodyModel"
-	Location		[0, 23, 1280, 744]
+	Location		[780, 170, 2060, 891]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -5018,7 +5018,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Kinematics"
-	    Location		    [0, 23, 1280, 744]
+	    Location		    [780, 170, 2060, 891]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -5030,7 +5030,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "307"
+	    ZoomFactor		    "175"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Forward Kinematics"
@@ -5547,6 +5547,209 @@ Library {
 		}
 	      }
 	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Remote Inverse Kinematics"
+	      SID		      "1761"
+	      Ports		      [2, 1]
+	      Position		      [560, 105, 720, 165]
+	      ZOrder		      66
+	      InitFcn		      "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var'"
+	      ")\n    WBT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWho"
+	      "leBodyInterface.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\ne"
+	      "nd"
+	      RequestExecContextInheritance off
+	      Variant		      off
+	      Object {
+		$PropName		"MaskObject"
+		$ObjectID		208
+		$ClassName		"Simulink.Mask"
+		Type			"Forward Kinematics"
+		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
+		"degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformation between"
+		"\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, representing the"
+		" configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix representing t"
+		"he homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n- Frame "
+		"name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the ports opene"
+		"d by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n       "
+		"            Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the underlyin"
+		"g Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Body Interface\n"
+		"- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+		Display			"disp(solverName)\n\n\n\n% escapedBaseFrameName = strrep(baseFrame, '_', '\\_');\n% escapedEndEffFrameName"
+		" = strrep(endEffFrame, '_', '\\_');\n% \n% %port_label('output', 1, strcat('{}^{world} H_{',escapedFrameName,'}'), '"
+		"texmode','on')\n% \n% %port_label('input', 1, '{}^{world} H_{base}', 'texmode','on')\n% %port_label('input', 2, 'Joi"
+		"nt configuration')\n% \n% %clear escapedFrameName;\n% \n% \n% % if strcmp(robotPart, 'left')\n% %     prefix = 'l';\n"
+		"% % else\n% %     prefix = 'r';\n% % end\n% % \n\nport_label('input', 1, 'H^d', 'texmode','on');\n% port_label('inpu"
+		"t', 1, strcat('{}^{',escapedBaseFrameName,'} H_{',escapedEndEffFrameName,'}^d'), 'texmode','on');\n% \n% port_label("
+		"'input', 2, '{}^{world} H_{base}', 'texmode','on')\nport_label('input', 2, 'q_j(0)', 'texmode','on');\n% % \n% % \n%"
+		" port_label('output', 1, '{}^{world} H_{base}^d', 'texmode','on')\nport_label('output', 1, 'q_j^d', 'texmode','on');"
+		"\n\n"
+		Array {
+		  Type			  "Simulink.MaskParameter"
+		  Dimension		  3
+		  Object {
+		    $ObjectID		    209
+		    Type		    "edit"
+		    Name		    "solverName"
+		    Prompt		    "Solver Name"
+		    Value		    "'/cartesianSolver'"
+		  }
+		  Object {
+		    $ObjectID		    210
+		    Type		    "edit"
+		    Name		    "dofs"
+		    Prompt		    "#Dofs"
+		    Value		    "12"
+		    Tunable		    "off"
+		  }
+		  Object {
+		    $ObjectID		    211
+		    Type		    "popup"
+		    Array {
+		    Type		    "Cell"
+		    Dimension		    2
+		    Cell		    "Full Constraint (Position and Orientation)"
+		    Cell		    "Position only constraint"
+		    PropName		    "TypeOptions"
+		    }
+		    Name		    "optOption"
+		    Prompt		    "Optimization Option"
+		    Value		    "Full Constraint (Position and Orientation)"
+		  }
+		  PropName		  "Parameters"
+		}
+		Array {
+		  Type			  "Simulink.dialog.Group"
+		  Dimension		  2
+		  Object {
+		    $ObjectID		    212
+		    Prompt		    "%<MaskType>"
+		    Object {
+		    $PropName		    "DialogControls"
+		    $ObjectID		    213
+		    $ClassName		    "Simulink.dialog.Text"
+		    Prompt		    "%<MaskDescription>"
+		    Name		    "DescTextVar"
+		    }
+		    Name		    "DescGroupVar"
+		  }
+		  Object {
+		    $ObjectID		    214
+		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
+		    Object {
+		    $PropName		    "DialogControls"
+		    $ObjectID		    215
+		    $ClassName		    "Simulink.dialog.TabContainer"
+		    Object {
+		    $PropName		    "DialogControls"
+		    $ObjectID		    216
+		    $ClassName		    "Simulink.dialog.Tab"
+		    Prompt		    "Block parameters"
+		    Array {
+		    Type		    "Simulink.dialog.parameter.Control"
+		    Dimension		    3
+		    Object {
+		    $ObjectID		    217
+		    $ClassName		    "Simulink.dialog.parameter.Edit"
+		    PromptLocation	    "left"
+		    Name		    "solverName"
+		    }
+		    Object {
+		    $ObjectID		    218
+		    $ClassName		    "Simulink.dialog.parameter.Edit"
+		    Name		    "dofs"
+		    }
+		    Object {
+		    $ObjectID		    219
+		    $ClassName		    "Simulink.dialog.parameter.Popup"
+		    Name		    "optOption"
+		    }
+		    PropName		    "DialogControls"
+		    }
+		    Name		    "Container8"
+		    }
+		    Name		    "Container4"
+		    }
+		    Name		    "ParameterGroupVar"
+		  }
+		  PropName		  "DialogControls"
+		}
+	      }
+	      System {
+		Name			"Remote Inverse Kinematics"
+		Location		[853, 51, 2214, 1013]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"375"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Desired frame pose"
+		  SID			  "1762"
+		  Position		  [10, 23, 40, 37]
+		  ZOrder		  26
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Current Joint configuration"
+		  SID			  "1763"
+		  Position		  [10, 68, 40, 82]
+		  ZOrder		  24
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  S-Function
+		  Name			  "S-Function"
+		  SID			  "1764"
+		  Ports			  [2, 1]
+		  Position		  [145, 6, 225, 99]
+		  ZOrder		  19
+		  FunctionName		  "WBToolbox"
+		  Parameters		  "'RemoteInverseKinematics',solverName, dofs, optOption"
+		  SFunctionDeploymentMode off
+		  EnableBusSupport	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Desired Joint Configuration"
+		  SID			  "1765"
+		  Position		  [285, 48, 315, 62]
+		  ZOrder		  27
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  ZOrder		  1
+		  SrcBlock		  "S-Function"
+		  SrcPort		  1
+		  DstBlock		  "Desired Joint Configuration"
+		  DstPort		  1
+		}
+		Line {
+		  ZOrder		  2
+		  SrcBlock		  "Desired frame pose"
+		  SrcPort		  1
+		  DstBlock		  "S-Function"
+		  DstPort		  1
+		}
+		Line {
+		  ZOrder		  3
+		  SrcBlock		  "Current Joint configuration"
+		  SrcPort		  1
+		  DstBlock		  "S-Function"
+		  DstPort		  2
+		}
+	      }
+	    }
 	  }
 	}
       }
@@ -5564,7 +5767,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		208
+	$ObjectID		220
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }
@@ -5598,7 +5801,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    209
+	    $ObjectID		    221
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5613,7 +5816,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		210
+		$ObjectID		222
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5636,7 +5839,7 @@ Library {
 		"');\nend\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		211
+		$ObjectID		223
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5644,7 +5847,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		212
+		$ObjectID		224
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5652,7 +5855,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		213
+		$ObjectID		225
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5660,7 +5863,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		214
+		$ObjectID		226
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -5673,11 +5876,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		215
+		$ObjectID		227
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  216
+		  $ObjectID		  228
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5685,46 +5888,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		217
+		$ObjectID		229
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  218
+		  $ObjectID		  230
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    219
+		    $ObjectID		    231
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    220
+		    $ObjectID		    232
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "estimateType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    221
+		    $ObjectID		    233
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    222
+		    $ObjectID		    234
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    223
+		    $ObjectID		    235
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    224
+		    $ObjectID		    236
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    225
+		    $ObjectID		    237
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -5799,7 +6002,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    226
+	    $ObjectID		    238
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5814,7 +6017,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		227
+		$ObjectID		239
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5834,7 +6037,7 @@ Library {
 		";\nend\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		228
+		$ObjectID		240
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5842,7 +6045,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		229
+		$ObjectID		241
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5850,7 +6053,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		230
+		$ObjectID		242
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5858,7 +6061,7 @@ Library {
 		Tunable			"off"
 	      }
 	      Object {
-		$ObjectID		231
+		$ObjectID		243
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -5871,11 +6074,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		232
+		$ObjectID		244
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  233
+		  $ObjectID		  245
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5883,46 +6086,46 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		234
+		$ObjectID		246
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  235
+		  $ObjectID		  247
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    236
+		    $ObjectID		    248
 		    Prompt		    "Block parameters"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    237
+		    $ObjectID		    249
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "limitsType"
 		    }
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    238
+		    $ObjectID		    250
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    239
+		    $ObjectID		    251
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    240
+		    $ObjectID		    252
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    241
+		    $ObjectID		    253
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    242
+		    $ObjectID		    254
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -6037,7 +6240,7 @@ Library {
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary_repository_new"
+    name		    "WBToolboxLibrary_repository_b"
     created		    "06-Feb-2014 11:51:26"
     isLibrary		    1
     firstTarget		    26

@@ -136,9 +136,7 @@ static void mdlInitializeSizes(SimStruct *S)
 //   specified in ssSetNumSampleTimes.
 static void mdlInitializeSampleTimes(SimStruct *S)
 {
-    // The sampling time of this SFunction must be inherited so that the Soft Real Time sblock can be used.
     ssSetSampleTime(S, 0, INHERITED_SAMPLE_TIME);
-    // ssSetSampleTime(S, 0, 10.0);
     ssSetOffsetTime(S, 0, 0.0);
     ssSetModelReferenceSampleTimeDefaultInheritance(S);
 }
