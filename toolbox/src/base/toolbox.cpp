@@ -114,8 +114,6 @@ static void mdlInitializeSizes(SimStruct *S)
         return;
     }
 
-    delete block;
-
     ssSetNumSampleTimes(S, 1);
 
     ssSetSimStateCompliance(S, USE_CUSTOM_SIM_STATE); //??
@@ -129,6 +127,8 @@ static void mdlInitializeSizes(SimStruct *S)
                  SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
                  SS_OPTION_USE_TLC_WITH_ACCELERATOR |
                  SS_OPTION_CALL_TERMINATE_ON_EXIT);
+
+    delete block;
 
 }
 

@@ -5,6 +5,7 @@
 #include <yarp/math/Math.h>
 #include <yarp/sig/Matrix.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/os/Network.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Time.h>
@@ -105,6 +106,13 @@ namespace wbt {
     {
         using namespace yarp::os;
 
+        Network::init();
+
+        if (!Network::initialized() || !Network::checkNetwork(5.0)){
+            if (error) error->message = "YARP server wasn't found active!! \n";
+            return false;
+        }
+
         m_piml = new RemoteInverseKinematicsPimpl();
         if (!m_piml) return false;
 
@@ -187,6 +195,7 @@ namespace wbt {
             delete m_piml;
             m_piml = 0;
         }
+        yarp::os::Network::fini();
         return result;
     }
 
