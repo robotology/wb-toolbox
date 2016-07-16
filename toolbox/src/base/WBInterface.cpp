@@ -39,6 +39,11 @@ namespace wbt {
         return m_model;
     }
 
+    const yarp::os::Property * const WBInterface::currentConfiguration() const
+    {
+        return m_configuration;
+    }
+
 
     int WBInterface::numberOfDoFs() const { return m_dofs; }
 
@@ -88,7 +93,7 @@ namespace wbt {
 
         wbi::IDList jointList;
         //parse the file to get the joint list
-        if (!wbdIDListFromConfigPropAndList(configurations,list,jointList)) {
+        if (!WBInterface::wbdIDListFromConfigPropAndList(configurations,list,jointList)) {
             return -2;
         }
 
@@ -142,7 +147,7 @@ namespace wbt {
 
         m_robotList = new wbi::IDList();
 
-        if (!wbdIDListFromConfigPropAndList(*m_configuration,list,*m_robotList)) {
+        if (!WBInterface::wbdIDListFromConfigPropAndList(*m_configuration,list,*m_robotList)) {
             if(error) error->message = "Could not load the specified WBI list (list param: " + list + " )";
             return false;
         }

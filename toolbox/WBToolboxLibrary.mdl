@@ -17,7 +17,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [469.0, 119.0, 1593.0, 1200.0]
+      Location		      [0.0, 23.0, 1280.0, 721.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -41,9 +41,9 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1559.0, 1038.0]
-	ZoomFactor		[3.4327354260089686]
-	Offset			[11.921619856303067, -42.691378184193326]
+	Extents			[1246.0, 559.0]
+	ZoomFactor		[2.7309417040358746]
+	Offset			[10.873563218390814, 6.1543513957307141]
       }
     }
   }
@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 23 16:27:41 2016"
-  RTWModifiedTimeStamp	  388600061
-  ModelVersionFormat	  "1.%<AutoIncrement:363>"
+  LastModifiedDate	  "Sat Jul 16 17:15:09 2016"
+  RTWModifiedTimeStamp	  390590109
+  ModelVersionFormat	  "1.%<AutoIncrement:366>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -829,7 +829,7 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary"
-    Location		    [469, 119, 2062, 1319]
+    Location		    [0, 23, 1280, 744]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -841,7 +841,7 @@ Library {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "343"
+    ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "1760"
     Block {
@@ -863,7 +863,7 @@ Library {
       }
       System {
 	Name			"Utilities"
-	Location		[469, 119, 2062, 1319]
+	Location		[0, 23, 1280, 744]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1698,20 +1698,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1591"
+		  SID			  "107::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1590"
+		  SID			  "107::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1726,9 +1726,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1592"
+		  SID			  "107::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -2235,20 +2235,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1591"
+		  SID			  "112::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1590"
+		  SID			  "112::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2263,9 +2263,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1592"
+		  SID			  "112::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -2913,20 +2913,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1591"
+		  SID			  "1300::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  68
+		  ZOrder		  71
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1590"
+		  SID			  "1300::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  67
+		  ZOrder		  70
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2941,9 +2941,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1592"
+		  SID			  "1300::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  69
+		  ZOrder		  72
 		}
 		Block {
 		  BlockType		  Outport
@@ -3061,7 +3061,7 @@ Library {
       }
       System {
 	Name			"wholeBodyActuators"
-	Location		[469, 119, 2062, 1319]
+	Location		[535, 41, 1280, 744]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3073,7 +3073,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"847"
+	ZoomFactor		"546"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Set LowLevel PIDs"
@@ -3241,7 +3241,7 @@ Library {
 	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
-	      Dimension		      5
+	      Dimension		      7
 	      Object {
 		$ObjectID		67
 		Type			"popup"
@@ -3267,6 +3267,33 @@ Library {
 	      }
 	      Object {
 		$ObjectID		68
+		Type			"popup"
+		Array {
+		  Type			  "Cell"
+		  Dimension		  2
+		  Cell			  "Full"
+		  Cell			  "Sublist"
+		  PropName		  "TypeOptions"
+		}
+		Name			"fullOrSubControl"
+		Prompt			"Control Type"
+		Value			"Full"
+		Callback		"subOrFull = get_param(gcb, 'fullOrSubControl');\nif(strcmp(subOrFull, 'Sublist'))\n    set_param(gcb, 'Ma"
+		"skVisibilities',{'on';'on';'on';'on';'on';'on';'on'});\nelse\n    set_param(gcb, 'MaskVisibilities',{'on';'on';'off'"
+		";'on';'on';'on';'on'});\nend\nclear subOrFull "
+		TabName			"Block parameters"
+	      }
+	      Object {
+		$ObjectID		69
+		Type			"edit"
+		Name			"controlledJoints"
+		Prompt			"Controlled Joint List"
+		Value			"''"
+		Visible			"off"
+		TabName			"Block parameters"
+	      }
+	      Object {
+		$ObjectID		70
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -3275,7 +3302,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		69
+		$ObjectID		71
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -3284,7 +3311,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		70
+		$ObjectID		72
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -3293,7 +3320,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		71
+		$ObjectID		73
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -3306,7 +3333,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Set References"
-	    Location		    [208, 105, 1008, 627]
+	    Location		    [535, 41, 1280, 744]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -3335,7 +3362,8 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'SetReferences',robotName,localName,wbiFile,wbiList,controlType"
+	      Parameters	      "'SetReferences',robotName,localName,wbiFile,wbiList,controlType,fullOrSubControl,controlledJo"
+	      "ints"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	    }
@@ -3374,7 +3402,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		72
+	$ObjectID		74
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyModel.png'),'center')"
       }
@@ -3405,7 +3433,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    73
+	    $ObjectID		    75
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('Dynamics.png'))"
 	  }
@@ -3439,7 +3467,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		74
+		$ObjectID		76
 		$ClassName		"Simulink.Mask"
 		Type			"Centroidal Momentum"
 		Description		"This block computed the 6 element centroidal momentum, as defined in:\n\"Centroidal dynamics of a huma"
@@ -3458,7 +3486,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    75
+		    $ObjectID		    77
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3466,7 +3494,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    76
+		    $ObjectID		    78
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3474,7 +3502,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    77
+		    $ObjectID		    79
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3482,7 +3510,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    78
+		    $ObjectID		    80
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3615,7 +3643,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		79
+		$ObjectID		81
 		$ClassName		"Simulink.Mask"
 		Type			"Get Generalized Bias Forces"
 		Description		"This block retrieves the generalied bias forces of the robot.\n\nParameter:\n- Explicit Gravity. If Tr"
@@ -3640,7 +3668,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    80
+		    $ObjectID		    82
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3648,7 +3676,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    81
+		    $ObjectID		    83
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3656,7 +3684,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    82
+		    $ObjectID		    84
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3664,7 +3692,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    83
+		    $ObjectID		    85
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3672,7 +3700,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    84
+		    $ObjectID		    86
 		    Type		    "checkbox"
 		    Name		    "explicitGravity"
 		    Prompt		    "Explicit Gravity"
@@ -3846,7 +3874,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		85
+		$ObjectID		87
 		$ClassName		"Simulink.Mask"
 		Type			"Gravity bias"
 		Description		"This block compute the generalized bias forces due to the gravity\n\nParameter:\n- Explicit Gravity. I"
@@ -3869,7 +3897,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    86
+		    $ObjectID		    88
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3877,7 +3905,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    87
+		    $ObjectID		    89
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3885,7 +3913,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    88
+		    $ObjectID		    90
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3893,7 +3921,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    89
+		    $ObjectID		    91
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3901,7 +3929,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    90
+		    $ObjectID		    92
 		    Type		    "checkbox"
 		    Name		    "explicitGravity"
 		    Prompt		    "Explicit Gravity"
@@ -4059,7 +4087,7 @@ Library {
 	      EnableBusSupport	      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		91
+		$ObjectID		93
 		$ClassName		"Simulink.Mask"
 		Type			"Inverse Dynamics"
 		Description		"This block compute the inverse dynamics of the robot.\n\nParameter:\n- Explicit Gravity. If True, an a"
@@ -4085,35 +4113,35 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    92
+		    $ObjectID		    94
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
 		    Value		    "WBT_robotName"
 		  }
 		  Object {
-		    $ObjectID		    93
+		    $ObjectID		    95
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
 		    Value		    "WBT_modelName"
 		  }
 		  Object {
-		    $ObjectID		    94
+		    $ObjectID		    96
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
 		    Value		    "WBT_wbiFilename"
 		  }
 		  Object {
-		    $ObjectID		    95
+		    $ObjectID		    97
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
 		    Value		    "WBT_wbiList"
 		  }
 		  Object {
-		    $ObjectID		    96
+		    $ObjectID		    98
 		    Type		    "checkbox"
 		    Name		    "explicitGravity"
 		    Prompt		    "Explicit Gravity"
@@ -4138,7 +4166,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		97
+		$ObjectID		99
 		$ClassName		"Simulink.Mask"
 		Type			"Mass Matrix"
 		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of degrees of freedom of th"
@@ -4154,7 +4182,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  4
 		  Object {
-		    $ObjectID		    98
+		    $ObjectID		    100
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4162,7 +4190,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    99
+		    $ObjectID		    101
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4170,7 +4198,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    100
+		    $ObjectID		    102
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4178,7 +4206,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    101
+		    $ObjectID		    103
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4288,7 +4316,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    102
+	    $ObjectID		    104
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('jacobian.png'))"
 	  }
@@ -4322,7 +4350,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		103
+		$ObjectID		105
 		$ClassName		"Simulink.Mask"
 		Type			"DotJ Nu"
 		Description		"This block computes the product between the time derivative of the\n         Jacobian of the specified"
@@ -4346,7 +4374,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    104
+		    $ObjectID		    106
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
@@ -4354,7 +4382,7 @@ Library {
 		    TabName		    "Block parameters"
 		  }
 		  Object {
-		    $ObjectID		    105
+		    $ObjectID		    107
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4363,7 +4391,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    106
+		    $ObjectID		    108
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4372,7 +4400,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    107
+		    $ObjectID		    109
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4381,7 +4409,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    108
+		    $ObjectID		    110
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4516,7 +4544,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		109
+		$ObjectID		111
 		$ClassName		"Simulink.Mask"
 		Type			"Jacobian"
 		Description		"This block retrieves the Jacobian of the specified frame.\n\nAssuming DoFs is the number of degrees of"
@@ -4536,7 +4564,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    110
+		    $ObjectID		    112
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
@@ -4544,7 +4572,7 @@ Library {
 		    TabName		    "Block parameters"
 		  }
 		  Object {
-		    $ObjectID		    111
+		    $ObjectID		    113
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4553,7 +4581,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    112
+		    $ObjectID		    114
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4562,7 +4590,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    113
+		    $ObjectID		    115
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4571,7 +4599,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    114
+		    $ObjectID		    116
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4682,7 +4710,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    115
+	    $ObjectID		    117
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('forwardKinematics.png'))"
 	  }
@@ -4716,7 +4744,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		116
+		$ObjectID		118
 		$ClassName		"Simulink.Mask"
 		Type			"Forward Kinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -4736,7 +4764,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  5
 		  Object {
-		    $ObjectID		    117
+		    $ObjectID		    119
 		    Type		    "edit"
 		    Name		    "frameName"
 		    Prompt		    "Frame name"
@@ -4744,7 +4772,7 @@ Library {
 		    TabName		    "Block parameters"
 		  }
 		  Object {
-		    $ObjectID		    118
+		    $ObjectID		    120
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4753,7 +4781,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    119
+		    $ObjectID		    121
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4762,7 +4790,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    120
+		    $ObjectID		    122
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4771,7 +4799,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    121
+		    $ObjectID		    123
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -4877,7 +4905,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		122
+		$ObjectID		124
 		$ClassName		"Simulink.Mask"
 		Type			"Forward Kinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -4901,7 +4929,7 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  6
 		  Object {
-		    $ObjectID		    123
+		    $ObjectID		    125
 		    Type		    "popup"
 		    Array {
 		    Type		    "Cell"
@@ -4917,7 +4945,7 @@ Library {
 		    TabName		    "Block parameters"
 		  }
 		  Object {
-		    $ObjectID		    124
+		    $ObjectID		    126
 		    Type		    "popup"
 		    Array {
 		    Type		    "Cell"
@@ -4932,7 +4960,7 @@ Library {
 		    TabName		    "Block parameters"
 		  }
 		  Object {
-		    $ObjectID		    125
+		    $ObjectID		    127
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -4941,7 +4969,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    126
+		    $ObjectID		    128
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -4950,7 +4978,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    127
+		    $ObjectID		    129
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -4959,7 +4987,7 @@ Library {
 		    TabName		    "WBI parameters"
 		  }
 		  Object {
-		    $ObjectID		    128
+		    $ObjectID		    130
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -5107,7 +5135,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		129
+	$ObjectID		131
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }
@@ -5141,7 +5169,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    130
+	    $ObjectID		    132
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5156,7 +5184,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		131
+		$ObjectID		133
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5180,7 +5208,7 @@ Library {
 		TabName			"Block parameters"
 	      }
 	      Object {
-		$ObjectID		132
+		$ObjectID		134
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5189,7 +5217,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		133
+		$ObjectID		135
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5198,7 +5226,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		134
+		$ObjectID		136
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5207,7 +5235,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		135
+		$ObjectID		137
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"
@@ -5282,7 +5310,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    136
+	    $ObjectID		    138
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Get Estimate"
 	    Description		    "This block get the estimate of the specified type\n\nAssuming DoFs is the number of degrees of "
@@ -5297,7 +5325,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      5
 	      Object {
-		$ObjectID		137
+		$ObjectID		139
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5318,7 +5346,7 @@ Library {
 		TabName			"Block parameters"
 	      }
 	      Object {
-		$ObjectID		138
+		$ObjectID		140
 		Type			"edit"
 		Name			"robotName"
 		Prompt			"Robot Port Name"
@@ -5327,7 +5355,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		139
+		$ObjectID		141
 		Type			"edit"
 		Name			"localName"
 		Prompt			"Model Name"
@@ -5336,7 +5364,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		140
+		$ObjectID		142
 		Type			"edit"
 		Name			"wbiFile"
 		Prompt			"WBI filename"
@@ -5345,7 +5373,7 @@ Library {
 		TabName			"WBI parameters"
 	      }
 	      Object {
-		$ObjectID		141
+		$ObjectID		143
 		Type			"edit"
 		Name			"wbiList"
 		Prompt			"WBI list name"

@@ -126,6 +126,8 @@ static void mdlInitializeSizes(SimStruct *S)
                  SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
                  SS_OPTION_USE_TLC_WITH_ACCELERATOR |
                  SS_OPTION_CALL_TERMINATE_ON_EXIT);
+    //also ?
+    //SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
 
 }
 
@@ -166,6 +168,24 @@ static void mdlStart(SimStruct *S)
     }
 
 }
+
+//Initialize the state vectors of this C MEX S-function
+#define MDL_INITIALIZE_CONDITIONS
+#if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
+static void mdlInitializeConditions(SimStruct *S)
+{
+    if (ssGetNumPWork(S) > 0) {
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
+        if (!block || !block->initializeInitialConditions(S, &error)) {
+            static char errorBuffer[1024];
+            sprintf(errorBuffer, "[mdlInitializeConditions]%s", error.message.substr(0, 1023 - strlen("[mdlInitializeConditions]")).c_str());
+            ssSetErrorStatus(S, errorBuffer);
+        }
+    }
+}
+#endif
+
 
 // Function: mdlOutputs =======================================================
 // Abstract:
