@@ -253,6 +253,10 @@ else()
     target_link_libraries(WBToolbox ${LINKED_LIBRARIES} ${Matlab_LIBRARIES})
 endif()
 
+# Remote Inverse Kinematics requires C++11
+set(CXX_STANDARD_REQUIRED ON)
+set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
+
 install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
 ## if you export the mdl / slx library, remeber to call this command in matlab before saving it

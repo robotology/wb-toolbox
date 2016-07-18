@@ -12,38 +12,127 @@
 #include <yarp/os/RpcClient.h>
 #include <cmath>
 
+#include <yarp/os/Thread.h>
+#include <condition_variable>
+#include <mutex>
+
 //use http://wiki.icub.org/brain/group__iKinSlv.html
 
 namespace wbt {
 
+
     struct RemoteInverseKinematics::RemoteInverseKinematicsPimpl {
+
+        class SolverRPCReader : public yarp::os::Thread
+        {
+            RemoteInverseKinematicsPimpl &pimpl;
+
+            bool requestPending;
+            bool newRequest;
+
+            std::mutex mutex;
+            std::condition_variable requestCondition;
+
+            yarp::sig::Vector xd;
+            yarp::sig::Vector q0;
+
+            yarp::os::Bottle request;
+            yarp::os::Bottle response;
+
+        public:
+
+            SolverRPCReader(RemoteInverseKinematicsPimpl& pimpl)
+            : pimpl(pimpl)
+            , requestPending(false), newRequest(false)
+            {
+                xd.resize(7);
+                q0.resize(pimpl.m_configuration.size());
+            }
+
+            virtual void onStop()
+            {
+                std::unique_lock<std::mutex> guard(mutex);
+                requestCondition.notify_all();
+            }
+
+            virtual void run()
+            {
+                while (true) {
+                    {
+                        std::unique_lock<std::mutex> guard(mutex);
+                        //while !newRequest
+                        while (!newRequest) {
+                            if (isStopping()) break;
+                            requestCondition.wait(guard);
+                        }
+                        if (isStopping()) break;
+
+                        requestPending = true;
+                        newRequest = false;
+                    }
+
+                    request.clear();
+                    response.clear();
+
+                    request.addString("ask");
+                    yarp::os::Bottle &pose = request.addList();
+                    pose.addString("xd");
+                    pose.addList().read(xd);
+                    yarp::os::Bottle &qInitial = request.addList();
+                    qInitial.addString("q");
+                    qInitial.addList().read(q0);
+
+                    pimpl.m_rpc.write(request, response);
+
+                    yarp::os::Value &joints = response.find("q");
+                    if (!joints.isNull() && joints.isList()) {
+
+                        yarp::os::Bottle *jointList = joints.asList();
+                        if (jointList->size() >= q0.size()) {
+                            std::lock_guard<std::mutex> outputLock(pimpl.m_outputMutex);
+                            for (int i = 0; i < jointList->size(); ++i) {
+                                pimpl.m_configuration[i] = jointList->get(i).asDouble() * M_PI / 180.0;
+                            }
+                        }
+                    }
+
+                    {
+                        std::lock_guard<std::mutex> guard(mutex);
+                        requestPending = false;
+                    }
+
+                }
+            }
+            
+            void addRequest(const yarp::sig::Vector &xd, const yarp::sig::Vector &q0)
+            {
+                std::unique_lock<std::mutex> guard(mutex);
+                if (requestPending) return;
+                this->xd = xd;
+                this->q0 = q0;
+                newRequest = true;
+                requestCondition.notify_one();
+            }
+        };
+
+
         bool m_firstTime;
         //input buffers
-        double *m_configuration;
+        std::mutex m_outputMutex;
+        yarp::sig::Vector m_configuration;
+        yarp::os::RpcClient m_rpc;
+        yarp::os::Thread *m_solverThread;
 
-        std::string m_solverInputPortName;
-        std::string m_solverOutputPortName;
-
-        yarp::os::BufferedPort<yarp::os::Bottle> m_solverInputPort;
-        yarp::os::BufferedPort<yarp::os::Bottle> m_solverOutputPort;
-
-        double m_lastToken;
+        std::string m_solverRPCPortName;
 
         yarp::sig::Matrix m_desiredPoseAsMatrix;
         yarp::sig::Vector m_desiredPoseAsAngleAxis;
         yarp::sig::Vector m_desiredAngleAxisOrientation;
 
         RemoteInverseKinematicsPimpl()
-        : m_firstTime(true)
-        , m_configuration(0) {}
+        : m_firstTime(true) {}
 
-        ~RemoteInverseKinematicsPimpl()
-        {
-            if (m_configuration) {
-                delete [] m_configuration;
-                m_configuration = 0;
-            }
-        }
+        ~RemoteInverseKinematicsPimpl() {}
 
     };
 
@@ -129,28 +218,17 @@ namespace wbt {
 
         int optOption = mxGetScalar(ssGetSFcnParam(S,parentParameters));
 
-        m_piml->m_configuration = new double[dofs];
-        if (!m_piml->m_configuration) return false;
+        m_piml->m_configuration.resize(dofs);
 
         //Open ports and connect
-        std::string rpcPortName = solverName;
-        m_piml->m_solverInputPortName = solverName;
-        m_piml->m_solverOutputPortName = solverName;
+        m_piml->m_solverRPCPortName = solverName;
         if (solverName[solverName.length() - 1] != '/') {
-            m_piml->m_solverInputPortName.append("/");
-            m_piml->m_solverOutputPortName.append("/");
-            rpcPortName.append("/");
+            m_piml->m_solverRPCPortName.append("/");
         }
-        m_piml->m_solverInputPortName.append("in");
-        m_piml->m_solverOutputPortName.append("out");
-        rpcPortName.append("rpc");
-
-        bool result = m_piml->m_solverInputPort.open("...");
-        result = result && m_piml->m_solverOutputPort.open("...");
+        m_piml->m_solverRPCPortName.append("rpc");
 
         //also rpc, e.g. pose
-        yarp::os::RpcClient rpc;
-        if (rpc.open(rpcPortName)) {
+        if (m_piml->m_rpc.open("...") && yarp::os::Network::connect(m_piml->m_rpc.getName(), m_piml->m_solverRPCPortName)) {
             yarp::os::Bottle response;
             yarp::os::Bottle request;
             request.addString("set pose");
@@ -159,38 +237,30 @@ namespace wbt {
             else
                 request.addString("xyz");
 
-            rpc.write(request, response);
-            rpc.close();
+            m_piml->m_rpc.write(request, response);
         }
-
-        result = result && yarp::os::Network::connect(m_piml->m_solverInputPort.getName(), m_piml->m_solverInputPortName);
-        result = result && yarp::os::Network::connect(m_piml->m_solverOutputPortName, m_piml->m_solverOutputPort.getName());
-
 
         m_piml->m_desiredPoseAsMatrix.resize(4, 4);
         m_piml->m_desiredPoseAsAngleAxis.resize(7, 0.0);
         m_piml->m_desiredAngleAxisOrientation.resize(4, 0.0);
 
-        m_piml->m_lastToken = -1;
-
         m_piml->m_firstTime = true;
 
-        if (!result && error) {
-            error->message = "Could not establish connection with iKin solver " + solverName;
-        }
-        return result;
+        m_piml->m_solverThread = new RemoteInverseKinematicsPimpl::SolverRPCReader(*m_piml);
+        return m_piml->m_solverThread && m_piml->m_solverThread->start();
     }
 
     bool RemoteInverseKinematics::terminate(SimStruct *S, wbt::Error *error)
     {
         bool result = true;
         if (m_piml) {
-            result = yarp::os::Network::disconnect(m_piml->m_solverInputPort.getName(), m_piml->m_solverInputPortName);
-            result = result && yarp::os::Network::disconnect(m_piml->m_solverOutputPortName, m_piml->m_solverOutputPort.getName());
-
-            m_piml->m_solverInputPort.close();
-            m_piml->m_solverOutputPort.close();
-
+            if (m_piml->m_solverThread) {
+                m_piml->m_solverThread->stop();
+                delete m_piml->m_solverThread;
+                m_piml->m_solverThread = 0;
+            }
+            yarp::os::Network::disconnect(m_piml->m_rpc.getName(), m_piml->m_solverRPCPortName);
+            m_piml->m_rpc.close();
 
             delete m_piml;
             m_piml = 0;
@@ -203,76 +273,44 @@ namespace wbt {
     {
         //get input
         if (m_piml->m_firstTime) {
+            m_piml->m_firstTime = false;
             InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
+
+            std::lock_guard<std::mutex> outputLock(m_piml->m_outputMutex);
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
                 m_piml->m_configuration[i] = *configuration[i];
             }
         }
 
-        if (m_piml->m_lastToken == -1) {
-            //write request to solver
-            m_piml->m_lastToken = yarp::os::Time::now();
+        //to do the request we have to read the inputs..
+        InputRealPtrsType desiredPoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
 
-            //to do the request we have to read the inputs..
-            InputRealPtrsType desiredPoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
+        double desiredPoseColMajorRaw[16];
 
-            double desiredPoseColMajorRaw[16];
-
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                desiredPoseColMajorRaw[i] = *desiredPoseRaw[i];
-            }
-
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > desiredPoseColMajor(desiredPoseColMajorRaw);
-            //Convert desiredPoseColMajor to yarp matrix
-            for (int row = 0; row < 4; ++row) {
-                for (int col = 0; col < 4; ++col) {
-                    m_piml->m_desiredPoseAsMatrix(row, col) = desiredPoseColMajor(row, col);
-                }
-            }
-
-            //To vector
-            m_piml->m_desiredPoseAsAngleAxis(0) = m_piml->m_desiredPoseAsMatrix(0, 3);
-            m_piml->m_desiredPoseAsAngleAxis(1) = m_piml->m_desiredPoseAsMatrix(1, 3);
-            m_piml->m_desiredPoseAsAngleAxis(2) = m_piml->m_desiredPoseAsMatrix(2, 3);
-
-            m_piml->m_desiredAngleAxisOrientation = yarp::math::dcm2axis(m_piml->m_desiredPoseAsMatrix);
-            m_piml->m_desiredPoseAsAngleAxis.setSubvector(3, m_piml->m_desiredAngleAxisOrientation);
-
-            yarp::os::Bottle &inputCommand = m_piml->m_solverInputPort.prepare();
-
-            inputCommand.clear();
-            yarp::os::Bottle &pose = inputCommand.addList();
-            pose.addString("xd");
-            pose.addList().read(m_piml->m_desiredPoseAsAngleAxis);
-
-            //how to add token?
-            //how to add initial solution??
-            m_piml->m_solverInputPort.write();
-
+        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
+            desiredPoseColMajorRaw[i] = *desiredPoseRaw[i];
         }
-        if (m_piml->m_lastToken > 0) {
-            //wait for reply
 
-            //non blocking
-            yarp::os::Bottle *solverOutput = m_piml->m_solverOutputPort.read(false);
-            if (solverOutput) {
-                if (m_piml->m_firstTime) m_piml->m_firstTime = false;
-
-                m_piml->m_lastToken = -1;
-                yarp::os::Value &joints = solverOutput->find("q");
-                if (!joints.isNull() && joints.isList()) {
-
-                    yarp::os::Bottle *jointList = joints.asList();
-                    if (jointList->size() == ssGetOutputPortWidth(S, 0)) {
-                        for (int i = 0; i < jointList->size(); ++i) {
-                            m_piml->m_configuration[i] = jointList->get(i).asDouble() * M_PI / 180.0;
-                        }
-                    }
-                }
+        Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > desiredPoseColMajor(desiredPoseColMajorRaw);
+        //Convert desiredPoseColMajor to yarp matrix
+        for (int row = 0; row < 4; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                m_piml->m_desiredPoseAsMatrix(row, col) = desiredPoseColMajor(row, col);
             }
         }
+
+        //To vector
+        m_piml->m_desiredPoseAsAngleAxis(0) = m_piml->m_desiredPoseAsMatrix(0, 3);
+        m_piml->m_desiredPoseAsAngleAxis(1) = m_piml->m_desiredPoseAsMatrix(1, 3);
+        m_piml->m_desiredPoseAsAngleAxis(2) = m_piml->m_desiredPoseAsMatrix(2, 3);
+
+        m_piml->m_desiredAngleAxisOrientation = yarp::math::dcm2axis(m_piml->m_desiredPoseAsMatrix);
+        m_piml->m_desiredPoseAsAngleAxis.setSubvector(3, m_piml->m_desiredAngleAxisOrientation);
+
+        ((RemoteInverseKinematicsPimpl::SolverRPCReader*)m_piml->m_solverThread)->addRequest(m_piml->m_desiredPoseAsAngleAxis, m_piml->m_configuration);
 
         real_T *output = ssGetOutputPortRealSignal(S, 0);
+        std::lock_guard<std::mutex> outputLock(m_piml->m_outputMutex);
         for (int i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
             output[i] = m_piml->m_configuration[i];
         }
