@@ -254,8 +254,15 @@ else()
 endif()
 
 # Remote Inverse Kinematics requires C++11
-set(CXX_STANDARD_REQUIRED ON)
-set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
+if (CMAKE_VERSION VERSION_LESS "3.1")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR 
+        CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(WBToolbox "--std=c++11")
+    endif()
+else()
+    set(CXX_STANDARD_REQUIRED ON)
+    set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
+endif()
 
 install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
