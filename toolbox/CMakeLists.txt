@@ -257,7 +257,7 @@ endif()
 if (CMAKE_VERSION VERSION_LESS "3.1")
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR 
         CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(WBToolbox "--std=c++11")
+        target_compile_options(WBToolbox "-std=c++11")
     endif()
 else()
     set(CXX_STANDARD_REQUIRED ON)
