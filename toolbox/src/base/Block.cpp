@@ -5,6 +5,8 @@ wbt::Block::~Block() {}
 void wbt::Block::parameterAtIndexIsTunable(unsigned /*index*/, bool &tunable) { tunable = false; }
 bool wbt::Block::checkParameters(SimStruct */*S*/, wbt::Error */*error*/) { return true; }
 
+bool wbt::Block::initializeInitialConditions(SimStruct *S, wbt::Error *error) { return true; }
+
 bool wbt::Block::readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter)
 {
     int_T buflen, status;

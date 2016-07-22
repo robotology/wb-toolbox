@@ -67,6 +67,8 @@ public:
      */
     wbi::iWholeBodyModel * const model();
 
+    const yarp::os::Property * const currentConfiguration() const;
+
     /**
      * Returns the degrees of freedom associated with the interface object
      *
@@ -79,12 +81,12 @@ public:
      *
      * @param wbiConfigFile wbi configuration file
      * @param list          either the name of joint list to be found in the wbi configuration file,
-     *                      or directly a list in the format (Value1 value2 value3)
+     *                      or directly a list in the format (value1 value2 value3)
      * @return true if loading the list was successful, false otherwise.
      */
-    bool wbdIDListFromConfigPropAndList(const yarp::os::Property & wbiConfigProp,
-                                        const std::string & list,
-                                        wbi::IDList & idList);
+     static bool wbdIDListFromConfigPropAndList(const yarp::os::Property & wbiConfigProp,
+                                                const std::string & list,
+                                                wbi::IDList & idList);
 
     /**
      * Returns the degrees of freedom for the specified configuration file and the list parameter
