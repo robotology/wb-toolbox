@@ -102,8 +102,8 @@ namespace wbt {
         yarp::os::Network::fini();
         return true;
     }
-    
-    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
+
+    bool SimulatorSynchronizer::initializeInitialConditions(SimStruct *S, wbt::Error *error)
     {
         if (m_firstRun) {
             m_firstRun = false;
@@ -120,7 +120,11 @@ namespace wbt {
             m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
             m_rpcData->clockServer.pauseSimulation();
         }
-
+        return true;
+    }
+    
+    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
+    {
         m_rpcData->clockServer.stepSimulationAndWait(m_rpcData->configuration.numberOfSteps);
 
         return true;
