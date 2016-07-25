@@ -38,9 +38,12 @@ private:
     int_T m_outputFirstDerivativeIndex;
     int_T m_outputSecondDerivativeIndex;
 
+    double m_previousSettlingTime;
+
     bool m_firstRun;
     bool m_explicitInitialValue;
     bool m_externalSettlingTime;
+    bool m_resetOnSettlingTimeChange;
     yarp::sig::Vector *m_initialValues;
     yarp::sig::Vector *m_reference;
     
