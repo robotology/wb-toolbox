@@ -3,6 +3,7 @@
 
 #include "WBIBlock.h"
 #include <wbi/wbiConstants.h>
+#include <vector>
 
 namespace wbt {
     class SetReferences;
@@ -11,8 +12,9 @@ namespace wbt {
 class wbt::SetReferences : public wbt::WBIBlock {
 
     double *m_references;
-    bool m_firstRun;
     wbi::ControlMode m_controlMode;
+    bool m_fullControl;
+    std::vector<int> m_controlledJoints;
 
 public:
     static std::string ClassName;
@@ -22,6 +24,7 @@ public:
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
 
     virtual bool initialize(SimStruct *S, wbt::Error *error);
+    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
     virtual bool terminate(SimStruct *S, wbt::Error *error);
     virtual bool output(SimStruct *S, wbt::Error *error);
 

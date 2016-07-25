@@ -38,6 +38,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           USE_LINK_PATH)
 
 find_package(Eigen3 REQUIRED)
+find_package(wholeBodyInterface 0.2.5 REQUIRED)
 find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
 # Workaround section, aka, this stuff should be defined by imported libraries
 find_package(iDynTree REQUIRED)
@@ -98,6 +99,7 @@ if (WBT_USES_ICUB)
             SOURCES src/InverseKinematics.cpp 
             HEADERS include/InverseKinematics.h)
 
+        include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
     endif()
 
     include_directories(SYSTEM ${ctrlLib_INCLUDE_DIRS})

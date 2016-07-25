@@ -11,6 +11,8 @@ unsigned wbt::Block::numberOfContinuousStates() { return 0; }
 bool wbt::Block::updateDiscreteState(SimStruct */*S*/, wbt::Error */*error*/) { return true; }
 bool wbt::Block::stateDerivative(SimStruct */*S*/, wbt::Error */*error*/) { return true; }
 
+bool wbt::Block::initializeInitialConditions(SimStruct *S, wbt::Error *error) { return true; }
+
 bool wbt::Block::readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter)
 {
     int_T buflen, status;

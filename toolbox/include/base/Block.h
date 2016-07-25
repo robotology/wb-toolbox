@@ -123,11 +123,24 @@ public:
      * This method is called at model startup (i.e. during mdlStart)
      * @Note: you can save and initialize your object in this method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
     virtual bool initialize(SimStruct *S, wbt::Error *error) = 0;
+
+    /**
+     * Called to initialize the initial conditions
+     *
+     * The default implementation do nothing.
+     * @note this function is also called on a reset event
+     * @note if you need to perform initialization only once, than implement initialize
+     * @param S     simulink structure
+     * @param [out]error output error object that can be filled in case of error.
+     *
+     * @return true for success, false otherwise
+     */
+    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
 
     /**
      * Perform model cleanup.
@@ -135,7 +148,7 @@ public:
      * This method is called at model termination (i.e. during mdlTerminate).
      * You should release all the resources you requested during the initialize method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
@@ -148,7 +161,7 @@ public:
      *
      * This method is called at every iteration of the model (i.e. during mdlOutput)
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
