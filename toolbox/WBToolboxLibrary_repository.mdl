@@ -1,5 +1,5 @@
 Library {
-  Name			  "WBToolboxLibrary_repository_old"
+  Name			  "WBToolboxLibrary_repository_n"
   Version		  8.4
   SavedCharacterEncoding  "US-ASCII"
   LibraryType		  "BlockLibrary"
@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 23 16:27:26 2016"
-  RTWModifiedTimeStamp	  388600046
-  ModelVersionFormat	  "1.%<AutoIncrement:363>"
+  LastModifiedDate	  "Thu Aug 25 15:51:35 2016"
+  RTWModifiedTimeStamp	  394041095
+  ModelVersionFormat	  "1.%<AutoIncrement:365>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -873,7 +873,7 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary_repository_old"
+    Name		    "WBToolboxLibrary_repository_n"
     Location		    [469, 119, 2062, 1319]
     Open		    off
     ModelBrowserVisibility  off
@@ -1731,7 +1731,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1592"
+		SIDHighWatermark	"1595"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1752,20 +1752,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1591"
+		  SID			  "107::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1590"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_old 6"
+		  SID			  "107::1593"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_n 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1780,9 +1780,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1592"
+		  SID			  "107::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -1793,7 +1793,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  31
+		  ZOrder		  36
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -1801,7 +1801,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  32
+		  ZOrder		  37
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -1809,7 +1809,7 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  33
+		  ZOrder		  38
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -1817,14 +1817,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  34
+		  ZOrder		  39
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  35
+		  ZOrder		  40
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -2325,7 +2325,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1592"
+		SIDHighWatermark	"1595"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2346,20 +2346,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1591"
+		  SID			  "112::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1590"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_old 7"
+		  SID			  "112::1593"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_n 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2374,9 +2374,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1592"
+		  SID			  "112::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -2387,7 +2387,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  31
+		  ZOrder		  36
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -2395,7 +2395,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  32
+		  ZOrder		  37
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -2403,7 +2403,7 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  33
+		  ZOrder		  38
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -2411,14 +2411,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  34
+		  ZOrder		  39
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  35
+		  ZOrder		  40
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -2991,7 +2991,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1592"
+		SIDHighWatermark	"1595"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -3012,20 +3012,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1591"
+		  SID			  "1300::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  68
+		  ZOrder		  71
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1590"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_old 1"
+		  SID			  "1300::1593"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_n 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  67
+		  ZOrder		  70
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -3040,9 +3040,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1592"
+		  SID			  "1300::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  69
+		  ZOrder		  72
 		}
 		Block {
 		  BlockType		  Outport
@@ -3053,7 +3053,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  31
+		  ZOrder		  36
 		  SrcBlock		  "s"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -3061,7 +3061,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  32
+		  ZOrder		  37
 		  SrcBlock		  "unused"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -3069,7 +3069,7 @@ Library {
 		}
 		Line {
 		  Name			  "s0"
-		  ZOrder		  33
+		  ZOrder		  38
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -3077,14 +3077,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  34
+		  ZOrder		  39
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  35
+		  ZOrder		  40
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -3405,11 +3405,12 @@ Library {
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
-		  Dimension		  4
+		  Dimension		  5
 		  Cell			  "Position"
 		  Cell			  "Position Direct"
 		  Cell			  "Velocity"
 		  Cell			  "Torque"
+		  Cell			  "Open Loop"
 		  PropName		  "TypeOptions"
 		}
 		Name			"controlType"
@@ -3420,7 +3421,8 @@ Library {
 		"ype');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelse"
 		"if strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, 1.0]');\nelsei"
 		"f strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\nelseif strcmp"
-		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\nclear  maskStr"
+		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nelseif strcmp(maskStr, "
+		"'Open Loop')\n    set_param(gcb,'BackgroundColor', '[0.98, 0.98, 0.98, 1.0]');\nend\nclear  maskStr"
 	      }
 	      Object {
 		$ObjectID		89
@@ -6030,7 +6032,7 @@ Library {
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary_repository_old"
+    name		    "WBToolboxLibrary_repository_n"
     created		    "06-Feb-2014 11:51:26"
     isLibrary		    1
     firstTarget		    26

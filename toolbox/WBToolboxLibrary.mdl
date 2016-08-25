@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 23 16:27:41 2016"
-  RTWModifiedTimeStamp	  388600061
-  ModelVersionFormat	  "1.%<AutoIncrement:363>"
+  LastModifiedDate	  "Thu Aug 25 15:51:49 2016"
+  RTWModifiedTimeStamp	  394041109
+  ModelVersionFormat	  "1.%<AutoIncrement:365>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1698,20 +1698,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1591"
+		  SID			  "107::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1590"
+		  SID			  "107::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1726,9 +1726,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1592"
+		  SID			  "107::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -2235,20 +2235,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1591"
+		  SID			  "112::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  80
+		  ZOrder		  83
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1590"
+		  SID			  "112::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  79
+		  ZOrder		  82
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2263,9 +2263,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1592"
+		  SID			  "112::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  81
+		  ZOrder		  84
 		}
 		Block {
 		  BlockType		  Outport
@@ -2913,20 +2913,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1591"
+		  SID			  "1300::1594"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  68
+		  ZOrder		  71
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1590"
+		  SID			  "1300::1593"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  67
+		  ZOrder		  70
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2941,9 +2941,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1592"
+		  SID			  "1300::1595"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  69
+		  ZOrder		  72
 		}
 		Block {
 		  BlockType		  Outport
@@ -3247,11 +3247,12 @@ Library {
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
-		  Dimension		  4
+		  Dimension		  5
 		  Cell			  "Position"
 		  Cell			  "Position Direct"
 		  Cell			  "Velocity"
 		  Cell			  "Torque"
+		  Cell			  "Open Loop"
 		  PropName		  "TypeOptions"
 		}
 		Name			"controlType"
@@ -3262,7 +3263,8 @@ Library {
 		"ype');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelse"
 		"if strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, 1.0]');\nelsei"
 		"f strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\nelseif strcmp"
-		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\nclear  maskStr"
+		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nelseif strcmp(maskStr, "
+		"'Open Loop')\n    set_param(gcb,'BackgroundColor', '[0.98, 0.98, 0.98, 1.0]');\nend\nclear  maskStr"
 		TabName			"Block parameters"
 	      }
 	      Object {
