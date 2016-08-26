@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Aug 25 15:51:49 2016"
-  RTWModifiedTimeStamp	  394041109
-  ModelVersionFormat	  "1.%<AutoIncrement:365>"
+  LastModifiedDate	  "Fri Aug 26 16:33:11 2016"
+  RTWModifiedTimeStamp	  394129991
+  ModelVersionFormat	  "1.%<AutoIncrement:367>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -891,12 +891,12 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    20
 	    $ClassName		    "Simulink.Mask"
-	    Description		    "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a"
-	    " WBI whole body state reading."
+	    Description		    "This is a 15-DoF iCub specific block composed of torso, left leg and right leg.\nThis block swa"
+	    "ps first and third joints of the iCub torso from a WBI whole body state reading."
 	  }
 	  System {
 	    Name		    "15-DoFs WBI to YARP"
-	    Location		    [0, 29, 1280, 744]
+	    Location		    [469, 119, 2062, 1319]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -938,7 +938,7 @@ Library {
 	      ZOrder		      8
 	      InputPortWidth	      "ROBOT_DOF"
 	      IndexOptions	      "Index vector (dialog)"
-	      Indices		      "[12:17]"
+	      Indices		      "[4:9]"
 	      OutputSizes	      "1"
 	      Port {
 		PortNumber		1
@@ -956,7 +956,7 @@ Library {
 	      ZOrder		      7
 	      InputPortWidth	      "ROBOT_DOF"
 	      IndexOptions	      "Index vector (dialog)"
-	      Indices		      "[18:23]"
+	      Indices		      "[10:15]"
 	      OutputSizes	      "1"
 	      Port {
 		PortNumber		1
@@ -1698,20 +1698,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1594"
+		  SID			  "107::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1593"
+		  SID			  "107::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1726,9 +1726,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1595"
+		  SID			  "107::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -1959,7 +1959,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Reduced Yarp to WBI"
-	    Location		    [0, 29, 1280, 744]
+	    Location		    [469, 119, 2062, 1319]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -2235,20 +2235,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1594"
+		  SID			  "112::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  86
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1593"
+		  SID			  "112::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  85
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2263,9 +2263,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1595"
+		  SID			  "112::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  87
 		}
 		Block {
 		  BlockType		  Outport
@@ -2913,20 +2913,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1594"
+		  SID			  "1300::1597"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  71
+		  ZOrder		  74
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1593"
+		  SID			  "1300::1596"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  70
+		  ZOrder		  73
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2941,9 +2941,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1595"
+		  SID			  "1300::1598"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  72
+		  ZOrder		  75
 		}
 		Block {
 		  BlockType		  Outport
