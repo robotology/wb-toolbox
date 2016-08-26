@@ -9,6 +9,10 @@
 #define PARAM_IDX_3 3                           // wbi config file
 #define PARAM_IDX_4 4                           // wbi list
 
+wbt::WBIBlock::WBIBlock()
+: m_wbiConfigurationFileName("")
+, m_wbiListName("") {}
+
 wbt::WBIBlock::~WBIBlock() { }
 
 unsigned wbt::WBIBlock::numberOfParameters() { return 4; }
@@ -42,29 +46,27 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
     if (localName.empty()) localName = "WBIT";
 
     //wbi config file
-    std::string wbiConfigFile;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, m_wbiConfigurationFileName)) {
         if (error) error->message = "Cannot retrieve string from WBI config file parameter";
         return false;
     }
 
     //default config file:
-    if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
+    if (m_wbiConfigurationFileName.empty()) m_wbiConfigurationFileName = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    std::string wbiList;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, m_wbiListName)) {
         if (error) error->message = "Cannot retrieve string from WBI list parameter";
         return false;
     }
 
     //default list:
-    if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
+    if (m_wbiListName.empty()) m_wbiListName = "ROBOT_TORQUE_CONTROL_JOINTS";
 
     WBInterface &interface = WBInterface::sharedInstance();
 
     Error interfaceError;
-    if (!interface.configure(robotName, localName, wbiConfigFile, wbiList, &interfaceError)) {
+    if (!interface.configure(robotName, localName, m_wbiConfigurationFileName, m_wbiListName, &interfaceError)) {
         if (error) error->message = "Failed to configure WholeBodyInterface with error " + interfaceError.message;
         return false;
     }
@@ -74,28 +76,26 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
 bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
 {
     //wbi config file
-    std::string wbiConfigFile;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, wbiConfigFile)) {
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, m_wbiConfigurationFileName)) {
         if (error) error->message = "Could not read WBI configuration file parameter";
         return false;
     }
 
     //default config file:
-    if (wbiConfigFile.empty()) wbiConfigFile = "yarpWholeBodyInterface.ini";
+    if (m_wbiConfigurationFileName.empty()) m_wbiConfigurationFileName = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    std::string wbiList;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, wbiList)) {
+    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, m_wbiListName)) {
         if (error) error->message = "Could not read WBI list parameter";
         return false;
     }
 
     //default list:
-    if (wbiList.empty()) wbiList = "ROBOT_TORQUE_CONTROL_JOINTS";
+    if (m_wbiListName.empty()) m_wbiListName = "ROBOT_TORQUE_CONTROL_JOINTS";
 
     WBInterface &interface = WBInterface::sharedInstance();
 
-    int dofs = interface.dofsForConfigurationFileAndList(wbiConfigFile, wbiList);
+    int dofs = interface.dofsForConfigurationFileAndList(m_wbiConfigurationFileName, m_wbiListName);
     if (dofs == -1) {
         if (error) error->message = "Failed to configure WholeBodyInterface. Could not load WBI properties from file";
         return false;

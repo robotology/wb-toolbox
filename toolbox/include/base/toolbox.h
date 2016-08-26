@@ -2,6 +2,7 @@
 //General Yarp utilities
 #include "YarpRead.h"
 #include "YarpWrite.h"
+#include "YARPWBIConverter.h"
 //WBI-related stuff
 #include "MassMatrix.h"
 #include "ForwardKinematics.h"
