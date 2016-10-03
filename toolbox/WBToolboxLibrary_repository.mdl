@@ -1,5 +1,5 @@
 Library {
-  Name			  "WBToolboxLibrary_repository_new"
+  Name			  "WBToolboxLibrary_repository_14"
   Version		  8.4
   SavedCharacterEncoding  "US-ASCII"
   LibraryType		  "BlockLibrary"
@@ -53,9 +53,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jul 25 15:56:44 2016"
-  RTWModifiedTimeStamp	  391363004
-  ModelVersionFormat	  "1.%<AutoIncrement:375>"
+  LastModifiedDate	  "Mon Oct 03 11:16:12 2016"
+  RTWModifiedTimeStamp	  397394172
+  ModelVersionFormat	  "1.%<AutoIncrement:377>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -873,7 +873,7 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary_repository_new"
+    Name		    "WBToolboxLibrary_repository_14"
     Location		    [425, 373, 1725, 1134]
     Open		    off
     ModelBrowserVisibility  off
@@ -936,12 +936,12 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    20
 	    $ClassName		    "Simulink.Mask"
-	    Description		    "This is a 23-DoF iCub specific block that swaps first and third joints of the iCub torso from a"
-	    " WBI whole body state reading."
+	    Description		    "This is a 15-DoF iCub specific block composed of torso, left leg and right leg.\nThis block swa"
+	    "ps first and third joints of the iCub torso from a WBI whole body state reading."
 	  }
 	  System {
 	    Name		    "15-DoFs WBI to YARP"
-	    Location		    [0, 29, 1280, 744]
+	    Location		    [425, 373, 1725, 1134]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -983,7 +983,7 @@ Library {
 	      ZOrder		      8
 	      InputPortWidth	      "ROBOT_DOF"
 	      IndexOptions	      "Index vector (dialog)"
-	      Indices		      "[12:17]"
+	      Indices		      "[4:9]"
 	      OutputSizes	      "1"
 	      Port {
 		PortNumber		1
@@ -1001,7 +1001,7 @@ Library {
 	      ZOrder		      7
 	      InputPortWidth	      "ROBOT_DOF"
 	      IndexOptions	      "Index vector (dialog)"
-	      Indices		      "[18:23]"
+	      Indices		      "[10:15]"
 	      OutputSizes	      "1"
 	      Port {
 		PortNumber		1
@@ -1731,7 +1731,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1607"
+		SIDHighWatermark	"1610"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1752,20 +1752,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1606"
+		  SID			  "107::1609"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  95
+		  ZOrder		  89
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1605"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 6"
+		  SID			  "107::1608"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_14 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  94
+		  ZOrder		  88
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1780,9 +1780,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1607"
+		  SID			  "107::1610"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  96
+		  ZOrder		  90
 		}
 		Block {
 		  BlockType		  Outport
@@ -1793,7 +1793,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  56
+		  ZOrder		  46
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -1801,7 +1801,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  57
+		  ZOrder		  47
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -1809,7 +1809,7 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  58
+		  ZOrder		  48
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -1817,14 +1817,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  59
+		  ZOrder		  49
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  60
+		  ZOrder		  50
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -2096,7 +2096,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Reduced Yarp to WBI"
-	    Location		    [0, 29, 1280, 744]
+	    Location		    [469, 119, 2062, 1319]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -2338,7 +2338,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1607"
+		SIDHighWatermark	"1601"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -2359,20 +2359,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1606"
+		  SID			  "112::1600"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  95
+		  ZOrder		  89
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1605"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 7"
+		  SID			  "112::1599"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_14 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  94
+		  ZOrder		  88
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -2387,9 +2387,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1607"
+		  SID			  "112::1601"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  96
+		  ZOrder		  90
 		}
 		Block {
 		  BlockType		  Outport
@@ -2400,7 +2400,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  56
+		  ZOrder		  46
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -2408,7 +2408,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  57
+		  ZOrder		  47
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -2416,7 +2416,7 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  58
+		  ZOrder		  48
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -2424,14 +2424,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  59
+		  ZOrder		  49
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  60
+		  ZOrder		  50
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -3004,7 +3004,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1607"
+		SIDHighWatermark	"1601"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -3025,20 +3025,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1606"
+		  SID			  "1300::1600"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  83
+		  ZOrder		  77
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1605"
-		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_new 1"
+		  SID			  "1300::1599"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository_14 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  82
+		  ZOrder		  76
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -3053,9 +3053,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1607"
+		  SID			  "1300::1601"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  84
+		  ZOrder		  78
 		}
 		Block {
 		  BlockType		  Outport
@@ -3066,7 +3066,7 @@ Library {
 		  IconDisplay		  "Port number"
 		}
 		Line {
-		  ZOrder		  56
+		  ZOrder		  46
 		  SrcBlock		  "s"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -3074,7 +3074,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  57
+		  ZOrder		  47
 		  SrcBlock		  "unused"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -3082,7 +3082,7 @@ Library {
 		}
 		Line {
 		  Name			  "s0"
-		  ZOrder		  58
+		  ZOrder		  48
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -3090,14 +3090,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  59
+		  ZOrder		  49
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  60
+		  ZOrder		  50
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -3164,7 +3164,7 @@ Library {
       }
       System {
 	Name			"wholeBodyActuators"
-	Location		[544, 138, 1844, 899]
+	Location		[425, 373, 1725, 1134]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3418,11 +3418,12 @@ Library {
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
-		  Dimension		  4
+		  Dimension		  5
 		  Cell			  "Position"
 		  Cell			  "Position Direct"
 		  Cell			  "Velocity"
 		  Cell			  "Torque"
+		  Cell			  "Open Loop"
 		  PropName		  "TypeOptions"
 		}
 		Name			"controlType"
@@ -3433,7 +3434,8 @@ Library {
 		"ype');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelse"
 		"if strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, 1.0]');\nelsei"
 		"f strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\nelseif strcmp"
-		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nend\nclear  maskStr"
+		"(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nelseif strcmp(maskStr, "
+		"'Open Loop')\n    set_param(gcb,'BackgroundColor', '[0.98, 0.98, 0.98, 1.0]');\nend\nclear  maskStr"
 	      }
 	      Object {
 		$ObjectID		91
@@ -3645,7 +3647,7 @@ Library {
       }
       System {
 	Name			"wholeBodyModel"
-	Location		[544, 138, 1844, 899]
+	Location		[425, 373, 1725, 1134]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3676,7 +3678,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Dynamics"
-	    Location		    [354, 32, 1634, 747]
+	    Location		    [425, 373, 1725, 1134]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -3688,7 +3690,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "215"
+	    ZoomFactor		    "219"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Centroidal Momentum"
@@ -4557,7 +4559,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Jacobians"
-	    Location		    [0, 29, 1280, 744]
+	    Location		    [425, 373, 1725, 1134]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -4569,7 +4571,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "316"
+	    ZoomFactor		    "322"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "DotJ Nu"
@@ -5071,7 +5073,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Kinematics"
-	    Location		    [544, 138, 1844, 899]
+	    Location		    [425, 373, 1725, 1134]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -5826,7 +5828,7 @@ Library {
       }
       System {
 	Name			"wholeBodyStates"
-	Location		[0, 29, 1280, 744]
+	Location		[425, 373, 1725, 1134]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -5838,7 +5840,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"419"
+	ZoomFactor		"576"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Get Estimate"
@@ -6271,10 +6273,10 @@ Library {
     }
     Annotation {
       SID		      "1214"
-      Name		      "Copyright  2013-2016 Robotics, Brain and Cognitive Sciences Department, Istituto Italiano di Tecnol"
-      "ogia\nThis software was supported by the FP7 EU Project CoDyCO (No. 600716 ICT 2011.2.1 Cognitive Systems and Ro"
-      "botics (b))\nhttp://www.codyco.eu"
-      Position		      [241, 192, 518, 209]
+      Name		      "Copyright  2013-2016 iCub Facility Department, Istituto Italiano di Tecnologia\nThis software was s"
+      "upported by the FP7 EU Project CoDyCO (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics (b))\nhttp://www.c"
+      "odyco.eu"
+      Position		      [240, 192, 517, 209]
       InternalMargins	      [0, 0, 0, 0]
       FixedHeight	      off
       FixedWidth	      off
@@ -6293,7 +6295,7 @@ Library {
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary_repository_new"
+    name		    "WBToolboxLibrary_repository_14"
     created		    "06-Feb-2014 11:51:26"
     isLibrary		    1
     firstTarget		    26

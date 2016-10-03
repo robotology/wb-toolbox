@@ -91,6 +91,8 @@ namespace wbt {
             m_controlMode = wbi::CTRL_MODE_VEL;
         } else if (controlType == "Torque") {
             m_controlMode = wbi::CTRL_MODE_TORQUE;
+        } else if (controlType == "Open Loop") {
+            m_controlMode = wbi::CTRL_MODE_MOTOR_PWM;
         } else {
             if (error) error->message = "Control Mode not supported";
             return false;
