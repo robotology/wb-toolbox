@@ -20,6 +20,7 @@
 #ifdef WBT_USES_IPOPT
 #include "InverseKinematics.h"
 #endif
+#include "RemoteInverseKinematics.h"
 #ifdef WBT_USES_CODYCO_COMMONS
 #include "SetLowLevelPID.h"
 #endif

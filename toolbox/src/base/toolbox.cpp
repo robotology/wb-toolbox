@@ -114,11 +114,12 @@ static void mdlInitializeSizes(SimStruct *S)
         return;
     }
 
-    delete block;
-
     ssSetNumSampleTimes(S, 1);
 
     ssSetSimStateCompliance(S, USE_CUSTOM_SIM_STATE); //??
+
+    ssSetNumDiscStates(S, block->numberOfDiscreteStates());
+    ssSetNumContStates(S, 0);//block->numberOfContinuousStates());
 
     ssSetOptions(S,
                  SS_OPTION_WORKS_WITH_CODE_REUSE |
@@ -126,6 +127,10 @@ static void mdlInitializeSizes(SimStruct *S)
                  SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
                  SS_OPTION_USE_TLC_WITH_ACCELERATOR |
                  SS_OPTION_CALL_TERMINATE_ON_EXIT);
+    //also ?
+    //SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
+
+    delete block;
 
 }
 
@@ -136,9 +141,7 @@ static void mdlInitializeSizes(SimStruct *S)
 //   specified in ssSetNumSampleTimes.
 static void mdlInitializeSampleTimes(SimStruct *S)
 {
-    // The sampling time of this SFunction must be inherited so that the Soft Real Time sblock can be used.
     ssSetSampleTime(S, 0, INHERITED_SAMPLE_TIME);
-    // ssSetSampleTime(S, 0, 10.0);
     ssSetOffsetTime(S, 0, 0.0);
     ssSetModelReferenceSampleTimeDefaultInheritance(S);
 }
@@ -166,6 +169,51 @@ static void mdlStart(SimStruct *S)
     }
 
 }
+
+
+#define MDL_UPDATE
+#if defined(MDL_UPDATE) && defined(MATLAB_MEX_FILE)
+static void mdlUpdate(SimStruct *S, int_T tid)
+{
+    UNUSED_ARG(tid);
+    if (ssGetNumPWork(S) > 0) {
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
+        if (!block || !block->updateDiscreteState(S, &error)) {
+            static char errorBuffer[1024];
+            sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
+            ssSetErrorStatus(S, errorBuffer);
+        }
+    }
+}
+#endif
+
+//Initialize the state vectors of this C MEX S-function
+#define MDL_INITIALIZE_CONDITIONS
+#if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
+static void mdlInitializeConditions(SimStruct *S)
+{
+    if (ssGetNumPWork(S) > 0) {
+        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Error error;
+        if (!block || !block->initializeInitialConditions(S, &error)) {
+            static char errorBuffer[1024];
+            sprintf(errorBuffer, "[mdlInitializeConditions]%s", error.message.substr(0, 1023 - strlen("[mdlInitializeConditions]")).c_str());
+            ssSetErrorStatus(S, errorBuffer);
+        }
+    }
+}
+#endif
+
+
+#define MDL_DERIVATIVES
+#if defined(MDL_DERIVATIVES) && defined(MATLAB_MEX_FILE)
+static void mdlDerivatives(SimStruct *S)
+{
+    /* Add mdlDerivatives code here */
+}
+#endif
+
 
 // Function: mdlOutputs =======================================================
 // Abstract:

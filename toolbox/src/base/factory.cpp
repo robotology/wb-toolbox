@@ -41,6 +41,9 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::InverseKinematics();
     }
 #endif
+    else if (blockClassName == wbt::RemoteInverseKinematics::ClassName) {
+        block = new wbt::RemoteInverseKinematics();
+    }
 #ifdef WBT_USES_CODYCO_COMMONS
     else if (blockClassName == wbt::SetLowLevelPID::ClassName) {
         block = new wbt::SetLowLevelPID();

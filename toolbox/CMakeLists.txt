@@ -38,6 +38,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           USE_LINK_PATH)
 
 find_package(Eigen3 REQUIRED)
+find_package(wholeBodyInterface 0.2.5 REQUIRED)
 find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
 # Workaround section, aka, this stuff should be defined by imported libraries
 find_package(iDynTree REQUIRED)
@@ -72,6 +73,12 @@ configure_block(BLOCK_NAME "Base"
             include/base/WBInterface.h
             include/base/WBIModelBlock.h)
 
+configure_block(BLOCK_NAME "Inverse Kinematics"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/RemoteInverseKinematics.cpp
+    HEADERS include/RemoteInverseKinematics.h)
+
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)
     find_package(ICUB REQUIRED)
@@ -89,8 +96,9 @@ if (WBT_USES_ICUB)
         configure_block(BLOCK_NAME "Inverse Kinematics"
             GROUP "Model"
             LIST_PREFIX WBT
-            SOURCES src/InverseKinematics.cpp
+            SOURCES src/InverseKinematics.cpp 
             HEADERS include/InverseKinematics.h)
+
         include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
     endif()
 
@@ -197,7 +205,7 @@ list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIE
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
     if (${ICUB_USE_IPOPT})
-        list(APPEND LINKED_LIBRARIES iKin)
+        list(APPEND LINKED_LIBRARIES iKin ${iDynTree_LIBRARIES})
     endif()
 endif()
 
@@ -245,6 +253,17 @@ else()
 
     # Linking Libraries
     target_link_libraries(WBToolbox ${LINKED_LIBRARIES} ${Matlab_LIBRARIES})
+endif()
+
+# Remote Inverse Kinematics requires C++11
+if (CMAKE_VERSION VERSION_LESS "3.1")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR 
+        CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(WBToolbox PUBLIC "-std=c++11")
+    endif()
+else()
+    set(CXX_STANDARD_REQUIRED ON)
+    set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
 endif()
 
 install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)

@@ -19,6 +19,7 @@ public:
     virtual bool initialize(SimStruct *S, wbt::Error *error);
     virtual bool terminate(SimStruct *S, wbt::Error *error);
     virtual bool output(SimStruct *S, wbt::Error *error);
+    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
     
 private:
 

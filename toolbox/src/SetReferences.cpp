@@ -11,12 +11,14 @@ namespace wbt {
 
     SetReferences::SetReferences()
     : m_references(0)
-    , m_firstRun(true)
     , m_controlMode(wbi::CTRL_MODE_UNKNOWN) {}
 
     unsigned SetReferences::numberOfParameters()
     {
-        return WBIBlock::numberOfParameters() + 1;
+        // 1 - Control Type
+        // 2 - Full/Sublist type
+        // 3 - (only if sublist) controlled joints
+        return WBIBlock::numberOfParameters() + 3;
     }
 
     bool SetReferences::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
@@ -26,6 +28,23 @@ namespace wbt {
         }
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+
+        m_fullControl = static_cast<int>(mxGetScalar(ssGetSFcnParam(S,WBIBlock::numberOfParameters() + 2))) == 1;
+
+        if (!m_fullControl) {
+            //sublist
+            std::string controlledList;
+            if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 3, controlledList)) {
+                if (error) error->message = "Could not read control type parameter";
+                return false;
+            }
+            const yarp::os::Property * controlledListProperty = WBInterface::sharedInstance().currentConfiguration();
+
+            wbi::IDList idList;
+            WBInterface::wbdIDListFromConfigPropAndList(*controlledListProperty,
+                                                        controlledList, idList);
+            dofs = idList.size();
+        }
 
         // Specify I/O
         if (!ssSetNumInputPorts (S, 1)) {
@@ -56,9 +75,6 @@ namespace wbt {
         using namespace yarp::os;
         if (!WBIBlock::initialize(S, error)) return false;
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        m_references = new double[dofs];
-
         // Reading the control type
         std::string controlType;
         if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 1, controlType)) {
@@ -82,7 +98,38 @@ namespace wbt {
             return false;
         }
 
-        m_firstRun = true;
+        //Read if full or sublist control
+        m_fullControl = static_cast<int>(mxGetScalar(ssGetSFcnParam(S,WBIBlock::numberOfParameters() + 2))) == 1;
+
+        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+        if (!m_fullControl) {
+            //sublist
+            std::string controlledList;
+            if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 3, controlledList)) {
+                if (error) error->message = "Could not read control type parameter";
+                return false;
+            }
+            const yarp::os::Property * controlledListProperty = WBInterface::sharedInstance().currentConfiguration();
+
+            wbi::IDList idList;
+            bool result = WBInterface::wbdIDListFromConfigPropAndList(*controlledListProperty,
+                                                                      controlledList, idList);
+            wbi::IDList fullList = WBInterface::sharedInstance().interface()->getJointList();
+            m_controlledJoints.clear();
+            m_controlledJoints.reserve(idList.size());
+            if (result) {
+                for (int i = 0; i < idList.size(); i++) {
+                    int index;
+                    if (fullList.idToIndex(idList.at(i), index))
+                        m_controlledJoints.push_back(index);
+                    else
+                        std::cerr << "Joint " << idList.at(i).toString() << " not found\n";
+                }
+            }
+            dofs = idList.size();
+        }
+        m_references = new double[dofs];
+
         return m_references;
     }
 
@@ -90,7 +137,13 @@ namespace wbt {
     {
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
-            interface->setControlMode(wbi::CTRL_MODE_POS);
+            if (m_fullControl) {
+                interface->setControlMode(wbi::CTRL_MODE_POS);
+            } else {
+                for (int i = 0; i < m_controlledJoints.size(); i++) {
+                    interface->setControlMode(wbi::CTRL_MODE_POS, 0, m_controlledJoints[i]);
+                }
+            }
         }
         if (m_references) {
             delete [] m_references;
@@ -99,20 +152,38 @@ namespace wbt {
         return WBIBlock::terminate(S, error);
     }
 
+    bool SetReferences::initializeInitialConditions(SimStruct */*S*/, wbt::Error */*error*/)
+    {
+        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
+        if (interface) {
+            if (m_fullControl) {
+                interface->setControlMode(m_controlMode);
+            } else {
+                for (int i = 0; i < m_controlledJoints.size(); i++) {
+                    interface->setControlMode(m_controlMode, 0, m_controlledJoints[i]);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool SetReferences::output(SimStruct *S, wbt::Error */*error*/)
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
-            if (m_firstRun) {
-                m_firstRun = false;
-                interface->setControlMode(m_controlMode); //should I return an error here?
-            }
             InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
                 m_references[i] = *references[i];
             }
-            interface->setControlReference(m_references);
+            if (m_fullControl) {
+                interface->setControlReference(m_references);
+            } else {
+                for (int i = 0; i < m_controlledJoints.size(); i++) {
+                    interface->setControlReference(&m_references[i], m_controlledJoints[i]);
+                }
+            }
             return true;
         }
         return false;

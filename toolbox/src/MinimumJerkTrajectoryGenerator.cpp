@@ -8,12 +8,15 @@
 #include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
 
+#include <cmath>
+
 #define PARAM_IDX_1 1 //Sample Time (double)
 #define PARAM_IDX_2 2 //Settling Time (double)
 #define PARAM_IDX_3 3 //Output first derivative (boolean)
 #define PARAM_IDX_4 4 //Output second derivative (boolean)
 #define PARAM_IDX_5 5 //Initial signal value as input (boolean)
 #define PARAM_IDX_6 6 //Control if the settling time comes from external port or static parameter
+#define PARAM_IDX_7 7 //True if the block should reset the traj generator in case settling time changes
 
 #define GET_OPT_SAMPLE_TIME mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1))
 #define GET_OPT_SETTLING_TIME  mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2))
@@ -33,10 +36,11 @@ namespace wbt {
     , m_firstRun(true)
     , m_explicitInitialValue(false)
     , m_externalSettlingTime(false)
+    , m_resetOnSettlingTimeChange(false)
     , m_initialValues(0)
     , m_reference(0) {}
     
-    unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 6; }
+    unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 7; }
 
     bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
@@ -112,10 +116,12 @@ namespace wbt {
 
         m_explicitInitialValue = GET_OPT_EXPLICIT_INITIAL_VALUE;
         m_externalSettlingTime = GET_OPT_EXTERNAL_SETTLING_TIME;
+        m_resetOnSettlingTimeChange = static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_7)));
 
         int_T size = ssGetInputPortWidth(S, 0);
 
         m_generator = new iCub::ctrl::minJerkTrajGen(size, sampleTime, settlingTime);
+        m_previousSettlingTime = settlingTime;
         m_initialValues = new yarp::sig::Vector(size);
         m_reference = new yarp::sig::Vector(size);
         if (!m_generator || !m_initialValues || !m_reference) {
@@ -151,12 +157,20 @@ namespace wbt {
         if (m_externalSettlingTime) {
             unsigned portIndex = 1;
             if (m_explicitInitialValue) portIndex++;
-            
+
             InputRealPtrsType externalTimePort = ssGetInputPortRealSignalPtrs(S, portIndex);
             double externalTime = *externalTimePort[0];
-            m_generator->setT(externalTime);
+
+            if (std::abs(m_previousSettlingTime - externalTime) > 1e-5) {
+                m_previousSettlingTime = externalTime;
+
+                m_generator->setT(externalTime);
+                if (m_resetOnSettlingTimeChange && !m_firstRun) {
+                    m_generator->init(m_generator->getPos());
+                }
+            }
         }
-        
+
         if (m_firstRun) {
             m_firstRun = false;
             InputRealPtrsType initialValues = 0;

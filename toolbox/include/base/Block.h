@@ -46,6 +46,44 @@ public:
     virtual unsigned numberOfParameters() = 0;
 
     /**
+     * Returns the number of discrete states of the block.
+     *
+     * The base implementation returns 0, i.e. no discrete states
+     * @note if you return a number > 0, you should implement the 
+     * updateDiscreteState function
+     * @return the number of discrete states
+     */
+    virtual unsigned numberOfDiscreteStates();
+
+    /**
+     * Returns the number of continuous states of the block.
+     *
+     * The base implementation returns 0, i.e. no continuous states
+     * @note if you return a number > 0, you should implement the
+     * stateDerivative function
+     * @return the number of continuous states
+     */
+    virtual unsigned numberOfContinuousStates();
+
+    /**
+     * Called to update the internal discrete state
+     *
+     * i.e. x[i+1] = f(x[i])
+     * @param S the SimStruct structure
+     * @return true for success, false otherwise
+     */
+    virtual bool updateDiscreteState(SimStruct *S, wbt::Error *error);
+
+    /**
+     * Not called for now
+     *
+     * @param S the SimStruct structure
+     * @return true for success, false otherwise
+     */
+    virtual bool stateDerivative(SimStruct *S, wbt::Error *error);
+
+
+    /**
      * Specify if the parameter at the specified index is tunable
      *
      * Tunable means that it can be changed during the simulation.
@@ -85,11 +123,24 @@ public:
      * This method is called at model startup (i.e. during mdlStart)
      * @Note: you can save and initialize your object in this method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
     virtual bool initialize(SimStruct *S, wbt::Error *error) = 0;
+
+    /**
+     * Called to initialize the initial conditions
+     *
+     * The default implementation do nothing.
+     * @note this function is also called on a reset event
+     * @note if you need to perform initialization only once, than implement initialize
+     * @param S     simulink structure
+     * @param [out]error output error object that can be filled in case of error.
+     *
+     * @return true for success, false otherwise
+     */
+    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
 
     /**
      * Perform model cleanup.
@@ -97,18 +148,20 @@ public:
      * This method is called at model termination (i.e. during mdlTerminate).
      * You should release all the resources you requested during the initialize method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
     virtual bool terminate(SimStruct *S, wbt::Error *error) = 0;
+
+
 
     /**
      * Compute the output of the block
      *
      * This method is called at every iteration of the model (i.e. during mdlOutput)
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
+     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
