@@ -25,7 +25,6 @@ alt="iCub balancing on one foot via external force control and interacting with 
 
 #### Requirements
 * Matlab V. 7.1+ and Simulink (Tested with Matlab R2015b, R2014a/b, R2013a/b, R2012a/b)
-* Simulink Toolboxes: Simulink Coder.
 * YARP (https://github.com/robotology/yarp) **-IMPORTANT-** Please compile as shared library. Currently a default yarp configuration option.
 * (Optional. Needed for some blocks) iCub (https://github.com/robotology/icub-main)
 * yarpWholeBodyInterface (https://github.com/robotology/yarp-wholebodyinterface)
@@ -36,7 +35,7 @@ alt="iCub balancing on one foot via external force control and interacting with 
 * Gazebo Simulator (http://gazebosim.org/)
 * gazebo_yarp_plugins (https://github.com/robotology/gazebo_yarp_plugins).
 
-**Operating Systems supported: OS X, Linux, Windows.**
+**Operating Systems supported: macOS, Linux, Windows.**
 
 **Note: The following instructions are for *NIX systems, but it works similarly on the other operating systems.**
 
@@ -72,7 +71,7 @@ In order to use the WB-Toolbox in Matlab you have to add the `mex` and `share/WB
 You can also use (only once after the installation) the script `startup_wbitoolbox.m` that you can find in the `share/WB-Toolbox` subdirectory of the install folder to properly configure Matlab.
 **Note** This script configures Matlab to alwasy add the WB-Toolbox to the path. This assumes Matlab is always launched from the `userpath` folder.
 
-- **Launching Matlab** By default, Matlab has different startup behaviours depending on the Operating Systems and how it is launched. For Windows and OS X (if launched in the Finder) Matlab starts in the `userpath` folder. If this is your common workflow you can skip the rest of this note. Instead, if you launch Matlab from the command line (Linux and OS X users), Matlab starts in the folder where the command is typed, and thus the `path.m` file generated in the previous phase is no longer loaded. You thus have two options:
+- **Launching Matlab** By default, Matlab has different startup behaviours depending on the Operating Systems and how it is launched. For Windows and macOS (if launched in the Finder) Matlab starts in the `userpath` folder. If this is your common workflow you can skip the rest of this note. Instead, if you launch Matlab from the command line (Linux and macOS users), Matlab starts in the folder where the command is typed, and thus the `path.m` file generated in the previous phase is no longer loaded. You thus have two options:
   -  create a Bash alias, such that Matlab is always launched in the `userpath`, e.g. 
   ```
      alias matlab='cd ~/Documents/MATLAB && /path/to/matlab
@@ -89,7 +88,7 @@ You can also use (only once after the installation) the script `startup_wbitoolb
 - **Robots' configuration files** Each robot that can be used through the Toolbox has its own configuration file. WB-Toolbox uses the Yarp [`ResourceFinder`](http://www.yarp.it/yarp_resource_finder_tutorials.html). You should thus follow the related instruction to properly configure your installation (e.g. set the `YARP_DATA_DIRS` variable)
 
 ### Troubleshooting
-- **Problems finding libraries and libstdc++.** In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on Mac OS X) with the full path of the missing library. On Linux you might also have trouble with libstdc++.so since Matlab comes with its own. To use your system's libstdc++ you would need to launch Matlab something like (replace with your system's libstdc++ library):
+- **Problems finding libraries and libstdc++.** In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on macOS) with the full path of the missing library. On Linux you might also have trouble with libstdc++.so since Matlab comes with its own. To use your system's libstdc++ you would need to launch Matlab something like (replace with your system's libstdc++ library):
 
 `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19   matlab`
 
@@ -97,7 +96,9 @@ You could additionally create an alias to launch Matlab this way:
 
 `alias matlab_codyco="cd ~/Documents/MATLAB && LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19 matlab"`
 
-- In case you have compiled YARP in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for YARP. If you launch MATLAB from command line, this task is already done for you by `bash` (if you edited `.bashrc`). If you launch MATLAB from the UI (e.g. on OS X by double clicking the application icon) you need to further add the variables in `${MATLAB_ROOT}/bin/.matlab7rc.sh` by first doing
+A more permanent and scalable solution can be found in the answer of [this issue](https://github.com/robotology/codyco-superbuild/issues/141#issuecomment-257892256)
+
+- In case you have compiled YARP in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for YARP. If you launch MATLAB from command line, this task is already done for you by `bash` (if you edited `.bashrc`). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in `${MATLAB_ROOT}/bin/.matlab7rc.sh` by first doing
 ```bash
     chmod +w .matlab7rc.sh
 ```
@@ -146,4 +147,4 @@ Eljaik J., del Prete, A., Traversaro, S., Randazzo, M., Nori, F.,: Whole Body In
 A Simulink Wrapper for Robot Whole Body Control. In: ICRA, Workshop on MATLAB/Simulink for Robotics, Education and Research. IEEE (2014). [Slides: http://goo.gl/2NnSrA]
 
 #### Tested OS
-OS X, Linux, Windows
+macOS, Linux, Windows
