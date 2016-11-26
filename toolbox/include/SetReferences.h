@@ -15,6 +15,7 @@ class wbt::SetReferences : public wbt::WBIBlock {
     wbi::ControlMode m_controlMode;
     bool m_fullControl;
     std::vector<int> m_controlledJoints;
+    bool m_resetControlMode;
 
 public:
     static std::string ClassName;

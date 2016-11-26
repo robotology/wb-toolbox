@@ -11,7 +11,9 @@ namespace wbt {
 
     SetReferences::SetReferences()
     : m_references(0)
-    , m_controlMode(wbi::CTRL_MODE_UNKNOWN) {}
+    , m_controlMode(wbi::CTRL_MODE_UNKNOWN)
+    , m_fullControl(true)
+    , m_resetControlMode(true) {}
 
     unsigned SetReferences::numberOfParameters()
     {
@@ -130,6 +132,7 @@ namespace wbt {
         }
         m_references = new double[dofs];
 
+        m_resetControlMode = true;
         return m_references;
     }
 
@@ -154,18 +157,10 @@ namespace wbt {
 
     bool SetReferences::initializeInitialConditions(SimStruct */*S*/, wbt::Error */*error*/)
     {
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-        if (interface) {
-            if (m_fullControl) {
-                interface->setControlMode(m_controlMode);
-            } else {
-                for (int i = 0; i < m_controlledJoints.size(); i++) {
-                    interface->setControlMode(m_controlMode, 0, m_controlledJoints[i]);
-                }
-            }
-            return true;
-        }
-        return false;
+        //Simply reset the variable m_resetControlMode
+        //It will be read at the first cycle of output
+        m_resetControlMode = true;
+        return true;
     }
 
     bool SetReferences::output(SimStruct *S, wbt::Error */*error*/)
@@ -173,6 +168,19 @@ namespace wbt {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
         if (interface) {
+            if (m_resetControlMode) {
+                m_resetControlMode = false;
+
+                //now switch control mode
+                if (m_fullControl) {
+                    interface->setControlMode(m_controlMode);
+                } else {
+                    for (int i = 0; i < m_controlledJoints.size(); i++) {
+                        interface->setControlMode(m_controlMode, 0, m_controlledJoints[i]);
+                    }
+                }
+            }
+
             InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
             for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
                 m_references[i] = *references[i];
