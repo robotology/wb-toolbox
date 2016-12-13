@@ -2,6 +2,7 @@
 #include "toolbox.h"
 
 wbt::Block::~Block() {}
+unsigned wbt::Block::additionalBlockOptions() { return 0; }
 void wbt::Block::parameterAtIndexIsTunable(unsigned /*index*/, bool &tunable) { tunable = false; }
 bool wbt::Block::checkParameters(SimStruct */*S*/, wbt::Error */*error*/) { return true; }
 

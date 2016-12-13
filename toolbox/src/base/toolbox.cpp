@@ -121,14 +121,18 @@ static void mdlInitializeSizes(SimStruct *S)
     ssSetNumDiscStates(S, block->numberOfDiscreteStates());
     ssSetNumContStates(S, 0);//block->numberOfContinuousStates());
 
-    ssSetOptions(S,
-                 SS_OPTION_WORKS_WITH_CODE_REUSE |
-                 SS_OPTION_EXCEPTION_FREE_CODE |
-                 SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
-                 SS_OPTION_USE_TLC_WITH_ACCELERATOR |
-                 SS_OPTION_CALL_TERMINATE_ON_EXIT);
+    uint_T options =
+    SS_OPTION_WORKS_WITH_CODE_REUSE |
+    SS_OPTION_EXCEPTION_FREE_CODE |
+    SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
+    SS_OPTION_USE_TLC_WITH_ACCELERATOR |
+    SS_OPTION_CALL_TERMINATE_ON_EXIT;
     //also ?
     //SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
+
+    options |= block->additionalBlockOptions();
+
+    ssSetOptions(S, options);
 
     delete block;
 

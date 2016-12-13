@@ -15,11 +15,11 @@ public:
     virtual ~SimulatorSynchronizer();
     
     virtual unsigned numberOfParameters();
+    virtual unsigned additionalBlockOptions();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);
     virtual bool initialize(SimStruct *S, wbt::Error *error);
     virtual bool terminate(SimStruct *S, wbt::Error *error);
     virtual bool output(SimStruct *S, wbt::Error *error);
-    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
     
 private:
 

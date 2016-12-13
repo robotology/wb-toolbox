@@ -38,6 +38,11 @@ namespace wbt {
     
     unsigned SimulatorSynchronizer::numberOfParameters() { return 3; }
 
+    unsigned SimulatorSynchronizer::additionalBlockOptions()
+    {
+        return SS_OPTION_PLACE_ASAP;
+    }
+
     bool SimulatorSynchronizer::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     {
         // Specify I/O
@@ -103,7 +108,7 @@ namespace wbt {
         return true;
     }
 
-    bool SimulatorSynchronizer::initializeInitialConditions(SimStruct *S, wbt::Error *error)
+    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
     {
         if (m_firstRun) {
             m_firstRun = false;
@@ -120,11 +125,7 @@ namespace wbt {
             m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
             m_rpcData->clockServer.pauseSimulation();
         }
-        return true;
-    }
-    
-    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
-    {
+
         m_rpcData->clockServer.stepSimulationAndWait(m_rpcData->configuration.numberOfSteps);
 
         return true;

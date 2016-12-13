@@ -46,6 +46,14 @@ public:
     virtual unsigned numberOfParameters() = 0;
 
     /**
+     * Specifies additional block options.
+     *
+     * They will be concatenated with the default options
+     * @return additional options
+     */
+    virtual unsigned additionalBlockOptions();
+
+    /**
      * Returns the number of discrete states of the block.
      *
      * The base implementation returns 0, i.e. no discrete states
