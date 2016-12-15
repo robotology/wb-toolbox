@@ -82,6 +82,10 @@ namespace wbt {
     int WBInterface::dofsForConfigurationFileAndList(const std::string & wbiConfigFile, const std::string & list)
     {
         using namespace yarp::os;
+
+        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
+        Network::init();
+
         ResourceFinder &resourceFinder = ResourceFinder::getResourceFinderSingleton();
         resourceFinder.configure(0, 0);
 
@@ -98,6 +102,9 @@ namespace wbt {
         }
 
         m_dofs = jointList.size();
+        
+        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
+        Network::fini();
         return m_dofs;
     }
 
@@ -110,6 +117,9 @@ namespace wbt {
         if (m_configured) return true;
 
         using namespace yarp::os;
+
+        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
+        Network::init();
         ResourceFinder &resourceFinder = ResourceFinder::getResourceFinderSingleton();
         resourceFinder.configure(0, 0);
 
@@ -155,6 +165,9 @@ namespace wbt {
         m_dofs = m_robotList->size();
 
         m_configured = true;
+
+        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
+        Network::fini();
         return true;
     }
 
