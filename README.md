@@ -9,7 +9,7 @@ Whole Body Toolbox - A Simulink Toolbox for Whole Body Control
 The following video shows CoDyCo's latest results on iCub in which the top level controller has been implemented with the [WB-Toolbox](https://github.com/robotology/WB-Toolbox) running at a 10ms rate!
 
 <p align="center">
-<a href="https://www.youtube.com/watch?v=VrPBSSQEr3A
+<a href="https://youtu.be/UXU3KSa201o
 " target="_blank"><img src="http://img.youtube.com/vi/VrPBSSQEr3A/0.jpg" 
 alt="iCub balancing on one foot via external force control and interacting with humans" width="480" height="360" border="10" /></a>
 </p>
