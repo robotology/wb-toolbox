@@ -143,8 +143,10 @@ If you want to modify the toolbox, please check developers documentation:
 - [Tip and tricks on creating simulink blocks](doc/dev/sim_tricks.md)
 
 ### Citing this work
-Eljaik J., del Prete, A., Traversaro, S., Randazzo, M., Nori, F.,: Whole Body Interface Toolbox (WBI-T):
-A Simulink Wrapper for Robot Whole Body Control. In: ICRA, Workshop on MATLAB/Simulink for Robotics, Education and Research. IEEE (2014). [Slides: http://goo.gl/2NnSrA]
+Please cite the following publication if you are using WB-Toolbox for your own research and/or robot controllers
+
+> Romano, F., Traversaro, S., Pucci, D., Del Prete, A., Eljaik, J., Nori, F. "A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems", 1st IEEE International Conference on Robotic Computing, 2017.
+
 
 #### Tested OS
 macOS, Linux, Windows
