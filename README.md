@@ -147,6 +147,15 @@ Please cite the following publication if you are using WB-Toolbox for your own r
 
 > Romano, F., Traversaro, S., Pucci, D., Del Prete, A., Eljaik, J., Nori, F. "A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems", 1st IEEE International Conference on Robotic Computing, 2017.
 
+Bibtex citation:
+```
+@INPROCEEDINGS{RomanoWBI17, 
+author={F. Romano and S. Traversaro and D. Pucci and A. Del Prete and J. Eljaik and F. Nori}, 
+booktitle={2017 IEEE 1st International Conference on Robotic Computing}, 
+title={A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems}, 
+year={2017}, 
+}
+```
 
 #### Tested OS
 macOS, Linux, Windows
