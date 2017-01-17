@@ -84,7 +84,7 @@ namespace wbt {
         using namespace yarp::os;
 
         //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
-        Network::init();
+        Network network;
 
         ResourceFinder &resourceFinder = ResourceFinder::getResourceFinderSingleton();
         resourceFinder.configure(0, 0);
@@ -102,9 +102,7 @@ namespace wbt {
         }
 
         m_dofs = jointList.size();
-        
-        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
-        Network::fini();
+
         return m_dofs;
     }
 
@@ -119,7 +117,7 @@ namespace wbt {
         using namespace yarp::os;
 
         //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
-        Network::init();
+        Network network;
         ResourceFinder &resourceFinder = ResourceFinder::getResourceFinderSingleton();
         resourceFinder.configure(0, 0);
 
@@ -138,7 +136,8 @@ namespace wbt {
         }
         m_configuration = new Property();
         //loading defaults
-        if (!m_configuration->fromConfigFile(resourceFinder.findFile(wbiConfigFile))) {
+        m_wbiFilePath = resourceFinder.findFile(wbiConfigFile);
+        if (!m_configuration->fromConfigFile(m_wbiFilePath)) {
             if (error) error->message = "Could not load the WBI configuration file";
             return false;
         }
@@ -159,15 +158,15 @@ namespace wbt {
 
         if (!WBInterface::wbdIDListFromConfigPropAndList(*m_configuration,list,*m_robotList)) {
             if(error) error->message = "Could not load the specified WBI list (list param: " + list + " )";
+            Network::fini();
             return false;
         }
+        m_wbiListName = list;
 
         m_dofs = m_robotList->size();
 
         m_configured = true;
 
-        //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
-        Network::fini();
         return true;
     }
 
@@ -299,4 +298,21 @@ namespace wbt {
     }
 
     bool WBInterface::isInterfaceInitialized() const { return m_initialized; }
+
+    const wbi::IDList* WBInterface::wbiList() const
+    {
+        if (m_robotList)
+            return m_robotList;
+        return NULL;
+    }
+
+    const std::string& WBInterface::wbiFilePath() const
+    {
+        return m_wbiFilePath;
+    }
+
+    const std::string& WBInterface::wbiListName() const
+    {
+        return m_wbiListName;
+    }
 }

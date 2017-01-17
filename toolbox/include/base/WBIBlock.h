@@ -2,6 +2,7 @@
 #define WBT_WBIBLOCK_H
 
 #include "Block.h"
+#include <string>
 
 namespace wbt {
     class WBIBlock;
@@ -20,16 +21,21 @@ namespace wbt {
  * - It initializes the yarp network and the whole body interface object
  * - During terminate it closes and release the interface object and terminate the yarp network
  *
- * @Note: Usually you want to call this class implementations at some point in your 
+ * @note Usually you want to call this class implementations at some point in your
  * method overridings, unless you want to completely change the code (but at that point 
  * you probabily want to derive from Block instead)
  */
 class wbt::WBIBlock : public wbt::Block {
 
 protected:
+
+    std::string m_wbiConfigurationFileName;
+    std::string m_wbiListName;
+
     bool configureWBIParameters(SimStruct *S, wbt::Error *error);
 
 public:
+    WBIBlock();
     virtual ~WBIBlock();
     virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error);

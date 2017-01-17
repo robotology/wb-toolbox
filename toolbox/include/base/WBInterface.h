@@ -43,6 +43,9 @@ class wbt::WBInterface {
     bool m_configured; /**< true if the interface has been configured */
     int m_dofs; /**< dofs modelled by the interface */
 
+    std::string m_wbiFilePath;
+    std::string m_wbiListName;
+
     static unsigned s_referenceCount; /**< number of blocks currently initialized */
     static unsigned s_modelReferenceCount; /**< number of model blocks currently initialized */
 
@@ -159,6 +162,9 @@ public:
      */
     bool isInterfaceInitialized() const;
 
+    const wbi::IDList* wbiList() const;
+    const std::string& wbiFilePath() const;
+    const std::string& wbiListName() const;
 };
 
 #endif /* end of include guard: WBT_WBINTERFACE_H */
