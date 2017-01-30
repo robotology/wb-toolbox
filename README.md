@@ -2,7 +2,7 @@
 Whole Body Toolbox - A Simulink Toolbox for Whole Body Control
 -------------------------------------------------------------
 
-[![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/robotology/WB-Toolbox?grs=github&t=white)
+[![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/robotology/WB-Toolbox?grs=github)
 
 ### This toolbox is intended as a replacement (a 2.0 version) of the  [WBI-Toolbox](https://github.com/robotology-playground/WBI-Toolbox). If you are interested, see [the migration guide from WBI-Toolbox 1.0](doc/Migration.md). 
 
