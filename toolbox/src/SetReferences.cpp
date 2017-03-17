@@ -167,33 +167,33 @@ namespace wbt {
     {
         //get input
         wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-        if (interface) {
-            if (m_resetControlMode) {
-                m_resetControlMode = false;
+        if (!interface) return false;
 
-                //now switch control mode
-                if (m_fullControl) {
-                    interface->setControlMode(m_controlMode);
-                } else {
-                    for (int i = 0; i < m_controlledJoints.size(); i++) {
-                        interface->setControlMode(m_controlMode, 0, m_controlledJoints[i]);
-                    }
-                }
-            }
+        InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
+        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
+            m_references[i] = *references[i];
+        }
 
-            InputRealPtrsType references = ssGetInputPortRealSignalPtrs(S, 0);
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                m_references[i] = *references[i];
-            }
+        if (m_resetControlMode) {
+            m_resetControlMode = false;
+
+            //now switch control mode
             if (m_fullControl) {
-                interface->setControlReference(m_references);
+                interface->setControlMode(m_controlMode, m_references);
             } else {
                 for (int i = 0; i < m_controlledJoints.size(); i++) {
-                    interface->setControlReference(&m_references[i], m_controlledJoints[i]);
+                    interface->setControlMode(m_controlMode, &m_references[i], m_controlledJoints[i]);
                 }
             }
-            return true;
         }
-        return false;
+
+        if (m_fullControl) {
+            interface->setControlReference(m_references);
+        } else {
+            for (int i = 0; i < m_controlledJoints.size(); i++) {
+                interface->setControlReference(&m_references[i], m_controlledJoints[i]);
+            }
+        }
+        return true;
     }
 }
