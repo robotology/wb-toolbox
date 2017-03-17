@@ -1,5 +1,7 @@
 #include "Signal.h"
 
+#include <cstring>
+
 namespace wbt {
 
 
