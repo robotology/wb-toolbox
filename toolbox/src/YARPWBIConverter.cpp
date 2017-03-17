@@ -108,7 +108,7 @@ namespace wbt {
             }
 
         } else {
-            if (!blockInfo->setNumberOfOuputPorts(1)) {
+            if (!blockInfo->setNumberOfInputPorts(1)) {
                 if (error) error->message = "Failed to configure the number of input ports";
                 return false;
             }
