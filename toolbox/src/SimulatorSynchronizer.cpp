@@ -1,5 +1,6 @@
 #include "SimulatorSynchronizer.h"
 #include "Error.h"
+#include "BlockInformation.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
@@ -10,7 +11,6 @@
 #define PARAM_IDX_2 2                           // Gazebo clock port
 #define PARAM_IDX_3 3                           // RPC client port name
 
-#define GET_PERIOD_PARAMETER mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1))
 
 namespace wbt {
 
@@ -38,21 +38,21 @@ namespace wbt {
     
     unsigned SimulatorSynchronizer::numberOfParameters() { return 3; }
 
-    unsigned SimulatorSynchronizer::additionalBlockOptions()
+    std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
     {
-        return SS_OPTION_PLACE_ASAP;
+        return std::vector<std::string>(1, wbt::BlockOptionPrioritizeOrder);
     }
 
-    bool SimulatorSynchronizer::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
         // Specify I/O
         // INPUTS
-        if(!ssSetNumInputPorts(S, 0)) {
+        if (!blockInfo->setNumberOfInputPorts(0)) {
             if (error) error->message = "Failed to set input port number to 0";
             return false;
         }
 
-        if (!ssSetNumOutputPorts(S, 0)) {
+        if (!blockInfo->setNumberOfOuputPorts(0)) {
             if (error) error->message = "Failed to set output port number";
             return false;
         }
@@ -60,13 +60,13 @@ namespace wbt {
         return true;
     }
 
-    bool SimulatorSynchronizer::initialize(SimStruct *S, wbt::Error *error)
+    bool SimulatorSynchronizer::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
-        m_period = GET_PERIOD_PARAMETER;
+        m_period = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).doubleData();
         std::string serverPortName;
         std::string clientPortName;
 
-        if (!Block::readStringParameterAtIndex(S, PARAM_IDX_2, serverPortName) || !Block::readStringParameterAtIndex(S, PARAM_IDX_3, clientPortName)) {
+        if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_2, serverPortName) || !blockInfo->getStringParameterAtIndex(PARAM_IDX_3, clientPortName)) {
             if (error) error->message = "Error reading RPC parameters";
             return false;
         }
@@ -91,7 +91,7 @@ namespace wbt {
         return true;
     }
     
-    bool SimulatorSynchronizer::terminate(SimStruct */*S*/, wbt::Error *error)
+    bool SimulatorSynchronizer::terminate(BlockInformation */*S*/, wbt::Error *error)
     {
         if (m_rpcData) {
             if (m_rpcData->clientPort.isOpen()) {
@@ -108,7 +108,7 @@ namespace wbt {
         return true;
     }
 
-    bool SimulatorSynchronizer::output(SimStruct */*S*/, wbt::Error *error)
+    bool SimulatorSynchronizer::output(BlockInformation */*S*/, wbt::Error *error)
     {
         if (m_firstRun) {
             m_firstRun = false;
@@ -125,7 +125,6 @@ namespace wbt {
             m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
             m_rpcData->clockServer.pauseSimulation();
         }
-
         m_rpcData->clockServer.stepSimulationAndWait(m_rpcData->configuration.numberOfSteps);
 
         return true;

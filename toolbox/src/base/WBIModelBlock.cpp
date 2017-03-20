@@ -5,9 +5,9 @@
 
 wbt::WBIModelBlock::~WBIModelBlock() {}
 
-bool wbt::WBIModelBlock::initialize(SimStruct *S, wbt::Error *error)
+bool wbt::WBIModelBlock::initialize(wbt::BlockInformation *blockInfo, wbt::Error *error)
 {
-    if (!configureWBIParameters(S, error))
+    if (!configureWBIParameters(blockInfo, error))
         return false;
 
     if (!WBInterface::sharedInstance().initializeModel()) {
@@ -17,7 +17,7 @@ bool wbt::WBIModelBlock::initialize(SimStruct *S, wbt::Error *error)
     return true;
 }
 
-bool wbt::WBIModelBlock::terminate(SimStruct *S, wbt::Error *error)
+bool wbt::WBIModelBlock::terminate(wbt::BlockInformation *blockInfo, wbt::Error *error)
 {
     if (!WBInterface::sharedInstance().terminateModel()) {
         if (error) error->message = "Failed to terminate WBI";

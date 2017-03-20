@@ -61,17 +61,24 @@ configure_block(BLOCK_NAME "Base"
     LIST_PREFIX WBT
     SOURCES src/base/toolbox.cpp
             src/base/Block.cpp
+            src/base/BlockInformation.cpp
             src/base/WBIBlock.cpp
             src/base/Error.cpp
             src/base/WBInterface.cpp
             src/base/factory.cpp
             src/base/WBIModelBlock.cpp
+            src/base/SimulinkBlockInformation.cpp #this is temp
+            src/base/Signal.cpp
     HEADERS include/base/toolbox.h
             include/base/Block.h
+            include/base/BlockInformation.h
             include/base/WBIBlock.h
             include/base/Error.h
             include/base/WBInterface.h
-            include/base/WBIModelBlock.h)
+            include/base/WBIModelBlock.h
+            include/base/SimulinkBlockInformation.h #this is temp
+            include/base/Signal.h
+            )
 
 configure_block(BLOCK_NAME "Inverse Kinematics"
     GROUP "Model"
@@ -279,6 +286,7 @@ install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
 # The following line is to properly configure the installation script of the toolbox
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.setupForMatlabDebug.m.in ${CMAKE_BINARY_DIR}/setupForMatlabDebug.m)
 
 # Custom script to generate the library to be committed on the repository
 # This target is excluded from the normal build and must be called explicitly by the

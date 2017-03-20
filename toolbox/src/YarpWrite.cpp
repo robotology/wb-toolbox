@@ -1,5 +1,8 @@
 #include "YarpWrite.h"
+
 #include "Error.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/BufferedPort.h>
@@ -9,8 +12,6 @@
 #define PARAM_IDX_1 1                           // port name
 #define PARAM_IDX_2 2                           // Autoconnect boolean
 #define PARAM_IDX_3 3                           // Error on missing port if autoconnect is on boolean
-#define GET_OPT_AUTOCONNECT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_2)))
-#define GET_OPT_ERROR_ON_MISSING_PORT static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_3)))
 
 namespace wbt {
     
@@ -24,24 +25,23 @@ namespace wbt {
     
     unsigned YarpWrite::numberOfParameters() { return 3; }
 
-    bool YarpWrite::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool YarpWrite::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if(!ssSetNumInputPorts(S, 1)) {
+        if (!blockInfo->setNumberOfInputPorts(1)) {
             if (error) error->message = "Failed to set input port number to 0";
             return false;
         }
-        ssSetInputPortWidth(S, 0, DYNAMICALLY_SIZED);
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
+        blockInfo->setInputPortVectorSize(0, -1);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
 
-        if (!ssSetNumOutputPorts(S, 0)) {
+        if (!blockInfo->setNumberOfOuputPorts(0)) {
             if (error) error->message = "Failed to set output port number";
             return false;
         }
         return true;
     }
 
-    bool YarpWrite::initialize(SimStruct *S, wbt::Error *error)
+    bool YarpWrite::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
         using namespace yarp::sig;
@@ -53,11 +53,11 @@ namespace wbt {
             return false;
         }
 
-        m_autoconnect = GET_OPT_AUTOCONNECT;
-        m_errorOnMissingPort = GET_OPT_ERROR_ON_MISSING_PORT;
+        m_autoconnect = blockInfo->getScalarParameterAtIndex(PARAM_IDX_2).booleanData();
+        m_errorOnMissingPort = blockInfo->getScalarParameterAtIndex(PARAM_IDX_3).booleanData();
 
         std::string portParameter;
-        if (!Block::readStringParameterAtIndex(S, PARAM_IDX_1, portParameter)) {
+        if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_1, portParameter)) {
             if (error) error->message = "Error reading port name parameter";
             return false;
         }
@@ -89,11 +89,11 @@ namespace wbt {
 
         //prepare the first object allocation
         yarp::sig::Vector &outputVector = m_port->prepare();
-        outputVector.resize(ssGetInputPortWidth(S, 0));
+        outputVector.resize(blockInfo->getInputPortWidth(0));
         return true;
     }
 
-    bool YarpWrite::terminate(SimStruct */*S*/, wbt::Error */*error*/)
+    bool YarpWrite::terminate(BlockInformation */*S*/, wbt::Error */*error*/)
     {
         if (m_port) {
             if (m_autoconnect)
@@ -106,15 +106,15 @@ namespace wbt {
         return true;
     }
     
-    bool YarpWrite::output(SimStruct *S, wbt::Error */*error*/)
+    bool YarpWrite::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         if (!m_port) return false;
         yarp::sig::Vector &outputVector = m_port->prepare();
-        outputVector.resize(ssGetInputPortWidth(S, 0));
+        outputVector.resize(blockInfo->getInputPortWidth(0)); //this should be a no-op
 
-        InputRealPtrsType signal = ssGetInputPortRealSignalPtrs(S, 0);
-        for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-            outputVector[i] = *signal[i];
+        Signal signal = blockInfo->getInputPortSignal(0);
+        for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+            outputVector[i] = signal.get(i).doubleData();
         }
 
         m_port->write();

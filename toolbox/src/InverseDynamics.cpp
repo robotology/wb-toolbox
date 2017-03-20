@@ -1,13 +1,14 @@
 #include "InverseDynamics.h"
 
 #include "Error.h"
+#include "BlockInformation.h"
+#include "Signal.h"
 #include "WBInterface.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 #include <Eigen/Core>
 
 #define PARAM_IDX_1 5
-#define GET_OPT_EXPLICIT_GRAVITY static_cast<bool>(mxGetScalar(ssGetSFcnParam(S,PARAM_IDX_1)))
 
 namespace wbt {
 
@@ -34,9 +35,9 @@ namespace wbt {
         return WBIBlock::numberOfParameters() + 1;
     }
 
-    bool InverseDynamics::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool InverseDynamics::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
@@ -47,43 +48,35 @@ namespace wbt {
         // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
         // - DoFs vector for the robot (joints) configurations
 
-        m_explicitGravity = GET_OPT_EXPLICIT_GRAVITY;
+        m_explicitGravity = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).booleanData();
 
-        int_T portNumber = 6;
+        int portNumber = 6;
         if (m_explicitGravity) portNumber++;
 
-        if (!ssSetNumInputPorts (S, portNumber)) {
+        if (!blockInfo->setNumberOfInputPorts(portNumber)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
         bool success = true;
 
-        success = success && ssSetInputPortMatrixDimensions(S,  0, 4, 4); //base pose
-        success = success && ssSetInputPortVectorDimension(S, 1, dofs); //joint configuration
-        success = success && ssSetInputPortVectorDimension(S, 2, 6); //base velocity
-        success = success && ssSetInputPortVectorDimension(S, 3, dofs); //joints velocitity
-        success = success && ssSetInputPortVectorDimension(S, 4, 6); //base acceleration
-        success = success && ssSetInputPortVectorDimension(S, 5, dofs); //joints acceleration
+        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4); //base pose
+        success = success && blockInfo->setInputPortVectorSize(1, dofs); //joint configuration
+        success = success && blockInfo->setInputPortVectorSize(2, 6); //base velocity
+        success = success && blockInfo->setInputPortVectorSize(3, dofs); //joints velocitity
+        success = success && blockInfo->setInputPortVectorSize(4, 6); //base acceleration
+        success = success && blockInfo->setInputPortVectorSize(5, dofs); //joints acceleration
         if (m_explicitGravity)
-            success = success && ssSetInputPortVectorDimension(S, 6, 3); //gravity acceleration
+            success = success && blockInfo->setInputPortVectorSize(6, 3); //gravity acceleration
 
-        ssSetInputPortDataType (S, 0, SS_DOUBLE);
-        ssSetInputPortDataType (S, 1, SS_DOUBLE);
-        ssSetInputPortDataType (S, 2, SS_DOUBLE);
-        ssSetInputPortDataType (S, 3, SS_DOUBLE);
-        ssSetInputPortDataType (S, 4, SS_DOUBLE);
-        ssSetInputPortDataType (S, 5, SS_DOUBLE);
-        if (m_explicitGravity)
-            ssSetInputPortDataType (S, 6, SS_DOUBLE);
+        blockInfo->setInputPortType(0, PortDataTypeDouble);
+        blockInfo->setInputPortType(1, PortDataTypeDouble);
+        blockInfo->setInputPortType(2, PortDataTypeDouble);
+        blockInfo->setInputPortType(3, PortDataTypeDouble);
+        blockInfo->setInputPortType(4, PortDataTypeDouble);
+        blockInfo->setInputPortType(5, PortDataTypeDouble);
 
-        ssSetInputPortDirectFeedThrough (S, 0, 1);
-        ssSetInputPortDirectFeedThrough (S, 1, 1);
-        ssSetInputPortDirectFeedThrough (S, 2, 1);
-        ssSetInputPortDirectFeedThrough (S, 3, 1);
-        ssSetInputPortDirectFeedThrough (S, 4, 1);
-        ssSetInputPortDirectFeedThrough (S, 5, 1);
         if (m_explicitGravity)
-            ssSetInputPortDirectFeedThrough (S, 6, 1);
+            blockInfo->setInputPortType(6, PortDataTypeDouble);
 
         if (!success) {
             if (error) error->message = "Failed to configure input ports";
@@ -92,23 +85,23 @@ namespace wbt {
 
         // Output port:
         // - DoFs + 6) vector representing the torques
-        if (!ssSetNumOutputPorts (S, 1)) {
+        if (!blockInfo->setNumberOfOuputPorts(1)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
 
-        success = ssSetOutputPortVectorDimension(S, 0, dofs + 6);
-        ssSetOutputPortDataType (S, 0, SS_DOUBLE);
+        success = blockInfo->setOutputPortVectorSize(0, dofs + 6);
+        blockInfo->setOutputPortType(0, PortDataTypeDouble);
 
         return success;
     }
 
-    bool InverseDynamics::initialize(SimStruct *S, wbt::Error *error)
+    bool InverseDynamics::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIModelBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
 
-        m_explicitGravity = GET_OPT_EXPLICIT_GRAVITY;
+        m_explicitGravity = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).booleanData();
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
         m_basePose = new double[16];
@@ -123,7 +116,7 @@ namespace wbt {
         return m_basePose && m_torques && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity && m_baseAcceleration && m_jointsAcceleration;
     }
 
-    bool InverseDynamics::terminate(SimStruct *S, wbt::Error *error)
+    bool InverseDynamics::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         if (m_basePose) {
             delete [] m_basePose;
@@ -160,44 +153,45 @@ namespace wbt {
             m_jointsAcceleration = 0;
         }
 
-        return WBIModelBlock::terminate(S, error);
+        return WBIModelBlock::terminate(blockInfo, error);
     }
 
-    bool InverseDynamics::output(SimStruct *S, wbt::Error */*error*/)
+    bool InverseDynamics::output(BlockInformation *blockInfo, wbt::Error */*error*/)
     {
         //get input
         wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
         if (interface) {
-            InputRealPtrsType basePoseRaw = ssGetInputPortRealSignalPtrs(S, 0);
-            InputRealPtrsType configuration = ssGetInputPortRealSignalPtrs(S, 1);
-            InputRealPtrsType baseVelocity = ssGetInputPortRealSignalPtrs(S, 2);
-            InputRealPtrsType jointsVelocity = ssGetInputPortRealSignalPtrs(S, 3);
-            InputRealPtrsType baseAcceleration = ssGetInputPortRealSignalPtrs(S, 4);
-            InputRealPtrsType jointsAcceleration = ssGetInputPortRealSignalPtrs(S, 5);
 
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 0); ++i) {
-                m_basePoseRaw[i] = *basePoseRaw[i];
+            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
+            Signal configuration = blockInfo->getInputPortSignal(1);
+            Signal baseVelocity = blockInfo->getInputPortSignal(2);
+            Signal jointsVelocity = blockInfo->getInputPortSignal(3);
+            Signal baseAcceleration = blockInfo->getInputPortSignal(4);
+            Signal jointsAcceleration = blockInfo->getInputPortSignal(5);
+
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
+                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 1); ++i) {
-                m_configuration[i] = *configuration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
+                m_configuration[i] = configuration.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 2); ++i) {
-                m_baseVelocity[i] = *baseVelocity[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(2); ++i) {
+                m_baseVelocity[i] = baseVelocity.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 3); ++i) {
-                m_jointsVelocity[i] = *jointsVelocity[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(3); ++i) {
+                m_jointsVelocity[i] = jointsVelocity.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 4); ++i) {
-                m_baseAcceleration[i] = *baseAcceleration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(4); ++i) {
+                m_baseAcceleration[i] = baseAcceleration.get(i).doubleData();
             }
-            for (unsigned i = 0; i < ssGetInputPortWidth(S, 5); ++i) {
-                m_jointsAcceleration[i] = *jointsAcceleration[i];
+            for (unsigned i = 0; i < blockInfo->getInputPortWidth(5); ++i) {
+                m_jointsAcceleration[i] = jointsAcceleration.get(i).doubleData();
             }
 
             if (m_explicitGravity) {
-                InputRealPtrsType gravity = ssGetInputPortRealSignalPtrs(S, 6);
-                for (unsigned i = 0; i < ssGetInputPortWidth(S, 6); ++i) {
-                    m_gravity[i] = *gravity[i];
+                Signal gravity = blockInfo->getInputPortSignal(6);
+                for (unsigned i = 0; i < blockInfo->getInputPortWidth(6); ++i) {
+                    m_gravity[i] = gravity.get(i).doubleData();
                 }
             }
 
@@ -217,10 +211,8 @@ namespace wbt {
                                        m_gravity,
                                        m_torques);
 
-            real_T *output = ssGetOutputPortRealSignal(S, 0);
-            for (unsigned i = 0; i < ssGetOutputPortWidth(S, 0); ++i) {
-                output[i] = m_torques[i];
-            }
+            Signal output = blockInfo->getOutputPortSignal(0);
+            output.setBuffer(m_torques, blockInfo->getOutputPortWidth(0));
 
             return true;
         }

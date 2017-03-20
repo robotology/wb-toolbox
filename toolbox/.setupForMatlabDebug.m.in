@@ -1,0 +1,16 @@
+fprintf('\nSetup for Debug\n');
+
+installDir = '@CMAKE_INSTALL_PREFIX@';
+mexDir     = [installDir, filesep, 'mex'];
+shareDir   = '@WB-TOOLBOX_SHARE_DIR@';
+
+rmpath(mexDir)
+rmpath(shareDir)
+
+
+buildDir = '@CMAKE_CURRENT_BINARY_DIR@/Debug';
+
+addpath(buildDir)
+
+toolboxSourceDir = '@CMAKE_CURRENT_SOURCE_DIR@';
+cd(toolboxSourceDir);

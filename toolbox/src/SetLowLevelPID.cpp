@@ -2,6 +2,7 @@
 
 #include "Error.h"
 #include "WBInterface.h"
+#include "BlockInformation.h"
 #include <yarpWholeBodyInterface/yarpWholeBodyInterface.h>
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <yarpWholeBodyInterface/PIDList.h>
@@ -144,20 +145,20 @@ namespace wbt {
         + 1;// control method
     }
 
-    bool SetLowLevelPID::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool SetLowLevelPID::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
         // Specify I/O
-        if (!ssSetNumInputPorts (S, 0)) {
+        if (!blockInfo->setNumberOfInputPorts(0)) {
             if (error) error->message = "Failed to configure the number of input ports";
             return false;
         }
 
         // Output port:
-        if (!ssSetNumOutputPorts (S, 0)) {
+        if (!blockInfo->setNumberOfOuputPorts(0)) {
             if (error) error->message = "Failed to configure the number of output ports";
             return false;
         }
@@ -165,14 +166,14 @@ namespace wbt {
         return true;
     }
 
-    bool SetLowLevelPID::initialize(SimStruct *S, wbt::Error *error)
+    bool SetLowLevelPID::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace yarp::os;
-        if (!WBIBlock::initialize(S, error)) return false;
+        if (!WBIBlock::initialize(blockInfo, error)) return false;
 
         // Reading the control type
         std::string controlType;
-        if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 2, controlType)) {
+        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 2, controlType)) {
             if (error) error->message = "Could not read control type parameter";
             return false;
         }
@@ -190,7 +191,7 @@ namespace wbt {
 
         // Reading the PID specification parameter
         std::string pidParameter;
-        if (!Block::readStringParameterAtIndex(S, WBIBlock::numberOfParameters() + 1, pidParameter)) {
+        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 1, pidParameter)) {
             if (error) error->message = "Could not read PID file specification parameter";
             return false;
         }
@@ -218,7 +219,7 @@ namespace wbt {
         return true;
     }
 
-    bool SetLowLevelPID::terminate(SimStruct *S, wbt::Error *error)
+    bool SetLowLevelPID::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
         //static_cast as the dynamic has been done in the initialize
         //and the pointer should not change
@@ -234,10 +235,10 @@ namespace wbt {
         m_pids.clear();
         m_lastGainSetIndex = -1;
 
-        return WBIBlock::terminate(S, error);
+        return WBIBlock::terminate(blockInfo, error);
     }
 
-    bool SetLowLevelPID::output(SimStruct *S, wbt::Error *error)
+    bool SetLowLevelPID::output(BlockInformation *blockInfo, wbt::Error *error)
     {
         //static_cast as the dynamic has been done in the initialize
         //and the pointer should not change

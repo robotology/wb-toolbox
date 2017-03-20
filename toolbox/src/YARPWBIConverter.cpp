@@ -1,11 +1,14 @@
 #include "YARPWBIConverter.h"
 
+#include "BlockInformation.h"
+#include "Signal.h"
 #include "Error.h"
 #include "WBInterface.h"
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
-#include <Eigen/Core>
 #include <yarp/os/ResourceFinder.h>
+#include <Eigen/Core>
+
 
 namespace wbt {
     namespace hidden {
@@ -33,7 +36,6 @@ namespace wbt {
     }
 }
 
-
 namespace wbt {
 
     struct YARPWBIConverter::YARPWBIConverterPimpl {
@@ -46,10 +48,10 @@ namespace wbt {
     YARPWBIConverter::YARPWBIConverter() {}
 
     unsigned YARPWBIConverter::numberOfParameters() { return wbt::WBIModelBlock::numberOfParameters() + 1; }
-    bool YARPWBIConverter::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+    bool YARPWBIConverter::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
     {
         //This is a check that list, dofs and files are ok
-        if (!WBIBlock::configureSizeAndPorts(S, error)) {
+        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
             return false;
         }
 
@@ -87,34 +89,32 @@ namespace wbt {
             return false;
         }
 
-        int yarpToWBIOption = static_cast<int>(mxGetScalar(ssGetSFcnParam(S, wbt::WBIModelBlock::numberOfParameters() + 1)));
-        bool yarpToWBI = yarpToWBIOption == 1;
+        blockInfo->getScalarParameterAtIndex(wbt::WBIModelBlock::numberOfParameters() + 1).int8Data();
+
+        bool yarpToWBI = blockInfo->getScalarParameterAtIndex(wbt::WBIModelBlock::numberOfParameters() + 1).int8Data() == 1;
 
         // Specify I/O
         bool success = true;
         //Input
         if (yarpToWBI) {
-            if (!ssSetNumInputPorts (S, parts.size())) {
+            if (!blockInfo->setNumberOfInputPorts(parts.size())) {
                 if (error) error->message = "Failed to configure the number of input ports";
                 return false;
             }
 
             for (unsigned i = 0 ; i < parts.size(); ++i) {
-                success = success && ssSetInputPortVectorDimension(S, i, parts[i].joints.size());
-                ssSetInputPortDataType (S, i, SS_DOUBLE);
-                ssSetInputPortDirectFeedThrough (S, i, 1);
+                success = success && blockInfo->setInputPortVectorSize(i, parts[i].joints.size());
+                blockInfo->setInputPortType(i, PortDataTypeDouble);
             }
 
         } else {
-            if (!ssSetNumInputPorts (S, 1)) {
+            if (!blockInfo->setNumberOfInputPorts(1)) {
                 if (error) error->message = "Failed to configure the number of input ports";
                 return false;
             }
 
-            success = success && ssSetInputPortVectorDimension(S, 0, dofs);
-            ssSetInputPortDataType (S, 0, SS_DOUBLE);
-            ssSetInputPortDirectFeedThrough (S, 0, 1);
-
+            success = success && blockInfo->setInputPortVectorSize(0, dofs);
+            blockInfo->setInputPortType(0, PortDataTypeDouble);
         }
 
         if (!success) {
@@ -125,22 +125,22 @@ namespace wbt {
         if (yarpToWBI) {
             // Output port:
             // - one port of size dofs
-            if (!ssSetNumOutputPorts (S, 1)) {
+            if (!blockInfo->setNumberOfOuputPorts(1)) {
                 if (error) error->message = "Failed to configure the number of output ports";
                 return false;
             }
 
-            success = ssSetOutputPortVectorDimension(S, 0, dofs);
-            ssSetOutputPortDataType (S, 0, SS_DOUBLE);
+            success = blockInfo->setOutputPortVectorSize(0, dofs);
+            blockInfo->setOutputPortType(0, PortDataTypeDouble);
         } else {
-            if (!ssSetNumOutputPorts (S, parts.size())) {
+            if (!blockInfo->setNumberOfOuputPorts(parts.size())) {
                 if (error) error->message = "Failed to configure the number of input ports";
                 return false;
             }
 
             for (unsigned i = 0 ; i < parts.size(); ++i) {
-                success = success && ssSetOutputPortVectorDimension(S, i, parts[i].joints.size());
-                ssSetOutputPortDataType (S, i, SS_DOUBLE);
+                success = success && blockInfo->setOutputPortVectorSize(i, parts[i].joints.size());
+                blockInfo->setOutputPortType(i, PortDataTypeDouble);
             }
         }
 
@@ -152,29 +152,27 @@ namespace wbt {
         return success;
     }
 
-    bool YARPWBIConverter::initialize(SimStruct *S, wbt::Error *error)
+    bool YARPWBIConverter::initialize(BlockInformation *blockInfo, wbt::Error *error)
     {
         using namespace wbt::hidden;
-        if (!WBIModelBlock::initialize(S, error)) return false;
+        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
 
         m_pimpl = new YARPWBIConverterPimpl();
         if (!m_pimpl) return false;
 
-        int yarpToWBIOption = static_cast<int>(mxGetScalar(ssGetSFcnParam(S, wbt::WBIModelBlock::numberOfParameters() + 1)));
-        m_pimpl->yarpToWBI = yarpToWBIOption == 1;
+        m_pimpl->yarpToWBI = blockInfo->getScalarParameterAtIndex(wbt::WBIModelBlock::numberOfParameters() + 1).int8Data() == 1;
         return parseConfigurationFileForPartsConfiguration(WBInterface::sharedInstance().wbiFilePath(), *WBInterface::sharedInstance().wbiList(), m_pimpl->parts);
     }
 
-    bool YARPWBIConverter::terminate(SimStruct *S, wbt::Error *error)
+    bool YARPWBIConverter::terminate(BlockInformation *blockInfo, wbt::Error *error)
     {
-        if (m_pimpl) {
-            delete m_pimpl;
-            m_pimpl = 0;
-        }
-        return WBIModelBlock::terminate(S, error);
+        delete m_pimpl;
+        m_pimpl = 0;
+
+        return WBIModelBlock::terminate(blockInfo, error);
     }
 
-    bool YARPWBIConverter::output(SimStruct *S, wbt::Error */*error*/)
+    bool YARPWBIConverter::output(BlockInformation *blockInfo, wbt::Error *error)
     {
         if (!m_pimpl) return false;
         using namespace wbt::hidden;
@@ -182,30 +180,31 @@ namespace wbt {
         if (m_pimpl->yarpToWBI) {
             //From YARP to WBI:
             //Multiple inputs, single output
-            real_T *output = ssGetOutputPortRealSignal(S, 0);
+
+            Signal output = blockInfo->getOutputPortSignal(0);
 
             for (unsigned partIdx = 0; partIdx < m_pimpl->parts.size(); ++partIdx) {
-                InputRealPtrsType partPort = ssGetInputPortRealSignalPtrs(S, partIdx);
+                Signal partPort = blockInfo->getInputPortSignal(partIdx);
 
                 Part part = m_pimpl->parts[partIdx];
                 for (unsigned jointIdx = 0; jointIdx < part.joints.size(); ++jointIdx) {
                     Joint joint = part.joints[jointIdx];
-                    output[joint.dofIndex] = *partPort[joint.yarpIndex];
+                    output.set(joint.dofIndex, partPort.get(joint.yarpIndex).doubleData());
                 }
             }
 
         } else {
             //From WBI to YARP
             //Single Input port, multiple outputs
-            InputRealPtrsType inputPort = ssGetInputPortRealSignalPtrs(S, 0);
+            Signal inputPort = blockInfo->getInputPortSignal(0);
 
             for (unsigned partIdx = 0; partIdx < m_pimpl->parts.size(); ++partIdx) {
-                real_T *output = ssGetOutputPortRealSignal(S, partIdx);
+                Signal output = blockInfo->getOutputPortSignal(partIdx);
 
                 Part part = m_pimpl->parts[partIdx];
                 for (unsigned jointIdx = 0; jointIdx < part.joints.size(); ++jointIdx) {
                     Joint joint = part.joints[jointIdx];
-                    output[joint.yarpIndex] = *inputPort[joint.dofIndex];
+                    output.set(joint.yarpIndex, inputPort.get(joint.dofIndex).doubleData());
                 }
 
             }

@@ -2,11 +2,13 @@
 #define WBT_BLOCK_H
 
 #include <string>
-#include "simstruc.h"
+#include <vector>
 
 namespace wbt {
     class Block;
     class Error;
+    class BlockInformation;
+
 }
 
 /**
@@ -45,13 +47,13 @@ public:
      */
     virtual unsigned numberOfParameters() = 0;
 
+
     /**
-     * Specifies additional block options.
+     * Returns vector of additional block options
      *
-     * They will be concatenated with the default options
-     * @return additional options
+     * @return vector containing a list of options
      */
-    virtual unsigned additionalBlockOptions();
+    virtual std::vector<std::string> additionalBlockOptions();
 
     /**
      * Returns the number of discrete states of the block.
@@ -80,7 +82,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool updateDiscreteState(SimStruct *S, wbt::Error *error);
+    virtual bool updateDiscreteState(BlockInformation *blockInfo, wbt::Error *error);
 
     /**
      * Not called for now
@@ -88,7 +90,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool stateDerivative(SimStruct *S, wbt::Error *error);
+    virtual bool stateDerivative(BlockInformation *blockInfo, wbt::Error *error);
 
 
     /**
@@ -113,7 +115,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool configureSizeAndPorts(SimStruct *S, wbt::Error *error) = 0;
+    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error) = 0;
 
     /**
      * Never called.
@@ -123,7 +125,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool checkParameters(SimStruct *S, wbt::Error *error);
+    virtual bool checkParameters(BlockInformation *blockInfo, wbt::Error *error);
 
     /**
      * Initialize the object for the simulation
@@ -135,7 +137,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initialize(SimStruct *S, wbt::Error *error) = 0;
+    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error) = 0;
 
     /**
      * Called to initialize the initial conditions
@@ -148,7 +150,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initializeInitialConditions(SimStruct *S, wbt::Error *error);
+    virtual bool initializeInitialConditions(BlockInformation *blockInfo, wbt::Error *error);
 
     /**
      * Perform model cleanup.
@@ -160,7 +162,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool terminate(SimStruct *S, wbt::Error *error) = 0;
+    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error) = 0;
 
 
 
@@ -173,21 +175,10 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool output(SimStruct *S, wbt::Error *error) = 0;
+    virtual bool output(BlockInformation *blockInfo, wbt::Error *error) = 0;
 
 public:
 
-    /**
-     * Reads the parameter at the specified index and interpret it as a string
-     *
-     *
-     * @param S             simulink structure
-     * @param index         index of the parameter to be read
-     * @param [out]readParameter resulting parameter
-     *
-     * @return true if success, false otherwise
-     */
-    static bool readStringParameterAtIndex(SimStruct *S, unsigned index, std::string &readParameter);
 };
 
 #endif /* end of include guard: WBT_BLOCK_H */

@@ -1,5 +1,6 @@
 #include "WBIBlock.h"
 
+#include "BlockInformation.h"
 #include "Error.h"
 #include "WBInterface.h"
 #include <yarp/os/Network.h>
@@ -17,7 +18,7 @@ wbt::WBIBlock::~WBIBlock() { }
 
 unsigned wbt::WBIBlock::numberOfParameters() { return 4; }
 
-bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
+bool wbt::WBIBlock::configureWBIParameters(BlockInformation *blockInfo, wbt::Error *error)
 {
     //parameters needed by this block:
     // - YARP_ROBOT_NAME: needed by resource finder for resource lookup (for now it is taken by the environment)
@@ -31,14 +32,14 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
 
     //robot name
     std::string robotName;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_1, robotName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_1, robotName)) {
         if (error) error->message = "Cannot retrieve string from robot parameter";
         return false;
     }
 
     //local name
     std::string localName;
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_2, localName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_2, localName)) {
         if (error) error->message = "Cannot retrieve string from localName parameter";
         return false;
     }
@@ -46,7 +47,7 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
     if (localName.empty()) localName = "WBIT";
 
     //wbi config file
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, m_wbiConfigurationFileName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_3, m_wbiConfigurationFileName)) {
         if (error) error->message = "Cannot retrieve string from WBI config file parameter";
         return false;
     }
@@ -55,7 +56,7 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
     if (m_wbiConfigurationFileName.empty()) m_wbiConfigurationFileName = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, m_wbiListName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_4, m_wbiListName)) {
         if (error) error->message = "Cannot retrieve string from WBI list parameter";
         return false;
     }
@@ -73,10 +74,10 @@ bool wbt::WBIBlock::configureWBIParameters(SimStruct *S, wbt::Error *error)
     return true;
 }
 
-bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
+bool wbt::WBIBlock::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
 {
     //wbi config file
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_3, m_wbiConfigurationFileName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_3, m_wbiConfigurationFileName)) {
         if (error) error->message = "Could not read WBI configuration file parameter";
         return false;
     }
@@ -85,7 +86,7 @@ bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     if (m_wbiConfigurationFileName.empty()) m_wbiConfigurationFileName = "yarpWholeBodyInterface.ini";
 
     //wbi list name
-    if (!Block::readStringParameterAtIndex(S, PARAM_IDX_4, m_wbiListName)) {
+    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_4, m_wbiListName)) {
         if (error) error->message = "Could not read WBI list parameter";
         return false;
     }
@@ -107,7 +108,7 @@ bool wbt::WBIBlock::configureSizeAndPorts(SimStruct *S, wbt::Error *error)
     return true;
 }
 
-bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
+bool wbt::WBIBlock::initialize(BlockInformation *blockInfo, wbt::Error *error)
 {
     using namespace yarp::os;
     Network::init();
@@ -116,7 +117,7 @@ bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
         return false;
     }
 
-    if (!configureWBIParameters(S, error)) {
+    if (!configureWBIParameters(blockInfo, error)) {
         return false;
     }
 
@@ -128,7 +129,7 @@ bool wbt::WBIBlock::initialize(SimStruct *S, wbt::Error *error)
     return true;
 }
 
-bool wbt::WBIBlock::terminate(SimStruct */*S*/, wbt::Error *error)
+bool wbt::WBIBlock::terminate(BlockInformation */*S*/, wbt::Error *error)
 {
     if (!WBInterface::sharedInstance().terminate()) {
         if (error) error->message = "Failed to terminate WBI";

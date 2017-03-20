@@ -26,6 +26,7 @@
 
 #include "toolbox.h"
 #include "Block.h"
+#include "SimulinkBlockInformation.h"
 
 #include <string>
 #include <yarp/os/LogStream.h>
@@ -108,7 +109,8 @@ static void mdlInitializeSizes(SimStruct *S)
 #endif
 
     wbt::Error error;
-    if (!block->configureSizeAndPorts(S, &error)) {
+    wbt::SimulinkBlockInformation blockInfo(S);
+    if (!block->configureSizeAndPorts(&blockInfo, &error)) {
         sprintf(errorBuffer, "%s", error.message.substr(0, 511).c_str());
         ssSetErrorStatus(S, errorBuffer);
         return;
@@ -130,8 +132,15 @@ static void mdlInitializeSizes(SimStruct *S)
     //also ?
     //SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
 
-    options |= block->additionalBlockOptions();
+    std::vector<std::string> additionalOptions = block->additionalBlockOptions();
 
+    for (std::vector<std::string>::const_iterator it = additionalOptions.begin();
+         it < additionalOptions.end(); ++it) {
+        wbt::Data option;
+        if (blockInfo.optionFromKey(*it, option)) {
+            options |= option.uint32Data();
+        }
+    }
     ssSetOptions(S, options);
 
     delete block;
@@ -165,7 +174,8 @@ static void mdlStart(SimStruct *S)
     ssSetPWorkValue(S, 0, block);
 
     wbt::Error error;
-    if (!block || !block->initialize(S, &error)) {
+    wbt::SimulinkBlockInformation blockInfo(S);
+    if (!block || !block->initialize(&blockInfo, &error)) {
         yError() << "[mdlStart]" << error.message;
         static char errorBuffer[1024];
         sprintf(errorBuffer, "[mdlStart]%s", error.message.substr(0, 1023 - strlen("[mdlStart]")).c_str());
@@ -183,7 +193,8 @@ static void mdlUpdate(SimStruct *S, int_T tid)
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
         wbt::Error error;
-        if (!block || !block->updateDiscreteState(S, &error)) {
+        wbt::SimulinkBlockInformation blockInfo(S);
+        if (!block || !block->updateDiscreteState(&blockInfo, &error)) {
             static char errorBuffer[1024];
             sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
             ssSetErrorStatus(S, errorBuffer);
@@ -200,7 +211,8 @@ static void mdlInitializeConditions(SimStruct *S)
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
         wbt::Error error;
-        if (!block || !block->initializeInitialConditions(S, &error)) {
+        wbt::SimulinkBlockInformation blockInfo(S);
+        if (!block || !block->initializeInitialConditions(&blockInfo, &error)) {
             static char errorBuffer[1024];
             sprintf(errorBuffer, "[mdlInitializeConditions]%s", error.message.substr(0, 1023 - strlen("[mdlInitializeConditions]")).c_str());
             ssSetErrorStatus(S, errorBuffer);
@@ -229,7 +241,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
         wbt::Error error;
-        if (!block || !block->output(S, &error)) {
+        wbt::SimulinkBlockInformation blockInfo(S);
+        if (!block || !block->output(&blockInfo, &error)) {
             static char errorBuffer[1024];
             sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
             ssSetErrorStatus(S, errorBuffer);
@@ -243,8 +256,9 @@ static void mdlTerminate(SimStruct *S)
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
         wbt::Error error;
+        wbt::SimulinkBlockInformation blockInfo(S);
         if (block) {
-            if (block->terminate(S, &error)) {
+            if (block->terminate(&blockInfo, &error)) {
                 delete block;
                 ssSetPWorkValue(S, 0, NULL);
             } else {
