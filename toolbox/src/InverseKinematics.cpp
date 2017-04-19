@@ -184,14 +184,7 @@ namespace wbt {
             if (error) error->message = "Cannot find " + endEffectorLink + " frame";
             return false;
         }
-        //TODO: check this part
-        parentParameters++;
-        std::string robotSide;
-        if (!blockInfo->getStringParameterAtIndex(parentParameters, robotSide)) {
-            if (error) error->message = "Cannot retrieve string from robot part parameter";
-            return false;
-        }
-
+        
         std::string urdfFile;
         //wbi config file
         std::string wbiConfigFile;
