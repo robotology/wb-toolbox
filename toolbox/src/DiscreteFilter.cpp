@@ -25,13 +25,15 @@
 #define SIGNAL_DYNAMIC_SIZE -1
 
 using namespace wbt;
+using namespace iCub::ctrl;
+using namespace yarp::sig;
 
 std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
-DiscreteFilter::DiscreteFilter() : filter(nullptr), num(nullptr), den(nullptr)
+DiscreteFilter::DiscreteFilter() : firstRun(true), filter(nullptr), inputSignalVector(nullptr)
 {
-    num = new yarp::sig::Vector();
-    den = new yarp::sig::Vector();
+    num = new Vector(0);
+    den = new Vector(0);
 }
 
 unsigned DiscreteFilter::numberOfParameters()
@@ -116,16 +118,16 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     // Create the filter object
     // ========================
 
-    // Default
+    // Generic
     // -------
-    if (filter_type == "Default") {
+    if (filter_type == "Generic") {
         if (num->length() == 0 || den->length() == 0) {
             if (error) {
-                error->message = ClassName + " (Default) Wrong coefficients size";
+                error->message = ClassName + " (Generic) Wrong coefficients size";
             }
             return 1;
         }
-        filter = new iCub::ctrl::Filter(*num, *den);
+        filter = new Filter(*num, *den);
     }
     // FirstOrderLowPassFilter
     // -----------------------
@@ -139,8 +141,8 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
             }
             return false;
         }
-        filter = new iCub::ctrl::FirstOrderLowPassFilter(firstOrderLowPassFilter_fc.floatData(),
-                                                         firstOrderLowPassFilter_ts.floatData());
+        filter = new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc.floatData(),
+                                             firstOrderLowPassFilter_ts.floatData());
     }
     // MedianFilter
     // ------------
@@ -153,7 +155,7 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
             }
             return false;
         }
-        filter = new iCub::ctrl::MedianFilter(medianFilter_order.int32Data());
+        filter = new MedianFilter(medianFilter_order.int32Data());
     }
     else {
         if (error) error->message = ClassName + " Filter type not recognized.";
@@ -165,6 +167,9 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
 
 bool DiscreteFilter::terminate(BlockInformation* blockInfo, wbt::Error* error)
 {
+    // Deallocate all the memory
+    // -------------------------
+
     if (filter) {
         delete filter;
         filter = nullptr;
@@ -180,6 +185,11 @@ bool DiscreteFilter::terminate(BlockInformation* blockInfo, wbt::Error* error)
         den = nullptr;
     }
 
+    if (inputSignalVector) {
+        delete inputSignalVector;
+        inputSignalVector = nullptr;
+    }
+
     return true;
 }
 
@@ -187,23 +197,39 @@ bool DiscreteFilter::output(BlockInformation* blockInfo, wbt::Error* error)
 {
     if (filter == nullptr) return false;
 
-    // Get the input signal
-    Signal inputSignal = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
+    // Get the input and output signals
+    Signal inputSignal  = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
+    Signal outputSignal = blockInfo->getOutputPortSignal(OUTPUT_IDX_SIGNAL);
 
-    unsigned index_element = 0;
-    yarp::sig::Vector inputSignalVector(1, inputSignal.get(index_element).doubleData());
+    unsigned inputSignalWidth = blockInfo->getInputPortWidth(INPUT_IDX_SIGNAL);
 
-    // Filter the input signal
-    const yarp::sig::Vector& outputVector = filter->filt(inputSignalVector);
+    // Allocate the memory for the input data
+    if (firstRun) {
+        // Allocate the input signal
+        inputSignalVector = new Vector(inputSignalWidth, 0.0);
 
-    // Forward the filtered signal to the output port
-    Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_SIGNAL);
-    output.setBuffer(outputVector.data(), outputVector.length());
+        // Initialize the filter. This is required because if the signal is not 1D,
+        // the default filter constructor initialize a wrongly sized y0
+        filter->init(Vector(inputSignalWidth));
+
+        firstRun = false;
+    }
+
+    // Copy the Signal to the data structure that the filter wants
+    for (unsigned i = 0; i < inputSignalWidth; ++i) {
+        (*inputSignalVector)[i] = inputSignal.get(i).doubleData();
+    }
+
+    // Filter the current component of the input signal
+    const Vector& outputVector = filter->filt(*inputSignalVector);
+
+    // Forward the filtered signals to the output port
+    outputSignal.setBuffer(outputVector.data(), outputVector.length());
 
     return true;
 }
 
-void DiscreteFilter::stringToYarpVector(const std::string str, yarp::sig::Vector* v)
+void DiscreteFilter::stringToYarpVector(const std::string str, Vector* v)
 {
     assert(v != nullptr);
 

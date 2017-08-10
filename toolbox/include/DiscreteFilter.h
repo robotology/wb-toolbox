@@ -1,5 +1,6 @@
 #include "Block.h"
 #include <string>
+#include <vector>
 
 #ifndef WBT_FILTER_H
 #define WBT_FILTER_H
@@ -22,9 +23,11 @@ namespace yarp {
 
 class wbt::DiscreteFilter : public wbt::Block {
 private:
+    bool firstRun;
     iCub::ctrl::IFilter* filter;
     yarp::sig::Vector* num;
     yarp::sig::Vector* den;
+    yarp::sig::Vector* inputSignalVector;
 
     static void stringToYarpVector(const std::string s, yarp::sig::Vector* v);
 
