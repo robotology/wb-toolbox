@@ -33,10 +33,9 @@ using namespace yarp::sig;
 
 std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
-DiscreteFilter::DiscreteFilter() : filter(nullptr), inputSignalVector(nullptr)
+DiscreteFilter::DiscreteFilter()
+    : filter(nullptr), y0(nullptr), u0(nullptr), inputSignalVector(nullptr)
 {
-    y0 = new Vector(0);
-    u0 = new Vector(0);
 }
 
 unsigned DiscreteFilter::numberOfParameters()
@@ -125,12 +124,18 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     stringToYarpVector(den_coeff_str, den);
 
     // y0 and u0 are none if they are not defined
+    unsigned y0Width, u0Width;
+
     if (y0_str != "none") {
+        y0 = new Vector(0);
         stringToYarpVector(y0_str, *y0);
+         y0Width = y0->length();
     }
 
-    if (u0_str != "nome") {
+    if (u0_str != "none") {
+        u0 = new Vector(0);
         stringToYarpVector(u0_str, *u0);
+        u0Width = u0->length();
     }
 
     // Create the filter object
@@ -188,17 +193,15 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
 
     // Check the initial conditions are properly sized
     unsigned outputSignalWidth = blockInfo->getInputPortWidth(OUTPUT_IDX_SIGNAL);
-    unsigned y0Width           = y0->length();
-    unsigned u0Width           = u0->length();
 
-    if ((y0_str != "none") && (y0Width != outputSignalWidth)) {
+    if ((y0 != nullptr) && (y0Width != outputSignalWidth)) {
         if (error) {
             error->message = ClassName + " y0 and output signal sizes don't match";
         }
         return false;
     }
 
-    if ((u0_str != "none") && (filter_type == "Generic") && (u0Width != inputSignalWidth)) {
+    if ((u0 != nullptr) && (filter_type == "Generic") && (u0Width != inputSignalWidth)) {
         if (error) {
             error->message = ClassName + " (Generic) u0 and input signal sizes don't match";
         }
@@ -246,8 +249,12 @@ bool DiscreteFilter::initializeInitialConditions(BlockInformation* blockInfo, wb
 
     // If the initial conditions for the output are not set, allocate a properly
     // sized vector
-    if (*y0 == Vector(0)) {
-        y0 = new Vector(inputSignalWidth, 0.0);
+    if (y0 == nullptr) {
+        unsigned outputSignalWidth = blockInfo->getInputPortWidth(OUTPUT_IDX_SIGNAL);
+        y0                         = new Vector(outputSignalWidth, 0.0);
+    }
+    if (u0 == nullptr) {
+        u0 = new Vector(inputSignalWidth, 0.0);
     }
 
     // Initialize the filter. This is required because if the signal is not 1D,
