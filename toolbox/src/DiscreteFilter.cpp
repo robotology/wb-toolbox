@@ -249,6 +249,11 @@ void DiscreteFilter::stringToYarpVector(const std::string str, Vector* v)
 
     // Convert the cleaned string to a yarp vector of floats
     std::istringstream sstrm(s);
+
+    // Avoid problems that may arise due to system's locale
+    // https://github.com/robotology/idyntree/issues/288
+    sstrm.imbue(std::locale::classic());
+
     float f;
 
     while (sstrm >> f)
