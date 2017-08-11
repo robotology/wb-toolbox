@@ -8,15 +8,15 @@ Library {
   DisableAllScopes	  off
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  Created		  "Thu Feb 06 02:21:39 2014"
+  Created		  "Thu Feb 06 01:21:39 2014"
   Creator		  "jorhabib"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "icub"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Aug 11 07:02:44 2017"
-  RTWModifiedTimeStamp	  424335764
-  ModelVersionFormat	  "1.%<AutoIncrement:383>"
+  LastModifiedDate	  "Fri Aug 11 12:52:09 2017"
+  RTWModifiedTimeStamp	  424356729
+  ModelVersionFormat	  "1.%<AutoIncrement:395>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -755,7 +755,7 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary"
-    Location		    [173, 232, 1453, 953]
+    Location		    [123, 132, 1403, 853]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -789,7 +789,7 @@ Library {
       MaskIconUnits	      "autoscale"
       System {
 	Name			"Utilities"
-	Location		[173, 232, 1453, 953]
+	Location		[447, 302, 1727, 1023]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -801,7 +801,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"166"
+	ZoomFactor		"175"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "DampPinv"
@@ -917,20 +917,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1618"
+		  SID			  "107::1627"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  98
+		  ZOrder		  107
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1617"
+		  SID			  "107::1626"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  97
+		  ZOrder		  106
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -945,9 +945,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1619"
+		  SID			  "107::1628"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  99
+		  ZOrder		  108
 		}
 		Block {
 		  BlockType		  Outport
@@ -1033,29 +1033,58 @@ Library {
 	  MaskHideContents	  off
 	}
 	Block {
-	  BlockType		  Reference
+	  BlockType		  S-Function
 	  Name			  "DiscreteFilter"
 	  SID			  "1772"
 	  Ports			  [1, 1]
-	  Position		  [440, 260, 500, 290]
-	  ZOrder		  83
+	  Position		  [400, 245, 460, 275]
+	  ZOrder		  82
 	  BackgroundColor	  "yellow"
-	  LibraryVersion	  "1.386"
-	  SourceBlock		  "WBToolboxLibrary/Utilities/DiscreteFilter"
-	  SourceType		  "Discrete Filter"
-	  filterType		  "Generic"
-	  numCoeffs		  "[0]"
-	  denCoeffs		  "[0]"
-	  Fc			  "0"
-	  Ts			  "0"
-	  orderMedianFilter	  "0"
+	  FunctionName		  "WBToolbox"
+	  Parameters		  "'DiscreteFilter',filterType,numCoeffs,denCoeffs,Fc,Ts,orderMedianFilter,y0,u0"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  MaskType		  "Discrete Filter"
+	  MaskDescription	  "This block wraps the Filter, FirstOrderLowPassFilter, and MedianFilter from iCub::ctrl."
+	  MaskPromptString	  "Type of the filter|Numerator Coefficients*|Denominator Coefficients*|Cut Frequency (Hz)|Samplin"
+	  "g time (s)|Order|Define initial conditions|Output y0|Input u0"
+	  MaskStyleString	  "popup(Generic|FirstOrderLowPassFilter|MedianFilter),edit,edit,edit,edit,edit,checkbox,edit,edit"
+	  MaskVariables		  "filterType=@1;numCoeffs=@2;denCoeffs=@3;Fc=@4;Ts=@5;orderMedianFilter=@6;initStatus=@7;y0=@8;u0=@"
+	  "9;"
+	  MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+	  MaskCallbackString	  "% From: https://it.mathworks.com/help/simulink/slref/simulink.mask-class.html\nfilterType = g"
+	  "et_param(gcb, 'filterType');\ninitStatus = get_param(gcb, 'initStatus');\np = Simulink.Mask.get(gcbh);\nhowToCoeffs"
+	  " = p.getDialogControl('howToCoeffs');\n\n%set_param(gcb, 'initStatus','off');\nif (strcmp(initStatus,'on'))\n    vi"
+	  "s_init = 'on';\nelse\n    vis_init = 'off';\nend\n\nif(strcmp(filterType, 'Generic'))\n    set_param(gcb, 'MaskVisi"
+	  "bilities',{'on','on','on','off','off','off','on',vis_init,vis_init});\n    howToCoeffs.Visible = 'on';\nelseif(strc"
+	  "mp(filterType, 'FirstOrderLowPassFilter'))\n    set_param(gcb, 'MaskVisibilities',{'on','off','off','on','on','off'"
+	  ",'on',vis_init,'off'});\n    howToCoeffs.Visible = 'off';\nelseif(strcmp(filterType, 'MedianFilter'))\n    set_para"
+	  "m(gcb, 'MaskVisibilities',{'on','off','off','off','off','on','on',vis_init,'off'});\n    howToCoeffs.Visible = 'off"
+	  "';\nend\n\nclear filterType initStatus p howToCoeffs vis_init;||||||initStatus   = get_param(gcb, 'initStatus');\nv"
+	  "isibilities = get_param(gcb, 'MaskVisibilities');\nfilterType   = get_param(gcb, 'filterType');\n\nif (strcmp(initS"
+	  "tatus,'off'))\n    visibilities{8} = 'off';\n    visibilities{9} = 'off';\nelseif (strcmp(initStatus,'on'))\n    vi"
+	  "sibilities{8} = 'on';\n    if (strcmp(filterType,'Generic'))\n        visibilities{9} = 'on';\n    end\nend\n\nset_"
+	  "param(gcb, 'MaskVisibilities', visibilities);\n\nclear initStatus visibilities filterType;||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,off,off,off,on,off,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on,on"
+	  MaskInitialization	  "filterType = get_param(gcb, 'filterType');\nnumCoeffs  = mat2str(numCoeffs);\ndenCoeffs  = ma"
+	  "t2str(denCoeffs);\n\ninitStatus = get_param(gcb, 'initStatus');\n\nif (strcmp(initStatus,'on'))\n    y0 = mat2str(y"
+	  "0);\n    u0 = mat2str(u0);\nelse\n    y0 = 'none';\n    u0 = 'none';\nend\n\nclear initStatus"
+	  MaskDisplay		  "disp('Filter')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Generic|[0]|[0]|0|0|0|off|[0]|[0]"
 	}
 	Block {
 	  BlockType		  S-Function
 	  Name			  "DoFs converter"
 	  SID			  "1771"
 	  Ports			  [1, 5]
-	  Position		  [240, 241, 385, 309]
+	  Position		  [160, 226, 305, 294]
 	  ZOrder		  81
 	  InitFcn		  "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var')\n    W"
 	  "BT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWholeBodyInterf"
@@ -1124,7 +1153,7 @@ Library {
 	  "else\n    visibility{2} = 'on';\n    visibility{4} = 'off';\nend\nset_param(gcb, 'MaskVisibilities',visibility);\nc"
 	  "lear externalSettlingTime||||||"
 	  MaskEnableString	  "on,on,on,on,on,on,on"
-	  MaskVisibilityString	  "on,on,on,on,on,on,off"
+	  MaskVisibilityString	  "on,on,on,off,on,on,off"
 	  MaskToolTipString	  "on,on,on,on,on,on,on"
 	  MaskDisplay		  "firstDer = get_param(gcb, 'firstDerivatives');\nsecondDer = get_param(gcb, 'secondDerivatives');\ni"
 	  "nitialValues = get_param(gcb, 'explicitInitialValue');\nexternalSettlingTimeParam = get_param(gcb, 'externalSettlin"
@@ -1322,20 +1351,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1609"
+		  SID			  "112::1618"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  98
+		  ZOrder		  107
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1608"
+		  SID			  "112::1617"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  97
+		  ZOrder		  106
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1350,9 +1379,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1610"
+		  SID			  "112::1619"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  99
+		  ZOrder		  108
 		}
 		Block {
 		  BlockType		  Outport
@@ -1780,20 +1809,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "1300::1609"
+		  SID			  "1300::1618"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  86
+		  ZOrder		  95
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "1300::1608"
+		  SID			  "1300::1617"
 		  Tag			  "Stateflow S-Function WBToolboxLibrary 1"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  85
+		  ZOrder		  94
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -1808,9 +1837,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "1300::1610"
+		  SID			  "1300::1619"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  87
+		  ZOrder		  96
 		}
 		Block {
 		  BlockType		  Outport
