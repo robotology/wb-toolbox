@@ -123,8 +123,15 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     yarp::sig::Vector den(0);
     stringToYarpVector(num_coeff_str, num);
     stringToYarpVector(den_coeff_str, den);
-    stringToYarpVector(y0_str, *y0);
-    stringToYarpVector(u0_str, *u0);
+
+    // y0 and u0 are none if they are not defined
+    if (y0_str != "none") {
+        stringToYarpVector(y0_str, *y0);
+    }
+
+    if (u0_str != "nome") {
+        stringToYarpVector(u0_str, *u0);
+    }
 
     // Create the filter object
     // ========================
@@ -173,6 +180,9 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
         return false;
     }
 
+    // Initialize the other data
+    // =========================
+
     // Get the width of the input vector
     inputSignalWidth = blockInfo->getInputPortWidth(INPUT_IDX_SIGNAL);
 
@@ -181,14 +191,14 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     unsigned y0Width           = y0->length();
     unsigned u0Width           = u0->length();
 
-    if (y0Width != outputSignalWidth) {
+    if ((y0_str != "none") && (y0Width != outputSignalWidth)) {
         if (error) {
             error->message = ClassName + " y0 and output signal sizes don't match";
         }
         return false;
     }
 
-    if ((filter_type == "Generic") && (u0Width != inputSignalWidth)) {
+    if ((u0_str != "none") && (filter_type == "Generic") && (u0Width != inputSignalWidth)) {
         if (error) {
             error->message = ClassName + " (Generic) u0 and input signal sizes don't match";
         }
@@ -236,7 +246,7 @@ bool DiscreteFilter::initializeInitialConditions(BlockInformation* blockInfo, wb
 
     // If the initial conditions for the output are not set, allocate a properly
     // sized vector
-    if (*y0 == Vector(1, 0.0)) {
+    if (*y0 == Vector(0)) {
         y0 = new Vector(inputSignalWidth, 0.0);
     }
 
