@@ -54,6 +54,7 @@ configure_block(BLOCK_NAME "Base"
             src/base/Configuration.cpp
             src/base/RobotInterface.cpp
     HEADERS include/base/toolbox.h
+            include/base/debug.h
             include/base/Block.h
             include/base/BlockInformation.h
             include/base/WBBlock.h
