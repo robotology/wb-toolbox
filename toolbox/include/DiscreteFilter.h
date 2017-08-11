@@ -23,13 +23,13 @@ namespace yarp {
 
 class wbt::DiscreteFilter : public wbt::Block {
 private:
-    bool firstRun;
+    unsigned inputSignalWidth;
     iCub::ctrl::IFilter* filter;
-    yarp::sig::Vector* num;
-    yarp::sig::Vector* den;
+    yarp::sig::Vector* y0;
+    yarp::sig::Vector* u0;
     yarp::sig::Vector* inputSignalVector;
 
-    static void stringToYarpVector(const std::string s, yarp::sig::Vector* v);
+    static void stringToYarpVector(const std::string s, yarp::sig::Vector& v);
 
 public:
     static std::string ClassName;
@@ -40,6 +40,7 @@ public:
     virtual unsigned numberOfParameters();
     virtual bool configureSizeAndPorts(BlockInformation* blockInfo, wbt::Error* error);
     virtual bool initialize(BlockInformation* blockInfo, wbt::Error* error);
+    virtual bool initializeInitialConditions(BlockInformation *blockInfo, wbt::Error *error);
     virtual bool terminate(BlockInformation* blockInfo, wbt::Error* error);
     virtual bool output(BlockInformation* blockInfo, wbt::Error* error);
 };
