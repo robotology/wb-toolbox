@@ -39,7 +39,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
 
 find_package(Eigen3 REQUIRED)
 find_package(wholeBodyInterface 0.2.5 REQUIRED)
-find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
+find_package(yarpWholeBodyInterface 0.3.6 REQUIRED)
 # Workaround section, aka, this stuff should be defined by imported libraries
 find_package(iDynTree REQUIRED)
 
@@ -191,6 +191,12 @@ configure_block(BLOCK_NAME "Set References"
     LIST_PREFIX WBT
     SOURCES src/SetReferences.cpp
     HEADERS include/SetReferences.h)
+
+configure_block(BLOCK_NAME "Get Control References"
+    GROUP "Actuators"
+    LIST_PREFIX WBT
+    SOURCES src/GetControlReferences.cpp
+    HEADERS include/GetControlReferences.h)
 
 configure_block(BLOCK_NAME "Set Low-Level PIDs"
     GROUP "Actuators"
