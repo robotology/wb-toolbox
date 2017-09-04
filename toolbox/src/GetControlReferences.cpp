@@ -157,10 +157,10 @@ namespace wbt {
         if (!actuatorsInterface) return false;
 
         if (m_fullControl) {
-            actuatorsInterface->getControlReferences(m_currentControlReferences);
+            actuatorsInterface->getControlReferences(m_controlMode, m_currentControlReferences);
         } else {
             for (int i = 0; i < m_controlledJoints.size(); i++) {
-                actuatorsInterface->getControlReferences(&m_currentControlReferences[i], m_controlledJoints[i]);
+                actuatorsInterface->getControlReferences(m_controlMode, &m_currentControlReferences[i], m_controlledJoints[i]);
             }
         }
 
