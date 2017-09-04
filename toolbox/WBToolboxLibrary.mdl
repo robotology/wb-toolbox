@@ -14,9 +14,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "makaveli"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Aug 23 12:36:18 2017"
-  RTWModifiedTimeStamp	  425392578
-  ModelVersionFormat	  "1.%<AutoIncrement:383>"
+  LastModifiedDate	  "Mon Sep 04 13:24:30 2017"
+  RTWModifiedTimeStamp	  426432270
+  ModelVersionFormat	  "1.%<AutoIncrement:384>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -769,7 +769,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "273"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1773"
+    SIDHighWatermark	    "1776"
     Block {
       BlockType		      SubSystem
       Name		      "Utilities"
@@ -896,7 +896,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1773"
+		SIDHighWatermark	"1776"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1283,7 +1283,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1773"
+		SIDHighWatermark	"1776"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
@@ -1764,7 +1764,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1773"
+		SIDHighWatermark	"1776"
 		Block {
 		  BlockType		  Inport
 		  Name			  "s"
@@ -1933,7 +1933,7 @@ Library {
       MaskIconUnits	      "autoscale"
       System {
 	Name			"wholeBodyActuators"
-	Location		[425, 373, 1725, 1134]
+	Location		[747, 53, 2027, 774]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1945,7 +1945,107 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"667"
+	ZoomFactor		"369"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Get Control References"
+	  SID			  "1774"
+	  Ports			  [0, 1]
+	  Position		  [630, 310, 740, 360]
+	  ZOrder		  45
+	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
+	  InitFcn		  "if ~exist('WBT_robotName','var')\n    WBT_robotName = '';\nend\nif ~exist('WBT_modelName','var')\n    W"
+	  "BT_modelName = 'WBT_simulink';\nend\nif ~exist('WBT_wbiFilename','var')\n    WBT_wbiFilename = 'yarpWholeBodyInterf"
+	  "ace.ini';\nend\nif ~exist('WBT_wbiList','var')\n    WBT_wbiList = 'ROBOT_TORQUE_CONTROL_JOINTS';\nend"
+	  RequestExecContextInheritance	off
+	  Variant		  off
+	  MaskType		  "Set References"
+	  MaskDescription	  "This block sets the references for the robot actuators.\nThe type of control mode is specified a"
+	  "s a parameter in the block.\n\nAssuming DoFs is the number of degrees of freedom of the robot,\nInput:\n- Reference"
+	  "s: Vector of size DoFs, representing the references to be sent \n                to the robot controlled joints.\n\n"
+	  "Parameters:\n- Control Mode: The control mode. Choose one of the supplied mode.\n\n- Robot Port Name: Name of the p"
+	  "orts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in th"
+	  "e \n                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by t"
+	  "he underlying Whole Body Interface.\n- WBI filename: name of the file containing the configuration of the Whole Bod"
+	  "y Interface\n- WBI List Name: name of the list of joints used to configure the Whole Body Interface\n"
+	  MaskPromptString	  "Control Mode|Control Type|Controlled Joint List|Robot Port Name|Model Name|WBI filename|WBI lis"
+	  "t name"
+	  MaskStyleString	  "popup(Position|Position Direct|Velocity|Torque|Open Loop),popup(Full|Sublist),edit,edit,edit,edi"
+	  "t,edit"
+	  MaskVariables		  "controlType=&1;fullOrSubControl=@2;controlledJoints=@3;robotName=@4;localName=@5;wbiFile=@6;wbiLi"
+	  "st=@7;"
+	  MaskTunableValueString  "on,on,on,off,off,off,off"
+	  MaskCallbackString	  "% Get the mask parameter values. This is a cell\n%   array of strings.\nmaskStr = get_param(g"
+	  "cb,'controlType');\nif strcmp(maskStr, 'Position')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, "
+	  "1.0]');\nelseif strcmp(maskStr, 'Position Direct')\n    set_param(gcb,'BackgroundColor', '[0.3922, 0.7882, 0.3451, "
+	  "1.0]');\nelseif strcmp(maskStr, 'Velocity')\n    set_param(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');"
+	  "\nelseif strcmp(maskStr, 'Torque')\n    set_param(gcb,'BackgroundColor', '[0.8275, 0.5765, 0.6039, 1.0]');\nelseif "
+	  "strcmp(maskStr, 'Open Loop')\n    set_param(gcb,'BackgroundColor', '[0.98, 0.98, 0.98, 1.0]');\nend\nclear  maskStr"
+	  "|subOrFull = get_param(gcb, 'fullOrSubControl');\nif(strcmp(subOrFull, 'Sublist'))\n    set_param(gcb, 'MaskVisibil"
+	  "ities',{'on';'on';'on';'on';'on';'on';'on'});\nelse\n    set_param(gcb, 'MaskVisibilities',{'on';'on';'off';'on';'o"
+	  "n';'on';'on'});\nend\nclear subOrFull |||||"
+	  MaskEnableString	  "on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,off,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on,on"
+	  MaskDisplay		  "str = sprintf('%s\\nControl Reference', get_param(gcb,'controlType'));\ndisp(str);"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Position|Full|''|WBT_robotName|WBT_modelName|WBT_wbiFilename|WBT_wbiList"
+	  MaskTabNameString	  "Block parameters,Block parameters,Block parameters,WBI parameters,WBI parameters,WBI parameter"
+	  "s,WBI parameters"
+	  System {
+	    Name		    "Get Control References"
+	    Location		    [471, 265, 1668, 999]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "175"
+	    Block {
+	      BlockType		      S-Function
+	      Name		      "S-Function"
+	      SID		      "1775"
+	      Ports		      [0, 1]
+	      Position		      [125, 39, 185, 71]
+	      ZOrder		      19
+	      FunctionName	      "WBToolbox"
+	      Parameters	      "'GetControlReferences',robotName,localName,wbiFile,wbiList,controlType,fullOrSubControl,contr"
+	      "olledJoints"
+	      SFunctionDeploymentMode off
+	      EnableBusSupport	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Control References"
+	      SID		      "1776"
+	      Position		      [220, 48, 250, 62]
+	      ZOrder		      25
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "S-Function"
+	      SrcPort		      1
+	      DstBlock		      "Control References"
+	      DstPort		      1
+	    }
+	  }
+	  RTWSystemCode		  "Auto"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  MaskHideContents	  off
+	}
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Set LowLevel PIDs"

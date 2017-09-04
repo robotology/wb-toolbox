@@ -83,8 +83,6 @@ namespace wbt {
     {
         using namespace yarp::os;
 
-        std::cerr << " In dofsForConfigurationFileAndList " << wbiConfigFile << " " << list << "\n";
-
         //Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
         Network network;
 
