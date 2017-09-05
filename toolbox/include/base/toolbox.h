@@ -8,6 +8,7 @@
 #include "MassMatrix.h"
 #include "ForwardKinematics.h"
 #include "SetReferences.h"
+#include "GetControlReferences.h"
 #include "RealTimeSynchronizer.h"
 #include "SimulatorSynchronizer.h"
 #include "Jacobian.h"

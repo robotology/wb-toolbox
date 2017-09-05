@@ -18,6 +18,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::ForwardKinematics();
     } else if (blockClassName == wbt::SetReferences::ClassName) {
         block = new wbt::SetReferences();
+    } else if (blockClassName == wbt::GetControlReferences::ClassName) {
+        block = new wbt::GetControlReferences();
     } else if (blockClassName == wbt::RealTimeSynchronizer::ClassName) {
         block = new wbt::RealTimeSynchronizer();
     } else if (blockClassName == wbt::SimulatorSynchronizer::ClassName) {
