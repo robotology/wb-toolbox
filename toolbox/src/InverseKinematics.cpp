@@ -14,19 +14,11 @@
 #include <yarp/os/ResourceFinder.h>
 #include <typeinfo>
 
-//These includes are to convert from URDF to DH
-#include <kdl/tree.hpp>
-#include <kdl/jntarray.hpp>
-#include <kdl/joint.hpp>
-#include <kdl_codyco/undirectedtree.hpp>
-#include <kdl/chainfksolverpos_recursive.hpp>
-#include <iDynTree/ModelIO/impl/urdf_import.hpp>
-#include <iDynTree/ModelIO/iKin_export.hpp>
-//End of temporary include section
+#include <iDynTree/iKinConversions.h>
+#include <iDynTree/Model/DenavitHartenberg.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
 
 namespace wbt {
-
-    static bool iKinLimbFromUrdfFile(const std::string &urdf_file_name, const std::string &base_link_name, const std::string& end_effector_link_name, iCub::iKin::iKinLimb &convertedChain, std::vector<std::string>& jointNames);
 
     struct InverseKinematics::InverseKinematicsPimpl {
         bool m_firstTime;
@@ -204,9 +196,30 @@ namespace wbt {
         if (!m_piml->m_leg) return false;
 
         std::vector<std::string> jointNames;
-        if (!iKinLimbFromUrdfFile(urdfFile, baseLink, endEffectorLink, *((iCub::iKin::iKinLimb*)m_piml->m_leg), jointNames)) {
-            if (error) error->message = "Cannot convert urdf to iKin chain";
+        iDynTree::ModelLoader loader;
+        loader.loadModelFromFile(urdfFile);
+        if (!loader.isValid()) {
+            if (error) error->message = "Cannot load urdf file";
             return false;
+        }
+
+        iDynTree::DHChain dhChain;
+        if (!iDynTree::ExtractDHChainFromModel(loader.model(),
+                                               baseLink,
+                                               endEffectorLink,
+                                               dhChain)) {
+            if (error) error->message = "Cannot extract DH parameters from model";
+            return false;
+        }
+        if (!iDynTree::iKinLimbFromDHChain(dhChain, *((iCub::iKin::iKinLimb*)m_piml->m_leg))) {
+            if (error) error->message = "Cannot convert DH parameters to iKin chain";
+            return false;
+        }
+
+        // Retrieve joint names
+        jointNames.reserve(dhChain.getNrOfDOFs());
+        for (size_t i = 0; i < dhChain.getNrOfDOFs(); ++i) {
+            jointNames.push_back(dhChain.getDOFName(i));
         }
 
         m_piml->m_solver = new iCub::iKin::iKinIpOptMin(*m_piml->m_leg, IKINCTRL_POSE_XYZ, 1e-3, 1e-6, 100);
@@ -329,114 +342,4 @@ namespace wbt {
         return false;
     }
 
-
-    bool iKinLimbFromUrdfFile(const std::string &urdf_file_name, const std::string &base_link_name, const std::string& end_effector_link_name, iCub::iKin::iKinLimb &convertedChain, std::vector<std::string>& jointNames) {
-
-        KDL::Tree kdl_tree;
-        KDL::Chain kdl_chain;
-        std::vector<std::string> joint_names;
-        KDL::JntArray min,max;
-
-        //
-        // URDF --> KDL::Tree
-        //
-        bool root_inertia_workaround = true;
-        if (!iDynTree::treeFromUrdfFile(urdf_file_name,kdl_tree,root_inertia_workaround))
-        {
-            std::cerr << "Could not parse urdf robot model" << std::endl;
-            std::cerr << "Please open an issue at https://github.com/robotology-playground/idyntree/issues " << std::endl;
-
-            return false;
-        }
-
-        //
-        // URDF --> position ranges
-        //
-        if (!iDynTree::jointPosLimitsFromUrdfFile(urdf_file_name,joint_names,min,max))
-        {
-            std::cerr << "Could not parse urdf robot model limits" << std::endl;
-            return false;
-        }
-
-        if (joint_names.size() != min.rows() ||
-           joint_names.size() != max.rows() ||
-           joint_names.size() == 0)
-        {
-            std::cerr << "Inconsistent joint limits got from urdf (nr of joints extracted: " << joint_names.size() << " ) " << std::endl;
-            return false;
-        }
-
-        //
-        // KDL::Tree --> KDL::CoDyCo::UndirectedTree
-        // (for extracting arbitrary chains,
-        //    using KDL::Tree you can just get chains where the base of the chain
-        //    is proximal to the tree base with respect to the end effector.
-        //
-        KDL::CoDyCo::UndirectedTree undirected_tree(kdl_tree);
-
-        KDL::Tree kdl_rotated_tree = undirected_tree.getTree(base_link_name);
-
-        bool result = kdl_rotated_tree.getChain(base_link_name,end_effector_link_name,kdl_chain);
-        if (!result)
-        {
-            std::cerr << "Impossible to find " << base_link_name << " or "
-            << end_effector_link_name << " in the URDF."  << std::endl;
-            return false;
-        }
-
-        //
-        // Copy the limits extracted from the URDF to the chain
-        //
-        int nj = kdl_chain.getNrOfJoints();
-        KDL::JntArray chain_min(nj), chain_max(nj);
-
-        jointNames.clear();
-        jointNames.reserve(nj);
-
-        size_t seg_i, jnt_i;
-        for (seg_i = 0,jnt_i = 0; seg_i < kdl_chain.getNrOfSegments(); seg_i++)
-        {
-            const KDL::Segment & seg = kdl_chain.getSegment(seg_i);
-            if( seg.getJoint().getType() != KDL::Joint::None )
-            {
-                std::string jnt_name = seg.getJoint().getName();
-                // std::cerr << "searching for joint " << jnt_name << std::endl;
-                int tree_jnt = 0;
-                for(tree_jnt = 0; tree_jnt < joint_names.size(); tree_jnt++ )
-                {
-                    //std::cerr << "joint_names[ " << tree_jnt << "] is " << joint_names[tree_jnt] << std::endl;
-                    if( joint_names[tree_jnt] == jnt_name )
-                    {
-                        chain_min(jnt_i) = min(tree_jnt);
-                        chain_max(jnt_i) = max(tree_jnt);
-                        jnt_i++;
-                        jointNames.push_back(jnt_name);
-                        break;
-                    }
-                }
-                if( tree_jnt == joint_names.size() )
-                {
-                    std::cerr << "Failure in converting limits from tree to chain, unable to find joint " << jnt_name << std::endl;
-                    return false;
-                }
-            }
-        }
-        
-        if (jnt_i != nj)
-        {
-            std::cerr << "Failure in converting limits from tree to chain" << std::endl;
-            return false;
-        }
-        
-        //
-        // Convert the chain and the limits to an iKin chain (i.e. DH parameters)
-        //
-        result = iDynTree::iKinLimbFromKDLChain(kdl_chain,convertedChain,chain_min,chain_max);
-        if (!result)
-        {
-            std::cerr << "Could not export KDL::Tree to iKinChain" << std::endl;
-            return false;
-        }
-        return true;
-    }
 }

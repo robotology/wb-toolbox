@@ -40,8 +40,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
 find_package(Eigen3 REQUIRED)
 find_package(wholeBodyInterface 0.2.5 REQUIRED)
 find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
-# Workaround section, aka, this stuff should be defined by imported libraries
-find_package(iDynTree REQUIRED)
+find_package(iDynTree 0.7.2 REQUIRED)
 
 #On new versions of Clang, MATLAB requires C++11.
 #I enable it on all Clangs
