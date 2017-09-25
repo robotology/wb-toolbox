@@ -33,7 +33,10 @@ namespace wbt {
 
         unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
 
-        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).booleanData();
+        // In Toolbox mask the options are the following:
+        // - 1 => full control
+        // - 2 => sublist control
+        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).int32Data() == 1;
 
         if (!m_fullControl) {
             //sublist
