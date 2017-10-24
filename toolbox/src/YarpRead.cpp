@@ -10,6 +10,7 @@
 #include <yarp/sig/Vector.h>
 
 #include <algorithm>
+#include <iostream>
 
 #define PARAM_IDX_1 1                           // port name
 #define PARAM_IDX_2 2                           // Size of the port you're reading

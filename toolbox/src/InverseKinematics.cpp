@@ -18,6 +18,8 @@
 #include <iDynTree/Model/DenavitHartenberg.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 
+#include <iostream>
+
 namespace wbt {
 
     struct InverseKinematics::InverseKinematicsPimpl {

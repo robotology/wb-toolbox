@@ -7,6 +7,8 @@
 #include <yarpWholeBodyInterface/yarpWbiUtil.h>
 #include <wbi/wholeBodyInterface.h>
 
+#include <iostream>
+
 namespace wbt {
 
     std::string SetReferences::ClassName = "SetReferences";
