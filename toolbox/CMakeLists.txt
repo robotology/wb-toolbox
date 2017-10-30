@@ -62,7 +62,7 @@ configure_block(BLOCK_NAME "Base"
             src/base/Block.cpp
             src/base/BlockInformation.cpp
             src/base/WBIBlock.cpp
-            src/base/Error.cpp
+            src/base/Log.cpp
             src/base/WBInterface.cpp
             src/base/factory.cpp
             src/base/WBIModelBlock.cpp
@@ -72,7 +72,7 @@ configure_block(BLOCK_NAME "Base"
             include/base/Block.h
             include/base/BlockInformation.h
             include/base/WBIBlock.h
-            include/base/Error.h
+            include/base/Log.h
             include/base/WBInterface.h
             include/base/WBIModelBlock.h
             include/base/SimulinkBlockInformation.h #this is temp
