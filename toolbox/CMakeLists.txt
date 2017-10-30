@@ -68,6 +68,7 @@ configure_block(BLOCK_NAME "Base"
             src/base/SimulinkBlockInformation.cpp #this is temp
             src/base/Signal.cpp
             src/base/Configuration.cpp
+            src/base/RobotInterface.cpp
     HEADERS include/base/toolbox.h
             include/base/Block.h
             include/base/BlockInformation.h
@@ -77,6 +78,7 @@ configure_block(BLOCK_NAME "Base"
             include/base/SimulinkBlockInformation.h #this is temp
             include/base/Signal.h
             include/base/Configuration.h
+            include/base/RobotInterface.h
             )
 
 configure_block(BLOCK_NAME "Inverse Kinematics"
