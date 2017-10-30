@@ -65,7 +65,6 @@ configure_block(BLOCK_NAME "Base"
             src/base/Log.cpp
             src/base/WBInterface.cpp
             src/base/factory.cpp
-            src/base/WBIModelBlock.cpp
             src/base/SimulinkBlockInformation.cpp #this is temp
             src/base/Signal.cpp
     HEADERS include/base/toolbox.h
@@ -74,7 +73,6 @@ configure_block(BLOCK_NAME "Base"
             include/base/WBIBlock.h
             include/base/Log.h
             include/base/WBInterface.h
-            include/base/WBIModelBlock.h
             include/base/SimulinkBlockInformation.h #this is temp
             include/base/Signal.h
             )
