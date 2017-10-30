@@ -1,4 +1,4 @@
-#include "Error.h"
+#include "Log.h"
 //General Yarp utilities
 #include "YarpRead.h"
 #include "YarpWrite.h"

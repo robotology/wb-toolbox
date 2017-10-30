@@ -26,10 +26,73 @@
 
 #include "toolbox.h"
 #include "Block.h"
+#include "Log.h"
 #include "SimulinkBlockInformation.h"
 
 #include <string>
 #include <yarp/os/LogStream.h>
+
+static void catchLogMessages(bool status, SimStruct *S, std::string prefix)
+{
+    // Initialize static buffers
+    const unsigned bufferLen = 1024;
+    static char errorBuffer[bufferLen];
+    static char warningBuffer[bufferLen];
+
+    // Notify warnings
+    if (!wbt::Log::getSingleton().getWarnings().empty()) {
+        // Get the singleton
+        wbt::Log& log = wbt::Log::getSingleton();
+
+        // Handle the prefix
+        std::string warningMsg;
+        if (!prefix.empty()) {
+            log.setPrefix(prefix);
+            warningMsg = log.getWarnings();
+            log.resetPrefix();
+        }
+        else {
+            warningMsg = log.getWarnings();
+        }
+
+        // Trim the message if needed
+        if (warningMsg.length() >= bufferLen) {
+            warningMsg = warningMsg.substr(0, bufferLen-1);
+        }
+
+        // Forward to Simulink
+        sprintf(warningBuffer, "%s", warningMsg.c_str());
+        ssWarning(S, warningBuffer);
+        log.clearWarnings();
+    }
+
+    // Notify errors
+    if (!status) {
+        // Get the singleton
+        wbt::Log& log = wbt::Log::getSingleton();
+
+        // Handle the prefix
+        std::string errorMsg;
+        if (!prefix.empty()) {
+            log.setPrefix(prefix);
+            errorMsg = log.getErrors();
+            log.resetPrefix();
+        }
+        else {
+            errorMsg = log.getErrors();
+        }
+
+        // Trim the message if needed
+        if (errorMsg.length() >= bufferLen) {
+            errorMsg = errorMsg.substr(0, bufferLen-1);
+        }
+
+        // Forward to Simulink
+        sprintf(errorBuffer, "%s", errorMsg.c_str());
+        ssSetErrorStatus(S, errorBuffer);
+        return;
+    }
+}
 
 // Function: MDL_CHECK_PARAMETERS
 #define MDL_CHECK_PARAMETERS
@@ -65,10 +128,12 @@ static void mdlSetOutputPortDimensionInfo(SimStruct *S, int_T port,
 //    block's characteristics (number of inputs, s, states, etc.).
 static void mdlInitializeSizes(SimStruct *S)
 {
-    static char errorBuffer[512];
+    // Initialize the Log singleton
+    wbt::Log::getSingleton().clear();
+
     if (ssGetSFcnParamsCount(S) < 1) {
-        sprintf(errorBuffer, "%s", "The block type parameter must be specified");
-        ssSetErrorStatus(S, errorBuffer);
+        wbt::Log::getSingleton().error("The block type parameter must be specified");
+        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
         return;
     }
     char *classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
@@ -78,43 +143,39 @@ static void mdlInitializeSizes(SimStruct *S)
 
     //We cannot save data in PWork during the initializeSizes phase
     ssSetNumPWork(S, 1);
-    
+
+    // Notify errors
     if (!block) {
-        sprintf(errorBuffer, "Could not create an object of type %s", className.c_str());
-        ssSetErrorStatus(S, errorBuffer);
+        wbt::Log::getSingleton().error("Could not create an object of type " + className);
+        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
         return;
     }
-    
+
     ssSetNumSFcnParams(S, 1 + block->numberOfParameters());
     ssSetSFcnParamTunable(S, 0, false);
     for (unsigned i = 1; i < ssGetNumSFcnParams(S); ++i) {
         bool tunable = false;
         block->parameterAtIndexIsTunable(i - 1, tunable);
         ssSetSFcnParamTunable(S, i, tunable);
-
     }
-    
-    
+
+
 #if defined(MATLAB_MEX_FILE)
-    if(ssGetNumSFcnParams(S) == ssGetSFcnParamsCount(S)){
+    if(ssGetNumSFcnParams(S) == ssGetSFcnParamsCount(S)) {
         mdlCheckParameters(S);
-        if(ssGetErrorStatus(S)){
+        if(ssGetErrorStatus(S)) {
             return;
         }
-    } else{
-        sprintf(errorBuffer, "%s", "Number of parameters different from those defined");
-        ssSetErrorStatus(S, errorBuffer);
+    } else {
+        wbt::Log::getSingleton().error("Number of parameters different from those defined");
+        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
         return;
     }
 #endif
 
-    wbt::Error error;
     wbt::SimulinkBlockInformation blockInfo(S);
-    if (!block->configureSizeAndPorts(&blockInfo, &error)) {
-        sprintf(errorBuffer, "%s", error.message.substr(0, 511).c_str());
-        ssSetErrorStatus(S, errorBuffer);
-        return;
-    }
+    bool ok = block->configureSizeAndPorts(&blockInfo);
+    catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
 
     ssSetNumSampleTimes(S, 1);
 
@@ -134,17 +195,15 @@ static void mdlInitializeSizes(SimStruct *S)
 
     std::vector<std::string> additionalOptions = block->additionalBlockOptions();
 
-    for (std::vector<std::string>::const_iterator it = additionalOptions.begin();
-         it < additionalOptions.end(); ++it) {
-        wbt::Data option;
-        if (blockInfo.optionFromKey(*it, option)) {
-            options |= option.uint32Data();
+    for (auto additionalOption: additionalOptions) {
+        double option;
+        if (blockInfo.optionFromKey(additionalOption, option)) {
+            options |= static_cast<uint32_t>(option);
         }
     }
     ssSetOptions(S, options);
 
     delete block;
-
 }
 
 // Function: mdlInitializeSampleTimes =========================================
@@ -173,15 +232,12 @@ static void mdlStart(SimStruct *S)
     wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
     ssSetPWorkValue(S, 0, block);
 
-    wbt::Error error;
     wbt::SimulinkBlockInformation blockInfo(S);
-    if (!block || !block->initialize(&blockInfo, &error)) {
-        yError() << "[mdlStart]" << error.message;
-        static char errorBuffer[1024];
-        sprintf(errorBuffer, "[mdlStart]%s", error.message.substr(0, 1023 - strlen("[mdlStart]")).c_str());
-        ssSetErrorStatus(S, errorBuffer);
+    bool ok = false;
+    if (block) {
+        ok = block->initialize(&blockInfo);
     }
-
+    catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
 }
 
 
@@ -192,13 +248,13 @@ static void mdlUpdate(SimStruct *S, int_T tid)
     UNUSED_ARG(tid);
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-        wbt::Error error;
+
         wbt::SimulinkBlockInformation blockInfo(S);
-        if (!block || !block->updateDiscreteState(&blockInfo, &error)) {
-            static char errorBuffer[1024];
-            sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
-            ssSetErrorStatus(S, errorBuffer);
+        bool ok = false;
+        if (block) {
+            ok = block->updateDiscreteState(&blockInfo);
         }
+        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
     }
 }
 #endif
@@ -210,13 +266,13 @@ static void mdlInitializeConditions(SimStruct *S)
 {
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-        wbt::Error error;
+
         wbt::SimulinkBlockInformation blockInfo(S);
-        if (!block || !block->initializeInitialConditions(&blockInfo, &error)) {
-            static char errorBuffer[1024];
-            sprintf(errorBuffer, "[mdlInitializeConditions]%s", error.message.substr(0, 1023 - strlen("[mdlInitializeConditions]")).c_str());
-            ssSetErrorStatus(S, errorBuffer);
+        bool ok = false;
+        if (block) {
+            ok = block->initializeInitialConditions(&blockInfo);
         }
+        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
     }
 }
 #endif
@@ -240,35 +296,33 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     UNUSED_ARG(tid);
     if (ssGetNumPWork(S) > 0) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-        wbt::Error error;
-        wbt::SimulinkBlockInformation blockInfo(S);
-        if (!block || !block->output(&blockInfo, &error)) {
-            static char errorBuffer[1024];
-            sprintf(errorBuffer, "[mdlOutputs]%s", error.message.substr(0, 1023 - strlen("[mdlOutputs]")).c_str());
-            ssSetErrorStatus(S, errorBuffer);
-        }
-    }
 
+        wbt::SimulinkBlockInformation blockInfo(S);
+        bool ok = false;
+        if (block) {
+            ok = block->output(&blockInfo);
+        }
+        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+    }
 }
 
 static void mdlTerminate(SimStruct *S)
 {
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
         wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-        wbt::Error error;
+
         wbt::SimulinkBlockInformation blockInfo(S);
+        bool ok = false;
         if (block) {
-            if (block->terminate(&blockInfo, &error)) {
-                delete block;
-                ssSetPWorkValue(S, 0, NULL);
-            } else {
-                static char errorBuffer[1024];
-                sprintf(errorBuffer, "[mdlTerminate]%s", error.message.substr(0, 1023 - strlen("[mdlTerminate]")).c_str());
-                ssSetErrorStatus(S, errorBuffer);
-            }
+            ok = block->terminate(&blockInfo);
+        }
+        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+
+        if (ok) {
+            delete block;
+            ssSetPWorkValue(S, 0, NULL);
         }
     }
-
 }
 
 // Required S-function trailer
