@@ -17,25 +17,33 @@ namespace yarp {
     }
 }
 
-class wbt::YarpRead : public wbt::Block {
+class wbt::YarpRead : public wbt::Block
+{
 public:
-    static std::string ClassName;
-    
+    static const std::string ClassName;
+
     YarpRead();
-    
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
+
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
+
 private:
     bool m_autoconnect;
     bool m_blocking;
     bool m_shouldReadTimestamp;
     bool m_errorOnMissingPort;
-    
-    yarp::os::BufferedPort<yarp::sig::Vector> *m_port;
+
+    yarp::os::BufferedPort<yarp::sig::Vector>* m_port;
+
+    static const unsigned PARAM_IDX_PORTNAME; // port name
+    static const unsigned PARAM_IDX_PORTSIZE; // Size of the port you're reading
+    static const unsigned PARAM_IDX_WAITDATA; // boolean for blocking reading
+    static const unsigned PARAM_IDX_READ_TS;  // boolean to stream timestamp
+    static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean
+    static const unsigned PARAM_IDX_ERR_NO_PORT; // Error on missing port if autoconnect is on boolean
 };
 
 #endif /* end of include guard: WBT_YARPREAD_H */
