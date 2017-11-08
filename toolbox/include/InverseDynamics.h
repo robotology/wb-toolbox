@@ -1,41 +1,46 @@
 #ifndef WBT_INVERSEDYNAMICS_H
 #define WBT_INVERSEDYNAMICS_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <iDynTree/Core/VectorFixSize.h>
 
 namespace wbt {
     class InverseDynamics;
 }
 
-class wbt::InverseDynamics : public wbt::WBIModelBlock {
+namespace iDynTree {
+    class VectorDynSize;
+    class FreeFloatingGeneralizedTorques;
+}
 
-    double *m_basePose;
-    double *m_torques;
+class wbt::InverseDynamics : public wbt::WBBlock
+{
+private:
+    iDynTree::Vector6*       m_baseAcceleration;
+    iDynTree::VectorDynSize* m_jointsAcceleration;
 
-    bool m_explicitGravity;
+    // Output
+    iDynTree::FreeFloatingGeneralizedTorques* m_torques;
 
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
-    double *m_baseVelocity;
-    double *m_jointsVelocity;
-    double *m_baseAcceleration;
-    double *m_jointsAcceleration;
-    double m_gravity[3];
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned INPUT_IDX_BASE_VEL;
+    static const unsigned INPUT_IDX_JOINT_VEL;
+    static const unsigned INPUT_IDX_BASE_ACC;
+    static const unsigned INPUT_IDX_JOINT_ACC;
+    static const unsigned OUTPUT_IDX_TORQUES;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
     InverseDynamics();
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
-    
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
+
 };
 
-
-#endif /* end of include guard: WBT_INVERSEDYNAMICS_H */
+#endif /* WBT_INVERSEDYNAMICS_H */
