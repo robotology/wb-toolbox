@@ -1,161 +1,224 @@
 #include "Jacobian.h"
 
-#include "Error.h"
-#include "WBInterface.h"
+#include "Log.h"
+#include "RobotInterface.h"
 #include "BlockInformation.h"
 #include "Signal.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include <memory>
+#include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Core/EigenHelpers.h>
 #include <Eigen/Core>
 
 namespace wbt {
 
-    std::string Jacobian::ClassName = "Jacobian";
+    const std::string Jacobian::ClassName = "Jacobian";
+
+    const unsigned Jacobian::INPUT_IDX_BASE_POSE = 0;
+    const unsigned Jacobian::INPUT_IDX_JOINTCONF = 1;
+    const unsigned Jacobian::OUTPUT_IDX_FW_FRAME = 0;
 
     Jacobian::Jacobian()
-    : m_basePose(0)
-    , m_jacobian(0)
-    , m_basePoseRaw(0)
-    , m_configuration(0)
-    , m_frameIndex(-1) {}
+    : m_jacobianCOM(nullptr)
+    , m_jacobian(nullptr)
+    , m_frameIsCoM(false)
+    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    {}
 
     unsigned Jacobian::numberOfParameters()
     {
-        return WBIBlock::numberOfParameters() + 1;
+        return WBBlock::numberOfParameters() + 1;
     }
 
-    bool Jacobian::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
+    bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
     {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
+        // Memory allocation / Saving data not allowed here
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+        if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
 
-        // Specify I/O
-        // Input ports:
-        // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
-        // - DoFs vector for the robot (joints) configurations
+        // INPUTS
+        // ======
+        //
+        // 1) Homogeneous transform for base pose wrt the world frame (4x4 matrix)
+        // 2) Joints position (1xDoFs vector)
+        // 3) Base frame velocity (1x6 vector)
+        //
 
+        // Number of inputs
         if (!blockInfo->setNumberOfInputPorts(2)) {
-            if (error) error->message = "Failed to configure the number of input ports";
+            Log::getSingleton().error("Failed to configure the number of input ports.");
             return false;
         }
-        bool success = true;
-        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4);
-        success = success && blockInfo->setInputPortVectorSize(1, dofs);
 
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
-        blockInfo->setInputPortType(1, PortDataTypeDouble);
+        const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+        // Size and type
+        bool success = true;
+        success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+        success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+
+        blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
 
         if (!success) {
-            if (error) error->message = "Failed to configure input ports";
+            Log::getSingleton().error("Failed to configure input ports.");
             return false;
         }
 
-        // Output port:
-        // - (6)x(6+dofs) matrix
-        if (!blockInfo->setNumberOfOuputPorts(1)) {
-            if (error) error->message = "Failed to configure the number of output ports";
+        // OUTPUTS
+        // =======
+        //
+        // 1) Matrix representing the Jacobian (6x(DoFs+6))
+        //
+
+        // Number of outputs
+        if (!blockInfo->setNumberOfOutputPorts(1)) {
+            Log::getSingleton().error("Failed to configure the number of output ports.");
             return false;
         }
 
-        success = blockInfo->setOutputPortMatrixSize(0, 6, 6 + dofs);
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
+        // Size and type
+        success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, 6, 6 + dofs);
+        blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, PortDataTypeDouble);
 
         return success;
     }
 
-    bool Jacobian::initialize(BlockInformation *blockInfo, wbt::Error *error)
+    bool Jacobian::initialize(BlockInformation* blockInfo)
     {
-        using namespace yarp::os;
-        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
+        if (!WBBlock::initialize(blockInfo)) return false;
 
-        int parentParameters = WBIBlock::numberOfParameters() + 1;
-        //robot name
+        // INPUT PARAMETERS
+        // ================
+
         std::string frame;
-        if (!blockInfo->getStringParameterAtIndex(parentParameters, frame)) {
-            if (error) error->message = "Cannot retrieve string from frame parameter";
+        int parentParameters = WBBlock::numberOfParameters();
+
+        if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
+            Log::getSingleton().error("Cannot retrieve string from frame parameter.");
             return false;
         }
 
-        //here obtain joint list and get the frame
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (!interface) {
-            if (error) error->message = "Cannot retrieve handle to WBI interface";
+        // Check if the frame is valid
+        // ---------------------------
+
+        const auto& model = getRobotInterface()->getKinDynComputations();
+        if (!model) {
+            Log::getSingleton().error("Cannot retrieve handle to KinDynComputations.");
             return false;
         }
-        wbi::IDList frames =  interface->getFrameList();
+
         if (frame != "com") {
-            if (!frames.idToIndex(wbi::ID(frame), m_frameIndex)) {
-                if (error) error->message = "Cannot find " + frame + " in the frame list";
+            m_frameIndex = model->getFrameIndex(frame);
+            if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+                Log::getSingleton().error("Cannot find " + frame + " in the frame list.");
                 return false;
             }
-        } else {
-            m_frameIndex = wbi::wholeBodyInterface::COM_LINK_ID;
+        }
+        else {
+            m_frameIsCoM = true;
+            m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
         }
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        m_basePose = new double[16];
-        m_jacobian = new double[6 * (6 + dofs)];
-        m_basePoseRaw = new double[16];
-        m_configuration = new double[dofs];
+        // OUTPUT / VARIABLES
+        // ==================
 
-        return m_basePose && m_jacobian && m_basePoseRaw && m_configuration;
+        const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+        m_jacobianCOM = new iDynTree::MatrixDynSize(3, 6 + dofs);
+        m_jacobianCOM->zero();
+
+        // Output
+        m_jacobian = new iDynTree::MatrixDynSize(6, 6 + dofs);
+        m_jacobian->zero();
+
+        return m_jacobianCOM && m_jacobian;
     }
 
-    bool Jacobian::terminate(BlockInformation *blockInfo, wbt::Error *error)
+    bool Jacobian::terminate(BlockInformation* blockInfo)
     {
-        if (m_basePose) {
-            delete [] m_basePose;
-            m_basePose = 0;
+        if (m_jacobianCOM) {
+            delete m_jacobianCOM;
+            m_jacobianCOM = nullptr;
         }
         if (m_jacobian) {
-            delete [] m_jacobian;
-            m_jacobian = 0;
+            delete m_jacobian;
+            m_jacobian = nullptr;
         }
-        if (m_basePoseRaw) {
-            delete [] m_basePoseRaw;
-            m_basePoseRaw = 0;
-        }
-        if (m_configuration) {
-            delete [] m_configuration;
-            m_configuration = 0;
-        }
-        return WBIModelBlock::terminate(blockInfo, error);
+
+        return WBBlock::terminate(blockInfo);
     }
 
-    bool Jacobian::output(BlockInformation *blockInfo, wbt::Error */*error*/)
+    bool Jacobian::output(BlockInformation* blockInfo)
     {
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (interface) {
-            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
-            Signal configuration = blockInfo->getInputPortSignal(1);
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
-                m_configuration[i] = configuration.get(i).doubleData();
-            }
+        using namespace iDynTree;
+        using namespace Eigen;
+        typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+        typedef Matrix<double, Dynamic, Dynamic, ColMajor> MatrixXdSimulink;
+        typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
 
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_basePose);
-            basePose = basePoseColMajor;
+        const auto& model = getRobotInterface()->getKinDynComputations();
 
-            wbi::Frame frame;
-            wbi::frameFromSerialization(basePose.data(), frame);
-
-            unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-            interface->computeJacobian(m_configuration, frame, m_frameIndex, m_jacobian);
-
-            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::RowMajor> > jacobianRowMajor(m_jacobian, 6, 6 + dofs);
-
-            Signal output = blockInfo->getOutputPortSignal(0);
-            Eigen::Map<Eigen::Matrix<double, 6, Eigen::Dynamic, Eigen::ColMajor> > jacobianColMajor((double*)output.getContiguousBuffer(), 6, 6 + dofs);
-
-            jacobianColMajor = jacobianRowMajor;
-            return true;
+        if (!model) {
+            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            return false;
         }
-        return false;
-    }
+
+        // GET THE SIGNALS AND CONVERT THEM TO IDYNTREE OBJECTS
+        // ====================================================
+
+        unsigned signalWidth;
+
+        // Base pose
+        Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
+        fromEigen(robotState.m_world_T_base,
+                  Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
+
+        // Joints position
+        Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
+        robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
+
+        // TODO: what about the other inputs of setRobotState?
+
+        // UPDATE THE ROBOT STATUS
+        // =======================
+        model->setRobotState(robotState.m_world_T_base,
+                             robotState.m_jointsPosition,
+                             robotState.m_baseVelocity,
+                             robotState.m_jointsVelocity,
+                             robotState.m_gravity);
+
+        // OUTPUT
+        // ======
+
+        iDynTree::Transform world_H_frame;
+
+        // Compute the jacobian
+        bool ok = false;
+        if (!m_frameIsCoM) {
+            world_H_frame = model->getWorldTransform(m_frameIndex);
+            ok = model->getFrameFreeFloatingJacobian(m_frameIndex, *m_jacobian);
+        }
+        else {
+            world_H_frame.setPosition(model->getCenterOfMassPosition());
+            ok = model->getCenterOfMassJacobian(*m_jacobianCOM);
+            int cols = m_jacobianCOM->cols();
+            toEigen(*m_jacobian).block(0,0,3,cols) = toEigen(*m_jacobianCOM);
+            toEigen(*m_jacobian).block(3,0,3,cols).setZero();
+        }
+
+        // Get the output signal memory location
+        Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
+        const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+        // Allocate objects for row-major -> col-major conversion
+        Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(*m_jacobian);
+        Map<MatrixXdSimulink> jacobianColMajor((double*)output.getContiguousBuffer(),
+                                               6, 6 + dofs);
+
+        // Forward the buffer to Simulink transforming it to ColMajor
+        jacobianColMajor = jacobianRowMajor;
+        return true;
+     }
 }

@@ -1,36 +1,44 @@
 #ifndef WBT_JACOBIAN_H
 #define WBT_JACOBIAN_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <iDynTree/Model/Indices.h>
 
 namespace wbt {
     class Jacobian;
 }
 
-class wbt::Jacobian : public wbt::WBIModelBlock {
+namespace iDynTree {
+    class MatrixDynSize;
+}
 
-    double *m_basePose;
-    double *m_jacobian;
+class wbt::Jacobian : public wbt::WBBlock
+{
+private:
+    // Support variables
+    iDynTree::MatrixDynSize* m_jacobianCOM;
 
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
+    // Output
+    iDynTree::MatrixDynSize* m_jacobian;
 
-    int m_frameIndex;
+    // Other variables
+    bool m_frameIsCoM;
+    iDynTree::FrameIndex m_frameIndex;
+
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned OUTPUT_IDX_FW_FRAME;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
     Jacobian();
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-
-
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
 };
 
-
-#endif /* end of include guard: WBT_JACOBIAN_H */
+#endif /* WBT_JACOBIAN_H */
