@@ -2,7 +2,7 @@
 //General Yarp utilities
 #include "YarpRead.h"
 #include "YarpWrite.h"
-#include "YARPWBIConverter.h"
+#include "ModelPartitioner.h"
 #include "YarpClock.h"
 //WBI-related stuff
 #include "MassMatrix.h"

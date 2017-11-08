@@ -8,8 +8,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::YarpRead();
     } else if (blockClassName == wbt::YarpWrite::ClassName) {
         block = new wbt::YarpWrite();
-    } else if (blockClassName == wbt::YARPWBIConverter::ClassName) {
-        block = new wbt::YARPWBIConverter();
+    } else if (blockClassName == wbt::ModelPartitioner::ClassName) {
+        block = new wbt::ModelPartitioner();
     } else if (blockClassName == wbt::YarpClock::ClassName) {
         block = new wbt::YarpClock();
     } else if (blockClassName == wbt::MassMatrix::ClassName) {
