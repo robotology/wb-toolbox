@@ -1,6 +1,7 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
+#include "AnyType.h"
 #include <string>
 #include <cstdint>
 
@@ -20,8 +21,8 @@ namespace wbt {
         PortDataTypeBoolean,
     } PortDataType;
 
-
-    struct Data {
+    class Data
+    {
     private:
         double buffer;
     public:
@@ -59,7 +60,8 @@ class wbt::BlockInformation {
 public:
     virtual ~BlockInformation();
 
-    //Block Options methods
+    // Block Options methods
+    // =====================
 
     /**
      * Convert a block option from its Toolbox identifier to a specific implementation
@@ -68,10 +70,12 @@ public:
      * @param [out] option implementation-specific block option
      * @return true if the option has been converted. False otherwise
      */
-    virtual bool optionFromKey(const std::string& key, Data &option) const;
+    virtual bool optionFromKey(const std::string& key, double& option) const;
 
 
-    //Parameters methods
+    // Parameters methods
+    // ==================
+
     /**
      * Reads the parameter at the specified index and interpret it as a string
      *
@@ -81,12 +85,16 @@ public:
      * @return true if success, false otherwise
      */
     virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) = 0;
-    virtual Data getScalarParameterAtIndex(unsigned parameterIndex) = 0;
+    virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) = 0;
+    virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) = 0;
+    virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) = 0;
+    virtual bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) = 0;
 
-    //Port information methods
+    // Port information methods
+    // ========================
+
     virtual bool setNumberOfInputPorts(unsigned numberOfPorts) = 0;
-    virtual bool setNumberOfOuputPorts(unsigned numberOfPorts) = 0;
-    //If portSize == -1, then it is dynamic
+    virtual bool setNumberOfOutputPorts(unsigned numberOfPorts) = 0;
     virtual bool setInputPortVectorSize(unsigned portNumber, int portSize) = 0;
     virtual bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns) = 0;
     virtual bool setOutputPortVectorSize(unsigned portNumber, int portSize) = 0;
@@ -103,12 +111,13 @@ public:
     virtual bool setInputPortType(unsigned portNumber, PortDataType portType) = 0;
     virtual bool setOutputPortType(unsigned portNumber, PortDataType portType) = 0;
 
-    //Port data
+    // Port data
+    // =========
+
     virtual unsigned getInputPortWidth(unsigned portNumber) = 0;
     virtual unsigned getOutputPortWidth(unsigned portNumber) = 0;
     virtual wbt::Signal getInputPortSignal(unsigned portNumber) = 0;
     virtual wbt::Signal getOutputPortSignal(unsigned portNumber) = 0;
-
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */
