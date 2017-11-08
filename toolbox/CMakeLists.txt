@@ -200,8 +200,8 @@ configure_block(BLOCK_NAME "Set Low-Level PIDs"
 configure_block(BLOCK_NAME "Get Estimate"
     GROUP "State"
     LIST_PREFIX WBT
-    SOURCES src/GetEstimate.cpp
-    HEADERS include/GetEstimate.h)
+    SOURCES src/GetMeasurement.cpp
+    HEADERS include/GetMeasurement.h)
 
 configure_block(BLOCK_NAME "Get Limits"
     GROUP "State"

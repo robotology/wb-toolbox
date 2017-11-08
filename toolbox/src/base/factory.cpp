@@ -24,8 +24,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::SimulatorSynchronizer();
     } else if (blockClassName == wbt::Jacobian::ClassName) {
         block = new wbt::Jacobian();
-    } else if (blockClassName == wbt::GetEstimate::ClassName) {
-        block = new wbt::GetEstimate();
+    } else if (blockClassName == wbt::GetMeasurement::ClassName) {
+        block = new wbt::GetMeasurement();
     } else if (blockClassName == wbt::InverseDynamics::ClassName) {
         block = new wbt::InverseDynamics();
     } else if (blockClassName == wbt::DotJNu::ClassName) {

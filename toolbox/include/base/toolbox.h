@@ -11,7 +11,7 @@
 #include "RealTimeSynchronizer.h"
 #include "SimulatorSynchronizer.h"
 #include "Jacobian.h"
-#include "GetEstimate.h"
+#include "GetMeasurement.h"
 #include "InverseDynamics.h"
 #include "DotJNu.h"
 #include "GetLimits.h"
