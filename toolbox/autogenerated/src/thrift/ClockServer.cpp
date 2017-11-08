@@ -1,7 +1,7 @@
 // This is an automatically-generated file.
 // It could get re-generated if the ALLOW_IDL_GENERATION flag is on.
 
-#include <thrift/ClockServer.h>
+#include "thrift/ClockServer.h"
 #include <yarp/os/idl/WireTypes.h>
 
 namespace gazebo {
@@ -382,5 +382,3 @@ std::vector<std::string> ClockServer::help(const std::string& functionName) {
   return helpString;
 }
 } // namespace
-
-
