@@ -2,158 +2,167 @@
 
 #include "BlockInformation.h"
 #include "Signal.h"
-#include "Error.h"
-#include "WBInterface.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include "Log.h"
+#include "RobotInterface.h"
+#include <memory>
+#include <iDynTree/Core/SpatialMomentum.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/KinDynComputations.h>
 #include <Eigen/Core>
 
 namespace wbt {
 
-    std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
+    const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
+
+    const unsigned CentroidalMomentum::INPUT_IDX_BASE_POSE = 0;
+    const unsigned CentroidalMomentum::INPUT_IDX_JOINTCONF = 1;
+    const unsigned CentroidalMomentum::INPUT_IDX_BASE_VEL  = 2;
+    const unsigned CentroidalMomentum::INPUT_IDX_JOINT_VEL = 3;
+    const unsigned CentroidalMomentum::OUTPUT_IDX_CENTRMOM = 0;
 
     CentroidalMomentum::CentroidalMomentum()
-    : m_basePose(0)
-    , m_centroidalMomentum(0)
-    , m_basePoseRaw(0)
-    , m_configuration(0)
-    , m_baseVelocity(0)
-    , m_jointsVelocity(0) {}
+    : m_centroidalMomentum(nullptr)
+    {}
 
-    bool CentroidalMomentum::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
+    bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
     {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
+        // Memory allocation / Saving data not allowed here
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+        if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
 
-        // Specify I/O
-        // Input ports:
-        // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
-        // - DoFs vector for the robot (joints) configurations
+        // INPUTS
+        // ======
+        //
+        // 1) Homogeneous transform for base pose wrt the world frame (4x4 matrix)
+        // 2) Joints position (1xDoFs vector)
+        // 3) Base frame velocity (1x6 vector)
+        // 4) Joints velocity (1xDoFs vector)
+        //
 
+        // Number of inputs
         if (!blockInfo->setNumberOfInputPorts(4)) {
-            if (error) error->message = "Failed to configure the number of input ports";
+            Log::getSingleton().error("Failed to configure the number of input ports.");
             return false;
         }
+
+        const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+        // Size and type
         bool success = true;
+        success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+        success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+        success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
+        success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
 
-        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4); //base pose
-        success = success && blockInfo->setInputPortVectorSize(1, dofs); //joint configuration
-        success = success && blockInfo->setInputPortVectorSize(2, 6); //base velocity
-        success = success && blockInfo->setInputPortVectorSize(3, dofs); //joints velocitity
-
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
-        blockInfo->setInputPortType(1, PortDataTypeDouble);
-        blockInfo->setInputPortType(2, PortDataTypeDouble);
-        blockInfo->setInputPortType(3, PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_BASE_VEL,  PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
 
         if (!success) {
-            if (error) error->message = "Failed to configure input ports";
+            Log::getSingleton().error("Failed to configure input ports.");
             return false;
         }
 
-        // Output port:
-        // - 6 vector representing the centroidal momentum
-        if (!blockInfo->setNumberOfOuputPorts(1)) {
-            if (error) error->message = "Failed to configure the number of output ports";
+        // OUTPUTS
+        // =======
+        //
+        // 1) Vector representing the centroidal momentum (1x6)
+        //
+
+        // Number of outputs
+        if (!blockInfo->setNumberOfOutputPorts(1)) {
+            Log::getSingleton().error("Failed to configure the number of output ports.");
             return false;
         }
 
-        success = blockInfo->setOutputPortVectorSize(0, 6);
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
+        // Size and type
+        success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_CENTRMOM, 6);
+        blockInfo->setOutputPortType(OUTPUT_IDX_CENTRMOM, PortDataTypeDouble);
 
         return success;
     }
 
-    bool CentroidalMomentum::initialize(BlockInformation *blockInfo, wbt::Error *error)
+    bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
     {
-        using namespace yarp::os;
-        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
+        if (!WBBlock::initialize(blockInfo)) return false;
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        m_basePose = new double[16];
-        m_centroidalMomentum = new double[6];
-        m_basePoseRaw = new double[16];
-        m_configuration = new double[dofs];
-        m_baseVelocity = new double[6];
-        m_jointsVelocity = new double[dofs];
+        // OUTPUT
+        // ======
 
-        return m_basePose && m_centroidalMomentum && m_basePoseRaw && m_configuration && m_baseVelocity && m_jointsVelocity;
+        m_centroidalMomentum = new iDynTree::SpatialMomentum();
+        return m_centroidalMomentum;
     }
 
-    bool CentroidalMomentum::terminate(BlockInformation *blockInfo, wbt::Error *error)
+    bool CentroidalMomentum::terminate(BlockInformation* blockInfo)
     {
-        if (m_basePose) {
-            delete [] m_basePose;
-            m_basePose = 0;
-        }
         if (m_centroidalMomentum) {
-            delete [] m_centroidalMomentum;
+            delete m_centroidalMomentum;
             m_centroidalMomentum = 0;
         }
-        if (m_basePoseRaw) {
-            delete [] m_basePoseRaw;
-            m_basePoseRaw = 0;
-        }
-        if (m_configuration) {
-            delete [] m_configuration;
-            m_configuration = 0;
-        }
-        if (m_baseVelocity) {
-            delete [] m_baseVelocity;
-            m_baseVelocity = 0;
-        }
-        if (m_jointsVelocity) {
-            delete [] m_jointsVelocity;
-            m_jointsVelocity = 0;
-        }
 
-        return WBIModelBlock::terminate(blockInfo, error);
+        return WBBlock::terminate(blockInfo);
     }
 
-    bool CentroidalMomentum::output(BlockInformation *blockInfo, wbt::Error */*error*/)
+    bool CentroidalMomentum::output(BlockInformation* blockInfo)
     {
-        //get input
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (interface) {
-            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
-            Signal configuration = blockInfo->getInputPortSignal(1);
-            Signal baseVelocity = blockInfo->getInputPortSignal(2);
-            Signal jointsVelocity = blockInfo->getInputPortSignal(3);
+        using namespace iDynTree;
+        using namespace Eigen;
+        typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
 
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
-                m_configuration[i] = configuration.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(2); ++i) {
-                m_baseVelocity[i] = baseVelocity.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(3); ++i) {
-                m_jointsVelocity[i] = jointsVelocity.get(i).doubleData();
-            }
+        const auto& model = getRobotInterface()->getKinDynComputations();
 
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_basePose);
-            basePose = basePoseColMajor;
-
-            wbi::Frame frame;
-            wbi::frameFromSerialization(basePose.data(), frame);
-
-            interface->computeCentroidalMomentum(m_configuration,
-                                                 frame,
-                                                 m_jointsVelocity,
-                                                 m_baseVelocity,
-                                                 m_centroidalMomentum);
-
-            Signal output = blockInfo->getOutputPortSignal(0);
-            output.setBuffer(m_centroidalMomentum, blockInfo->getOutputPortWidth(0));
-
-            return true;
+        if (!model) {
+            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            return false;
         }
-        return false;
+
+        // GET THE SIGNALS AND CONVERT THEM TO IDYNTREE OBJECTS
+        // ====================================================
+
+        unsigned signalWidth;
+
+        // Base pose
+        Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
+        fromEigen(robotState.m_world_T_base,
+                  Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
+
+        // Joints position
+        Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
+        robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
+
+        // Base velocity
+        Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_VEL);
+        double* m_baseVelocityBuffer = baseVelocitySignal.getStdVector(signalWidth).data();
+        robotState.m_baseVelocity = Twist(LinVelocity(m_baseVelocityBuffer, 3),
+                                     AngVelocity(m_baseVelocityBuffer+3, 3));
+
+        // Joints velocity
+        Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINT_VEL);
+        robotState.m_jointsVelocity.fillBuffer(jointsVelocitySignal.getStdVector(signalWidth).data());
+
+        // UPDATE THE ROBOT STATUS
+        // =======================
+        model->setRobotState(robotState.m_world_T_base,
+                             robotState.m_jointsPosition,
+                             robotState.m_baseVelocity,
+                             robotState.m_jointsVelocity,
+                             robotState.m_gravity);
+
+        // OUTPUT
+        // ======
+
+        // Calculate the centroidal momentum
+        *m_centroidalMomentum = model->getCentroidalTotalMomentum();
+
+        // Forward the output to Simulink
+        Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_CENTRMOM);
+        output.setBuffer(toEigen(*m_centroidalMomentum).data(),
+                         blockInfo->getOutputPortWidth(OUTPUT_IDX_CENTRMOM));
+        return true;
     }
 }
