@@ -7,24 +7,27 @@ namespace wbt {
     class RealTimeSynchronizer;
 }
 
-class wbt::RealTimeSynchronizer : public wbt::Block {
+class wbt::RealTimeSynchronizer : public wbt::Block
+{
 public:
-    static std::string ClassName;
-    
+    static const std::string ClassName;
+
     RealTimeSynchronizer();
-    virtual ~RealTimeSynchronizer();
-    
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
+    ~RealTimeSynchronizer() override = default;
+
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
+
 private:
     double m_period;
 
     double m_initialTime;
     unsigned long m_counter;
+
+    static const unsigned PARAM_PERIOD; // Period
 };
 
 #endif /* end of include guard: WBT_REALTIMESYNCHRONIZER_H */
