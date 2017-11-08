@@ -42,38 +42,92 @@ namespace wbt {
         Data data;
         switch (portType) {
             case PortDataTypeDouble:
-                data.doubleData(isContiguous ? ((double*)contiguousData)[index] : *((double **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.doubleData((static_cast<double*>(contiguousData))[index]);
+                }
+                else {
+                    const double* buffer = static_cast<const double*>(*nonContiguousData);
+                    data.doubleData(static_cast<const double>(buffer[index]));
+                }
                 break;
             case PortDataTypeSingle:
-                data.floatData(isContiguous ? ((float*)contiguousData)[index] : *((float **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.floatData((static_cast<float*>(contiguousData))[index]);
+                }
+                else {
+                    const float* buffer = static_cast<const float*>(*nonContiguousData);
+                    data.floatData(static_cast<const float>(buffer[index]));
+                }
                 break;
             case PortDataTypeInt8:
-                data.int8Data(isContiguous ? ((int8_t*)contiguousData)[index] : *((int8_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.int8Data((static_cast<int8_t*>(contiguousData))[index]);
+                }
+                else {
+                    const int8_t* buffer = static_cast<const int8_t*>(*nonContiguousData);
+                    data.int8Data(static_cast<const int8_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeUInt8:
-                data.uint8Data(isContiguous ? ((uint8_t*)contiguousData)[index] : *((uint8_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.uint8Data((static_cast<uint8_t*>(contiguousData))[index]);
+                }
+                else {
+                    const uint8_t* buffer = static_cast<const uint8_t*>(*nonContiguousData);
+                    data.uint8Data(static_cast<const uint8_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeInt16:
-                data.int8Data(isContiguous ? ((int16_t*)contiguousData)[index] : *((int16_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.int16Data((static_cast<int16_t*>(contiguousData))[index]);
+                }
+                else {
+                    const int16_t* buffer = static_cast<const int16_t*>(*nonContiguousData);
+                    data.int16Data(static_cast<const int16_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeUInt16:
-                data.uint8Data(isContiguous ? ((uint16_t*)contiguousData)[index] : *((uint16_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.uint16Data((static_cast<uint16_t*>(contiguousData))[index]);
+                }
+                else {
+                    const uint16_t* buffer = static_cast<const uint16_t*>(*nonContiguousData);
+                    data.uint16Data(static_cast<const uint16_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeInt32:
-                data.int8Data(isContiguous ? ((int32_t*)contiguousData)[index] : *((int32_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.int32Data((static_cast<int32_t*>(contiguousData))[index]);
+                }
+                else {
+                    const int32_t* buffer = static_cast<const int32_t*>(*nonContiguousData);
+                    data.int32Data(static_cast<const int32_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeUInt32:
-                data.uint8Data(isContiguous ? ((uint32_t*)contiguousData)[index] : *((uint32_t **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.uint32Data((static_cast<uint32_t*>(contiguousData))[index]);
+                }
+                else {
+                    const uint32_t* buffer = static_cast<const uint32_t*>(*nonContiguousData);
+                    data.uint32Data(static_cast<const uint32_t>(buffer[index]));
+                }
                 break;
             case PortDataTypeBoolean:
-                data.booleanData(isContiguous ? ((bool*)contiguousData)[index] : *((bool **)nonContiguousData)[index]);
+                if (isContiguous) {
+                    data.booleanData((static_cast<bool*>(contiguousData))[index]);
+                }
+                else {
+                    const bool* buffer = static_cast<const bool*>(*nonContiguousData);
+                    data.booleanData(static_cast<const bool>(buffer[index]));
+                }
         }
         return data;
     }
 
     void* Signal::getContiguousBuffer()
     {
-        if (!isContiguous) return 0;
+        if (!isContiguous) return nullptr;
         return this->contiguousData;
     }
 
@@ -110,13 +164,13 @@ namespace wbt {
             case PortDataTypeDouble:
             {
                 dataSize = sizeof(double);
-                address = data + startIndex;
+                address = static_cast<const double*>(address) + startIndex;
                 break;
             }
             case PortDataTypeSingle:
             {
                 dataSize = sizeof(float);
-                address = ((float*)data) + startIndex;
+                address = static_cast<const float*>(address) + startIndex;
                 break;
             }
             default:
@@ -164,19 +218,19 @@ namespace wbt {
             case PortDataTypeInt32:
             {
                 dataSize = sizeof(int32_t);
-                address = ((int32_t*)data) + startIndex;
+                address = static_cast<const int32_t*>(address) + startIndex;
                 break;
             }
             case PortDataTypeInt16:
             {
                 dataSize = sizeof(int16_t);
-                address = ((int16_t*)data) + startIndex;
+                address = static_cast<const int16_t*>(address) + startIndex;
                 break;
             }
             case PortDataTypeInt8:
             {
                 dataSize = sizeof(int8_t);
-                address = ((int8_t*)data) + startIndex;
+                address = static_cast<const int8_t*>(address) + startIndex;
                 break;
             }
             default:
@@ -223,19 +277,19 @@ namespace wbt {
             case PortDataTypeUInt32:
             {
                 dataSize = sizeof(uint32_t);
-                address = ((uint32_t*)data) + startIndex;
+                address = data + startIndex;
                 break;
             }
             case PortDataTypeUInt16:
             {
                 dataSize = sizeof(uint16_t);
-                address = ((uint16_t*)data) + startIndex;
+                address = data + startIndex;
                 break;
             }
             case PortDataTypeUInt8:
             {
                 dataSize = sizeof(uint8_t);
-                address = ((uint8_t*)data) + startIndex;
+                address = data + startIndex;
                 break;
             }
             default:
@@ -255,7 +309,7 @@ namespace wbt {
     {
         if (isConstPort) return;
         unsigned dataSize = sizeof(bool);
-        const void * address = ((bool*)data) + startIndex;
+        const void* address = static_cast<const bool*>(data) + startIndex;
 
         memcpy(contiguousData, address, dataSize * length);
     }
