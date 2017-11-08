@@ -1,38 +1,40 @@
 #ifndef WBT_DOTJDOTQ_H
 #define WBT_DOTJDOTQ_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <iDynTree/Model/Indices.h>
+#include <iDynTree/Core/VectorFixSize.h>
 
 namespace wbt {
     class DotJNu;
 }
 
-class wbt::DotJNu : public wbt::WBIModelBlock {
+class wbt::DotJNu : public wbt::WBBlock
+{
+private:
+    // Output
+    iDynTree::Vector6* m_dotJNu;
 
-    double *m_basePose;
-    double *m_dotJNu;
+    // Other variables
+    bool m_frameIsCoM;
+    iDynTree::FrameIndex m_frameIndex;
 
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
-    double *m_baseVelocity;
-    double *m_jointsVelocity;
-
-    int m_frameIndex;
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned INPUT_IDX_BASE_VEL;
+    static const unsigned INPUT_IDX_JOINT_VEL;
+    static const unsigned OUTPUT_IDX_DOTJ_NU;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
     DotJNu();
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
-    
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
 };
 
-
-#endif /* end of include guard: WBT_DOTJDOTQ_H */
+#endif /* WBT_DOTJDOTQ_H */
