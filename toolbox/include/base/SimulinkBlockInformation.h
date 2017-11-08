@@ -2,8 +2,8 @@
 #define WBT_SIMULINKBLOCKINFORMATION_H
 
 #include "BlockInformation.h"
-
 #include "simstruc.h"
+#include "AnyType.h"
 
 namespace wbt {
     class SimulinkBlockInformation;
@@ -18,21 +18,24 @@ public:
 
     virtual ~SimulinkBlockInformation();
 
-    virtual bool optionFromKey(const std::string& key, Data &option) const;
+    bool optionFromKey(const std::string& key, double& option) const override;
 
     //Parameters methods
-    virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter);
-    virtual Data getScalarParameterAtIndex(unsigned parameterIndex);
+    bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) override;
+    bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) override;
+    bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) override;
+    bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) override;
+    bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) override;
 
     //Port information methods
     virtual bool setNumberOfInputPorts(unsigned numberOfPorts);
-    virtual bool setNumberOfOuputPorts(unsigned numberOfPorts);
     virtual bool setInputPortVectorSize(unsigned portNumber, int portSize);
     virtual bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns);
     virtual bool setOutputPortVectorSize(unsigned portNumber, int portSize);
     virtual bool setOutputPortMatrixSize(unsigned portNumber, int rows, int columns);
     virtual bool setInputPortType(unsigned portNumber, PortDataType portType);
     virtual bool setOutputPortType(unsigned portNumber, PortDataType portType);
+    bool setNumberOfOutputPorts(unsigned numberOfPorts) override;
 
     //Port data
     virtual unsigned getInputPortWidth(unsigned portNumber);

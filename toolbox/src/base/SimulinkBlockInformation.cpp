@@ -1,8 +1,10 @@
 #include "SimulinkBlockInformation.h"
 
 #include "Signal.h"
-
+#include "MxAnyType.h"
 #include "simstruc.h"
+#include <string>
+#include <vector>
 
 namespace wbt {
 
@@ -11,10 +13,10 @@ namespace wbt {
 
     SimulinkBlockInformation::~SimulinkBlockInformation() {}
 
-    bool SimulinkBlockInformation::optionFromKey(const std::string& key, Data &option) const
+    bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& option) const
     {
         if (key == wbt::BlockOptionPrioritizeOrder) {
-            option.uint32Data(SS_OPTION_PLACE_ASAP);
+            option = SS_OPTION_PLACE_ASAP;
             return true;
         }
 
@@ -24,26 +26,33 @@ namespace wbt {
     //Parameters methods
     bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter)
     {
-        int_T buflen, status;
-        char *buffer = NULL;
-
-        //robot name
-        buflen = (1 + mxGetN(ssGetSFcnParam(simstruct, parameterIndex))) * sizeof(mxChar);
-        buffer = static_cast<char*>(mxMalloc(buflen));
-        status = mxGetString((ssGetSFcnParam(simstruct, parameterIndex)), buffer, buflen);
-        if (status) {
-            return false;
-        }
-        stringParameter = buffer;
-        mxFree(buffer); buffer = NULL;
-        return true;
+        const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+        return MxAnyType(blockParam).asString(stringParameter);
     }
 
-    Data SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex)
+    bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStruct& map)
     {
-        Data data;
-        data.doubleData(mxGetScalar(ssGetSFcnParam(simstruct, parameterIndex)));
-        return data;
+        const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+        return MxAnyType(blockParam).asAnyStruct(map);
+    }
+
+
+    bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec)
+    {
+        const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+        return MxAnyType(blockParam).asVectorDouble(vec);
+    }
+
+    bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex, double& value)
+    {
+        const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+        return MxAnyType(blockParam).asDouble(value);
+    }
+
+    bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex, bool& value)
+    {
+        const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+        return MxAnyType(blockParam).asBool(value);
     }
 
     //Port information methods
@@ -52,7 +61,7 @@ namespace wbt {
         return ssSetNumInputPorts(simstruct, numberOfPorts);
     }
 
-    bool SimulinkBlockInformation::setNumberOfOuputPorts(unsigned numberOfPorts)
+    bool SimulinkBlockInformation::setNumberOfOutputPorts(unsigned numberOfPorts)
     {
         return ssSetNumOutputPorts(simstruct, numberOfPorts);
     }
@@ -170,7 +179,8 @@ namespace wbt {
     {
         Signal signal;
         InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, portNumber);
-        signal.initSignalType(PortDataTypeDouble, true);
+        bool isConstPort = true;
+        signal.initSignalType(PortDataTypeDouble, isConstPort);
         signal.setNonContiguousBuffer(port);
         return signal;
     }
@@ -178,9 +188,10 @@ namespace wbt {
     wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber)
     {
         Signal signal;
-        signal.initSignalType(PortDataTypeDouble, false);
+        bool isConstPort = false;
+        signal.initSignalType(PortDataTypeDouble, isConstPort);
         signal.setContiguousBuffer(ssGetOutputPortSignal(simstruct, portNumber));
         return signal;
     }
-    
+
 }
