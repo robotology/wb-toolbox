@@ -131,11 +131,11 @@ configure_block(BLOCK_NAME "Real Time Synchronizer"
     SOURCES src/RealTimeSynchronizer.cpp
     HEADERS include/RealTimeSynchronizer.h)
 
-configure_block(BLOCK_NAME "YARP - WBI Converter"
+configure_block(BLOCK_NAME "Model Partitioner"
     GROUP "Utilities"
     LIST_PREFIX WBT
-    SOURCES src/YARPWBIConverter.cpp
-    HEADERS include/YARPWBIConverter.h)
+    SOURCES src/ModelPartitioner.cpp
+    HEADERS include/ModelPartitioner.h)
 
 configure_block(BLOCK_NAME "Yarp Clock"
     GROUP "Utilities"
