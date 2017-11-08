@@ -22,19 +22,19 @@ namespace yarp {
 
 class wbt::MinimumJerkTrajectoryGenerator : public wbt::Block {
 public:
-    static std::string ClassName;
-    
+    static const std::string ClassName;
+
     MinimumJerkTrajectoryGenerator();
-    
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
+
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
+
 private:
 
-    iCub::ctrl::minJerkTrajGen *m_generator;
+    iCub::ctrl::minJerkTrajGen* m_generator;
 
     int m_outputFirstDerivativeIndex;
     int m_outputSecondDerivativeIndex;
@@ -45,9 +45,18 @@ private:
     bool m_explicitInitialValue;
     bool m_externalSettlingTime;
     bool m_resetOnSettlingTimeChange;
-    yarp::sig::Vector *m_initialValues;
-    yarp::sig::Vector *m_reference;
-    
+    yarp::sig::Vector* m_initialValues;
+    yarp::sig::Vector* m_reference;
+
+    static const unsigned PARAM_IDX_SAMPLE_TIME;           // Sample Time (double)
+    static const unsigned PARAM_IDX_SETTLING_TIME;         // Settling Time (double)
+    static const unsigned PARAM_IDX_OUTPUT_1ST_DERIVATIVE; // Output first derivative (boolean)
+    static const unsigned PARAM_IDX_OUTPUT_2ND_DERIVATIVE; // Output second derivative (boolean)
+    static const unsigned PARAM_IDX_INITIAL_VALUE;         // Initial signal value as input (boolean)
+    static const unsigned PARAM_IDX_EXT_SETTLINGTIME;      // Control if the settling time comes from
+                                                           // external port or static parameter
+    static const unsigned PARAM_IDX_RESET_CHANGEST;        // True if the block should reset the traj
+                                                           // generator in case settling time changes
 };
 
 #endif /* end of include guard: WBT_MINJERKTRAJGENERATOR_H */
