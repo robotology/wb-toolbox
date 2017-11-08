@@ -1,16 +1,11 @@
 #include "SimulatorSynchronizer.h"
-#include "Error.h"
+#include "Log.h"
 #include "BlockInformation.h"
+#include "thrift/ClockServer.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
-#include <thrift/ClockServer.h>
 #include <cmath>
-
-#define PARAM_IDX_1 1                           // Period
-#define PARAM_IDX_2 2                           // Gazebo clock port
-#define PARAM_IDX_3 3                           // RPC client port name
-
 
 namespace wbt {
 
@@ -26,16 +21,19 @@ namespace wbt {
         yarp::os::Port clientPort;
         gazebo::ClockServer clockServer;
     };
-    
-    std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
+
+    const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
+
+    const unsigned SimulatorSynchronizer::PARAM_PERIOD     = 1;
+    const unsigned SimulatorSynchronizer::PARAM_GZCLK_PORT = 2;
+    const unsigned SimulatorSynchronizer::PARAM_RPC_PORT   = 3;
 
     SimulatorSynchronizer::SimulatorSynchronizer()
     : m_period(0.01)
     , m_firstRun(true)
-    , m_rpcData(0) {}
+    , m_rpcData(0)
+    {}
 
-    SimulatorSynchronizer::~SimulatorSynchronizer() {}
-    
     unsigned SimulatorSynchronizer::numberOfParameters() { return 3; }
 
     std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
@@ -43,43 +41,57 @@ namespace wbt {
         return std::vector<std::string>(1, wbt::BlockOptionPrioritizeOrder);
     }
 
-    bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
+    bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     {
-        // Specify I/O
         // INPUTS
+        // ======
+        //
+        // No inputs
+        //
+
         if (!blockInfo->setNumberOfInputPorts(0)) {
-            if (error) error->message = "Failed to set input port number to 0";
+            Log::getSingleton().error("Failed to set input port number to 0.");
             return false;
         }
 
-        if (!blockInfo->setNumberOfOuputPorts(0)) {
-            if (error) error->message = "Failed to set output port number";
+        // OUTPUT
+        // ======
+        //
+        // No outputs
+        //
+
+        if (!blockInfo->setNumberOfOutputPorts(0)) {
+            Log::getSingleton().error("Failed to set output port number.");
             return false;
         }
 
         return true;
     }
 
-    bool SimulatorSynchronizer::initialize(BlockInformation *blockInfo, wbt::Error *error)
+    bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     {
-        m_period = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1).doubleData();
         std::string serverPortName;
         std::string clientPortName;
 
-        if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_2, serverPortName) || !blockInfo->getStringParameterAtIndex(PARAM_IDX_3, clientPortName)) {
-            if (error) error->message = "Error reading RPC parameters";
+        bool ok = true;
+        ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period);
+        ok = ok & blockInfo->getStringParameterAtIndex(PARAM_GZCLK_PORT, serverPortName);
+        ok = ok & blockInfo->getStringParameterAtIndex(PARAM_RPC_PORT, clientPortName);
+
+        if (!ok) {
+            Log::getSingleton().error("Error reading RPC parameters.");
             return false;
         }
 
         yarp::os::Network::init();
         if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork()) {
-            if (error) error->message = "Error initializing Yarp network";
+            Log::getSingleton().error("Error initializing Yarp network.");
             return false;
         }
 
         m_rpcData = new struct RPCData();
         if (!m_rpcData) {
-            if (error) error->message = "Error creating RPC data structure";
+            Log::getSingleton().error("Error creating RPC data structure.");
             return false;
         }
 
@@ -90,32 +102,34 @@ namespace wbt {
 
         return true;
     }
-    
-    bool SimulatorSynchronizer::terminate(BlockInformation */*S*/, wbt::Error *error)
+
+    bool SimulatorSynchronizer::terminate(BlockInformation* /*S*/)
     {
         if (m_rpcData) {
             if (m_rpcData->clientPort.isOpen()) {
                 m_rpcData->clockServer.continueSimulation();
-                if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
-                    if (error) error->message = "Error disconnecting from simulator clock server";
+                if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName,
+                                                   m_rpcData->configuration.serverPortName)) {
+                    Log::getSingleton().error("Error disconnecting from simulator clock server.");
                 }
                 m_rpcData->clientPort.close();
             }
             delete m_rpcData;
-            m_rpcData = 0;
+            m_rpcData = nullptr;
         }
         yarp::os::Network::fini();
         return true;
     }
 
-    bool SimulatorSynchronizer::output(BlockInformation */*S*/, wbt::Error *error)
+    bool SimulatorSynchronizer::output(BlockInformation* /*S*/)
     {
         if (m_firstRun) {
             m_firstRun = false;
 
-            if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName)
-                || !yarp::os::Network::connect(m_rpcData->configuration.clientPortName, m_rpcData->configuration.serverPortName)) {
-                if (error) error->message = "Error connecting to simulator clock server";
+            if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName) ||
+                !yarp::os::Network::connect(m_rpcData->configuration.clientPortName,
+                                            m_rpcData->configuration.serverPortName)) {
+                Log::getSingleton().error("Error connecting to simulator clock server.");
                 return false;
             }
 
