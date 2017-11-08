@@ -1,6 +1,6 @@
 #include "YarpRead.h"
 
-#include "Error.h"
+#include "Log.h"
 #include "BlockInformation.h"
 #include "Signal.h"
 
@@ -12,55 +12,79 @@
 #include <algorithm>
 #include <iostream>
 
-#define PARAM_IDX_1 1                           // port name
-#define PARAM_IDX_2 2                           // Size of the port you're reading
-#define PARAM_IDX_3 3                           // boolean for blocking reading
-#define PARAM_IDX_4 4                           // boolean to stream timestamp
-#define PARAM_IDX_5 5                           // Autoconnect boolean
-#define PARAM_IDX_6 6                           // Error on missing port if autoconnect is on boolean
-
 namespace wbt {
-    
-    std::string YarpRead::ClassName = "YarpRead";
+
+    const std::string YarpRead::ClassName = "YarpRead";
+
+    const unsigned YarpRead::PARAM_IDX_PORTNAME    = 1; // port name
+    const unsigned YarpRead::PARAM_IDX_PORTSIZE    = 2; // Size of the port you're reading
+    const unsigned YarpRead::PARAM_IDX_WAITDATA    = 3; // boolean for blocking reading
+    const unsigned YarpRead::PARAM_IDX_READ_TS     = 4; // boolean to stream timestamp
+    const unsigned YarpRead::PARAM_IDX_AUTOCONNECT = 5; // Autoconnect boolean
+    const unsigned YarpRead::PARAM_IDX_ERR_NO_PORT = 6; // Error on missing port if autoconnect is on boolean
 
     YarpRead::YarpRead()
     : m_autoconnect(false)
     , m_blocking(false)
     , m_shouldReadTimestamp(false)
     , m_errorOnMissingPort(true)
-    , m_port(0) {}
+    , m_port(0)
+    {}
 
     unsigned YarpRead::numberOfParameters() { return 6; }
 
-    bool YarpRead::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
+    bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     {
-        // Specify I/O
         // INPUTS
+        // ======
+        //
+        // No inputs
+        //
+
         if (!blockInfo->setNumberOfInputPorts(0)) {
-            if (error) error->message = "Failed to set input port number to 0";
+            Log::getSingleton().error("Failed to set input port number to 0.");
             return false;
         }
-        
+
         // OUTPUTS
-        bool shouldReadTimestamp = blockInfo->getScalarParameterAtIndex(PARAM_IDX_4).booleanData();
-        int signalSize = blockInfo->getScalarParameterAtIndex(PARAM_IDX_2).int32Data();
-        bool autoconnect = blockInfo->getScalarParameterAtIndex(PARAM_IDX_5).booleanData();
+        // =======
+        //
+        // 1) Vector with the data read from the port (1 x signalSize)
+        // 2) Optional: Timestamp read from the port
+        // 3) Optional: If autoconnect is disabled, this output becomes 1 when data starts arriving
+        //              (and hence it means that the user connected manually the port)
+        //
+
+        bool shouldReadTimestamp;
+        bool autoconnect;
+        double signalSize;
+
+        bool ok = false;
+
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, shouldReadTimestamp);
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, autoconnect);
+        ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_IDX_PORTSIZE, signalSize);
+
+        if (!ok) {
+            Log::getSingleton().error("Failed to read input parameters.");
+            return false;
+        }
 
         if (signalSize < 0) {
-            if (error) error->message = "Signal size must be non negative";
+            Log::getSingleton().error("Signal size must be non negative.");
             return false;
         }
 
         int numberOfOutputPorts = 1;
-        if (shouldReadTimestamp) numberOfOutputPorts++; //timestamp is the second port
-        if (!autoconnect) numberOfOutputPorts++; //!autoconnect => additional port with 1/0 depending on the connection status
+        numberOfOutputPorts += static_cast<unsigned>(shouldReadTimestamp); //timestamp is the second port
+        numberOfOutputPorts += static_cast<unsigned>(!autoconnect); //!autoconnect => additional port with 1/0 depending on the connection status
 
-        if (!blockInfo->setNumberOfOuputPorts(numberOfOutputPorts)) {
-            if (error) error->message = "Failed to set output port number";
+        if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
+            Log::getSingleton().error("Failed to set output port number.");
             return false;
         }
 
-        blockInfo->setOutputPortVectorSize(0, signalSize);
+        blockInfo->setOutputPortVectorSize(0, static_cast<int>(signalSize));
         blockInfo->setOutputPortType(0, PortDataTypeDouble);
 
         int portIndex = 1;
@@ -77,76 +101,92 @@ namespace wbt {
         return true;
     }
 
-    bool YarpRead::initialize(BlockInformation *blockInfo, wbt::Error *error)
+    bool YarpRead::initialize(BlockInformation* blockInfo)
     {
         using namespace yarp::os;
         using namespace yarp::sig;
 
         Network::init();
 
-        if (!Network::initialized() || !Network::checkNetwork(5.0)){
-            if (error) error->message = "YARP server wasn't found active!! \n";
+        if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+            Log::getSingleton().error("YARP server wasn't found active!!");
             return false;
         }
 
-        m_shouldReadTimestamp = blockInfo->getScalarParameterAtIndex(PARAM_IDX_4).booleanData();
-        m_autoconnect = blockInfo->getScalarParameterAtIndex(PARAM_IDX_5).booleanData();
-        m_blocking = blockInfo->getScalarParameterAtIndex(PARAM_IDX_3).booleanData();
-        m_errorOnMissingPort = blockInfo->getScalarParameterAtIndex(PARAM_IDX_6).booleanData();
+        bool ok = true;
+
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, m_shouldReadTimestamp);
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_WAITDATA, m_blocking);
+        ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
+
+        if (!ok) {
+            Log::getSingleton().error("Failed to read input parameters.");
+            return false;
+        }
 
         std::string portName;
-        if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_1, portName)) {
-            if (error) error->message = "Cannot retrieve string from port name parameter";
+        if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_PORTNAME, portName)) {
+            Log::getSingleton().error("Cannot retrieve string from port name parameter.");
             return false;
         }
 
         std::string sourcePortName;
         std::string destinationPortName;
 
+        // Autoconnect: the block opens a temporary input port ..., and it connects to an existing
+        //              port portName (which is streaming data).
         if (m_autoconnect) {
             sourcePortName = portName;
             destinationPortName = "...";
-        } else {
+        }
+        // Manual connection: the block opens an input port portName, and waits a manual connection to an
+        //                    output port.
+        else {
             destinationPortName = portName;
         }
 
         m_port = new BufferedPort<Vector>();
 
         if (!m_port || !m_port->open(destinationPortName)) {
-            if (error) error->message = "Error while opening yarp port";
+            Log::getSingleton().error("Error while opening yarp port.");
             return false;
         }
 
         if (m_autoconnect) {
             if (!Network::connect(sourcePortName, m_port->getName())) {
-                std::cerr << "Failed to connect " << sourcePortName << " to " << m_port->getName() << "\n";
+                Log::getSingleton().warning("Failed to connect " +
+                                            sourcePortName +
+                                            " to "
+                                            + m_port->getName());
                 if (m_errorOnMissingPort) {
-                    if (error) error->message = "ERROR connecting ports";
+                    Log::getSingleton().error("Failed connecting ports.");
                     return false;
                 }
             }
         }
         return true;
     }
-    bool YarpRead::terminate(BlockInformation */*S*/, wbt::Error */*error*/)
+
+    bool YarpRead::terminate(BlockInformation* /*blockInfo*/)
     {
         if (m_port) {
             m_port->close();
             delete m_port;
-            m_port = 0;
+            m_port = nullptr;
         }
         yarp::os::Network::fini();
         return true;
     }
-    
-    bool YarpRead::output(BlockInformation *blockInfo, wbt::Error */*error*/)
+
+    bool YarpRead::output(BlockInformation* blockInfo)
     {
         int timeStampPortIndex = 1;
         int connectionStatusPortIndex = 1;
 
-        yarp::sig::Vector *v = m_port->read(m_blocking); // Read from the port.  Waits until data arrives.
-        if (v)
-        {
+        yarp::sig::Vector* v = m_port->read(m_blocking); // Read from the port.  Waits until data arrives.
+
+        if (v) {
             if (m_shouldReadTimestamp) {
                 connectionStatusPortIndex++;
                 yarp::os::Stamp timestamp;
@@ -155,9 +195,11 @@ namespace wbt {
                 Signal pY1 = blockInfo->getOutputPortSignal(timeStampPortIndex);
                 pY1.set(0, timestamp.getCount());
                 pY1.set(1, timestamp.getTime());
-
             }
+
             Signal signal = blockInfo->getOutputPortSignal(0);
+
+            // Crop the buffer if it exceeds the OutputPortWidth.
             signal.setBuffer(v->data(), std::min(blockInfo->getOutputPortWidth(0), (unsigned)v->size()));
 
             if (!m_autoconnect) {
@@ -170,6 +212,7 @@ namespace wbt {
                 //we set the port to zero again
             }
         }
+
         return true;
     }
 }
