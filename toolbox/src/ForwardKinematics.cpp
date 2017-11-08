@@ -2,160 +2,192 @@
 
 #include "BlockInformation.h"
 #include "Signal.h"
-#include "Error.h"
-#include "WBInterface.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include "Log.h"
+#include "RobotInterface.h"
+#include <memory>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/KinDynComputations.h>
 #include <Eigen/Core>
 
 namespace wbt {
 
-    std::string ForwardKinematics::ClassName = "ForwardKinematics";
+    const std::string ForwardKinematics::ClassName = "ForwardKinematics";
+
+    const unsigned ForwardKinematics::INPUT_IDX_BASE_POSE = 0;
+    const unsigned ForwardKinematics::INPUT_IDX_JOINTCONF = 1;
+    const unsigned ForwardKinematics::OUTPUT_IDX_FW_FRAME = 0;
 
     ForwardKinematics::ForwardKinematics()
-    : m_basePose(0)
-    , m_frameForwardKinematics(0)
-    , m_basePoseRaw(0)
-    , m_configuration(0)
-    , m_frameIndex(-1) {}
+    : m_frameIsCoM(false)
+    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    {}
 
     unsigned ForwardKinematics::numberOfParameters()
     {
-        return WBIBlock::numberOfParameters() + 1;
+        return WBBlock::numberOfParameters() + 1;
     }
 
-    bool ForwardKinematics::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
+    bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
+        // Memory allocation / Saving data not allowed here
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+        if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
 
-        // Specify I/O
-        // Input ports:
-        // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
-        // - DoFs vector for the robot (joints) configurations
+        // INPUTS
+        // ======
+        //
+        // 1) Homogeneous transform for base pose wrt the world frame (4x4 matrix)
+        // 2) Joints position (1xDoFs vector)
+        //
 
+        // Number of inputs
         if (!blockInfo->setNumberOfInputPorts(2)) {
-            if (error) error->message = "Failed to configure the number of input ports";
+            Log::getSingleton().error("Failed to configure the number of input ports.");
             return false;
         }
-        bool success = true;
-        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4);
-        success = success && blockInfo->setInputPortVectorSize(1, dofs);
 
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
-        blockInfo->setInputPortType(1, PortDataTypeDouble);
+        const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+        // Size and type
+        bool success = true;
+        success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+        success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+
+        blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
+        blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
 
         if (!success) {
-            if (error) error->message = "Failed to configure input ports";
+            Log::getSingleton().error("Failed to configure input ports.");
             return false;
         }
 
-        // Output port:
-        // - (4)x(4) matrix representing the homogenous transformation between the specified frame and the world frame
-        if (!blockInfo->setNumberOfOuputPorts(1)) {
-            if (error) error->message = "Failed to configure the number of output ports";
+        // OUTPUTS
+        // =======
+        //
+        // 1) Homogeneous transformation between the world and the specified frame (4x4 matrix)
+        //
+
+        // Number of outputs
+        if (!blockInfo->setNumberOfOutputPorts(1)) {
+            Log::getSingleton().error("Failed to configure the number of output ports.");
             return false;
         }
 
-        success = blockInfo->setOutputPortMatrixSize(0, 4, 4);
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
+        // Size and type
+        success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, 4, 4);
+        blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, PortDataTypeDouble);
 
         return success;
     }
 
-    bool ForwardKinematics::initialize(BlockInformation *blockInfo, wbt::Error *error)
+    bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     {
-        using namespace yarp::os;
-        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
+        if (!WBBlock::initialize(blockInfo)) return false;
 
-        int parentParameters = WBIBlock::numberOfParameters() + 1;
+        // INPUT PARAMETERS
+        // ================
+
         std::string frame;
-        if (!blockInfo->getStringParameterAtIndex(parentParameters, frame)) {
-            if (error) error->message = "Cannot retrieve string from frame parameter";
+        int parentParameters = WBBlock::numberOfParameters();
+
+        if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
+            Log::getSingleton().error("Cannot retrieve string from frame parameter.");
             return false;
         }
 
-        //here obtain joint list and get the frame
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (!interface) {
-            if (error) error->message = "Cannot retrieve handle to WBI interface";
+        // Check if the frame is valid
+        // ---------------------------
+
+        const auto& model = getRobotInterface()->getKinDynComputations();
+        if (!model) {
+            Log::getSingleton().error("Cannot retrieve handle to WBI model.");
             return false;
         }
-        wbi::IDList frames =  interface->getFrameList();
+
         if (frame != "com") {
-            if (!frames.idToIndex(wbi::ID(frame), m_frameIndex)) {
-                if (error) error->message = "Cannot find " + frame + " in the frame list";
+            m_frameIndex = model->getFrameIndex(frame);
+            if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+                Log::getSingleton().error("Cannot find " + frame + " in the frame list.");
                 return false;
             }
-        } else {
-            m_frameIndex = wbi::wholeBodyInterface::COM_LINK_ID;
+        }
+        else {
+            m_frameIsCoM = true;
+            m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
         }
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        m_basePose = new double[16];
-        m_frameForwardKinematics = new double[4 * 4];
-        m_basePoseRaw = new double[16];
-        m_configuration = new double[dofs];
-
-        return m_basePose && m_frameForwardKinematics && m_basePoseRaw && m_configuration;
+        return true;
     }
 
-    bool ForwardKinematics::terminate(BlockInformation *blockInfo, wbt::Error *error)
+    bool ForwardKinematics::terminate(BlockInformation* blockInfo)
     {
-        if (m_basePose) {
-            delete [] m_basePose;
-            m_basePose = 0;
-        }
-        if (m_frameForwardKinematics) {
-            delete [] m_frameForwardKinematics;
-            m_frameForwardKinematics = 0;
-        }
-        if (m_basePoseRaw) {
-            delete [] m_basePoseRaw;
-            m_basePoseRaw = 0;
-        }
-        if (m_configuration) {
-            delete [] m_configuration;
-            m_configuration = 0;
-        }
-        return WBIModelBlock::terminate(blockInfo, error);
+        return WBBlock::terminate(blockInfo);
     }
 
-    bool ForwardKinematics::output(BlockInformation *blockInfo, wbt::Error */*error*/)
+    bool ForwardKinematics::output(BlockInformation* blockInfo)
     {
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (interface) {
-            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
-            Signal configuration = blockInfo->getInputPortSignal(1)
-            ;
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
-                m_configuration[i] = configuration.get(i).doubleData();
-            }
+        using namespace iDynTree;
+        using namespace Eigen;
+        typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+        typedef Matrix<double, 4, 4, Eigen::RowMajor> Matrix4diDynTree;
 
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_basePose);
-            basePose = basePoseColMajor;
+        const auto& model = getRobotInterface()->getKinDynComputations();
 
-            wbi::Frame frame;
-            wbi::frameFromSerialization(basePose.data(), frame);
-
-            wbi::Frame outputFrame;
-            interface->computeH(m_configuration, frame, m_frameIndex, outputFrame);
-            outputFrame.get4x4Matrix(m_frameForwardKinematics);
-
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > frameRowMajor(m_frameForwardKinematics);
-
-            Signal output = blockInfo->getOutputPortSignal(0);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > frameColMajor((double*)output.getContiguousBuffer(), 4, 4);
-            frameColMajor = frameRowMajor;
-            return true;
+        if (!model) {
+            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            return false;
         }
-        return false;
+
+        // Get the signals and convert them to iDynTree objects
+        // ====================================================
+
+        unsigned signalWidth;
+
+        // Base pose
+        Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
+        fromEigen(robotState.m_world_T_base,
+                  Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
+
+        // Joints position
+        Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+        signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
+        robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
+
+        // TODO: the other 3 inputs are taken from the previous block's setRobotState().
+        //       How to handle it? What happens if a nullptr is passed?
+
+        // Update the robot status
+        // =======================
+        model->setRobotState(robotState.m_world_T_base,
+                             robotState.m_jointsPosition,
+                             robotState.m_baseVelocity,
+                             robotState.m_jointsVelocity,
+                             robotState.m_gravity);
+
+        // Output
+        // ======
+
+        iDynTree::Transform world_H_frame;
+
+        // Compute the transform to the selected frame
+        if (!m_frameIsCoM) {
+            world_H_frame = model->getWorldTransform(m_frameIndex);
+        }
+        else {
+            world_H_frame.setPosition(model->getCenterOfMassPosition());
+        }
+
+        // Get the output signal memory location
+        Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
+
+        // Allocate objects for row-major -> col-major conversion
+        Map<const Matrix4diDynTree> world_H_frame_RowMajor = toEigen(world_H_frame.asHomogeneousTransform());
+        Map<Matrix4dSimulink> world_H_frame_ColMajor((double*)output.getContiguousBuffer(),
+                               4, 4);
+
+        // Forward the buffer to Simulink transforming it to ColMajor
+        world_H_frame_ColMajor = world_H_frame_RowMajor;
+        return true;
     }
 }
