@@ -2,6 +2,7 @@
 #define WBT_SIGNAL_H
 
 #include "BlockInformation.h"
+#include <vector>
 
 namespace wbt {
     class Signal;
@@ -29,6 +30,7 @@ public:
 
     const Data get(unsigned index) const;
     void* getContiguousBuffer();
+    std::vector<double> getStdVector(unsigned length) const;
 
     //the missing are cast
     void set(unsigned index, double data);
