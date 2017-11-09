@@ -128,6 +128,15 @@ namespace wbt {
         return this->contiguousData;
     }
 
+    std::vector<double> Signal::getStdVector(unsigned length) const
+    {
+        std::vector<double> v(length);
+        for (unsigned i = 0; i < length; ++i) {
+            v[i] = get(i).doubleData();
+        }
+        return v;
+    }
+
     //the missing are cast
     void Signal::set(unsigned index, double data)
     {
