@@ -3,7 +3,7 @@
 wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName)
 {
     wbt::Block *block = NULL;
-    
+
     if (blockClassName == wbt::YarpRead::ClassName) {
         block = new wbt::YarpRead();
     } else if (blockClassName == wbt::YarpWrite::ClassName) {

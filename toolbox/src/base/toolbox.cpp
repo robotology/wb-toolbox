@@ -32,7 +32,7 @@
 #include <string>
 #include <yarp/os/LogStream.h>
 
-static void catchLogMessages(bool status, SimStruct *S, std::string prefix)
+static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
 {
     // Initialize static buffers
     const unsigned bufferLen = 1024;
@@ -97,7 +97,7 @@ static void catchLogMessages(bool status, SimStruct *S, std::string prefix)
 // Function: MDL_CHECK_PARAMETERS
 #define MDL_CHECK_PARAMETERS
 #if defined(MDL_CHECK_PARAMETERS) && defined(MATLAB_MEX_FILE)
-static void mdlCheckParameters(SimStruct *S)
+static void mdlCheckParameters(SimStruct* S)
 {
     UNUSED_ARG(S);
     //TODO: still to find a way to call Block implementation
@@ -105,8 +105,8 @@ static void mdlCheckParameters(SimStruct *S)
 #endif  /*MDL_CHECK_PARAMETERS*/
 
 #define MDL_SET_INPUT_PORT_DIMENSION_INFO
-static void mdlSetInputPortDimensionInfo(SimStruct *S, int_T port,
-                                         const DimsInfo_T *dimsInfo)
+static void mdlSetInputPortDimensionInfo(SimStruct* S, int_T port,
+                                         const DimsInfo_T* dimsInfo)
 {
     //TODO: for now accept the proposed size.
     //If we want to change the behaviour we have to implement some callbacks
@@ -114,8 +114,8 @@ static void mdlSetInputPortDimensionInfo(SimStruct *S, int_T port,
 }
 
 #define MDL_SET_OUTPUT_PORT_DIMENSION_INFO
-static void mdlSetOutputPortDimensionInfo(SimStruct *S, int_T port,
-                                         const DimsInfo_T *dimsInfo)
+static void mdlSetOutputPortDimensionInfo(SimStruct* S, int_T port,
+                                         const DimsInfo_T* dimsInfo)
 {
     //TODO: for now accept the proposed size.
     //If we want to change the behaviour we have to implement some callbacks
@@ -126,7 +126,7 @@ static void mdlSetOutputPortDimensionInfo(SimStruct *S, int_T port,
 // Abstract:
 //    The sizes information is used by Simulink to determine the S-function
 //    block's characteristics (number of inputs, s, states, etc.).
-static void mdlInitializeSizes(SimStruct *S)
+static void mdlInitializeSizes(SimStruct* S)
 {
     // Initialize the Log singleton
     wbt::Log::getSingleton().clear();
@@ -136,10 +136,10 @@ static void mdlInitializeSizes(SimStruct *S)
         catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
         return;
     }
-    char *classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
+    char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
-    wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
+    wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
 
     //We cannot save data in PWork during the initializeSizes phase
     ssSetNumPWork(S, 1);
@@ -211,7 +211,7 @@ static void mdlInitializeSizes(SimStruct *S)
 //   This function is used to specify the sample time(s) for your
 //   S-function. You must register the same number of sample times as
 //   specified in ssSetNumSampleTimes.
-static void mdlInitializeSampleTimes(SimStruct *S)
+static void mdlInitializeSampleTimes(SimStruct* S)
 {
     ssSetSampleTime(S, 0, INHERITED_SAMPLE_TIME);
     ssSetOffsetTime(S, 0, 0.0);
@@ -224,12 +224,12 @@ static void mdlInitializeSampleTimes(SimStruct *S)
 //   have states that should be initialized once, this is the place
 //   to do it.
 #define MDL_START
-static void mdlStart(SimStruct *S)
+static void mdlStart(SimStruct* S)
 {
-    char *classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
+    char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
-    wbt::Block *block = wbt::Block::instantiateBlockWithClassName(className);
+    wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
     ssSetPWorkValue(S, 0, block);
 
     wbt::SimulinkBlockInformation blockInfo(S);
@@ -243,11 +243,11 @@ static void mdlStart(SimStruct *S)
 
 #define MDL_UPDATE
 #if defined(MDL_UPDATE) && defined(MATLAB_MEX_FILE)
-static void mdlUpdate(SimStruct *S, int_T tid)
+static void mdlUpdate(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
     if (ssGetNumPWork(S) > 0) {
-        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
         wbt::SimulinkBlockInformation blockInfo(S);
         bool ok = false;
@@ -262,10 +262,10 @@ static void mdlUpdate(SimStruct *S, int_T tid)
 //Initialize the state vectors of this C MEX S-function
 #define MDL_INITIALIZE_CONDITIONS
 #if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
-static void mdlInitializeConditions(SimStruct *S)
+static void mdlInitializeConditions(SimStruct* S)
 {
     if (ssGetNumPWork(S) > 0) {
-        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
         wbt::SimulinkBlockInformation blockInfo(S);
         bool ok = false;
@@ -280,7 +280,7 @@ static void mdlInitializeConditions(SimStruct *S)
 
 #define MDL_DERIVATIVES
 #if defined(MDL_DERIVATIVES) && defined(MATLAB_MEX_FILE)
-static void mdlDerivatives(SimStruct *S)
+static void mdlDerivatives(SimStruct* S)
 {
     /* Add mdlDerivatives code here */
 }
@@ -291,11 +291,11 @@ static void mdlDerivatives(SimStruct *S)
 // Abstract:
 //   In this function, you compute the outputs of your S-function
 //   block.
-static void mdlOutputs(SimStruct *S, int_T tid)
+static void mdlOutputs(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
     if (ssGetNumPWork(S) > 0) {
-        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
         wbt::SimulinkBlockInformation blockInfo(S);
         bool ok = false;
@@ -306,10 +306,10 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     }
 }
 
-static void mdlTerminate(SimStruct *S)
+static void mdlTerminate(SimStruct* S)
 {
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
-        wbt::Block *block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
         wbt::SimulinkBlockInformation blockInfo(S);
         bool ok = false;

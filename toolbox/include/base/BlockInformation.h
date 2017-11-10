@@ -66,9 +66,9 @@ public:
     /**
      * Convert a block option from its Toolbox identifier to a specific implementation
      *
-     * @param [in] key identifier of the block option
+     * @param [in]  key    identifier of the block option
      * @param [out] option implementation-specific block option
-     * @return true if the option has been converted. False otherwise
+     * @return             true if the option has been converted. False otherwise
      */
     virtual bool optionFromKey(const std::string& key, double& option) const;
 

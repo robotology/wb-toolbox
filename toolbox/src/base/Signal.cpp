@@ -4,9 +4,6 @@
 
 namespace wbt {
 
-
-    Signal::Signal() {}
-
     void Signal::initSignalType(wbt::PortDataType type, bool constPort)
     {
         this->portType = type;
@@ -30,7 +27,7 @@ namespace wbt {
         this->isContiguous = false;
     }
 
-    void Signal::setNonContiguousBuffer(const void* const * buffer)
+    void Signal::setNonContiguousBuffer(const void* const* buffer)
     {
         nonContiguousData = const_cast<void**>(buffer);
         this->isContiguous = false;
@@ -139,13 +136,13 @@ namespace wbt {
         switch (portType) {
             case PortDataTypeDouble:
             {
-                double *buffer = static_cast<double*>(contiguousData);
+                double* buffer = static_cast<double*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
             case PortDataTypeSingle:
             {
-                float *buffer = static_cast<float*>(contiguousData);
+                float* buffer = static_cast<float*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
@@ -154,11 +151,11 @@ namespace wbt {
         }
     }
 
-    void Signal::setBuffer(const double *data, const unsigned length, unsigned startIndex)
+    void Signal::setBuffer(const double* data, const unsigned length, unsigned startIndex)
     {
         if (isConstPort) return;
         unsigned dataSize = 0;
-        const void * address = data;
+        const void* address = data;
 
         switch (portType) {
             case PortDataTypeDouble:
@@ -187,19 +184,19 @@ namespace wbt {
         switch (portType) {
             case PortDataTypeInt32:
             {
-                int32_t *buffer = static_cast<int32_t*>(contiguousData);
+                int32_t* buffer = static_cast<int32_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
             case PortDataTypeInt16:
             {
-                int16_t *buffer = static_cast<int16_t*>(contiguousData);
+                int16_t* buffer = static_cast<int16_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
             case PortDataTypeInt8:
             {
-                int8_t *buffer = static_cast<int8_t*>(contiguousData);
+                int8_t* buffer = static_cast<int8_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
@@ -208,11 +205,11 @@ namespace wbt {
         }
     }
 
-    void Signal::setBuffer(const int32_t *data, const unsigned length, unsigned startIndex)
+    void Signal::setBuffer(const int32_t* data, const unsigned length, unsigned startIndex)
     {
         if (isConstPort) return;
         unsigned dataSize = 0;
-        const void * address = data;
+        const void* address = data;
 
         switch (portType) {
             case PortDataTypeInt32:
@@ -237,7 +234,7 @@ namespace wbt {
                 break;
         }
 
-        memcpy(contiguousData, address, dataSize * length);
+        memcpy(contiguousData, address, dataSize* length);
     }
 
     void Signal::set(unsigned index, uint32_t data)
@@ -246,19 +243,19 @@ namespace wbt {
         switch (portType) {
             case PortDataTypeUInt32:
             {
-                uint32_t *buffer = static_cast<uint32_t*>(contiguousData);
+                uint32_t* buffer = static_cast<uint32_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
             case PortDataTypeUInt16:
             {
-                uint16_t *buffer = static_cast<uint16_t*>(contiguousData);
+                uint16_t* buffer = static_cast<uint16_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
             case PortDataTypeUInt8:
             {
-                uint8_t *buffer = static_cast<uint8_t*>(contiguousData);
+                uint8_t* buffer = static_cast<uint8_t*>(contiguousData);
                 buffer[index] = data;
                 break;
             }
@@ -267,11 +264,11 @@ namespace wbt {
         }
     }
 
-    void Signal::setBuffer(const uint32_t *data, const unsigned length, unsigned startIndex)
+    void Signal::setBuffer(const uint32_t* data, const unsigned length, unsigned startIndex)
     {
         if (isConstPort) return;
         unsigned dataSize = 0;
-        const void * address = data;
+        const void* address = data;
 
         switch (portType) {
             case PortDataTypeUInt32:
@@ -296,22 +293,22 @@ namespace wbt {
                 break;
         }
 
-        memcpy(contiguousData, address, dataSize * length);
+        memcpy(contiguousData, address, dataSize* length);
     }
 
     void Signal::set(unsigned index, bool data)
     {
-        bool *buffer = static_cast<bool*>(contiguousData);
+        bool* buffer = static_cast<bool*>(contiguousData);
         buffer[index] = data;
     }
 
-    void Signal::setBuffer(const bool *data, const unsigned length, unsigned startIndex)
+    void Signal::setBuffer(const bool* data, const unsigned length, unsigned startIndex)
     {
         if (isConstPort) return;
         unsigned dataSize = sizeof(bool);
         const void* address = static_cast<const bool*>(data) + startIndex;
 
-        memcpy(contiguousData, address, dataSize * length);
+        memcpy(contiguousData, address, dataSize* length);
     }
 
 
