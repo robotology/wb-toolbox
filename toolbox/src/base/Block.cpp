@@ -1,15 +1,17 @@
 #include "Block.h"
 #include "toolbox.h"
 
-wbt::Block::~Block() {}
-std::vector<std::string> wbt::Block::additionalBlockOptions() { return std::vector<std::string>(); }
-void wbt::Block::parameterAtIndexIsTunable(unsigned /*index*/, bool &tunable) { tunable = false; }
-bool wbt::Block::checkParameters(wbt::BlockInformation* /*blockInfo*/) { return true; }
+using namespace wbt;
 
-unsigned wbt::Block::numberOfDiscreteStates() { return 0; }
-unsigned wbt::Block::numberOfContinuousStates() { return 0; }
+Block::~Block() {}
+std::vector<std::string> Block::additionalBlockOptions() { return std::vector<std::string>(); }
+void Block::parameterAtIndexIsTunable(unsigned /*index*/, bool &tunable) { tunable = false; }
+bool Block::checkParameters(const BlockInformation* /*blockInfo*/) { return true; }
 
-bool wbt::Block::updateDiscreteState(wbt::BlockInformation* /*blockInfo*/) { return true; }
-bool wbt::Block::stateDerivative(wbt::BlockInformation* /*blockInfo*/) { return true; }
+unsigned Block::numberOfDiscreteStates() { return 0; }
+unsigned Block::numberOfContinuousStates() { return 0; }
 
-bool wbt::Block::initializeInitialConditions(wbt::BlockInformation* /*blockInfo*/) { return true; }
+bool Block::updateDiscreteState(const BlockInformation* /*blockInfo*/) { return true; }
+bool Block::stateDerivative(const BlockInformation* /*blockInfo*/) { return true; }
+
+bool Block::initializeInitialConditions(const BlockInformation* /*blockInfo*/) { return true; }

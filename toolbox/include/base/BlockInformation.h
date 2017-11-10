@@ -58,7 +58,8 @@ namespace wbt {
 class wbt::BlockInformation {
 
 public:
-    virtual ~BlockInformation();
+    BlockInformation() = default;
+    virtual ~BlockInformation() = default;
 
     // Block Options methods
     // =====================
@@ -84,11 +85,13 @@ public:
      *
      * @return true if success, false otherwise
      */
-    virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) = 0;
-    virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) = 0;
-    virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) = 0;
-    virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) = 0;
-    virtual bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) = 0;
+    virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const = 0;
+    virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const = 0;
+    virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const = 0;
+    // virtual bool getAnyTypeAtIndex(unsigned parameterIndex, AnyType* data) = 0;
+    // virtual bool getCellAtIndex(unsigned parameterIndex, AnyCell& map) = 0;
+    virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const = 0;
+    virtual bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const = 0;
 
     // Port information methods
     // ========================
@@ -114,10 +117,10 @@ public:
     // Port data
     // =========
 
-    virtual unsigned getInputPortWidth(unsigned portNumber) = 0;
-    virtual unsigned getOutputPortWidth(unsigned portNumber) = 0;
-    virtual wbt::Signal getInputPortSignal(unsigned portNumber) = 0;
-    virtual wbt::Signal getOutputPortSignal(unsigned portNumber) = 0;
+    virtual unsigned getInputPortWidth(unsigned portNumber) const = 0;
+    virtual unsigned getOutputPortWidth(unsigned portNumber) const = 0;
+    virtual wbt::Signal getInputPortSignal(unsigned portNumber) const = 0;
+    virtual wbt::Signal getOutputPortSignal(unsigned portNumber)const  = 0;
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */

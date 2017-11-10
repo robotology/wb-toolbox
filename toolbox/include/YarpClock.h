@@ -14,9 +14,9 @@ public:
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(BlockInformation* blockInfo) override;
-    bool output(BlockInformation* blockInfo) override;
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
 #endif /* end of include guard: WBT_YARPCLOCK_H */

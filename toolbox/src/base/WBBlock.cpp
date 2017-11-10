@@ -30,7 +30,7 @@ iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::vector<d
 
 unsigned WBBlock::numberOfParameters() { return 2; }
 
-bool WBBlock::getWBToolboxParameters(Configuration& config, BlockInformation* blockInfo)
+bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo)
 {
     // Infos
     // =====
@@ -206,7 +206,7 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool WBBlock::initialize(BlockInformation* blockInfo)
+bool WBBlock::initialize(const BlockInformation* blockInfo)
 {
     // CONFIGURE the ToolboxSingleton
     // ==============================
@@ -235,7 +235,7 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
     return true;
 }
 
-bool WBBlock::terminate(BlockInformation* /*blockInfo*/)
+bool WBBlock::terminate(const BlockInformation* /*blockInfo*/)
 {
     return true;
 }

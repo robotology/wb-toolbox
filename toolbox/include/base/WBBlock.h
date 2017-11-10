@@ -66,7 +66,7 @@ private:
 protected:
     std::string confKey;
     iDynTreeRobotState robotState;
-    bool getWBToolboxParameters(Configuration& config, BlockInformation* blockInfo);
+    bool getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo);
     const std::shared_ptr<wbt::RobotInterface> getRobotInterface();
     const Configuration& getConfiguration();
 
@@ -75,8 +75,8 @@ public:
     ~WBBlock() override = default;
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(BlockInformation* blockInfo) override;
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
 };
 
 #endif /* end of include guard: WBT_WBIBLOCK_H */

@@ -22,11 +22,11 @@ public:
     bool optionFromKey(const std::string& key, double& option) const override;
 
     //Parameters methods
-    bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) override;
-    bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) override;
-    bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) override;
-    bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) override;
-    bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) override;
+    bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const override;
+    bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const override;
+    bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const override;
+    bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const override;
+    bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const override;
 
     //Port information methods
     bool setNumberOfInputPorts(unsigned numberOfPorts) override;
@@ -39,10 +39,10 @@ public:
     bool setOutputPortType(unsigned portNumber, PortDataType portType) override;
 
     //Port data
-    unsigned getInputPortWidth(unsigned portNumber) override;
-    unsigned getOutputPortWidth(unsigned portNumber) override;
-    wbt::Signal getInputPortSignal(unsigned portNumber) override;
-    wbt::Signal getOutputPortSignal(unsigned portNumber) override;
+    unsigned getInputPortWidth(unsigned portNumber) const override;
+    unsigned getOutputPortWidth(unsigned portNumber) const override;
+    wbt::Signal getInputPortSignal(unsigned portNumber) const override;
+    wbt::Signal getOutputPortSignal(unsigned portNumber) const override;
 };
 
 #endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */
