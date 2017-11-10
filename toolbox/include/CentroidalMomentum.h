@@ -28,9 +28,9 @@ public:
 
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(BlockInformation* blockInfo) override;
-    bool output(BlockInformation* blockInfo) override;
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
 #endif /* WBT_CENTROIDALMOMENTUM_H */

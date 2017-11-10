@@ -82,7 +82,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool updateDiscreteState(BlockInformation* blockInfo);
+    virtual bool updateDiscreteState(const BlockInformation* blockInfo);
 
     /**
      * Not called for now
@@ -90,7 +90,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool stateDerivative(BlockInformation* blockInfo);
+    virtual bool stateDerivative(const BlockInformation* blockInfo);
 
 
     /**
@@ -123,7 +123,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool checkParameters(BlockInformation* blockInfo);
+    virtual bool checkParameters(const BlockInformation* blockInfo);
 
     /**
      * Initialize the object for the simulation
@@ -134,7 +134,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initialize(BlockInformation* blockInfo) = 0;
+    virtual bool initialize(const BlockInformation* blockInfo) = 0;
 
     /**
      * Called to initialize the initial conditions
@@ -146,7 +146,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initializeInitialConditions(BlockInformation* blockInfo);
+    virtual bool initializeInitialConditions(const BlockInformation* blockInfo);
 
     /**
      * Perform model cleanup.
@@ -157,7 +157,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool terminate(BlockInformation* blockInfo) = 0;
+    virtual bool terminate(const BlockInformation* blockInfo) = 0;
 
 
 
@@ -170,7 +170,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool output(BlockInformation* blockInfo) = 0;
+    virtual bool output(const BlockInformation* blockInfo) = 0;
 
 public:
 
