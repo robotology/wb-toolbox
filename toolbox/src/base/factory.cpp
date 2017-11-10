@@ -34,6 +34,8 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
         block = new wbt::GetLimits();
     } else if (blockClassName == wbt::CentroidalMomentum::ClassName) {
         block = new wbt::CentroidalMomentum();
+    } else if (blockClassName == wbt::SetLowLevelPID::ClassName) {
+        block = new wbt::SetLowLevelPID();
     }
 #ifdef WBT_USES_ICUB
     else if (blockClassName == wbt::MinimumJerkTrajectoryGenerator::ClassName) {
@@ -48,11 +50,6 @@ wbt::Block* wbt::Block::instantiateBlockWithClassName(std::string blockClassName
     else if (blockClassName == wbt::RemoteInverseKinematics::ClassName) {
         block = new wbt::RemoteInverseKinematics();
     }
-#ifdef WBT_USES_CODYCO_COMMONS
-    else if (blockClassName == wbt::SetLowLevelPID::ClassName) {
-        block = new wbt::SetLowLevelPID();
-    }
-#endif
 
     
     return block;

@@ -1,65 +1,49 @@
 #ifndef WBT_SETLOWLEVELPID_H_
 #define WBT_SETLOWLEVELPID_H_
 
-#include "WBIBlock.h"
-#include <wbi/wbiConstants.h>
-#include <map>
+#include "WBBlock.h"
+#include <unordered_map>
+#include <yarp/dev/IPidControl.h>
 
 namespace wbt {
     class SetLowLevelPID;
-}
-
-namespace wbi {
-    class wholeBodyInterface;
-    class iWholeBodyActuators;
-}
-
-namespace yarpWbi {
-    class PIDList;
+    enum PidDataIndex {
+        PGAIN = 0,
+        IGAIN = 1,
+        DGAIN = 2
+    };
+    typedef std::tuple<double, double, double> PidData;
 }
 
 namespace yarp {
-    namespace os {
-        class Value;
+    namespace dev {
+        class Pid;
     }
 }
 
-typedef std::map<std::string, yarpWbi::PIDList> PidMap;
+class wbt::SetLowLevelPID : public wbt::WBBlock
+{
+private:
+    std::vector<yarp::dev::Pid> m_appliedPidValues;
+    std::vector<yarp::dev::Pid> m_defaultPidValues;
+    std::unordered_map<std::string, PidData> m_pidJointsFromParameters;
 
-class wbt::SetLowLevelPID : public wbt::WBIBlock {
+    yarp::dev::PidControlTypeEnum m_controlType;
 
-    bool m_firstRun;
-    PidMap m_pids;
-    int m_lastGainSetIndex;
-    wbi::ControlMode m_controlMode;
-
-    bool loadLowLevelGainsFromFile(std::string filename,
-                                   const yarpWbi::PIDList &originalList,
-                                   wbi::wholeBodyInterface& interface,
-                                   yarpWbi::PIDList &loadedPIDs);
-
-    bool loadGainsFromValue(const yarp::os::Value &gains,
-                            PidMap &pidMap,
-                            wbi::wholeBodyInterface& interface);
-
-    bool setCurrentGains(const PidMap &pidMap,
-                         std::string key,
-                         wbi::iWholeBodyActuators& actuators);
+    bool readWBTPidConfigObject(BlockInformation* blockInfo);
 
 public:
-    static std::string ClassName;
-    SetLowLevelPID();
+    static const std::string ClassName;
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    SetLowLevelPID() = default;
+    ~SetLowLevelPID() override = default;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    
+    bool initialize(BlockInformation* blockInfo) override;
+    bool terminate(BlockInformation* blockInfo) override;
+    bool output(BlockInformation* blockInfo) override;
 };
-
-
 
 #endif /* end of include guard: WBT_SETLOWLEVELPID_H_ */
