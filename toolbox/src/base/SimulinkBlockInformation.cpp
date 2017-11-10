@@ -1,5 +1,4 @@
 #include "SimulinkBlockInformation.h"
-
 #include "Signal.h"
 #include "MxAnyType.h"
 #include "simstruc.h"
@@ -8,10 +7,9 @@
 
 namespace wbt {
 
-    SimulinkBlockInformation::SimulinkBlockInformation(SimStruct *S)
-    : simstruct(S) {}
-
-    SimulinkBlockInformation::~SimulinkBlockInformation() {}
+    SimulinkBlockInformation::SimulinkBlockInformation(SimStruct* S)
+    : simstruct(S)
+    {}
 
     bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& option) const
     {

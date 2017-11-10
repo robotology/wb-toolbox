@@ -10,13 +10,14 @@ namespace wbt {
     class Signal;
 }
 
-class wbt::SimulinkBlockInformation : public wbt::BlockInformation {
-    SimStruct *simstruct;
+class wbt::SimulinkBlockInformation : public wbt::BlockInformation
+{
+private:
+    SimStruct* simstruct;
 
 public:
-    SimulinkBlockInformation(SimStruct *simstruct);
-
-    virtual ~SimulinkBlockInformation();
+    SimulinkBlockInformation(SimStruct* simstruct);
+    ~SimulinkBlockInformation() override = default;
 
     bool optionFromKey(const std::string& key, double& option) const override;
 
@@ -28,20 +29,20 @@ public:
     bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) override;
 
     //Port information methods
-    virtual bool setNumberOfInputPorts(unsigned numberOfPorts);
-    virtual bool setInputPortVectorSize(unsigned portNumber, int portSize);
-    virtual bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns);
-    virtual bool setOutputPortVectorSize(unsigned portNumber, int portSize);
-    virtual bool setOutputPortMatrixSize(unsigned portNumber, int rows, int columns);
-    virtual bool setInputPortType(unsigned portNumber, PortDataType portType);
-    virtual bool setOutputPortType(unsigned portNumber, PortDataType portType);
+    bool setNumberOfInputPorts(unsigned numberOfPorts) override;
     bool setNumberOfOutputPorts(unsigned numberOfPorts) override;
+    bool setInputPortVectorSize(unsigned portNumber, int portSize) override;
+    bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns) override;
+    bool setOutputPortVectorSize(unsigned portNumber, int portSize) override;
+    bool setOutputPortMatrixSize(unsigned portNumber, int rows, int columns) override;
+    bool setInputPortType(unsigned portNumber, PortDataType portType) override;
+    bool setOutputPortType(unsigned portNumber, PortDataType portType) override;
 
     //Port data
-    virtual unsigned getInputPortWidth(unsigned portNumber);
-    virtual unsigned getOutputPortWidth(unsigned portNumber);
-    virtual wbt::Signal getInputPortSignal(unsigned portNumber);
-    virtual wbt::Signal getOutputPortSignal(unsigned portNumber);
+    unsigned getInputPortWidth(unsigned portNumber) override;
+    unsigned getOutputPortWidth(unsigned portNumber) override;
+    wbt::Signal getInputPortSignal(unsigned portNumber) override;
+    wbt::Signal getOutputPortSignal(unsigned portNumber) override;
 };
 
 #endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */
