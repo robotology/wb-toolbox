@@ -16,13 +16,11 @@
 #include "DotJNu.h"
 #include "GetLimits.h"
 #include "CentroidalMomentum.h"
+#include "SetLowLevelPID.h"
 #ifdef WBT_USES_ICUB
 #include "MinimumJerkTrajectoryGenerator.h"
 #endif
 #ifdef WBT_USES_IPOPT
 #include "InverseKinematics.h"
-#endif
 #include "RemoteInverseKinematics.h"
-#ifdef WBT_USES_CODYCO_COMMONS
-#include "SetLowLevelPID.h"
 #endif
