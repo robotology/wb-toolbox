@@ -14,7 +14,7 @@ using namespace wbt;
 
 const std::string GetMeasurement::ClassName = "GetMeasurement";
 
-void deg2rad(std::vector<double>& v)
+void GetMeasurement::deg2rad(std::vector<double>& v)
 {
     const double deg2rad = (2 * M_PI) / 180.0;
     for (auto& element : v) {

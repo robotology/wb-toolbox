@@ -17,7 +17,7 @@ SetReferences::SetReferences()
 : m_resetControlMode(true)
 {}
 
-void rad2deg(std::vector<double>& v)
+void SetReferences::rad2deg(std::vector<double>& v)
 {
     const double rad2deg = 180.0 / (2 * M_PI);
     for (auto& element : v) {
