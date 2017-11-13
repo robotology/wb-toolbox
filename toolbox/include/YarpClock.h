@@ -12,6 +12,9 @@ class wbt::YarpClock : public wbt::Block
 public:
     static const std::string ClassName;
 
+    YarpClock() = default;
+    ~YarpClock() override = default;
+
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(const BlockInformation* blockInfo) override;

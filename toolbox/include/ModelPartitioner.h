@@ -19,6 +19,7 @@ private:
 
 public:
     static const std::string ClassName;
+    
     ModelPartitioner() = default;
     ~ModelPartitioner() override = default;
 

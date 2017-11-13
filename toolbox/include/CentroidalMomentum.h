@@ -2,6 +2,7 @@
 #define WBT_CENTROIDALMOMENTUM_H
 
 #include "WBBlock.h"
+#include <memory>
 
 namespace wbt {
     class CentroidalMomentum;
@@ -14,7 +15,7 @@ namespace iDynTree {
 class wbt::CentroidalMomentum : public wbt::WBBlock
 {
 private:
-    iDynTree::SpatialMomentum* m_centroidalMomentum;
+    std::unique_ptr<iDynTree::SpatialMomentum> m_centroidalMomentum;
 
     static const unsigned INPUT_IDX_BASE_POSE;
     static const unsigned INPUT_IDX_JOINTCONF;
@@ -24,7 +25,9 @@ private:
 
 public:
     static const std::string ClassName;
+
     CentroidalMomentum();
+    ~CentroidalMomentum() override = default;
 
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 

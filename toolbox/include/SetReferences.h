@@ -19,6 +19,7 @@ public:
     static const std::string ClassName;
 
     SetReferences();
+    ~SetReferences() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

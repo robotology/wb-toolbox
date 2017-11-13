@@ -18,9 +18,7 @@ const unsigned Jacobian::INPUT_IDX_JOINTCONF = 1;
 const unsigned Jacobian::OUTPUT_IDX_FW_FRAME = 0;
 
 Jacobian::Jacobian()
-: m_jacobianCOM(nullptr)
-, m_jacobian(nullptr)
-, m_frameIsCoM(false)
+: m_frameIsCoM(false)
 , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
 
@@ -124,27 +122,18 @@ bool Jacobian::initialize(const BlockInformation* blockInfo)
 
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
-    m_jacobianCOM = new iDynTree::MatrixDynSize(3, 6 + dofs);
+    m_jacobianCOM = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(3, 6 + dofs));
     m_jacobianCOM->zero();
 
     // Output
-    m_jacobian = new iDynTree::MatrixDynSize(6, 6 + dofs);
+    m_jacobian = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6, 6 + dofs));
     m_jacobian->zero();
 
-    return m_jacobianCOM && m_jacobian;
+    return static_cast<bool>(m_jacobianCOM) && static_cast<bool>(m_jacobian);
 }
 
 bool Jacobian::terminate(const BlockInformation* blockInfo)
 {
-    if (m_jacobianCOM) {
-        delete m_jacobianCOM;
-        m_jacobianCOM = nullptr;
-    }
-    if (m_jacobian) {
-        delete m_jacobian;
-        m_jacobian = nullptr;
-    }
-
     return WBBlock::terminate(blockInfo);
 }
 

@@ -31,7 +31,6 @@ const unsigned SimulatorSynchronizer::PARAM_RPC_PORT   = 3;
 SimulatorSynchronizer::SimulatorSynchronizer()
 : m_period(0.01)
 , m_firstRun(true)
-, m_rpcData(0)
 {}
 
 unsigned SimulatorSynchronizer::numberOfParameters() { return 3; }
@@ -89,7 +88,7 @@ bool SimulatorSynchronizer::initialize(const BlockInformation* blockInfo)
         return false;
     }
 
-    m_rpcData = new struct RPCData();
+    m_rpcData = std::unique_ptr<RPCData>(new struct RPCData());
     if (!m_rpcData) {
         Log::getSingleton().error("Error creating RPC data structure.");
         return false;
@@ -114,8 +113,6 @@ bool SimulatorSynchronizer::terminate(const BlockInformation* /*S*/)
             }
             m_rpcData->clientPort.close();
         }
-        delete m_rpcData;
-        m_rpcData = nullptr;
     }
     yarp::os::Network::fini();
     return true;

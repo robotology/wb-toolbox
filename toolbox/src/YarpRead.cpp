@@ -28,7 +28,6 @@ YarpRead::YarpRead()
 , m_blocking(false)
 , m_shouldReadTimestamp(false)
 , m_errorOnMissingPort(true)
-, m_port(0)
 {}
 
 unsigned YarpRead::numberOfParameters() { return 6; }
@@ -146,7 +145,7 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
         destinationPortName = portName;
     }
 
-    m_port = new BufferedPort<Vector>();
+    m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
 
     if (!m_port || !m_port->open(destinationPortName)) {
         Log::getSingleton().error("Error while opening yarp port.");
@@ -172,8 +171,6 @@ bool YarpRead::terminate(const BlockInformation* /*blockInfo*/)
 {
     if (m_port) {
         m_port->close();
-        delete m_port;
-        m_port = nullptr;
     }
     yarp::os::Network::fini();
     return true;

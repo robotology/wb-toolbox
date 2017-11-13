@@ -27,6 +27,7 @@ private:
 
 public:
     static const std::string ClassName;
+    
     GetLimits() = default;
     ~GetLimits() override = default;
 
