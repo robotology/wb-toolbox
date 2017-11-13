@@ -132,7 +132,8 @@ private:
      * @return        The dynamic(ally)_cast device
      * @tparam T      The type of the retured device
      */
-    template <typename T> std::weak_ptr<T> getDevice(std::shared_ptr<T> device);
+    template <typename T>
+    std::weak_ptr<T> getInterfaceFromTemplate(std::shared_ptr<T> device);
 
     /**
      * Creates the map between joints (specified as either names or idyntree indices) and
