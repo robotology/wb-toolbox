@@ -80,11 +80,11 @@ configure_block(BLOCK_NAME "Base"
             include/base/RobotInterface.h
             )
 
-configure_block(BLOCK_NAME "Inverse Kinematics"
-    GROUP "Model"
-    LIST_PREFIX WBT
-    SOURCES src/RemoteInverseKinematics.cpp
-    HEADERS include/RemoteInverseKinematics.h)
+# configure_block(BLOCK_NAME "Inverse Kinematics"
+#     GROUP "Model"
+#     LIST_PREFIX WBT
+#     SOURCES src/RemoteInverseKinematics.cpp
+#     HEADERS include/RemoteInverseKinematics.h)
 
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)
@@ -97,17 +97,17 @@ if (WBT_USES_ICUB)
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
 
-    if (${ICUB_USE_IPOPT})
-        find_package(iDynTree REQUIRED)
-        add_definitions(-DWBT_USES_IPOPT)
-        configure_block(BLOCK_NAME "Inverse Kinematics"
-            GROUP "Model"
-            LIST_PREFIX WBT
-            SOURCES src/InverseKinematics.cpp 
-            HEADERS include/InverseKinematics.h)
-
-        include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
-    endif()
+    # if (${ICUB_USE_IPOPT})
+    #     find_package(iDynTree REQUIRED)
+    #     add_definitions(-DWBT_USES_IPOPT)
+    #     configure_block(BLOCK_NAME "Inverse Kinematics"
+    #         GROUP "Model"
+    #         LIST_PREFIX WBT
+    #         SOURCES src/InverseKinematics.cpp
+    #         HEADERS include/InverseKinematics.h)
+    #
+    #     include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
+    # endif()
 
     include_directories(SYSTEM ${ctrlLib_INCLUDE_DIRS})
 endif()
