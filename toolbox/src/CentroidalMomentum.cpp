@@ -20,9 +20,7 @@ const unsigned CentroidalMomentum::INPUT_IDX_BASE_VEL  = 2;
 const unsigned CentroidalMomentum::INPUT_IDX_JOINT_VEL = 3;
 const unsigned CentroidalMomentum::OUTPUT_IDX_CENTRMOM = 0;
 
-CentroidalMomentum::CentroidalMomentum()
-: m_centroidalMomentum(nullptr)
-{}
+CentroidalMomentum::CentroidalMomentum() {}
 
 bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -90,17 +88,12 @@ bool CentroidalMomentum::initialize(const BlockInformation* blockInfo)
     // OUTPUT
     // ======
 
-    m_centroidalMomentum = new iDynTree::SpatialMomentum();
-    return m_centroidalMomentum;
+    m_centroidalMomentum = std::unique_ptr<iDynTree::SpatialMomentum>(new iDynTree::SpatialMomentum());
+    return static_cast<bool>(m_centroidalMomentum);
 }
 
 bool CentroidalMomentum::terminate(const BlockInformation* blockInfo)
 {
-    if (m_centroidalMomentum) {
-        delete m_centroidalMomentum;
-        m_centroidalMomentum = 0;
-    }
-
     return WBBlock::terminate(blockInfo);
 }
 

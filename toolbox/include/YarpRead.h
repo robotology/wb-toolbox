@@ -2,6 +2,7 @@
 #define WBT_YARPREAD_H
 
 #include "Block.h"
+#include <memory>
 
 namespace wbt {
     class YarpRead;
@@ -23,6 +24,7 @@ public:
     static const std::string ClassName;
 
     YarpRead();
+    ~YarpRead() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
@@ -36,7 +38,7 @@ private:
     bool m_shouldReadTimestamp;
     bool m_errorOnMissingPort;
 
-    yarp::os::BufferedPort<yarp::sig::Vector>* m_port;
+    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
 
     static const unsigned PARAM_IDX_PORTNAME; // port name
     static const unsigned PARAM_IDX_PORTSIZE; // Size of the port you're reading

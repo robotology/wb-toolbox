@@ -2,6 +2,7 @@
 #define WBT_INVERSEDYNAMICS_H
 
 #include "WBBlock.h"
+#include <memory>
 #include <iDynTree/Core/VectorFixSize.h>
 
 namespace wbt {
@@ -16,11 +17,11 @@ namespace iDynTree {
 class wbt::InverseDynamics : public wbt::WBBlock
 {
 private:
-    iDynTree::Vector6*       m_baseAcceleration;
-    iDynTree::VectorDynSize* m_jointsAcceleration;
+    std::unique_ptr<iDynTree::Vector6>       m_baseAcceleration;
+    std::unique_ptr<iDynTree::VectorDynSize> m_jointsAcceleration;
 
     // Output
-    iDynTree::FreeFloatingGeneralizedTorques* m_torques;
+    std::unique_ptr<iDynTree::FreeFloatingGeneralizedTorques> m_torques;
 
     static const unsigned INPUT_IDX_BASE_POSE;
     static const unsigned INPUT_IDX_JOINTCONF;
@@ -32,7 +33,9 @@ private:
 
 public:
     static const std::string ClassName;
+
     InverseDynamics();
+    ~InverseDynamics() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

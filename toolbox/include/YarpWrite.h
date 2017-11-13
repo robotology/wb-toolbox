@@ -2,6 +2,7 @@
 #define WBT_YARPWRITE_H
 
 #include "Block.h"
+#include <memory>
 
 namespace wbt {
     class YarpWrite;
@@ -23,6 +24,7 @@ public:
     static const std::string ClassName;
 
     YarpWrite();
+    ~YarpWrite() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
@@ -35,7 +37,7 @@ private:
     bool m_errorOnMissingPort;
 
     std::string m_destinationPortName;
-    yarp::os::BufferedPort<yarp::sig::Vector>* m_port;
+    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
 
     static const unsigned PARAM_IDX_PORTNAME;    // Port name
     static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean

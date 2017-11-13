@@ -2,6 +2,7 @@
 #define WBT_JACOBIAN_H
 
 #include "WBBlock.h"
+#include <memory>
 #include <iDynTree/Model/Indices.h>
 
 namespace wbt {
@@ -16,10 +17,10 @@ class wbt::Jacobian : public wbt::WBBlock
 {
 private:
     // Support variables
-    iDynTree::MatrixDynSize* m_jacobianCOM;
+    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobianCOM;
 
     // Output
-    iDynTree::MatrixDynSize* m_jacobian;
+    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobian;
 
     // Other variables
     bool m_frameIsCoM;
@@ -32,6 +33,7 @@ private:
 public:
     static const std::string ClassName;
     Jacobian();
+    ~Jacobian() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

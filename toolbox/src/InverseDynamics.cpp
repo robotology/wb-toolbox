@@ -22,11 +22,7 @@ const unsigned InverseDynamics::INPUT_IDX_BASE_ACC  = 4;
 const unsigned InverseDynamics::INPUT_IDX_JOINT_ACC = 5;
 const unsigned InverseDynamics::OUTPUT_IDX_TORQUES  = 0;
 
-InverseDynamics::InverseDynamics()
-: m_baseAcceleration(nullptr)
-, m_jointsAcceleration(nullptr)
-, m_torques(nullptr)
-{}
+InverseDynamics::InverseDynamics() {}
 
 unsigned InverseDynamics::numberOfParameters()
 {
@@ -106,34 +102,24 @@ bool InverseDynamics::initialize(const BlockInformation* blockInfo)
     // OUTPUT / VARIABLES
     // ==================
 
+    using namespace iDynTree;
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
-    m_baseAcceleration = new iDynTree::Vector6();
+    m_baseAcceleration = std::unique_ptr<Vector6>(new Vector6());
     m_baseAcceleration->zero();
-    m_jointsAcceleration = new iDynTree::VectorDynSize(dofs);
+    m_jointsAcceleration = std::unique_ptr<VectorDynSize>(new VectorDynSize(dofs));
     m_jointsAcceleration->zero();
 
     const auto& model = getRobotInterface()->getKinDynComputations()->model();
-    m_torques = new iDynTree::FreeFloatingGeneralizedTorques(model);
+    m_torques = std::unique_ptr<FreeFloatingGeneralizedTorques>(new FreeFloatingGeneralizedTorques(model));
 
-    return m_baseAcceleration && m_jointsAcceleration && m_torques;
+    return static_cast<bool>(m_baseAcceleration) &&
+           static_cast<bool>(m_jointsAcceleration) &&
+           static_cast<bool>(m_torques);
 }
 
 bool InverseDynamics::terminate(const BlockInformation* blockInfo)
 {
-    if (m_baseAcceleration) {
-        delete m_baseAcceleration;
-        m_baseAcceleration = nullptr;
-    }
-    if (m_jointsAcceleration) {
-        delete m_jointsAcceleration;
-        m_jointsAcceleration = nullptr;
-    }
-    if (m_torques) {
-        delete m_torques;
-        m_torques = nullptr;
-    }
-
     return WBBlock::terminate(blockInfo);
 }
 

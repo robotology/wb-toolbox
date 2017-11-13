@@ -17,9 +17,7 @@ const unsigned MassMatrix::INPUT_IDX_BASE_POSE = 0;
 const unsigned MassMatrix::INPUT_IDX_JOINTCONF = 1;
 const unsigned MassMatrix::OUTPUT_IDX_MASS_MAT = 0;
 
-MassMatrix::MassMatrix()
-: m_massMatrix(nullptr)
-{}
+MassMatrix::MassMatrix() {}
 
 bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -83,19 +81,14 @@ bool MassMatrix::initialize(const BlockInformation* blockInfo)
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     // Output
-    m_massMatrix = new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs);
+    m_massMatrix = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs));
     m_massMatrix->zero();
 
-    return m_massMatrix;
+    return static_cast<bool>(m_massMatrix);
 }
 
 bool MassMatrix::terminate(const BlockInformation* blockInfo)
 {
-    if (m_massMatrix) {
-        delete m_massMatrix;
-        m_massMatrix = nullptr;
-    }
-
     return WBBlock::terminate(blockInfo);
 }
 

@@ -21,7 +21,6 @@ YarpWrite::YarpWrite()
 : m_autoconnect(false)
 , m_errorOnMissingPort(true)
 , m_destinationPortName("")
-, m_port(nullptr)
 {}
 
 unsigned YarpWrite::numberOfParameters() { return 3; }
@@ -98,7 +97,7 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
         sourcePortName = portParameter;
     }
 
-    m_port = new BufferedPort<Vector>();
+    m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
 
     if (!m_port || !m_port->open(sourcePortName)) {
         Log::getSingleton().error("Error while opening yarp port.");
@@ -131,8 +130,6 @@ bool YarpWrite::terminate(const BlockInformation* /*S*/)
             yarp::os::Network::disconnect(m_port->getName(), m_destinationPortName);
         }
         m_port->close();
-        delete m_port;
-        m_port = nullptr;
     }
     yarp::os::Network::fini();
     return true;

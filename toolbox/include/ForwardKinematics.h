@@ -2,6 +2,7 @@
 #define WBT_FORWARDKINEMATICS_H
 
 #include "WBBlock.h"
+#include <memory>
 #include <iDynTree/Model/Indices.h>
 
 namespace wbt {
@@ -20,7 +21,9 @@ private:
 
 public:
     static const std::string ClassName;
+
     ForwardKinematics();
+    ~ForwardKinematics() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

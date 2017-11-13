@@ -1,4 +1,5 @@
 #include "Block.h"
+#include <memory>
 
 #ifndef WBT_MINJERKTRAJGENERATOR_H
 #define WBT_MINJERKTRAJGENERATOR_H
@@ -25,6 +26,7 @@ public:
     static const std::string ClassName;
 
     MinimumJerkTrajectoryGenerator();
+    ~MinimumJerkTrajectoryGenerator() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
@@ -34,7 +36,7 @@ public:
 
 private:
 
-    iCub::ctrl::minJerkTrajGen* m_generator;
+    std::unique_ptr<iCub::ctrl::minJerkTrajGen> m_generator;
 
     int m_outputFirstDerivativeIndex;
     int m_outputSecondDerivativeIndex;
@@ -45,8 +47,8 @@ private:
     bool m_explicitInitialValue;
     bool m_externalSettlingTime;
     bool m_resetOnSettlingTimeChange;
-    yarp::sig::Vector* m_initialValues;
-    yarp::sig::Vector* m_reference;
+    std::unique_ptr<yarp::sig::Vector> m_initialValues;
+    std::unique_ptr<yarp::sig::Vector> m_reference;
 
     static const unsigned PARAM_IDX_SAMPLE_TIME;           // Sample Time (double)
     static const unsigned PARAM_IDX_SETTLING_TIME;         // Settling Time (double)

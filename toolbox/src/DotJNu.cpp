@@ -20,8 +20,7 @@ const unsigned DotJNu::INPUT_IDX_JOINT_VEL = 3;
 const unsigned DotJNu::OUTPUT_IDX_DOTJ_NU  = 0;
 
 DotJNu::DotJNu()
-: m_dotJNu(nullptr)
-, m_frameIsCoM(false)
+: m_frameIsCoM(false)
 , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
 
@@ -127,20 +126,14 @@ bool DotJNu::initialize(const BlockInformation* blockInfo)
 
     // OUTPUT
     // ======
-    m_dotJNu = new iDynTree::Vector6();
+    m_dotJNu = std::unique_ptr<iDynTree::Vector6>(new iDynTree::Vector6());
     m_dotJNu->zero();
 
-    return m_dotJNu;
+    return static_cast<bool>(m_dotJNu);
 }
 
 bool DotJNu::terminate(const BlockInformation* blockInfo)
 {
-    // Output
-    if (m_dotJNu) {
-        delete m_dotJNu;
-        m_dotJNu = 0;
-    }
-
     return WBBlock::terminate(blockInfo);
 }
 

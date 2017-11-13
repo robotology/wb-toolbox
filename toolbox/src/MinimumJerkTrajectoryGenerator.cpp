@@ -26,15 +26,12 @@ const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_EXT_SETTLINGTIME = 6;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_RESET_CHANGEST = 7;
 
 MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
-: m_generator(nullptr)
-, m_outputFirstDerivativeIndex(-1)
+: m_outputFirstDerivativeIndex(-1)
 , m_outputSecondDerivativeIndex(-1)
 , m_firstRun(true)
 , m_explicitInitialValue(false)
 , m_externalSettlingTime(false)
 , m_resetOnSettlingTimeChange(false)
-, m_initialValues(nullptr)
-, m_reference(nullptr)
 {}
 
 unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 7; }
@@ -165,10 +162,11 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
 
     unsigned signalSize = blockInfo->getInputPortWidth(0);
 
-    m_generator = new iCub::ctrl::minJerkTrajGen(signalSize, sampleTime, settlingTime);
+    m_generator = std::unique_ptr<iCub::ctrl::minJerkTrajGen>
+            (new iCub::ctrl::minJerkTrajGen(signalSize, sampleTime, settlingTime));
     m_previousSettlingTime = settlingTime;
-    m_initialValues = new yarp::sig::Vector(signalSize);
-    m_reference = new yarp::sig::Vector(signalSize);
+    m_initialValues = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
+    m_reference = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
 
     if (!m_generator || !m_initialValues || !m_reference) {
         Log::getSingleton().error("Could not allocate memory for trajectory generator.");
@@ -181,18 +179,6 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
 
 bool MinimumJerkTrajectoryGenerator::terminate(const BlockInformation* blockInfo)
 {
-    if (m_generator) {
-        delete m_generator;
-        m_generator = nullptr;
-    }
-    if (m_initialValues) {
-        delete m_initialValues;
-        m_initialValues = nullptr;
-    }
-    if (m_reference) {
-        delete m_reference;
-        m_reference = nullptr;
-    }
     return true;
 }
 

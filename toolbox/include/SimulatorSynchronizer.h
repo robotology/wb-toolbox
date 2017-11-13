@@ -2,6 +2,7 @@
 #define WBT_SIMULATORSYNCHRONIZER_H
 
 #include "Block.h"
+#include <memory>
 
 namespace wbt {
     class SimulatorSynchronizer;
@@ -27,7 +28,7 @@ private:
     bool m_firstRun;
 
     struct RPCData;
-    RPCData* m_rpcData;
+    std::unique_ptr<RPCData> m_rpcData;
 
     static const unsigned PARAM_PERIOD;     // Period
     static const unsigned PARAM_GZCLK_PORT; // Gazebo clock port
