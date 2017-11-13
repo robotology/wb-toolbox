@@ -2,6 +2,7 @@
 #define WBT_TOOLBOXCONFIG_H
 
 #include <vector>
+#include <array>
 #include <string>
 
 namespace wbt {
@@ -25,7 +26,7 @@ private:
     std::string m_localName; ///< Prefix appended to the opened ports
     std::vector<std::string> m_controlledJoints;   ///< Subset of controlled joints
     std::vector<std::string> m_controlBoardsNames; ///< Names of the used ControlBoard names
-    std::vector<double> m_gravityVector; ///< The gravity vector
+    std::array<double ,3> m_gravityVector; ///< The gravity vector
     size_t m_dofs; //< DoFs extracted my m_controlBoardsNames vector
 
 public:
@@ -50,7 +51,7 @@ public:
                        std::vector<std::string> controlledJoints,
                        std::vector<std::string> controlBoardsNames,
                        std::string localName,
-                       std::vector<double> gravityVector);
+                       std::array<double, 3> gravityVector);
 
     /**
      * Set the name of the robot
@@ -88,7 +89,7 @@ public:
      * Set the gravity vector
      * @param gravityVector The gravity vector
      */
-    void setGravityVector(const std::vector<double>& gravityVector);
+    void setGravityVector(const std::array<double, 3>& gravityVector);
 
     // GET METHODS
     // ===========
@@ -133,7 +134,7 @@ public:
      *
      * @return The gravity vector
      */
-    const std::vector<double>& getGravityVector() const;
+    const std::array<double, 3>& getGravityVector() const;
 
     /**
      * Get the configured number of DoFs

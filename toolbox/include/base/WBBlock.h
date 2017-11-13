@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include <string>
+#include <array>
 #include <memory>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/VectorDynSize.h>
@@ -36,7 +37,7 @@ struct iDynTreeRobotState {
     iDynTreeRobotState() = default;
     ~iDynTreeRobotState() = default;
 
-    iDynTreeRobotState(const unsigned& dofs, const std::vector<double>& gravity);
+    iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity);
 };
 
 /**

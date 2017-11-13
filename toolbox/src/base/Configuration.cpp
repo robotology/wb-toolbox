@@ -14,7 +14,7 @@ void Configuration::setParameters(std::string robotName,
                                   std::vector<std::string> controlledJoints,
                                   std::vector<std::string> controlBoardsNames,
                                   std::string localName,
-                                  std::vector<double> gravityVector)
+                                  std::array<double, 3> gravityVector)
 {
     setRobotName(robotName);
     setUrdfFile(urdfFile);
@@ -50,7 +50,7 @@ void Configuration::setLocalName(const std::string& localName)
     m_localName = localName;
 }
 
-void Configuration::setGravityVector(const std::vector<double>& gravityVector)
+void Configuration::setGravityVector(const std::array<double, 3>& gravityVector)
 {
     m_gravityVector = gravityVector;
 }
@@ -83,7 +83,7 @@ const std::string& Configuration::getLocalName() const
     return m_localName;
 }
 
-const std::vector<double>& Configuration::getGravityVector() const
+const std::array<double, 3>& Configuration::getGravityVector() const
 {
     return m_gravityVector;
 }
