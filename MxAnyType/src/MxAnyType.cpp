@@ -184,8 +184,9 @@ bool MxAnyType::asAnyCell(AnyCell& cell)
 // VECTOR
 // ======
 
-// TODO tests with other types (uint8) https://it.mathworks.com/help/matlab/apiref/mxgetdata.html (Descriptio)
-bool MxAnyType::asVectorDouble(Eigen::VectorXd& vec)
+// TODO:
+// Tests with other types (uint8) https://it.mathworks.com/help/matlab/apiref/mxgetdata.html (Description)
+bool MxAnyType::asVectorDouble(std::vector<double>& vec)
 {
     if (!mx) return false;
     if (!mxIsDouble(mx)) return false;
@@ -200,14 +201,7 @@ bool MxAnyType::asVectorDouble(Eigen::VectorXd& vec)
     double* buffer = mxGetPr(mx);
     if (!buffer) return false;
 
-    vec = Eigen::Map<Eigen::VectorXd>(buffer, md.nElem);
-    return true;
-}
-
-bool MxAnyType::asVectorDouble(std::vector<double>& vec)
-{
-    Eigen::VectorXd vecEigen;
-    if (!asVectorDouble(vecEigen)) return false;
-    vec.assign(vecEigen.data(), vecEigen.data() + vecEigen.rows() * vecEigen.cols());
+    vec.reserve(md.rows * md.cols);
+    vec.assign(buffer, buffer + md.rows * md.cols);
     return true;
 }

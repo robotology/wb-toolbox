@@ -32,10 +32,6 @@ if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
     set_target_properties(${VARS_PREFIX} PROPERTIES COMPILE_FLAGS "-fPIC")
 endif()
 
-# Find Eigen
-find_package(Eigen3 REQUIRED)
-target_include_directories(${VARS_PREFIX} PUBLIC "${EIGEN3_INCLUDE_DIR}")
-
 # Find Matlab resources
 find_package(Matlab REQUIRED MX_LIBRARY)
 # target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}") // TODO: when committing
