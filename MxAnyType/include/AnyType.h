@@ -1,7 +1,6 @@
 #ifndef ANYTYPE_H
 #define ANYTYPE_H
 
-#include <Eigen/Core>
 #include <vector>
 #include <unordered_map>
 #include <memory>
@@ -15,13 +14,9 @@ typedef std::unordered_map<std::string, AnyTypeSPtr> AnyStruct;
 class AnyType
 {
 protected:
-    // void* m_AnyData;
 
 public:
-    // AnyType() : m_AnyData(nullptr) {};
     AnyType() = default;
-    // virtual void* getAnyDataPtr() const = 0;
-
     virtual ~AnyType() = default;
 
     // Integers
@@ -60,7 +55,6 @@ public:
     // virtual bool asMatrixDouble(Eigen::MatrixXd mat) = 0;
 
     // Vector
-    virtual bool asVectorDouble(Eigen::VectorXd& vec)     = 0;
     virtual bool asVectorDouble(std::vector<double>& vec) = 0;
 };
 

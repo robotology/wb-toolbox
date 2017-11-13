@@ -92,7 +92,6 @@ public:
     // VECTOR
     // ======
 
-    bool asVectorDouble(Eigen::VectorXd& vec) override;
     bool asVectorDouble(std::vector<double>& vec) override;
 };
 
