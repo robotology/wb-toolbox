@@ -378,7 +378,8 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     remoteCBOpts.put("writeStrict","on");
 
     // Allocate the device driver
-    m_robotDevice = std::make_shared<yarp::dev::PolyDriver>();
+    assert(!m_robotDevice);
+    m_robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
 
     if (!m_robotDevice) {
         return false;

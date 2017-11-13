@@ -86,7 +86,7 @@ struct wbt::YarpDevices
 class wbt::RobotInterface
 {
 private:
-    std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice;
+    std::unique_ptr<yarp::dev::PolyDriver> m_robotDevice;
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDynComp;
     wbt::YarpDevices m_yarpDevices;
 
