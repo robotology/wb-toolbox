@@ -195,70 +195,70 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IControlMode2>& interface)
 {
-    interface = getDevice(m_yarpDevices.iControlMode2);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iControlMode2);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IPositionControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iPositionControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iPositionControl);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IPositionDirect>& interface)
 {
-    interface = getDevice(m_yarpDevices.iPositionDirect);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iPositionDirect);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IVelocityControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iVelocityControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iVelocityControl);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::ITorqueControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iTorqueControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iTorqueControl);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IPWMControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iPWMControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iPWMControl);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::ICurrentControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iCurrentControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iCurrentControl);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IEncoders>& interface)
 {
-    interface = getDevice(m_yarpDevices.iEncoders);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iEncoders);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IControlLimits2>& interface)
 {
-    interface = getDevice(m_yarpDevices.iControlLimits2);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iControlLimits2);
     return !interface.expired();
 }
 
 template <>
 bool RobotInterface::getInterface(std::weak_ptr<yarp::dev::IPidControl>& interface)
 {
-    interface = getDevice(m_yarpDevices.iPidControl);
+    interface = getInterfaceFromTemplate(m_yarpDevices.iPidControl);
     return !interface.expired();
 }
 
@@ -399,7 +399,7 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
 // =============
 
 template <typename T>
-std::weak_ptr<T> RobotInterface::getDevice(std::shared_ptr<T> device)
+std::weak_ptr<T> RobotInterface::getInterfaceFromTemplate(std::shared_ptr<T> device)
 {
     if (!device) {
         // Blocks which require the RemoteControlBoardRemapper need to retain / release it
