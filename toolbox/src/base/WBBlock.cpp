@@ -19,7 +19,7 @@ const unsigned WBBlock::ConfigurationParameterIndex = 1; // Struct from Simulink
 const unsigned WBBlock::ConfBlockNameParameterIndex = 2; // Absolute name of the block containing the
                                                          // configuration
 
-iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::vector<double>& gravity)
+iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity)
 : m_gravity(gravity.data(), 3)
 , m_jointsVelocity(dofs)
 , m_jointsPosition(dofs)
@@ -130,6 +130,10 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
         Log::getSingleton().error("Cannot retrieve vector from GravityVector parameter.");
         return false;
     }
+    std::array<double, 3> gravityArray;
+    for (auto i : gravityVector) {
+        gravityArray[i] = i;
+    }
 
     // Create the ToolboxConfig object
     // ===============================
@@ -140,7 +144,7 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
     config.setControlledJoints(controlledJoints);
     config.setControlBoardsNames(controlBoardsNames);
     config.setLocalName(localName);
-    config.setGravityVector(gravityVector);
+    config.setGravityVector(gravityArray);
 
     return true;
 }
