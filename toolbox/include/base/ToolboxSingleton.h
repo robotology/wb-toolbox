@@ -110,7 +110,7 @@ public:
      * @return        A \c shared_ptr to the iDynTree::KinDynComputations of the requested
      *                configuration
      */
-    const std::shared_ptr<iDynTree::KinDynComputations> getModel(const std::string& confKey);
+    const std::shared_ptr<iDynTree::KinDynComputations> getKinDynComputations(const std::string& confKey);
 
     // TOOLBOXSINGLETON CONFIGURATION
     // ==============================

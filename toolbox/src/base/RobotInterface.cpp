@@ -183,12 +183,13 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
     }
 
     // Otherwise, initialize a new object
-    if (initializeModel()) {
-        return m_kinDynComp;
+    if (!initializeModel()) {
+        Log::getSingleton().error("Failed to initialize the KinDynComputations object.");
+        // Return an empty shared_ptr (implicitly initialized)
+        return nullptr;
     }
 
-    // Return an empty shared_ptr (implicitly initialized)
-    return nullptr;
+    return m_kinDynComp;
 }
 
 template <>

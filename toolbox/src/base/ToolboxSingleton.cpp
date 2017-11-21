@@ -63,7 +63,7 @@ const std::shared_ptr<RobotInterface> ToolboxSingleton::getRobotInterface(const 
     return m_interfaces[confKey];
 }
 
-const std::shared_ptr<iDynTree::KinDynComputations> ToolboxSingleton::getModel(const std::string& confKey)
+const std::shared_ptr<iDynTree::KinDynComputations> ToolboxSingleton::getKinDynComputations(const std::string& confKey)
 {
     if (!isKeyValid(confKey)) {
         return nullptr;

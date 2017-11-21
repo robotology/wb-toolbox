@@ -110,7 +110,12 @@ bool InverseDynamics::initialize(const BlockInformation* blockInfo)
     m_jointsAcceleration = std::unique_ptr<VectorDynSize>(new VectorDynSize(dofs));
     m_jointsAcceleration->zero();
 
-    const auto& model = getRobotInterface()->getKinDynComputations()->model();
+    // Get the KinDynComputations pointer
+    const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+
+    // Get the model from the KinDynComputations object
+    const auto& model = kindyncomp->model();
+
     m_torques = std::unique_ptr<FreeFloatingGeneralizedTorques>(new FreeFloatingGeneralizedTorques(model));
 
     return static_cast<bool>(m_baseAcceleration) &&
