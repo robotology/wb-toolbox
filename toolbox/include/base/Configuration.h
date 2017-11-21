@@ -48,12 +48,12 @@ public:
      * @param localName          Prefix appended to the opened ports
      * @param gravityVector      The gravity vector
      */
-    void setParameters(std::string robotName,
-                       std::string urdfFile,
-                       std::vector<std::string> controlledJoints,
-                       std::vector<std::string> controlBoardsNames,
-                       std::string localName,
-                       std::array<double, 3> gravityVector);
+    void setParameters(const std::string& robotName,
+                       const std::string& urdfFile,
+                       const std::vector<std::string>& controlledJoints,
+                       const std::vector<std::string>& controlBoardsNames,
+                       const std::string& localName,
+                       const std::array<double, 3>& gravityVector);
 
     /**
      * Set the name of the robot
