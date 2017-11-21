@@ -13,14 +13,14 @@ try
     topLevel = blockNameSplit{1};
 
     % Get all the blocks from the top level of the system
-    blocks_system = find_system(topLevel,'LookUnderMasks','on');
+    blocks_system = find_system(topLevel,'LookUnderMasks','on','FollowLinks','on');
 
     % Get the name of the block's subsystem
     %[blockScopeName,~] = fileparts(blockAbsoluteName);
     %blockScopeName = gcs;
     blockScopeName = currentSystem;
 catch
-    error('[%s::Initialization] Failed to process model''s tree',char(blockAbsoluteName))
+    error('[%s::Initialization] Failed to process model''s tree', char(currentBlock))
 end
 
 % Look a config block from the block's scope going up in the tree
@@ -30,7 +30,7 @@ while ~isempty(analyzedScope)
     rule = strcat(strrep(analyzedScope,'/','\/'),'\/\w+\/ImConfig');
     idx = cellfun(@(x) ~isequal(regexp(x,rule),[]), blocks_system);
     if (sum(idx) > 1)
-        error('[%s::Initialization] Found more than one configuration',char(blockAbsoluteName));
+        error('[%s::Initialization] Found more than one configuration', char(currentBlock));
     elseif (sum(idx) == 1)
         configBlock = blocks_system{idx};
         configBlock = fileparts(configBlock);
@@ -40,7 +40,7 @@ while ~isempty(analyzedScope)
 end
 
 if isempty(configBlock)
-    error('[%s::Initialization] No configuration found',char(blockAbsoluteName));
+    error('[%s::Initialization] No configuration found', char(currentBlock));
 end
 
 configSource = get_param(configBlock,'ConfigSource');
@@ -55,7 +55,7 @@ elseif strcmp(configSource,'Workspace')
     % Read the mask
     WBTConfig = WBToolbox.Mask2WBToolboxConfig(configBlock);
 else
-    error('[%s::Initialization] Read ConfigSource from Config block not recognized',char(blockAbsoluteName));
+    error('[%s::Initialization] Read ConfigSource from Config block not recognized', char(currentBlock));
 end
 
 end
