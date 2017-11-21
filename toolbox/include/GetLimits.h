@@ -24,10 +24,11 @@ class wbt::GetLimits : public wbt::WBBlock
 {
 private:
     std::unique_ptr<Limit> m_limits;
+    static double deg2rad(const double& v);
 
 public:
     static const std::string ClassName;
-    
+
     GetLimits() = default;
     ~GetLimits() override = default;
 
