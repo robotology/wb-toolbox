@@ -18,16 +18,19 @@ private:
     std::vector<std::string> warnings;
     std::string prefix;
 
-    static std::string serializeVectorString(std::vector<std::string> v, std::string prefix="");
+    static std::string serializeVectorString(std::vector<std::string> v, const std::string& prefix="");
 public:
 
     static wbt::Log& getSingleton();
 
-    void error(std::string errorMessage);
-    void warning(std::string warningMessage);
+    void error(const std::string& errorMessage);
+    void warning(const std::string& warningMessage);
+
+    void errorAppend(const std::string& errorMessage);
+    void warningAppend(const std::string& warningMessage);
 
     void resetPrefix();
-    void setPrefix(std::string prefixMessage);
+    void setPrefix(const std::string& prefixMessage);
 
     std::string getErrors() const;
     std::string getWarnings() const;

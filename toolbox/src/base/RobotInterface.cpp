@@ -351,6 +351,7 @@ bool RobotInterface::retainRemoteControlBoardRemapper()
     }
 
     if (!initializeRemoteControlBoardRemapper()) {
+        Log::getSingleton().error("First initialization of the RemoteControlBoardRemapper failed.");
         return false;
     }
 
@@ -433,7 +434,8 @@ bool RobotInterface::initializeModel()
     iDynTree::ModelLoader mdlLoader;
     if (!mdlLoader.loadReducedModelFromFile(urdf_file_path, controlledJoints)) {
         Log::getSingleton().error("ToolboxSingleton: impossible to load " + urdf_file + ".");
-        Log::getSingleton().error("Probably the joint list contains an entry not present in the urdf model.");
+        Log::getSingleton().errorAppend("\nPossible causes: file not found, or the joint ");
+        Log::getSingleton().errorAppend("list contains an entry not present in the urdf model.");
         return false;
     }
 

@@ -194,7 +194,11 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         if (m_shouldReadTimestamp) {
             connectionStatusPortIndex++;
             yarp::os::Stamp timestamp;
-            m_port->getEnvelope(timestamp);
+            if (!m_port->getEnvelope(timestamp)) {
+                Log::getSingleton().error("Failed to read port envelope (timestamp).");
+                Log::getSingleton().errorAppend("Be sure that the input port actually writes this data.");
+                return false;
+            }
 
             Signal pY1 = blockInfo->getOutputPortSignal(timeStampPortIndex);
             pY1.set(0, timestamp.getCount());
