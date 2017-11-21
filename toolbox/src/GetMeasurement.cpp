@@ -16,7 +16,7 @@ const std::string GetMeasurement::ClassName = "GetMeasurement";
 
 void GetMeasurement::deg2rad(std::vector<double>& v)
 {
-    const double deg2rad = (2 * M_PI) / 180.0;
+    const double deg2rad = M_PI / 180.0;
     for (auto& element : v) {
         element *= deg2rad;
     }
@@ -77,13 +77,13 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
     }
 
     if (informationType == "Joints Position") {
-        m_estimateType = wbt::ESTIMATE_JOINT_POS;
+        m_measuredType = wbt::MEASUREMENT_JOINT_POS;
     } else if (informationType == "Joints Velocity") {
-        m_estimateType = wbt::ESTIMATE_JOINT_VEL;
+        m_measuredType = wbt::MEASUREMENT_JOINT_VEL;
     } else if (informationType == "Joints Acceleration") {
-        m_estimateType = wbt::ESTIMATE_JOINT_ACC;
+        m_measuredType = wbt::MEASUREMENT_JOINT_ACC;
     } else if (informationType == "Joints Torque") {
-        m_estimateType = wbt::ESTIMATE_JOINT_TORQUE;
+        m_measuredType = wbt::ESTIMATE_JOINT_TORQUE;
     } else {
         Log::getSingleton().error("Estimate not supported.");
         return false;
@@ -91,7 +91,7 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 
     // Initialize the size of the output vector
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
-    m_estimate.reserve(dofs);
+    m_measurement.resize(dofs);
 
     // Retain the ControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
@@ -118,8 +118,8 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 bool GetMeasurement::output(const BlockInformation* blockInfo)
 {
     bool ok;
-    switch (m_estimateType) {
-        case ESTIMATE_JOINT_POS: {
+    switch (m_measuredType) {
+        case MEASUREMENT_JOINT_POS: {
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
@@ -127,11 +127,11 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Get the measurement
-            deg2rad(m_estimate);
             ok = iEncoders->getEncoders(m_measurement.data());
+            deg2rad(m_measurement);
             break;
         }
-        case ESTIMATE_JOINT_VEL: {
+        case MEASUREMENT_JOINT_VEL: {
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
@@ -139,11 +139,11 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Get the measurement
-            deg2rad(m_estimate);
             ok = iEncoders->getEncoderSpeeds(m_measurement.data());
+            deg2rad(m_measurement);
             break;
         }
-        case ESTIMATE_JOINT_ACC: {
+        case MEASUREMENT_JOINT_ACC: {
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
@@ -151,8 +151,8 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Get the measurement
-            deg2rad(m_estimate);
             ok = iEncoders->getEncoderAccelerations(m_measurement.data());
+            deg2rad(m_measurement);
             break;
         }
         case ESTIMATE_JOINT_TORQUE: {
@@ -177,7 +177,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     }
 
     Signal signal = blockInfo->getOutputPortSignal(0);
-    signal.setBuffer(m_estimate.data(), blockInfo->getOutputPortWidth(0));
+    signal.setBuffer(m_measurement.data(), blockInfo->getOutputPortWidth(0));
 
     return true;
 }
