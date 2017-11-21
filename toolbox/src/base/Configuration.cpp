@@ -1,9 +1,11 @@
 #include "Configuration.h"
+#include <algorithm>
 
 using namespace wbt;
 
-Configuration::Configuration()
-: m_dofs(0)
+Configuration::Configuration(const std::string& confKey)
+: m_confKey(confKey)
+, m_dofs(0)
 {}
 
 // SET METHODS
@@ -48,6 +50,26 @@ void Configuration::setControlBoardsNames(const std::vector<std::string>& contro
 void Configuration::setLocalName(const std::string& localName)
 {
     m_localName = localName;
+
+    // Add the leading "/" if missing
+    if (m_localName.compare(0, 1, "/")) {
+        m_localName = "/" + m_localName;
+    }
+}
+
+const std::string Configuration::getUniqueId() const
+{
+    std::string uniqueId(m_confKey);
+
+    // Remove spaces
+    auto it = std::remove(uniqueId.begin(), uniqueId.end(), ' ');
+    uniqueId.erase(it , uniqueId.end());
+
+    // Remove '/'
+    it = std::remove(uniqueId.begin(), uniqueId.end(), '/');
+    uniqueId.erase(it , uniqueId.end());
+
+    return uniqueId;
 }
 
 void Configuration::setGravityVector(const std::array<double, 3>& gravityVector)
