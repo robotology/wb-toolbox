@@ -10,9 +10,17 @@
 #include <vector>
 #include <limits>
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 using namespace wbt;
 
 const std::string GetLimits::ClassName = "GetLimits";
+
+double GetLimits::deg2rad(const double& v)
+{
+    return v * M_PI / 180.0;
+}
 
 unsigned GetLimits::numberOfParameters()
 {
@@ -111,8 +119,8 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
                 Log::getSingleton().error("Failed to get limits from the interface.");
                 return false;
             }
-            m_limits->min[i] = min;
-            m_limits->max[i] = max;
+            m_limits->min[i] = deg2rad(min);
+            m_limits->max[i] = deg2rad(max);
         }
     }
     else if (limitType == "ControlBoardVelocity") {
@@ -121,8 +129,8 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
                 Log::getSingleton().error("Failed to get limits from the interface.");
                 return false;
             }
-            m_limits->min[i] = min;
-            m_limits->max[i] = max;
+            m_limits->min[i] = deg2rad(min);
+            m_limits->max[i] = deg2rad(max);
         }
     }
 
@@ -149,19 +157,25 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
             std::string joint = getConfiguration().getControlledJoints()[i];
 
             // Get its index
-            iDynTree::LinkIndex jointIndex = model.getLinkIndex(joint);
+            iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
+
+            if (jointIndex == iDynTree::JOINT_INVALID_INDEX) {
+                Log::getSingleton().error("Invalid iDynTree joint index.");
+                return false;
+            }
 
             // Get the joint from the model
             p_joint = model.getJoint(jointIndex);
 
             if (!p_joint->hasPosLimits()) {
                 Log::getSingleton().warning("Joint " + joint + " has no model limits.");
-                // TODO: test how these values are interpreted by Simulink
-                min = -std::numeric_limits<double>::infinity();
-                max = std::numeric_limits<double>::infinity();
+                m_limits->min[i] = -std::numeric_limits<double>::infinity();
+                m_limits->max[i] = std::numeric_limits<double>::infinity();
             }
             else {
                 p_joint->getPosLimits(0, min, max);
+                m_limits->min[i] = min;
+                m_limits->max[i] = max;
             }
         }
     }
