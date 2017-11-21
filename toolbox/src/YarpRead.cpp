@@ -178,8 +178,15 @@ bool YarpRead::terminate(const BlockInformation* /*blockInfo*/)
 
 bool YarpRead::output(const BlockInformation* blockInfo)
 {
-    int timeStampPortIndex = 1;
-    int connectionStatusPortIndex = 1;
+    int timeStampPortIndex = 0;
+    int connectionStatusPortIndex = 0;
+
+    if (m_shouldReadTimestamp) {
+        timeStampPortIndex = 1;
+    }
+    if (!m_autoconnect) {
+        connectionStatusPortIndex = timeStampPortIndex + 1;
+    }
 
     yarp::sig::Vector* v = m_port->read(m_blocking); // Read from the port.  Waits until data arrives.
 
@@ -197,7 +204,9 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         Signal signal = blockInfo->getOutputPortSignal(0);
 
         // Crop the buffer if it exceeds the OutputPortWidth.
-        signal.setBuffer(v->data(), std::min(blockInfo->getOutputPortWidth(0), (unsigned)v->size()));
+        signal.setBuffer(v->data(),
+                         std::min(blockInfo->getOutputPortWidth(0),
+                                  static_cast<unsigned>(v->size())));
 
         if (!m_autoconnect) {
             Signal statusPort = blockInfo->getOutputPortSignal(connectionStatusPortIndex);
