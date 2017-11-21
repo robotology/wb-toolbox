@@ -133,7 +133,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     ok = ok && getRobotInterface()->getInterface(icmd2);
     if (!ok || !icmd2) {
         Log::getSingleton().error("Failed to get the IControlMode2 interface.");
-        return false;
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Set  all the controlledJoints VOCAB_CM_POSITION
@@ -143,13 +143,14 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     ok = ok && icmd2->setControlModes(m_controlModes.data());
     if (!ok) {
         Log::getSingleton().error("Failed to set control mode.");
-        return false;
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Release the RemoteControlBoardRemapper
-    ok = ok & getRobotInterface()->releaseRemoteControlBoardRemapper();
+    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
         Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     return ok && WBBlock::terminate(blockInfo);
