@@ -11,12 +11,12 @@ Configuration::Configuration(const std::string& confKey)
 // SET METHODS
 // ===========
 
-void Configuration::setParameters(std::string robotName,
-                                  std::string urdfFile,
-                                  std::vector<std::string> controlledJoints,
-                                  std::vector<std::string> controlBoardsNames,
-                                  std::string localName,
-                                  std::array<double, 3> gravityVector)
+void Configuration::setParameters(const std::string& robotName,
+                                  const std::string& urdfFile,
+                                  const std::vector<std::string>& controlledJoints,
+                                  const std::vector<std::string>& controlBoardsNames,
+                                  const std::string& localName,
+                                  const std::array<double, 3>& gravityVector)
 {
     setRobotName(robotName);
     setUrdfFile(urdfFile);
