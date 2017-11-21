@@ -21,6 +21,7 @@ class wbt::Configuration
 {
 // TODO: check how localName is used
 private:
+    const std::string m_confKey; ///< Name of the block which this object refers to
     std::string m_robotName; ///< Name of the robot
     std::string m_urdfFile;  ///< Name of the file containing the urdf model
     std::string m_localName; ///< Prefix appended to the opened ports
@@ -30,7 +31,8 @@ private:
     size_t m_dofs; //< DoFs extracted my m_controlBoardsNames vector
 
 public:
-    Configuration();
+    Configuration() = delete;
+    Configuration(const std::string& confKey);
     ~Configuration() = default;
 
     // SET METHODS
@@ -123,11 +125,21 @@ public:
     const std::vector<std::string>& getControlBoardsNames() const;
 
     /**
-     * Set the prefix appended to the opened ports
+     * Set the prefix appended to the opened ports. A leading "/" is always present.
      *
      * @return Prefix appended to the opened ports
      */
     const std::string& getLocalName() const;
+
+    /**
+    * Get a string with a unique identifier, generated from the name of the config
+    * block from Simulink. It might be useful when yarp ports must have a unique prefix
+    * (e.g. two RemoteControlBoardRemappers which share a ControlBoard)
+    *
+    * @return the unique identifier
+    * @see setLocalName
+    */
+    const std::string getUniqueId() const;
 
     /**
      * Set the gravity vector

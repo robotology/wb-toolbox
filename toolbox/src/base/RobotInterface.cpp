@@ -11,7 +11,6 @@
 #include <yarp/os/Property.h>
 
 namespace wbt {
-    static std::string vectorToString(std::vector<std::string> v, std::string prefix="");
 
     // The declaration of the following template specializations are required only by GCC
     using namespace yarp::dev;
@@ -318,6 +317,9 @@ bool RobotInterface::releaseRemoteControlBoardRemapper()
         m_robotDevice.reset();
     }
 
+    // Initialize the network
+    yarp::os::Network::init();
+
     m_robotDeviceCounter = 0;
     return true;
 }
@@ -367,32 +369,75 @@ bool RobotInterface::initializeModel()
 
 bool RobotInterface::initializeRemoteControlBoardRemapper()
 {
-    // Setup the RemoteControlBoardRemapper
-    yarp::os::Property options;
-    options.put("device", "remotecontrolboardremapper");
-    options.put("axesNames", vectorToString(m_config.getControlledJoints()));
-    std::string prefix = "/" + m_config.getRobotName() + "/";
-    options.put("remoteControlBoards", vectorToString(m_config.getControlBoardsNames(), prefix));
-    options.put("localPortPrefix", m_config.getLocalName());
-    yarp::os::Property& remoteCBOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
-    remoteCBOpts.put("writeStrict","on");
-
-    // Allocate the device driver
-    assert(!m_robotDevice);
-    m_robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
-
-    if (!m_robotDevice) {
+    // Initialize the network
+    yarp::os::Network::init();
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+        Log::getSingleton().error("YARP server wasn't found active!!");
         return false;
     }
 
-    // Open the device driver
-    if (m_robotDevice->open(options) && m_robotDevice->isValid()) {
-        return true;
+    // Object where the RemoteControlBoardRemapper options will be stored
+    yarp::os::Property options;
+
+    // Name of the device
+    options.put("device", "remotecontrolboardremapper");
+
+    // Controlled joints (axes)
+    yarp::os::Bottle axesNames;
+    yarp::os::Bottle& axesList = axesNames.addList();
+    for (auto axis : m_config.getControlledJoints()) {
+        axesList.addString(axis);
+    }
+    options.put("axesNames",axesNames.get(0));
+
+    // ControlBoard names
+    yarp::os::Bottle remoteControlBoards;
+    yarp::os::Bottle& remoteControlBoardsList = remoteControlBoards.addList();
+    for (auto cb : m_config.getControlBoardsNames()) {
+        remoteControlBoardsList.addString("/" + m_config.getRobotName() + "/" + cb);
+    }
+    options.put("remoteControlBoards", remoteControlBoards.get(0));
+
+    // Prefix of the openened ports
+    // In this case appending the unique id is necessary, since multiple configuration can
+    // share some ControlBoard in their RemoteControlBoardRemappers. In this case, it is not
+    // possible using the same prefix for all the RemoteControlBoardRemapper devices.
+    options.put("localPortPrefix", m_config.getLocalName() + "/" + m_config.getUniqueId());
+
+    // Misc options
+    yarp::os::Property& remoteCBOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
+    remoteCBOpts.put("writeStrict", "on");
+
+    // If resources have been properly cleaned, there should be no allocated device.
+    // However, if blocks fail and they don't terminate, the state of the singleton
+    // could be not clean.
+    if (m_robotDevice) {
+        // Force the release
+        m_robotDeviceCounter = 1;
+        Log::getSingleton().warning("The ToolboxSingleton state is dirty. Trying to clean the state before proceeding.");
+        if (!releaseRemoteControlBoardRemapper()) {
+            Log::getSingleton().error("Failed to force the release of the RemoteControlBoardRemapper. ");
+            return false;
+        }
     }
 
-    // Remove garbage if the opening fails
-    m_robotDevice.reset();
-    return false;
+    // Allocate the interface driver
+    m_robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
+
+    if (!m_robotDevice) {
+        Log::getSingleton().error("Failed to instantiante an empty PolyDriver class.");
+        return false;
+    }
+
+    // Open the interface driver
+    if (!m_robotDevice->open(options) && !m_robotDevice->isValid()) {
+        // Remove garbage if the opening fails
+        m_robotDevice.reset();
+        Log::getSingleton().error("Failed to open the RemoteControlBoardRemapper with the options passed.");
+        return false;
+    }
+
+    return true;
 }
 
 // OTHER METHODS
@@ -420,29 +465,4 @@ std::weak_ptr<T> RobotInterface::getInterfaceFromTemplate(std::shared_ptr<T> dev
     }
     // Implicit conversion from shared_ptr to weak_ptr
     return device;
-}
-
-/**
- * Converts a vector of strings into a string format \code (element1 element2 element3) \endcode.
- * It optioanlly support appending a prefix to the elements. e.g.
- * \code ({prefix}element1 {prefix}element2 {prefix}element3)
- *
- * @param  v      The vector of strings
- * @param  prefix The optional element prefix
- * @return        The serialized string
- */
-std::string wbt::vectorToString(std::vector<std::string> v, std::string prefix)
-{
-    // Add the prefix if specified
-    if (!prefix.empty()) {
-        for (auto& str : v) {
-            str = prefix + str;
-        }
-    }
-
-    // Create a string in a format which YARP likes: (item1 item2 item3)
-    std::stringstream output;
-    std::ostream_iterator<std::string> output_iterator(output, " ");
-    std::copy(v.begin(), v.end(), output_iterator);
-    return "(" + output.str() + ")";
 }

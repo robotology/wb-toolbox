@@ -181,8 +181,9 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the configuration struct from the block
-    Configuration config;
+    // Initialize the configuration block with the unique identifier of the conf block name
+    Configuration config(confKey);
+    // Populate the configuration object with data from the Simulink's struct parameter
     if (!getWBToolboxParameters(config, blockInfo)) {
         return false;
     }
