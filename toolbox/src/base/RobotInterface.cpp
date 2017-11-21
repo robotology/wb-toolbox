@@ -2,6 +2,7 @@
 #include "Log.h"
 #include <sstream>
 #include <iterator>
+#include <utility>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <yarp/dev/PolyDriver.h>
@@ -9,9 +10,9 @@
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/IControlLimits2.h>
 #include <yarp/os/Property.h>
+#include <yarp/os/Bottle.h>
 
 namespace wbt {
-
     // The declaration of the following template specializations are required only by GCC
     using namespace yarp::dev;
     template <> bool RobotInterface::getInterface(IControlMode2*& interface);
@@ -51,28 +52,54 @@ RobotInterface::~RobotInterface()
     assert(m_robotDeviceCounter == 0);
 }
 
+bool RobotInterface::getSingleControlBoard(const std::string& remoteName, std::unique_ptr<yarp::dev::PolyDriver>& controlBoard) {
+    // Configure the single control board
+    yarp::os::Property options;
+    options.clear();
+    options.put("device", "remote_controlboard");
+    options.put("remote", remoteName);
+    options.put("local", m_config.getLocalName() + "/CBtmp");
+    options.put("writeStrict", "on");
+
+    // Initialize the device
+    controlBoard = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
+    if (!controlBoard) {
+        Log::getSingleton().error("Failed to retain the RemoteControlBoard ");
+        Log::getSingleton().errorAppend("used for mapping iDynTree - YARP DoFs.");
+        return false;
+    }
+
+    // Try to open the control board
+    if (!controlBoard->open(options) || !controlBoard->isValid()) {
+        Log::getSingleton().error("Unable to open RemoteControlBoard " + remoteName);
+        return false;
+    }
+
+    return true;
+}
+
 bool RobotInterface::mapDoFs()
 {
-    std::unique_ptr<yarp::dev::PolyDriver> controlBoard;
+    // Initialize the network
+    yarp::os::Network::init();
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+        Log::getSingleton().error("YARP server wasn't found active!!");
+        return false;
+    }
+
     std::vector<std::unique_ptr<yarp::dev::IAxisInfo>> iAxisInfos;
-    yarp::os::Property options;
 
     for (unsigned cbNum = 0; cbNum < m_config.getControlBoardsNames().size(); ++cbNum) {
-        // Configure the single control board
-        options.clear();
-        options.put("device","remotecontrolboard");
+
+        std::unique_ptr<yarp::dev::PolyDriver> controlBoard;
         const std::string prefix = "/" + m_config.getRobotName() + "/";
         const std::string remoteName = prefix + m_config.getControlBoardsNames().at(cbNum);
-        options.put("remote", remoteName);
-        options.put("localPortPrefix", "WBTtmp");
 
-        // Try to open the control board
-        if (!controlBoard->open(options) || !controlBoard->isValid()) {
-            Log::getSingleton().error("Unable to open RemoteControlBoard " + remoteName);
+        if (!getSingleControlBoard(remoteName, controlBoard)) {
             return false;
         }
 
-        // Get an IAxisInfo object from the device
+        // Get an IAxisInfo object from the interface
         std::unique_ptr<yarp::dev::IAxisInfo> iAxisInfo;
         yarp::dev::IAxisInfo* iAxisInfoPtr = iAxisInfo.get();
         controlBoard->view(iAxisInfoPtr);
@@ -92,6 +119,7 @@ bool RobotInterface::mapDoFs()
             return false;
         }
 
+        int found = -1;
         // Iterate all the joints in the selected Control Board
         for (unsigned axis = 0; axis < numAxes; ++axis) {
             std::string axisName;
@@ -100,13 +128,18 @@ bool RobotInterface::mapDoFs()
                 return false;
             }
             // Look if axisName is a controlledJoint
-            bool found = false;
             for (const auto& controlledJoint : m_config.getControlledJoints()) {
                 if (controlledJoint == axisName) {
-                    // Get the iDynTree index
-                    const auto& model = getKinDynComputations()->model();
-                    iDynTree::LinkIndex iDynLinkIdx = model.getLinkIndex(axisName);
-                    if (iDynLinkIdx == iDynTree::LINK_INVALID_INDEX) {
+                    found++;
+                    // Get the iDynTree index from the model
+                    const auto& kinDynComp = getKinDynComputations();
+                    if (!kinDynComp) {
+                        Log::getSingleton().error("Failed to get KinDynComputations.");
+                        return false;
+                    }
+                    const auto& model = kinDynComp->model();
+                    iDynTree::JointIndex iDynJointIdx = model.getJointIndex(axisName);
+                    if (iDynJointIdx == iDynTree::JOINT_INVALID_INDEX) {
                         Log::getSingleton().error("Joint " + axisName + " exists in the " +
                                                   remoteName + "control board but not in the model.");
                         return false;
@@ -118,27 +151,42 @@ bool RobotInterface::mapDoFs()
                     if (!m_jointsMapString) {
                         m_jointsMapString = std::make_shared<JointsMapString>();
                     }
+                    if (!m_controlledJointsMapCB) {
+                        m_controlledJointsMapCB = std::make_shared<ControlledJointsMapCB>();
+                    }
+                    if (!m_controlBoardIdxLimit) {
+                        m_controlBoardIdxLimit = std::make_shared<ControlBoardIdxLimit>();
+                    }
                     // Create a new entry in the map objects
-                    m_jointsMapString->at(controlledJoint) = {cbNum, axis};
-                    m_jointsMapIndex->at(static_cast<int>(iDynLinkIdx)) = {cbNum, axis};
-                    found = true;
+                    m_jointsMapString->insert(std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
+                    m_jointsMapIndex->insert(std::make_pair(static_cast<int>(iDynJointIdx),
+                                                            std::make_pair(cbNum, axis)));
+                    m_controlledJointsMapCB->insert(std::make_pair(controlledJoint, found));
+                    (*m_controlBoardIdxLimit)[cbNum] = found + 1;
                     break;
                 }
             }
-            // Notify that the control board just checked is not used by any joint
-            // of the controlledJoints list
-            if (!found) {
-                Log::getSingleton().warning("No controlled joints found in " +
-                                            m_config.getControlBoardsNames().at(cbNum) +
-                                            " control board. It might be unsed.");
-            }
+
+        }
+
+        // Notify that the control board just checked is not used by any joint
+        // of the controlledJoints list
+        if (found < 0) {
+            Log::getSingleton().warning("No controlled joints found in " +
+            m_config.getControlBoardsNames().at(cbNum) +
+            " control board. It might be unused.");
+        }
+
+        // Close the ControlBoard device
+        if (!controlBoard->close()) {
+            Log::getSingleton().error("Unable to close the interface of the Control Board.");
+            return false;
         }
     }
 
-    if (!controlBoard->close()) {
-        Log::getSingleton().error("Unable to close the device of the Control Board.");
-        return false;
-    }
+    // Initialize the network
+    yarp::os::Network::fini();
+
     return true;
 }
 
@@ -152,28 +200,53 @@ const wbt::Configuration& RobotInterface::getConfiguration() const
 
 const std::shared_ptr<JointsMapString> RobotInterface::getJointsMapString()
 {
-    if (m_jointsMapString->empty()) {
+    if (!m_jointsMapString || m_jointsMapString->empty()) {
         if (!mapDoFs()) {
-            Log::getSingleton().error("Failed to create the Yarp - iDynTree joint map.");
+            Log::getSingleton().error("Failed to create the joint maps.");
             return nullptr;
         }
     }
 
-    assert (m_jointsMapString);
     return m_jointsMapString;
 }
 
 const std::shared_ptr<JointsMapIndex> RobotInterface::getJointsMapIndex()
 {
-    if (m_jointsMapIndex->empty()) {
+    if (!m_jointsMapIndex || m_jointsMapIndex->empty()) {
         if (!mapDoFs()) {
-            Log::getSingleton().error("Failed to create the Yarp - iDynTree joint map.");
+            Log::getSingleton().error("Failed to create the joint maps.");
             return nullptr;
         }
     }
 
     assert (m_jointsMapIndex);
     return m_jointsMapIndex;
+}
+
+const std::shared_ptr<ControlledJointsMapCB> RobotInterface::getControlledJointsMapCB()
+{
+    if (!m_controlledJointsMapCB || m_controlledJointsMapCB->empty()) {
+        if (!mapDoFs()) {
+            Log::getSingleton().error("Failed to create joint maps.");
+            return nullptr;
+        }
+    }
+
+    assert (m_controlledJointsMapCB);
+    return m_controlledJointsMapCB;
+}
+
+const std::shared_ptr<ControlBoardIdxLimit> RobotInterface::getControlBoardIdxLimit()
+{
+    if (!m_controlBoardIdxLimit || m_controlBoardIdxLimit->empty()) {
+        if (!mapDoFs()) {
+            Log::getSingleton().error("Failed to create joint maps.");
+            return nullptr;
+        }
+    }
+
+    assert (m_controlBoardIdxLimit);
+    return m_controlBoardIdxLimit;
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynComputations()
