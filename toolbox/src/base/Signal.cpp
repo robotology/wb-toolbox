@@ -3,6 +3,11 @@
 
 using namespace wbt;
 
+Signal::Signal()
+: nonContiguousData(nullptr)
+, contiguousData(nullptr)
+{}
+
 void Signal::initSignalType(wbt::PortDataType type, bool constPort)
 {
     this->portType = type;
