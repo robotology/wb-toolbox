@@ -31,7 +31,7 @@ namespace iDynTree {
 
 namespace wbt {
     class RobotInterface;
-    struct YarpDevices;
+    struct YarpInterfaces;
 
     typedef int jointIdx_yarp;
     typedef int jointIdx_iDynTree;
@@ -41,7 +41,7 @@ namespace wbt {
 }
 
 /**
- * \struct wbt::YarpDevices RobotInterface.h
+ * \struct wbt::YarpInterfaces RobotInterface.h
  *
  * This struct contains shared_ptrs to the devices which are (lazy) asked from the blocks.
  *
@@ -54,18 +54,31 @@ namespace wbt {
  *         containing only the reduced set in a deeper-hierarchy Simulink's subsystem.
  * @see RobotInterface::getDevice
  */
-struct wbt::YarpDevices
+struct wbt::YarpInterfaces
 {
-    std::shared_ptr<yarp::dev::IControlMode2> iControlMode2;
-    std::shared_ptr<yarp::dev::IPositionControl> iPositionControl;
-    std::shared_ptr<yarp::dev::IPositionDirect> iPositionDirect;
-    std::shared_ptr<yarp::dev::IVelocityControl> iVelocityControl;
-    std::shared_ptr<yarp::dev::ITorqueControl> iTorqueControl;
-    std::shared_ptr<yarp::dev::IPWMControl> iPWMControl;
-    std::shared_ptr<yarp::dev::ICurrentControl> iCurrentControl;
-    std::shared_ptr<yarp::dev::IEncoders> iEncoders;
-    std::shared_ptr<yarp::dev::IControlLimits2> iControlLimits2;
-    std::shared_ptr<yarp::dev::IPidControl> iPidControl;
+    yarp::dev::IControlMode2* iControlMode2;
+    yarp::dev::IPositionControl* iPositionControl;
+    yarp::dev::IPositionDirect* iPositionDirect;
+    yarp::dev::IVelocityControl* iVelocityControl;
+    yarp::dev::ITorqueControl* iTorqueControl;
+    yarp::dev::IPWMControl* iPWMControl;
+    yarp::dev::ICurrentControl* iCurrentControl;
+    yarp::dev::IEncoders* iEncoders;
+    yarp::dev::IControlLimits2* iControlLimits2;
+    yarp::dev::IPidControl* iPidControl;
+
+    YarpInterfaces()
+    : iControlMode2(nullptr)
+    , iPositionControl(nullptr)
+    , iPositionDirect(nullptr)
+    , iVelocityControl(nullptr)
+    , iTorqueControl(nullptr)
+    , iPWMControl(nullptr)
+    , iCurrentControl(nullptr)
+    , iEncoders(nullptr)
+    , iControlLimits2(nullptr)
+    , iPidControl(nullptr)
+    {}
 };
 
 // TODO o pensare come evitare di avere due conf con es position e torque nei setref con lo stesso robot.
@@ -80,7 +93,7 @@ struct wbt::YarpDevices
  * with the specified robot (real or model).
  *
  * @see wbt::Configuration
- * @see wbt::YarpDevices
+ * @see wbt::YarpInterfaces
  * @see iDynTree::KinDynComputations
  */
 class wbt::RobotInterface
@@ -88,7 +101,7 @@ class wbt::RobotInterface
 private:
     std::unique_ptr<yarp::dev::PolyDriver> m_robotDevice;
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDynComp;
-    wbt::YarpDevices m_yarpDevices;
+    wbt::YarpInterfaces m_yarpInterfaces;
 
     // Maps used to store infos about yarp's and idyntree's internal joint indexing
     std::shared_ptr<JointsMapIndex> m_jointsMapIndex;
@@ -133,7 +146,7 @@ private:
      * @tparam T      The type of the retured device
      */
     template <typename T>
-    std::weak_ptr<T> getInterfaceFromTemplate(std::shared_ptr<T> device);
+    T* getInterfaceFromTemplate(T*& device);
 
     /**
      * Creates the map between joints (specified as either names or idyntree indices) and
@@ -196,7 +209,7 @@ public:
      * @tparam T             The type of interface
      */
     template <typename T>
-    bool getInterface(std::weak_ptr<T>& interface);
+    bool getInterface(T*& interface);
 
     // LAZY EVALUATION
     // ===============
@@ -205,7 +218,7 @@ public:
      * Handles the internal counter for using the RemoteControlBoardRemapper
      *
      * @attention All the blocks which need to use any of the interfaces provided by
-     *            wbt::YarpDevices must call this function in their initialize() method.
+     *            wbt::YarpInterfaces must call this function in their initialize() method.
      * @see releaseRemoteControlBoardRemapper
      *
      * @return True if success
