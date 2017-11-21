@@ -5,10 +5,10 @@
 
 namespace wbt {
     class GetMeasurement;
-    enum EstimateType {
-        ESTIMATE_JOINT_POS,
-        ESTIMATE_JOINT_VEL,
-        ESTIMATE_JOINT_ACC,
+    enum MeasuredType {
+        MEASUREMENT_JOINT_POS,
+        MEASUREMENT_JOINT_VEL,
+        MEASUREMENT_JOINT_ACC,
         ESTIMATE_JOINT_TORQUE
     };
 }
@@ -17,8 +17,8 @@ namespace wbt {
 class wbt::GetMeasurement : public wbt::WBBlock
 {
 private:
-    std::vector<double> m_estimate;
-    wbt::EstimateType m_estimateType;
+    std::vector<double> m_measurement;
+    wbt::MeasuredType m_measuredType;
     static void deg2rad(std::vector<double>& v);
 
 public:
