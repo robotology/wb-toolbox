@@ -36,8 +36,12 @@ namespace wbt {
     typedef int jointIdx_yarp;
     typedef int jointIdx_iDynTree;
     typedef unsigned cb_idx;
+    typedef unsigned max_cb_idx;
+    typedef unsigned controlledJointIdxCB;
     typedef std::unordered_map<jointIdx_iDynTree, std::pair<cb_idx, jointIdx_yarp>> JointsMapIndex;
     typedef std::unordered_map<std::string, std::pair<cb_idx, jointIdx_yarp>> JointsMapString;
+    typedef std::unordered_map<std::string, controlledJointIdxCB> ControlledJointsMapCB;
+    typedef std::unordered_map<cb_idx, max_cb_idx> ControlBoardIdxLimit;
 }
 
 /**
@@ -106,7 +110,8 @@ private:
     // Maps used to store infos about yarp's and idyntree's internal joint indexing
     std::shared_ptr<JointsMapIndex> m_jointsMapIndex;
     std::shared_ptr<JointsMapString> m_jointsMapString;
-    // std::unordered_map<std::pair<cb_idx, yarp_idx>, joint_name> m_yarp2joint;
+    std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
+    std::shared_ptr<ControlBoardIdxLimit> m_controlBoardIdxLimit;
 
     // Configuration from Simulink Block's parameters
     const wbt::Configuration m_config;
@@ -159,6 +164,17 @@ private:
      * @return True if the map has been created successfully
      */
     bool mapDoFs();
+
+    /**
+     * Create a RemoteControlBoard object for a given remoteName
+     *
+     * @see mapDoFs
+     *
+     * @param  remoteName   [in]  Name of the remote from which the remote control board is be initialized
+     * @param  controlBoard [out] Smart pointer to the allocated remote control board
+     * @return                    True if success
+     */
+    bool getSingleControlBoard(const std::string& remoteName, std::unique_ptr<yarp::dev::PolyDriver>& controlBoard);
 public:
 
     // CONSTRUCTOR / DESTRUCTOR
@@ -179,7 +195,7 @@ public:
     const wbt::Configuration& getConfiguration() const;
 
     /**
-     * Get the map between model joint namesand the YARP representation (Control Board and
+     * Get the map between model joint names and the YARP representation (Control Board and
      * joint index)
      *
      * @return The joint map
@@ -193,6 +209,31 @@ public:
      * @return The joint map
      */
     const std::shared_ptr<JointsMapIndex> getJointsMapIndex();
+
+    /**
+     * Get the map between model joint names and the index representing their relative ordering
+     * inside the controlledJoints vector relative to their ControlBoard.
+     *
+     * @note For example, if the joints are
+     * \verbatim j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3 \endverbatim, the map links them to
+     * \verbatim 0 1 2 0 1 0 \end
+     *
+     * @return The joint map
+     */
+    const std::shared_ptr<ControlledJointsMapCB> getControlledJointsMapCB();
+
+    /**
+     * Get the map between the ControlBoard index inside the RemoteControlBoardRemapper
+     * and the number of the controlled joints which belongs to it.
+     *
+     * @note For example, if the joints are
+     * \verbatim j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3 \endverbatim, the generated map is
+     * \verbatim  {{0,3}{1,2}{2,1}} \endverbatim
+     * Note that the map key is 0-indexed.
+     *
+     * @return The control board limit map
+     */
+    const std::shared_ptr<ControlBoardIdxLimit> getControlBoardIdxLimit();
 
     /**
      * Get the object to operate on the configured model

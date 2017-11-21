@@ -16,10 +16,12 @@ private:
     bool m_yarp2WBI;
 
     std::shared_ptr<JointsMapString> m_jointsMapString;
+    std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
+    std::shared_ptr<ControlBoardIdxLimit> m_controlBoardIdxLimit;
 
 public:
     static const std::string ClassName;
-    
+
     ModelPartitioner() = default;
     ~ModelPartitioner() override = default;
 
