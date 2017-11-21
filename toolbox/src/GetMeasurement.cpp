@@ -95,7 +95,7 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 
     // Retain the ControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Failed to initialize the Robot Interface containing the Control Board Remapper.");
+        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
         return false;
     }
 

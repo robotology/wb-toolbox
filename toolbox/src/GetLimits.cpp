@@ -103,7 +103,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
         if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-            Log::getSingleton().error("Failed to initialize the Robot Interface containing the Control Board Remapper.");
+            Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
             return false;
         }
         // Get the interface
@@ -173,7 +173,11 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
                 m_limits->max[i] = std::numeric_limits<double>::infinity();
             }
             else {
-                p_joint->getPosLimits(0, min, max);
+                if (!p_joint->getPosLimits(0, min, max)) {
+                    Log::getSingleton().error("Failed to get joint limits from the URDF model ");
+                    Log::getSingleton().errorAppend("for the joint " + joint + ".");
+                    return false;
+                }
                 m_limits->min[i] = min;
                 m_limits->max[i] = max;
             }

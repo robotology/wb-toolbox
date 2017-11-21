@@ -10,17 +10,34 @@ Log& Log::getSingleton()
     return logInstance;
 }
 
-void Log::error(std::string errorMessage)
+void Log::error(const std::string& errorMessage)
 {
     errors.push_back(errorMessage);
 }
 
-void Log::warning(std::string warningMessage)
+void Log::warning(const std::string& warningMessage)
 {
     warnings.push_back(warningMessage);
 }
 
-void Log::setPrefix(std::string prefixMessage)
+void Log::errorAppend(const std::string& errorMessage)
+{
+    if (errors.empty()) {
+        error(errorMessage);
+        return;
+    }
+    errors.back() += errorMessage;
+}
+
+void Log::warningAppend(const std::string& warningMessage)
+{
+    if (warnings.empty()) {
+        warning(warningMessage);
+    }
+    warnings.back() += warningMessage;
+}
+
+void Log::setPrefix(const std::string& prefixMessage)
 {
     prefix = prefixMessage;
 }
@@ -30,7 +47,7 @@ void Log::resetPrefix()
     prefix.clear();
 }
 
-std::string Log::serializeVectorString(std::vector<std::string> v, std::string prefix)
+std::string Log::serializeVectorString(std::vector<std::string> v, const std::string& prefix)
 {
     std::stringstream output;
     std::ostream_iterator<std::string> output_iterator(output, "\n");

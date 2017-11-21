@@ -105,7 +105,12 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
         jointNamesFromParameters.push_back(joint);
     }
 
-    assert(Pvector.size() == Ivector.size() == Dvector.size() == jointNamesFromParameters.size());
+    if (Pvector.size() != Ivector.size() ||
+        Ivector.size() != Dvector.size() ||
+        Dvector.size() != jointNamesFromParameters.size()) {
+        Log::getSingleton().error("Sizes of P, I, D, and jointList elements are not the same.");
+        return false;
+    }
 
     // Store this data into a private member map
     for (unsigned i = 0; i < jointNamesFromParameters.size(); ++i) {
@@ -118,8 +123,8 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
             m_pidJointsFromParameters[jointNamesFromParameters[i]] = {Pvector[i], Ivector[i], Dvector[i]};
         }
         else {
-            Log::getSingleton().warning("Attempted to set PID of joint " + jointNamesFromParameters[i] +
-                                        " non currently controlled. Skipping it.");
+            Log::getSingleton().warning("Attempted to set PID of joint " + jointNamesFromParameters[i]);
+            Log::getSingleton().warningAppend(" non currently controlled. Skipping it.");
         }
 
     }
@@ -156,12 +161,12 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
     // Reading the WBTPIDConfig matlab class
     if (!readWBTPidConfigObject(blockInfo)) {
         Log::getSingleton().error("Failed to parse the WBTPIDConfig object.");
-        return 1;
+        return false;
     }
 
     // Retain the RemoteControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Failed to retain the control board remapper.");
+        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
         return false;
     }
 
