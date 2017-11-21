@@ -58,11 +58,11 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     bool autoconnect;
     double signalSize;
 
-    bool ok = false;
+    bool ok = true;
 
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, shouldReadTimestamp);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, autoconnect);
-    ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_IDX_PORTSIZE, signalSize);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, shouldReadTimestamp);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, autoconnect);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_PORTSIZE, signalSize);
 
     if (!ok) {
         Log::getSingleton().error("Failed to read input parameters.");
@@ -114,10 +114,10 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
 
     bool ok = true;
 
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, m_shouldReadTimestamp);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_WAITDATA, m_blocking);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, m_shouldReadTimestamp);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_WAITDATA, m_blocking);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
 
     if (!ok) {
         Log::getSingleton().error("Failed to read input parameters.");

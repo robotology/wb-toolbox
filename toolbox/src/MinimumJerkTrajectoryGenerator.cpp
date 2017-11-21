@@ -56,10 +56,10 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     bool externalSettlingTime;
     bool ok = true;
 
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE, outputFirstDerivative);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE, outputSecondDerivative);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, explicitInitialValue);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, externalSettlingTime);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE, outputFirstDerivative);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE, outputSecondDerivative);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, explicitInitialValue);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, externalSettlingTime);
 
     if (!ok) {
         Log::getSingleton().error("Failed to get input parameters.");
@@ -132,13 +132,13 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
     bool outputSecondDerivative;
     bool ok = true;
 
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE,
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE,
                                                     outputFirstDerivative);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE,
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE,
                                                     outputSecondDerivative);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, m_explicitInitialValue);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, m_externalSettlingTime);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_RESET_CHANGEST,
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, m_explicitInitialValue);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, m_externalSettlingTime);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_RESET_CHANGEST,
                                                     m_resetOnSettlingTimeChange);
 
     if (!ok) {
@@ -157,8 +157,8 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
     double sampleTime;
     double settlingTime;
 
-    ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_IDX_SAMPLE_TIME, sampleTime);
-    ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_IDX_SETTLING_TIME, settlingTime);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_SAMPLE_TIME, sampleTime);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_SETTLING_TIME, settlingTime);
 
     unsigned signalSize = blockInfo->getInputPortWidth(0);
 

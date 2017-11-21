@@ -106,7 +106,7 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 {
     // Release the RemoteControlBoardRemapper
     bool ok = true;
-    ok = ok & getRobotInterface()->releaseRemoteControlBoardRemapper();
+    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
         Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
         // Don't return false here. WBBlock::terminate must be called in any case
