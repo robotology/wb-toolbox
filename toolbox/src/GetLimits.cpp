@@ -91,7 +91,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     // possible using i to point to the correct joint.
 
     // Get the RemoteControlBoardRemapper and IControlLimits2 interface if needed
-    std::weak_ptr<yarp::dev::IControlLimits2> iControlLimits2;
+    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
     if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
         if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
@@ -99,7 +99,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
             return false;
         }
         // Get the interface
-        if (!getRobotInterface()->getInterface(iControlLimits2)) {
+        if (!getRobotInterface()->getInterface(iControlLimits2) || !iControlLimits2) {
             Log::getSingleton().error("Failed to get IControlLimits2 interface.");
             return false;
         }
@@ -107,7 +107,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
 
     if (limitType == "ControlBoardPosition") {
         for (auto i = 0; i < dofs; ++i) {
-            if (!iControlLimits2.lock()->getLimits(i, &min, &max)) {
+            if (!iControlLimits2->getLimits(i, &min, &max)) {
                 Log::getSingleton().error("Failed to get limits from the interface.");
                 return false;
             }
@@ -117,7 +117,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     }
     else if (limitType == "ControlBoardVelocity") {
         for (auto i = 0; i < dofs; ++i) {
-            if (!iControlLimits2.lock()->getVelLimits(i, &min, &max)) {
+            if (!iControlLimits2->getVelLimits(i, &min, &max)) {
                 Log::getSingleton().error("Failed to get limits from the interface.");
                 return false;
             }
