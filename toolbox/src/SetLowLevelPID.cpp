@@ -216,18 +216,21 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     ok = ok && getRobotInterface()->getInterface(iPidControl);
     if (!ok || !iPidControl) {
         Log::getSingleton().error("Failed to get IPidControl interface.");
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Reset default pid gains
     ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
     if (!ok) {
         Log::getSingleton().error("Failed to set default PID values.");
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Release the RemoteControlBoardRemapper
     ok = ok & getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
         Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     return ok && WBBlock::terminate(blockInfo);

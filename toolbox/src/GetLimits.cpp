@@ -171,11 +171,23 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
 
 bool GetLimits::terminate(const BlockInformation* blockInfo)
 {
-    // Release the RemoteControlBoardRemapper
     bool ok = true;
-    ok = ok & getRobotInterface()->releaseRemoteControlBoardRemapper();
+
+    // Read the control type
+    std::string limitType;
+    ok = ok && blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType);
     if (!ok) {
-        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        Log::getSingleton().error("Could not read estimate type parameter.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    // Release the RemoteControlBoardRemapper
+    if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
+        ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+        if (!ok) {
+            Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+            // Don't return false here. WBBlock::terminate must be called in any case
+        }
     }
 
     return ok && WBBlock::terminate(blockInfo);
