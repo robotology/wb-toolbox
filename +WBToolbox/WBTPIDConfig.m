@@ -57,6 +57,18 @@ classdef WBTPIDConfig < handle
             obj.I(:,idx) = [];
             obj.D(:,idx) = [];
         end
+        
+        function value = getSimulinkParameters(obj)
+            if isempty(obj.P) || isempty(obj.I) || isempty(obj.D) || ...
+                    isempty(obj.jointList)
+                error('Trying to get parameters from an empty object')
+            end
+            value = struct();
+            value.P = obj.P;
+            value.I = obj.I;
+            value.D = obj.D;
+            value.jointList = obj.jointList;
+        end
     end
     
 end
