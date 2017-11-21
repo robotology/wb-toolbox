@@ -22,13 +22,13 @@ WBTConfig.UrdfFile  = stripApices(char(get_param(configBlock,'UrdfFile')));
 WBTConfig.LocalName = stripApices(char(get_param(configBlock,'LocalName')));
 
 ControlledJointsChar = stripApices(char(get_param(configBlock,'ControlledJoints')));
-WBTConfig.ControlledJoints = eval('base',ControlledJointsChar);
+WBTConfig.ControlledJoints = evalin('base',ControlledJointsChar);
 
 ControlBoardsNamesChar = stripApices(char(get_param(configBlock,'ControlBoardsNames')));
-WBTConfig.ControlBoardsNames = eval('base',ControlBoardsNamesChar);
+WBTConfig.ControlBoardsNames = evalin('base',ControlBoardsNamesChar);
 
 GravityVectorChar = stripApices(char(get_param(configBlock,'GravityVector')));
-WBTConfig.GravityVector = eval('base',GravityVectorChar);
+WBTConfig.GravityVector = evalin('base',GravityVectorChar);
 
 end
 
