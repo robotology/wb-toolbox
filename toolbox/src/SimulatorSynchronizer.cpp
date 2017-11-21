@@ -73,9 +73,9 @@ bool SimulatorSynchronizer::initialize(const BlockInformation* blockInfo)
     std::string clientPortName;
 
     bool ok = true;
-    ok = ok & blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period);
-    ok = ok & blockInfo->getStringParameterAtIndex(PARAM_GZCLK_PORT, serverPortName);
-    ok = ok & blockInfo->getStringParameterAtIndex(PARAM_RPC_PORT, clientPortName);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_GZCLK_PORT, serverPortName);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_RPC_PORT, clientPortName);
 
     if (!ok) {
         Log::getSingleton().error("Error reading RPC parameters.");

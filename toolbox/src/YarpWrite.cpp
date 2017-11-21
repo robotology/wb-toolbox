@@ -68,9 +68,8 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
 
     bool ok = true;
 
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
-    ok = ok & blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT,
-                                                    m_errorOnMissingPort);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
+    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
 
     if (!ok) {
         Log::getSingleton().error("Failed to read input parameters.");
