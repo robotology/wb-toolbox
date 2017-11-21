@@ -4,8 +4,8 @@
 #include "BlockInformation.h"
 #include "Signal.h"
 #include "RobotInterface.h"
-#include "iDynTree/KinDynComputations.h"
-#include "iDynTree/Model/Model.h"
+#include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Model.h>
 #include <yarp/dev/IControlLimits2.h>
 #include <vector>
 #include <limits>
@@ -133,7 +133,16 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
 
     else if (limitType == "ModelPosition") {
         iDynTree::IJointConstPtr p_joint;
-        const iDynTree::Model model = getRobotInterface()->getKinDynComputations()->model();
+
+        // Get the KinDynComputations pointer
+        const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+        if (!kindyncomp) {
+            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            return false;
+        }
+
+        // Get the model
+        const iDynTree::Model model = kindyncomp->model();
 
         for (auto i = 0; i < dofs; ++i) {
             // Get the joint name
