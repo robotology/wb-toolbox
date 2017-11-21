@@ -50,7 +50,18 @@ bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex
 
 bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const
 {
+    double tmpValue = 0;
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+
+    // The Simulink mask often doesn't store boolean data from the mask as bool but as double.
+    // Calling asBool() will fail in this case. If this happens, asDouble() is used as fallback.
+    if (MxAnyType(blockParam).asBool(value)) {
+        return true;
+    }
+    else if (MxAnyType(blockParam).asDouble(tmpValue)) {
+        value = static_cast<bool>(tmpValue);
+        return true;
+    }
     return MxAnyType(blockParam).asBool(value);
 }
 
