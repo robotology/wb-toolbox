@@ -21,6 +21,6 @@
 #include "MinimumJerkTrajectoryGenerator.h"
 #endif
 #ifdef WBT_USES_IPOPT
-#include "InverseKinematics.h"
-#include "RemoteInverseKinematics.h"
+// #include "InverseKinematics.h"
 #endif
+// #include "RemoteInverseKinematics.h"

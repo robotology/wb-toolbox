@@ -45,14 +45,12 @@ Block* Block::instantiateBlockWithClassName(std::string blockClassName)
     }
 #endif
 #ifdef WBT_USES_IPOPT
-    else if (blockClassName == wbt::InverseKinematics::ClassName) {
-        block = new wbt::InverseKinematics();
-    }
+    // else if (blockClassName == InverseKinematics::ClassName) {
+    //     block = new InverseKinematics();
+    // }
 #endif
-    else if (blockClassName == wbt::RemoteInverseKinematics::ClassName) {
-        block = new wbt::RemoteInverseKinematics();
-    }
-
-    
+    // else if (blockClassName == RemoteInverseKinematics::ClassName) {
+    //     block = new RemoteInverseKinematics();
+    // }
     return block;
 }
