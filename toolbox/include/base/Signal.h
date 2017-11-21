@@ -19,7 +19,7 @@ private:
     void* contiguousData;
 
 public:
-    Signal() = default;
+    Signal();
 
     void initSignalType(wbt::PortDataType type, bool constPort);
 
