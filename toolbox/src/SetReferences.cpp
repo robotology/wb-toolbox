@@ -129,19 +129,21 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     bool ok = true;
 
     // Get the interface
-    std::weak_ptr<IControlMode2> icmd2;
-    ok = ok & getRobotInterface()->getInterface(icmd2);
-    if (!ok) {
+    IControlMode2* icmd2 = nullptr;
+    ok = ok && getRobotInterface()->getInterface(icmd2);
+    if (!ok || !icmd2) {
         Log::getSingleton().error("Failed to get the IControlMode2 interface.");
+        return false;
     }
 
     // Set  all the controlledJoints VOCAB_CM_POSITION
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
     m_controlModes.assign(dofs, VOCAB_CM_POSITION);
 
-    ok = ok & icmd2.lock()->setControlModes(m_controlModes.data());
+    ok = ok && icmd2->setControlModes(m_controlModes.data());
     if (!ok) {
         Log::getSingleton().error("Failed to set control mode.");
+        return false;
     }
 
     // Release the RemoteControlBoardRemapper
@@ -169,13 +171,13 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     if (m_resetControlMode) {
         m_resetControlMode = false;
         // Get the interface
-        std::weak_ptr<IControlMode2> icmd2;
-        if (!getRobotInterface()->getInterface(icmd2)) {
+        IControlMode2* icmd2 = nullptr;
+        if (!getRobotInterface()->getInterface(icmd2) || !icmd2) {
             Log::getSingleton().error("Failed to get the IControlMode2 interface.");
             return false;
         }
         // Set the control mode to all the controlledJoints
-        if (!icmd2.lock()->setControlModes(m_controlModes.data())) {
+        if (!icmd2->setControlModes(m_controlModes.data())) {
             Log::getSingleton().error("Failed to set control mode.");
             return false;
         }
@@ -195,71 +197,71 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             break;
         case VOCAB_CM_POSITION: {
             // Get the interface
-            std::weak_ptr<IPositionControl> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            IPositionControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get IPositionControl interface.");
                 return false;
             }
             // Convert from rad to deg
             rad2deg(referencesVector);
             // Set the references
-            ok = interface.lock()->positionMove(referencesVector.data());
+            ok = interface->positionMove(referencesVector.data());
             break;
         }
         case VOCAB_CM_POSITION_DIRECT: {
             // Get the interface
-            std::weak_ptr<IPositionDirect> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            IPositionDirect* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get IPositionDirect interface.");
                 return false;
             }
             // Convert from rad to deg
             rad2deg(referencesVector);
             // Set the references
-            ok = interface.lock()->setPositions(referencesVector.data());
+            ok = interface->setPositions(referencesVector.data());
             break;
         }
         case VOCAB_CM_VELOCITY: {
             // Get the interface
-            std::weak_ptr<IVelocityControl> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            IVelocityControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get IVelocityControl interface.");
                 return false;
             }
             // Convert from rad to deg
             rad2deg(referencesVector);
             // Set the references
-            ok = interface.lock()->velocityMove(referencesVector.data());
+            ok = interface->velocityMove(referencesVector.data());
             break;
         }
         case VOCAB_CM_TORQUE: {
             // Get the interface
-            std::weak_ptr<ITorqueControl> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            ITorqueControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get ITorqueControl interface.");
                 return false;
             }
-            ok = interface.lock()->setRefTorques(referencesVector.data());
+            ok = interface->setRefTorques(referencesVector.data());
             break;
         }
         case VOCAB_CM_PWM: {
             // Get the interface
-            std::weak_ptr<IPWMControl> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            IPWMControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get IPWMControl interface.");
                 return false;
             }
-            ok = interface.lock()->setRefDutyCycles(referencesVector.data());
+            ok = interface->setRefDutyCycles(referencesVector.data());
             break;
         }
         case VOCAB_CM_CURRENT: {
             // Get the interface
-            std::weak_ptr<ICurrentControl> interface;
-            if (!getRobotInterface()->getInterface(interface)) {
+            ICurrentControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
                 Log::getSingleton().error("Failed to get ICurrentControl interface.");
                 return false;
             }
-            ok = interface.lock()->setRefCurrents(referencesVector.data());
+            ok = interface->setRefCurrents(referencesVector.data());
             break;
         }
     }

@@ -120,49 +120,49 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     switch (m_estimateType) {
         case ESTIMATE_JOINT_POS: {
             // Get the interface
-            std::weak_ptr<yarp::dev::IEncoders> iEncoders;
-            if (!getRobotInterface()->getInterface(iEncoders)) {
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
                 Log::getSingleton().error("Failed to get IPidControl interface.");
                 return false;
             }
             // Get the measurement
-            ok = iEncoders.lock()->getEncoders(m_estimate.data());
             deg2rad(m_estimate);
+            ok = iEncoders->getEncoders(m_measurement.data());
             break;
         }
         case ESTIMATE_JOINT_VEL: {
             // Get the interface
-            std::weak_ptr<yarp::dev::IEncoders> iEncoders;
-            if (!getRobotInterface()->getInterface(iEncoders)) {
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
                 Log::getSingleton().error("Failed to get IEncoders interface.");
                 return false;
             }
             // Get the measurement
-            ok = iEncoders.lock()->getEncoderSpeeds(m_estimate.data());
             deg2rad(m_estimate);
+            ok = iEncoders->getEncoderSpeeds(m_measurement.data());
             break;
         }
         case ESTIMATE_JOINT_ACC: {
             // Get the interface
-            std::weak_ptr<yarp::dev::IEncoders> iEncoders;
-            if (!getRobotInterface()->getInterface(iEncoders)) {
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
                 Log::getSingleton().error("Failed to get IEncoders interface.");
                 return false;
             }
             // Get the measurement
-            ok = iEncoders.lock()->getEncoderAccelerations(m_estimate.data());
             deg2rad(m_estimate);
+            ok = iEncoders->getEncoderAccelerations(m_measurement.data());
             break;
         }
         case ESTIMATE_JOINT_TORQUE: {
             // Get the interface
-            std::weak_ptr<yarp::dev::ITorqueControl> iTorqueControl;
-            if (!getRobotInterface()->getInterface(iTorqueControl)) {
+            yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+            if (!getRobotInterface()->getInterface(iTorqueControl) || !iTorqueControl) {
                 Log::getSingleton().error("Failed to get ITorqueControl interface.");
                 return false;
             }
             // Get the measurement
-            ok = iTorqueControl.lock()->getTorques(m_estimate.data());
+            ok = iTorqueControl->getTorques(m_measurement.data());
             break;
         }
         default:

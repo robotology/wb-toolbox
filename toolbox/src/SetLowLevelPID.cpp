@@ -171,14 +171,14 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
     m_defaultPidValues.resize(dofs);
 
     // Get the interface
-    std::weak_ptr<yarp::dev::IPidControl> iPidControl;
-    if (!getRobotInterface()->getInterface(iPidControl)) {
+    yarp::dev::IPidControl* iPidControl = nullptr;
+    if (!getRobotInterface()->getInterface(iPidControl) || !iPidControl) {
         Log::getSingleton().error("Failed to get IPidControl interface.");
         return false;
     }
 
     // Store the default gains
-    if (!iPidControl.lock()->getPids(m_controlType, m_defaultPidValues.data())) {
+    if (!iPidControl->getPids(m_controlType, m_defaultPidValues.data())) {
         Log::getSingleton().error("Failed to get default data from IPidControl.");
         return false;
     }
@@ -199,7 +199,7 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
     }
 
     // Apply the new pid gains
-    if (!iPidControl.lock()->setPids(m_controlType, m_appliedPidValues.data())) {
+    if (!iPidControl->setPids(m_controlType, m_appliedPidValues.data())) {
         Log::getSingleton().error("Failed to set PID values.");
         return false;
     }
@@ -212,14 +212,14 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     bool ok = true;
 
     // Get the IPidControl interface
-    std::weak_ptr<yarp::dev::IPidControl> iPidControl;
-    ok = ok & getRobotInterface()->getInterface(iPidControl);
-    if (!ok) {
+    yarp::dev::IPidControl* iPidControl = nullptr;
+    ok = ok && getRobotInterface()->getInterface(iPidControl);
+    if (!ok || !iPidControl) {
         Log::getSingleton().error("Failed to get IPidControl interface.");
     }
 
     // Reset default pid gains
-    ok = ok & iPidControl.lock()->setPids(m_controlType, m_defaultPidValues.data());
+    ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
     if (!ok) {
         Log::getSingleton().error("Failed to set default PID values.");
     }
