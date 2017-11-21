@@ -19,7 +19,7 @@ SetReferences::SetReferences()
 
 void SetReferences::rad2deg(std::vector<double>& v)
 {
-    const double rad2deg = 180.0 / (2 * M_PI);
+    const double rad2deg = 180.0 / M_PI;
     for (auto& element : v) {
         element *= rad2deg;
     }
@@ -113,6 +113,26 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
         return false;
     }
 
+    // The Position mode is used to set a discrete reference, and then the yarp interface
+    // is responsible to generate a trajectory to reach this setpoint.
+    // The generated trajectory takes an additional parameter: the speed.
+    // If not properly initialized, this contol mode does not work as expected.
+    if (controlType == "Position") {
+        // Get the interface
+        yarp::dev::IPositionControl* interface = nullptr;
+        if (!getRobotInterface()->getInterface(interface) || !interface) {
+            Log::getSingleton().error("Failed to get IPositionControl interface.");
+            return false;
+        }
+        // TODO: Set this parameter from the mask
+        std::vector<double> speedInitalization(dofs, 10.0);
+        // Set the references
+        if (!interface->setRefSpeeds(speedInitalization.data())) {
+            Log::getSingleton().error("Failed to initialize speed references.");
+            return false;
+        }
+    }
+
     // Retain the ControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
         Log::getSingleton().error("Failed to initialize the Robot Interface containing the Control Board Remapper.");
@@ -158,8 +178,15 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
 
 bool SetReferences::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
 {
-    // Simply reset the variable m_resetControlMode.
-    // It will be read at the first cycle of output.
+    // This function is called when a subsystem with Enable / Disable support is used.
+    // In this case all the blocks in this subsystem are configured and initialize,
+    // but if they are disabled, output() is not called.
+    // This initializeInitialConditions method is called when the block is enabled,
+    // and in this case the control mode should be set.
+    //
+    // It is worth noting that this toolbox disables parameters to be tunable for
+    // all the blocks
+
     m_resetControlMode = true;
     return true;
 }
