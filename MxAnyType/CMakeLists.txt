@@ -34,8 +34,7 @@ endif()
 
 # Find Matlab resources
 find_package(Matlab REQUIRED MX_LIBRARY)
-# target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}") // TODO: when committing
-target_include_directories(${VARS_PREFIX} PUBLIC "${Matlab_INCLUDE_DIRS}")
+target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}")
 
 # Setup the include directories
 # TODO why in the how to was INTERFACE?
