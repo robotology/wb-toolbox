@@ -47,13 +47,13 @@ configSource = get_param(configBlock,'ConfigSource');
 
 if strcmp(configSource,'Mask')
     % Read the mask
-    WBTConfig = WBToolbox.Mask2WBToolboxConfig(configBlock);
+    WBTConfig = WBToolbox.MaskToConfiguration(configBlock);
 elseif strcmp(configSource,'Workspace')
     % Get the object name and populate the mask
     configObjectName = get_param(configBlock,'ConfigObject');
-    WBToolbox.WBToolboxConfig2Mask(configBlock, configObjectName);
+    WBToolbox.ConfigurationToMask(configBlock, configObjectName);
     % Read the mask
-    WBTConfig = WBToolbox.Mask2WBToolboxConfig(configBlock);
+    WBTConfig = WBToolbox.MaskToConfiguration(configBlock);
 else
     error('[%s::Initialization] Read ConfigSource from Config block not recognized', char(currentBlock));
 end

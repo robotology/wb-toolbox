@@ -1,5 +1,5 @@
-function [ WBTConfig ] = Mask2WBToolboxConfig(configBlock)
-%MASK2WBTOOLBOXCONFIG Summary of this function goes here
+function [ WBTConfig ] = MaskToConfiguration(configBlock)
+%MASKTOCONFIGURATION Summary of this function goes here
 %   Detailed explanation goes here
 
 defaultString = '''NonValid''';
@@ -12,10 +12,10 @@ if (...
     strcmp(char(get_param(configBlock,'ControlledJoints')),defaultString) && ...
     strcmp(char(get_param(configBlock,'ControlBoardsNames')),defaultString) ...
     )
-    error('[Mask2WBToolboxConfig] The provided config is NonValid.');
+    error('[MaskToConfiguration] The provided config is NonValid.');
 end
 
-WBTConfig = WBToolbox.WBToolboxConfig;
+WBTConfig = WBToolbox.Configuration;
 
 WBTConfig.RobotName = stripApices(char(get_param(configBlock,'RobotName')));
 WBTConfig.UrdfFile  = stripApices(char(get_param(configBlock,'UrdfFile')));

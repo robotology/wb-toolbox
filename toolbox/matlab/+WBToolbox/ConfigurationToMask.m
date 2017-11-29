@@ -1,5 +1,5 @@
-function WBToolboxConfig2Mask(configBlock, WBTConfigObjectName)
-%WBTOOLBOXCONFIG2MASK Summary of this function goes here
+function ConfigurationToMask(configBlock, WBTConfigObjectName)
+%CONFIGURATIONTOMASK Summary of this function goes here
 %   Detailed explanation goes here
 
 % Assign names to labels
@@ -16,7 +16,7 @@ item_GravityVector = 8;
 try
     mask = Simulink.Mask.get(configBlock);
 catch
-    error('[WBToolboxConfig2Mask] Impossible to gather Config Block: %s', configBlock);
+    error('[ConfigurationToMask] Impossible to gather Config Block: %s', configBlock);
 end
 
 
@@ -30,11 +30,11 @@ try
     WBTConfigHandle = evalin('base', WBTConfigObjectName); % Get the handle
     WBTConfigObject = copy(WBTConfigHandle); % Shallow copy the handle
 catch
-    error('[WBToolboxConfig2Mask] Failed to get %s object from the workspace', WBTConfigObjectName);
+    error('[ConfigurationToMask] Failed to get %s object from the workspace', WBTConfigObjectName);
 end
 
 try
-    if (isa(WBTConfigObject,'WBToolbox.WBToolboxConfig') && WBTConfigObject.ValidConfiguration)
+    if (isa(WBTConfigObject,'WBToolbox.Configuration') && WBTConfigObject.ValidConfiguration)
         SetParamFromReadOnly(...
             configBlock,'RobotName',...
             strcat('''',WBTConfigObject.RobotName,''''),...
@@ -55,7 +55,7 @@ try
             configBlock,'LocalName',...
             strcat('''',WBTConfigObject.LocalName,''''),mask.Parameters(item_LocalName));
     else
-        error('[WBToolboxConfig2Mask] Failed to get the %s object', WBTConfigObjectName);
+        error('[ConfigurationToMask] Failed to get the %s object', WBTConfigObjectName);
     end
 catch
     SetParamFromReadOnly(...

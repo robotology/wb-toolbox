@@ -1,5 +1,5 @@
-classdef WBToolboxConfig < matlab.mixin.Copyable
-    %WBTOOLBOXCONFIG Summary of this class goes here
+classdef Configuration < matlab.mixin.Copyable
+    %CONFIGURATION Summary of this class goes here
     %   Detailed explanation goes here
 
     % PROPERTIES
@@ -116,7 +116,7 @@ classdef WBToolboxConfig < matlab.mixin.Copyable
             end
             cellArraySerialized = '{';
             for i=1:length(cellArray)
-                cellArraySerialized = strcat(cellArraySerialized,"'",cellArray{i},"'");
+                cellArraySerialized = strcat(cellArraySerialized,'''',cellArray{i},'''');
                 if i ~= length(cellArray)
                     cellArraySerialized = strcat(cellArraySerialized,',');
                 end
