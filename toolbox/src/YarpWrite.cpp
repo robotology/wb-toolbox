@@ -143,7 +143,7 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
     Signal signal = blockInfo->getInputPortSignal(0);
 
     for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-        outputVector[i] = signal.get(i).doubleData();
+        outputVector[i] = signal.get<double>(i);
     }
 
     m_port->write();

@@ -139,9 +139,7 @@ bool Jacobian::terminate(const BlockInformation* blockInfo)
 
 bool Jacobian::output(const BlockInformation* blockInfo)
 {
-    using namespace iDynTree;
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
     typedef Matrix<double, Dynamic, Dynamic, ColMajor> MatrixXdSimulink;
     typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
 
@@ -152,31 +150,21 @@ bool Jacobian::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // GET THE SIGNALS AND CONVERT THEM TO IDYNTREE OBJECTS
-    // ====================================================
+    // GET THE SIGNALS POPULATE THE ROBOT STATE
+    // ========================================
 
-    unsigned signalWidth;
-
-    // Base pose
     Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
-    fromEigen(robotState.m_world_T_base,
-              Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
+    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    // Joints position
-    Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
-    robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
+    bool ok = setRobotState(&basePoseSig,
+                            &jointsPosSig,
+                            nullptr,
+                            nullptr);
 
-    // TODO: what about the other inputs of setRobotState?
-
-    // UPDATE THE ROBOT STATUS
-    // =======================
-    model->setRobotState(robotState.m_world_T_base,
-                         robotState.m_jointsPosition,
-                         robotState.m_baseVelocity,
-                         robotState.m_jointsVelocity,
-                         robotState.m_gravity);
+    if (!ok) {
+        Log::getSingleton().error("Failed to set the robot state.");
+        return false;
+    }
 
     // OUTPUT
     // ======
@@ -184,7 +172,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     iDynTree::Transform world_H_frame;
 
     // Compute the jacobian
-    bool ok = false;
+    ok = false;
     if (!m_frameIsCoM) {
         world_H_frame = model->getWorldTransform(m_frameIndex);
         ok = model->getFrameFreeFloatingJacobian(m_frameIndex, *m_jacobian);
@@ -203,7 +191,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(*m_jacobian);
-    Map<MatrixXdSimulink> jacobianColMajor((double*)output.getContiguousBuffer(),
+    Map<MatrixXdSimulink> jacobianColMajor(output.getBuffer<double>(),
                                            6, 6 + dofs);
 
     // Forward the buffer to Simulink transforming it to ColMajor

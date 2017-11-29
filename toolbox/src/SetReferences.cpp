@@ -17,12 +17,17 @@ SetReferences::SetReferences()
 : m_resetControlMode(true)
 {}
 
-void SetReferences::rad2deg(std::vector<double>& v)
+const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
 {
-    const double rad2deg = 180.0 / M_PI;
-    for (auto& element : v) {
-        element *= rad2deg;
+    const double Rad2Deg = 180.0 / M_PI;
+
+    std::vector<double> vectorDeg(width);
+
+    for (auto i = 0; i < width; ++i) {
+        vectorDeg[i] = buffer[i] * Rad2Deg;
     }
+
+    return vectorDeg;
 }
 
 unsigned SetReferences::numberOfParameters()
@@ -125,7 +130,7 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
             return false;
         }
         // TODO: Set this parameter from the mask
-        std::vector<double> speedInitalization(dofs, 10.0);
+        std::vector<double> speedInitalization(dofs, 50.0);
         // Set the references
         if (!interface->setRefSpeeds(speedInitalization.data())) {
             Log::getSingleton().error("Failed to initialize speed references.");
@@ -214,7 +219,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     // Get the signal
     Signal references = blockInfo->getInputPortSignal(0);
     unsigned signalWidth = blockInfo->getInputPortWidth(0);
-    std::vector<double> referencesVector = references.getStdVector(signalWidth);
+
+    double* bufferReferences = references.getBuffer<double>();
+    if (!bufferReferences) {
+        Log::getSingleton().error("Failed to get the buffer containing references.");
+        return false;
+    }
 
     bool ok = false;
     // TODO: here only the first element is checked
@@ -231,9 +241,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            rad2deg(referencesVector);
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->positionMove(referencesVector.data());
+            ok = interface->positionMove(referencesDeg.data());
             break;
         }
         case VOCAB_CM_POSITION_DIRECT: {
@@ -244,9 +254,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            rad2deg(referencesVector);
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->setPositions(referencesVector.data());
+            ok = interface->setPositions(referencesDeg.data());
             break;
         }
         case VOCAB_CM_VELOCITY: {
@@ -257,9 +267,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            rad2deg(referencesVector);
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->velocityMove(referencesVector.data());
+            ok = interface->velocityMove(referencesDeg.data());
             break;
         }
         case VOCAB_CM_TORQUE: {
@@ -269,7 +279,8 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 Log::getSingleton().error("Failed to get ITorqueControl interface.");
                 return false;
             }
-            ok = interface->setRefTorques(referencesVector.data());
+            // Set the references
+            ok = interface->setRefTorques(bufferReferences);
             break;
         }
         case VOCAB_CM_PWM: {
@@ -279,7 +290,8 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 Log::getSingleton().error("Failed to get IPWMControl interface.");
                 return false;
             }
-            ok = interface->setRefDutyCycles(referencesVector.data());
+            // Set the references
+            ok = interface->setRefDutyCycles(bufferReferences);
             break;
         }
         case VOCAB_CM_CURRENT: {
@@ -289,7 +301,8 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 Log::getSingleton().error("Failed to get ICurrentControl interface.");
                 return false;
             }
-            ok = interface->setRefCurrents(referencesVector.data());
+            // Set the references
+            ok = interface->setRefCurrents(bufferReferences);
             break;
         }
     }

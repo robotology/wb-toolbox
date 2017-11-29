@@ -16,9 +16,9 @@ const std::string GetMeasurement::ClassName = "GetMeasurement";
 
 void GetMeasurement::deg2rad(std::vector<double>& v)
 {
-    const double deg2rad = M_PI / 180.0;
+    const double Deg2Rad = M_PI / 180.0;
     for (auto& element : v) {
-        element *= deg2rad;
+        element *= Deg2Rad;
     }
 }
 

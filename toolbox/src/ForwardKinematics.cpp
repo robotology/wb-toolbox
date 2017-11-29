@@ -126,7 +126,6 @@ bool ForwardKinematics::terminate(const BlockInformation* blockInfo)
 
 bool ForwardKinematics::output(const BlockInformation* blockInfo)
 {
-    using namespace iDynTree;
     using namespace Eigen;
     typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
     typedef Matrix<double, 4, 4, Eigen::RowMajor> Matrix4diDynTree;
@@ -138,31 +137,23 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the signals and convert them to iDynTree objects
-    // ====================================================
+    // GET THE SIGNALS POPULATE THE ROBOT STATE
+    // ========================================
 
-    unsigned signalWidth;
-
-    // Base pose
     Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
-    fromEigen(robotState.m_world_T_base,
-              Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
+    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    // Joints position
-    Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
-    robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
+    bool ok = setRobotState(&basePoseSig,
+                            &jointsPosSig,
+                            nullptr,
+                            nullptr);
 
-    // Update the robot status
-    // =======================
-    model->setRobotState(robotState.m_world_T_base,
-                         robotState.m_jointsPosition,
-                         robotState.m_baseVelocity,
-                         robotState.m_jointsVelocity,
-                         robotState.m_gravity);
+    if (!ok) {
+        Log::getSingleton().error("Failed to set the robot state.");
+        return false;
+    }
 
-    // Output
+    // OUTPUT
     // ======
 
     iDynTree::Transform world_H_frame;
@@ -180,7 +171,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
 
     // Allocate objects for row-major -> col-major conversion
     Map<const Matrix4diDynTree> world_H_frame_RowMajor = toEigen(world_H_frame.asHomogeneousTransform());
-    Map<Matrix4dSimulink> world_H_frame_ColMajor((double*)output.getContiguousBuffer(),
+    Map<Matrix4dSimulink> world_H_frame_ColMajor(output.getBuffer<double>(),
                            4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor

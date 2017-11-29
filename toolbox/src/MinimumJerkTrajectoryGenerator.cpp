@@ -154,8 +154,8 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
         m_outputSecondDerivativeIndex = outputFirstDerivative ? 2 : 1;
     }
 
-    double sampleTime;
-    double settlingTime;
+    double sampleTime = 0;
+    double settlingTime = 0;
 
     ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_SAMPLE_TIME, sampleTime);
     ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_SETTLING_TIME, settlingTime);
@@ -190,7 +190,7 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         unsigned portIndex = 1;
         if (m_explicitInitialValue) portIndex++;
         Signal externalTimePort = blockInfo->getInputPortSignal(portIndex);
-        double externalTime = externalTimePort.get(0).doubleData();
+        double externalTime = externalTimePort.get<double>(0);
 
         if (std::abs(m_previousSettlingTime - externalTime) > 1e-5) {
             m_previousSettlingTime = externalTime;
@@ -204,14 +204,13 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     if (m_firstRun) {
         m_firstRun = false;
-        Signal initialValues;
         unsigned portIndex = 0;
         if (m_explicitInitialValue) {
             portIndex = 1;
         }
-        initialValues = blockInfo->getInputPortSignal(portIndex);
+        Signal initialValues = blockInfo->getInputPortSignal(portIndex);
         for (unsigned i = 0; i < blockInfo->getInputPortWidth(portIndex); ++i) {
-            (*m_initialValues)[i] = initialValues.get(i).doubleData();
+            (*m_initialValues)[i] = initialValues.get<double>(i);
         }
         m_generator->init(*m_initialValues);
     }
@@ -219,7 +218,7 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     Signal references = blockInfo->getInputPortSignal(0);
     for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-        (*m_reference)[i] = references.get(i).doubleData();
+        (*m_reference)[i] = references.get<double>(i);
     }
     m_generator->computeNextValues(*m_reference);
 

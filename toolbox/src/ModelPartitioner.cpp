@@ -168,10 +168,8 @@ bool ModelPartitioner::terminate(const BlockInformation* blockInfo)
 
 bool ModelPartitioner::output(const BlockInformation* blockInfo)
 {
-    Signal dofsSignal;
-
     if (m_yarp2WBI) {
-        dofsSignal = blockInfo->getInputPortSignal(0);
+        Signal dofsSignal = blockInfo->getInputPortSignal(0);
 
         for (unsigned ithJoint = 0; ithJoint < getConfiguration().getNumberOfDoFs(); ++ithJoint) {
             const std::string ithJointName = getConfiguration().getControlledJoints()[ithJoint];
@@ -183,11 +181,11 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
 
             // Get the data to forward
             Signal ithOutput = blockInfo->getOutputPortSignal(controlBoardOfJoint);
-            ithOutput.set(contrJointIdxCB, dofsSignal.get(ithJoint).doubleData());
+            ithOutput.set(contrJointIdxCB, dofsSignal.get<double>(ithJoint));
         }
     }
     else {
-        dofsSignal = blockInfo->getOutputPortSignal(0);
+        Signal dofsSignal = blockInfo->getOutputPortSignal(0);
 
         for (unsigned ithJoint = 0; ithJoint < getConfiguration().getNumberOfDoFs(); ++ithJoint) {
             const std::string ithJointName = getConfiguration().getControlledJoints()[ithJoint];
@@ -199,7 +197,7 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
 
             // Get the data to forward
             const Signal ithInput = blockInfo->getInputPortSignal(controlBoardOfJoint);
-            dofsSignal.set(ithJoint, ithInput.get(contrJointIdxCB).doubleData());
+            dofsSignal.set(ithJoint, ithInput.get<double>(contrJointIdxCB));
         }
     }
     return true;
