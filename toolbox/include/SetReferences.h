@@ -13,6 +13,7 @@ class wbt::SetReferences : public wbt::WBBlock
 private:
     std::vector<int> m_controlModes;
     bool m_resetControlMode;
+    double m_refSpeed;
     static const std::vector<double> rad2deg(const double* buffer, const unsigned width);
 
 public:

@@ -15,6 +15,7 @@ const std::string SetReferences::ClassName = "SetReferences";
 
 SetReferences::SetReferences()
 : m_resetControlMode(true)
+, m_refSpeed(0)
 {}
 
 const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
@@ -32,7 +33,7 @@ const std::vector<double> SetReferences::rad2deg(const double* buffer, const uns
 
 unsigned SetReferences::numberOfParameters()
 {
-    return WBBlock::numberOfParameters() + 1;
+    return WBBlock::numberOfParameters() + 2;
 }
 
 bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
@@ -90,6 +91,13 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
         return false;
     }
 
+    // Reading the refSpeed
+    if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2,
+                                              m_refSpeed)) {
+        Log::getSingleton().error("Could not read reference speed parameter.");
+        return false;
+    }
+
     // Initialize the std::vectors
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
     m_controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
@@ -129,8 +137,7 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
             Log::getSingleton().error("Failed to get IPositionControl interface.");
             return false;
         }
-        // TODO: Set this parameter from the mask
-        std::vector<double> speedInitalization(dofs, 50.0);
+        std::vector<double> speedInitalization(dofs, m_refSpeed);
         // Set the references
         if (!interface->setRefSpeeds(speedInitalization.data())) {
             Log::getSingleton().error("Failed to initialize speed references.");
