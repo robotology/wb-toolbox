@@ -1,325 +1,189 @@
 #include "Signal.h"
-#include <cstring>
 
 using namespace wbt;
 
-Signal::Signal()
-: nonContiguousData(nullptr)
-, contiguousData(nullptr)
+Signal::~Signal()
+{
+    deleteBuffer();
+}
+
+Signal::Signal(const Signal& signal)
+: m_width(signal.m_width)
+, m_isConst(signal.m_isConst)
+, m_portDataType(signal.m_portDataType)
+, m_dataFormat(signal.m_dataFormat)
+, m_bufferPtr(nullptr)
+{
+    if (signal.m_bufferPtr) {
+        switch (signal.m_dataFormat) {
+            // Just copy the pointer to MATLAB's memory
+            case CONTIGUOUS_ZEROCOPY:
+                m_bufferPtr = signal.m_bufferPtr;
+                break;
+            // Copy the allocated data
+            case NONCONTIGUOUS:
+            case CONTIGUOUS:
+                allocateBuffer(signal.m_bufferPtr, m_bufferPtr, signal.m_width);
+                break;
+        }
+    }
+}
+
+Signal::Signal(const SignalDataFormat& dataFormat,
+               const PortDataType& dataType,
+               const bool& isConst)
+: m_isConst(isConst)
+, m_portDataType(dataType)
+, m_dataFormat(dataFormat)
+, m_bufferPtr(nullptr)
 {}
 
-void Signal::initSignalType(wbt::PortDataType type, bool constPort)
+Signal::Signal(Signal&& other)
+: m_width(other.m_width)
+, m_isConst(other.m_isConst)
+, m_portDataType(other.m_portDataType)
+, m_dataFormat(other.m_dataFormat)
+, m_bufferPtr(other.m_bufferPtr)
 {
-    this->portType = type;
-    this->isConstPort = constPort;
+    other.m_width = 0;
+    other.m_bufferPtr = nullptr;
 }
 
-void Signal::setContiguousBuffer(void* buffer)
+void Signal::allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length)
 {
-    contiguousData = buffer;
-    this->isContiguous = true;
-}
-void Signal::setContiguousBuffer(const void* buffer)
-{
-    contiguousData = const_cast<void*>(buffer);
-    this->isContiguous = true;
-}
-
-void Signal::setNonContiguousBuffer(void** buffer)
-{
-    nonContiguousData = buffer;
-    this->isContiguous = false;
-}
-
-void Signal::setNonContiguousBuffer(const void* const* buffer)
-{
-    nonContiguousData = const_cast<void**>(buffer);
-    this->isContiguous = false;
+    // TODO: Implement other PortDataType
+    switch (m_portDataType) {
+        case PortDataTypeDouble: {
+            // Allocate the array
+            bufferOutput = static_cast<void*>(new double[m_width]);
+            // Cast to double
+            const double* const bufferInputDouble = static_cast<const double*>(bufferInput);
+            double* bufferOutputDouble = static_cast<double*>(bufferOutput);
+            // Copy data
+            std::copy(bufferInputDouble, bufferInputDouble + length, bufferOutputDouble);
+            return;
+        }
+        default:
+            return;
+    }
 }
 
-
-const Data Signal::get(unsigned index) const
+void Signal::deleteBuffer()
 {
-    Data data;
-    switch (portType) {
+    if (m_dataFormat == CONTIGUOUS_ZEROCOPY || !m_bufferPtr) {
+        return;
+    }
+
+    // TODO: Implement other PortDataType
+    switch (m_portDataType) {
         case PortDataTypeDouble:
-            if (isContiguous) {
-                data.doubleData((static_cast<double*>(contiguousData))[index]);
-            }
-            else {
-                const double* buffer = static_cast<const double*>(*nonContiguousData);
-                data.doubleData(static_cast<const double>(buffer[index]));
-            }
-            break;
-        case PortDataTypeSingle:
-            if (isContiguous) {
-                data.floatData((static_cast<float*>(contiguousData))[index]);
-            }
-            else {
-                const float* buffer = static_cast<const float*>(*nonContiguousData);
-                data.floatData(static_cast<const float>(buffer[index]));
-            }
-            break;
-        case PortDataTypeInt8:
-            if (isContiguous) {
-                data.int8Data((static_cast<int8_t*>(contiguousData))[index]);
-            }
-            else {
-                const int8_t* buffer = static_cast<const int8_t*>(*nonContiguousData);
-                data.int8Data(static_cast<const int8_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeUInt8:
-            if (isContiguous) {
-                data.uint8Data((static_cast<uint8_t*>(contiguousData))[index]);
-            }
-            else {
-                const uint8_t* buffer = static_cast<const uint8_t*>(*nonContiguousData);
-                data.uint8Data(static_cast<const uint8_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeInt16:
-            if (isContiguous) {
-                data.int16Data((static_cast<int16_t*>(contiguousData))[index]);
-            }
-            else {
-                const int16_t* buffer = static_cast<const int16_t*>(*nonContiguousData);
-                data.int16Data(static_cast<const int16_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeUInt16:
-            if (isContiguous) {
-                data.uint16Data((static_cast<uint16_t*>(contiguousData))[index]);
-            }
-            else {
-                const uint16_t* buffer = static_cast<const uint16_t*>(*nonContiguousData);
-                data.uint16Data(static_cast<const uint16_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeInt32:
-            if (isContiguous) {
-                data.int32Data((static_cast<int32_t*>(contiguousData))[index]);
-            }
-            else {
-                const int32_t* buffer = static_cast<const int32_t*>(*nonContiguousData);
-                data.int32Data(static_cast<const int32_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeUInt32:
-            if (isContiguous) {
-                data.uint32Data((static_cast<uint32_t*>(contiguousData))[index]);
-            }
-            else {
-                const uint32_t* buffer = static_cast<const uint32_t*>(*nonContiguousData);
-                data.uint32Data(static_cast<const uint32_t>(buffer[index]));
-            }
-            break;
-        case PortDataTypeBoolean:
-            if (isContiguous) {
-                data.booleanData((static_cast<bool*>(contiguousData))[index]);
-            }
-            else {
-                const bool* buffer = static_cast<const bool*>(*nonContiguousData);
-                data.booleanData(static_cast<const bool>(buffer[index]));
-            }
+            delete static_cast<double*>(m_bufferPtr);
+            m_bufferPtr = nullptr;
+            return;
+        default:
+            return;
     }
-    return data;
 }
 
-void* Signal::getContiguousBuffer()
+bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 {
-    if (!isContiguous) return nullptr;
-    return this->contiguousData;
-}
-
-std::vector<double> Signal::getStdVector(unsigned length) const
-{
-    std::vector<double> v(length);
-    for (unsigned i = 0; i < length; ++i) {
-        v[i] = get(i).doubleData();
+    if (m_dataFormat != CONTIGUOUS_ZEROCOPY) {
+        return false;
     }
-    return v;
+
+    m_bufferPtr = const_cast<void*>(buffer);
+    return true;
 }
 
-//the missing are cast
-void Signal::set(unsigned index, double data)
+bool Signal::initializeBufferFromContiguous(const void* buffer)
 {
-    if (isConstPort) return;
+    if (m_dataFormat != CONTIGUOUS ||
+        m_width <= 0) {
+        return false;
+    }
 
-    switch (portType) {
+    if (m_portDataType == PortDataTypeDouble) {
+        // Allocate a new vector to store data from the non-contiguous signal
+        m_bufferPtr = static_cast<void*>(new double[m_width]);
+        const double* bufferInputDouble = static_cast<const double*>(buffer);
+        double* bufferOutputDouble = static_cast<double*>(m_bufferPtr);
+
+        // Copy data from the input memory location
+        std::copy(bufferInputDouble, bufferInputDouble + m_width, bufferOutputDouble);
+    }
+    return true;
+}
+
+bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
+{
+    if (m_dataFormat != NONCONTIGUOUS ||
+        m_width <= 0) {
+        return false;
+    }
+
+    if (m_portDataType == PortDataTypeDouble) {
+        // Allocate a new vector to store data from the non-contiguous signal
+        m_bufferPtr = static_cast<void*>(new double[m_width]);
+        double* bufferPtrDouble = static_cast<double*>(m_bufferPtr);
+
+        // Copy data from MATLAB's memory to the Signal object
+        for (auto i = 0; i < m_width; ++i) {
+            const double* valuePtr = static_cast<const double*>(*bufferPtrs);
+            bufferPtrDouble[i] = valuePtr[i];
+        }
+    }
+    return true;
+}
+
+void Signal::setWidth(const unsigned& width)
+{
+    m_width = width;
+}
+
+unsigned Signal::getWidth() const
+{
+    return m_width;
+}
+
+PortDataType Signal::getPortDataType() const
+{
+    return m_portDataType;
+}
+
+bool Signal::isConst() const
+{
+    return m_isConst;
+}
+
+
+SignalDataFormat Signal::getDataFormat() const
+{
+    return m_dataFormat;
+}
+
+bool Signal::set(const unsigned& index, const double& data)
+{
+    if (m_isConst || m_width <= index) {
+        return false;
+    }
+
+    // TODO: Implement other PortDataType
+    switch (m_portDataType) {
         case PortDataTypeDouble:
         {
-            double* buffer = static_cast<double*>(contiguousData);
+            double* buffer = static_cast<double*>(m_bufferPtr);
             buffer[index] = data;
             break;
         }
         case PortDataTypeSingle:
         {
-            float* buffer = static_cast<float*>(contiguousData);
+            float* buffer = static_cast<float*>(m_bufferPtr);
             buffer[index] = data;
             break;
         }
         default:
+            return false;
             break;
     }
-}
-
-void Signal::setBuffer(const double* data, const unsigned length, unsigned startIndex)
-{
-    if (isConstPort) return;
-    unsigned dataSize = 0;
-    const void* address = data;
-
-    switch (portType) {
-        case PortDataTypeDouble:
-        {
-            dataSize = sizeof(double);
-            address = static_cast<const double*>(address) + startIndex;
-            break;
-        }
-        case PortDataTypeSingle:
-        {
-            dataSize = sizeof(float);
-            address = static_cast<const float*>(address) + startIndex;
-            break;
-        }
-        default:
-            break;
-    }
-
-    memcpy(contiguousData, address, dataSize * length);
-
-}
-
-void Signal::set(unsigned index, int32_t data)
-{
-    //signed integer function
-    switch (portType) {
-        case PortDataTypeInt32:
-        {
-            int32_t* buffer = static_cast<int32_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        case PortDataTypeInt16:
-        {
-            int16_t* buffer = static_cast<int16_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        case PortDataTypeInt8:
-        {
-            int8_t* buffer = static_cast<int8_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void Signal::setBuffer(const int32_t* data, const unsigned length, unsigned startIndex)
-{
-    if (isConstPort) return;
-    unsigned dataSize = 0;
-    const void* address = data;
-
-    switch (portType) {
-        case PortDataTypeInt32:
-        {
-            dataSize = sizeof(int32_t);
-            address = static_cast<const int32_t*>(address) + startIndex;
-            break;
-        }
-        case PortDataTypeInt16:
-        {
-            dataSize = sizeof(int16_t);
-            address = static_cast<const int16_t*>(address) + startIndex;
-            break;
-        }
-        case PortDataTypeInt8:
-        {
-            dataSize = sizeof(int8_t);
-            address = static_cast<const int8_t*>(address) + startIndex;
-            break;
-        }
-        default:
-            break;
-    }
-
-    memcpy(contiguousData, address, dataSize* length);
-}
-
-void Signal::set(unsigned index, uint32_t data)
-{
-    //signed integer function
-    switch (portType) {
-        case PortDataTypeUInt32:
-        {
-            uint32_t* buffer = static_cast<uint32_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        case PortDataTypeUInt16:
-        {
-            uint16_t* buffer = static_cast<uint16_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        case PortDataTypeUInt8:
-        {
-            uint8_t* buffer = static_cast<uint8_t*>(contiguousData);
-            buffer[index] = data;
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void Signal::setBuffer(const uint32_t* data, const unsigned length, unsigned startIndex)
-{
-    if (isConstPort) return;
-    unsigned dataSize = 0;
-    const void* address = data;
-
-    switch (portType) {
-        case PortDataTypeUInt32:
-        {
-            dataSize = sizeof(uint32_t);
-            address = data + startIndex;
-            break;
-        }
-        case PortDataTypeUInt16:
-        {
-            dataSize = sizeof(uint16_t);
-            address = data + startIndex;
-            break;
-        }
-        case PortDataTypeUInt8:
-        {
-            dataSize = sizeof(uint8_t);
-            address = data + startIndex;
-            break;
-        }
-        default:
-            break;
-    }
-
-    memcpy(contiguousData, address, dataSize* length);
-}
-
-void Signal::set(unsigned index, bool data)
-{
-    bool* buffer = static_cast<bool*>(contiguousData);
-    buffer[index] = data;
-}
-
-void Signal::setBuffer(const bool* data, const unsigned length, unsigned startIndex)
-{
-    if (isConstPort) return;
-    unsigned dataSize = sizeof(bool);
-    const void* address = static_cast<const bool*>(data) + startIndex;
-
-    memcpy(contiguousData, address, dataSize* length);
+    return true;
 }

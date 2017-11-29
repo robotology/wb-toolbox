@@ -3,7 +3,6 @@
 
 #include "AnyType.h"
 #include <string>
-#include <cstdint>
 
 namespace wbt {
     class BlockInformation;
@@ -21,37 +20,6 @@ namespace wbt {
         PortDataTypeBoolean,
     } PortDataType;
 
-    class Data
-    {
-    private:
-        double buffer;
-    public:
-        inline double doubleData() const { return buffer; }
-        inline void doubleData(const double& data) { buffer = data; }
-        inline float floatData() const { return static_cast<float>(buffer); }
-        inline void floatData(const float& data) { buffer = static_cast<float>(data); }
-
-        inline int8_t int8Data() const { return static_cast<int8_t>(buffer); }
-        inline void int8Data(const int8_t& data) { buffer = static_cast<int8_t>(data); }
-        inline uint8_t uint8Data() const { return static_cast<uint8_t>(buffer); }
-        inline void uint8Data(const uint8_t& data) { buffer = static_cast<uint8_t>(data); }
-
-        inline int16_t int16Data() const { return static_cast<int16_t>(buffer); }
-        inline void int16Data(const int16_t& data) { buffer = static_cast<int16_t>(data); }
-        inline uint16_t uint16Data() const { return static_cast<uint16_t>(buffer); }
-        inline void uint16Data(const uint16_t& data) { buffer = static_cast<uint16_t>(data); }
-
-        inline int32_t int32Data() const { return static_cast<int32_t>(buffer); }
-        inline void int32Data(const int32_t& data) { buffer = static_cast<int32_t>(data); }
-        inline uint32_t uint32Data() const { return static_cast<uint32_t>(buffer); }
-        inline void uint32Data(const uint32_t& data) { buffer = static_cast<uint32_t>(data); }
-
-        inline bool booleanData() const { return static_cast<bool>(buffer); }
-        inline void booleanData(const bool& data) { buffer = static_cast<bool>(data); }
-
-        friend Signal;
-    };
-
     extern const std::string BlockOptionPrioritizeOrder;
 }
 
@@ -61,7 +29,7 @@ public:
     BlockInformation() = default;
     virtual ~BlockInformation() = default;
 
-    // Block Options methods
+    // BLOCK OPTIONS METHODS
     // =====================
 
     /**
@@ -74,7 +42,7 @@ public:
     virtual bool optionFromKey(const std::string& key, double& option) const;
 
 
-    // Parameters methods
+    // PARAMETERS METHODS
     // ==================
 
     /**
@@ -88,12 +56,10 @@ public:
     virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const = 0;
     virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const = 0;
     virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const = 0;
-    // virtual bool getAnyTypeAtIndex(unsigned parameterIndex, AnyType* data) = 0;
-    // virtual bool getCellAtIndex(unsigned parameterIndex, AnyCell& map) = 0;
     virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const = 0;
     virtual bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const = 0;
 
-    // Port information methods
+    // PORT INFORMATION SETTERS
     // ========================
 
     virtual bool setNumberOfInputPorts(unsigned numberOfPorts) = 0;
@@ -114,13 +80,13 @@ public:
     virtual bool setInputPortType(unsigned portNumber, PortDataType portType) = 0;
     virtual bool setOutputPortType(unsigned portNumber, PortDataType portType) = 0;
 
-    // Port data
-    // =========
+    // PORT INFORMATION GETTERS
+    // ========================
 
     virtual unsigned getInputPortWidth(unsigned portNumber) const = 0;
     virtual unsigned getOutputPortWidth(unsigned portNumber) const = 0;
-    virtual wbt::Signal getInputPortSignal(unsigned portNumber) const = 0;
-    virtual wbt::Signal getOutputPortSignal(unsigned portNumber)const  = 0;
+    virtual wbt::Signal getInputPortSignal(unsigned portNumber, int portWidth = -1) const = 0;
+    virtual wbt::Signal getOutputPortSignal(unsigned portNumber, int portWidth = -1) const  = 0;
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */
