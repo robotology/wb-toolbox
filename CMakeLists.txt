@@ -1,10 +1,12 @@
-# Copyright (C) 2013-2015 Instituto Italiano di Tecnologia
-# Author: Jorhabib Eljaik, Francesco Romano
+# Copyright (C) 2013-2017 iCub Facility - Istituto Italiano di Tecnologia
+# Author: Jorhabib Eljaik, Francesco Romano, Diego Ferigo
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
-cmake_minimum_required(VERSION 2.8.11)
-
+cmake_minimum_required(VERSION 3.3)
 project(WB-Toolbox)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(YCM REQUIRED)
 include(YCMDefaultDirs)

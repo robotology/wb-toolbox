@@ -12,20 +12,20 @@ classdef PID < handle
     %   D - Derivative gain
     %   joint - Reference joint
     %
-    % See also: WBTOOLBOX.WBTPIDCONFIG
-    
+    % See also: WBTOOLBOX.PIDCONFIGURATION
+
     properties
         P     (1,1) double = 0
         I     (1,1) double = 0
         D     (1,1) double = 0
         joint (1,:) char
     end
-    
+
     methods
         %         function obj = PID(jointName)
         %             obj.joint = jointName;
         %         end
-        
+
         function obj = PID(jointName, P, I, D)
             if (nargin == 4)
                 obj.joint = jointName;
@@ -44,7 +44,6 @@ classdef PID < handle
                     );
             end
         end
-        
+
     end
 end
-    
