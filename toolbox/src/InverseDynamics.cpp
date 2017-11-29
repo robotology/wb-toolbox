@@ -5,10 +5,8 @@
 #include "Signal.h"
 #include "RobotInterface.h"
 #include <memory>
-#include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/FreeFloatingState.h>
 #include <iDynTree/KinDynComputations.h>
-#include <Eigen/Core>
 
 using namespace wbt;
 
@@ -130,9 +128,52 @@ bool InverseDynamics::terminate(const BlockInformation* blockInfo)
 
 bool InverseDynamics::output(const BlockInformation* blockInfo)
 {
-    using namespace iDynTree;
-    using namespace Eigen;
-    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+    // GET THE SIGNALS POPULATE THE ROBOT STATE
+    // ========================================
+
+    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+
+    bool ok = setRobotState(&basePoseSig,
+                            &jointsPosSig,
+                            &baseVelocitySignal,
+                            &jointsVelocitySignal);
+
+    if (!ok) {
+        Log::getSingleton().error("Failed to set the robot state.");
+        return false;
+    }
+
+    // Base acceleration
+    // -----------------
+
+    Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
+    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
+    if (!bufBaseAcc) {
+        Log::getSingleton().error("Failed to read data from input port.");
+        return false;
+    }
+    for (auto i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
+        m_baseAcceleration->setVal(i, bufBaseAcc[i]);
+    }
+
+    // Joints acceleration
+    // -------------------
+
+    Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
+    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
+    if (!bufJointsAcc) {
+        Log::getSingleton().error("Failed to read data from input port.");
+        return false;
+    }
+    for (auto i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
+        m_jointsAcceleration->setVal(i, bufJointsAcc[i]);
+    }
+
+    // OUTPUT
+    // ======
 
     const auto& model = getRobotInterface()->getKinDynComputations();
 
@@ -141,59 +182,10 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // GET THE SIGNALS AND CONVERT THEM TO IDYNTREE OBJECTS
-    // ====================================================
-
-    unsigned signalWidth;
-
-    // Base pose
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_POSE);
-    fromEigen(robotState.m_world_T_base,
-              Matrix4dSimulink(basePoseSig.getStdVector(signalWidth).data()));
-
-    // Joints position
-    Signal jointsPositionSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINTCONF);
-    robotState.m_jointsPosition.fillBuffer(jointsPositionSig.getStdVector(signalWidth).data());
-
-    // Base velocity
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_VEL);
-    double* m_baseVelocityBuffer = baseVelocitySignal.getStdVector(signalWidth).data();
-    robotState.m_baseVelocity = Twist(LinVelocity(m_baseVelocityBuffer, 3),
-                                 AngVelocity(m_baseVelocityBuffer+3, 3));
-
-    // Joints velocity
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINT_VEL);
-    robotState.m_jointsVelocity.fillBuffer(jointsVelocitySignal.getStdVector(signalWidth).data());
-
-    // Base acceleration
-    Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_BASE_ACC);
-    m_baseAcceleration->fillBuffer(baseAccelerationSignal.getStdVector(signalWidth).data());
-
-    // Joints acceleration
-    Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
-    signalWidth = blockInfo->getInputPortWidth(INPUT_IDX_JOINT_ACC);
-    m_jointsAcceleration->fillBuffer(jointsAccelerationSignal.getStdVector(signalWidth).data());
-
-    // UPDATE THE ROBOT STATUS
-    // =======================
-    model->setRobotState(robotState.m_world_T_base,
-                         robotState.m_jointsPosition,
-                         robotState.m_baseVelocity,
-                         robotState.m_jointsVelocity,
-                         robotState.m_gravity);
-
-    // OUTPUT
-    // ======
-
     // Calculate the inverse dynamics (assuming zero external forces)
     model->inverseDynamics(*m_baseAcceleration,
                            *m_jointsAcceleration,
-                           LinkNetExternalWrenches(model->getNrOfLinks()), // TODO
+                           iDynTree::LinkNetExternalWrenches(model->getNrOfLinks()),
                            *m_torques);
 
     // Forward the output to Simulink
