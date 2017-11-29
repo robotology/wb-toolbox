@@ -15,20 +15,30 @@ class wbt::SimulinkBlockInformation : public wbt::BlockInformation
 private:
     SimStruct* simstruct;
 
+    PortDataType mapSimulinkToPortType(const DTypeId& typeId) const;
+    DTypeId mapPortTypeToSimulink(const PortDataType& dataType) const;
+
 public:
     SimulinkBlockInformation(SimStruct* simstruct);
     ~SimulinkBlockInformation() override = default;
 
+    // BLOCK OPTIONS METHODS
+    // =====================
+
     bool optionFromKey(const std::string& key, double& option) const override;
 
-    //Parameters methods
+    // PARAMETERS METHODS
+    // ==================
+
     bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const override;
     bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const override;
     bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const override;
     bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const override;
     bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const override;
 
-    //Port information methods
+    // PORT INFORMATION SETTERS
+    // ========================
+
     bool setNumberOfInputPorts(unsigned numberOfPorts) override;
     bool setNumberOfOutputPorts(unsigned numberOfPorts) override;
     bool setInputPortVectorSize(unsigned portNumber, int portSize) override;
@@ -38,11 +48,13 @@ public:
     bool setInputPortType(unsigned portNumber, PortDataType portType) override;
     bool setOutputPortType(unsigned portNumber, PortDataType portType) override;
 
-    //Port data
+    // PORT INFORMATION GETTERS
+    // ========================
+
     unsigned getInputPortWidth(unsigned portNumber) const override;
     unsigned getOutputPortWidth(unsigned portNumber) const override;
-    wbt::Signal getInputPortSignal(unsigned portNumber) const override;
-    wbt::Signal getOutputPortSignal(unsigned portNumber) const override;
+    wbt::Signal getInputPortSignal(unsigned portNumber, int portWidth = DYNAMICALLY_SIZED) const override;
+    wbt::Signal getOutputPortSignal(unsigned portNumber, int portWidth = DYNAMICALLY_SIZED) const override;
 };
 
 #endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */

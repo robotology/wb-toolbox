@@ -11,6 +11,9 @@ SimulinkBlockInformation::SimulinkBlockInformation(SimStruct* S)
 : simstruct(S)
 {}
 
+// BLOCK OPTIONS METHODS
+// =====================
+
 bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& option) const
 {
     if (key == wbt::BlockOptionPrioritizeOrder) {
@@ -21,26 +24,14 @@ bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& opt
     return false;
 }
 
-//Parameters methods
+// PARAMETERS METHODS
+// ==================
+
 bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
     return MxAnyType(blockParam).asString(stringParameter);
 }
-
-bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const
-{
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asAnyStruct(map);
-}
-
-
-bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const
-{
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asVectorDouble(vec);
-}
-
 
 bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex, double& value) const
 {
@@ -65,7 +56,22 @@ bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterInde
     return MxAnyType(blockParam).asBool(value);
 }
 
-//Port information methods
+bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const
+{
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    return MxAnyType(blockParam).asAnyStruct(map);
+}
+
+
+bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const
+{
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    return MxAnyType(blockParam).asVectorDouble(vec);
+}
+
+// PORT INFORMATION SETTERS
+// ========================
+
 bool SimulinkBlockInformation::setNumberOfInputPorts(unsigned numberOfPorts)
 {
     return ssSetNumInputPorts(simstruct, numberOfPorts);
@@ -104,77 +110,20 @@ bool SimulinkBlockInformation::setOutputPortMatrixSize(unsigned portNumber, int 
 
 bool SimulinkBlockInformation::setInputPortType(unsigned portNumber, PortDataType portType)
 {
-    //for now force Direct feedthrough.. If needed create a separate method
     ssSetInputPortDirectFeedThrough(simstruct, portNumber, 1);
-    int matlabDataType = -1;
-    switch (portType) {
-        case PortDataTypeDouble:
-            matlabDataType = SS_DOUBLE;
-            break;
-            case PortDataTypeSingle:
-            matlabDataType = SS_SINGLE;
-            break;
-        case PortDataTypeInt8:
-            matlabDataType = SS_INT8;
-            break;
-        case PortDataTypeUInt8:
-            matlabDataType = SS_UINT8;
-            break;
-        case PortDataTypeInt16:
-            matlabDataType = SS_INT16;
-            break;
-        case PortDataTypeUInt16:
-            matlabDataType = SS_UINT16;
-            break;
-        case PortDataTypeInt32:
-            matlabDataType = SS_INT32;
-            break;
-        case PortDataTypeUInt32:
-            matlabDataType = SS_UINT32;
-            break;
-        case PortDataTypeBoolean:
-            matlabDataType = SS_BOOLEAN;
-            break;
-    }
-    return ssSetInputPortDataType(simstruct, portNumber, matlabDataType);
+    ssSetInputPortDataType(simstruct, portNumber, mapSimulinkToPortType(portType));
+    return true;
 }
 
 bool SimulinkBlockInformation::setOutputPortType(unsigned portNumber, PortDataType portType)
 {
-    int matlabDataType = -1;
-    switch (portType) {
-        case PortDataTypeDouble:
-            matlabDataType = SS_DOUBLE;
-            break;
-        case PortDataTypeSingle:
-            matlabDataType = SS_SINGLE;
-            break;
-        case PortDataTypeInt8:
-            matlabDataType = SS_INT8;
-            break;
-        case PortDataTypeUInt8:
-            matlabDataType = SS_UINT8;
-            break;
-        case PortDataTypeInt16:
-            matlabDataType = SS_INT16;
-            break;
-        case PortDataTypeUInt16:
-            matlabDataType = SS_UINT16;
-            break;
-        case PortDataTypeInt32:
-            matlabDataType = SS_INT32;
-            break;
-        case PortDataTypeUInt32:
-            matlabDataType = SS_UINT32;
-            break;
-        case PortDataTypeBoolean:
-            matlabDataType = SS_BOOLEAN;
-            break;
-    }
-    return ssSetOutputPortDataType(simstruct, portNumber, matlabDataType);
+    ssSetOutputPortDataType(simstruct, portNumber, mapSimulinkToPortType(portType));
+    return true;
 }
 
-//Port data
+// PORT INFORMATION GETTERS
+// ========================
+
 unsigned SimulinkBlockInformation::getInputPortWidth(unsigned portNumber) const
 {
     return ssGetInputPortWidth(simstruct, portNumber);
@@ -185,22 +134,136 @@ unsigned SimulinkBlockInformation::getOutputPortWidth(unsigned portNumber) const
     return ssGetOutputPortWidth(simstruct, portNumber);
 }
 
-wbt::Signal SimulinkBlockInformation::getInputPortSignal(unsigned portNumber) const
+wbt::Signal SimulinkBlockInformation::getInputPortSignal(unsigned portNumber, int portWidth) const
 {
-    Signal signal;
-    InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, portNumber);
-    bool isConstPort = true;
-    signal.initSignalType(PortDataTypeDouble, isConstPort);
-    signal.setNonContiguousBuffer(port);
+    // Read if the signal is contiguous or non-contiguous
+    boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, portNumber);
+    SignalDataFormat sigDataFormat = isContiguous ? CONTIGUOUS_ZEROCOPY : NONCONTIGUOUS;
+
+    // Check if the signal is dynamically sized (which means that the dimension
+    // cannot be read)
+    bool isDynamicallySized = (ssGetInputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED);
+
+    // Note that if the signal is DYNAMICALLY_SIZED (-1), portWidth is necessary
+    if (isDynamicallySized && portWidth == -1) {
+        return Signal();
+    }
+
+    // Read the width of the signal if it is not provided as input and the signal is not
+    // dynamically sized
+    if (!isDynamicallySized && portWidth == -1) {
+        portWidth = ssGetInputPortWidth(simstruct, portNumber);
+    }
+
+    // Get the data type of the Signal if set (default: double)
+    DTypeId dataType = ssGetInputPortDataType(simstruct, portNumber);
+
+    switch (sigDataFormat) {
+        case CONTIGUOUS_ZEROCOPY: {
+            // Initialize the signal
+            bool isConstPort = true;
+            Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
+            signal.setWidth(portWidth);
+            // Initialize signal's data
+            if (!signal.initializeBufferFromContiguousZeroCopy(ssGetInputPortSignal(simstruct, portNumber))) {
+                return Signal();
+            }
+            return signal;
+        }
+        case NONCONTIGUOUS: {
+            // Initialize the signal
+            bool isConstPort = true;
+            Signal signal(NONCONTIGUOUS, mapSimulinkToPortType(dataType), isConstPort);
+            signal.setWidth(portWidth);
+            // Initialize signal's data
+            InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, portNumber);
+            if (!signal.initializeBufferFromNonContiguous(static_cast<const void* const*>(port))) {
+                return Signal();
+            }
+            return signal;
+        }
+        default:
+            return Signal();
+    }
+}
+
+wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber, int portWidth) const
+{
+    // Check if the signal is dynamically sized (which means that the dimension
+    // cannot be read)
+    bool isDynamicallySized = (ssGetOutputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED);
+
+    // Note that if the signal is DYNAMICALLY_SIZED (-1), portWidth is necessary
+    if (isDynamicallySized && portWidth == -1) {
+        return Signal();
+    }
+
+    // Read the width of the signal if it is not provided as input and the signal is not
+    // dynamically sized
+    if (!isDynamicallySized && portWidth == -1) {
+        portWidth = ssGetOutputPortWidth(simstruct, portNumber);
+    }
+
+    // Get the data type of the Signal if set (default: double)
+    DTypeId dataType = ssGetOutputPortDataType(simstruct, portNumber);
+
+    bool isConstPort = false;
+    Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
+    signal.setWidth(portWidth);
+
+    if (!signal.initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, portNumber))) {
+        return Signal();
+    }
+
     return signal;
 }
 
-
-wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber) const
+PortDataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
 {
-    Signal signal;
-    bool isConstPort = false;
-    signal.initSignalType(PortDataTypeDouble, isConstPort);
-    signal.setContiguousBuffer(ssGetOutputPortSignal(simstruct, portNumber));
-    return signal;
+    switch (typeId) {
+        case SS_DOUBLE:
+            return PortDataTypeDouble;
+        case SS_SINGLE:
+            return PortDataTypeSingle;
+        case SS_INT8:
+            return PortDataTypeInt8;
+        case SS_UINT8:
+            return PortDataTypeUInt8;
+        case SS_INT16:
+            return PortDataTypeInt16;
+        case SS_UINT16:
+            return PortDataTypeUInt16;
+        case SS_INT32:
+            return PortDataTypeInt32;
+        case SS_UINT32:
+            return PortDataTypeUInt32;
+        case SS_BOOLEAN:
+            return PortDataTypeBoolean;
+        default:
+            return PortDataTypeDouble;
+    }
+}
+
+DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const PortDataType& dataType) const
+{
+    switch (dataType) {
+        case PortDataTypeDouble:
+            return SS_DOUBLE;
+        case PortDataTypeSingle:
+            return SS_SINGLE;
+        case PortDataTypeInt8:
+            return SS_INT8;
+        case PortDataTypeUInt8:
+            return SS_UINT8;
+        case PortDataTypeInt16:
+            return SS_INT16;
+        case PortDataTypeUInt16:
+            return SS_UINT16;
+        case PortDataTypeInt32:
+            return SS_INT32;
+        case PortDataTypeUInt32:
+            return SS_UINT32;
+        case PortDataTypeBoolean:
+            return SS_BOOLEAN;
+    }
 }

@@ -177,6 +177,15 @@ static void mdlInitializeSizes(SimStruct* S)
     bool ok = block->configureSizeAndPorts(&blockInfo);
     catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
 
+    for (auto i = 0; i < ssGetNumInputPorts(S); ++i) {
+        // Set explicitly the inputs port to be SS_NOT_REUSABLE_AND_GLOBAL (which actually
+        // is already the default value). Since the toolbox supports contiguous input signals,
+        // this option should not be changed.
+        ssSetInputPortOptimOpts(S, i, SS_NOT_REUSABLE_AND_GLOBAL);
+        // Set input signals to be allocated in a contiguous memory storage
+        ssSetInputPortRequiredContiguous(S, i, true);
+    }
+
     ssSetNumSampleTimes(S, 1);
 
     ssSetSimStateCompliance(S, USE_CUSTOM_SIM_STATE); //??
