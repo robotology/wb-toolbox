@@ -189,15 +189,13 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // OUTPUT
     // ======
 
-    // Compute the dot{J}*\nu
-    Vector6 biasAcc;
     if (!m_frameIsCoM) {
-        biasAcc = model->getFrameBiasAcc(m_frameIndex);
+        *m_dotJNu = model->getFrameBiasAcc(m_frameIndex);
     }
     else {
-        Vector3 comBiasAcc = model->getCenterOfMassBiasAcc();
-        toEigen(biasAcc).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
-        toEigen(biasAcc).segment<3>(3).setZero();
+        iDynTree::Vector3 comBiasAcc = model->getCenterOfMassBiasAcc();
+        toEigen(*m_dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
+        toEigen(*m_dotJNu).segment<3>(3).setZero();
     }
 
     // Forward the output to Simulink
