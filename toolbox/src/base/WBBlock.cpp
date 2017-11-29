@@ -5,9 +5,13 @@
 #include "ToolboxSingleton.h"
 #include "Configuration.h"
 #include "RobotInterface.h"
+#include "Signal.h"
 #include "AnyType.h"
+#include <Eigen/Core>
 #include <string>
 #include <memory>
+#include "iDynTree/KinDynComputations.h"
+#include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/MatrixFixSize.h>
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/Twist.h>
@@ -26,6 +30,104 @@ iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<do
 {
     m_jointsPosition.zero();
     m_jointsVelocity.zero();
+}
+
+bool WBBlock::setRobotState(const wbt::Signal* basePose,
+                            const wbt::Signal* jointsPos,
+                            const wbt::Signal* baseVelocity,
+                            const wbt::Signal* jointsVelocity)
+{
+    // SAVE THE ROBOT STATE
+    // ====================
+
+    using namespace iDynTree;
+    using namespace Eigen;
+    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+
+    // Base pose
+    // ---------
+
+    if (basePose) {
+        // Get the buffer
+        double* buffer = basePose->getBuffer<double>();
+        if (!buffer) {
+            Log::getSingleton().error("Failed to read the base pose from input port.");
+            return false;
+        }
+        // Fill the data
+        fromEigen(robotState.m_world_T_base, Matrix4dSimulink(buffer));
+    }
+
+    // Joints position
+    // ---------------
+
+    if (jointsPos) {
+        // Get the buffer
+        double* buffer = jointsPos->getBuffer<double>();
+        if (!buffer) {
+            Log::getSingleton().error("Failed to read joints positions from input port.");
+            return false;
+        }
+        // Fill the data
+        for (auto i = 0; i < jointsPos->getWidth(); ++i) {
+            robotState.m_jointsPosition.setVal(i, buffer[i]);
+        }
+
+    }
+
+    // Base Velocity
+    // -------------
+
+    if (baseVelocity) {
+        // Get the buffer
+        double* buffer = baseVelocity->getBuffer<double>();
+        if (!buffer) {
+            Log::getSingleton().error("Failed to read the base velocity from input port.");
+            return false;
+        }
+        // Fill the data
+        robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3),
+                                          AngVelocity(buffer+3, 3));
+    }
+
+    // Joints velocity
+    // ---------------
+
+    if (jointsVelocity) {
+        // Get the buffer
+        double* buffer = jointsVelocity->getBuffer<double>();
+        if (!buffer) {
+            Log::getSingleton().error("Failed to read joints velocities from input port.");
+            return false;
+        }
+        // Fill the data
+        for (auto i = 0; i < jointsVelocity->getWidth(); ++i) {
+            robotState.m_jointsVelocity.setVal(i, buffer[i]);
+        }
+    }
+
+    // UPDATE THE IDYNTREE ROBOT STATE WITH NEW DATA
+    // =============================================
+
+    const auto& model = getRobotInterface()->getKinDynComputations();
+
+    if (!model) {
+        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        return false;
+    }
+
+    bool ok = model->setRobotState(robotState.m_world_T_base,
+                                   robotState.m_jointsPosition,
+                                   robotState.m_baseVelocity,
+                                   robotState.m_jointsVelocity,
+                                   robotState.m_gravity);
+
+    if (!ok) {
+        Log::getSingleton().error("Failed to set the iDynTree robot state.");
+        return false;
+    }
+
+    return true;
 }
 
 unsigned WBBlock::numberOfParameters() { return 2; }

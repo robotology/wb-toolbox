@@ -12,6 +12,7 @@
 
 namespace wbt {
     class WBBlock;
+    class Signal;
     class Configuration;
     class BlockInformation;
     class RobotInterface;
@@ -70,6 +71,10 @@ protected:
     bool getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo);
     const std::shared_ptr<wbt::RobotInterface> getRobotInterface();
     const Configuration& getConfiguration();
+    bool setRobotState(const wbt::Signal* basePose,
+                       const wbt::Signal* jointsPos,
+                       const wbt::Signal* baseVelocity,
+                       const wbt::Signal* jointsVelocity);
 
 public:
     WBBlock() = default;
