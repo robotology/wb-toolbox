@@ -28,7 +28,7 @@ private:
 
 public:
     static const std::string ClassName;
-    
+
     DotJNu();
     ~DotJNu() override = default;
 
