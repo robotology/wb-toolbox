@@ -131,8 +131,8 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
         return false;
     }
     std::array<double, 3> gravityArray;
-    for (auto i : gravityVector) {
-        gravityArray[i] = i;
+    for (auto i = 0; i < 3; ++i) {
+        gravityArray[i] = gravityVector[i];
     }
 
     // Create the ToolboxConfig object
