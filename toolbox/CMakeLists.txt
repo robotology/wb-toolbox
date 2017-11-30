@@ -219,11 +219,11 @@ include_directories(include/base)
 include_directories(SYSTEM ${Matlab_INCLUDE_DIRS} "${Matlab_ROOT_DIR}/simulink/include")
 include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
 
-list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES} ${iDynTree_LIBRARIES})
+list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
     if (${ICUB_USE_IPOPT})
-        list(APPEND LINKED_LIBRARIES iKin)
+        list(APPEND LINKED_LIBRARIES iKin ${iDynTree_LIBRARIES})
     endif()
 endif()
 
