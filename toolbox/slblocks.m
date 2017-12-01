@@ -30,8 +30,8 @@ function blkStruct = slblocks
 %  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
 %  Public License for more details
 
-Browser.Library   = 'WBToolboxLibrary';     %Name of the .mdl file
-Browser.Name      = 'Whole Body Toolbox';    
+Browser.Library   = 'WBToolbox2Library';     %Name of the .mdl file
+Browser.Name      = 'Whole Body Toolbox 2.0 (Legacy)';
 Browser.IsFlat    =  0;
 
 if (~verLessThan('matlab', '8.4'))  % R2014b

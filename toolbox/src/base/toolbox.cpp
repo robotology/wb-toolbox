@@ -18,7 +18,7 @@
  */
 
 #define S_FUNCTION_LEVEL 2
-#define S_FUNCTION_NAME WBToolbox
+#define S_FUNCTION_NAME WBToolbox2
 
 // Need to include simstruc.h for the definition of the SimStruct and
 // its associated macro definitions.

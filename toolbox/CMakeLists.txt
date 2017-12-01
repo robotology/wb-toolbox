@@ -230,18 +230,18 @@ endif()
 #Adding files used for the generation of the dynamic library
 if (CMAKE_VERSION GREATER 3.0.0)
     matlab_add_mex(
-        NAME WBToolbox
+        NAME WBToolbox2
         SRC ${ALL_HEADERS} ${ALL_SOURCES}
         LINK_TO ${LINKED_LIBRARIES}
     )
 else()
     #Adding files used for the generation of the dynamic library
-    add_library(WBToolbox SHARED ${ALL_HEADERS} ${ALL_SOURCES})
+    add_library(WBToolbox2 SHARED ${ALL_HEADERS} ${ALL_SOURCES})
 
     set(SFUNCTION_SUFFIX ${Matlab_MEX_EXTENSION})
     #Removing default dynamic library extensions (.dll for Windows, .so for UNIX) and prefixes (lib) otherwise automatically prepended to the mex file.
-    set_target_properties(WBToolbox PROPERTIES SUFFIX .${SFUNCTION_SUFFIX})
-    set_target_properties(WBToolbox PROPERTIES PREFIX "")
+    set_target_properties(WBToolbox2 PROPERTIES SUFFIX .${SFUNCTION_SUFFIX})
+    set_target_properties(WBToolbox2 PROPERTIES PREFIX "")
 
     # This seems to be the most reliable method to date to know installed Matlab arch
     STRING(REGEX MATCH ..$ MATLAB_ARCH Matlab_MEX_EXTENSION 64)
@@ -270,21 +270,21 @@ else()
     endif(WIN32)
 
     # Linking Libraries
-    target_link_libraries(WBToolbox ${LINKED_LIBRARIES} ${Matlab_LIBRARIES})
+    target_link_libraries(WBToolbox2 ${LINKED_LIBRARIES} ${Matlab_LIBRARIES})
 endif()
 
 # Remote Inverse Kinematics requires C++11
 if (CMAKE_VERSION VERSION_LESS "3.1")
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR 
         CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(WBToolbox PUBLIC "-std=c++11")
+        target_compile_options(WBToolbox2 PUBLIC "-std=c++11")
     endif()
 else()
     set(CXX_STANDARD_REQUIRED ON)
-    set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
+    set_property(TARGET WBToolbox2 PROPERTY CXX_STANDARD 11)
 endif()
 
-install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
+install(TARGETS WBToolbox2 DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
 ## if you export the mdl / slx library, remeber to call this command in matlab before saving it
 ## set_param(gcs, 'EnableLBRepository','on');
@@ -305,8 +305,8 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/slblocks.m DESTINATION ${WB-TOOLBOX_SH
 #if MAJOR >= 2014 && MINOR >= b
 # Note: We had issues with Matlab 2014b and .mdl models.
 # But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
-if (${Matlab_VERSION_STRING} GREATER "8.3")
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-else()
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-endif()
+#if (${Matlab_VERSION_STRING} GREATER "8.3")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox2Library.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+#else()
+#    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox2Library.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+#endif()

@@ -7,7 +7,7 @@ if (verLessThan('matlab', '8.4'))
     quit;
 end
 
-libraryName = 'WBToolboxLibrary_repository';
+libraryName = 'WBToolbox2Library_repository';
 
 try
   open_system(libraryName,'loadonly');
@@ -20,14 +20,12 @@ try
   fprintf('\nExporting for 2014b\n');
   % This does not completely work: images are not saved.
   % Instad if saved form the GUI it works..
-  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
+  save_system(libraryName, 'WBToolbox2Library', 'ExportToVersion', 'R2014B_SLX');
   fprintf('\nExporting for 2012a\n');
-  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2012A_MDL');
+  save_system(libraryName, 'WBToolbox2Library', 'ExportToVersion', 'R2012A_MDL');
   close_system(libraryName);
 catch ex;
 end
-    
+
 fprintf('\nDone\n');
 exit(0)
-
-

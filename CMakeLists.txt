@@ -10,7 +10,7 @@ find_package(YCM REQUIRED)
 include(YCMDefaultDirs)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox")
+set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox2")
 
 add_subdirectory(toolbox)
 
