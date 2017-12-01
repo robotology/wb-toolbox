@@ -410,6 +410,9 @@ bool RobotInterface::initializeModel()
     m_kinDynComp = std::make_shared<iDynTree::KinDynComputations>();
     if (!m_kinDynComp) return false;
 
+    // Explicitly set the velocity representation
+    m_kinDynComp->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
+
     // Use RF to load the urdf file
     // ----------------------------
 
