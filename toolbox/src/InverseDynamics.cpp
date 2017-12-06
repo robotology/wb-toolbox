@@ -7,6 +7,8 @@
 #include <memory>
 #include <iDynTree/Model/FreeFloatingState.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <Eigen/Core>
 
 using namespace wbt;
 
@@ -188,9 +190,20 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
                            iDynTree::LinkNetExternalWrenches(model->getNrOfLinks()),
                            *m_torques);
 
-    // Forward the output to Simulink
+    // Get the output signal
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_TORQUES);
-    output.setBuffer(m_torques->jointTorques().data(),
-                     blockInfo->getOutputPortWidth(OUTPUT_IDX_TORQUES));
+    double* outputBuffer = output.getBuffer<double>();
+    if (!outputBuffer) {
+        Log::getSingleton().error("Failed to get output buffer.");
+        return false;
+    }
+
+    // Convert generalized torques and forward the directly to Simulink
+    // mapping the memory through Eigen::Map
+    const auto& torquesSize = m_torques->jointTorques().size();
+    Eigen::Map<Eigen::VectorXd> generalizedOutputTrqs(outputBuffer, torquesSize + 6);
+    generalizedOutputTrqs.segment(0, 6) = toEigen(m_torques->baseWrench());
+    generalizedOutputTrqs.segment(6, torquesSize) = toEigen(m_torques->jointTorques());
+
     return true;
 }
