@@ -94,6 +94,7 @@ if (WBT_USES_ICUB)
     #
     #     include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
     # endif()
+
     configure_block(BLOCK_NAME "Discrete Filter"
         GROUP "Utilities"
         LIST_PREFIX WBT
