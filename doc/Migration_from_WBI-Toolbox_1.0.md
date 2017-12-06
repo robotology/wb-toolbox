@@ -1,4 +1,4 @@
-## Migration from WB**I**-Toolbox to WB-Toolbox 2.0
+## Migration from WBI-Toolbox to WB-Toolbox 2.0
 Given a simulink model with some WBI-Toolbox blocks inside, the general procedure is to **substitute each block with the corresponding one from WB-Toolbox 2.0**. However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolboxes. For more information about the WBI-Toolbox, please have a look at the [WBI-Toolbox README](https://github.com/robotology-playground/WBI-Toolbox/blob/master/README.md).
 
 This guide follows the WBI and WB Toolbox blocks partitioning in Simulink library. It is divided in the following sections:
@@ -24,7 +24,7 @@ They have already meaningful default values. Nevertheless you should take a look
 
 The world-to-base homogeneous transformation matrix is a 4x4 matrix that maps position and orientation of a rigid body from an initial frame of reference to another.
 
-For back-compatibility, the transformation happending under the hood in the WBI-Toolbox can be obtained using forward kinematics blocks as in the following example: 
+For back-compatibility, the transformation happending under the hood in the WBI-Toolbox can be obtained using forward kinematics blocks as in the following example:
 
 ![](https://cloud.githubusercontent.com/assets/12396934/12293044/3337da3c-b9f1-11e5-959f-b40418b5469d.png)
 
@@ -43,7 +43,7 @@ It is divided into three subsections. The `Joint Limits` block is now moved into
 
 #### Dynamics
 - the `dJdq` blocks have been moved into **jacobians** subsection;
-- for mass matrix, generalized bias forces and centroidal momentum computation is now required to calculate explicitly the world-to-base homogeneous transformation matrix and the base velocity. Furthermore, the base frame pose and velocity and the joint configuration are now separate inputs. 
+- for mass matrix, generalized bias forces and centroidal momentum computation is now required to calculate explicitly the world-to-base homogeneous transformation matrix and the base velocity. Furthermore, the base frame pose and velocity and the joint configuration are now separate inputs.
 
 #### Jacobians
 There is now only one generic block for jacobians and one for `dJdq` calculation. The link with respect to which the Jacobian is computed is determined by its frame name as specified in the **URDF model**. As for the dynamics, the base pose and velocity and the joint position and velocity are required as input.
