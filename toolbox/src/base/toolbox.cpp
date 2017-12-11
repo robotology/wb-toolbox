@@ -90,6 +90,7 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
         // Forward to Simulink
         sprintf(errorBuffer, "%s", errorMsg.c_str());
         ssSetErrorStatus(S, errorBuffer);
+        log.clearErrors();
         return;
     }
 }
