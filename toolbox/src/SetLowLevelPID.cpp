@@ -120,7 +120,8 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
                                      std::end(controlledJoints),
                                      jointNamesFromParameters[i]);
         if (findElement != std::end(controlledJoints)) {
-            m_pidJointsFromParameters[jointNamesFromParameters[i]] = {Pvector[i], Ivector[i], Dvector[i]};
+            m_pidJointsFromParameters[jointNamesFromParameters[i]] =
+                std::tuple<double, double, double>(Pvector[i], Ivector[i], Dvector[i]);
         }
         else {
             Log::getSingleton().warning("Attempted to set PID of joint " + jointNamesFromParameters[i]);
