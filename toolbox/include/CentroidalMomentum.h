@@ -1,35 +1,39 @@
 #ifndef WBT_CENTROIDALMOMENTUM_H
 #define WBT_CENTROIDALMOMENTUM_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <memory>
 
 namespace wbt {
     class CentroidalMomentum;
 }
 
-class wbt::CentroidalMomentum : public wbt::WBIModelBlock {
+namespace iDynTree {
+    class SpatialMomentum;
+}
 
-    double *m_basePose;
-    double *m_centroidalMomentum;
+class wbt::CentroidalMomentum : public wbt::WBBlock
+{
+private:
+    std::unique_ptr<iDynTree::SpatialMomentum> m_centroidalMomentum;
 
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
-    double *m_baseVelocity;
-    double *m_jointsVelocity;
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned INPUT_IDX_BASE_VEL;
+    static const unsigned INPUT_IDX_JOINT_VEL;
+    static const unsigned OUTPUT_IDX_CENTRMOM;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
+
     CentroidalMomentum();
+    ~CentroidalMomentum() override = default;
 
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-    
-    
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
-
-#endif /* end of include guard: WBT_CENTROIDALMOMENTUM_H */
+#endif /* WBT_CENTROIDALMOMENTUM_H */

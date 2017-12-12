@@ -6,7 +6,6 @@
 
 namespace wbt {
     class Block;
-    class Error;
     class BlockInformation;
 
 }
@@ -15,14 +14,15 @@ namespace wbt {
  * Basic abstract class for all the blocks.
  * This class (the whole toolbox in reality) assumes the block represent
  * an instantaneous system (i.e. not a dynamic system).
- * 
+ *
  * You can create a new block by deriving this class and implementing at least
  * all the pure virtual methods.
  *
  * @Note: if you need to implement a block which uses the WBI, you should derive
  * from WBIBlock as it already provides some facilities.
  */
-class wbt::Block {
+class wbt::Block
+{
 public:
     /**
      * Create and returns a new Block object of the specified class.
@@ -39,7 +39,7 @@ public:
      *
      */
     virtual ~Block();
-    
+
     /**
      * Returns the number of configuration parameters needed by this block
      *
@@ -59,7 +59,7 @@ public:
      * Returns the number of discrete states of the block.
      *
      * The base implementation returns 0, i.e. no discrete states
-     * @note if you return a number > 0, you should implement the 
+     * @note if you return a number > 0, you should implement the
      * updateDiscreteState function
      * @return the number of discrete states
      */
@@ -82,7 +82,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool updateDiscreteState(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool updateDiscreteState(const BlockInformation* blockInfo);
 
     /**
      * Not called for now
@@ -90,7 +90,7 @@ public:
      * @param S the SimStruct structure
      * @return true for success, false otherwise
      */
-    virtual bool stateDerivative(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool stateDerivative(const BlockInformation* blockInfo);
 
 
     /**
@@ -111,21 +111,19 @@ public:
      * their size and configuration.
      * @Note: you should not save any object in this method because it will not persist
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
      *
      * @return true for success, false otherwise
      */
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error) = 0;
+    virtual bool configureSizeAndPorts(BlockInformation* blockInfo) = 0;
 
     /**
      * Never called.
      *
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error. Check if the pointer exists before dereference it.
      *
      * @return true for success, false otherwise
      */
-    virtual bool checkParameters(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool checkParameters(const BlockInformation* blockInfo);
 
     /**
      * Initialize the object for the simulation
@@ -133,11 +131,10 @@ public:
      * This method is called at model startup (i.e. during mdlStart)
      * @Note: you can save and initialize your object in this method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error) = 0;
+    virtual bool initialize(const BlockInformation* blockInfo) = 0;
 
     /**
      * Called to initialize the initial conditions
@@ -146,11 +143,10 @@ public:
      * @note this function is also called on a reset event
      * @note if you need to perform initialization only once, than implement initialize
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
-    virtual bool initializeInitialConditions(BlockInformation *blockInfo, wbt::Error *error);
+    virtual bool initializeInitialConditions(const BlockInformation* blockInfo);
 
     /**
      * Perform model cleanup.
@@ -158,11 +154,10 @@ public:
      * This method is called at model termination (i.e. during mdlTerminate).
      * You should release all the resources you requested during the initialize method
      * @param S     simulink structure
-     * @param [out]error output error object that can be filled in case of error.
      *
      * @return true for success, false otherwise
      */
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error) = 0;
+    virtual bool terminate(const BlockInformation* blockInfo) = 0;
 
 
 
@@ -175,7 +170,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error) = 0;
+    virtual bool output(const BlockInformation* blockInfo) = 0;
 
 public:
 

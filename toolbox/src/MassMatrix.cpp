@@ -2,130 +2,142 @@
 
 #include "BlockInformation.h"
 #include "Signal.h"
-#include "Error.h"
-#include "WBInterface.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include "Log.h"
+#include "RobotInterface.h"
+#include <memory>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/KinDynComputations.h>
 #include <Eigen/Core>
 
-namespace wbt {
+using namespace wbt;
 
-    std::string MassMatrix::ClassName = "MassMatrix";
+const std::string MassMatrix::ClassName = "MassMatrix";
 
-    MassMatrix::MassMatrix()
-    : m_basePose(0)
-    , m_massMatrix(0)
-    , m_basePoseRaw(0)
-    , m_configuration(0) {}
+const unsigned MassMatrix::INPUT_IDX_BASE_POSE = 0;
+const unsigned MassMatrix::INPUT_IDX_JOINTCONF = 1;
+const unsigned MassMatrix::OUTPUT_IDX_MASS_MAT = 0;
 
-    bool MassMatrix::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
+MassMatrix::MassMatrix() {}
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    // Memory allocation / Saving data not allowed here
 
-        // Specify I/O
-        // Input ports:
-        // - 4x4 matrix (homogenous transformation for the base pose w.r.t. world)
-        // - DoFs vector for the robot (joints) configurations
-
-        if (!blockInfo->setNumberOfInputPorts(2)) {
-            if (error) error->message = "Failed to configure the number of input ports";
-            return false;
-        }
-        bool success = true;
-        success = success && blockInfo->setInputPortMatrixSize(0, 4, 4);
-        success = success && blockInfo->setInputPortVectorSize(1, dofs);
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
-        blockInfo->setInputPortType(1, PortDataTypeDouble);
-
-
-        if (!success) {
-            if (error) error->message = "Failed to configure input ports";
-            return false;
-        }
-
-        // Output port:
-        // - (DoFs + 6)x(DoFs + 6) matrix representing the mass matrix
-        if (!blockInfo->setNumberOfOuputPorts(1)) {
-            if (error) error->message = "Failed to configure the number of output ports";
-            return false;
-        }
-
-        success = blockInfo->setOutputPortMatrixSize(0, dofs + 6, dofs + 6);
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
-
-        return success;
-    }
-
-    bool MassMatrix::initialize(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        using namespace yarp::os;
-        if (!WBIModelBlock::initialize(blockInfo, error)) return false;
-
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        m_basePose = new double[16];
-        m_massMatrix = new double[(6 + dofs)*(6 + dofs)];
-        m_basePoseRaw = new double[16];
-        m_configuration = new double[dofs];
-
-        return m_basePose && m_massMatrix && m_basePoseRaw && m_configuration;
-    }
-
-    bool MassMatrix::terminate(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (m_basePose) {
-            delete [] m_basePose;
-            m_basePose = 0;
-        }
-        if (m_massMatrix) {
-            delete [] m_massMatrix;
-            m_massMatrix = 0;
-        }
-        if (m_basePoseRaw) {
-            delete [] m_basePoseRaw;
-            m_basePoseRaw = 0;
-        }
-        if (m_configuration) {
-            delete [] m_configuration;
-            m_configuration = 0;
-        }
-        return WBIModelBlock::terminate(blockInfo, error);
-    }
-
-    bool MassMatrix::output(BlockInformation *blockInfo, wbt::Error */*error*/)
-    {
-        //get input
-        wbi::iWholeBodyModel * const interface = WBInterface::sharedInstance().model();
-        if (interface) {
-            Signal basePoseRaw = blockInfo->getInputPortSignal(0);
-            Signal configuration = blockInfo->getInputPortSignal(1);
-
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-                m_basePoseRaw[i] = basePoseRaw.get(i).doubleData();
-            }
-            for (unsigned i = 0; i < blockInfo->getInputPortWidth(1); ++i) {
-                m_configuration[i] = configuration.get(i).doubleData();
-            }
-
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::ColMajor> > basePoseColMajor(m_basePoseRaw);
-            Eigen::Map<Eigen::Matrix<double, 4, 4, Eigen::RowMajor> > basePose(m_basePose);
-            basePose = basePoseColMajor;
-
-            wbi::Frame frame;
-            wbi::frameFromSerialization(basePose.data(), frame);
-
-            interface->computeMassMatrix(m_configuration, frame, m_massMatrix);
-            unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-            Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> > massMatrixRowMajor(m_massMatrix, 6 + dofs, 6 + dofs);
-
-            Signal output = blockInfo->getOutputPortSignal(0);
-            Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> > massMatrixColMajor((double*)output.getContiguousBuffer(), 6 + dofs, 6 + dofs);
-            massMatrixColMajor = massMatrixRowMajor;
-            return true;
-        }
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
     }
+
+    // INPUTS
+    // ======
+    //
+    // 1) Homogeneous transform for base pose wrt the world frame (4x4 matrix)
+    // 2) Joints position (1xDoFs vector)
+    //
+
+    // Number of inputs
+    if (!blockInfo->setNumberOfInputPorts(2)) {
+        Log::getSingleton().error("Failed to configure the number of input ports.");
+        return false;
+    }
+
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    // Size and type
+    bool success = true;
+    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
+
+    if (!success) {
+        Log::getSingleton().error("Failed to configure input ports.");
+        return false;
+    }
+
+    // OUTPUTS
+    // =======
+    //
+    // 1) Matrix epresenting the mass matrix (DoFs+6)x(DoFs+6)
+    //
+
+    // Number of outputs
+    if (!blockInfo->setNumberOfOutputPorts(1)) {
+        Log::getSingleton().error("Failed to configure the number of output ports.");
+        return false;
+    }
+
+    // Size and type
+    success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT, dofs + 6, dofs + 6);
+    blockInfo->setOutputPortType(OUTPUT_IDX_MASS_MAT, PortDataTypeDouble);
+
+    return success;
+}
+
+bool MassMatrix::initialize(const BlockInformation* blockInfo)
+{
+    if (!WBBlock::initialize(blockInfo)) return false;
+
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    // Output
+    m_massMatrix = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs));
+    m_massMatrix->zero();
+
+    return static_cast<bool>(m_massMatrix);
+}
+
+bool MassMatrix::terminate(const BlockInformation* blockInfo)
+{
+    return WBBlock::terminate(blockInfo);
+}
+
+bool MassMatrix::output(const BlockInformation* blockInfo)
+{
+    using namespace Eigen;
+    using namespace iDynTree;
+    typedef Matrix<double, Dynamic, Dynamic, ColMajor> MatrixXdSimulink;
+    typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
+
+    const auto& model = getRobotInterface()->getKinDynComputations();
+
+    if (!model) {
+        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        return false;
+    }
+
+    // GET THE SIGNALS POPULATE THE ROBOT STATE
+    // ========================================
+
+    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+
+    bool ok = setRobotState(&basePoseSig,
+                            &jointsPosSig,
+                            nullptr,
+                            nullptr);
+
+    if (!ok) {
+        Log::getSingleton().error("Failed to set the robot state.");
+        return false;
+    }
+
+    // OUTPUT
+    // ======
+
+    // Compute the Mass Matrix
+    model->getFreeFloatingMassMatrix(*m_massMatrix);
+
+    // Get the output signal memory location
+    Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_MASS_MAT);
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    // Allocate objects for row-major -> col-major conversion
+    Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(*m_massMatrix);
+    Map<MatrixXdSimulink> massMatrixColMajor(output.getBuffer<double>(),
+                                             6 + dofs, 6 + dofs);
+
+    // Forward the buffer to Simulink transforming it to ColMajor
+    massMatrixColMajor = massMatrixRowMajor;
+    return true;
 }

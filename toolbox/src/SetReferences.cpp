@@ -1,201 +1,323 @@
 #include "SetReferences.h"
 
-#include "Error.h"
-#include "WBInterface.h"
+#include "Log.h"
 #include "BlockInformation.h"
 #include "Signal.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include "RobotInterface.h"
+#include <yarp/dev/ControlBoardInterfaces.h>
 
-namespace wbt {
+#define _USE_MATH_DEFINES
+#include <cmath>
 
-    std::string SetReferences::ClassName = "SetReferences";
+using namespace wbt;
 
-    SetReferences::SetReferences()
-    : m_references(0)
-    , m_controlMode(wbi::CTRL_MODE_UNKNOWN)
-    , m_fullControl(true)
-    , m_resetControlMode(true) {}
+const std::string SetReferences::ClassName = "SetReferences";
 
-    unsigned SetReferences::numberOfParameters()
-    {
-        // 1 - Control Type
-        // 2 - Full/Sublist type
-        // 3 - (only if sublist) controlled joints
-        return WBIBlock::numberOfParameters() + 3;
+SetReferences::SetReferences()
+: m_resetControlMode(true)
+, m_refSpeed(0)
+{}
+
+const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
+{
+    const double Rad2Deg = 180.0 / M_PI;
+
+    std::vector<double> vectorDeg(width);
+
+    for (auto i = 0; i < width; ++i) {
+        vectorDeg[i] = buffer[i] * Rad2Deg;
     }
 
-    bool SetReferences::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
+    return vectorDeg;
+}
+
+unsigned SetReferences::numberOfParameters()
+{
+    return WBBlock::numberOfParameters() + 2;
+}
+
+bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    // Memory allocation / Saving data not allowed here
+
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    // INPUTS
+    // ======
+    //
+    // 1) Joint refereces (1xDoFs vector)
+    //
+
+    // Number of inputs
+    if (!blockInfo->setNumberOfInputPorts(1)) {
+        Log::getSingleton().error("Failed to configure the number of input ports.");
+        return false;
+    }
+
+    // Size and type
+    bool success = blockInfo->setInputPortVectorSize(0, dofs);
+    blockInfo->setInputPortType(0, PortDataTypeDouble);
+
+    if (!success) {
+        Log::getSingleton().error("Failed to configure input ports.");
+        return false;
+    }
+
+    // OUTPUTS
+    // =======
+    //
+    // No outputs
+    //
+
+    if (!blockInfo->setNumberOfOutputPorts(0)) {
+        Log::getSingleton().error("Failed to configure the number of output ports.");
+        return false;
+    }
+
+    return true;
+}
+
+bool SetReferences::initialize(const BlockInformation* blockInfo)
+{
+    if (!WBBlock::initialize(blockInfo)) return false;
+
+    // Reading the control type
+    std::string controlType;
+    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1,
+                                              controlType)) {
+        Log::getSingleton().error("Could not read control type parameter.");
+        return false;
+    }
+
+    // Reading the refSpeed
+    if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2,
+                                              m_refSpeed)) {
+        Log::getSingleton().error("Could not read reference speed parameter.");
+        return false;
+    }
+
+    // Initialize the std::vectors
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    m_controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
+
+    // IControlMode.h
+    if (controlType == "Position") {
+        m_controlModes.assign(dofs, VOCAB_CM_POSITION);
+    }
+    else if (controlType == "Position Direct") {
+        m_controlModes.assign(dofs, VOCAB_CM_POSITION_DIRECT);
+    }
+    else if (controlType == "Velocity") {
+        m_controlModes.assign(dofs, VOCAB_CM_VELOCITY);
+    }
+    else if (controlType == "Torque") {
+        m_controlModes.assign(dofs, VOCAB_CM_TORQUE);
+    }
+    else if (controlType == "PWM") {
+        m_controlModes.assign(dofs, VOCAB_CM_PWM);
+    }
+    else if (controlType == "Current") {
+        m_controlModes.assign(dofs, VOCAB_CM_CURRENT);
+    }
+    else {
+        Log::getSingleton().error("Control Mode not supported.");
+        return false;
+    }
+
+    // The Position mode is used to set a discrete reference, and then the yarp interface
+    // is responsible to generate a trajectory to reach this setpoint.
+    // The generated trajectory takes an additional parameter: the speed.
+    // If not properly initialized, this contol mode does not work as expected.
+    if (controlType == "Position") {
+        // Get the interface
+        yarp::dev::IPositionControl* interface = nullptr;
+        if (!getRobotInterface()->getInterface(interface) || !interface) {
+            Log::getSingleton().error("Failed to get IPositionControl interface.");
             return false;
         }
+        std::vector<double> speedInitalization(dofs, m_refSpeed);
+        // Set the references
+        if (!interface->setRefSpeeds(speedInitalization.data())) {
+            Log::getSingleton().error("Failed to initialize speed references.");
+            return false;
+        }
+    }
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+    // Retain the ControlBoardRemapper
+    if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
+        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+        return false;
+    }
 
-        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).booleanData();
+    m_resetControlMode = true;
+    return true;
+}
 
-        if (!m_fullControl) {
-            //sublist
-            std::string controlledList;
-            if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 3, controlledList)) {
-                if (error) error->message = "Could not read control type parameter";
+bool SetReferences::terminate(const BlockInformation* blockInfo)
+{
+    using namespace yarp::dev;
+    bool ok = true;
+
+    // Get the interface
+    IControlMode2* icmd2 = nullptr;
+    ok = ok && getRobotInterface()->getInterface(icmd2);
+    if (!ok || !icmd2) {
+        Log::getSingleton().error("Failed to get the IControlMode2 interface.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    // Set  all the controlledJoints VOCAB_CM_POSITION
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    m_controlModes.assign(dofs, VOCAB_CM_POSITION);
+
+    ok = ok && icmd2->setControlModes(m_controlModes.data());
+    if (!ok) {
+        Log::getSingleton().error("Failed to set control mode.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    // Release the RemoteControlBoardRemapper
+    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+    if (!ok) {
+        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    return ok && WBBlock::terminate(blockInfo);
+}
+
+bool SetReferences::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
+{
+    // This function is called when a subsystem with Enable / Disable support is used.
+    // In this case all the blocks in this subsystem are configured and initialize,
+    // but if they are disabled, output() is not called.
+    // This initializeInitialConditions method is called when the block is enabled,
+    // and in this case the control mode should be set.
+    //
+    // It is worth noting that this toolbox disables parameters to be tunable for
+    // all the blocks
+
+    m_resetControlMode = true;
+    return true;
+}
+
+bool SetReferences::output(const BlockInformation* blockInfo)
+{
+    using namespace yarp::dev;
+
+    // Set the control mode at the first run
+    if (m_resetControlMode) {
+        m_resetControlMode = false;
+        // Get the interface
+        IControlMode2* icmd2 = nullptr;
+        if (!getRobotInterface()->getInterface(icmd2) || !icmd2) {
+            Log::getSingleton().error("Failed to get the IControlMode2 interface.");
+            return false;
+        }
+        // Set the control mode to all the controlledJoints
+        if (!icmd2->setControlModes(m_controlModes.data())) {
+            Log::getSingleton().error("Failed to set control mode.");
+            return false;
+        }
+    }
+
+    // Get the signal
+    Signal references = blockInfo->getInputPortSignal(0);
+    unsigned signalWidth = blockInfo->getInputPortWidth(0);
+
+    double* bufferReferences = references.getBuffer<double>();
+    if (!bufferReferences) {
+        Log::getSingleton().error("Failed to get the buffer containing references.");
+        return false;
+    }
+
+    bool ok = false;
+    // TODO: here only the first element is checked
+    switch (m_controlModes.front()) {
+        case VOCAB_CM_UNKNOWN:
+            Log::getSingleton().error("Control mode has not been successfully set.");
+            return false;
+            break;
+        case VOCAB_CM_POSITION: {
+            // Get the interface
+            IPositionControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get IPositionControl interface.");
                 return false;
             }
-            const yarp::os::Property * controlledListProperty = WBInterface::sharedInstance().currentConfiguration();
-
-            wbi::IDList idList;
-            WBInterface::wbdIDListFromConfigPropAndList(*controlledListProperty,
-                                                        controlledList, idList);
-            dofs = idList.size();
+            // Convert from rad to deg
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            // Set the references
+            ok = interface->positionMove(referencesDeg.data());
+            break;
         }
-
-        // Specify I/O
-        if (!blockInfo->setNumberOfInputPorts(1)) {
-            if (error) error->message = "Failed to configure the number of input ports";
-            return false;
-        }
-
-        bool success = blockInfo->setInputPortVectorSize(0, dofs);
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
-
-        if (!success) {
-            if (error) error->message = "Failed to configure input ports";
-            return false;
-        }
-
-        // Output port:
-        if (!blockInfo->setNumberOfOuputPorts(0)) {
-            if (error) error->message = "Failed to configure the number of output ports";
-            return false;
-        }
-
-        return true;
-    }
-
-    bool SetReferences::initialize(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        using namespace yarp::os;
-        if (!WBIBlock::initialize(blockInfo, error)) return false;
-
-        // Reading the control type
-        std::string controlType;
-        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 1, controlType)) {
-            if (error) error->message = "Could not read control type parameter";
-            return false;
-        }
-
-        m_controlMode = wbi::CTRL_MODE_UNKNOWN;
-        if (controlType == "Position") {
-            m_controlMode = wbi::CTRL_MODE_POS;
-        } else if (controlType == "Position Direct") {
-            m_controlMode = wbi::CTRL_MODE_DIRECT_POSITION;
-        } else if (controlType == "Velocity") {
-            m_controlMode = wbi::CTRL_MODE_VEL;
-        } else if (controlType == "Torque") {
-            m_controlMode = wbi::CTRL_MODE_TORQUE;
-        } else if (controlType == "Open Loop") {
-            m_controlMode = wbi::CTRL_MODE_MOTOR_PWM;
-        } else {
-            if (error) error->message = "Control Mode not supported";
-            return false;
-        }
-
-        //Read if full or sublist control
-        m_fullControl = blockInfo->getScalarParameterAtIndex(WBIBlock::numberOfParameters() + 2).booleanData();
-
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        if (!m_fullControl) {
-            //sublist
-            std::string controlledList;
-            if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 3, controlledList)) {
-                if (error) error->message = "Could not read control type parameter";
+        case VOCAB_CM_POSITION_DIRECT: {
+            // Get the interface
+            IPositionDirect* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get IPositionDirect interface.");
                 return false;
             }
-            const yarp::os::Property * controlledListProperty = WBInterface::sharedInstance().currentConfiguration();
-
-            wbi::IDList idList;
-            bool result = WBInterface::wbdIDListFromConfigPropAndList(*controlledListProperty,
-                                                                      controlledList, idList);
-            wbi::IDList fullList = WBInterface::sharedInstance().interface()->getJointList();
-            m_controlledJoints.clear();
-            m_controlledJoints.reserve(idList.size());
-            if (result) {
-                for (int i = 0; i < idList.size(); i++) {
-                    int index;
-                    if (fullList.idToIndex(idList.at(i), index))
-                        m_controlledJoints.push_back(index);
-                    else
-                        std::cerr << "Joint " << idList.at(i).toString() << " not found\n";
-                }
-            }
-            dofs = idList.size();
+            // Convert from rad to deg
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            // Set the references
+            ok = interface->setPositions(referencesDeg.data());
+            break;
         }
-        m_references = new double[dofs];
-
-        m_resetControlMode = true;
-        return m_references;
+        case VOCAB_CM_VELOCITY: {
+            // Get the interface
+            IVelocityControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get IVelocityControl interface.");
+                return false;
+            }
+            // Convert from rad to deg
+            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            // Set the references
+            ok = interface->velocityMove(referencesDeg.data());
+            break;
+        }
+        case VOCAB_CM_TORQUE: {
+            // Get the interface
+            ITorqueControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get ITorqueControl interface.");
+                return false;
+            }
+            // Set the references
+            ok = interface->setRefTorques(bufferReferences);
+            break;
+        }
+        case VOCAB_CM_PWM: {
+            // Get the interface
+            IPWMControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get IPWMControl interface.");
+                return false;
+            }
+            // Set the references
+            ok = interface->setRefDutyCycles(bufferReferences);
+            break;
+        }
+        case VOCAB_CM_CURRENT: {
+            // Get the interface
+            ICurrentControl* interface = nullptr;
+            if (!getRobotInterface()->getInterface(interface) || !interface) {
+                Log::getSingleton().error("Failed to get ICurrentControl interface.");
+                return false;
+            }
+            // Set the references
+            ok = interface->setRefCurrents(bufferReferences);
+            break;
+        }
     }
 
-    bool SetReferences::terminate(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-        if (interface) {
-            if (m_fullControl) {
-                interface->setControlMode(wbi::CTRL_MODE_POS);
-            } else {
-                for (int i = 0; i < m_controlledJoints.size(); i++) {
-                    interface->setControlMode(wbi::CTRL_MODE_POS, 0, m_controlledJoints[i]);
-                }
-            }
-        }
-        if (m_references) {
-            delete [] m_references;
-            m_references = 0;
-        }
-        return WBIBlock::terminate(blockInfo, error);
+    if (!ok) {
+        Log::getSingleton().error("Failed to set references.");
+        return false;
     }
 
-    bool SetReferences::initializeInitialConditions(BlockInformation */*blockInfo*/, wbt::Error */*error*/)
-    {
-        //Simply reset the variable m_resetControlMode
-        //It will be read at the first cycle of output
-        m_resetControlMode = true;
-        return true;
-    }
-
-    bool SetReferences::output(BlockInformation *blockInfo, wbt::Error */*error*/)
-    {
-        //get input
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-        if (!interface) return false;
-
-        Signal references = blockInfo->getInputPortSignal(0);
-        for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-            m_references[i] = references.get(i).doubleData();
-        }
-
-        if (m_resetControlMode) {
-            m_resetControlMode = false;
-
-            //now switch control mode
-            if (m_fullControl) {
-                interface->setControlMode(m_controlMode, m_references);
-            } else {
-                for (int i = 0; i < m_controlledJoints.size(); i++) {
-                    interface->setControlMode(m_controlMode, &m_references[i], m_controlledJoints[i]);
-                }
-            }
-            return true;
-        }
-
-        if (m_fullControl) {
-            interface->setControlReference(m_references);
-        } else {
-            for (int i = 0; i < m_controlledJoints.size(); i++) {
-                interface->setControlReference(&m_references[i], m_controlledJoints[i]);
-            }
-        }
-        return true;
-    }
+    return true;
 }
