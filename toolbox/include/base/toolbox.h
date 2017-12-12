@@ -19,6 +19,7 @@
 #include "SetLowLevelPID.h"
 #ifdef WBT_USES_ICUB
 #include "MinimumJerkTrajectoryGenerator.h"
+#include "DiscreteFilter.h"
 #endif
 #ifdef WBT_USES_IPOPT
 // #include "InverseKinematics.h"

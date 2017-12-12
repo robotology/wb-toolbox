@@ -82,6 +82,12 @@ if (WBT_USES_ICUB)
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
 
+    configure_block(BLOCK_NAME "Discrete Filter"
+        GROUP "Utilities"
+        LIST_PREFIX WBT
+        SOURCES src/DiscreteFilter.cpp
+        HEADERS include/DiscreteFilter.h)
+
     # if (${ICUB_USE_IPOPT})
     #     find_package(iDynTree REQUIRED)
     #     add_definitions(-DWBT_USES_IPOPT)

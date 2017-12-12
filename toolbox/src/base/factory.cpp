@@ -42,6 +42,8 @@ Block* Block::instantiateBlockWithClassName(std::string blockClassName)
 #ifdef WBT_USES_ICUB
     else if (blockClassName == MinimumJerkTrajectoryGenerator::ClassName) {
         block = new MinimumJerkTrajectoryGenerator();
+    } else if (blockClassName == DiscreteFilter::ClassName) {
+        block = new wbt::DiscreteFilter();
     }
 #endif
 #ifdef WBT_USES_IPOPT
