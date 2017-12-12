@@ -1,7 +1,6 @@
 #include "DiscreteFilter.h"
 #include "BlockInformation.h"
-#include "Error.h"
-#include "ForwardKinematics.h"
+#include "Log.h"
 #include "Signal.h"
 #include <algorithm>
 #include <cassert>
@@ -10,40 +9,38 @@
 #include <string>
 #include <yarp/sig/Vector.h>
 
-// Parameters
-#define PARAM_IDX_FLT_TYPE 1 // ::Filter type
-#define PARAM_IDX_NUMCOEFF 2 // ::Filter numerator coefficients
-#define PARAM_IDX_DENCOEFF 3 // ::Filter denominator coefficients
-#define PARAM_IDX_1LOWP_FC 4 // ::FirstOrderLowPassFilter cut frequency
-#define PARAM_IDX_1LOWP_TS 5 // ::FirstOrderLowPassFilter sampling time
-#define PARAM_IDX_MD_ORDER 6 // ::MedianFilter order
-#define PARAM_IDX_INIT_Y0 7  // Output initialization
-#define PARAM_IDX_INIT_U0 8  // ::Filter input initialization
-
-// Inputs
-#define INPUT_IDX_SIGNAL 0
-// Outputs
-#define OUTPUT_IDX_SIGNAL 0
-// Other defines
-#define SIGNAL_DYNAMIC_SIZE -1
-
 using namespace wbt;
 using namespace iCub::ctrl;
 using namespace yarp::sig;
 
-std::string DiscreteFilter::ClassName = "DiscreteFilter";
+const std::string DiscreteFilter::ClassName = "DiscreteFilter";
+
+// Parameters
+const unsigned DiscreteFilter::PARAM_IDX_FLT_TYPE = 1; // ::Filter type
+const unsigned DiscreteFilter::PARAM_IDX_NUMCOEFF = 2; // ::Filter numerator coefficients
+const unsigned DiscreteFilter::PARAM_IDX_DENCOEFF = 3; // ::Filter denominator coefficients
+const unsigned DiscreteFilter::PARAM_IDX_1LOWP_FC = 4; // ::FirstOrderLowPassFilter cut frequency
+const unsigned DiscreteFilter::PARAM_IDX_1LOWP_TS = 5; // ::FirstOrderLowPassFilter sampling time
+const unsigned DiscreteFilter::PARAM_IDX_MD_ORDER = 6; // ::MedianFilter order
+const unsigned DiscreteFilter::PARAM_IDX_INIT_Y0 = 7;  // Output initialization
+const unsigned DiscreteFilter::PARAM_IDX_INIT_U0 = 8;  // ::Filter input initialization
+
+// Inputs
+const unsigned DiscreteFilter::INPUT_IDX_SIGNAL = 0;
+// Outputs
+const unsigned DiscreteFilter::OUTPUT_IDX_SIGNAL = 0;
+// Other defines
+const int DiscreteFilter::SIGNAL_DYNAMIC_SIZE = -1;
 
 DiscreteFilter::DiscreteFilter()
-    : filter(nullptr), y0(nullptr), u0(nullptr), inputSignalVector(nullptr)
-{
-}
+{}
 
 unsigned DiscreteFilter::numberOfParameters()
 {
     return 8;
 }
 
-bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo, wbt::Error* error)
+bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
@@ -56,9 +53,7 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo, wbt::Err
     // Number of input ports
     int numberOfInputPorts = 1;
     if (!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
-        if (error) {
-            error->message = ClassName + " Failed to set input port number.";
-        }
+        Log::getSingleton().error("Failed to set input port number.");
         return false;
     }
 
@@ -71,10 +66,8 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo, wbt::Err
 
     // Number of output ports
     int numberOfOutputPorts = 1;
-    if (!blockInfo->setNumberOfOuputPorts(numberOfOutputPorts)) {
-        if (error) {
-            error->message = ClassName + " Failed to set output port number.";
-        }
+    if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
+        Log::getSingleton().error("Failed to set output port number.");
         return false;
     }
 
@@ -85,7 +78,7 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo, wbt::Err
     return true;
 }
 
-bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
+bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
 {
     // Handle the parameters
     // =====================
@@ -96,24 +89,29 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     std::string den_coeff_str;
     std::string y0_str;
     std::string u0_str;
-    wbt::Data firstOrderLowPassFilter_fc;
-    wbt::Data firstOrderLowPassFilter_ts;
-    wbt::Data medianFilter_order;
+    double firstOrderLowPassFilter_fc;
+    double firstOrderLowPassFilter_ts;
+    double medianFilter_order;
 
     // Get the scalar parameters
-    firstOrderLowPassFilter_fc = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_FC);
-    firstOrderLowPassFilter_ts = blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_TS);
-    medianFilter_order         = blockInfo->getScalarParameterAtIndex(PARAM_IDX_MD_ORDER);
+    bool ok = true;
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_FC,
+                                                    firstOrderLowPassFilter_fc);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_TS,
+                                                    firstOrderLowPassFilter_ts);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_MD_ORDER,
+                                                    medianFilter_order);
 
     // Get the string parameter
-    if (!(blockInfo->getStringParameterAtIndex(PARAM_IDX_FLT_TYPE, filter_type)
-          && blockInfo->getStringParameterAtIndex(PARAM_IDX_NUMCOEFF, num_coeff_str)
-          && blockInfo->getStringParameterAtIndex(PARAM_IDX_DENCOEFF, den_coeff_str)
-          && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_Y0, y0_str)
-          && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_U0, u0_str))) {
-        if (error) {
-            error->message = ClassName + " Failed to parse string parameters.";
-        }
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_FLT_TYPE, filter_type);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_NUMCOEFF, num_coeff_str);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_DENCOEFF, den_coeff_str);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_Y0, y0_str);
+    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_U0, u0_str);
+
+
+    if (!ok) {
+        Log::getSingleton().error("Failed to parse parameters.");
         return false;
     }
 
@@ -127,13 +125,13 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     unsigned y0Width, u0Width;
 
     if (y0_str != "none") {
-        y0 = new Vector(0);
+        y0 = std::unique_ptr<yarp::sig::Vector>(new Vector(0));
         stringToYarpVector(y0_str, *y0);
-         y0Width = y0->length();
+        y0Width = y0->length();
     }
 
     if (u0_str != "none") {
-        u0 = new Vector(0);
+        u0 = std::unique_ptr<yarp::sig::Vector>(new Vector(0));
         stringToYarpVector(u0_str, *u0);
         u0Width = u0->length();
     }
@@ -145,43 +143,35 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     // -------
     if (filter_type == "Generic") {
         if (num.length() == 0 || den.length() == 0) {
-            if (error) {
-                error->message = ClassName + " (Generic) Wrong coefficients size";
-            }
-            return 1;
+            Log::getSingleton().error("(Generic) Wrong coefficients size.");
+            return false;
         }
-        filter = new Filter(num, den);
+        filter = std::unique_ptr<Filter>(new Filter(num, den));
     }
     // FirstOrderLowPassFilter
     // -----------------------
     else if (filter_type == "FirstOrderLowPassFilter") {
-        if (firstOrderLowPassFilter_fc.floatData() == 0
-            || firstOrderLowPassFilter_ts.floatData() == 0) {
-            if (error) {
-                error->message = ClassName
-                                 + " (FirstOrderLowPassFilter) You need to "
-                                   "specify Fc and Ts";
-            }
+        if (firstOrderLowPassFilter_fc == 0 || firstOrderLowPassFilter_ts == 0) {
+            Log::getSingleton().error("(FirstOrderLowPassFilter) You need to "
+                                      "specify Fc and Ts.");
             return false;
         }
-        filter = new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc.floatData(),
-                                             firstOrderLowPassFilter_ts.floatData());
+        filter =  std::unique_ptr<FirstOrderLowPassFilter>(
+            new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc,
+                                        firstOrderLowPassFilter_ts));
     }
     // MedianFilter
     // ------------
     else if (filter_type == "MedianFilter") {
-        if (medianFilter_order.int32Data() == 0) {
-            if (error) {
-                error->message = ClassName
-                                 + " (MedianFilter) You need to specify the "
-                                   "filter order.";
-            }
+        if (static_cast<int>(medianFilter_order) == 0) {
+            Log::getSingleton().error("(MedianFilter) You need to specify the "
+                                      "filter order.");
             return false;
         }
-        filter = new MedianFilter(medianFilter_order.int32Data());
+        filter = std::unique_ptr<MedianFilter>(new MedianFilter(static_cast<int>(medianFilter_order)));
     }
     else {
-        if (error) error->message = ClassName + " Filter type not recognized.";
+        Log::getSingleton().error("Filter type not recognized.");
         return false;
     }
 
@@ -195,54 +185,27 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo, wbt::Error* error)
     unsigned outputSignalWidth = blockInfo->getInputPortWidth(OUTPUT_IDX_SIGNAL);
 
     if ((y0 != nullptr) && (y0Width != outputSignalWidth)) {
-        if (error) {
-            error->message = ClassName + " y0 and output signal sizes don't match";
-        }
+        Log::getSingleton().error("y0 and output signal sizes don't match.");
         return false;
     }
 
     if ((u0 != nullptr) && (filter_type == "Generic") && (u0Width != inputSignalWidth)) {
-        if (error) {
-            error->message = ClassName + " (Generic) u0 and input signal sizes don't match";
-        }
+        Log::getSingleton().error("(Generic) u0 and input signal sizes don't match.");
         return false;
     }
 
     // Allocate the input signal
-    inputSignalVector = new Vector(inputSignalWidth, 0.0);
+    inputSignalVector = std::unique_ptr<Vector>(new Vector(inputSignalWidth, 0.0));
 
     return true;
 }
 
-bool DiscreteFilter::terminate(BlockInformation* blockInfo, wbt::Error* error)
+bool DiscreteFilter::terminate(const BlockInformation* blockInfo)
 {
-    // Deallocate all the memory
-    // -------------------------
-
-    if (filter) {
-        delete filter;
-        filter = nullptr;
-    }
-
-    if (inputSignalVector) {
-        delete inputSignalVector;
-        inputSignalVector = nullptr;
-    }
-
-    if (y0) {
-        delete y0;
-        y0 = nullptr;
-    }
-
-    if (u0) {
-        delete u0;
-        u0 = nullptr;
-    }
-
     return true;
 }
 
-bool DiscreteFilter::initializeInitialConditions(BlockInformation* blockInfo, wbt::Error* error)
+bool DiscreteFilter::initializeInitialConditions(const BlockInformation* blockInfo)
 {
     // Reminder: this function is called when, during runtime, a block is disabled
     // and enabled again. The method ::initialize instead is called just one time.
@@ -251,17 +214,17 @@ bool DiscreteFilter::initializeInitialConditions(BlockInformation* blockInfo, wb
     // sized vector
     if (y0 == nullptr) {
         unsigned outputSignalWidth = blockInfo->getInputPortWidth(OUTPUT_IDX_SIGNAL);
-        y0                         = new Vector(outputSignalWidth, 0.0);
+        y0 = std::unique_ptr<Vector>(new Vector(outputSignalWidth, 0.0));
     }
     if (u0 == nullptr) {
-        u0 = new Vector(inputSignalWidth, 0.0);
+        u0 = std::unique_ptr<Vector>(new Vector(inputSignalWidth, 0.0));
     }
 
     // Initialize the filter. This is required because if the signal is not 1D,
     // the default filter constructor initialize a wrongly sized y0
     // Moreover, the Filter class has a different constructor that handles the
     // zero-gain case
-    Filter* filter_c = dynamic_cast<Filter*>(filter);
+    Filter* filter_c = dynamic_cast<Filter*>(filter.get());
     if (filter_c != nullptr) {
         filter_c->init(*y0, *u0);
     }
@@ -272,7 +235,7 @@ bool DiscreteFilter::initializeInitialConditions(BlockInformation* blockInfo, wb
     return true;
 }
 
-bool DiscreteFilter::output(BlockInformation* blockInfo, wbt::Error* error)
+bool DiscreteFilter::output(const BlockInformation* blockInfo)
 {
     if (filter == nullptr) return false;
 
@@ -282,7 +245,7 @@ bool DiscreteFilter::output(BlockInformation* blockInfo, wbt::Error* error)
 
     // Copy the Signal to the data structure that the filter wants
     for (unsigned i = 0; i < inputSignalWidth; ++i) {
-        (*inputSignalVector)[i] = inputSignal.get(i).doubleData();
+        (*inputSignalVector)[i] = inputSignal.get<double>(i);
     }
 
     // Filter the current component of the input signal
