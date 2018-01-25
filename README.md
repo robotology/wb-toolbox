@@ -35,9 +35,9 @@ alt="iCub balancing on one foot via external force control and interacting with 
 **Note:** You can install the dependencies either manually or by using the [codyco-superbuild](https://github.com/robotology/codyco-superbuild).
 
 ### Optional requirements
-* [`iCub`](https://github.com/robotology/icub-main) (needed for some blocks) 
-* Gazebo Simulator (http://gazebosim.org/)
-* gazebo_yarp_plugins (https://github.com/robotology/gazebo_yarp_plugins).
+* [`iCub`](https://github.com/robotology/icub-main) (needed for some blocks)
+* [Gazebo Simulator](http://gazebosim.org/)
+* [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins).
 
 **Note: The following instructions are for *NIX systems, but it works similarly on the other operating systems.**
 
@@ -100,7 +100,10 @@ You can also use (only once after the installation) the script `startup_wbitoolb
 - **Robots' configuration files** Each robot that can be used through the Toolbox has its own configuration file. WB-Toolbox uses the Yarp [`ResourceFinder`](http://www.yarp.it/yarp_resource_finder_tutorials.html). You should thus follow the related instruction to properly configure your installation (e.g. set the `YARP_DATA_DIRS` variable)
 
 ## Troubleshooting
-- **Problems finding libraries and libstdc++.** In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on macOS) with the full path of the missing library. On Linux you might also have trouble with `libstdc++.so` since Matlab comes with its own. To use your system's `libstdc++` you would need to launch Matlab something like (replace with your system's `libstdc++` library):
+
+### Problems finding libraries and libstdc++
+
+In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable `LD_PRELOAD` (or `DYLD_INSERT_LIBRARIES` on macOS) with the full path of the missing library. On Linux you might also have trouble with `libstdc++.so` since Matlab comes with its own. To use your system's `libstdc++` you would need to launch Matlab something like (replace with your system's `libstdc++` library):
 
 `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab`
 
@@ -110,7 +113,9 @@ You could additionally create an alias to launch Matlab this way:
 
 A more permanent and scalable solution can be found in https://github.com/robotology/codyco-superbuild/issues/141#issuecomment-257892256.
 
-- In case you compiled `YARP` in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for `YARP`. If you launch MATLAB from command line, this task is already done for you by `bash` (if you edited `.bashrc`). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in `${MATLAB_ROOT}/bin/.matlab7rc.sh` by first doing
+### `YARP` not installed in the system default directory
+
+In case you compiled `YARP` in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for `YARP`. If you launch MATLAB from command line, this task is already done for you by `bash` (if you edited `.bashrc`). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in `${MATLAB_ROOT}/bin/.matlab7rc.sh` by first doing
 
 ```bash
     chmod +w .matlab7rc.sh
