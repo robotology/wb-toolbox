@@ -15,10 +15,10 @@ classdef PID < handle
     % See also: WBTOOLBOX.PIDCONFIGURATION
 
     properties
-        P     (1,1) double = 0
-        I     (1,1) double = 0
-        D     (1,1) double = 0
-        joint (1,:) char
+        P     double = 0
+        I     double = 0
+        D     double = 0
+        joint char
     end
 
     methods

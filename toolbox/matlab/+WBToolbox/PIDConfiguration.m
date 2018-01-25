@@ -17,10 +17,10 @@ classdef PIDConfiguration < handle
 
     % Read-Only properties
     properties (SetAccess = private)
-        P         (1,:) double
-        I         (1,:) double
-        D         (1,:) double
-        jointList (1,:) cell
+        P         double
+        I         double
+        D         double
+        jointList cell
     end
 
     methods

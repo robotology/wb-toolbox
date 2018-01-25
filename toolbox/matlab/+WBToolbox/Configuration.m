@@ -7,21 +7,21 @@ classdef Configuration < matlab.mixin.Copyable
 
     properties
         % Robot state
-        RobotName          (1,:) char
-        UrdfFile           (1,:) char
-        ControlledJoints   (1,:) cell
-        ControlBoardsNames (1,:) cell
-        LocalName          (1,:) char
+        RobotName          char
+        UrdfFile           char
+        ControlledJoints   cell
+        ControlBoardsNames cell
+        LocalName          char
         % Other Variables
-        GravityVector      (1,3) double = [0, 0, -9.81]
+        GravityVector      double = [0, 0, -9.81]
     end
 
     properties (Dependent)
-        ValidConfiguration (1,1) logical
+        ValidConfiguration logical
     end
 
     properties (Hidden, Dependent)
-        SimulinkParameters (1,1) struct
+        SimulinkParameters struct
     end
 
     % METHODS
