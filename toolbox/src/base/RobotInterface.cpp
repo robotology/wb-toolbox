@@ -427,6 +427,12 @@ bool RobotInterface::initializeModel()
     std::string urdf_file = getConfiguration().getUrdfFile();
     std::string urdf_file_path = rf.findFile(urdf_file.c_str());
 
+    // Fail if the file is not found
+    if (urdf_file_path.empty()) {
+        Log::getSingleton().error("ResourceFinder couldn't find urdf file " + urdf_file + ".");
+        return false;
+    }
+
     // Load the reduced model into KinDynComputations
     // ----------------------------------------------
 
@@ -436,7 +442,7 @@ bool RobotInterface::initializeModel()
     // Use ModelLoader to load the reduced model
     iDynTree::ModelLoader mdlLoader;
     if (!mdlLoader.loadReducedModelFromFile(urdf_file_path, controlledJoints)) {
-        Log::getSingleton().error("ToolboxSingleton: impossible to load " + urdf_file + ".");
+        Log::getSingleton().error("RobotInterface: impossible to load " + urdf_file + ".");
         Log::getSingleton().errorAppend("\nPossible causes: file not found, or the joint ");
         Log::getSingleton().errorAppend("list contains an entry not present in the urdf model.");
         return false;
@@ -493,7 +499,7 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     if (m_robotDevice) {
         // Force the release
         m_robotDeviceCounter = 1;
-        Log::getSingleton().warning("The ToolboxSingleton state is dirty. Trying to clean the state before proceeding.");
+        Log::getSingleton().warning("The RobotInterface state is dirty. Trying to clean the state before proceeding.");
         if (!releaseRemoteControlBoardRemapper()) {
             Log::getSingleton().error("Failed to force the release of the RemoteControlBoardRemapper. ");
             return false;
