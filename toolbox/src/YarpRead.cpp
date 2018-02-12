@@ -22,15 +22,20 @@ const unsigned YarpRead::PARAM_IDX_WAITDATA    = 3; // boolean for blocking read
 const unsigned YarpRead::PARAM_IDX_READ_TS     = 4; // boolean to stream timestamp
 const unsigned YarpRead::PARAM_IDX_AUTOCONNECT = 5; // Autoconnect boolean
 const unsigned YarpRead::PARAM_IDX_ERR_NO_PORT = 6; // Error on missing port if autoconnect is on boolean
+const unsigned YarpRead::PARAM_IDX_TIMEOUT     = 7; // Timeout if blocking read
+
+const double DEFAULT_TIMEOUT = 1.0;
 
 YarpRead::YarpRead()
 : m_autoconnect(false)
 , m_blocking(false)
 , m_shouldReadTimestamp(false)
 , m_errorOnMissingPort(true)
+, m_bufferSize(0)
+, m_timeout(DEFAULT_TIMEOUT)
 {}
 
-unsigned YarpRead::numberOfParameters() { return 6; }
+unsigned YarpRead::numberOfParameters() { return 7; }
 
 bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -118,6 +123,7 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
     ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
     ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_WAITDATA, m_blocking);
     ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_TIMEOUT, m_timeout);
 
     if (!ok) {
         Log::getSingleton().error("Failed to read input parameters.");
@@ -188,7 +194,35 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         connectionStatusPortIndex = timeStampPortIndex + 1;
     }
 
-    yarp::sig::Vector* v = m_port->read(m_blocking); // Read from the port.  Waits until data arrives.
+    yarp::sig::Vector* v = nullptr;
+
+    if (m_blocking) {
+        // Initialize the time counter for the timeout
+        const double t0 = yarp::os::SystemClock::nowSystem();
+
+        // Loop until something has been read or timeout is reached
+        while (true) {
+            const int new_bufferSize = m_port->getPendingReads();
+
+            if (new_bufferSize > m_bufferSize) {
+                const bool shouldWait = false;
+                v = m_port->read(shouldWait);
+                m_bufferSize = m_port->getPendingReads();
+                break;
+            }
+
+            yarp::os::Time::delay(0.0005);
+            const double now = yarp::os::Time::now();
+            if ((now - t0) > m_timeout) {
+                Log::getSingleton().error("The port didn't receive any data for longer than the configured timeout.");
+                return false;
+            }
+        }
+    }
+    else {
+        bool shouldWait = false;
+        v = m_port->read(shouldWait);
+    }
 
     if (v) {
         if (m_shouldReadTimestamp) {

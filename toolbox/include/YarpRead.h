@@ -37,6 +37,8 @@ private:
     bool m_blocking;
     bool m_shouldReadTimestamp;
     bool m_errorOnMissingPort;
+    int m_bufferSize;
+    double m_timeout;
 
     std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
 
@@ -46,6 +48,7 @@ private:
     static const unsigned PARAM_IDX_READ_TS;  // boolean to stream timestamp
     static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean
     static const unsigned PARAM_IDX_ERR_NO_PORT; // Error on missing port if autoconnect is on boolean
+    static const unsigned PARAM_IDX_TIMEOUT;     // Timeout if blocking read
 };
 
 #endif /* end of include guard: WBT_YARPREAD_H */
