@@ -1,4 +1,4 @@
-# Migration from WB-Toolbox 2.0 to WB-Toolbox 3.0
+# Migration from WB-Toolbox 2.0 to WB-Toolbox 3.*
 
 Most of the major changes delivered with the `3.0` version of the `WB-Toolbox` don't affect directly the end-user. Under the hood the toolbox had an important polishing, and the small manual intervention required by this new release match the new features which have been developed.
 
@@ -48,15 +48,15 @@ The scope of the introduction of the _Configuration_ block goes beyond the need 
 * In the same hierarchical level of a Simulink model, only one _Configuration_
  block should be present. In other words, you should never see in the display more than one _Configuration_ block.
  * _Configuration_ blocks put deeper in the hierarchy (e.g. in a Subsystem) override the previous ones.
- 
+
  There are a few pitfalls which are worth to be highlighted:
- 
+
  * It is legit having two Subsystems with different _Configuration_ blocks which point to the same robot. They can have for instance a different joint list and use different control boards. Although, despite reading information never creates problems, sending data to the robot in such scenario can be disastrous. In fact, consider the case these two subsystems share one link, and configure it in two different control modes (e.g. Position and Torque). Sending references to this link causes unpredictable effects.
  * In line of theory it would be possible to have two subsystems in which the first one refers to a Gazebo model and the second one to a real robot. However, this case causes unpredictable behaviour for what concerns the synchronization. In fact, two different blocks for such aim are present in the toolbox: _Simulator Synchronizer_ and _Real Time Syncronizer_. They should be always used exclusively.
 
 ## Other manual edits
 
-* All the _Get Estimate_ blocks need to be replaced by the new _Get Measurement_ block. 
+* All the _Get Estimate_ blocks need to be replaced by the new _Get Measurement_ block.
 * All the hardcoded digital filters (e.g. for the joints velocities) have been removed. A new `Discrete Filter` block has been developed, and it should be manually added if the read raw signal (e.g. from the _Get Measurement_ block) requires filtering.
 * The `C++` class used by the _DoFs Converter_ changed. All the blocks in the `YARP To WBI` configuration need to be connected again.
 * The gravity vector is stored is the `WBToolboxConfig` class. If an alternative value is needed, set it globally directly in the configuration object or scope the block which needs it in a Subsystem with its own _Configuration_ block.
@@ -73,10 +73,10 @@ pids.addPID(WBToolbox.PID('r_shoulder_pitch', WBToolbox.PID(0.2, 0, 0)));
 pids.addPID(WBToolbox.PID('torso_roll', WBToolbox.PID(0.1, 0.1, 0)));
 ```
 
-If some of the controlled joints are not specified, the PIDs are kept in their default values. 
+If some of the controlled joints are not specified, the PIDs are kept in their default values.
 
 
 ## Deprecations
 
 * _Inverse Kinematics_ and _Remote Inverse Kinematics_ have been temporary deprecated. They will see a major release in the coming months. If you need them please do not upgrade to the `3.0` version.
-* _Set Low Level PID_ block lost the capability of switching between multiple configurations. Since they were stored in an external file, this change is aligned to the simplification process chosen for for the configuration. 
+* _Set Low Level PID_ block lost the capability of switching between multiple configurations. Since they were stored in an external file, this change is aligned to the simplification process chosen for for the configuration.
