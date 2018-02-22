@@ -1,4 +1,4 @@
-# Migration from WBI-Toolbox to WB-Toolbox 2.*
+# From WBI-Toolbox to WB-Toolbox 2.*
 
 Given a simulink model with some WBI-Toolbox blocks inside, the general procedure is to **substitute each block with the corresponding one from WB-Toolbox 2.0**. However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolboxes. For more information about the WBI-Toolbox, please have a look at the [WBI-Toolbox README](https://github.com/robotology-playground/WBI-Toolbox/blob/master/README.md).
 

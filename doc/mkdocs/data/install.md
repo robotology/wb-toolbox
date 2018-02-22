@@ -1,10 +1,12 @@
 # Install
 
-_Disclaimer_: `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
+!!! info "Disclaimer"
+
+    `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
 
 ## Requirements
 
-- `Matlab` 7.1+ and `Simulink`: tested with Matlab `R2017b`, `R2016b`
+- Matlab 7.1+ and Simulink: tested with Matlab `R2017b`, `R2016b`
 - [`YARP`](https://github.com/robotology/yarp) compiled as shared library (default behavior)
 - [`iDynTree`](https://github.com/robotology/idyntree)
 - Supported Operating Systems: Linux, macOS,  Windows
@@ -19,7 +21,9 @@ _Disclaimer_: `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and Matlab `
 
 For a simplified installation procedure, jump to [Install using the `robotology-superbuild`](#install-using-the-robotology-superbuild).
 
-The following instructions are for Unix-like systems, but they work similarly on other operating systems.
+
+!!! warning
+    The following instructions are for Unix-like systems, but they work similarly on other operating systems.
 
 ### Dependencies
 
@@ -40,17 +44,20 @@ If all the dependencies are met, proceed with the following instructions:
 ```sh
 git clone https://github.com/robotology/wb-toolbox.git
 mkdir -p wb-toolbox/build && cd wb-toolbox/build
-cmake .. -DCMAKE_INSTALL_PREFIX=<install-directory>
+cmake .. -DCMAKE_INSTALL_PREFIX=<install-prefix>
 cmake --build . --config Release
 cmake --build . --config Release --target install
 cmake --build . --config Release --target install
 ```
 
+!!! note
+    From refer to your install directory with the variable `<install-prefix>`. Every time you see this variable, you should substitute the absolute install path.
+
 ## Configuration
 
 ### Matlab
 
-In order to use the WB-Toolbox in Matlab you have to add some folders to the Matlab path.
+In order to use the `WB-Toolbox` in Matlab you have to add some folders to the Matlab path.
 
 If you usually execute Matlab from the command line, exporting the following environment variable should be enough:
 
@@ -73,8 +80,8 @@ Each robot that can be used through `WB-Toolbox` has its own configuration files
 
 ## Install using the `robotology-superbuild`
 
-The [robotology-superbuild](https://github.com/robotology/robotology-superbuild) provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.
+The @robotology/robotology-superbuild provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.
 
 Follow the [superbuild installation instructions](https://github.com/robotology/robotology-superbuild/#installation) and enable the `ROBOTOLOGY_ENABLE_DYNAMICS` profile.
 
-The configuration should be straightforward. Setup your `$HOME/.bashrc` file sourcing the `setup.sh` script as described in [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment).
+The configuration should be straightforward. Setup your `#!sh $HOME/.bashrc` file sourcing the `setup.sh` script as described in [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment).

@@ -1,8 +1,11 @@
+!!! warning
+    These information are outdated. The need to be ported to `WB-Toolbox 3`.
+
 The following steps are necessary in order to add additional blocks to the Library.
 
-#### C++
+## C++
 
-##### Generic Block
+### Generic Block
 - Inherit from `Block` class
 - Implement the `numberOfParameters()` function returning the number of parameters your block takes
 - If the parameter is tunable (i.e. it can be changed during the simulation) implement `parameterAtIndexIsTunable`: by default parameters are not tunable
@@ -13,7 +16,7 @@ The following steps are necessary in order to add additional blocks to the Libra
 
 You can access the block parameters by using the usual mex C functions. **NOTE** your parameters are 1-based numbered, **NOT** 0-based. So the first parameter is at index 1, etc...
 
-##### WBI-based Block
+### WBI-based Block
 If you need to implement a WBI-based block it is highly advisable that you inherit from `WBIBlock` class.
 This base class already implements a lot of functionalities and it is highly probable you need to just implement the `output` function.
 
@@ -26,30 +29,38 @@ The `WBIBlock` base class already provide you the following features:
 
 **Note** Additional parameters you specify starts from the index `5`.
 
-##### Notes on implementation
+### Notes on implementation
 
 - During `configureSizeAndPorts` you should not allocate any memory or save any data because the object will not persist after the method call. The correct place is the `initialize` method.
 - Every function takes as last parameter an `Error` object. It can be `NULL`, so check before dereferencing the pointer.
 
-#### Final steps
-Independently of the type of block you implemented some more steps are required to properly add the block:
+## Final steps
 
-- `CMake`: of course you should add the files to the CMake project. You can you the macro provided by this project:
+Independently of the type of block you implemented some more steps are required to properly add the block.
+
+### CMake
+
+You can use the macro provided by this project:
+
 ```cmake
 configure_block(BLOCK_NAME ${HUMAN_READABLE_DESCRIPTION}
     LIST_PREFIX WBT
     SOURCES ${CPP_FILES}
     HEADERS ${HEADER_FILES})
 ```
+
 where
+
   - `${HUMAN_READABLE_DESCRIPTION}` is a string used in the group folder (for projects which support it),
   - `${CPP_FILES}` is a list of `.cpp` files needed by your block
   - `${HEADER_FILES}` is a list of `.h` files needed by your block
 
+### Block Factory
+
 - Add you main header to the `toolbox.h` file
 - Add the code needed for the creation of your class in `factory.cpp`, `Block::instantiateBlockWithClassName` method. The string passed as argument is the one you specify in the S-Function block in Simulink (see next section)
 
-#### Simulink
+## Simulink
 
 - Add an S-Function block
 - Specify as s-function name `WB-Toolbox`

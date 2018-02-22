@@ -1,4 +1,4 @@
-# Migration from WB-Toolbox 2.0 to WB-Toolbox 3.*
+# From WB-Toolbox 2.0 to WB-Toolbox 3.*
 
 Most of the major changes delivered with the `3.0` version of the `WB-Toolbox` don't affect directly the end-user. Under the hood the toolbox had an important polishing, and the small manual intervention required by this new release match the new features which have been developed.
 
