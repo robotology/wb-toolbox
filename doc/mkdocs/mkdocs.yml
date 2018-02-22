@@ -6,7 +6,7 @@ site_author: 'Diego Ferigo'
 # Repository
 repo_name: robotology/wb-toolbox
 repo_url: 'https://github.com/robotology/wb-toolbox'
-edit_uri: 'edit/master/docs/mkdocs/data'
+edit_uri: 'edit/master/doc/mkdocs/data'
 
 # Configuration
 docs_dir: 'data'
