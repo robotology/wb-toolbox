@@ -11,9 +11,9 @@ matrix:
     - os: linux
       env:
         TRAVIS_BUILD_DOCS=true
-        GIT_COMMITTER_USERNAME=loc2bot
+        GIT_COMMITTER_USERNAME=LOC2Bot
         GIT_COMMITTER_NAME=LOC2Bot
-        GIT_COMMITTER_EMAIL=locomotioncontrol@gmail.com
+        GIT_COMMITTER_EMAIL=locomotion.control@gmail.com
         DOXYGEN_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/doxygen
         MKDOCS_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/mkdocs
       addons:
