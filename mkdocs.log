@@ -1,32 +1,32 @@
 DEBUG   -  Loading configuration file: /home/travis/build/robotology/wb-toolbox/doc/mkdocs/mkdocs.yml 
-DEBUG   -  Loaded theme configuration for 'material' from '/home/travis/.local/lib/python3.4/site-packages/material/mkdocs_theme.yml': {'feature': {'tabs': False}, 'include_search_page': False, 'font': {'text': 'Roboto', 'code': 'Roboto Mono'}, 'palette': {'primary': None, 'accent': None}, 'static_templates': ['404.html'], 'language': 'en', 'search_index_only': True, 'direction': None, 'logo': {'icon': '\ue80c'}, 'favicon': 'assets/images/favicon.png'} 
-DEBUG   -  Config value: 'site_url' = '' 
-DEBUG   -  Config value: 'site_dir' = '/home/travis/build/robotology/wb-toolbox/code_docs/mkdocs' 
-DEBUG   -  Config value: 'edit_uri' = 'edit/master/docs/mkdocs/data/' 
-DEBUG   -  Config value: 'config_file_path' = '/home/travis/build/robotology/wb-toolbox/doc/mkdocs/mkdocs.yml' 
-DEBUG   -  Config value: 'theme' = Theme(name='material', dirs=['/home/travis/.local/lib/python3.4/site-packages/material', '/home/travis/.local/lib/python3.4/site-packages/mkdocs/templates'], static_templates=['sitemap.xml', '404.html'], feature={'tabs': True}, include_search_page=False, font={'text': 'Roboto', 'code': 'Roboto Mono'}, logo={'icon': 'dashboard'}, language='en', search_index_only=True, direction=None, palette={'primary': 'blue grey', 'accent': 'amber'}, favicon='assets/images/favicon.png') 
-DEBUG   -  Config value: 'dev_addr' = Address(host='127.0.0.1', port=8000) 
-DEBUG   -  Config value: 'markdown_extensions' = ['toc', 'tables', 'fenced_code', 'markdown.extensions.admonition', 'pymdownx.arithmatex', 'pymdownx.betterem', 'pymdownx.caret', 'pymdownx.critic', 'pymdownx.details', 'pymdownx.inlinehilite', 'pymdownx.highlight', 'pymdownx.magiclink', 'pymdownx.mark', 'pymdownx.smartsymbols', 'pymdownx.superfences', 'pymdownx.tasklist', 'pymdownx.tilde', 'markdown.extensions.toc'] 
-DEBUG   -  Config value: 'docs_dir' = '/home/travis/build/robotology/wb-toolbox/doc/mkdocs/data' 
-DEBUG   -  Config value: 'extra' = {} 
-DEBUG   -  Config value: 'pages' = [{'Home': 'index.md'}, {'Install': 'install.md'}, {'Getting started': 'getting-started.md'}, {'Troubleshooting': 'troubleshooting.md'}, {'Documentation': 'documentation.md'}, {'Developer area': [{'Add a new block': 'create_new_block.md'}, {'Simulink Tricks': 'sim_tricks.md'}]}, {'Migration': [{'From WBI-Toolbox': 'Migration_from_WBI-Toolbox_1.0.md'}, {'From WB-Toolbox 2.0': 'Migration_from_WB-Toolbox_2.0.md'}]}, {'About': 'about.md'}, {'License': 'license.md'}] 
-DEBUG   -  Config value: 'site_name' = 'WB-Toolbox' 
-DEBUG   -  Config value: 'site_description' = 'A Simulink Toolbox for Whole Body Control' 
-DEBUG   -  Config value: 'extra_javascript' = [] 
-DEBUG   -  Config value: 'extra_css' = [] 
-DEBUG   -  Config value: 'plugins' = PluginCollection([('search', <mkdocs.contrib.legacy_search.SearchPlugin object at 0x7feee0afdda0>)]) 
-DEBUG   -  Config value: 'repo_name' = 'robotology/wb-toolbox' 
-DEBUG   -  Config value: 'use_directory_urls' = True 
-DEBUG   -  Config value: 'google_analytics' = None 
-DEBUG   -  Config value: 'extra_templates' = [] 
-DEBUG   -  Config value: 'strict' = True 
-DEBUG   -  Config value: 'remote_branch' = 'gh-pages' 
-DEBUG   -  Config value: 'theme_dir' = None 
-DEBUG   -  Config value: 'repo_url' = 'https://github.com/robotology/wb-toolbox/' 
-DEBUG   -  Config value: 'copyright' = 'Copyright &copy; 2018 Istituto Italiano di Tecnologia - iCub Facility' 
+DEBUG   -  Loaded theme configuration for 'material' from '/home/travis/.local/lib/python3.4/site-packages/material/mkdocs_theme.yml': {'direction': None, 'search_index_only': True, 'logo': {'icon': '\ue80c'}, 'favicon': 'assets/images/favicon.png', 'static_templates': ['404.html'], 'feature': {'tabs': False}, 'palette': {'primary': None, 'accent': None}, 'include_search_page': False, 'language': 'en', 'font': {'code': 'Roboto Mono', 'text': 'Roboto'}} 
 DEBUG   -  Config value: 'remote_name' = 'origin' 
+DEBUG   -  Config value: 'use_directory_urls' = True 
+DEBUG   -  Config value: 'extra_css' = [] 
+DEBUG   -  Config value: 'copyright' = 'Copyright &copy; 2018 Istituto Italiano di Tecnologia - iCub Facility' 
+DEBUG   -  Config value: 'docs_dir' = '/home/travis/build/robotology/wb-toolbox/doc/mkdocs/data' 
+DEBUG   -  Config value: 'theme_dir' = None 
+DEBUG   -  Config value: 'google_analytics' = None 
+DEBUG   -  Config value: 'dev_addr' = Address(host='127.0.0.1', port=8000) 
+DEBUG   -  Config value: 'site_name' = 'WB-Toolbox' 
+DEBUG   -  Config value: 'extra_javascript' = [] 
+DEBUG   -  Config value: 'strict' = True 
+DEBUG   -  Config value: 'config_file_path' = '/home/travis/build/robotology/wb-toolbox/doc/mkdocs/mkdocs.yml' 
+DEBUG   -  Config value: 'site_description' = 'A Simulink Toolbox for Whole Body Control' 
+DEBUG   -  Config value: 'edit_uri' = 'edit/master/doc/mkdocs/data/' 
+DEBUG   -  Config value: 'extra_templates' = [] 
+DEBUG   -  Config value: 'mdx_configs' = {'markdown.extensions.toc': {'permalink': True}, 'pymdownx.magiclink': {'user': 'robotology', 'repo_url_shortener': True, 'repo': 'wb-toolbox', 'repo_url_shorthand': True}, 'pymdownx.betterem': {'smart_enable': 'all'}} 
+DEBUG   -  Config value: 'extra' = {} 
+DEBUG   -  Config value: 'theme' = Theme(name='material', dirs=['/home/travis/.local/lib/python3.4/site-packages/material', '/home/travis/.local/lib/python3.4/site-packages/mkdocs/templates'], static_templates=['sitemap.xml', '404.html'], direction=None, search_index_only=True, logo={'icon': 'dashboard'}, favicon='assets/images/favicon.png', feature={'tabs': True}, palette={'primary': 'blue grey', 'accent': 'amber'}, include_search_page=False, language='en', font={'code': 'Roboto Mono', 'text': 'Roboto'}) 
+DEBUG   -  Config value: 'remote_branch' = 'gh-pages' 
+DEBUG   -  Config value: 'markdown_extensions' = ['toc', 'tables', 'fenced_code', 'markdown.extensions.admonition', 'pymdownx.arithmatex', 'pymdownx.betterem', 'pymdownx.caret', 'pymdownx.critic', 'pymdownx.details', 'pymdownx.inlinehilite', 'pymdownx.highlight', 'pymdownx.magiclink', 'pymdownx.mark', 'pymdownx.smartsymbols', 'pymdownx.superfences', 'pymdownx.tasklist', 'pymdownx.tilde', 'markdown.extensions.toc'] 
+DEBUG   -  Config value: 'repo_url' = 'https://github.com/robotology/wb-toolbox/' 
 DEBUG   -  Config value: 'site_author' = 'Diego Ferigo' 
-DEBUG   -  Config value: 'mdx_configs' = {'markdown.extensions.toc': {'permalink': True}, 'pymdownx.magiclink': {'repo': 'wb-toolbox', 'user': 'robotology', 'repo_url_shorthand': True, 'repo_url_shortener': True}, 'pymdownx.betterem': {'smart_enable': 'all'}} 
+DEBUG   -  Config value: 'repo_name' = 'robotology/wb-toolbox' 
+DEBUG   -  Config value: 'site_url' = '' 
+DEBUG   -  Config value: 'plugins' = PluginCollection([('search', <mkdocs.contrib.legacy_search.SearchPlugin object at 0x7fc1c5430da0>)]) 
+DEBUG   -  Config value: 'site_dir' = '/home/travis/build/robotology/wb-toolbox/code_docs/mkdocs' 
+DEBUG   -  Config value: 'pages' = [{'Home': 'index.md'}, {'Install': 'install.md'}, {'Getting started': 'getting-started.md'}, {'Troubleshooting': 'troubleshooting.md'}, {'Documentation': 'documentation.md'}, {'Developer area': [{'Add a new block': 'create_new_block.md'}, {'Simulink Tricks': 'sim_tricks.md'}]}, {'Migration': [{'From WBI-Toolbox': 'Migration_from_WBI-Toolbox_1.0.md'}, {'From WB-Toolbox 2.0': 'Migration_from_WB-Toolbox_2.0.md'}]}, {'About': 'about.md'}, {'License': 'license.md'}] 
 INFO    -  Cleaning site directory 
 INFO    -  Building documentation to directory: /home/travis/build/robotology/wb-toolbox/code_docs/mkdocs 
 DEBUG   -  Copying static assets from /home/travis/.local/lib/python3.4/site-packages/mkdocs/templates 

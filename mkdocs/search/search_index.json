@@ -287,7 +287,7 @@
         },
         {
             "location": "/about/",
-            "text": "WB-Toolbox\n has been developed in the \nDynamic Interaction Control\n research line at the \nItalian Institute of Technology\n.\n\n\nIt was born from the ashes of \nrobotology-playground/WBI-Toolbox\n.\n\n\nIt is used extensively for controllers stored in \nrobotology-playground/wholeBodyControllers\n.\n\n\nMaintainer\n\n\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\n\n\nContributors\n\n\nIn alphabetical order:\n\n\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\nNori Francesco (\n@iron76\n)\n\n\nPucci Daniele (\n@DanielePucci\n)\n\n\nRomano Francesco (\n@francesco-romano\n)\n\n\nTraversaro Silvio (\n@traversaro\n)\n\n\n\n\nAcknowledgments\n\n\nThe development of \nWB-Toolbox\n is supported by:\n\n\n\n\nFP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)\n\n\nH2020 EU projects An.Dy (No. 731540 H2020-ICT-2016-1).",
+            "text": "WB-Toolbox\n has been developed in the \nDynamic Interaction Control\n research line at the \nItalian Institute of Technology\n.\n\n\nIt was born from the ashes of \nrobotology-playground/WBI-Toolbox\n.\n\n\nIt is used extensively for controllers stored in \nrobotology-playground/wholeBodyControllers\n.\n\n\nMaintainer\n\n\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\n\n\nContributors\n\n\nIn alphabetical order:\n\n\n\n\nEljaik Jorhabib (\n@jeljaik\n)\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\nNori Francesco (\n@iron76\n)\n\n\nPucci Daniele (\n@DanielePucci\n)\n\n\nRomano Francesco (\n@francesco-romano\n)\n\n\nTraversaro Silvio (\n@traversaro\n)\n\n\n\n\nAcknowledgments\n\n\nThe development of \nWB-Toolbox\n is supported by:\n\n\n\n\nFP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)\n\n\nH2020 EU projects An.Dy (No. 731540 H2020-ICT-2016-1).",
             "title": "About"
         },
         {
@@ -297,7 +297,7 @@
         },
         {
             "location": "/about/#contributors",
-            "text": "In alphabetical order:   Ferigo Diego ( @diegoferigo )  Nori Francesco ( @iron76 )  Pucci Daniele ( @DanielePucci )  Romano Francesco ( @francesco-romano )  Traversaro Silvio ( @traversaro )",
+            "text": "In alphabetical order:   Eljaik Jorhabib ( @jeljaik )  Ferigo Diego ( @diegoferigo )  Nori Francesco ( @iron76 )  Pucci Daniele ( @DanielePucci )  Romano Francesco ( @francesco-romano )  Traversaro Silvio ( @traversaro )",
             "title": "Contributors"
         },
         {
