@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
   ['realtimesynchronizer_2ecpp',['RealTimeSynchronizer.cpp',['../_real_time_synchronizer_8cpp.html',1,'']]],
   ['realtimesynchronizer_2eh',['RealTimeSynchronizer.h',['../_real_time_synchronizer_8h.html',1,'']]],
   ['remoteinversekinematics_2ecpp',['RemoteInverseKinematics.cpp',['../_remote_inverse_kinematics_8cpp.html',1,'']]],
