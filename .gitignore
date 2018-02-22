@@ -1,4 +1,3 @@
-startup_wbitoolbox.m
 *.mexa64
 *.mexmaci64
 *.kdev4
@@ -15,5 +14,8 @@ slprj/
 *.original
 *~
 .DS_Store
-
 build*
+doc/doxygen/html
+CMakeLists.txt.*
+compile_commands.json
+Copy_of_*

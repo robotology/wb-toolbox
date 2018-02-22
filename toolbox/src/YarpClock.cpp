@@ -1,60 +1,69 @@
 #include "YarpClock.h"
 
-#include "Error.h"
+#include "Log.h"
 #include "BlockInformation.h"
 #include "Signal.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
-namespace wbt {
+using namespace wbt;
 
-    std::string YarpClock::ClassName = "YarpClock";
+const std::string YarpClock::ClassName = "YarpClock";
 
-    unsigned YarpClock::numberOfParameters() { return 0; }
+unsigned YarpClock::numberOfParameters() { return 0; }
 
-    bool YarpClock::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        // Specify I/O
-        // INPUTS
-        if (!blockInfo->setNumberOfInputPorts(0)) {
-            if (error) error->message = "Failed to set input port number to 0";
-            return false;
-        }
+bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    // INPUTS
+    // ======
+    //
+    // No inputs
+    //
 
-        // OUTPUTS
-        if (!blockInfo->setNumberOfOuputPorts(1)) {
-            if (error) error->message = "Failed to set output port number";
-            return false;
-        }
-
-        blockInfo->setOutputPortVectorSize(0, 1);
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
-
-        return true;
+    if (!blockInfo->setNumberOfInputPorts(0)) {
+        Log::getSingleton().error("Failed to set input port number to 0.");
+        return false;
     }
 
-    bool YarpClock::initialize(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        yarp::os::Network::init();
+    // OUTPUT
+    // ======
+    //
+    // 1) The yarp time. In short, it streams yarp::os::Time::now().
+    //
 
-        if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)){
-            if (error) error->message = "YARP server wasn't found active!! \n";
-            return false;
-        }
-
-        return true;
-    }
-    bool YarpClock::terminate(BlockInformation */*S*/, wbt::Error */*error*/)
-    {
-        yarp::os::Network::fini();
-        return true;
+    if (!blockInfo->setNumberOfOutputPorts(1)) {
+        Log::getSingleton().error("Failed to set output port number.");
+        return false;
     }
 
-    bool YarpClock::output(BlockInformation *blockInfo, wbt::Error */*error*/)
-    {
-        Signal signal = blockInfo->getOutputPortSignal(0);
-        signal.set(0, yarp::os::Time::now());
-        return true;
+    blockInfo->setOutputPortVectorSize(0, 1);
+    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+
+    return true;
+}
+
+bool YarpClock::initialize(const BlockInformation* blockInfo)
+{
+    yarp::os::Network::init();
+
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+        Log::getSingleton().error("YARP server wasn't found active!!");
+        return false;
     }
+
+    return true;
+}
+
+bool YarpClock::terminate(const BlockInformation* /*S*/)
+{
+    yarp::os::Network::fini();
+    return true;
+}
+
+bool YarpClock::output(const BlockInformation* blockInfo)
+{
+    Signal signal = blockInfo->getOutputPortSignal(0);
+    signal.set(0, yarp::os::Time::now());
+    return true;
 }

@@ -1,0 +1,50 @@
+sudo: false
+dist: trusty
+language: cpp
+
+os:
+  - linux
+
+matrix:
+  include:
+    # Enable a job for building the documentation
+    - os: linux
+      env:
+        TRAVIS_BUILD_DOCS=true
+        GIT_COMMITTER_USERNAME=loc2bot
+        GIT_COMMITTER_NAME=LOC2Bot
+        GIT_COMMITTER_EMAIL=locomotioncontrol@gmail.com
+        DOXYGEN_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/doxygen
+        MKDOCS_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/mkdocs
+      addons:
+        apt:
+          packages:
+            - doxygen
+            - doxygen-doc
+            - doxygen-gui
+            - graphviz
+            - python3-pip
+
+before_install:
+  # Install documentation dependencies
+  - >-
+    if [[ "$TRAVIS_BRANCH" = "master" && -n "$TRAVIS_BUILD_DOCS" && "$TRAVIS_PULL_REQUEST" = "false" ]] ; then
+      pip3 install --user Pygments mkdocs mkdocs-material || travis_terminate 1
+      export PATH=$HOME/.local/bin:$PATH
+    fi
+
+# before_script:
+script:
+  # Right now Travis only builds the documentation
+  - true
+
+after_success:
+  # Generate the docs only if master, the TRAVIS_BUILD_DOCS is true and we can use secure variables
+  - >-
+    if [[ "$TRAVIS_BRANCH" = "master" && -n "$TRAVIS_BUILD_DOCS" && "$TRAVIS_PULL_REQUEST" = "false" ]] ; then
+      ./$PROJECT_DIR_ABS/.ci/generateDocumentation.sh || travis_terminate 1
+    fi
+
+# notifications:
+#  email:
+#    - whowantstobemantainedr@email.com

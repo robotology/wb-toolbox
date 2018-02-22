@@ -1,36 +1,36 @@
 #ifndef WBT_FORWARDKINEMATICS_H
 #define WBT_FORWARDKINEMATICS_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <memory>
+#include <iDynTree/Model/Indices.h>
 
 namespace wbt {
     class ForwardKinematics;
 }
 
-class wbt::ForwardKinematics : public wbt::WBIModelBlock {
+class wbt::ForwardKinematics : public wbt::WBBlock
+{
+private:
+    bool m_frameIsCoM;
+    iDynTree::FrameIndex m_frameIndex;
 
-    double *m_basePose;
-    double *m_frameForwardKinematics;
-
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
-
-    int m_frameIndex;
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned OUTPUT_IDX_FW_FRAME;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
+
     ForwardKinematics();
+    ~ForwardKinematics() override = default;
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-
-
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
-
-#endif /* end of include guard: WBT_FORWARDKINEMATICS_H */
+#endif /* WBT_FORWARDKINEMATICS_H */

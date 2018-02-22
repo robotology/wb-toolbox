@@ -1,0 +1,68 @@
+# Project information
+site_name: 'WB-Toolbox'
+site_description: 'A Simulink Toolbox for Whole Body Control'
+site_author: 'Diego Ferigo'
+
+# Repository
+repo_name: robotology/wb-toolbox
+repo_url: 'https://github.com/robotology/wb-toolbox'
+edit_uri: 'edit/master/docs/mkdocs/data'
+
+# Configuration
+docs_dir: 'data'
+theme:
+    name: 'material'
+    palette:
+        primary: blue grey
+        accent: amber
+    feature:
+        tabs: true
+    # favicon:
+    #     icon: dashboard
+    logo:
+        icon: dashboard
+
+# Copyright
+copyright: 'Copyright &copy; 2018 Istituto Italiano di Tecnologia - iCub Facility'
+
+# Extensions
+markdown_extensions:
+    - markdown.extensions.admonition
+    # - markdown.extensions.codehilite
+    - pymdownx.arithmatex
+    - pymdownx.betterem:
+        smart_enable: all
+    - pymdownx.caret
+    - pymdownx.critic
+    - pymdownx.details
+    - pymdownx.inlinehilite
+    - pymdownx.highlight
+    - pymdownx.magiclink:
+        user: robotology
+        repo: wb-toolbox
+        repo_url_shortener: true
+        repo_url_shorthand: true
+    - pymdownx.mark
+    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.tasklist
+    - pymdownx.tilde
+    - markdown.extensions.toc:
+        permalink: true
+
+# Page tree
+pages:
+- Home: 'index.md'
+- Install: 'install.md'
+- Getting started: 'getting-started.md'
+- Troubleshooting: 'troubleshooting.md'
+- Documentation: 'documentation.md'
+# - Docs: 'doxygen.html'
+- Developer area:
+    - Add a new block: 'create_new_block.md'
+    - Simulink Tricks: 'sim_tricks.md'
+- Migration:
+    - From WBI-Toolbox: 'Migration_from_WBI-Toolbox_1.0.md'
+    - From WB-Toolbox 2.0: 'Migration_from_WB-Toolbox_2.0.md'
+- About: 'about.md'
+- License: 'license.md'

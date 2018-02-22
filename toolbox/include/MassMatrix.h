@@ -1,33 +1,36 @@
 #ifndef WBT_MASSMATRIX_H
 #define WBT_MASSMATRIX_H
 
-#include "WBIModelBlock.h"
+#include "WBBlock.h"
+#include <memory>
 
 namespace wbt {
     class MassMatrix;
 }
 
-class wbt::MassMatrix : public wbt::WBIModelBlock {
+namespace iDynTree {
+    class MatrixDynSize;
+}
 
-    double *m_basePose;
-    double *m_massMatrix;
+class wbt::MassMatrix : public wbt::WBBlock
+{
+private:
+    std::unique_ptr<iDynTree::MatrixDynSize> m_massMatrix;
 
-    //input buffers
-    double *m_basePoseRaw;
-    double *m_configuration;
+    static const unsigned INPUT_IDX_BASE_POSE;
+    static const unsigned INPUT_IDX_JOINTCONF;
+    static const unsigned OUTPUT_IDX_MASS_MAT;
 
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
     MassMatrix();
+    ~MassMatrix() override = default;
 
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-
-
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
-
-#endif /* end of include guard: WBT_MASSMATRIX_H */
+#endif /* WBT_MASSMATRIX_H */

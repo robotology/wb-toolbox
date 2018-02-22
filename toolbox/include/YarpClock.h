@@ -7,16 +7,19 @@ namespace wbt {
     class YarpClock;
 }
 
-class wbt::YarpClock : public wbt::Block {
+class wbt::YarpClock : public wbt::Block
+{
 public:
-    static std::string ClassName;
+    static const std::string ClassName;
 
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
+    YarpClock() = default;
+    ~YarpClock() override = default;
 
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
 };
 
 #endif /* end of include guard: WBT_YARPCLOCK_H */

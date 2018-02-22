@@ -1,275 +1,248 @@
 #include "SetLowLevelPID.h"
 
-#include "Error.h"
-#include "WBInterface.h"
+#include "Log.h"
+#include "RobotInterface.h"
 #include "BlockInformation.h"
-#include <yarpWholeBodyInterface/yarpWholeBodyInterface.h>
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <yarpWholeBodyInterface/PIDList.h>
-#include <wbi/wholeBodyInterface.h>
-#include <yarp/os/ResourceFinder.h>
-#include <map>
+#include <yarp/dev/ControlBoardPid.h>
+#include <algorithm>
 
-namespace wbt {
+using namespace wbt;
 
-    static const std::string TorquePIDInitialKey = "__ORIGINAL_PIDs__";
-    static const std::string TorquePIDDefaultKey = "__DEFAULT_PIDs__";
+const std::string SetLowLevelPID::ClassName = "SetLowLevelPID";
 
-#pragma mark - SetLowLevelPID class implementation
+unsigned SetLowLevelPID::numberOfParameters()
+{
+    return WBBlock::numberOfParameters()
+    + 1  // WBTPIDConfig object
+    + 1; // Control type
+}
 
-    std::string SetLowLevelPID::ClassName = "SetLowLevelPID";
+bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
 
-    SetLowLevelPID::SetLowLevelPID()
-    : m_firstRun(true)
-    , m_lastGainSetIndex(-1)
-    , m_controlMode(wbi::CTRL_MODE_TORQUE) {}
+    // INPUTS
+    // ======
+    //
+    // No inputs
+    //
 
-
-    bool SetLowLevelPID::loadLowLevelGainsFromFile(std::string filename,
-                                                   const yarpWbi::PIDList &originalList,
-                                                   wbi::wholeBodyInterface& interface,
-                                                   yarpWbi::PIDList &loadedPIDs)
-    {
-        //List of list. Each element has a key: joint name, and a list of pairs: kp, kd, ki and its respective value
-        using namespace yarp::os;
-        yarp::os::ResourceFinder resourceFinder = yarp::os::ResourceFinder::getResourceFinderSingleton();
-        Property file;
-        std::string fileName = resourceFinder.findFileByName(filename);
-        if (fileName.empty()) return false;
-        file.fromConfigFile(fileName);
-
-        Bottle externalList;
-        externalList.fromString(file.toString());
-
-        bool result = true;
-        wbi::IDList jointList = interface.getJointList();
-        for (int i = 0; i < externalList.size(); ++i) {
-            if (!externalList.get(i).isList()) continue;
-            Bottle *jointConfig = externalList.get(i).asList();
-            if (jointConfig->size() < 2 || !jointConfig->get(0).isString()) continue;
-            wbi::ID jointID(jointConfig->get(0).asString());
-            int jointIndex = -1;
-            if (!jointList.idToIndex(jointID, jointIndex)) continue;
-            if (jointIndex < 0 || jointIndex >= jointList.size()) {
-                yWarning("Specified joint %s index is outside joint list size", jointID.toString().c_str());
-                continue;
-            }
-
-            loadedPIDs.pidList()[jointIndex] = originalList.pidList()[jointIndex];
-            loadedPIDs.motorParametersList()[jointIndex] = originalList.motorParametersList()[jointIndex];
-
-            result = result && yarpWbi::pidFromBottleDescription(*jointConfig, loadedPIDs.pidList()[jointIndex]);
-            if (m_controlMode == wbi::CTRL_MODE_TORQUE) {
-                result = result && yarpWbi::motorTorqueParametersFromBottleDescription(*jointConfig, loadedPIDs.motorParametersList()[jointIndex]);
-            }
-        }
-        return result;
-    }
-
-    bool SetLowLevelPID::loadGainsFromValue(const yarp::os::Value &gains,
-                                            PidMap &pidMap,
-                                            wbi::wholeBodyInterface& interface)
-    {
-        pidMap.clear();
-
-        yarpWbi::yarpWholeBodyInterface *yarpInterface = dynamic_cast<yarpWbi::yarpWholeBodyInterface *>(&interface);
-        if (!yarpInterface) {
-            return false;
-        }
-
-        //Load original gains from controlboards and save them to the original key.
-        yarpWbi::PIDList originalGains(interface.getDoFs());
-        yarpWbi::yarpWholeBodyActuators *actuators = yarpInterface->wholeBodyActuator();
-        if (!actuators) {
-            return false;
-        }
-        //TODO: should be made not limited to torque
-        actuators->getPIDGains(originalGains.pidList(), wbi::CTRL_MODE_TORQUE);
-        actuators->getMotorTorqueParameters(originalGains.motorParametersList());
-        pidMap.insert(PidMap::value_type(TorquePIDInitialKey, originalGains));
-
-        //Now load additional gains
-        bool result = true;
-        if (gains.isString()) {
-            yarpWbi::PIDList pids(interface.getDoFs());
-            result = loadLowLevelGainsFromFile(gains.asString(), originalGains, interface, pids);
-            pidMap.insert(PidMap::value_type(TorquePIDDefaultKey, pids));
-        } else if (gains.isList()) {
-            using namespace yarp::os;
-            Bottle *list = gains.asList();
-
-            //list of files. gains will be saved as integer-values
-            for (int i = 0; i < list->size(); ++i) {
-                if (!list->get(i).isString()) continue;
-                std::string filename = list->get(i).asString();
-                yarpWbi::PIDList pids(interface.getDoFs());
-                result = loadLowLevelGainsFromFile(filename, originalGains, interface, pids);
-
-                if (result) {
-                    pidMap.insert(PidMap::value_type(yarpWbi::stringFromInt(i + 1), pids));
-                }
-            }
-        }
-        return result;
-    }
-
-    //TODO: for performance it is probably better to change the map so that the index is an integer
-    //i.e. a non continuous vector
-    bool SetLowLevelPID::setCurrentGains(const PidMap &pidMap,
-                                         std::string key,
-                                         wbi::iWholeBodyActuators& actuators)
-    {
-        yarpWbi::yarpWholeBodyActuators *yarpActuators = static_cast<yarpWbi::yarpWholeBodyActuators *>(&actuators);
-        if (!yarpActuators) return false;
-
-        PidMap::const_iterator found = pidMap.find(key);
-        //Treat one exception: pidMap with size == 2, the default can be set to either the string or the num 1
-        if (found == pidMap.end() && key == TorquePIDDefaultKey && pidMap.size() == 2) {
-            found = pidMap.find("1");
-        }
-
-        if (found == pidMap.end()) return false;
-        bool result = yarpActuators->setPIDGains(found->second.pidList(), m_controlMode); //to be made generic (torque, position, etc)
-        if (m_controlMode == wbi::CTRL_MODE_TORQUE) {
-            result = result && yarpActuators->setMotorTorqueParameters(found->second.motorParametersList());
-        }
-        return result;
-    }
-
-#pragma mark - overloaded methods
-
-    unsigned SetLowLevelPID::numberOfParameters()
-    {
-        return WBIBlock::numberOfParameters()
-        + 1 // pid parameters file
-        + 1;// control method
-    }
-
-    bool SetLowLevelPID::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
-
-        // Specify I/O
-        if (!blockInfo->setNumberOfInputPorts(0)) {
-            if (error) error->message = "Failed to configure the number of input ports";
-            return false;
-        }
-
-        // Output port:
-        if (!blockInfo->setNumberOfOuputPorts(0)) {
-            if (error) error->message = "Failed to configure the number of output ports";
-            return false;
-        }
-
-        return true;
-    }
-
-    bool SetLowLevelPID::initialize(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        using namespace yarp::os;
-        if (!WBIBlock::initialize(blockInfo, error)) return false;
-
-        // Reading the control type
-        std::string controlType;
-        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 2, controlType)) {
-            if (error) error->message = "Could not read control type parameter";
-            return false;
-        }
-
-        m_controlMode = wbi::CTRL_MODE_UNKNOWN;
-        if (controlType == "Position") {
-            m_controlMode = wbi::CTRL_MODE_POS;
-        } else if (controlType == "Torque") {
-            m_controlMode = wbi::CTRL_MODE_TORQUE;
-        } else {
-            if (error) error->message = "Control Mode not supported";
-            return false;
-        }
-
-
-        // Reading the PID specification parameter
-        std::string pidParameter;
-        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 1, pidParameter)) {
-            if (error) error->message = "Could not read PID file specification parameter";
-            return false;
-        }
-
-        Value value;
-        value.fromString(pidParameter.c_str());
-        m_pids.clear();
-
-        yarpWbi::yarpWholeBodyInterface * const interface = dynamic_cast<yarpWbi::yarpWholeBodyInterface * const>(WBInterface::sharedInstance().interface());
-        if (!interface) {
-            if (error) error->message = "This block currently work only with YARP-WBI implementation";
-            return false;
-        }
-        if (!loadGainsFromValue(value, m_pids, *interface)) {
-            m_pids.clear();
-            if (error) error->message = "Error while loading PIDs configuration";
-            yError("Error while loading PIDs configuration");
-            return false;
-        } else {
-            yInfo("Loaded PIDs configuration");
-        }
-        m_lastGainSetIndex = -1;
-
-        m_firstRun = true;
-        return true;
-    }
-
-    bool SetLowLevelPID::terminate(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        //static_cast as the dynamic has been done in the initialize
-        //and the pointer should not change
-        yarpWbi::yarpWholeBodyInterface * const interface = static_cast<yarpWbi::yarpWholeBodyInterface * const>(WBInterface::sharedInstance().interface());
-
-        if (interface) {
-            yarpWbi::yarpWholeBodyActuators *actuators = interface->wholeBodyActuator();
-            if (actuators && m_pids.size() > 1) {
-                setCurrentGains(m_pids, TorquePIDInitialKey, *actuators);
-            }
-        }
-
-        m_pids.clear();
-        m_lastGainSetIndex = -1;
-
-        return WBIBlock::terminate(blockInfo, error);
-    }
-
-    bool SetLowLevelPID::output(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        //static_cast as the dynamic has been done in the initialize
-        //and the pointer should not change
-        yarpWbi::yarpWholeBodyInterface * const interface = static_cast<yarpWbi::yarpWholeBodyInterface * const>(WBInterface::sharedInstance().interface());
-        if (interface) {
-            if (m_firstRun) {
-                m_firstRun = false;
-
-                yarpWbi::yarpWholeBodyActuators *actuators = interface->wholeBodyActuator();
-                if (!actuators) {
-                    if (error) error->message = "Failed to retrieve the interface to the actuators";
-                    return false;
-                }
-
-                //First case: only one element
-                if (m_lastGainSetIndex == -1 && m_pids.size() == 2) {
-                    //just switch to the only existing set
-                    setCurrentGains(m_pids, TorquePIDDefaultKey, *actuators);
-                    m_lastGainSetIndex = 0;
-                } else {
-//                    InputPtrsType      u     = ssGetInputPortSignalPtrs(S, 0);
-//                    InputInt8PtrsType  uPtrs = (InputInt8PtrsType)u;
-//                    if (*uPtrs[0] != lastGainIndex) {
-//                        wbitoolbox::setCurrentGains(*pids, *uPtrs[0], *((yarpWbi::yarpWholeBodyInterface*)robot->wbInterface));
-//                        info[0] = *uPtrs[0];
-//                    }
-                }
-
-            }
-            return true;
-        }
+    if (!blockInfo->setNumberOfInputPorts(0)) {
+        Log::getSingleton().error("Failed to configure the number of input ports.");
         return false;
     }
+
+    // OUTPUTS
+    // =======
+    //
+    // No outputs
+    //
+
+    if (!blockInfo->setNumberOfOutputPorts(0)) {
+        Log::getSingleton().error("Failed to configure the number of output ports.");
+        return false;
+    }
+
+    return true;
+}
+
+bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
+{
+    AnyStruct s;
+    if (!blockInfo->getStructAtIndex(WBBlock::numberOfParameters() + 1, s)) {
+        Log::getSingleton().error("Failed to retrieve the struct with parameters.");
+        return false;
+    }
+
+    // Check the existence of all the fields
+    try {
+        s.at("P");
+        s.at("I");
+        s.at("D");
+        s.at("jointList");
+    }
+    catch (const std::out_of_range& e) {
+        Log::getSingleton().error("Cannot retrieve one or more parameter from parameter's struct.");
+        return false;
+    }
+
+    // Proportional gains
+    std::vector<double> Pvector;
+    if (!s["P"]->asVectorDouble(Pvector)) {
+        Log::getSingleton().error("Cannot retrieve vector from P parameter.");
+        return false;
+    }
+
+    // Integral gains
+    std::vector<double> Ivector;
+    if (!s["I"]->asVectorDouble(Ivector)) {
+        Log::getSingleton().error("Cannot retrieve vector from I parameter.");
+        return false;
+    }
+
+    // Derivative gains
+    std::vector<double> Dvector;
+    if (!s["D"]->asVectorDouble(Dvector)) {
+        Log::getSingleton().error("Cannot retrieve vector from D parameter.");
+        return false;
+    }
+
+    // Considered joint names
+    AnyCell jointPidsCell;
+    if (!s["jointList"]->asAnyCell(jointPidsCell)) {
+        Log::getSingleton().error("Cannot retrieve string from jointList parameter.");
+        return false;
+    }
+
+    // From AnyCell to vector<string>
+    std::vector<std::string> jointNamesFromParameters;
+    for (auto cell: jointPidsCell) {
+        std::string joint;
+        if (!cell->asString(joint)) {
+            Log::getSingleton().error("Failed to convert jointList from cell to strings.");
+            return false;
+        }
+        jointNamesFromParameters.push_back(joint);
+    }
+
+    if (Pvector.size() != Ivector.size() ||
+        Ivector.size() != Dvector.size() ||
+        Dvector.size() != jointNamesFromParameters.size()) {
+        Log::getSingleton().error("Sizes of P, I, D, and jointList elements are not the same.");
+        return false;
+    }
+
+    // Store this data into a private member map
+    for (unsigned i = 0; i < jointNamesFromParameters.size(); ++i) {
+        // Check the processed joint is actually a controlledJoint
+        const auto& controlledJoints = getConfiguration().getControlledJoints();
+        auto findElement = std::find(std::begin(controlledJoints),
+                                     std::end(controlledJoints),
+                                     jointNamesFromParameters[i]);
+        if (findElement != std::end(controlledJoints)) {
+            m_pidJointsFromParameters[jointNamesFromParameters[i]] =
+                std::tuple<double, double, double>(Pvector[i], Ivector[i], Dvector[i]);
+        }
+        else {
+            Log::getSingleton().warning("Attempted to set PID of joint " + jointNamesFromParameters[i]);
+            Log::getSingleton().warningAppend(" non currently controlled. Skipping it.");
+        }
+
+    }
+
+    if (m_pidJointsFromParameters.size() != jointNamesFromParameters.size()) {
+        Log::getSingleton().warning("PID have been passed only for a subset of the controlled joints.");
+    }
+
+    return true;
+}
+
+bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
+{
+    if (!WBBlock::initialize(blockInfo)) return false;
+
+    // Reading the control type
+    std::string controlType;
+    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 2, controlType)) {
+        Log::getSingleton().error("Could not read control type parameter.");
+        return false;
+    }
+
+    if (controlType == "Position") {
+        m_controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
+    }
+    else if (controlType == "Torque") {
+        m_controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
+    }
+    else {
+        Log::getSingleton().error("Control type not recognized.");
+        return false;
+    }
+
+    // Reading the WBTPIDConfig matlab class
+    if (!readWBTPidConfigObject(blockInfo)) {
+        Log::getSingleton().error("Failed to parse the WBTPIDConfig object.");
+        return false;
+    }
+
+    // Retain the RemoteControlBoardRemapper
+    if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
+        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+        return false;
+    }
+
+    const unsigned& dofs = getConfiguration().getNumberOfDoFs();
+
+    // Initialize the vector size to the number of dofs
+    m_defaultPidValues.resize(dofs);
+
+    // Get the interface
+    yarp::dev::IPidControl* iPidControl = nullptr;
+    if (!getRobotInterface()->getInterface(iPidControl) || !iPidControl) {
+        Log::getSingleton().error("Failed to get IPidControl interface.");
+        return false;
+    }
+
+    // Store the default gains
+    if (!iPidControl->getPids(m_controlType, m_defaultPidValues.data())) {
+        Log::getSingleton().error("Failed to get default data from IPidControl.");
+        return false;
+    }
+
+    // Initialize the vector of the applied pid gains with the default gains
+    m_appliedPidValues = m_defaultPidValues;
+
+    // Override the PID with the gains specified as block parameters
+    for (unsigned i = 0; i < dofs; ++i) {
+        const std::string jointName = getConfiguration().getControlledJoints()[i];
+        // If the pid has been passed, set the new gains
+        if (m_pidJointsFromParameters.find(jointName) != m_pidJointsFromParameters.end()) {
+            PidData gains = m_pidJointsFromParameters[jointName];
+            m_appliedPidValues[i].setKp(std::get<PGAIN>(gains));
+            m_appliedPidValues[i].setKi(std::get<IGAIN>(gains));
+            m_appliedPidValues[i].setKd(std::get<DGAIN>(gains));
+        }
+    }
+
+    // Apply the new pid gains
+    if (!iPidControl->setPids(m_controlType, m_appliedPidValues.data())) {
+        Log::getSingleton().error("Failed to set PID values.");
+        return false;
+    }
+
+    return true;
+}
+
+bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
+{
+    bool ok = true;
+
+    // Get the IPidControl interface
+    yarp::dev::IPidControl* iPidControl = nullptr;
+    ok = ok && getRobotInterface()->getInterface(iPidControl);
+    if (!ok || !iPidControl) {
+        Log::getSingleton().error("Failed to get IPidControl interface.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    // Reset default pid gains
+    ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
+    if (!ok) {
+        Log::getSingleton().error("Failed to set default PID values.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    // Release the RemoteControlBoardRemapper
+    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+    if (!ok) {
+        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        // Don't return false here. WBBlock::terminate must be called in any case
+    }
+
+    return ok && WBBlock::terminate(blockInfo);
+}
+
+bool SetLowLevelPID::output(const BlockInformation* blockInfo)
+{
+    return true;
 }

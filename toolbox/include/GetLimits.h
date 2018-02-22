@@ -1,30 +1,43 @@
 #ifndef WBT_GETLIMITS_H
 #define WBT_GETLIMITS_H
 
-#include "WBIBlock.h"
+#include "WBBlock.h"
+#include <memory>
 
 namespace wbt {
     class GetLimits;
+    struct Limit;
 }
 
-class wbt::GetLimits : public wbt::WBIBlock {
+struct wbt::Limit
+{
+   std::vector<double> min;
+   std::vector<double> max;
 
-    struct Limit;
-    struct Limit *m_limits;
-    
-public:
-    static std::string ClassName;
-    GetLimits();
-
-    virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error);
-
-    virtual bool initialize(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool terminate(BlockInformation *blockInfo, wbt::Error *error);
-    virtual bool output(BlockInformation *blockInfo, wbt::Error *error);
-
-
+   Limit(unsigned size = 0)
+   : min(size)
+   , max(size)
+   {}
 };
 
+class wbt::GetLimits : public wbt::WBBlock
+{
+private:
+    std::unique_ptr<Limit> m_limits;
+    static double deg2rad(const double& v);
 
-#endif /* end of include guard: WBT_GETLIMITS_H */
+public:
+    static const std::string ClassName;
+
+    GetLimits() = default;
+    ~GetLimits() override = default;
+
+    unsigned numberOfParameters() override;
+    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+
+    bool initialize(const BlockInformation* blockInfo) override;
+    bool terminate(const BlockInformation* blockInfo) override;
+    bool output(const BlockInformation* blockInfo) override;
+};
+
+#endif /* WBT_GETLIMITS_H */

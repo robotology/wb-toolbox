@@ -1,5 +1,5 @@
-# Copyright (C) 2013-2015 Instituto Italiano di Tecnologia
-# Author: Jorhabib Eljaik, Francesco Romano
+# Copyright (C) 2013-2017 iCub Facility - Istituto Italiano di Tecnologia
+# Author: Jorhabib Eljaik, Francesco Romano, Diego Ferigo
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
 find_package(YARP REQUIRED)
@@ -14,19 +14,17 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH})
 include(YarpInstallationHelpers)
 yarp_configure_external_installation(codyco)
 
-find_package(Matlab	 REQUIRED
-             MX_LIBRARY
-             ENG_LIBRARY
-             MAIN_PROGRAM)
-
+find_package(Matlab REQUIRED MX_LIBRARY
+                             ENG_LIBRARY
+                             MAIN_PROGRAM)
 
 if(NOT Matlab_FOUND)
     message(FATAL_ERROR "Matlab not found")
 endif()
 
-#### Settings for rpath
+# Settings for rpath
 if(NOT MSVC)
-    #add the option to enable RPATH
+    # Add the option to enable RPATH
     option(WB-TOOLBOX_ENABLE_RPATH "Enable RPATH installation" TRUE)
     mark_as_advanced(WB-TOOLBOX_ENABLE_RPATH)
 endif(NOT MSVC)
@@ -38,21 +36,7 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           USE_LINK_PATH)
 
 find_package(Eigen3 REQUIRED)
-find_package(wholeBodyInterface 0.2.5 REQUIRED)
-find_package(yarpWholeBodyInterface 0.3.2 REQUIRED)
 find_package(iDynTree 0.7.2 REQUIRED)
-
-#On new versions of Clang, MATLAB requires C++11.
-#I enable it on all Clangs
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-        if (${CMAKE_GENERATOR} MATCHES "Xcode")
-            #this should set explictly the option in xcode. Unfortunately it does not work.
-            set(XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "C++11")
-        endif(${CMAKE_GENERATOR} MATCHES "Xcode")
-    endif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 include(Utilities)
 
@@ -61,29 +45,31 @@ configure_block(BLOCK_NAME "Base"
     SOURCES src/base/toolbox.cpp
             src/base/Block.cpp
             src/base/BlockInformation.cpp
-            src/base/WBIBlock.cpp
-            src/base/Error.cpp
-            src/base/WBInterface.cpp
+            src/base/WBBlock.cpp
+            src/base/Log.cpp
+            src/base/ToolboxSingleton.cpp
             src/base/factory.cpp
-            src/base/WBIModelBlock.cpp
-            src/base/SimulinkBlockInformation.cpp #this is temp
+            src/base/SimulinkBlockInformation.cpp
             src/base/Signal.cpp
+            src/base/Configuration.cpp
+            src/base/RobotInterface.cpp
     HEADERS include/base/toolbox.h
             include/base/Block.h
             include/base/BlockInformation.h
-            include/base/WBIBlock.h
-            include/base/Error.h
-            include/base/WBInterface.h
-            include/base/WBIModelBlock.h
-            include/base/SimulinkBlockInformation.h #this is temp
+            include/base/WBBlock.h
+            include/base/Log.h
+            include/base/ToolboxSingleton.h
+            include/base/SimulinkBlockInformation.h
             include/base/Signal.h
+            include/base/Configuration.h
+            include/base/RobotInterface.h
             )
 
-configure_block(BLOCK_NAME "Inverse Kinematics"
-    GROUP "Model"
-    LIST_PREFIX WBT
-    SOURCES src/RemoteInverseKinematics.cpp
-    HEADERS include/RemoteInverseKinematics.h)
+# configure_block(BLOCK_NAME "Inverse Kinematics"
+#     GROUP "Model"
+#     LIST_PREFIX WBT
+#     SOURCES src/RemoteInverseKinematics.cpp
+#     HEADERS include/RemoteInverseKinematics.h)
 
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 if (WBT_USES_ICUB)
@@ -96,17 +82,23 @@ if (WBT_USES_ICUB)
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
         HEADERS include/MinimumJerkTrajectoryGenerator.h)
 
-    if (${ICUB_USE_IPOPT})
-        find_package(iDynTree REQUIRED)
-        add_definitions(-DWBT_USES_IPOPT)
-        configure_block(BLOCK_NAME "Inverse Kinematics"
-            GROUP "Model"
-            LIST_PREFIX WBT
-            SOURCES src/InverseKinematics.cpp 
-            HEADERS include/InverseKinematics.h)
+    configure_block(BLOCK_NAME "Discrete Filter"
+        GROUP "Utilities"
+        LIST_PREFIX WBT
+        SOURCES src/DiscreteFilter.cpp
+        HEADERS include/DiscreteFilter.h)
 
-        include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
-    endif()
+    # if (${ICUB_USE_IPOPT})
+    #     find_package(iDynTree REQUIRED)
+    #     add_definitions(-DWBT_USES_IPOPT)
+    #     configure_block(BLOCK_NAME "Inverse Kinematics"
+    #         GROUP "Model"
+    #         LIST_PREFIX WBT
+    #         SOURCES src/InverseKinematics.cpp
+    #         HEADERS include/InverseKinematics.h)
+    #
+    #     include_directories(SYSTEM ${iKin_INCLUDE_DIRS})
+    # endif()
 
     include_directories(SYSTEM ${ctrlLib_INCLUDE_DIRS})
 endif()
@@ -129,11 +121,11 @@ configure_block(BLOCK_NAME "Real Time Synchronizer"
     SOURCES src/RealTimeSynchronizer.cpp
     HEADERS include/RealTimeSynchronizer.h)
 
-configure_block(BLOCK_NAME "YARP - WBI Converter"
+configure_block(BLOCK_NAME "Model Partitioner"
     GROUP "Utilities"
     LIST_PREFIX WBT
-    SOURCES src/YARPWBIConverter.cpp
-    HEADERS include/YARPWBIConverter.h)
+    SOURCES src/ModelPartitioner.cpp
+    HEADERS include/ModelPartitioner.h)
 
 configure_block(BLOCK_NAME "Yarp Clock"
     GROUP "Utilities"
@@ -141,13 +133,11 @@ configure_block(BLOCK_NAME "Yarp Clock"
     SOURCES src/YarpClock.cpp
     HEADERS include/YarpClock.h)
 
-# TODO: this should be removed with a proper inclusion of the library
-include_directories(SYSTEM "autogenerated/include/")
 configure_block(BLOCK_NAME "Simulator Synchronizer"
     GROUP "Utilities"
     LIST_PREFIX WBT
-    SOURCES src/SimulatorSynchronizer.cpp autogenerated/src/thrift/ClockServer.cpp
-    HEADERS include/SimulatorSynchronizer.h autogenerated/include/thrift/ClockServer.h)
+    SOURCES src/SimulatorSynchronizer.cpp
+    HEADERS include/SimulatorSynchronizer.h)
 
 configure_block(BLOCK_NAME "Mass Matrix"
     GROUP "Model"
@@ -196,12 +186,12 @@ configure_block(BLOCK_NAME "Set Low-Level PIDs"
     LIST_PREFIX WBT
     SOURCES src/SetLowLevelPID.cpp
     HEADERS include/SetLowLevelPID.h)
-
-configure_block(BLOCK_NAME "Get Estimate"
+#
+configure_block(BLOCK_NAME "Get Measurement"
     GROUP "State"
     LIST_PREFIX WBT
-    SOURCES src/GetEstimate.cpp
-    HEADERS include/GetEstimate.h)
+    SOURCES src/GetMeasurement.cpp
+    HEADERS include/GetMeasurement.h)
 
 configure_block(BLOCK_NAME "Get Limits"
     GROUP "State"
@@ -217,96 +207,61 @@ include_directories(include)
 include_directories(include/base)
 
 include_directories(SYSTEM ${Matlab_INCLUDE_DIRS} "${Matlab_ROOT_DIR}/simulink/include")
-include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${yarpWholeBodyInterface_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
+include_directories(SYSTEM ${YARP_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
 
-list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
+list(APPEND LINKED_LIBRARIES ${YARP_LIBRARIES})
+list(APPEND LINKED_LIBRARIES ${iDynTree_LIBRARIES})
+
 if (WBT_USES_ICUB)
     list(APPEND LINKED_LIBRARIES ctrlLib)
     if (${ICUB_USE_IPOPT})
-        list(APPEND LINKED_LIBRARIES iKin ${iDynTree_LIBRARIES})
+        list(APPEND LINKED_LIBRARIES iKin)
     endif()
 endif()
 
-#Adding files used for the generation of the dynamic library
-if (CMAKE_VERSION GREATER 3.0.0)
-    matlab_add_mex(
-        NAME WBToolbox
-        SRC ${ALL_HEADERS} ${ALL_SOURCES}
-        LINK_TO ${LINKED_LIBRARIES}
-    )
-else()
-    #Adding files used for the generation of the dynamic library
-    add_library(WBToolbox SHARED ${ALL_HEADERS} ${ALL_SOURCES})
+# Adding files used for the generation of the dynamic library
+matlab_add_mex(
+    NAME WBToolbox
+    SRC ${ALL_HEADERS} ${ALL_SOURCES}
+    LINK_TO ${LINKED_LIBRARIES}
+)
 
-    set(SFUNCTION_SUFFIX ${Matlab_MEX_EXTENSION})
-    #Removing default dynamic library extensions (.dll for Windows, .so for UNIX) and prefixes (lib) otherwise automatically prepended to the mex file.
-    set_target_properties(WBToolbox PROPERTIES SUFFIX .${SFUNCTION_SUFFIX})
-    set_target_properties(WBToolbox PROPERTIES PREFIX "")
+# Link with MxAnyType library
+# TODO: this will become an external project sooner or later
+target_link_libraries(WBToolbox MxAnyType)
 
-    # This seems to be the most reliable method to date to know installed Matlab arch
-    STRING(REGEX MATCH ..$ MATLAB_ARCH Matlab_MEX_EXTENSION 64)
-
-    #In the following specific flags will be set to ensure compliance with the default settings of Matlab's mex compiler
-    if(WIN32)
-        if(NOT "${MATLAB_ARCH}" STREQUAL "64")
-            message("Flags have been passed to compiler for Matlab 32bits on a Windows computer")
-        elseif()
-            message("Flags have been passed to compiler for Matlab 64bits on a Windows computer")
-        endif()
-        if(MSVC)
-            #Setting Compiler Flags
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Z7 /nologo /W3 /WX- /O2 /Oy- /D_REENTRANT /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0 /DyWrite_EXPORTS /Gm- /EHs /Zp8 /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Gd /TP /showIncludes")
-            #Setting Linker Flags
-            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /INCREMENTAL:NO /NOLOGO /MANIFEST /debug /MAP.mexw64.map /MACHINE:X64 /EXPORT:mexFunction")
-            if(NOT  "${MATLAB_ARCH}" STREQUAL "64")
-                #Changing some flags according to system/MATLAB version (32, 64 bits)
-                set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /MAP.mexw32.map /MACHINE:X32")
-            endif()
-        elseif(MSVC)
-            message("You are not compiling using Microsoft Visual Studio, ERRORS might occur")
-        endif(MSVC)
-    elseif(WIN32)
-        message("No particular flags have been passed to compiler for Matlab 64bits on a UNIX computer")
-    endif(WIN32)
-
-    # Linking Libraries
-    target_link_libraries(WBToolbox ${LINKED_LIBRARIES} ${Matlab_LIBRARIES})
-endif()
-
-# Remote Inverse Kinematics requires C++11
-if (CMAKE_VERSION VERSION_LESS "3.1")
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR 
-        CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(WBToolbox PUBLIC "-std=c++11")
-    endif()
-else()
-    set(CXX_STANDARD_REQUIRED ON)
-    set_property(TARGET WBToolbox PROPERTY CXX_STANDARD 11)
-endif()
+# Link with ClockServer library
+add_subdirectory(autogenerated/)
+target_link_libraries(WBToolbox ClockServer)
 
 install(TARGETS WBToolbox DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
-## if you export the mdl / slx library, remeber to call this command in matlab before saving it
-## set_param(gcs, 'EnableLBRepository','on');
-
 # The following line is to properly configure the installation script of the toolbox
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.startup_wbitoolbox.m.in ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.setupForMatlabDebug.m.in ${CMAKE_BINARY_DIR}/setupForMatlabDebug.m)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/matlab/startup_wbitoolbox.m.in
+               ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
 
 # Custom script to generate the library to be committed on the repository
 # This target is excluded from the normal build and must be called explicitly by the
 # developer who modifies the library
-add_custom_target(export_libraries ${Matlab_MAIN_PROGRAM} -nosplash  -r export_library WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_custom_target(export_libraries ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r export_library WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab)
 set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 # Install configuration files
 install(FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/slblocks.m DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/slblocks.m   DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+
+# Install the package folder
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab/+WBToolbox
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+
 #if MAJOR >= 2014 && MINOR >= b
 # Note: We had issues with Matlab 2014b and .mdl models.
 # But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
-if (${Matlab_VERSION_STRING} GREATER "8.3")
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-else()
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-endif()
+# TODO: check if the mdl support is still required
+# if (${Matlab_VERSION_STRING} GREATER "8.3")
+    # install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+# else()
+    # install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
+# endif()
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/library/exported/WBToolboxLibrary.slx
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR})

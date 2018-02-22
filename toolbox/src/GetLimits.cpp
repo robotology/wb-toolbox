@@ -1,131 +1,234 @@
 #include "GetLimits.h"
 
-#include "Error.h"
+#include "Log.h"
 #include "BlockInformation.h"
 #include "Signal.h"
-#include "WBInterface.h"
-#include <yarpWholeBodyInterface/yarpWbiUtil.h>
-#include <wbi/wholeBodyInterface.h>
+#include "RobotInterface.h"
+#include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Model.h>
+#include <yarp/dev/IControlLimits2.h>
+#include <vector>
+#include <limits>
 
-namespace wbt {
+#define _USE_MATH_DEFINES
+#include <cmath>
 
-    std::string GetLimits::ClassName = "GetLimits";
+using namespace wbt;
 
-    struct GetLimits::Limit {
-        double *min;
-        double *max;
+const std::string GetLimits::ClassName = "GetLimits";
 
-        Limit(unsigned size) : min(0), max(0)
-        {
-            min = new double[size]();
-            max = new double[size]();
+double GetLimits::deg2rad(const double& v)
+{
+    return v * M_PI / 180.0;
+}
+
+unsigned GetLimits::numberOfParameters()
+{
+    return WBBlock::numberOfParameters() + 1;
+}
+
+bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+
+    // INPUTS
+    // ======
+    //
+    // No inputs
+    //
+
+    if (!blockInfo->setNumberOfInputPorts(0)) {
+        Log::getSingleton().error("Failed to configure the number of input ports.");
+        return false;
+    }
+
+    // OUTPUTS
+    // =======
+    //
+    // 1) vector with the information asked (1xDoFs)
+    //
+
+    if (!blockInfo->setNumberOfOutputPorts(2)) {
+        Log::getSingleton().error("Failed to configure the number of output ports.");
+        return false;
+    }
+
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    bool success = true;
+    success = success && blockInfo->setOutputPortVectorSize(0, dofs); // Min limit
+    success = success && blockInfo->setOutputPortVectorSize(1, dofs); // Max limit
+
+    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(1, PortDataTypeDouble);
+
+    if (!success) {
+        Log::getSingleton().error("Failed to configure output ports.");
+        return false;
+    }
+
+    return true;
+}
+
+bool GetLimits::initialize(const BlockInformation* blockInfo)
+{
+    using namespace yarp::os;
+    if (!WBBlock::initialize(blockInfo)) return false;
+
+    // Read the control type
+    std::string limitType;
+    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType)) {
+        Log::getSingleton().error("Could not read estimate type parameter.");
+        return false;
+    }
+
+    // Initialize the structure that stores the limits
+    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    m_limits.reset(new Limit(dofs));
+
+    // Initializes some buffers
+    double min = 0;
+    double max = 0;
+
+    // From the RemoteControlBoardRemapper
+    // ===================================
+    //
+    // In the next methods, the values are asked using joint index and not string.
+    // The ControlBoardRemapper internally uses the same joints ordering of its
+    // initialization. In this case, it matches 1:1 the joint vector. It is hence
+    // possible using i to point to the correct joint.
+
+    // Get the RemoteControlBoardRemapper and IControlLimits2 interface if needed
+    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
+    if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
+        // Retain the control board remapper
+        if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
+            Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+            return false;
         }
+        // Get the interface
+        if (!getRobotInterface()->getInterface(iControlLimits2) || !iControlLimits2) {
+            Log::getSingleton().error("Failed to get IControlLimits2 interface.");
+            return false;
+        }
+    }
 
-        ~Limit()
-        {
-            if (min) {
-                delete [] min;
-                min = 0;
+    if (limitType == "ControlBoardPosition") {
+        for (auto i = 0; i < dofs; ++i) {
+            if (!iControlLimits2->getLimits(i, &min, &max)) {
+                Log::getSingleton().error("Failed to get limits from the interface.");
+                return false;
             }
-            if (max) {
-                delete [] max;
-                max = 0;
+            m_limits->min[i] = deg2rad(min);
+            m_limits->max[i] = deg2rad(max);
+        }
+    }
+    else if (limitType == "ControlBoardVelocity") {
+        for (auto i = 0; i < dofs; ++i) {
+            if (!iControlLimits2->getVelLimits(i, &min, &max)) {
+                Log::getSingleton().error("Failed to get limits from the interface.");
+                return false;
+            }
+            m_limits->min[i] = deg2rad(min);
+            m_limits->max[i] = deg2rad(max);
+        }
+    }
+
+    // From the URDF model
+    // ===================
+    //
+    // For the time being, only position limits are supported.
+
+    else if (limitType == "ModelPosition") {
+        iDynTree::IJointConstPtr p_joint;
+
+        // Get the KinDynComputations pointer
+        const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+        if (!kindyncomp) {
+            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            return false;
+        }
+
+        // Get the model
+        const iDynTree::Model model = kindyncomp->model();
+
+        for (auto i = 0; i < dofs; ++i) {
+            // Get the joint name
+            std::string joint = getConfiguration().getControlledJoints()[i];
+
+            // Get its index
+            iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
+
+            if (jointIndex == iDynTree::JOINT_INVALID_INDEX) {
+                Log::getSingleton().error("Invalid iDynTree joint index.");
+                return false;
+            }
+
+            // Get the joint from the model
+            p_joint = model.getJoint(jointIndex);
+
+            if (!p_joint->hasPosLimits()) {
+                Log::getSingleton().warning("Joint " + joint + " has no model limits.");
+                m_limits->min[i] = -std::numeric_limits<double>::infinity();
+                m_limits->max[i] = std::numeric_limits<double>::infinity();
+            }
+            else {
+                if (!p_joint->getPosLimits(0, min, max)) {
+                    Log::getSingleton().error("Failed to get joint limits from the URDF model ");
+                    Log::getSingleton().errorAppend("for the joint " + joint + ".");
+                    return false;
+                }
+                m_limits->min[i] = min;
+                m_limits->max[i] = max;
             }
         }
-    };
-
-    GetLimits::GetLimits()
-    : m_limits(0) {}
-
-    unsigned GetLimits::numberOfParameters()
-    {
-        return WBIBlock::numberOfParameters() + 1;
+    }
+    // TODO
+    // else if (limitType == "ModelVelocity") {
+    // }
+    // else if (limitType == "ModelEffort") {
+    // }
+    else {
+        Log::getSingleton().error("Limit type " + limitType + " not recognized.");
+        return false;
     }
 
-    bool GetLimits::configureSizeAndPorts(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (!WBIBlock::configureSizeAndPorts(blockInfo, error)) {
-            return false;
-        }
+    return true;
+}
 
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
+bool GetLimits::terminate(const BlockInformation* blockInfo)
+{
+    bool ok = true;
 
-        if (!blockInfo->setNumberOfInputPorts(0)) {
-            if (error) error->message = "Failed to configure the number of input ports";
-            return false;
-        }
-
-        // Output port:
-        // - DoFs vector with the information asked
-        if (!blockInfo->setNumberOfOuputPorts(2)) {
-            if (error) error->message = "Failed to configure the number of output ports";
-            return false;
-        }
-
-        bool success = blockInfo->setOutputPortVectorSize(0, dofs); //Min limit
-        success = success && blockInfo->setOutputPortVectorSize(1, dofs); //Max limit
-
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
-        blockInfo->setOutputPortType(1, PortDataTypeDouble);
-
-        if (!success) {
-            if (error) error->message = "Failed to configure output ports";
-            return false;
-        }
-
-
-        return true;
+    // Read the control type
+    std::string limitType;
+    ok = ok && blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType);
+    if (!ok) {
+        Log::getSingleton().error("Could not read estimate type parameter.");
+        // Don't return false here. WBBlock::terminate must be called in any case
     }
 
-    bool GetLimits::initialize(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        using namespace yarp::os;
-        if (!WBIBlock::initialize(blockInfo, error)) return false;
-
-        unsigned dofs = WBInterface::sharedInstance().numberOfDoFs();
-        wbi::wholeBodyInterface * const interface = WBInterface::sharedInstance().interface();
-
-        // Reading the control type
-        std::string limitType;
-        if (!blockInfo->getStringParameterAtIndex(WBIBlock::numberOfParameters() + 1, limitType)) {
-            if (error) error->message = "Could not read estimate type parameter";
-            return false;
+    // Release the RemoteControlBoardRemapper
+    if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
+        ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+        if (!ok) {
+            Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+            // Don't return false here. WBBlock::terminate must be called in any case
         }
-
-        bool success = true;
-        if (limitType == "Position") {
-            m_limits = new Limit(dofs);
-            if (m_limits) {
-                success = interface->getJointLimits(m_limits->min, m_limits->max);
-            }
-        } else {
-            if (error) error->message = "Limit type not supported";
-            return false;
-        }
-
-        return m_limits && success;
     }
 
-    bool GetLimits::terminate(BlockInformation *blockInfo, wbt::Error *error)
-    {
-        if (m_limits) {
-            delete m_limits;
-            m_limits = 0;
-        }
-        return WBIBlock::terminate(blockInfo, error);
-    }
+    return ok && WBBlock::terminate(blockInfo);
+}
 
-    bool GetLimits::output(BlockInformation *blockInfo, wbt::Error */*error*/)
-    {
-        if (!m_limits) return false;
+bool GetLimits::output(const BlockInformation* blockInfo)
+{
+    if (!m_limits) return false;
 
-        Signal minPort = blockInfo->getOutputPortSignal(0);
-        Signal maxPort = blockInfo->getOutputPortSignal(1);
+    Signal minPort = blockInfo->getOutputPortSignal(0);
+    Signal maxPort = blockInfo->getOutputPortSignal(1);
 
-        for (int i = 0; i < blockInfo->getOutputPortWidth(0); ++i) {
-            minPort.set(i, m_limits->min[i]);
-            maxPort.set(i, m_limits->max[i]);
-        }
-        return true;
-    }
+    minPort.setBuffer(m_limits->min.data(), getConfiguration().getNumberOfDoFs());
+    maxPort.setBuffer(m_limits->max.data(), getConfiguration().getNumberOfDoFs());
+
+    return true;
 }
