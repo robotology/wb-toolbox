@@ -12,6 +12,7 @@ It is used extensively for controllers stored in @robotology-playground/wholeBod
 
 In alphabetical order:
 
+- Eljaik Jorhabib (@jeljaik)
 - Ferigo Diego (@github:diegoferigo)
 - Nori Francesco (@iron76)
 - Pucci Daniele (@DanielePucci)
