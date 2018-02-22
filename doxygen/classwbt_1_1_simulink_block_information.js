@@ -1,0 +1,26 @@
+var classwbt_1_1_simulink_block_information =
+[
+    [ "SimulinkBlockInformation", "classwbt_1_1_simulink_block_information.html#a2f9505a502d19fa69f8667ffe619cd4d", null ],
+    [ "~SimulinkBlockInformation", "classwbt_1_1_simulink_block_information.html#a9a16b32b171a8d744b794e118bed9985", null ],
+    [ "getBooleanParameterAtIndex", "classwbt_1_1_simulink_block_information.html#ad9cd4ec38c2260e709b2e188ec6419f3", null ],
+    [ "getInputPortSignal", "classwbt_1_1_simulink_block_information.html#a05012a514c0be6e2c762ce51240dacd7", null ],
+    [ "getInputPortWidth", "classwbt_1_1_simulink_block_information.html#a234a1a9f7e8a140f04b4373a5a21e730", null ],
+    [ "getOutputPortSignal", "classwbt_1_1_simulink_block_information.html#aa03f4bfccbb7d9cf3888af099227de56", null ],
+    [ "getOutputPortWidth", "classwbt_1_1_simulink_block_information.html#a6a56b09eff63d48f17720b8c58008f59", null ],
+    [ "getScalarParameterAtIndex", "classwbt_1_1_simulink_block_information.html#a0878dae93e915b73dd626854ccc554cf", null ],
+    [ "getStringParameterAtIndex", "classwbt_1_1_simulink_block_information.html#a191c4cde6b9e8161e5453789b76fc653", null ],
+    [ "getStructAtIndex", "classwbt_1_1_simulink_block_information.html#a7fd71a7ef2b03219d47951021fad8b4f", null ],
+    [ "getVectorAtIndex", "classwbt_1_1_simulink_block_information.html#a9f5815eeb931dc80bf9f42a61dacf024", null ],
+    [ "mapPortTypeToSimulink", "classwbt_1_1_simulink_block_information.html#aa8cc58302546ff459f4bc06fd1ba0792", null ],
+    [ "mapSimulinkToPortType", "classwbt_1_1_simulink_block_information.html#a9ba300cb15417a7f7a6e704abffc92f5", null ],
+    [ "optionFromKey", "classwbt_1_1_simulink_block_information.html#a65c9aa1044eb3bddb28c0ab38d65f4e6", null ],
+    [ "setInputPortMatrixSize", "classwbt_1_1_simulink_block_information.html#ac6cfe6ab3acac6c24fb78452409a3254", null ],
+    [ "setInputPortType", "classwbt_1_1_simulink_block_information.html#a8943efef7dac20e6bc0e7a4547680bc1", null ],
+    [ "setInputPortVectorSize", "classwbt_1_1_simulink_block_information.html#a05ed07a4a83df00619cef145b086921f", null ],
+    [ "setNumberOfInputPorts", "classwbt_1_1_simulink_block_information.html#af0c2e52bf4e4d059fd9dd038d014f55a", null ],
+    [ "setNumberOfOutputPorts", "classwbt_1_1_simulink_block_information.html#a9754bb04c89cd0c8ec54c7ebe17721f7", null ],
+    [ "setOutputPortMatrixSize", "classwbt_1_1_simulink_block_information.html#ad2de20e7df624c03cc472ae5aaf54395", null ],
+    [ "setOutputPortType", "classwbt_1_1_simulink_block_information.html#a259b9ae17479de819b3ee2286302bb66", null ],
+    [ "setOutputPortVectorSize", "classwbt_1_1_simulink_block_information.html#a74dae45b1dead9e62a1031d83867424d", null ],
+    [ "simstruct", "classwbt_1_1_simulink_block_information.html#a4f0265e67137fe30807b32e8be562da4", null ]
+];

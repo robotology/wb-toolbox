@@ -1,0 +1,790 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="A Simulink Toolbox for Whole Body Control">
+      
+      
+      
+        <meta name="author" content="Diego Ferigo">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.6.5">
+    
+    
+      
+        <title>From WB-Toolbox 2.0 - WB-Toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.9d8fef76.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#from-wb-toolbox-20-to-wb-toolbox-3" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="WB-Toolbox" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">dashboard</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                WB-Toolbox
+              </span>
+              <span class="md-header-nav__topic">
+                From WB-Toolbox 2.0
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/robotology/wb-toolbox/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      robotology/wb-toolbox
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href=".." title="Home" class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../create_new_block/" title="Developer area" class="md-tabs__link">
+          Developer area
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../Migration_from_WBI-Toolbox_1.0/" title="Migration" class="md-tabs__link md-tabs__link--active">
+          Migration
+        </a>
+      
+    </li>
+  
+
+      
+        
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon">dashboard</i>
+      
+    </span>
+    WB-Toolbox
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/robotology/wb-toolbox/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      robotology/wb-toolbox
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../install/" title="Install" class="md-nav__link">
+      Install
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../getting-started/" title="Getting started" class="md-nav__link">
+      Getting started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../troubleshooting/" title="Troubleshooting" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../documentation/" title="Documentation" class="md-nav__link">
+      Documentation
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Developer area
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developer area
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../create_new_block/" title="Add a new block" class="md-nav__link">
+      Add a new block
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sim_tricks/" title="Simulink Tricks" class="md-nav__link">
+      Simulink Tricks
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Migration
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Migration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Migration_from_WBI-Toolbox_1.0/" title="From WBI-Toolbox" class="md-nav__link">
+      From WBI-Toolbox
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        From WB-Toolbox 2.0
+      </label>
+    
+    <a href="./" title="From WB-Toolbox 2.0" class="md-nav__link md-nav__link--active">
+      From WB-Toolbox 2.0
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#new-toolbox-configuration" title="New toolbox configuration" class="md-nav__link">
+    New toolbox configuration
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#store-the-configuration-in-the-simulink-model" title="Store the configuration in the Simulink model" class="md-nav__link">
+    Store the configuration in the Simulink model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-the-configuration-from-the-workspace" title="Load the configuration from the Workspace" class="md-nav__link">
+    Load the configuration from the Workspace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-robot-support" title="Multi-robot support" class="md-nav__link">
+    Multi-robot support
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-manual-edits" title="Other manual edits" class="md-nav__link">
+    Other manual edits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecations" title="Deprecations" class="md-nav__link">
+    Deprecations
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#new-toolbox-configuration" title="New toolbox configuration" class="md-nav__link">
+    New toolbox configuration
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#store-the-configuration-in-the-simulink-model" title="Store the configuration in the Simulink model" class="md-nav__link">
+    Store the configuration in the Simulink model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-the-configuration-from-the-workspace" title="Load the configuration from the Workspace" class="md-nav__link">
+    Load the configuration from the Workspace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-robot-support" title="Multi-robot support" class="md-nav__link">
+    Multi-robot support
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-manual-edits" title="Other manual edits" class="md-nav__link">
+    Other manual edits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecations" title="Deprecations" class="md-nav__link">
+    Deprecations
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/robotology/wb-toolbox/edit/master/docs/mkdocs/data/Migration_from_WB-Toolbox_2.0.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="from-wb-toolbox-20-to-wb-toolbox-3">From WB-Toolbox 2.0 to WB-Toolbox 3.*<a class="headerlink" href="#from-wb-toolbox-20-to-wb-toolbox-3" title="Permanent link">&para;</a></h1>
+<p>Most of the major changes delivered with the <code>3.0</code> version of the <code>WB-Toolbox</code> don't affect directly the end-user. Under the hood the toolbox had an important polishing, and the small manual intervention required by this new release match the new features which have been developed.</p>
+<p>You can read <a href="https://github.com/robotology/WB-Toolbox/issues/65">Release Notes</a> for a detailed overview. Below are described only the steps required to port Simulink models to this new release.</p>
+<h2 id="new-toolbox-configuration">New toolbox configuration<a class="headerlink" href="#new-toolbox-configuration" title="Permanent link">&para;</a></h2>
+<p>The <code>WB-Toolbox 2.0</code> was based on top of <a href="https://github.com/robotology/yarp-wholebodyinterface"><code>yarpWholeBodyInterface</code></a>, which configuration was stored in a <code>yarpWholeBodyInterface.ini</code> file. This file was retrieved by <code>ResourceFinder</code> and its information was then loaded into the toolbox.</p>
+<h3 id="store-the-configuration-in-the-simulink-model">Store the configuration in the Simulink model<a class="headerlink" href="#store-the-configuration-in-the-simulink-model" title="Permanent link">&para;</a></h3>
+<p><code>WB-Toolbox 3.0</code> deprecated the support of <code>yarpWholeBodyInterface</code>, and for reducing the complexity and sparsity of the information storage it allows configuring a Simulink model from the model itself.</p>
+<p>The new <em>Configuration</em> block allows inserting information such as <strong>Robot Name</strong>, <strong>URDF Name</strong>, <strong>Controlled Joints</strong>, ... directly from the block's mask.</p>
+<h3 id="load-the-configuration-from-the-workspace">Load the configuration from the Workspace<a class="headerlink" href="#load-the-configuration-from-the-workspace" title="Permanent link">&para;</a></h3>
+<p>Sometimes it might be useful loading the model's configuration directly from the Workspace. For this purpose, a new <code>WBToolbox.WBToolboxConfig</code> class has been developed. The <em>Configuration</em> block needs to know only the name of the variable which refers to the object. Its data is then read before the simulation runs.</p>
+<p>This snippet of code shows an example of how to initialize a configuration object:</p>
+<div class="highlight"><pre><span></span># <span class="n">Initialize</span> <span class="n">a</span> <span class="n">config</span> <span class="n">object</span>
+<span class="n">WBTConfigRobot</span> <span class="p">=</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">WBToolboxConfig</span><span class="p">;</span>
+
+# <span class="n">Insert</span> <span class="n">robot</span> <span class="n">data</span>
+<span class="n">WBTConfigRobot</span><span class="p">.</span><span class="n">RobotName</span> <span class="p">=</span> <span class="s">&#39;icubSim&#39;</span><span class="p">;</span>
+<span class="n">WBTConfigRobot</span><span class="p">.</span><span class="n">UrdfFile</span> <span class="p">=</span> <span class="s">&#39;model.urdf&#39;</span><span class="p">;</span>
+<span class="n">WBTConfigRobot</span><span class="p">.</span><span class="n">ControlledJoints</span> <span class="p">=</span> <span class="p">{</span><span class="c">...</span>
+    <span class="s">&#39;torso_pitch&#39;</span><span class="p">,</span><span class="s">&#39;torso_roll&#39;</span><span class="p">,</span><span class="s">&#39;torso_yaw&#39;</span><span class="p">,</span><span class="c">...</span>
+    <span class="s">&#39;r_shoulder_pitch&#39;</span><span class="p">,</span><span class="s">&#39;r_shoulder_roll&#39;</span><span class="p">,</span><span class="s">&#39;r_shoulder_yaw&#39;</span><span class="p">,</span><span class="s">&#39;r_elbow&#39;</span><span class="p">,</span><span class="c">...</span>
+    <span class="s">&#39;l_shoulder_pitch&#39;</span><span class="p">,</span><span class="s">&#39;l_shoulder_roll&#39;</span><span class="p">,</span><span class="s">&#39;l_shoulder_yaw&#39;</span><span class="p">,</span><span class="s">&#39;l_elbow&#39;</span><span class="p">};</span>
+<span class="n">WBTConfigRobot</span><span class="p">.</span><span class="n">ControlBoardsNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;torso&#39;</span><span class="p">,</span><span class="s">&#39;left_arm&#39;</span><span class="p">,</span><span class="s">&#39;right_arm&#39;</span><span class="p">};</span>
+<span class="n">WBTConfigRobot</span><span class="p">.</span><span class="n">LocalName</span> <span class="p">=</span> <span class="s">&#39;WBT&#39;</span><span class="p">;</span>
+</pre></div>
+
+<p>To check if the data has been read correctly, it is displayed as read-only in the block's mask.</p>
+<p>Furthermore, a good sign for a valid configuration is the <code>WBTConfigRobot.ValidConfiguration</code> property.</p>
+<h3 id="multi-robot-support">Multi-robot support<a class="headerlink" href="#multi-robot-support" title="Permanent link">&para;</a></h3>
+<p>The scope of the introduction of the <em>Configuration</em> block goes beyond the need of a simpler toolbox configuration. One of the biggest limitation of the <code>2.0</code> version is the support of <a href="https://github.com/robotology/WB-Toolbox/issues/37">controlling only one robot per model</a>.</p>
+<p><code>WB-Toolbox 3.0</code> is now capable of reading / sending data from / to multiple robots. Multiple <em>Configuration</em> blocks can be present in the same model attaining to the following rules:</p>
+<ul>
+<li>In the same hierarchical level of a Simulink model, only one <em>Configuration</em>
+ block should be present. In other words, you should never see in the display more than one <em>Configuration</em> block.</li>
+<li><em>Configuration</em> blocks put deeper in the hierarchy (e.g. in a Subsystem) override the previous ones.</li>
+</ul>
+<p>There are a few pitfalls which are worth to be highlighted:</p>
+<ul>
+<li>It is legit having two Subsystems with different <em>Configuration</em> blocks which point to the same robot. They can have for instance a different joint list and use different control boards. Although, despite reading information never creates problems, sending data to the robot in such scenario can be disastrous. In fact, consider the case these two subsystems share one link, and configure it in two different control modes (e.g. Position and Torque). Sending references to this link causes unpredictable effects.</li>
+<li>In line of theory it would be possible to have two subsystems in which the first one refers to a Gazebo model and the second one to a real robot. However, this case causes unpredictable behaviour for what concerns the synchronization. In fact, two different blocks for such aim are present in the toolbox: <em>Simulator Synchronizer</em> and <em>Real Time Syncronizer</em>. They should be always used exclusively.</li>
+</ul>
+<h2 id="other-manual-edits">Other manual edits<a class="headerlink" href="#other-manual-edits" title="Permanent link">&para;</a></h2>
+<ul>
+<li>All the <em>Get Estimate</em> blocks need to be replaced by the new <em>Get Measurement</em> block.</li>
+<li>All the hardcoded digital filters (e.g. for the joints velocities) have been removed. A new <code>Discrete Filter</code> block has been developed, and it should be manually added if the read raw signal (e.g. from the <em>Get Measurement</em> block) requires filtering.</li>
+<li>The <code>C++</code> class used by the <em>DoFs Converter</em> changed. All the blocks in the <code>YARP To WBI</code> configuration need to be connected again.</li>
+<li>The gravity vector is stored is the <code>WBToolboxConfig</code> class. If an alternative value is needed, set it globally directly in the configuration object or scope the block which needs it in a Subsystem with its own <em>Configuration</em> block.</li>
+<li>In order to set the low level PIDs, loading in the Workspace a <code>WBToolbox.WBTPIDConfig</code> object should be configured as follows:</li>
+</ul>
+<div class="highlight"><pre><span></span># <span class="n">Initialize</span> <span class="n">an</span> <span class="n">empty</span> <span class="n">object</span>
+<span class="n">pids</span> <span class="p">=</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">WBTPIDConfig</span><span class="p">;</span>
+
+# <span class="n">Insert</span> <span class="n">data</span>
+<span class="n">pids</span><span class="p">.</span><span class="n">addPID</span><span class="p">(</span><span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="s">&#39;l_elbow&#39;</span><span class="p">,</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="n">pids</span><span class="p">.</span><span class="n">addPID</span><span class="p">(</span><span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="s">&#39;l_wrist_pitch&#39;</span><span class="p">,</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)));</span>
+<span class="n">pids</span><span class="p">.</span><span class="n">addPID</span><span class="p">(</span><span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="s">&#39;r_shoulder_pitch&#39;</span><span class="p">,</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="n">pids</span><span class="p">.</span><span class="n">addPID</span><span class="p">(</span><span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="s">&#39;torso_roll&#39;</span><span class="p">,</span> <span class="n">WBToolbox</span><span class="p">.</span><span class="n">PID</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+</pre></div>
+
+<p>If some of the controlled joints are not specified, the PIDs are kept in their default values.</p>
+<h2 id="deprecations">Deprecations<a class="headerlink" href="#deprecations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><em>Inverse Kinematics</em> and <em>Remote Inverse Kinematics</em> have been temporary deprecated. They will see a major release in the coming months. If you need them please do not upgrade to the <code>3.0</code> version.</li>
+<li><em>Set Low Level PID</em> block lost the capability of switching between multiple configurations. Since they were stored in an external file, this change is aligned to the simplification process chosen for for the configuration.</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../Migration_from_WBI-Toolbox_1.0/" title="From WBI-Toolbox" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                From WBI-Toolbox
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../about/" title="About" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                About
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 Istituto Italiano di Tecnologia - iCub Facility
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
