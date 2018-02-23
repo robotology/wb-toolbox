@@ -1,6 +1,7 @@
 #include "Log.h"
-#include <sstream>
+
 #include <iterator>
+#include <sstream>
 
 using namespace wbt;
 

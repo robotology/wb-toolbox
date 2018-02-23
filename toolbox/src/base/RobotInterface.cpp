@@ -1,41 +1,52 @@
 #include "RobotInterface.h"
 #include "Log.h"
-#include <sstream>
-#include <iterator>
-#include <utility>
+
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
-#include <yarp/dev/PolyDriver.h>
-#include <yarp/os/ResourceFinder.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/IControlLimits2.h>
-#include <yarp/os/Property.h>
+#include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Bottle.h>
+#include <yarp/os/Property.h>
+#include <yarp/os/ResourceFinder.h>
+
+#include <iterator>
+#include <sstream>
+#include <utility>
 
 namespace wbt {
     // The declaration of the following template specializations are required only by GCC
     using namespace yarp::dev;
-    template <> bool RobotInterface::getInterface(IControlMode2*& interface);
-    template <> bool RobotInterface::getInterface(IPositionControl*& interface);
-    template <> bool RobotInterface::getInterface(IPositionDirect*& interface);
-    template <> bool RobotInterface::getInterface(IVelocityControl*& interface);
-    template <> bool RobotInterface::getInterface(ITorqueControl*& interface);
-    template <> bool RobotInterface::getInterface(IPWMControl*& interface);
-    template <> bool RobotInterface::getInterface(ICurrentControl*& interface);
-    template <> bool RobotInterface::getInterface(IEncoders*& interface);
-    template <> bool RobotInterface::getInterface(IControlLimits2*& interface);
-    template <> bool RobotInterface::getInterface(IPidControl*& interface);
-}
+    template <>
+    bool RobotInterface::getInterface(IControlMode2*& interface);
+    template <>
+    bool RobotInterface::getInterface(IPositionControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(IPositionDirect*& interface);
+    template <>
+    bool RobotInterface::getInterface(IVelocityControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(ITorqueControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(IPWMControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(ICurrentControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(IEncoders*& interface);
+    template <>
+    bool RobotInterface::getInterface(IControlLimits2*& interface);
+    template <>
+    bool RobotInterface::getInterface(IPidControl*& interface);
+} // namespace wbt
 
 using namespace wbt;
 
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
-
 RobotInterface::RobotInterface(const wbt::Configuration& c)
-: m_config(c)
-, m_robotDeviceCounter(0)
+    : m_config(c)
+    , m_robotDeviceCounter(0)
 {}
 
 RobotInterface::~RobotInterface()
@@ -52,7 +63,9 @@ RobotInterface::~RobotInterface()
     assert(m_robotDeviceCounter == 0);
 }
 
-bool RobotInterface::getSingleControlBoard(const std::string& remoteName, std::unique_ptr<yarp::dev::PolyDriver>& controlBoard) {
+bool RobotInterface::getSingleControlBoard(const std::string& remoteName,
+                                           std::unique_ptr<yarp::dev::PolyDriver>& controlBoard)
+{
     // Configure the single control board
     yarp::os::Property options;
     options.clear();
@@ -140,8 +153,9 @@ bool RobotInterface::mapDoFs()
                     const auto& model = kinDynComp->model();
                     iDynTree::JointIndex iDynJointIdx = model.getJointIndex(axisName);
                     if (iDynJointIdx == iDynTree::JOINT_INVALID_INDEX) {
-                        Log::getSingleton().error("Joint " + axisName + " exists in the " +
-                                                  remoteName + "control board but not in the model.");
+                        Log::getSingleton().error("Joint " + axisName + " exists in the "
+                                                  + remoteName
+                                                  + "control board but not in the model.");
                         return false;
                     }
                     // If this is the first entry to add, allocate the objects
@@ -158,7 +172,8 @@ bool RobotInterface::mapDoFs()
                         m_controlBoardIdxLimit = std::make_shared<ControlBoardIdxLimit>();
                     }
                     // Create a new entry in the map objects
-                    m_jointsMapString->insert(std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
+                    m_jointsMapString->insert(
+                        std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
                     m_jointsMapIndex->insert(std::make_pair(static_cast<int>(iDynJointIdx),
                                                             std::make_pair(cbNum, axis)));
                     m_controlledJointsMapCB->insert(std::make_pair(controlledJoint, found));
@@ -166,15 +181,14 @@ bool RobotInterface::mapDoFs()
                     break;
                 }
             }
-
         }
 
         // Notify that the control board just checked is not used by any joint
         // of the controlledJoints list
         if (found < 0) {
-            Log::getSingleton().warning("No controlled joints found in " +
-            m_config.getControlBoardsNames().at(cbNum) +
-            " control board. It might be unused.");
+            Log::getSingleton().warning("No controlled joints found in "
+                                        + m_config.getControlBoardsNames().at(cbNum)
+                                        + " control board. It might be unused.");
         }
 
         // Close the ControlBoard device
@@ -219,7 +233,7 @@ const std::shared_ptr<JointsMapIndex> RobotInterface::getJointsMapIndex()
         }
     }
 
-    assert (m_jointsMapIndex);
+    assert(m_jointsMapIndex);
     return m_jointsMapIndex;
 }
 
@@ -232,7 +246,7 @@ const std::shared_ptr<ControlledJointsMapCB> RobotInterface::getControlledJoints
         }
     }
 
-    assert (m_controlledJointsMapCB);
+    assert(m_controlledJointsMapCB);
     return m_controlledJointsMapCB;
 }
 
@@ -245,7 +259,7 @@ const std::shared_ptr<ControlBoardIdxLimit> RobotInterface::getControlBoardIdxLi
         }
     }
 
-    assert (m_controlBoardIdxLimit);
+    assert(m_controlBoardIdxLimit);
     return m_controlBoardIdxLimit;
 }
 
@@ -404,11 +418,12 @@ bool RobotInterface::releaseRemoteControlBoardRemapper()
 
 bool RobotInterface::initializeModel()
 {
-    assert (!m_kinDynComp);
+    assert(!m_kinDynComp);
 
     // Allocate the object
     m_kinDynComp = std::make_shared<iDynTree::KinDynComputations>();
-    if (!m_kinDynComp) return false;
+    if (!m_kinDynComp)
+        return false;
 
     // Explicitly set the velocity representation
     m_kinDynComp->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
@@ -473,7 +488,7 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     for (auto axis : m_config.getControlledJoints()) {
         axesList.addString(axis);
     }
-    options.put("axesNames",axesNames.get(0));
+    options.put("axesNames", axesNames.get(0));
 
     // ControlBoard names
     yarp::os::Bottle remoteControlBoards;
@@ -499,9 +514,11 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     if (m_robotDevice) {
         // Force the release
         m_robotDeviceCounter = 1;
-        Log::getSingleton().warning("The RobotInterface state is dirty. Trying to clean the state before proceeding.");
+        Log::getSingleton().warning(
+            "The RobotInterface state is dirty. Trying to clean the state before proceeding.");
         if (!releaseRemoteControlBoardRemapper()) {
-            Log::getSingleton().error("Failed to force the release of the RemoteControlBoardRemapper. ");
+            Log::getSingleton().error(
+                "Failed to force the release of the RemoteControlBoardRemapper. ");
             return false;
         }
     }
@@ -518,7 +535,8 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     if (!m_robotDevice->open(options) && !m_robotDevice->isValid()) {
         // Remove garbage if the opening fails
         m_robotDevice.reset();
-        Log::getSingleton().error("Failed to open the RemoteControlBoardRemapper with the options passed.");
+        Log::getSingleton().error(
+            "Failed to open the RemoteControlBoardRemapper with the options passed.");
         return false;
     }
 
@@ -537,7 +555,8 @@ T* RobotInterface::getInterfaceFromTemplate(T*& interface)
         // assert(m_robotDevice);
         if (!m_robotDevice) {
             Log::getSingleton().error("The RemoteControlBoardRemapper has not been initialized. ");
-            Log::getSingleton().errorAppend("You need to retain the CB device in the initialize() method.");
+            Log::getSingleton().errorAppend(
+                "You need to retain the CB device in the initialize() method.");
             // Return an empty weak pointer
             return nullptr;
         }

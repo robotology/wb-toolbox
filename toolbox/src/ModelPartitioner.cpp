@@ -1,10 +1,10 @@
 #include "ModelPartitioner.h"
-
 #include "BlockInformation.h"
 #include "Configuration.h"
+#include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
-#include "Log.h"
+
 #include <algorithm>
 
 using namespace wbt;
@@ -18,7 +18,8 @@ unsigned ModelPartitioner::numberOfParameters()
 
 bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)){
+        return false;}
 
     // PARAMETERS
     // ==========
@@ -121,7 +122,8 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
         }
         for (const auto& cb : *m_controlBoardIdxLimit) {
             if (!blockInfo->setOutputPortVectorSize(cb.first, cb.second)) {
-                Log::getSingleton().error("Failed to set ouput port size reading them from cb map.");
+                Log::getSingleton().error(
+                    "Failed to set ouput port size reading them from cb map.");
                 return false;
             }
         }
@@ -137,7 +139,9 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool ModelPartitioner::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     unsigned yarp2WBIParameterIdx = WBBlock::numberOfParameters() + 1;
     if (!blockInfo->getBooleanParameterAtIndex(yarp2WBIParameterIdx, m_yarp2WBI)) {

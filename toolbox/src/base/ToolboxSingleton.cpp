@@ -1,12 +1,13 @@
 #include "ToolboxSingleton.h"
-
 #include "Log.h"
 #include "RobotInterface.h"
-#include <string>
+
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
-#include <yarp/os/ResourceFinder.h>
 #include <yarp/os/Network.h>
+#include <yarp/os/ResourceFinder.h>
+
+#include <string>
 
 using namespace wbt;
 
@@ -54,7 +55,8 @@ const Configuration& ToolboxSingleton::getConfiguration(const std::string& confK
     return getRobotInterface(confKey)->getConfiguration();
 }
 
-const std::shared_ptr<RobotInterface> ToolboxSingleton::getRobotInterface(const std::string& confKey)
+const std::shared_ptr<RobotInterface>
+ToolboxSingleton::getRobotInterface(const std::string& confKey)
 {
     if (!isKeyValid(confKey)) {
         return nullptr;
@@ -63,7 +65,8 @@ const std::shared_ptr<RobotInterface> ToolboxSingleton::getRobotInterface(const 
     return m_interfaces[confKey];
 }
 
-const std::shared_ptr<iDynTree::KinDynComputations> ToolboxSingleton::getKinDynComputations(const std::string& confKey)
+const std::shared_ptr<iDynTree::KinDynComputations>
+ToolboxSingleton::getKinDynComputations(const std::string& confKey)
 {
     if (!isKeyValid(confKey)) {
         return nullptr;
@@ -82,8 +85,10 @@ bool ToolboxSingleton::storeConfiguration(const std::string& confKey, const Conf
     }
 
     // Add the new Configuration object and override an existing key if it already exist.
-    // Note: Simulink doesn't flush memory unless Matlab is closed, and static objects stay in memory.
-    //       This may cause problems if the config block's mask is changed after the first compilation.
+    // Note: Simulink doesn't flush memory unless Matlab is closed, and static objects stay in
+    // memory.
+    //       This may cause problems if the config block's mask is changed after the first
+    //       compilation.
     if (m_interfaces.find(confKey) == m_interfaces.end()) {
         m_interfaces[confKey] = std::make_shared<RobotInterface>(config);
         return static_cast<bool>(m_interfaces[confKey]);

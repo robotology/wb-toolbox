@@ -1,13 +1,14 @@
 #include "Jacobian.h"
-
+#include "BlockInformation.h"
 #include "Log.h"
 #include "RobotInterface.h"
-#include "BlockInformation.h"
 #include "Signal.h"
-#include <memory>
-#include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Core/EigenHelpers.h>
+
 #include <Eigen/Core>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/KinDynComputations.h>
+
+#include <memory>
 
 using namespace wbt;
 
@@ -18,8 +19,8 @@ const unsigned Jacobian::INPUT_IDX_JOINTCONF = 1;
 const unsigned Jacobian::OUTPUT_IDX_FW_FRAME = 0;
 
 Jacobian::Jacobian()
-: m_frameIsCoM(false)
-, m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : m_frameIsCoM(false)
+    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
 
 unsigned Jacobian::numberOfParameters()
@@ -31,7 +32,8 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)){
+        return false;}
 
     // INPUTS
     // ======
@@ -83,7 +85,9 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool Jacobian::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // INPUT PARAMETERS
     // ================
@@ -122,7 +126,8 @@ bool Jacobian::initialize(const BlockInformation* blockInfo)
 
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
-    m_jacobianCOM = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(3, 6 + dofs));
+    m_jacobianCOM =
+        std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(3, 6 + dofs));
     m_jacobianCOM->zero();
 
     // Output
@@ -156,10 +161,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig,
-                            &jointsPosSig,
-                            nullptr,
-                            nullptr);
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 
     if (!ok) {
         Log::getSingleton().error("Failed to set the robot state.");
@@ -181,8 +183,8 @@ bool Jacobian::output(const BlockInformation* blockInfo)
         world_H_frame.setPosition(model->getCenterOfMassPosition());
         ok = model->getCenterOfMassJacobian(*m_jacobianCOM);
         int cols = m_jacobianCOM->cols();
-        toEigen(*m_jacobian).block(0,0,3,cols) = toEigen(*m_jacobianCOM);
-        toEigen(*m_jacobian).block(3,0,3,cols).setZero();
+        toEigen(*m_jacobian).block(0, 0, 3, cols) = toEigen(*m_jacobianCOM);
+        toEigen(*m_jacobian).block(3, 0, 3, cols).setZero();
     }
 
     // Get the output signal memory location
@@ -191,8 +193,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(*m_jacobian);
-    Map<MatrixXdSimulink> jacobianColMajor(output.getBuffer<double>(),
-                                           6, 6 + dofs);
+    Map<MatrixXdSimulink> jacobianColMajor(output.getBuffer<double>(), 6, 6 + dofs);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     jacobianColMajor = jacobianRowMajor;

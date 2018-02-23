@@ -1,10 +1,10 @@
 #ifndef WBT_MODELPARTITIONER_H
 #define WBT_MODELPARTITIONER_H
 
-#include "WBBlock.h"
 #include "RobotInterface.h"
-#include <vector>
+#include "WBBlock.h"
 #include <memory>
+#include <vector>
 
 namespace wbt {
     class ModelPartitioner;

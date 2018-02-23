@@ -2,12 +2,13 @@
 #define WBT_ROBOTINTERFACE_H
 
 #include "Configuration.h"
+
+#include <cassert>
 #include <memory>
 #include <string>
-#include <vector>
-#include <utility>
-#include <cassert>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace yarp {
     namespace dev {
@@ -22,8 +23,8 @@ namespace yarp {
         class IEncoders;
         class IControlLimits2;
         class IPidControl;
-    }
-}
+    } // namespace dev
+} // namespace yarp
 
 namespace iDynTree {
     class KinDynComputations;
@@ -42,7 +43,7 @@ namespace wbt {
     typedef std::unordered_map<std::string, std::pair<cb_idx, jointIdx_yarp>> JointsMapString;
     typedef std::unordered_map<std::string, controlledJointIdxCB> ControlledJointsMapCB;
     typedef std::unordered_map<cb_idx, max_cb_idx> ControlBoardIdxLimit;
-}
+} // namespace wbt
 
 /**
  * \struct wbt::YarpInterfaces RobotInterface.h
@@ -72,23 +73,23 @@ struct wbt::YarpInterfaces
     yarp::dev::IPidControl* iPidControl;
 
     YarpInterfaces()
-    : iControlMode2(nullptr)
-    , iPositionControl(nullptr)
-    , iPositionDirect(nullptr)
-    , iVelocityControl(nullptr)
-    , iTorqueControl(nullptr)
-    , iPWMControl(nullptr)
-    , iCurrentControl(nullptr)
-    , iEncoders(nullptr)
-    , iControlLimits2(nullptr)
-    , iPidControl(nullptr)
+        : iControlMode2(nullptr)
+        , iPositionControl(nullptr)
+        , iPositionDirect(nullptr)
+        , iVelocityControl(nullptr)
+        , iTorqueControl(nullptr)
+        , iPWMControl(nullptr)
+        , iCurrentControl(nullptr)
+        , iEncoders(nullptr)
+        , iControlLimits2(nullptr)
+        , iPidControl(nullptr)
     {}
 };
 
-// TODO o pensare come evitare di avere due conf con es position e torque nei setref con lo stesso robot.
-// e' un casino -> aggiungere max un warning o solo documentazione.
-// Solo un setReference attivo per configuration.Se ci sono due setReference con lo stesso
-// set di giunti attivi contemporaneamente. Oppure due stessi blocchi setReference con lo stesso blocco config.
+// TODO o pensare come evitare di avere due conf con es position e torque nei setref con lo stesso
+// robot. e' un casino -> aggiungere max un warning o solo documentazione. Solo un setReference
+// attivo per configuration.Se ci sono due setReference con lo stesso set di giunti attivi
+// contemporaneamente. Oppure due stessi blocchi setReference con lo stesso blocco config.
 
 /**
  * \class wbt::RobotInterface RobotInterface.h
@@ -155,8 +156,8 @@ private:
 
     /**
      * Creates the map between joints (specified as either names or idyntree indices) and
-     * their YARP representation, which consist in a pair: Control Board index and joint index inside
-     * the its Control Board.
+     * their YARP representation, which consist in a pair: Control Board index and joint index
+     * inside the its Control Board.
      *
      * @see getJointsMapString
      * @see getJointsMapIndex
@@ -170,13 +171,15 @@ private:
      *
      * @see mapDoFs
      *
-     * @param  remoteName   [in]  Name of the remote from which the remote control board is be initialized
+     * @param  remoteName   [in]  Name of the remote from which the remote control board is be
+     * initialized
      * @param  controlBoard [out] Smart pointer to the allocated remote control board
      * @return                    True if success
      */
-    bool getSingleControlBoard(const std::string& remoteName, std::unique_ptr<yarp::dev::PolyDriver>& controlBoard);
-public:
+    bool getSingleControlBoard(const std::string& remoteName,
+                               std::unique_ptr<yarp::dev::PolyDriver>& controlBoard);
 
+public:
     // CONSTRUCTOR / DESTRUCTOR
     // ========================
 

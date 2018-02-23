@@ -18,9 +18,10 @@ private:
     std::vector<std::string> warnings;
     std::string prefix;
 
-    static std::string serializeVectorString(std::vector<std::string> v, const std::string& prefix="");
-public:
+    static std::string serializeVectorString(std::vector<std::string> v,
+                                             const std::string& prefix = "");
 
+public:
     static wbt::Log& getSingleton();
 
     void error(const std::string& errorMessage);
@@ -40,6 +41,5 @@ public:
 
     void clear();
 };
-
 
 #endif /* end of include guard: WBT_LOG_H */

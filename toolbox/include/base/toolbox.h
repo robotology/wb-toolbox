@@ -1,26 +1,30 @@
-#include "Log.h"
-//General Yarp utilities
+
+// Yarp-related blocks
+#include "YarpClock.h"
 #include "YarpRead.h"
 #include "YarpWrite.h"
-#include "ModelPartitioner.h"
-#include "YarpClock.h"
-//WBI-related stuff
-#include "MassMatrix.h"
+
+// Generic blocks
+#include "CentroidalMomentum.h"
+#include "DotJNu.h"
 #include "ForwardKinematics.h"
-#include "SetReferences.h"
-#include "RealTimeSynchronizer.h"
-#include "SimulatorSynchronizer.h"
-#include "Jacobian.h"
+#include "GetLimits.h"
 #include "GetMeasurement.h"
 #include "InverseDynamics.h"
-#include "DotJNu.h"
-#include "GetLimits.h"
-#include "CentroidalMomentum.h"
+#include "Jacobian.h"
+#include "MassMatrix.h"
+#include "ModelPartitioner.h"
+#include "RealTimeSynchronizer.h"
 #include "SetLowLevelPID.h"
+#include "SetReferences.h"
+#include "SimulatorSynchronizer.h"
+
 #ifdef WBT_USES_ICUB
-#include "MinimumJerkTrajectoryGenerator.h"
+// iCub-related blocks
 #include "DiscreteFilter.h"
+#include "MinimumJerkTrajectoryGenerator.h"
 #endif
+
 #ifdef WBT_USES_IPOPT
 // #include "InverseKinematics.h"
 #endif

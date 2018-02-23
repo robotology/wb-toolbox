@@ -1,6 +1,6 @@
 #include "RealTimeSynchronizer.h"
-#include "Log.h"
 #include "BlockInformation.h"
+#include "Log.h"
 
 #include <yarp/os/Time.h>
 
@@ -11,12 +11,15 @@ const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 const unsigned RealTimeSynchronizer::PARAM_PERIOD = 1; // Period
 
 RealTimeSynchronizer::RealTimeSynchronizer()
-: m_period(0.01)
-, m_initialTime(0)
-, m_counter(0)
+    : m_period(0.01)
+    , m_initialTime(0)
+    , m_counter(0)
 {}
 
-unsigned RealTimeSynchronizer::numberOfParameters() { return 1; }
+unsigned RealTimeSynchronizer::numberOfParameters()
+{
+    return 1;
+}
 
 bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -72,13 +75,13 @@ bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
         m_initialTime = yarp::os::Time::now();
     }
 
-    //read current time
+    // read current time
     double currentTime = yarp::os::Time::now() - m_initialTime;
-    double desiredTime = m_counter* m_period;
+    double desiredTime = m_counter * m_period;
 
     double sleepPeriod = desiredTime - currentTime;
 
-    //sleep for the remaining time
+    // sleep for the remaining time
     if (sleepPeriod > 0) {
         yarp::os::Time::delay(sleepPeriod);
     }

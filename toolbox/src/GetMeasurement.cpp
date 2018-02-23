@@ -1,9 +1,9 @@
 #include "GetMeasurement.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
-#include "Signal.h"
+#include "Log.h"
 #include "RobotInterface.h"
+#include "Signal.h"
+
 #include <yarp/dev/IEncoders.h>
 #include <yarp/dev/ITorqueControl.h>
 
@@ -29,7 +29,9 @@ unsigned GetMeasurement::numberOfParameters()
 
 bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -67,7 +69,9 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // Reading the control type
     std::string informationType;
@@ -78,13 +82,17 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 
     if (informationType == "Joints Position") {
         m_measuredType = wbt::MEASUREMENT_JOINT_POS;
-    } else if (informationType == "Joints Velocity") {
+    }
+    else if (informationType == "Joints Velocity") {
         m_measuredType = wbt::MEASUREMENT_JOINT_VEL;
-    } else if (informationType == "Joints Acceleration") {
+    }
+    else if (informationType == "Joints Acceleration") {
         m_measuredType = wbt::MEASUREMENT_JOINT_ACC;
-    } else if (informationType == "Joints Torque") {
+    }
+    else if (informationType == "Joints Torque") {
         m_measuredType = wbt::ESTIMATE_JOINT_TORQUE;
-    } else {
+    }
+    else {
         Log::getSingleton().error("Estimate not supported.");
         return false;
     }

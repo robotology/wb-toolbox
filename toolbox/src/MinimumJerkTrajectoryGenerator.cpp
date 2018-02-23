@@ -1,13 +1,11 @@
 #include "MinimumJerkTrajectoryGenerator.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
+#include "Log.h"
 #include "Signal.h"
 
 #include <iCub/ctrl/minJerkCtrl.h>
-
-#include <yarp/os/Network.h>
 #include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
 #include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
 
@@ -17,24 +15,27 @@ using namespace wbt;
 
 const std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
 
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_SAMPLE_TIME   = 1;
+const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_SAMPLE_TIME = 1;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_SETTLING_TIME = 2;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_OUTPUT_1ST_DERIVATIVE = 3;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_OUTPUT_2ND_DERIVATIVE = 4;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_INITIAL_VALUE    = 5;
+const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_INITIAL_VALUE = 5;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_EXT_SETTLINGTIME = 6;
 const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_RESET_CHANGEST = 7;
 
 MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
-: m_outputFirstDerivativeIndex(-1)
-, m_outputSecondDerivativeIndex(-1)
-, m_firstRun(true)
-, m_explicitInitialValue(false)
-, m_externalSettlingTime(false)
-, m_resetOnSettlingTimeChange(false)
+    : m_outputFirstDerivativeIndex(-1)
+    , m_outputSecondDerivativeIndex(-1)
+    , m_firstRun(true)
+    , m_explicitInitialValue(false)
+    , m_externalSettlingTime(false)
+    , m_resetOnSettlingTimeChange(false)
 {}
 
-unsigned MinimumJerkTrajectoryGenerator::numberOfParameters() { return 7; }
+unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
+{
+    return 7;
+}
 
 bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -56,10 +57,15 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     bool externalSettlingTime;
     bool ok = true;
 
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE, outputFirstDerivative);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE, outputSecondDerivative);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE,
+                                                  outputFirstDerivative);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE,
+                                                  outputSecondDerivative);
     ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, explicitInitialValue);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, externalSettlingTime);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, externalSettlingTime);
 
     if (!ok) {
         Log::getSingleton().error("Failed to get input parameters.");
@@ -78,7 +84,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     // 3) The optional settling time
     //
 
-    if(!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
+    if (!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
         Log::getSingleton().error("Failed to set input port number.");
         return false;
     }
@@ -132,14 +138,20 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
     bool outputSecondDerivative;
     bool ok = true;
 
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE,
-                                                    outputFirstDerivative);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE,
-                                                    outputSecondDerivative);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, m_explicitInitialValue);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, m_externalSettlingTime);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_RESET_CHANGEST,
-                                                    m_resetOnSettlingTimeChange);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_1ST_DERIVATIVE,
+                                                  outputFirstDerivative);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_OUTPUT_2ND_DERIVATIVE,
+                                                  outputSecondDerivative);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_INITIAL_VALUE, m_explicitInitialValue);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME,
+                                                  m_externalSettlingTime);
+    ok = ok
+         && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_RESET_CHANGEST,
+                                                  m_resetOnSettlingTimeChange);
 
     if (!ok) {
         Log::getSingleton().error("Failed to get input parameters.");
@@ -162,8 +174,8 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
 
     unsigned signalSize = blockInfo->getInputPortWidth(0);
 
-    m_generator = std::unique_ptr<iCub::ctrl::minJerkTrajGen>
-            (new iCub::ctrl::minJerkTrajGen(signalSize, sampleTime, settlingTime));
+    m_generator = std::unique_ptr<iCub::ctrl::minJerkTrajGen>(
+        new iCub::ctrl::minJerkTrajGen(signalSize, sampleTime, settlingTime));
     m_previousSettlingTime = settlingTime;
     m_initialValues = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
     m_reference = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
@@ -184,11 +196,13 @@ bool MinimumJerkTrajectoryGenerator::terminate(const BlockInformation* blockInfo
 
 bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 {
-    if (!m_generator) return false;
+    if (!m_generator)
+        return false;
 
     if (m_externalSettlingTime) {
         unsigned portIndex = 1;
-        if (m_explicitInitialValue) portIndex++;
+        if (m_explicitInitialValue)
+            portIndex++;
         Signal externalTimePort = blockInfo->getInputPortSignal(portIndex);
         double externalTime = externalTimePort.get<double>(0);
 
@@ -215,31 +229,32 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         m_generator->init(*m_initialValues);
     }
 
-
     Signal references = blockInfo->getInputPortSignal(0);
     for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
         (*m_reference)[i] = references.get<double>(i);
     }
     m_generator->computeNextValues(*m_reference);
 
-    const yarp::sig::Vector &signal = m_generator->getPos();
+    const yarp::sig::Vector& signal = m_generator->getPos();
     Signal output = blockInfo->getOutputPortSignal(0);
     output.setBuffer(signal.data(), signal.size());
-//        for (unsigned i = 0; i < blockInfo->getOutputPortWidth(0); ++i) {
-//            output.set(i, signal[i]);
-//        }
-    //note: index of the port is not known a priori.
-    //I should save it in the initialization phase
+    //        for (unsigned i = 0; i < blockInfo->getOutputPortWidth(0); ++i) {
+    //            output.set(i, signal[i]);
+    //        }
+    // note: index of the port is not known a priori.
+    // I should save it in the initialization phase
     if (m_outputFirstDerivativeIndex != -1) {
-        const yarp::sig::Vector &derivative = m_generator->getVel();
+        const yarp::sig::Vector& derivative = m_generator->getVel();
         Signal derivativeOutput = blockInfo->getOutputPortSignal(m_outputFirstDerivativeIndex);
-        derivativeOutput.setBuffer(derivative.data(), blockInfo->getOutputPortWidth(m_outputFirstDerivativeIndex));
+        derivativeOutput.setBuffer(derivative.data(),
+                                   blockInfo->getOutputPortWidth(m_outputFirstDerivativeIndex));
     }
 
     if (m_outputSecondDerivativeIndex != -1) {
-        const yarp::sig::Vector &derivative = m_generator->getAcc();
+        const yarp::sig::Vector& derivative = m_generator->getAcc();
         Signal derivativeOutput = blockInfo->getOutputPortSignal(m_outputSecondDerivativeIndex);
-        derivativeOutput.setBuffer(derivative.data(), blockInfo->getOutputPortWidth(m_outputSecondDerivativeIndex));
+        derivativeOutput.setBuffer(derivative.data(),
+                                   blockInfo->getOutputPortWidth(m_outputSecondDerivativeIndex));
     }
 
     return true;

@@ -8,41 +8,57 @@ Block* Block::instantiateBlockWithClassName(std::string blockClassName)
 
     if (blockClassName == YarpRead::ClassName) {
         block = new YarpRead();
-    } else if (blockClassName == YarpWrite::ClassName) {
+    }
+    else if (blockClassName == YarpWrite::ClassName) {
         block = new YarpWrite();
-    } else if (blockClassName == ModelPartitioner::ClassName) {
+    }
+    else if (blockClassName == ModelPartitioner::ClassName) {
         block = new ModelPartitioner();
-    } else if (blockClassName == YarpClock::ClassName) {
+    }
+    else if (blockClassName == YarpClock::ClassName) {
         block = new YarpClock();
-    } else if (blockClassName == MassMatrix::ClassName) {
+    }
+    else if (blockClassName == MassMatrix::ClassName) {
         block = new MassMatrix();
-    } else if (blockClassName == ForwardKinematics::ClassName) {
+    }
+    else if (blockClassName == ForwardKinematics::ClassName) {
         block = new ForwardKinematics();
-    } else if (blockClassName == SetReferences::ClassName) {
+    }
+    else if (blockClassName == SetReferences::ClassName) {
         block = new SetReferences();
-    } else if (blockClassName == RealTimeSynchronizer::ClassName) {
+    }
+    else if (blockClassName == RealTimeSynchronizer::ClassName) {
         block = new RealTimeSynchronizer();
-    } else if (blockClassName == SimulatorSynchronizer::ClassName) {
+    }
+    else if (blockClassName == SimulatorSynchronizer::ClassName) {
         block = new SimulatorSynchronizer();
-    } else if (blockClassName == Jacobian::ClassName) {
+    }
+    else if (blockClassName == Jacobian::ClassName) {
         block = new Jacobian();
-    } else if (blockClassName == GetMeasurement::ClassName) {
+    }
+    else if (blockClassName == GetMeasurement::ClassName) {
         block = new GetMeasurement();
-    } else if (blockClassName == InverseDynamics::ClassName) {
+    }
+    else if (blockClassName == InverseDynamics::ClassName) {
         block = new InverseDynamics();
-    } else if (blockClassName == DotJNu::ClassName) {
+    }
+    else if (blockClassName == DotJNu::ClassName) {
         block = new DotJNu();
-    } else if (blockClassName == GetLimits::ClassName) {
+    }
+    else if (blockClassName == GetLimits::ClassName) {
         block = new GetLimits();
-    } else if (blockClassName == CentroidalMomentum::ClassName) {
+    }
+    else if (blockClassName == CentroidalMomentum::ClassName) {
         block = new CentroidalMomentum();
-    } else if (blockClassName == SetLowLevelPID::ClassName) {
+    }
+    else if (blockClassName == SetLowLevelPID::ClassName) {
         block = new SetLowLevelPID();
     }
 #ifdef WBT_USES_ICUB
     else if (blockClassName == MinimumJerkTrajectoryGenerator::ClassName) {
         block = new MinimumJerkTrajectoryGenerator();
-    } else if (blockClassName == DiscreteFilter::ClassName) {
+    }
+    else if (blockClassName == DiscreteFilter::ClassName) {
         block = new wbt::DiscreteFilter();
     }
 #endif

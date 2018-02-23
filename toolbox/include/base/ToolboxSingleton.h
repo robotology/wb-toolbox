@@ -1,22 +1,22 @@
 #ifndef WBT_ToolboxSingleton_H
 #define WBT_ToolboxSingleton_H
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <unordered_map>
 #include "Configuration.h"
+
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace wbt {
     class ToolboxSingleton;
     class RobotInterface;
-}
+} // namespace wbt
 
 namespace iDynTree {
     class KinDynComputations;
 }
 
-// TODO: check class doxygen macro
 /**
  * \class ToolboxSingleton ToolboxSingleton.h
  *
@@ -29,7 +29,8 @@ namespace iDynTree {
  * @see wbt::yarpDevices
  *
  */
-class wbt::ToolboxSingleton { // TODO: wbt::ToolboxSingleton
+class wbt::ToolboxSingleton
+{
 private:
     /// Object that stores all the configurations labelled by the name of the Simulink Block's
     /// name.
@@ -37,7 +38,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<wbt::RobotInterface>> m_interfaces;
 
 public:
-
     // CONSTRUCTOR / DESTRUCTOR
     // ========================
 
@@ -94,12 +94,12 @@ public:
     const Configuration& getConfiguration(const std::string& confKey);
 
     /**
-    * Returns a \c shared_ptr to the RobotInterface object containing the configuration
-    * labelled by confKey and all the objects used to gather and set robot data
-    *
-    * @param confKey The key describing the configuration (name of the Simulink block)
-    * @return        A \c shared_ptr to the RobotInterface of the requested configuration
-    */
+     * Returns a \c shared_ptr to the RobotInterface object containing the configuration
+     * labelled by confKey and all the objects used to gather and set robot data
+     *
+     * @param confKey The key describing the configuration (name of the Simulink block)
+     * @return        A \c shared_ptr to the RobotInterface of the requested configuration
+     */
     const std::shared_ptr<RobotInterface> getRobotInterface(const std::string& confKey);
 
     /**
@@ -110,7 +110,8 @@ public:
      * @return        A \c shared_ptr to the iDynTree::KinDynComputations of the requested
      *                configuration
      */
-    const std::shared_ptr<iDynTree::KinDynComputations> getKinDynComputations(const std::string& confKey);
+    const std::shared_ptr<iDynTree::KinDynComputations>
+    getKinDynComputations(const std::string& confKey);
 
     // TOOLBOXSINGLETON CONFIGURATION
     // ==============================

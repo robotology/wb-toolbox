@@ -1,9 +1,9 @@
 #include "SetReferences.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
-#include "Signal.h"
+#include "Log.h"
 #include "RobotInterface.h"
+#include "Signal.h"
+
 #include <yarp/dev/ControlBoardInterfaces.h>
 
 #define _USE_MATH_DEFINES
@@ -14,8 +14,8 @@ using namespace wbt;
 const std::string SetReferences::ClassName = "SetReferences";
 
 SetReferences::SetReferences()
-: m_resetControlMode(true)
-, m_refSpeed(0)
+    : m_resetControlMode(true)
+    , m_refSpeed(0)
 {}
 
 const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
@@ -40,7 +40,8 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo))
+        return false;
 
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
@@ -81,19 +82,19 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool SetReferences::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // Reading the control type
     std::string controlType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1,
-                                              controlType)) {
+    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, controlType)) {
         Log::getSingleton().error("Could not read control type parameter.");
         return false;
     }
 
     // Reading the refSpeed
-    if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2,
-                                              m_refSpeed)) {
+    if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2, m_refSpeed)) {
         Log::getSingleton().error("Could not read reference speed parameter.");
         return false;
     }

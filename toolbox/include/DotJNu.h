@@ -2,9 +2,9 @@
 #define WBT_DOTJDOTQ_H
 
 #include "WBBlock.h"
-#include <memory>
-#include <iDynTree/Model/Indices.h>
 #include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/Model/Indices.h>
+#include <memory>
 
 namespace wbt {
     class DotJNu;

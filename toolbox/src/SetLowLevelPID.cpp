@@ -1,9 +1,10 @@
 #include "SetLowLevelPID.h"
-
+#include "BlockInformation.h"
 #include "Log.h"
 #include "RobotInterface.h"
-#include "BlockInformation.h"
+
 #include <yarp/dev/ControlBoardPid.h>
+
 #include <algorithm>
 
 using namespace wbt;
@@ -12,14 +13,15 @@ const std::string SetLowLevelPID::ClassName = "SetLowLevelPID";
 
 unsigned SetLowLevelPID::numberOfParameters()
 {
-    return WBBlock::numberOfParameters()
-    + 1  // WBTPIDConfig object
-    + 1; // Control type
+    return WBBlock::numberOfParameters() + 1 // WBTPIDConfig object
+           + 1; // Control type
 }
 
 bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -96,7 +98,7 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
 
     // From AnyCell to vector<string>
     std::vector<std::string> jointNamesFromParameters;
-    for (auto cell: jointPidsCell) {
+    for (auto cell : jointPidsCell) {
         std::string joint;
         if (!cell->asString(joint)) {
             Log::getSingleton().error("Failed to convert jointList from cell to strings.");
@@ -105,9 +107,8 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
         jointNamesFromParameters.push_back(joint);
     }
 
-    if (Pvector.size() != Ivector.size() ||
-        Ivector.size() != Dvector.size() ||
-        Dvector.size() != jointNamesFromParameters.size()) {
+    if (Pvector.size() != Ivector.size() || Ivector.size() != Dvector.size()
+        || Dvector.size() != jointNamesFromParameters.size()) {
         Log::getSingleton().error("Sizes of P, I, D, and jointList elements are not the same.");
         return false;
     }
@@ -116,22 +117,22 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
     for (unsigned i = 0; i < jointNamesFromParameters.size(); ++i) {
         // Check the processed joint is actually a controlledJoint
         const auto& controlledJoints = getConfiguration().getControlledJoints();
-        auto findElement = std::find(std::begin(controlledJoints),
-                                     std::end(controlledJoints),
-                                     jointNamesFromParameters[i]);
+        auto findElement = std::find(
+            std::begin(controlledJoints), std::end(controlledJoints), jointNamesFromParameters[i]);
         if (findElement != std::end(controlledJoints)) {
             m_pidJointsFromParameters[jointNamesFromParameters[i]] =
                 std::tuple<double, double, double>(Pvector[i], Ivector[i], Dvector[i]);
         }
         else {
-            Log::getSingleton().warning("Attempted to set PID of joint " + jointNamesFromParameters[i]);
+            Log::getSingleton().warning("Attempted to set PID of joint "
+                                        + jointNamesFromParameters[i]);
             Log::getSingleton().warningAppend(" non currently controlled. Skipping it.");
         }
-
     }
 
     if (m_pidJointsFromParameters.size() != jointNamesFromParameters.size()) {
-        Log::getSingleton().warning("PID have been passed only for a subset of the controlled joints.");
+        Log::getSingleton().warning(
+            "PID have been passed only for a subset of the controlled joints.");
     }
 
     return true;
@@ -139,7 +140,9 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
 
 bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // Reading the control type
     std::string controlType;

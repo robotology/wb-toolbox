@@ -1,12 +1,13 @@
 #include "DotJNu.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
-#include "Signal.h"
+#include "Log.h"
 #include "RobotInterface.h"
-#include <memory>
+#include "Signal.h"
+
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
+
+#include <memory>
 
 using namespace wbt;
 
@@ -14,13 +15,13 @@ const std::string DotJNu::ClassName = "DotJNu";
 
 const unsigned DotJNu::INPUT_IDX_BASE_POSE = 0;
 const unsigned DotJNu::INPUT_IDX_JOINTCONF = 1;
-const unsigned DotJNu::INPUT_IDX_BASE_VEL  = 2;
+const unsigned DotJNu::INPUT_IDX_BASE_VEL = 2;
 const unsigned DotJNu::INPUT_IDX_JOINT_VEL = 3;
-const unsigned DotJNu::OUTPUT_IDX_DOTJ_NU  = 0;
+const unsigned DotJNu::OUTPUT_IDX_DOTJ_NU = 0;
 
 DotJNu::DotJNu()
-: m_frameIsCoM(false)
-, m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : m_frameIsCoM(false)
+    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
 
 unsigned DotJNu::numberOfParameters()
@@ -32,7 +33,8 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo))
+        return false;
 
     // INPUTS
     // ======
@@ -55,12 +57,12 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     bool success = true;
     success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL,  6);
+    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
 
     blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
     blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL,  PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
     blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
 
     if (!success) {
@@ -89,7 +91,9 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool DotJNu::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // INPUT PARAMETERS
     // ================
@@ -153,10 +157,8 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok = setRobotState(&basePoseSig,
-                            &jointsPosSig,
-                            &baseVelocitySignal,
-                            &jointsVelocitySignal);
+    bool ok =
+        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
 
     if (!ok) {
         Log::getSingleton().error("Failed to set the robot state.");
@@ -177,7 +179,6 @@ bool DotJNu::output(const BlockInformation* blockInfo)
 
     // Forward the output to Simulink
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_DOTJ_NU);
-    output.setBuffer(m_dotJNu->data(),
-                     blockInfo->getOutputPortWidth(OUTPUT_IDX_DOTJ_NU));
+    output.setBuffer(m_dotJNu->data(), blockInfo->getOutputPortWidth(OUTPUT_IDX_DOTJ_NU));
     return true;
 }

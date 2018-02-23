@@ -1,17 +1,19 @@
 #include "SimulatorSynchronizer.h"
-#include "Log.h"
 #include "BlockInformation.h"
+#include "Log.h"
 #include "thrift/ClockServer.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
+
 #include <cmath>
 
 using namespace wbt;
 
 struct SimulatorSynchronizer::RPCData
 {
-    struct {
+    struct
+    {
         std::string clientPortName;
         std::string serverPortName;
 
@@ -24,16 +26,19 @@ struct SimulatorSynchronizer::RPCData
 
 const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
 
-const unsigned SimulatorSynchronizer::PARAM_PERIOD     = 1;
+const unsigned SimulatorSynchronizer::PARAM_PERIOD = 1;
 const unsigned SimulatorSynchronizer::PARAM_GZCLK_PORT = 2;
-const unsigned SimulatorSynchronizer::PARAM_RPC_PORT   = 3;
+const unsigned SimulatorSynchronizer::PARAM_RPC_PORT = 3;
 
 SimulatorSynchronizer::SimulatorSynchronizer()
-: m_period(0.01)
-, m_firstRun(true)
+    : m_period(0.01)
+    , m_firstRun(true)
 {}
 
-unsigned SimulatorSynchronizer::numberOfParameters() { return 3; }
+unsigned SimulatorSynchronizer::numberOfParameters()
+{
+    return 3;
+}
 
 std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
 {
@@ -123,9 +128,9 @@ bool SimulatorSynchronizer::output(const BlockInformation* /*S*/)
     if (m_firstRun) {
         m_firstRun = false;
 
-        if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName) ||
-            !yarp::os::Network::connect(m_rpcData->configuration.clientPortName,
-                                        m_rpcData->configuration.serverPortName)) {
+        if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName)
+            || !yarp::os::Network::connect(m_rpcData->configuration.clientPortName,
+                                           m_rpcData->configuration.serverPortName)) {
             Log::getSingleton().error("Error connecting to simulator clock server.");
             return false;
         }

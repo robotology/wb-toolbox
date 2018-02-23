@@ -2,8 +2,8 @@
 #define WBT_JACOBIAN_H
 
 #include "WBBlock.h"
-#include <memory>
 #include <iDynTree/Model/Indices.h>
+#include <memory>
 
 namespace wbt {
     class Jacobian;

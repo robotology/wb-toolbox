@@ -8,7 +8,7 @@ namespace wbt {
     class Block;
     class BlockInformation;
 
-}
+} // namespace wbt
 
 /**
  * Basic abstract class for all the blocks.
@@ -46,7 +46,6 @@ public:
      * @return the number of parameters
      */
     virtual unsigned numberOfParameters() = 0;
-
 
     /**
      * Returns vector of additional block options
@@ -92,7 +91,6 @@ public:
      */
     virtual bool stateDerivative(const BlockInformation* blockInfo);
 
-
     /**
      * Specify if the parameter at the specified index is tunable
      *
@@ -101,7 +99,7 @@ public:
      * @param [in]index   index of the parameter
      * @param [out]tunable true if the parameter is tunable. False otherwise
      */
-    virtual void parameterAtIndexIsTunable(unsigned index, bool &tunable);
+    virtual void parameterAtIndexIsTunable(unsigned index, bool& tunable);
 
     /**
      * Configure the input and output ports
@@ -159,8 +157,6 @@ public:
      */
     virtual bool terminate(const BlockInformation* blockInfo) = 0;
 
-
-
     /**
      * Compute the output of the block
      *
@@ -173,7 +169,6 @@ public:
     virtual bool output(const BlockInformation* blockInfo) = 0;
 
 public:
-
 };
 
 #endif /* end of include guard: WBT_BLOCK_H */

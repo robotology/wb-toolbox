@@ -2,13 +2,15 @@
 #define WBT_WBIBLOCK_H
 
 #include "Block.h"
-#include <string>
+
+#include <iDynTree/Core/Transform.h>
+#include <iDynTree/Core/Twist.h>
+#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/VectorFixSize.h>
+
 #include <array>
 #include <memory>
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/Transform.h>
+#include <string>
 
 namespace wbt {
     class WBBlock;
@@ -16,7 +18,7 @@ namespace wbt {
     class Configuration;
     class BlockInformation;
     class RobotInterface;
-}
+} // namespace wbt
 
 namespace iDynTree {
     class MatrixDynSize;
@@ -28,10 +30,11 @@ namespace iDynTree {
  * This struct contains the iDynTree objects used to configure the
  * state of iDynTree::KinDynComputations objects.
  */
-struct iDynTreeRobotState {
-    iDynTree::Twist         m_baseVelocity;
-    iDynTree::Vector3       m_gravity;
-    iDynTree::Transform     m_world_T_base;
+struct iDynTreeRobotState
+{
+    iDynTree::Twist m_baseVelocity;
+    iDynTree::Vector3 m_gravity;
+    iDynTree::Transform m_world_T_base;
     iDynTree::VectorDynSize m_jointsVelocity;
     iDynTree::VectorDynSize m_jointsPosition;
 

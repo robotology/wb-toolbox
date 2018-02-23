@@ -5,14 +5,14 @@
 
 namespace wbt {
     class GetMeasurement;
-    enum MeasuredType {
+    enum MeasuredType
+    {
         MEASUREMENT_JOINT_POS,
         MEASUREMENT_JOINT_VEL,
         MEASUREMENT_JOINT_ACC,
         ESTIMATE_JOINT_TORQUE
     };
-}
-
+} // namespace wbt
 
 class wbt::GetMeasurement : public wbt::WBBlock
 {

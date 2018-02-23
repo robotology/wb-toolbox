@@ -1,13 +1,14 @@
 #include "CentroidalMomentum.h"
-
 #include "BlockInformation.h"
-#include "Signal.h"
 #include "Log.h"
 #include "RobotInterface.h"
-#include <memory>
-#include <iDynTree/Core/SpatialMomentum.h>
+#include "Signal.h"
+
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
+
+#include <memory>
 
 using namespace wbt;
 
@@ -15,7 +16,7 @@ const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
 
 const unsigned CentroidalMomentum::INPUT_IDX_BASE_POSE = 0;
 const unsigned CentroidalMomentum::INPUT_IDX_JOINTCONF = 1;
-const unsigned CentroidalMomentum::INPUT_IDX_BASE_VEL  = 2;
+const unsigned CentroidalMomentum::INPUT_IDX_BASE_VEL = 2;
 const unsigned CentroidalMomentum::INPUT_IDX_JOINT_VEL = 3;
 const unsigned CentroidalMomentum::OUTPUT_IDX_CENTRMOM = 0;
 
@@ -25,7 +26,8 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo))
+        return false;
 
     // INPUTS
     // ======
@@ -53,7 +55,7 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 
     blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
     blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL,  PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
     blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
 
     if (!success) {
@@ -82,12 +84,14 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool CentroidalMomentum::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo))
+        return false;
 
     // OUTPUT
     // ======
 
-    m_centroidalMomentum = std::unique_ptr<iDynTree::SpatialMomentum>(new iDynTree::SpatialMomentum());
+    m_centroidalMomentum =
+        std::unique_ptr<iDynTree::SpatialMomentum>(new iDynTree::SpatialMomentum());
     return static_cast<bool>(m_centroidalMomentum);
 }
 
@@ -113,10 +117,8 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok = setRobotState(&basePoseSig,
-                            &jointsPosSig,
-                            &baseVelocitySignal,
-                            &jointsVelocitySignal);
+    bool ok =
+        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
 
     if (!ok) {
         Log::getSingleton().error("Failed to set the robot state.");

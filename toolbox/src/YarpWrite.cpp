@@ -1,11 +1,10 @@
 #include "YarpWrite.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
+#include "Log.h"
 #include "Signal.h"
 
-#include <yarp/os/Network.h>
 #include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
 #include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
 
@@ -13,17 +12,20 @@ using namespace wbt;
 
 const std::string YarpWrite::ClassName = "YarpWrite";
 
-const unsigned YarpWrite::PARAM_IDX_PORTNAME    = 1; // Port name
+const unsigned YarpWrite::PARAM_IDX_PORTNAME = 1; // Port name
 const unsigned YarpWrite::PARAM_IDX_AUTOCONNECT = 2; // Autoconnect boolean
 const unsigned YarpWrite::PARAM_IDX_ERR_NO_PORT = 3; // Error on missing port if autoconnect is true
 
 YarpWrite::YarpWrite()
-: m_autoconnect(false)
-, m_errorOnMissingPort(true)
-, m_destinationPortName("")
+    : m_autoconnect(false)
+    , m_errorOnMissingPort(true)
+    , m_destinationPortName("")
 {}
 
-unsigned YarpWrite::numberOfParameters() { return 3; }
+unsigned YarpWrite::numberOfParameters()
+{
+    return 3;
+}
 
 bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -61,7 +63,7 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
 
     Network::init();
 
-    if (!Network::initialized() || !Network::checkNetwork(5.0)){
+    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
         Log::getSingleton().error("YARP server wasn't found active!!");
         return false;
     }
@@ -90,8 +92,8 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
         sourcePortName = "...";
         m_destinationPortName = portParameter;
     }
-    // Manual connection: the block opens an output port portName, and waits a manual connection to an
-    //                    input port.
+    // Manual connection: the block opens an output port portName, and waits a manual connection to
+    // an input port.
     else {
         sourcePortName = portParameter;
     }
@@ -105,10 +107,8 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
 
     if (m_autoconnect) {
         if (!Network::connect(m_port->getName(), m_destinationPortName)) {
-            Log::getSingleton().warning("Failed to connect " +
-                                        m_port->getName() +
-                                        " to " +
-                                        m_destinationPortName);
+            Log::getSingleton().warning("Failed to connect " + m_port->getName() + " to "
+                                        + m_destinationPortName);
             if (m_errorOnMissingPort) {
                 Log::getSingleton().error("Failed connecting ports.");
                 return false;
@@ -136,9 +136,12 @@ bool YarpWrite::terminate(const BlockInformation* /*S*/)
 
 bool YarpWrite::output(const BlockInformation* blockInfo)
 {
-    if (!m_port) return false;
+    if (!m_port) {
+        return false;
+    }
+    
     yarp::sig::Vector& outputVector = m_port->prepare();
-    outputVector.resize(blockInfo->getInputPortWidth(0)); //this should be a no-op
+    outputVector.resize(blockInfo->getInputPortWidth(0)); // this should be a no-op
 
     Signal signal = blockInfo->getInputPortSignal(0);
 
