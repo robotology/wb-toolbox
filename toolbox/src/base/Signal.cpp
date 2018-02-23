@@ -8,11 +8,11 @@ Signal::~Signal()
 }
 
 Signal::Signal(const Signal& signal)
-: m_width(signal.m_width)
-, m_isConst(signal.m_isConst)
-, m_portDataType(signal.m_portDataType)
-, m_dataFormat(signal.m_dataFormat)
-, m_bufferPtr(nullptr)
+    : m_width(signal.m_width)
+    , m_isConst(signal.m_isConst)
+    , m_portDataType(signal.m_portDataType)
+    , m_dataFormat(signal.m_dataFormat)
+    , m_bufferPtr(nullptr)
 {
     if (signal.m_bufferPtr) {
         switch (signal.m_dataFormat) {
@@ -32,18 +32,18 @@ Signal::Signal(const Signal& signal)
 Signal::Signal(const SignalDataFormat& dataFormat,
                const PortDataType& dataType,
                const bool& isConst)
-: m_isConst(isConst)
-, m_portDataType(dataType)
-, m_dataFormat(dataFormat)
-, m_bufferPtr(nullptr)
+    : m_isConst(isConst)
+    , m_portDataType(dataType)
+    , m_dataFormat(dataFormat)
+    , m_bufferPtr(nullptr)
 {}
 
 Signal::Signal(Signal&& other)
-: m_width(other.m_width)
-, m_isConst(other.m_isConst)
-, m_portDataType(other.m_portDataType)
-, m_dataFormat(other.m_dataFormat)
-, m_bufferPtr(other.m_bufferPtr)
+    : m_width(other.m_width)
+    , m_isConst(other.m_isConst)
+    , m_portDataType(other.m_portDataType)
+    , m_dataFormat(other.m_dataFormat)
+    , m_bufferPtr(other.m_bufferPtr)
 {
     other.m_width = 0;
     other.m_bufferPtr = nullptr;
@@ -97,8 +97,7 @@ bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 
 bool Signal::initializeBufferFromContiguous(const void* buffer)
 {
-    if (m_dataFormat != CONTIGUOUS ||
-        m_width <= 0) {
+    if (m_dataFormat != CONTIGUOUS || m_width <= 0) {
         return false;
     }
 
@@ -116,8 +115,7 @@ bool Signal::initializeBufferFromContiguous(const void* buffer)
 
 bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
 {
-    if (m_dataFormat != NONCONTIGUOUS ||
-        m_width <= 0) {
+    if (m_dataFormat != NONCONTIGUOUS || m_width <= 0) {
         return false;
     }
 
@@ -155,7 +153,6 @@ bool Signal::isConst() const
     return m_isConst;
 }
 
-
 SignalDataFormat Signal::getDataFormat() const
 {
     return m_dataFormat;
@@ -169,14 +166,12 @@ bool Signal::set(const unsigned& index, const double& data)
 
     // TODO: Implement other PortDataType
     switch (m_portDataType) {
-        case PortDataTypeDouble:
-        {
+        case PortDataTypeDouble: {
             double* buffer = static_cast<double*>(m_bufferPtr);
             buffer[index] = data;
             break;
         }
-        case PortDataTypeSingle:
-        {
+        case PortDataTypeSingle: {
             float* buffer = static_cast<float*>(m_bufferPtr);
             buffer[index] = data;
             break;

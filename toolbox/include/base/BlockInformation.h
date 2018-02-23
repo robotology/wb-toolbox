@@ -8,7 +8,8 @@ namespace wbt {
     class BlockInformation;
     class Signal;
 
-    typedef enum _PortDataType {
+    typedef enum _PortDataType
+    {
         PortDataTypeDouble,
         PortDataTypeSingle,
         PortDataTypeInt8,
@@ -21,9 +22,10 @@ namespace wbt {
     } PortDataType;
 
     extern const std::string BlockOptionPrioritizeOrder;
-}
+} // namespace wbt
 
-class wbt::BlockInformation {
+class wbt::BlockInformation
+{
 
 public:
     BlockInformation() = default;
@@ -41,7 +43,6 @@ public:
      */
     virtual bool optionFromKey(const std::string& key, double& option) const;
 
-
     // PARAMETERS METHODS
     // ==================
 
@@ -53,7 +54,8 @@ public:
      *
      * @return true if success, false otherwise
      */
-    virtual bool getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const = 0;
+    virtual bool getStringParameterAtIndex(unsigned parameterIndex,
+                                           std::string& stringParameter) const = 0;
     virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const = 0;
     virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const = 0;
     virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const = 0;
@@ -86,7 +88,7 @@ public:
     virtual unsigned getInputPortWidth(unsigned portNumber) const = 0;
     virtual unsigned getOutputPortWidth(unsigned portNumber) const = 0;
     virtual wbt::Signal getInputPortSignal(unsigned portNumber, int portWidth = -1) const = 0;
-    virtual wbt::Signal getOutputPortSignal(unsigned portNumber, int portWidth = -1) const  = 0;
+    virtual wbt::Signal getOutputPortSignal(unsigned portNumber, int portWidth = -1) const = 0;
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */

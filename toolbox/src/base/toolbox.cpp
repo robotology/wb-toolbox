@@ -22,13 +22,13 @@
 
 // Need to include simstruc.h for the definition of the SimStruct and
 // its associated macro definitions.
-#include "simstruc.h"
 
 #include "toolbox.h"
 #include "Block.h"
 #include "Log.h"
 #include "SimulinkBlockInformation.h"
 
+#include <simstruc.h>
 #include <string>
 #include <yarp/os/LogStream.h>
 
@@ -57,7 +57,7 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
 
         // Trim the message if needed
         if (warningMsg.length() >= bufferLen) {
-            warningMsg = warningMsg.substr(0, bufferLen-1);
+            warningMsg = warningMsg.substr(0, bufferLen - 1);
         }
 
         // Forward to Simulink
@@ -84,7 +84,7 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
 
         // Trim the message if needed
         if (errorMsg.length() >= bufferLen) {
-            errorMsg = errorMsg.substr(0, bufferLen-1);
+            errorMsg = errorMsg.substr(0, bufferLen - 1);
         }
 
         // Forward to Simulink
@@ -101,25 +101,23 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
 static void mdlCheckParameters(SimStruct* S)
 {
     UNUSED_ARG(S);
-    //TODO: still to find a way to call Block implementation
+    // TODO: still to find a way to call Block implementation
 }
-#endif  /*MDL_CHECK_PARAMETERS*/
+#endif /*MDL_CHECK_PARAMETERS*/
 
 #define MDL_SET_INPUT_PORT_DIMENSION_INFO
-static void mdlSetInputPortDimensionInfo(SimStruct* S, int_T port,
-                                         const DimsInfo_T* dimsInfo)
+static void mdlSetInputPortDimensionInfo(SimStruct* S, int_T port, const DimsInfo_T* dimsInfo)
 {
-    //TODO: for now accept the proposed size.
-    //If we want to change the behaviour we have to implement some callbacks
+    // TODO: for now accept the proposed size.
+    // If we want to change the behaviour we have to implement some callbacks
     ssSetInputPortDimensionInfo(S, port, dimsInfo);
 }
 
 #define MDL_SET_OUTPUT_PORT_DIMENSION_INFO
-static void mdlSetOutputPortDimensionInfo(SimStruct* S, int_T port,
-                                         const DimsInfo_T* dimsInfo)
+static void mdlSetOutputPortDimensionInfo(SimStruct* S, int_T port, const DimsInfo_T* dimsInfo)
 {
-    //TODO: for now accept the proposed size.
-    //If we want to change the behaviour we have to implement some callbacks
+    // TODO: for now accept the proposed size.
+    // If we want to change the behaviour we have to implement some callbacks
     ssSetOutputPortDimensionInfo(S, port, dimsInfo);
 }
 
@@ -142,7 +140,7 @@ static void mdlInitializeSizes(SimStruct* S)
     mxFree(classNameStr);
     wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
 
-    //We cannot save data in PWork during the initializeSizes phase
+    // We cannot save data in PWork during the initializeSizes phase
     ssSetNumPWork(S, 1);
 
     // Notify errors
@@ -160,14 +158,14 @@ static void mdlInitializeSizes(SimStruct* S)
         ssSetSFcnParamTunable(S, i, tunable);
     }
 
-
 #if defined(MATLAB_MEX_FILE)
-    if(ssGetNumSFcnParams(S) == ssGetSFcnParamsCount(S)) {
+    if (ssGetNumSFcnParams(S) == ssGetSFcnParamsCount(S)) {
         mdlCheckParameters(S);
-        if(ssGetErrorStatus(S)) {
+        if (ssGetErrorStatus(S)) {
             return;
         }
-    } else {
+    }
+    else {
         wbt::Log::getSingleton().error("Number of parameters different from those defined");
         catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
         return;
@@ -192,20 +190,17 @@ static void mdlInitializeSizes(SimStruct* S)
     ssSetSimStateCompliance(S, USE_CUSTOM_SIM_STATE); //??
 
     ssSetNumDiscStates(S, block->numberOfDiscreteStates());
-    ssSetNumContStates(S, 0);//block->numberOfContinuousStates());
+    ssSetNumContStates(S, 0); // block->numberOfContinuousStates());
 
-    uint_T options =
-    SS_OPTION_WORKS_WITH_CODE_REUSE |
-    SS_OPTION_EXCEPTION_FREE_CODE |
-    SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION |
-    SS_OPTION_USE_TLC_WITH_ACCELERATOR |
-    SS_OPTION_CALL_TERMINATE_ON_EXIT;
-    //also ?
-    //SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
+    uint_T options = SS_OPTION_WORKS_WITH_CODE_REUSE | SS_OPTION_EXCEPTION_FREE_CODE
+                     | SS_OPTION_ALLOW_INPUT_SCALAR_EXPANSION | SS_OPTION_USE_TLC_WITH_ACCELERATOR
+                     | SS_OPTION_CALL_TERMINATE_ON_EXIT;
+    // also ?
+    // SS_OPTION_RUNTIME_EXCEPTION_FREE_CODE
 
     std::vector<std::string> additionalOptions = block->additionalBlockOptions();
 
-    for (auto additionalOption: additionalOptions) {
+    for (auto additionalOption : additionalOptions) {
         double option;
         if (blockInfo.optionFromKey(additionalOption, option)) {
             options |= static_cast<uint32_t>(option);
@@ -250,7 +245,6 @@ static void mdlStart(SimStruct* S)
     catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
 }
 
-
 #define MDL_UPDATE
 #if defined(MDL_UPDATE) && defined(MATLAB_MEX_FILE)
 static void mdlUpdate(SimStruct* S, int_T tid)
@@ -269,7 +263,7 @@ static void mdlUpdate(SimStruct* S, int_T tid)
 }
 #endif
 
-//Initialize the state vectors of this C MEX S-function
+// Initialize the state vectors of this C MEX S-function
 #define MDL_INITIALIZE_CONDITIONS
 #if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
 static void mdlInitializeConditions(SimStruct* S)
@@ -287,7 +281,6 @@ static void mdlInitializeConditions(SimStruct* S)
 }
 #endif
 
-
 #define MDL_DERIVATIVES
 #if defined(MDL_DERIVATIVES) && defined(MATLAB_MEX_FILE)
 static void mdlDerivatives(SimStruct* S)
@@ -295,7 +288,6 @@ static void mdlDerivatives(SimStruct* S)
     /* Add mdlDerivatives code here */
 }
 #endif
-
 
 // Function: mdlOutputs =======================================================
 // Abstract:
@@ -336,8 +328,8 @@ static void mdlTerminate(SimStruct* S)
 }
 
 // Required S-function trailer
-#ifdef  MATLAB_MEX_FILE    /* Is this file being compiled as a MEX-file? */
-#include "simulink.c"      /* MEX-file interface mechanism */
+#ifdef MATLAB_MEX_FILE /* Is this file being compiled as a MEX-file? */
+#include "simulink.c" /* MEX-file interface mechanism */
 #else
-#include "cg_sfun.h"       /* Code generation registration function */
+#include "cg_sfun.h" /* Code generation registration function */
 #endif

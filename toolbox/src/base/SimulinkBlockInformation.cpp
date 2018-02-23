@@ -1,14 +1,15 @@
 #include "SimulinkBlockInformation.h"
-#include "Signal.h"
 #include "MxAnyType.h"
-#include "simstruc.h"
+#include "Signal.h"
+
+#include <simstruc.h>
 #include <string>
 #include <vector>
 
 using namespace wbt;
 
 SimulinkBlockInformation::SimulinkBlockInformation(SimStruct* S)
-: simstruct(S)
+    : simstruct(S)
 {}
 
 // BLOCK OPTIONS METHODS
@@ -27,19 +28,22 @@ bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& opt
 // PARAMETERS METHODS
 // ==================
 
-bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex, std::string& stringParameter) const
+bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex,
+                                                         std::string& stringParameter) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
     return MxAnyType(blockParam).asString(stringParameter);
 }
 
-bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex, double& value) const
+bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex,
+                                                         double& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
     return MxAnyType(blockParam).asDouble(value);
 }
 
-bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const
+bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex,
+                                                          bool& value) const
 {
     double tmpValue = 0;
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
@@ -62,8 +66,8 @@ bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStru
     return MxAnyType(blockParam).asAnyStruct(map);
 }
 
-
-bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const
+bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex,
+                                                std::vector<double>& vec) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
     return MxAnyType(blockParam).asVectorDouble(vec);
@@ -84,28 +88,40 @@ bool SimulinkBlockInformation::setNumberOfOutputPorts(unsigned numberOfPorts)
 
 bool SimulinkBlockInformation::setInputPortVectorSize(unsigned portNumber, int portSize)
 {
-    if (portSize == -1) portSize = DYNAMICALLY_SIZED;
-    return ssSetInputPortVectorDimension(simstruct,  portNumber, portSize);
+    if (portSize == -1) {
+        portSize = DYNAMICALLY_SIZED;
+    }
+    return ssSetInputPortVectorDimension(simstruct, portNumber, portSize);
 }
 
 bool SimulinkBlockInformation::setInputPortMatrixSize(unsigned portNumber, int rows, int columns)
 {
-    if (rows == -1) rows = DYNAMICALLY_SIZED;
-    if (columns == -1) columns = DYNAMICALLY_SIZED;
-    return ssSetInputPortMatrixDimensions(simstruct,  portNumber, rows, columns);
+    if (rows == -1) {
+        rows = DYNAMICALLY_SIZED;
+    }
+    if (columns == -1) {
+        columns = DYNAMICALLY_SIZED;
+    }
+    return ssSetInputPortMatrixDimensions(simstruct, portNumber, rows, columns);
 }
 
 bool SimulinkBlockInformation::setOutputPortVectorSize(unsigned portNumber, int portSize)
 {
-    if (portSize == -1) portSize = DYNAMICALLY_SIZED;
-    return ssSetOutputPortVectorDimension(simstruct,  portNumber, portSize);
+    if (portSize == -1) {
+        portSize = DYNAMICALLY_SIZED;
+    }
+    return ssSetOutputPortVectorDimension(simstruct, portNumber, portSize);
 }
 
 bool SimulinkBlockInformation::setOutputPortMatrixSize(unsigned portNumber, int rows, int columns)
 {
-    if (rows == -1) rows = DYNAMICALLY_SIZED;
-    if (columns == -1) columns = DYNAMICALLY_SIZED;
-    return ssSetOutputPortMatrixDimensions(simstruct,  portNumber, rows, columns);
+    if (rows == -1) {
+        rows = DYNAMICALLY_SIZED;
+    }
+    if (columns == -1) {
+        columns = DYNAMICALLY_SIZED;
+    }
+    return ssSetOutputPortMatrixDimensions(simstruct, portNumber, rows, columns);
 }
 
 bool SimulinkBlockInformation::setInputPortType(unsigned portNumber, PortDataType portType)
@@ -165,7 +181,8 @@ wbt::Signal SimulinkBlockInformation::getInputPortSignal(unsigned portNumber, in
             Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
             signal.setWidth(portWidth);
             // Initialize signal's data
-            if (!signal.initializeBufferFromContiguousZeroCopy(ssGetInputPortSignal(simstruct, portNumber))) {
+            if (!signal.initializeBufferFromContiguousZeroCopy(
+                    ssGetInputPortSignal(simstruct, portNumber))) {
                 return Signal();
             }
             return signal;
@@ -191,7 +208,7 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber, i
 {
     // Check if the signal is dynamically sized (which means that the dimension
     // cannot be read)
-    bool isDynamicallySized = (ssGetOutputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED);
+    bool isDynamicallySized = ssGetOutputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED;
 
     // Note that if the signal is DYNAMICALLY_SIZED (-1), portWidth is necessary
     if (isDynamicallySized && portWidth == -1) {
@@ -211,7 +228,8 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber, i
     Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
     signal.setWidth(portWidth);
 
-    if (!signal.initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, portNumber))) {
+    if (!signal.initializeBufferFromContiguousZeroCopy(
+            ssGetOutputPortSignal(simstruct, portNumber))) {
         return Signal();
     }
 

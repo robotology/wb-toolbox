@@ -2,17 +2,19 @@
 #define WBT_SIGNAL_H
 
 #include "BlockInformation.h"
+
 #include <cassert>
 #include <memory>
 
 namespace wbt {
     class Signal;
-    enum SignalDataFormat {
+    enum SignalDataFormat
+    {
         NONCONTIGUOUS = 0,
         CONTIGUOUS = 1,
         CONTIGUOUS_ZEROCOPY = 2
     };
-}
+} // namespace wbt
 
 class wbt::Signal
 {
@@ -27,7 +29,8 @@ private:
     void deleteBuffer();
     void allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length);
 
-    template <typename T> T* getCastBuffer() const;
+    template <typename T>
+    T* getCastBuffer() const;
 
 public:
     // Ctor and Dtor
@@ -50,12 +53,15 @@ public:
     unsigned getWidth() const;
     PortDataType getPortDataType() const;
     SignalDataFormat getDataFormat() const;
-    template <typename T> T* getBuffer() const;
-    template <typename T> T get(const unsigned& i) const;
+    template <typename T>
+    T* getBuffer() const;
+    template <typename T>
+    T get(const unsigned& i) const;
 
     void setWidth(const unsigned& width);
     bool set(const unsigned& index, const double& data);
-    template <typename T> bool setBuffer(const T* data, const unsigned& length);
+    template <typename T>
+    bool setBuffer(const T* data, const unsigned& length);
 };
 
 template <typename T>
@@ -64,7 +70,7 @@ T* wbt::Signal::getBuffer() const
     // Check the returned matches the same type of the portType.
     // If this is not met, appliying pointer arithmetics on the returned
     // pointer would show unknown behaviour.
-    switch(m_portDataType) {
+    switch (m_portDataType) {
         case wbt::PortDataTypeDouble:
             if (typeid(T).hash_code() != typeid(double).hash_code()) {
                 return nullptr;

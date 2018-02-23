@@ -1,14 +1,15 @@
 #include "GetLimits.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
-#include "Signal.h"
+#include "Log.h"
 #include "RobotInterface.h"
+#include "Signal.h"
+
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/Model.h>
 #include <yarp/dev/IControlLimits2.h>
-#include <vector>
+
 #include <limits>
+#include <vector>
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -29,7 +30,9 @@ unsigned GetLimits::numberOfParameters()
 
 bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -73,7 +76,10 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
 bool GetLimits::initialize(const BlockInformation* blockInfo)
 {
     using namespace yarp::os;
-    if (!WBBlock::initialize(blockInfo)) return false;
+
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // Read the control type
     std::string limitType;
@@ -222,7 +228,9 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
 
 bool GetLimits::output(const BlockInformation* blockInfo)
 {
-    if (!m_limits) return false;
+    if (!m_limits) {
+        return false;
+    }
 
     Signal minPort = blockInfo->getOutputPortSignal(0);
     Signal maxPort = blockInfo->getOutputPortSignal(1);

@@ -1,13 +1,14 @@
 #include "ForwardKinematics.h"
-
 #include "BlockInformation.h"
-#include "Signal.h"
 #include "Log.h"
 #include "RobotInterface.h"
-#include <memory>
+#include "Signal.h"
+
+#include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
-#include <Eigen/Core>
+
+#include <memory>
 
 using namespace wbt;
 
@@ -18,8 +19,8 @@ const unsigned ForwardKinematics::INPUT_IDX_JOINTCONF = 1;
 const unsigned ForwardKinematics::OUTPUT_IDX_FW_FRAME = 0;
 
 ForwardKinematics::ForwardKinematics()
-: m_frameIsCoM(false)
-, m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : m_frameIsCoM(false)
+    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
 
 unsigned ForwardKinematics::numberOfParameters()
@@ -31,7 +32,9 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)) return false;
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -82,7 +85,9 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool ForwardKinematics::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     // INPUT PARAMETERS
     // ================
@@ -143,10 +148,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig,
-                            &jointsPosSig,
-                            nullptr,
-                            nullptr);
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 
     if (!ok) {
         Log::getSingleton().error("Failed to set the robot state.");
@@ -170,9 +172,9 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
 
     // Allocate objects for row-major -> col-major conversion
-    Map<const Matrix4diDynTree> world_H_frame_RowMajor = toEigen(world_H_frame.asHomogeneousTransform());
-    Map<Matrix4dSimulink> world_H_frame_ColMajor(output.getBuffer<double>(),
-                           4, 4);
+    Map<const Matrix4diDynTree> world_H_frame_RowMajor =
+        toEigen(world_H_frame.asHomogeneousTransform());
+    Map<Matrix4dSimulink> world_H_frame_ColMajor(output.getBuffer<double>(), 4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     world_H_frame_ColMajor = world_H_frame_RowMajor;

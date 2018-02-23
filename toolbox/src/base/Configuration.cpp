@@ -1,11 +1,12 @@
 #include "Configuration.h"
+
 #include <algorithm>
 
 using namespace wbt;
 
 Configuration::Configuration(const std::string& confKey)
-: m_confKey(confKey)
-, m_dofs(0)
+    : m_confKey(confKey)
+    , m_dofs(0)
 {}
 
 // SET METHODS
@@ -63,11 +64,11 @@ const std::string Configuration::getUniqueId() const
 
     // Remove spaces
     auto it = std::remove(uniqueId.begin(), uniqueId.end(), ' ');
-    uniqueId.erase(it , uniqueId.end());
+    uniqueId.erase(it, uniqueId.end());
 
     // Remove '/'
     it = std::remove(uniqueId.begin(), uniqueId.end(), '/');
-    uniqueId.erase(it , uniqueId.end());
+    uniqueId.erase(it, uniqueId.end());
 
     return uniqueId;
 }
@@ -120,26 +121,20 @@ const size_t& Configuration::getNumberOfDoFs() const
 
 bool Configuration::isValid() const
 {
-    bool status =  !m_robotName.empty() &&
-                   !m_urdfFile.empty() &&
-                   !m_localName.empty() &&
-                   !m_controlledJoints.empty() &&
-                   !m_controlBoardsNames.empty() &&
-                   !m_gravityVector.empty() &&
-                   m_dofs > 0;
+    bool status = !m_robotName.empty() && !m_urdfFile.empty() && !m_localName.empty()
+                  && !m_controlledJoints.empty() && !m_controlBoardsNames.empty()
+                  && !m_gravityVector.empty() && m_dofs > 0;
     return status;
 }
 
 // OPERATORS OVERLOADING
 // =====================
 
-bool Configuration::operator==(const Configuration &config) const
+bool Configuration::operator==(const Configuration& config) const
 {
-    return this->m_robotName == config.m_robotName &&
-           this->m_urdfFile  == config.m_urdfFile &&
-           this->m_localName == config.m_localName &&
-           this->m_controlledJoints   == config.m_controlledJoints &&
-           this->m_controlBoardsNames == config.m_controlBoardsNames &&
-           this->m_gravityVector == config.m_gravityVector &&
-           this->m_dofs == config.m_dofs;
+    return this->m_robotName == config.m_robotName && this->m_urdfFile == config.m_urdfFile
+           && this->m_localName == config.m_localName
+           && this->m_controlledJoints == config.m_controlledJoints
+           && this->m_controlBoardsNames == config.m_controlBoardsNames
+           && this->m_gravityVector == config.m_gravityVector && this->m_dofs == config.m_dofs;
 }

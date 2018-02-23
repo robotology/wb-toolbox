@@ -1,9 +1,9 @@
 #ifndef WBT_TOOLBOXCONFIG_H
 #define WBT_TOOLBOXCONFIG_H
 
-#include <vector>
 #include <array>
 #include <string>
+#include <vector>
 
 namespace wbt {
     class Configuration;
@@ -19,15 +19,14 @@ namespace wbt {
  */
 class wbt::Configuration
 {
-// TODO: check how localName is used
 private:
     const std::string m_confKey; ///< Name of the block which this object refers to
     std::string m_robotName; ///< Name of the robot
-    std::string m_urdfFile;  ///< Name of the file containing the urdf model
+    std::string m_urdfFile; ///< Name of the file containing the urdf model
     std::string m_localName; ///< Prefix appended to the opened ports
-    std::vector<std::string> m_controlledJoints;   ///< Subset of controlled joints
+    std::vector<std::string> m_controlledJoints; ///< Subset of controlled joints
     std::vector<std::string> m_controlBoardsNames; ///< Names of the used ControlBoard names
-    std::array<double ,3> m_gravityVector; ///< The gravity vector
+    std::array<double, 3> m_gravityVector; ///< The gravity vector
     size_t m_dofs; //< DoFs extracted my m_controlBoardsNames vector
 
 public:
@@ -132,13 +131,13 @@ public:
     const std::string& getLocalName() const;
 
     /**
-    * Get a string with a unique identifier, generated from the name of the config
-    * block from Simulink. It might be useful when yarp ports must have a unique prefix
-    * (e.g. two RemoteControlBoardRemappers which share a ControlBoard)
-    *
-    * @return the unique identifier
-    * @see setLocalName
-    */
+     * Get a string with a unique identifier, generated from the name of the config
+     * block from Simulink. It might be useful when yarp ports must have a unique prefix
+     * (e.g. two RemoteControlBoardRemappers which share a ControlBoard)
+     *
+     * @return the unique identifier
+     * @see setLocalName
+     */
     const std::string getUniqueId() const;
 
     /**
@@ -169,7 +168,7 @@ public:
     // OPERATORS OVERLOADING
     // =====================
 
-    bool operator==(const Configuration &config) const;
+    bool operator==(const Configuration& config) const;
 };
 
 #endif // WBT_TOOLBOXCONFIG_H

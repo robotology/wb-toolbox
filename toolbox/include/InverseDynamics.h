@@ -2,8 +2,8 @@
 #define WBT_INVERSEDYNAMICS_H
 
 #include "WBBlock.h"
-#include <memory>
 #include <iDynTree/Core/VectorFixSize.h>
+#include <memory>
 
 namespace wbt {
     class InverseDynamics;
@@ -12,12 +12,12 @@ namespace wbt {
 namespace iDynTree {
     class VectorDynSize;
     class FreeFloatingGeneralizedTorques;
-}
+} // namespace iDynTree
 
 class wbt::InverseDynamics : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<iDynTree::Vector6>       m_baseAcceleration;
+    std::unique_ptr<iDynTree::Vector6> m_baseAcceleration;
     std::unique_ptr<iDynTree::VectorDynSize> m_jointsAcceleration;
 
     // Output
@@ -43,7 +43,6 @@ public:
     bool initialize(const BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
-
 };
 
 #endif /* WBT_INVERSEDYNAMICS_H */

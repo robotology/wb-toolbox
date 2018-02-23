@@ -1,13 +1,14 @@
 #include "MassMatrix.h"
-
 #include "BlockInformation.h"
-#include "Signal.h"
 #include "Log.h"
 #include "RobotInterface.h"
-#include <memory>
+#include "Signal.h"
+
+#include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
-#include <Eigen/Core>
+
+#include <memory>
 
 using namespace wbt;
 
@@ -76,12 +77,15 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool MassMatrix::initialize(const BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo)) return false;
+    if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
 
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     // Output
-    m_massMatrix = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs));
+    m_massMatrix =
+        std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs));
     m_massMatrix->zero();
 
     return static_cast<bool>(m_massMatrix);
@@ -112,10 +116,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig,
-                            &jointsPosSig,
-                            nullptr,
-                            nullptr);
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 
     if (!ok) {
         Log::getSingleton().error("Failed to set the robot state.");
@@ -134,8 +135,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(*m_massMatrix);
-    Map<MatrixXdSimulink> massMatrixColMajor(output.getBuffer<double>(),
-                                             6 + dofs, 6 + dofs);
+    Map<MatrixXdSimulink> massMatrixColMajor(output.getBuffer<double>(), 6 + dofs, 6 + dofs);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     massMatrixColMajor = massMatrixRowMajor;

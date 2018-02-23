@@ -7,17 +7,17 @@
 namespace wbt {
     class GetLimits;
     struct Limit;
-}
+} // namespace wbt
 
 struct wbt::Limit
 {
-   std::vector<double> min;
-   std::vector<double> max;
+    std::vector<double> min;
+    std::vector<double> max;
 
-   Limit(unsigned size = 0)
-   : min(size)
-   , max(size)
-   {}
+    Limit(unsigned size = 0)
+        : min(size)
+        , max(size)
+    {}
 };
 
 class wbt::GetLimits : public wbt::WBBlock

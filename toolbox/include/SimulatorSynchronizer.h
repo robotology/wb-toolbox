@@ -30,9 +30,9 @@ private:
     struct RPCData;
     std::unique_ptr<RPCData> m_rpcData;
 
-    static const unsigned PARAM_PERIOD;     // Period
+    static const unsigned PARAM_PERIOD; // Period
     static const unsigned PARAM_GZCLK_PORT; // Gazebo clock port
-    static const unsigned PARAM_RPC_PORT;   // RPC client port name
+    static const unsigned PARAM_RPC_PORT; // RPC client port name
 };
 
 #endif /* end of include guard: WBT_SIMULATORSYNCHRONIZER_H */

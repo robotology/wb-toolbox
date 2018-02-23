@@ -2,12 +2,14 @@
 #include "BlockInformation.h"
 #include "Log.h"
 #include "Signal.h"
+
+#include <iCub/ctrl/filters.h>
+#include <yarp/sig/Vector.h>
+
 #include <algorithm>
 #include <cassert>
-#include <iCub/ctrl/filters.h>
 #include <sstream>
 #include <string>
-#include <yarp/sig/Vector.h>
 
 using namespace wbt;
 using namespace iCub::ctrl;
@@ -22,8 +24,8 @@ const unsigned DiscreteFilter::PARAM_IDX_DENCOEFF = 3; // ::Filter denominator c
 const unsigned DiscreteFilter::PARAM_IDX_1LOWP_FC = 4; // ::FirstOrderLowPassFilter cut frequency
 const unsigned DiscreteFilter::PARAM_IDX_1LOWP_TS = 5; // ::FirstOrderLowPassFilter sampling time
 const unsigned DiscreteFilter::PARAM_IDX_MD_ORDER = 6; // ::MedianFilter order
-const unsigned DiscreteFilter::PARAM_IDX_INIT_Y0 = 7;  // Output initialization
-const unsigned DiscreteFilter::PARAM_IDX_INIT_U0 = 8;  // ::Filter input initialization
+const unsigned DiscreteFilter::PARAM_IDX_INIT_Y0 = 7; // Output initialization
+const unsigned DiscreteFilter::PARAM_IDX_INIT_U0 = 8; // ::Filter input initialization
 
 // Inputs
 const unsigned DiscreteFilter::INPUT_IDX_SIGNAL = 0;
@@ -32,8 +34,7 @@ const unsigned DiscreteFilter::OUTPUT_IDX_SIGNAL = 0;
 // Other defines
 const int DiscreteFilter::SIGNAL_DYNAMIC_SIZE = -1;
 
-DiscreteFilter::DiscreteFilter()
-{}
+DiscreteFilter::DiscreteFilter() {}
 
 unsigned DiscreteFilter::numberOfParameters()
 {
@@ -95,12 +96,9 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
 
     // Get the scalar parameters
     bool ok = true;
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_FC,
-                                                    firstOrderLowPassFilter_fc);
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_TS,
-                                                    firstOrderLowPassFilter_ts);
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_MD_ORDER,
-                                                    medianFilter_order);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_FC, firstOrderLowPassFilter_fc);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_1LOWP_TS, firstOrderLowPassFilter_ts);
+    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_MD_ORDER, medianFilter_order);
 
     // Get the string parameter
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_FLT_TYPE, filter_type);
@@ -108,7 +106,6 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_DENCOEFF, den_coeff_str);
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_Y0, y0_str);
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_U0, u0_str);
-
 
     if (!ok) {
         Log::getSingleton().error("Failed to parse parameters.");
@@ -156,9 +153,8 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
                                       "specify Fc and Ts.");
             return false;
         }
-        filter =  std::unique_ptr<FirstOrderLowPassFilter>(
-            new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc,
-                                        firstOrderLowPassFilter_ts));
+        filter = std::unique_ptr<FirstOrderLowPassFilter>(
+            new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc, firstOrderLowPassFilter_ts));
     }
     // MedianFilter
     // ------------
@@ -168,7 +164,8 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
                                       "filter order.");
             return false;
         }
-        filter = std::unique_ptr<MedianFilter>(new MedianFilter(static_cast<int>(medianFilter_order)));
+        filter =
+            std::unique_ptr<MedianFilter>(new MedianFilter(static_cast<int>(medianFilter_order)));
     }
     else {
         Log::getSingleton().error("Filter type not recognized.");
@@ -237,10 +234,12 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* blockIn
 
 bool DiscreteFilter::output(const BlockInformation* blockInfo)
 {
-    if (filter == nullptr) return false;
+    if (filter == nullptr) {
+        return false;
+    }
 
     // Get the input and output signals
-    Signal inputSignal  = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
+    Signal inputSignal = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
     Signal outputSignal = blockInfo->getOutputPortSignal(OUTPUT_IDX_SIGNAL);
 
     // Copy the Signal to the data structure that the filter wants
@@ -277,6 +276,7 @@ void DiscreteFilter::stringToYarpVector(const std::string str, Vector& v)
     std::istringstream sstrm(s);
     float f;
 
-    while (sstrm >> f)
+    while (sstrm >> f) {
         v.push_back(f);
+    }
 }

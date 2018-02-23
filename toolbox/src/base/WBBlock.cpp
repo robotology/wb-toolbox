@@ -1,32 +1,34 @@
 #include "WBBlock.h"
 
+#include "AnyType.h"
 #include "BlockInformation.h"
-#include "Log.h"
-#include "ToolboxSingleton.h"
 #include "Configuration.h"
+#include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
-#include "AnyType.h"
-#include <Eigen/Core>
-#include <string>
-#include <memory>
+#include "ToolboxSingleton.h"
+
 #include "iDynTree/KinDynComputations.h"
+#include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/MatrixFixSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/Transform.h>
+#include <iDynTree/Core/Twist.h>
+#include <iDynTree/Core/VectorDynSize.h>
+
+#include <memory>
+#include <string>
 
 using namespace wbt;
 
 const unsigned WBBlock::ConfigurationParameterIndex = 1; // Struct from Simulink
-const unsigned WBBlock::ConfBlockNameParameterIndex = 2; // Absolute name of the block containing the
-                                                         // configuration
+const unsigned WBBlock::ConfBlockNameParameterIndex = 2; // Absolute name of the block containing
+                                                         // the configuration
 
 iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity)
-: m_gravity(gravity.data(), 3)
-, m_jointsVelocity(dofs)
-, m_jointsPosition(dofs)
+    : m_gravity(gravity.data(), 3)
+    , m_jointsVelocity(dofs)
+    , m_jointsPosition(dofs)
 {
     m_jointsPosition.zero();
     m_jointsVelocity.zero();
@@ -72,7 +74,6 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         for (auto i = 0; i < jointsPos->getWidth(); ++i) {
             robotState.m_jointsPosition.setVal(i, buffer[i]);
         }
-
     }
 
     // Base Velocity
@@ -86,8 +87,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3),
-                                          AngVelocity(buffer+3, 3));
+        robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3), AngVelocity(buffer + 3, 3));
     }
 
     // Joints velocity
@@ -130,7 +130,10 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
     return true;
 }
 
-unsigned WBBlock::numberOfParameters() { return 2; }
+unsigned WBBlock::numberOfParameters()
+{
+    return 2;
+}
 
 bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo)
 {
@@ -194,7 +197,7 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
     }
 
     std::vector<std::string> controlledJoints;
-    for (auto cell: cellCJ) {
+    for (auto cell : cellCJ) {
         std::string joint;
         if (!cell->asString(joint)) {
             Log::getSingleton().error("Failed to convert ControlledJoints from cell to strings.");
@@ -211,7 +214,7 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
     }
 
     std::vector<std::string> controlBoardsNames;
-    for (auto cell: cellCBN) {
+    for (auto cell : cellCBN) {
         std::string joint;
         if (!cell->asString(joint)) {
             Log::getSingleton().error("Failed to convert ControlBoardsNames from cell to string.");
@@ -331,7 +334,8 @@ bool WBBlock::initialize(const BlockInformation* blockInfo)
 
     // Check if the key is valid
     if (!interface.isKeyValid(confKey)) {
-        Log::getSingleton().error("Failed to retrieve the configuration object from the singleton.");
+        Log::getSingleton().error(
+            "Failed to retrieve the configuration object from the singleton.");
         return false;
     }
 

@@ -1,7 +1,6 @@
 #include "YarpClock.h"
-
-#include "Log.h"
 #include "BlockInformation.h"
+#include "Log.h"
 #include "Signal.h"
 
 #include <yarp/os/Network.h>
@@ -11,7 +10,10 @@ using namespace wbt;
 
 const std::string YarpClock::ClassName = "YarpClock";
 
-unsigned YarpClock::numberOfParameters() { return 0; }
+unsigned YarpClock::numberOfParameters()
+{
+    return 0;
+}
 
 bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
 {

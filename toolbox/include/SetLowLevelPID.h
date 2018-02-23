@@ -7,19 +7,20 @@
 
 namespace wbt {
     class SetLowLevelPID;
-    enum PidDataIndex {
+    enum PidDataIndex
+    {
         PGAIN = 0,
         IGAIN = 1,
         DGAIN = 2
     };
     typedef std::tuple<double, double, double> PidData;
-}
+} // namespace wbt
 
 namespace yarp {
     namespace dev {
         class Pid;
     }
-}
+} // namespace yarp
 
 class wbt::SetLowLevelPID : public wbt::WBBlock
 {

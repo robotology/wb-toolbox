@@ -1,7 +1,7 @@
 #include "Block.h"
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #ifndef WBT_FILTER_H
 #define WBT_FILTER_H
@@ -22,7 +22,8 @@ namespace yarp {
     }
 } // namespace yarp
 
-class wbt::DiscreteFilter : public wbt::Block {
+class wbt::DiscreteFilter : public wbt::Block
+{
 private:
     unsigned inputSignalWidth;
     std::unique_ptr<iCub::ctrl::IFilter> filter;
