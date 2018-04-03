@@ -16,6 +16,18 @@ unsigned RealTimeSynchronizer::numberOfParameters()
     return Block::numberOfParameters() + 1;
 }
 
+bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_period(PARAM_DOUBLE, PARAM_IDX_PERIOD, 1, 1, "period");
+
+    bool ok = blockInfo->addParameterMetadata(paramMD_period);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
 }
 
 bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
@@ -51,13 +63,22 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
 {
-    if (!blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period)) {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
+    if (!parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
 
-    if (m_period < 0) {
+    if (!m_parameters.getParameter("period", m_period)) {
         wbtError << "Failed to get parameter 'period' after its parsing.";
+        return false;
+    }
+
+    if (m_period <= 0) {
+        wbtError << "Period must be greater than 0.";
         return false;
     }
 

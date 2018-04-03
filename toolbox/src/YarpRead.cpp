@@ -1,6 +1,7 @@
 #include "YarpRead.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameters.h"
 #include "Signal.h"
 
 #include <yarp/os/BufferedPort.h>
@@ -30,6 +31,35 @@ unsigned YarpRead::numberOfParameters()
     return Block::numberOfParameters() + 7;
 }
 
+bool YarpRead::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_portName(PARAM_STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
+    ParameterMetadata paramMD_signalSize(PARAM_INT, PARAM_IDX_PORTSIZE, 1, 1, "SignalSize");
+    ParameterMetadata paramMD_waitData(PARAM_BOOL, PARAM_IDX_WAITDATA, 1, 1, "WaitData");
+    ParameterMetadata paramMD_readTimestamp(PARAM_BOOL, PARAM_IDX_READ_TS, 1, 1, "ReadTimestamp");
+    ParameterMetadata paramMD_autoconnect(PARAM_BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
+    ParameterMetadata paramMD_timeout(PARAM_DOUBLE, PARAM_IDX_TIMEOUT, 1, 1, "Timeout");
+
+    ParameterMetadata paramMD_errMissingPort(
+        PARAM_BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_portName);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_signalSize);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_waitData);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_readTimestamp);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_autoconnect);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_timeout);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_errMissingPort);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // INPUTS
@@ -52,15 +82,19 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     //              (and hence it means that the user connected manually the port)
     //
 
-    bool shouldReadTimestamp;
-    bool autoconnect;
-    double signalSize;
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
+    bool readTimestamp = false;
+    bool autoconnect = false;
+    int signalSize = 0;
 
     bool ok = true;
-
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, shouldReadTimestamp);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, autoconnect);
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_PORTSIZE, signalSize);
+    ok = ok && m_parameters.getParameter("ReadTimestamp", readTimestamp);
+    ok = ok && m_parameters.getParameter("Autoconnect", autoconnect);
+    ok = ok && m_parameters.getParameter("SignalSize", signalSize);
 
     if (!ok) {
         wbtError << "Failed to read input parameters.";
@@ -73,11 +107,10 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     int numberOfOutputPorts = 1;
+    numberOfOutputPorts += static_cast<unsigned>(readTimestamp); // timestamp is the second port
     numberOfOutputPorts +=
-        static_cast<unsigned>(shouldReadTimestamp); // timestamp is the second port
-    numberOfOutputPorts +=
-        static_cast<unsigned>(!autoconnect); // !autoconnect => additional port with 1/0 depending
-                                             // on the connection status
+        static_cast<unsigned>(!autoconnect); // !autoconnect => additional port with 1/0
+                                             // depending on the connection status
 
     if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
         wbtError << "Failed to set output port number.";
@@ -88,7 +121,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setOutputPortType(0, DataType::DOUBLE);
 
     int portIndex = 1;
-    if (shouldReadTimestamp) {
+    if (readTimestamp) {
         blockInfo->setOutputPortVectorSize(portIndex, 2);
         blockInfo->setOutputPortType(portIndex, DataType::DOUBLE);
         portIndex++;
@@ -107,6 +140,11 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     using namespace yarp::os;
     using namespace yarp::sig;
 
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
@@ -114,21 +152,17 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    bool ok = true;
+    std::string portName;
 
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_READ_TS, m_shouldReadTimestamp);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_WAITDATA, m_blocking);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_TIMEOUT, m_timeout);
+    bool ok = true;
+    ok = ok && m_parameters.getParameter("PortName", portName);
+    ok = ok && m_parameters.getParameter("ReadTimestamp", m_shouldReadTimestamp);
+    ok = ok && m_parameters.getParameter("Autoconnect", m_autoconnect);
+    ok = ok && m_parameters.getParameter("WaitData", m_blocking);
+    ok = ok && m_parameters.getParameter("ErrorOnMissingPort", m_errorOnMissingPort);
+    ok = ok && m_parameters.getParameter("Timeout", m_timeout);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to read input parameters.");
-        return false;
-    }
-
-    std::string portName;
-    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_PORTNAME, portName)) {
         wbtError << "Failed to read input parameters.";
         return false;
     }

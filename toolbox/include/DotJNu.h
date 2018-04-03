@@ -28,6 +28,7 @@ public:
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;

@@ -30,6 +30,21 @@ unsigned GetMeasurement::numberOfParameters()
     return WBBlock::numberOfParameters() + 1;
 }
 
+bool GetMeasurement::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_measType(PARAM_STRING, PARAM_IDX_MEAS_TYPE, 1, 1, "MeasuredType");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_measType);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
@@ -76,27 +91,33 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Reading the control type
-    std::string informationType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, informationType)) {
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
+    // Read the measured type
+    std::string measuredType;
+    if (!m_parameters.getParameter("MeasuredType", measuredType)) {
         wbtError << "Could not read measured type parameter.";
         return false;
     }
 
-    if (informationType == "Joints Position") {
+    // Set the measured type
+    if (measuredType == "Joints Position") {
         m_measuredType = wbt::MEASUREMENT_JOINT_POS;
     }
-    else if (informationType == "Joints Velocity") {
+    else if (measuredType == "Joints Velocity") {
         m_measuredType = wbt::MEASUREMENT_JOINT_VEL;
     }
-    else if (informationType == "Joints Acceleration") {
+    else if (measuredType == "Joints Acceleration") {
         m_measuredType = wbt::MEASUREMENT_JOINT_ACC;
     }
-    else if (informationType == "Joints Torque") {
+    else if (measuredType == "Joints Torque") {
         m_measuredType = wbt::ESTIMATE_JOINT_TORQUE;
     }
     else {
-        Log::getSingleton().error("Estimate not supported.");
+        wbtError << "Measurement not supported.";
         return false;
     }
 

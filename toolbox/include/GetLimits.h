@@ -25,6 +25,7 @@ class wbt::GetLimits : public wbt::WBBlock
 private:
     std::unique_ptr<Limit> m_limits;
     static double deg2rad(const double& v);
+    std::string m_limitType;
 
 public:
     static const std::string ClassName;
@@ -33,6 +34,7 @@ public:
     ~GetLimits() override = default;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
 
     bool initialize(BlockInformation* blockInfo) override;

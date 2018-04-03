@@ -13,7 +13,7 @@ namespace wbt {
 class wbt::ModelPartitioner : public wbt::WBBlock
 {
 private:
-    bool m_yarp2WBI;
+    bool m_vectorToControlBoards;
 
     std::shared_ptr<JointsMapString> m_jointsMapString;
     std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
@@ -26,7 +26,7 @@ public:
     ~ModelPartitioner() override = default;
 
     unsigned numberOfParameters() override;
-
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;

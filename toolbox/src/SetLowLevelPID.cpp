@@ -27,6 +27,31 @@ unsigned SetLowLevelPID::numberOfParameters()
     return WBBlock::numberOfParameters() + 2;
 }
 
+bool SetLowLevelPID::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_P_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "P");
+    ParameterMetadata paramMD_I_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "I");
+    ParameterMetadata paramMD_D_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "D");
+    ParameterMetadata paramMD_ctrlType_cell(PARAM_STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "ControlType");
+
+    ParameterMetadata paramMD_jointList_cell(
+        PARAM_CELL_STRING, PARAM_IDX_PIDCONFIG, 1, 1, "jointList");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_P_cell);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_I_cell);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_D_cell);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_jointList_cell);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_ctrlType_cell);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
@@ -58,80 +83,60 @@ bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
+bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
 {
-    AnyStruct s;
-    if (!blockInfo->getStructAtIndex(WBBlock::numberOfParameters() + 1, s)) {
-        Log::getSingleton().error("Failed to retrieve the struct with parameters.");
+    if (!WBBlock::initialize(blockInfo)) {
         return false;
     }
 
-    // Check the existence of all the fields
-    try {
-        s.at("P");
-        s.at("I");
-        s.at("D");
-        s.at("jointList");
-    }
-    catch (const std::out_of_range& e) {
-        Log::getSingleton().error("Cannot retrieve one or more parameter from parameter's struct.");
+    // INPUT PARAMETERS
+    // ================
+
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
         return false;
     }
 
-    // Proportional gains
-    std::vector<double> Pvector;
-    if (!s["P"]->asVectorDouble(Pvector)) {
-        Log::getSingleton().error("Cannot retrieve vector from P parameter.");
+    // Reading the control type
+    std::string controlType;
+    std::vector<double> p_Gains;
+    std::vector<double> i_Gains;
+    std::vector<double> d_Gains;
+    std::vector<std::string> pidJointList;
+
+    bool ok = true;
+    ok = ok && m_parameters.getParameter("ControlType", controlType);
+    ok = ok && m_parameters.getParameter("P", p_Gains);
+    ok = ok && m_parameters.getParameter("I", i_Gains);
+    ok = ok && m_parameters.getParameter("D", d_Gains);
+    ok = ok && m_parameters.getParameter("jointList", pidJointList);
+
+    if (!ok) {
+        wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
 
-    // Integral gains
-    std::vector<double> Ivector;
-    if (!s["I"]->asVectorDouble(Ivector)) {
-        Log::getSingleton().error("Cannot retrieve vector from I parameter.");
+    // Create a map {joint => PID} from the parameters
+    // ===============================================
+
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
+    const auto& configuration = robotInterface->getConfiguration();
+    const auto& controlledJoints = configuration.getControlledJoints();
 
-    // Derivative gains
-    std::vector<double> Dvector;
-    if (!s["D"]->asVectorDouble(Dvector)) {
-        Log::getSingleton().error("Cannot retrieve vector from D parameter.");
-        return false;
-    }
-
-    // Considered joint names
-    AnyCell jointPidsCell;
-    if (!s["jointList"]->asAnyCell(jointPidsCell)) {
-        Log::getSingleton().error("Cannot retrieve string from jointList parameter.");
-        return false;
-    }
-
-    // From AnyCell to vector<string>
-    std::vector<std::string> jointNamesFromParameters;
-    for (auto cell : jointPidsCell) {
-        std::string joint;
-        if (!cell->asString(joint)) {
-            Log::getSingleton().error("Failed to convert jointList from cell to strings.");
-            return false;
-        }
-        jointNamesFromParameters.push_back(joint);
-    }
-
-    if (Pvector.size() != Ivector.size() || Ivector.size() != Dvector.size()
-        || Dvector.size() != jointNamesFromParameters.size()) {
-        Log::getSingleton().error("Sizes of P, I, D, and jointList elements are not the same.");
-        return false;
-    }
-
-    // Store this data into a private member map
-    for (unsigned i = 0; i < jointNamesFromParameters.size(); ++i) {
-        // Check the processed joint is actually a controlledJoint
-        const auto& controlledJoints = getConfiguration().getControlledJoints();
+    // Pupulate the map
+    for (unsigned i = 0; i < pidJointList.size(); ++i) {
+        // Find if the joint of the processed PID is a controlled joint
         auto findElement = std::find(
-            std::begin(controlledJoints), std::end(controlledJoints), jointNamesFromParameters[i]);
+            std::begin(controlledJoints), std::end(controlledJoints), controlledJoints[i]);
+        // Edit the PID for this joint
         if (findElement != std::end(controlledJoints)) {
-            m_pidJointsFromParameters[jointNamesFromParameters[i]] =
-                std::tuple<double, double, double>(Pvector[i], Ivector[i], Dvector[i]);
+            m_pidJointsFromParameters.emplace(pidJointList[i],
+                                              std::make_tuple(p_Gains[i], i_Gains[i], d_Gains[i]));
         }
         else {
             wbtWarning << "Attempted to set PID of joint " << controlledJoints[i]
@@ -139,26 +144,8 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
         }
     }
 
-    if (m_pidJointsFromParameters.size() != jointNamesFromParameters.size()) {
-        Log::getSingleton().warning(
-            "PID have been passed only for a subset of the controlled joints.");
-    }
-
-    return true;
-}
-
-bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
-{
-    if (!WBBlock::initialize(blockInfo)) {
-        return false;
-    }
-
-    // Reading the control type
-    std::string controlType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 2, controlType)) {
-        Log::getSingleton().error("Could not read control type parameter.");
-        return false;
-    }
+    // Configure the class
+    // ===================
 
     if (controlType == "Position") {
         m_controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
@@ -167,30 +154,24 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
         m_controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
     }
     else {
-        Log::getSingleton().error("Control type not recognized.");
-        return false;
-    }
-
-    // Reading the WBTPIDConfig matlab class
-    if (!readWBTPidConfigObject(blockInfo)) {
-        Log::getSingleton().error("Failed to parse the WBTPIDConfig object.");
+        wbtError << "Control type not recognized.";
         return false;
     }
 
     // Retain the RemoteControlBoardRemapper
-    if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
+    if (!robotInterface->retainRemoteControlBoardRemapper()) {
         wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
         return false;
     }
 
-    const unsigned& dofs = getConfiguration().getNumberOfDoFs();
+    const auto dofs = configuration.getNumberOfDoFs();
 
     // Initialize the vector size to the number of dofs
     m_defaultPidValues.resize(dofs);
 
     // Get the interface
     yarp::dev::IPidControl* iPidControl = nullptr;
-    if (!getRobotInterface()->getInterface(iPidControl) || !iPidControl) {
+    if (!robotInterface->getInterface(iPidControl) || !iPidControl) {
         wbtError << "Failed to get IPidControl interface.";
         return false;
     }
@@ -206,7 +187,7 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
 
     // Override the PID with the gains specified as block parameters
     for (unsigned i = 0; i < dofs; ++i) {
-        const std::string jointName = getConfiguration().getControlledJoints()[i];
+        const std::string& jointName = controlledJoints[i];
         // If the pid has been passed, set the new gains
         if (m_pidJointsFromParameters.find(jointName) != m_pidJointsFromParameters.end()) {
             PidData gains = m_pidJointsFromParameters[jointName];

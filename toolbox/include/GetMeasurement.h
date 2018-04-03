@@ -28,6 +28,7 @@ public:
     ~GetMeasurement() override = default;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;

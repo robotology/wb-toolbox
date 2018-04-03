@@ -44,6 +44,27 @@ std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
     return std::vector<std::string>(1, wbt::BlockOptionPrioritizeOrder);
 }
 
+bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_period(PARAM_DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
+    ParameterMetadata paramMD_rpcPort(PARAM_STRING, PARAM_IDX_RPC_PORT, 1, 1, "RpcPort");
+
+    ParameterMetadata paramMD_gzclkPort(
+        PARAM_STRING, PARAM_IDX_GZCLK_PORT, 1, 1, "GazeboClockPort");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_period);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_gzclkPort);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_rpcPort);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!Block::initialize(blockInfo)) {
@@ -81,13 +102,18 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
     std::string serverPortName;
     std::string clientPortName;
 
     bool ok = true;
-    ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period);
-    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_GZCLK_PORT, serverPortName);
-    ok = ok && blockInfo->getStringParameterAtIndex(PARAM_RPC_PORT, clientPortName);
+    ok = ok && m_parameters.getParameter("Period", m_period);
+    ok = ok && m_parameters.getParameter("GazeboClockPort", serverPortName);
+    ok = ok && m_parameters.getParameter("RpcPort", clientPortName);
 
     if (!ok) {
         wbtError << "Error reading RPC parameters.";

@@ -1,13 +1,14 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
-#include "AnyType.h"
 #include <string>
 #include <utility>
 
 namespace wbt {
     class BlockInformation;
     class Signal;
+    class ParameterMetadata;
+    class Parameters;
     enum class DataType;
     extern const std::string BlockOptionPrioritizeOrder;
 } // namespace wbt
@@ -52,20 +53,8 @@ public:
     // PARAMETERS METHODS
     // ==================
 
-    /**
-     * Reads the parameter at the specified index and interpret it as a string
-     *
-     * @param parameterIndex         index of the parameter to be read
-     * @param [out]stringParameter   resulting parameter
-     *
-     * @return true if success, false otherwise
-     */
-    virtual bool getStringParameterAtIndex(unsigned parameterIndex,
-                                           std::string& stringParameter) const = 0;
-    virtual bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const = 0;
-    virtual bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const = 0;
-    virtual bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const = 0;
-    virtual bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const = 0;
+    virtual bool parseParameters(wbt::Parameters& /*parameters*/) { return true; }
+    virtual bool addParameterMetadata(const wbt::ParameterMetadata& /*paramMD*/) { return true; }
 
     // PORT INFORMATION SETTERS
     // ========================

@@ -31,6 +31,25 @@ unsigned GetLimits::numberOfParameters()
     return WBBlock::numberOfParameters() + 1;
 }
 
+bool GetLimits::parseParameters(BlockInformation* blockInfo)
+{
+    if (!WBBlock::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse WBBlock parameters.";
+        return false;
+    }
+
+    ParameterMetadata limitType(PARAM_DOUBLE, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
+
+    bool ok = blockInfo->addParameterMetadata(limitType);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
@@ -84,9 +103,16 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // INPUT PARAMETERS
+    // ================
+
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
     // Read the control type
-    std::string limitType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType)) {
+    if (!m_parameters.getParameter("LimitType", m_limitType)) {
         wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
@@ -104,12 +130,12 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     //
     // In the next methods, the values are asked using joint index and not string.
     // The ControlBoardRemapper internally uses the same joints ordering of its
-    // initialization. In this case, it matches 1:1 the joint vector. It is hence
-    // possible using i to point to the correct joint.
+    // initialization. In this case, it matches 1:1 the controlled joint vector.
+    // It is hence possible using i to point to the correct joint.
 
     // Get the RemoteControlBoardRemapper and IControlLimits2 interface if needed
     yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
-    if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
+    if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
         if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
             wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
@@ -122,24 +148,24 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         }
     }
 
-    if (limitType == "ControlBoardPosition") {
+    if (m_limitType == "ControlBoardPosition") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getLimits(i, &min, &max)) {
                 wbtError << "Failed to get limits from the interface.";
                 return false;
             }
-            m_limits->min[i] = deg2rad(min);
-            m_limits->max[i] = deg2rad(max);
+            m_limits->m_min[i] = deg2rad(min);
+            m_limits->m_max[i] = deg2rad(max);
         }
     }
-    else if (limitType == "ControlBoardVelocity") {
+    else if (m_limitType == "ControlBoardVelocity") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getVelLimits(i, &min, &max)) {
                 wbtError << "Failed to get limits from the interface.";
                 return false;
             }
-            m_limits->min[i] = deg2rad(min);
-            m_limits->max[i] = deg2rad(max);
+            m_limits->m_min[i] = deg2rad(min);
+            m_limits->m_max[i] = deg2rad(max);
         }
     }
 
@@ -148,7 +174,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     //
     // For the time being, only position limits are supported.
 
-    else if (limitType == "ModelPosition") {
+    else if (m_limitType == "ModelPosition") {
         iDynTree::IJointConstPtr p_joint;
 
         // Get the KinDynComputations pointer
@@ -177,9 +203,9 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
             p_joint = model.getJoint(jointIndex);
 
             if (!p_joint->hasPosLimits()) {
-                m_limits->min[i] = -std::numeric_limits<double>::infinity();
-                m_limits->max[i] = std::numeric_limits<double>::infinity();
                 wbtWarning << "Joint " << joint << " has no model limits.";
+                m_limits->m_min[i] = -std::numeric_limits<double>::infinity();
+                m_limits->m_max[i] = std::numeric_limits<double>::infinity();
             }
             else {
                 if (!p_joint->getPosLimits(0, min, max)) {
@@ -187,12 +213,12 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
                              << "for the joint " << joint + ".";
                     return false;
                 }
-                m_limits->min[i] = min;
-                m_limits->max[i] = max;
+                m_limits->m_min[i] = min;
+                m_limits->m_max[i] = max;
             }
         }
     }
-    // TODO
+    // TODO: other limits from the model?
     // else if (limitType == "ModelVelocity") {
     // }
     // else if (limitType == "ModelEffort") {
@@ -209,18 +235,10 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
 {
     bool ok = true;
 
-    // Read the control type
-    std::string limitType;
-    ok = ok && blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType);
-    if (!ok) {
-        Log::getSingleton().error("Could not read estimate type parameter.");
-        // Don't return false here. WBBlock::terminate must be called in any case
-    }
-
     // Release the RemoteControlBoardRemapper
-    if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
         ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
         if (!ok) {
+    if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
             wbtError << "Failed to release the RemoteControlBoardRemapper.";
             // Don't return false here. WBBlock::terminate must be called in any case
         }

@@ -35,6 +35,23 @@ unsigned SetReferences::numberOfParameters()
     return WBBlock::numberOfParameters() + 2;
 }
 
+bool SetReferences::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_ctrlType(PARAM_STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "CtrlType");
+    ParameterMetadata paramMD_refSpeed(PARAM_DOUBLE, PARAM_IDX_REF_SPEED, 1, 1, "RefSpeed");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_ctrlType);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_refSpeed);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
@@ -85,21 +102,25 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Reading the control type
+    // INPUT PARAMETERS
+    // ================
+
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
     std::string controlType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, controlType)) {
+    if (!m_parameters.getParameter("CtrlType", controlType)) {
         wbtError << "Could not read control type parameter.";
         return false;
     }
 
-    // Reading the refSpeed
-    if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2, m_refSpeed)) {
+    if (!m_parameters.getParameter("RefSpeed", m_refSpeed)) {
         wbtError << "Could not read reference speed parameter.";
         return false;
     }
 
-    // Initialize the std::vectors
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
     m_controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
 
     // IControlMode.h

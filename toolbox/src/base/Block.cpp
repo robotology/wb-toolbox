@@ -1,5 +1,6 @@
 #include "Block.h"
-#include "toolbox.h"
+#include "BlockInformation.h"
+#include "Log.h"
 
 using namespace wbt;
 
@@ -25,6 +26,13 @@ bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
     return true;
 }
 
+bool Block::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_className(PARAM_STRING, 0, 1, 1, "className");
+    blockInfo->addParameterMetadata(paramMD_className);
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool Block::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!Block::parseParameters(blockInfo)) {
@@ -37,6 +45,11 @@ bool Block::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool Block::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse Block parameters.";
+        return false;
+    }
+
     return true;
 }
 
@@ -62,5 +75,11 @@ bool Block::stateDerivative(const BlockInformation* /*blockInfo*/)
 
 bool Block::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
 {
+    return true;
+}
+
+bool Block::getParameters(wbt::Parameters& params) const
+{
+    params = m_parameters;
     return true;
 }

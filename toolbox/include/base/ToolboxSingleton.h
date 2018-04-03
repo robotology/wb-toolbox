@@ -11,6 +11,7 @@
 namespace wbt {
     class ToolboxSingleton;
     class RobotInterface;
+    class Parameters;
 } // namespace wbt
 
 namespace iDynTree {
@@ -57,7 +58,7 @@ public:
      * @param  confKey The key describing the configuration (name of the Simulink block)
      * @return         True if the configuration is valid
      */
-    bool isKeyValid(const std::string& confKey);
+    bool isKeyValid(const std::string& confKey) const;
 
     /**
      * Returns the DoFs associated with the configuration labelled by confKey
@@ -91,7 +92,7 @@ public:
      * @param  confKey The key describing the configuration (name of the Simulink block)
      * @return         A constant reference to the Configuration object
      */
-    const Configuration& getConfiguration(const std::string& confKey);
+    const Configuration& getConfiguration(const std::string& confKey) const;
 
     /**
      * Returns a \c shared_ptr to the RobotInterface object containing the configuration
@@ -100,7 +101,7 @@ public:
      * @param confKey The key describing the configuration (name of the Simulink block)
      * @return        A \c shared_ptr to the RobotInterface of the requested configuration
      */
-    const std::shared_ptr<RobotInterface> getRobotInterface(const std::string& confKey);
+    const std::shared_ptr<RobotInterface> getRobotInterface(const std::string& confKey) const;
 
     /**
      * Returns a \c shared_ptr to the KinDynComputations object used to perform calculation
@@ -111,7 +112,7 @@ public:
      *                configuration
      */
     const std::shared_ptr<iDynTree::KinDynComputations>
-    getKinDynComputations(const std::string& confKey);
+    getKinDynComputations(const std::string& confKey) const;
 
     // TOOLBOXSINGLETON CONFIGURATION
     // ==============================
@@ -131,7 +132,9 @@ public:
      * @return         Returns \c true if configure is successful, \c false otherwise
      * @see            ToolboxSingleton::isKeyValid
      */
-    bool storeConfiguration(const std::string& confKey, const Configuration& config);
+    bool storeConfiguration(const Configuration& config);
+
+    bool storeConfiguration(const wbt::Parameters& parameters);
 
     /**
      * Delete the wbt::RobotInterface referred by confKey. No-op if it doesn't exist.

@@ -22,6 +22,27 @@ unsigned YarpWrite::numberOfParameters()
     return Block::numberOfParameters() + 3;
 }
 
+bool YarpWrite::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_portName(PARAM_STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
+    ParameterMetadata paramMD_autoconnect(PARAM_BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
+
+    ParameterMetadata paramMD_errMissingPort(
+        PARAM_BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_portName);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_autoconnect);
+    ok = ok && blockInfo->addParameterMetadata(paramMD_errMissingPort);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!Block::initialize(blockInfo)) {
@@ -60,6 +81,11 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     using namespace yarp::os;
     using namespace yarp::sig;
 
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
+
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
@@ -67,18 +93,14 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    bool ok = true;
+    std::string portName;
 
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_AUTOCONNECT, m_autoconnect);
-    ok = ok && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_ERR_NO_PORT, m_errorOnMissingPort);
+    bool ok = true;
+    ok = ok && m_parameters.getParameter("PortName", portName);
+    ok = ok && m_parameters.getParameter("Autoconnect", m_autoconnect);
+    ok = ok && m_parameters.getParameter("ErrorOnMissingPort", m_errorOnMissingPort);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to read input parameters.");
-        return false;
-    }
-
-    std::string portParameter;
-    if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_PORTNAME, portParameter)) {
         wbtError << "Failed to read input parameters.";
         return false;
     }
@@ -89,12 +111,12 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     //              port portName (which will receive data).
     if (m_autoconnect) {
         sourcePortName = "...";
-        m_destinationPortName = portParameter;
+        m_destinationPortName = portName;
     }
     // Manual connection: the block opens an output port portName, and waits a manual connection to
     // an input port.
     else {
-        sourcePortName = portParameter;
+        sourcePortName = portName;
     }
 
     m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
@@ -115,9 +137,14 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         }
     }
 
+    // Update the size of the signals that were sized dynamically before.
+    // At this stage Simulink knows the size.
+    const unsigned inputPortWidth = blockInfo->getInputPortWidth(0);
+    blockInfo->setInputPortVectorSize(0, inputPortWidth);
+
     // Initialize the size of the internal buffer handled by m_port
-    yarp::sig::Vector& outputVector = m_port->prepare();
-    outputVector.resize(blockInfo->getInputPortWidth(0));
+    m_outputVector = m_port->prepare();
+    m_outputVector.resize(inputPortWidth);
     return true;
 }
 
@@ -138,9 +165,6 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
     if (!m_port) {
         return false;
     }
-    
-    yarp::sig::Vector& outputVector = m_port->prepare();
-    outputVector.resize(blockInfo->getInputPortWidth(0)); // this should be a no-op
 
     Signal signal = blockInfo->getInputPortSignal(0);
 

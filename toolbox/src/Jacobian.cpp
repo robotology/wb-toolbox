@@ -31,12 +31,25 @@ unsigned Jacobian::numberOfParameters()
     return WBBlock::numberOfParameters() + 1;
 }
 
+bool Jacobian::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame");
+
+    bool ok = blockInfo->addParameterMetadata(frameMetadata);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // Memory allocation / Saving data not allowed here
-
-    if (!WBBlock::configureSizeAndPorts(blockInfo)){
-        return false;}
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -95,10 +108,13 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    std::string frame;
-    int parentParameters = WBBlock::numberOfParameters();
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
 
-    if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
+    std::string frame;
+    if (!m_parameters.getParameter("frame", frame)) {
         wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }

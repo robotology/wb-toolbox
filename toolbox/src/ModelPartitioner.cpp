@@ -19,21 +19,40 @@ unsigned ModelPartitioner::numberOfParameters()
     return WBBlock::numberOfParameters() + 1;
 }
 
+bool ModelPartitioner::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata directionMetadata(
+        PARAM_BOOL, PARAM_IDX_DIRECTION, 1, 1, "VectorToControlBoards");
+
+    bool ok = blockInfo->addParameterMetadata(directionMetadata);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!WBBlock::configureSizeAndPorts(blockInfo)){
-        return false;}
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
+
+    if (!parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
 
     // PARAMETERS
     // ==========
     //
-    // 1) Boolean specifying if yarp2WBI (true) or WBI2yarp (false)
+    // 1) Boolean specifying if VectorToControlBoards (true) or ControlBoardsToVector (false)
     //
 
-    bool yarp2WBI = false;
-    unsigned yarp2WBIParameterIdx = WBBlock::numberOfParameters() + 1;
-
-    if (!blockInfo->getBooleanParameterAtIndex(yarp2WBIParameterIdx, yarp2WBI)) {
+    bool vectorToControlBoards;
+    if (!m_parameters.getParameter("VectorToControlBoards", vectorToControlBoards)) {
         wbtError << "Failed to get input parameters.";
         return false;
     }
@@ -41,13 +60,13 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     // INPUTS
     // ======
     //
-    // yarp2WBI
-    // --------
+    // VectorToControlBoards
+    // ---------------------
     //
     // 1) Vector containing the data vector (1 x DoFs)
     //
-    // WBI2yarp
-    // --------
+    // ControlBoardsToVector
+    // ---------------------
     //
     // n signals) The n ControlBoards configured from the config block
     //
@@ -56,7 +75,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     unsigned numberOfInputs;
     unsigned controlBoardsNumber = getConfiguration().getControlBoardsNames().size();
 
-    if (yarp2WBI) {
+    if (vectorToControlBoards) {
         numberOfInputs = 1;
         ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
         blockInfo->setInputPortVectorSize(0, dofs);
@@ -65,7 +84,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     else {
         numberOfInputs = controlBoardsNumber;
         ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
-        // Set the size as dynamic
+        // Set the sizes as dynamic, they will be filled in the initialize() method
         for (unsigned i = 0; i < numberOfInputs; ++i) {
             blockInfo->setInputPortVectorSize(i, Signal::DynamicSize);
             blockInfo->setInputPortType(i, DataType::DOUBLE);
@@ -80,23 +99,23 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     // OUTPUTS
     // =======
     //
-    // yarp2WBI
-    // --------
+    // VectorToControlBoards
+    // ---------------------
     //
     // n signals) The n ControlBoards configured from the config block
     //
-    // WBI2yarp
-    // --------
+    // ControlBoardsToVector
+    // ---------------------
     //
     // 1) Vector containing the data vector (1 x DoFs)
     //
 
     unsigned numberOfOutputs;
 
-    if (yarp2WBI) {
+    if (vectorToControlBoards) {
         numberOfOutputs = controlBoardsNumber;
         ok = blockInfo->setNumberOfOutputPorts(numberOfOutputs);
-        // Set the size as dynamic
+        // Set the sizes as dynamic, they will be filled in the initialize() method
         for (unsigned i = 0; i < numberOfOutputs; ++i) {
             blockInfo->setOutputPortVectorSize(i, Signal::DynamicSize);
             blockInfo->setOutputPortType(i, DataType::DOUBLE);
@@ -105,8 +124,8 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     else {
         numberOfOutputs = 1;
         ok = blockInfo->setNumberOfOutputPorts(numberOfOutputs);
-        blockInfo->setOutputPortVectorSize(0, getConfiguration().getNumberOfDoFs());
-        blockInfo->setOutputPortType(0, PortDataTypeDouble);
+        blockInfo->setOutputPortVectorSize(0, dofs);
+        blockInfo->setOutputPortType(0, DataType::DOUBLE);
     }
 
     // For some reason, the output ports widths in the yarp2WBI case are not detected
@@ -117,8 +136,8 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     // RemoteControlBoardRemapper already at this early stage, but this happens only at the
     // first execution of the model if the joint list doesn't change.
     //
-    if (yarp2WBI) {
-        m_controlBoardIdxLimit = getRobotInterface()->getControlBoardIdxLimit();
+    if (vectorToControlBoards) {
+        m_controlBoardIdxLimit = robotInterface->getControlBoardIdxLimit();
         if (!m_controlBoardIdxLimit) {
             wbtError << "Failed to get the map CBIdx <--> CBMaxIdx.";
             return false;
@@ -145,14 +164,25 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    unsigned yarp2WBIParameterIdx = WBBlock::numberOfParameters() + 1;
-    if (!blockInfo->getBooleanParameterAtIndex(yarp2WBIParameterIdx, m_yarp2WBI)) {
+    if (!parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
 
-    m_jointsMapString = getRobotInterface()->getJointsMapString();
-    m_controlledJointsMapCB = getRobotInterface()->getControlledJointsMapCB();
+    if (!m_parameters.getParameter("VectorToControlBoards", m_vectorToControlBoards)) {
+        wbtError << "Failed to get input parameters.";
+        return false;
+    }
+
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+
+    m_jointsMapString = robotInterface->getJointsMapString();
+    m_controlledJointsMapCB = robotInterface->getControlledJointsMapCB();
 
     if (!m_jointsMapString) {
         wbtError << "Failed to get the joint map iDynTree <--> Yarp.";
@@ -174,11 +204,25 @@ bool ModelPartitioner::terminate(const BlockInformation* blockInfo)
 
 bool ModelPartitioner::output(const BlockInformation* blockInfo)
 {
-    if (m_yarp2WBI) {
-        Signal dofsSignal = blockInfo->getInputPortSignal(0);
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
 
-        for (unsigned ithJoint = 0; ithJoint < getConfiguration().getNumberOfDoFs(); ++ithJoint) {
-            const std::string ithJointName = getConfiguration().getControlledJoints()[ithJoint];
+    // Get the Configuration
+    const auto& configuration = robotInterface->getConfiguration();
+
+    if (m_vectorToControlBoards) {
+        const Signal dofsSignal = blockInfo->getInputPortSignal(0);
+        if (!dofsSignal.isValid()) {
+            wbtError << "Failed to get the input signal buffer.";
+            return false;
+        }
+
+        for (unsigned ithJoint = 0; ithJoint < configuration.getNumberOfDoFs(); ++ithJoint) {
+            const std::string ithJointName = configuration.getControlledJoints()[ithJoint];
             // Get the ControlBoard number the ith joint belongs
             const cb_idx& controlBoardOfJoint = m_jointsMapString->at(ithJointName).first;
             // Get the index of the ith joint inside the controlledJoints vector relative to

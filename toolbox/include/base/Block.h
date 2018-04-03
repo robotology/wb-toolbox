@@ -1,13 +1,13 @@
 #ifndef WBT_BLOCK_H
 #define WBT_BLOCK_H
 
+#include "Parameters.h"
 #include <string>
 #include <vector>
 
 namespace wbt {
     class Block;
     class BlockInformation;
-
 } // namespace wbt
 
 /**
@@ -23,6 +23,9 @@ namespace wbt {
  */
 class wbt::Block
 {
+protected:
+    Parameters m_parameters;
+
 public:
     /**
      * Create and returns a new Block object of the specified class.
@@ -103,6 +106,8 @@ public:
      */
     virtual void parameterAtIndexIsTunable(unsigned index, bool& tunable);
 
+    virtual bool parseParameters(BlockInformation* blockInfo);
+
     /**
      * Configure the input and output ports
      *
@@ -169,6 +174,8 @@ public:
      * @return true for success, false otherwise
      */
     virtual bool output(const BlockInformation* blockInfo) = 0;
+
+    virtual bool getParameters(wbt::Parameters& params) const;
 
 public:
 };
