@@ -22,7 +22,8 @@ namespace wbt {
 
 namespace iDynTree {
     class MatrixDynSize;
-}
+    class KinDynComputations;
+} // namespace iDynTree
 
 /**
  * \struct iDynTreeRobotState WBBlock.h
@@ -65,15 +66,17 @@ struct iDynTreeRobotState
 class wbt::WBBlock : public wbt::Block
 {
 protected:
-    std::string confKey;
-    iDynTreeRobotState robotState;
-    bool getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo);
-    const std::shared_ptr<wbt::RobotInterface> getRobotInterface();
-    const Configuration& getConfiguration();
+    iDynTreeRobotState m_robotState;
+
+    std::weak_ptr<iDynTree::KinDynComputations>
+    getKinDynComputations(const BlockInformation* blockInfo) const;
+    std::weak_ptr<wbt::RobotInterface> getRobotInterface(const BlockInformation* blockInfo) const;
+
     bool setRobotState(const wbt::Signal* basePose,
                        const wbt::Signal* jointsPos,
                        const wbt::Signal* baseVelocity,
-                       const wbt::Signal* jointsVelocity);
+                       const wbt::Signal* jointsVelocity,
+                       iDynTree::KinDynComputations* kinDyn);
 
 public:
     static const unsigned NumberOfParameters;

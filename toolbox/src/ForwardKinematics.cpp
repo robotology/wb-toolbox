@@ -64,7 +64,13 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool ok = true;
@@ -121,14 +127,14 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     // Check if the frame is valid
     // ---------------------------
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-    if (!model) {
-        Log::getSingleton().error("Cannot retrieve handle to WBI model.");
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
-        m_frameIndex = model->getFrameIndex(frame);
+        m_frameIndex = kinDyn->getFrameIndex(frame);
         if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
@@ -150,12 +156,12 @@ bool ForwardKinematics::terminate(const BlockInformation* blockInfo)
 bool ForwardKinematics::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+    typedef Matrix<double, 4, 4, Eigen::ColMajor> Matrix4dSimulink;
     typedef Matrix<double, 4, 4, Eigen::RowMajor> Matrix4diDynTree;
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
@@ -166,7 +172,12 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -180,10 +191,10 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
 
     // Compute the transform to the selected frame
     if (!m_frameIsCoM) {
-        world_H_frame = model->getWorldTransform(m_frameIndex);
+        world_H_frame = kinDyn->getWorldTransform(m_frameIndex);
     }
     else {
-        world_H_frame.setPosition(model->getCenterOfMassPosition());
+        world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());
     }
 
     // Get the output signal memory location

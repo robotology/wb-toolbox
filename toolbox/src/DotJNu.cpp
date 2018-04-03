@@ -61,7 +61,13 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool ok = true;
@@ -122,14 +128,14 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
     // Check if the frame is valid
     // ---------------------------
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-    if (!model) {
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
-        m_frameIndex = model->getFrameIndex(frame);
+        m_frameIndex = kinDyn->getFrameIndex(frame);
         if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
@@ -155,9 +161,9 @@ bool DotJNu::terminate(const BlockInformation* blockInfo)
 
 bool DotJNu::output(const BlockInformation* blockInfo)
 {
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
@@ -170,8 +176,14 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok =
-        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
+        || jointsVelocitySignal.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(
+        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -182,10 +194,10 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // ======
 
     if (!m_frameIsCoM) {
-        *m_dotJNu = model->getFrameBiasAcc(m_frameIndex);
+        *m_dotJNu = kinDyn->getFrameBiasAcc(m_frameIndex);
     }
     else {
-        iDynTree::Vector3 comBiasAcc = model->getCenterOfMassBiasAcc();
+        iDynTree::Vector3 comBiasAcc = kinDyn->getCenterOfMassBiasAcc();
         toEigen(*m_dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
         toEigen(*m_dotJNu).segment<3>(3).setZero();
     }

@@ -41,7 +41,13 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool success = true;
@@ -81,7 +87,13 @@ bool MassMatrix::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Output
     m_massMatrix =
@@ -100,12 +112,17 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
     using namespace iDynTree;
-    typedef Matrix<double, Dynamic, Dynamic, ColMajor> MatrixXdSimulink;
+    typedef Matrix<double, Dynamic, Dynamic, Eigen::ColMajor> MatrixXdSimulink;
     typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Failed to retrieve the KinDynComputations object.";
+        return false;
+    }
 
-    if (!model) {
+    if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
@@ -116,7 +133,12 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -127,11 +149,10 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     // ======
 
     // Compute the Mass Matrix
-    model->getFreeFloatingMassMatrix(*m_massMatrix);
+    kinDyn->getFreeFloatingMassMatrix(*m_massMatrix);
 
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_MASS_MAT);
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(*m_massMatrix);

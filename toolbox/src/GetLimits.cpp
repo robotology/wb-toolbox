@@ -18,10 +18,10 @@ using namespace wbt;
 
 const std::string GetLimits::ClassName = "GetLimits";
 
-double GetLimits::deg2rad(const double& v)
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_LIMIT_SRC = PARAM_IDX_BIAS + 1;
 
+double deg2rad(const double& v)
 {
     return v * M_PI / 180.0;
 }
@@ -78,7 +78,13 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     bool success = true;
     success = success && blockInfo->setOutputPortVectorSize(0, dofs); // Min limit
@@ -117,8 +123,16 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto& configuration = robotInterface->getConfiguration();
+    const auto dofs = configuration.getNumberOfDoFs();
+
     // Initialize the structure that stores the limits
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
     m_limits.reset(new Limit(dofs));
 
     // Initializes some buffers
@@ -137,12 +151,12 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
     if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
-        if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
+        if (!robotInterface->retainRemoteControlBoardRemapper()) {
             wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
             return false;
         }
         // Get the interface
-        if (!getRobotInterface()->getInterface(iControlLimits2) || !iControlLimits2) {
+        if (!robotInterface->getInterface(iControlLimits2) || !iControlLimits2) {
             wbtError << "Failed to get IControlLimits2 interface.";
             return false;
         }
@@ -178,7 +192,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         iDynTree::IJointConstPtr p_joint;
 
         // Get the KinDynComputations pointer
-        const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+        const auto& kindyncomp = robotInterface->getKinDynComputations();
         if (!kindyncomp) {
             wbtError << "Failed to retrieve the KinDynComputations object.";
             return false;
@@ -187,9 +201,9 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         // Get the model
         const iDynTree::Model model = kindyncomp->model();
 
-        for (auto i = 0; i < dofs; ++i) {
+        for (unsigned i = 0; i < dofs; ++i) {
             // Get the joint name
-            std::string joint = getConfiguration().getControlledJoints()[i];
+            const std::string joint = configuration.getControlledJoints()[i];
 
             // Get its index
             iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
@@ -236,9 +250,9 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
     bool ok = true;
 
     // Release the RemoteControlBoardRemapper
-        ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
-        if (!ok) {
     if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
+        auto robotInterface = getRobotInterface(blockInfo).lock();
+        if (!robotInterface || !robotInterface->releaseRemoteControlBoardRemapper()) {
             wbtError << "Failed to release the RemoteControlBoardRemapper.";
             // Don't return false here. WBBlock::terminate must be called in any case
         }
@@ -258,6 +272,13 @@ bool GetLimits::output(const BlockInformation* blockInfo)
 
     minPort.setBuffer(m_limits->min.data(), getConfiguration().getNumberOfDoFs());
     maxPort.setBuffer(m_limits->max.data(), getConfiguration().getNumberOfDoFs());
+    // Get the Configuration
+    auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     return true;
 }

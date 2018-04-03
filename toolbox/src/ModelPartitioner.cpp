@@ -71,9 +71,18 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     // n signals) The n ControlBoards configured from the config block
     //
 
+    // Get the number of the control boards
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const auto controlBoardsNumber =
+        robotInterface->getConfiguration().getControlBoardsNames().size();
+
     bool ok;
     unsigned numberOfInputs;
-    unsigned controlBoardsNumber = getConfiguration().getControlBoardsNames().size();
 
     if (vectorToControlBoards) {
         numberOfInputs = 1;

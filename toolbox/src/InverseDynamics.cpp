@@ -55,7 +55,12 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool success = true;
@@ -107,7 +112,14 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     // ==================
 
     using namespace iDynTree;
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     m_baseAcceleration = std::unique_ptr<Vector6>(new Vector6());
     m_baseAcceleration->zero();
@@ -115,10 +127,14 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     m_jointsAcceleration->zero();
 
     // Get the KinDynComputations pointer
-    const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+    const auto& kindyn = robotInterface->getKinDynComputations();
+    if (!kindyn) {
+        wbtError << "Failed to get the KinDynComputations object";
+        return false;
+    }
 
     // Get the model from the KinDynComputations object
-    const auto& model = kindyncomp->model();
+    const auto& model = kindyn->model();
 
     m_torques =
         std::unique_ptr<FreeFloatingGeneralizedTorques>(new FreeFloatingGeneralizedTorques(model));
@@ -134,6 +150,13 @@ bool InverseDynamics::terminate(const BlockInformation* blockInfo)
 
 bool InverseDynamics::output(const BlockInformation* blockInfo)
 {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Failed to retrieve the KinDynComputations object.";
+        return false;
+    }
+
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
@@ -142,8 +165,14 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok =
-        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
+        || jointsVelocitySignal.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(
+        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -179,7 +208,6 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // OUTPUT
     // ======
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
 
     if (!model) {
         wbtError << "iDynTree failed to compute inverse dynamics.";

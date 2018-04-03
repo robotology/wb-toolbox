@@ -73,6 +73,14 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
     // Size and type
     bool success = blockInfo->setInputPortVectorSize(0, dofs);
     blockInfo->setInputPortType(0, DataType::DOUBLE);
@@ -121,6 +129,24 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // PRIVATE MEMBERS
+    // ===============
+
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
+    // Retain the ControlBoardRemapper
+    if (!robotInterface->retainRemoteControlBoardRemapper()) {
+        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
+        return false;
+    }
+
+    // Initialize the size of std::vectors
     m_controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
 
     // IControlMode.h
@@ -154,7 +180,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     if (controlType == "Position") {
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
-        if (!getRobotInterface()->getInterface(interface) || !interface) {
+        if (!robotInterface->getInterface(interface) || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
@@ -166,12 +192,6 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         }
     }
 
-    // Retain the ControlBoardRemapper
-    if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
-        return false;
-    }
-
     m_resetControlMode = true;
     return true;
 }
@@ -181,16 +201,25 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     using namespace yarp::dev;
     bool ok = true;
 
-    // Get the interface
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "Couldn't get RobotInterface.";
+        return false;
+    }
+
+    // Get the DoFs
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
+    // Get the IControlMode2 interface
     IControlMode2* icmd2 = nullptr;
-    ok = ok && getRobotInterface()->getInterface(icmd2);
+    ok = ok && robotInterface->getInterface(icmd2);
     if (!ok || !icmd2) {
         wbtError << "Failed to get the IControlMode2 interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Set  all the controlledJoints VOCAB_CM_POSITION
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
     m_controlModes.assign(dofs, VOCAB_CM_POSITION);
 
     ok = ok && icmd2->setControlModes(m_controlModes.data());
@@ -200,7 +229,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     }
 
     // Release the RemoteControlBoardRemapper
-    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
         wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -228,12 +257,19 @@ bool SetReferences::output(const BlockInformation* blockInfo)
 {
     using namespace yarp::dev;
 
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "Couldn't get RobotInterface.";
+        return false;
+    }
+
     // Set the control mode at the first run
     if (m_resetControlMode) {
         m_resetControlMode = false;
         // Get the interface
         IControlMode2* icmd2 = nullptr;
-        if (!getRobotInterface()->getInterface(icmd2) || !icmd2) {
+        if (!robotInterface->getInterface(icmd2) || !icmd2) {
             wbtError << "Failed to get the IControlMode2 interface.";
             return false;
         }
@@ -264,7 +300,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_POSITION: {
             // Get the interface
             IPositionControl* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get IPositionControl interface.";
                 return false;
             }
@@ -277,7 +313,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_POSITION_DIRECT: {
             // Get the interface
             IPositionDirect* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get IPositionDirect interface.";
                 return false;
             }
@@ -290,7 +326,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_VELOCITY: {
             // Get the interface
             IVelocityControl* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get IVelocityControl interface.";
                 return false;
             }
@@ -303,7 +339,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_TORQUE: {
             // Get the interface
             ITorqueControl* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get ITorqueControl interface.";
                 return false;
             }
@@ -314,7 +350,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_PWM: {
             // Get the interface
             IPWMControl* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get IPWMControl interface.";
                 return false;
             }
@@ -325,7 +361,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         case VOCAB_CM_CURRENT: {
             // Get the interface
             ICurrentControl* interface = nullptr;
-            if (!getRobotInterface()->getInterface(interface) || !interface) {
+            if (!robotInterface->getInterface(interface) || !interface) {
                 wbtError << "Failed to get ICurrentControl interface.";
                 return false;
             }

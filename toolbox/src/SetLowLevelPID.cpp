@@ -208,11 +208,18 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
 
 bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
 {
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "Failed to retrieve the RobotInterface.";
+        return false;
+    }
+
     bool ok = true;
 
     // Get the IPidControl interface
     yarp::dev::IPidControl* iPidControl = nullptr;
-    ok = ok && getRobotInterface()->getInterface(iPidControl);
+    ok = ok && robotInterface->getInterface(iPidControl);
     if (!ok || !iPidControl) {
         wbtError << "Failed to get IPidControl interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -226,7 +233,7 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     }
 
     // Release the RemoteControlBoardRemapper
-    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
         wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case

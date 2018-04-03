@@ -65,7 +65,13 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool ok = true;
@@ -122,14 +128,14 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     // Check if the frame is valid
     // ---------------------------
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-    if (!model) {
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
-        m_frameIndex = model->getFrameIndex(frame);
+        m_frameIndex = kinDyn->getFrameIndex(frame);
         if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
@@ -143,7 +149,13 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     // OUTPUT / VARIABLES
     // ==================
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     m_jacobianCOM =
         std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(3, 6 + dofs));
@@ -164,12 +176,12 @@ bool Jacobian::terminate(const BlockInformation* blockInfo)
 bool Jacobian::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
-    typedef Matrix<double, Dynamic, Dynamic, ColMajor> MatrixXdSimulink;
+    typedef Matrix<double, Dynamic, Dynamic, Eigen::ColMajor> MatrixXdSimulink;
     typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
@@ -180,7 +192,12 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
     const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -195,12 +212,12 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     // Compute the jacobian
     ok = false;
     if (!m_frameIsCoM) {
-        world_H_frame = model->getWorldTransform(m_frameIndex);
-        ok = model->getFrameFreeFloatingJacobian(m_frameIndex, *m_jacobian);
+        world_H_frame = kinDyn->getWorldTransform(m_frameIndex);
+        ok = kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, *m_jacobian);
     }
     else {
-        world_H_frame.setPosition(model->getCenterOfMassPosition());
-        ok = model->getCenterOfMassJacobian(*m_jacobianCOM);
+        world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());
+        ok = kinDyn->getCenterOfMassJacobian(*m_jacobianCOM);
         int cols = m_jacobianCOM->cols();
         toEigen(*m_jacobian).block(0, 0, 3, cols) = toEigen(*m_jacobianCOM);
         toEigen(*m_jacobian).block(3, 0, 3, cols).setZero();

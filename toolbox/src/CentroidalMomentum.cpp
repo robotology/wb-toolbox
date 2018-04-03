@@ -45,7 +45,13 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool success = true;
@@ -103,9 +109,9 @@ bool CentroidalMomentum::terminate(const BlockInformation* blockInfo)
 
 bool CentroidalMomentum::output(const BlockInformation* blockInfo)
 {
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
@@ -118,8 +124,14 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok =
-        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
+        || jointsVelocitySignal.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(
+        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -130,7 +142,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // ======
 
     // Calculate the centroidal momentum
-    *m_centroidalMomentum = model->getCentroidalTotalMomentum();
+    *m_centroidalMomentum = kinDyn->getCentroidalTotalMomentum();
 
     // Forward the output to Simulink
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_CENTRMOM);

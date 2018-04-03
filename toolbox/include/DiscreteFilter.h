@@ -1,4 +1,5 @@
 #include "Block.h"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -25,14 +26,10 @@ namespace yarp {
 class wbt::DiscreteFilter : public wbt::Block
 {
 private:
-    unsigned inputSignalWidth;
-    std::unique_ptr<iCub::ctrl::IFilter> filter;
-    std::unique_ptr<yarp::sig::Vector> y0;
-    std::unique_ptr<yarp::sig::Vector> u0;
-    std::unique_ptr<yarp::sig::Vector> inputSignalVector;
-
-    static void stringToYarpVector(const std::string s, yarp::sig::Vector& v);
-
+    std::unique_ptr<iCub::ctrl::IFilter> m_filter;
+    std::unique_ptr<yarp::sig::Vector> m_y0;
+    std::unique_ptr<yarp::sig::Vector> m_u0;
+    std::unique_ptr<yarp::sig::Vector> m_inputSignalVector;
 
 public:
     static const std::string ClassName;

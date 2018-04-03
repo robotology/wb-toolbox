@@ -22,10 +22,7 @@ private:
     std::vector<yarp::dev::Pid> m_appliedPidValues;
     std::vector<yarp::dev::Pid> m_defaultPidValues;
     std::unordered_map<std::string, PidData> m_pidJointsFromParameters;
-
     yarp::dev::PidControlTypeEnum m_controlType;
-
-    bool readWBTPidConfigObject(const BlockInformation* blockInfo);
 
 public:
     static const std::string ClassName;

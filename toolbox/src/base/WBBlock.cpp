@@ -1,6 +1,4 @@
 #include "WBBlock.h"
-
-#include "AnyType.h"
 #include "BlockInformation.h"
 #include "Configuration.h"
 #include "Log.h"
@@ -8,13 +6,13 @@
 #include "Signal.h"
 #include "ToolboxSingleton.h"
 
-#include "iDynTree/KinDynComputations.h"
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/MatrixFixSize.h>
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/KinDynComputations.h>
 
 #include <memory>
 #include <string>
@@ -37,17 +35,42 @@ iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<do
     m_jointsVelocity.zero();
 }
 
+std::weak_ptr<iDynTree::KinDynComputations>
+WBBlock::getKinDynComputations(const BlockInformation* blockInfo) const
+{
+    auto robotInterface = getRobotInterface(blockInfo).lock();
+
+    if (!robotInterface) {
+        wbtError << "Failed to get the RobotInterface object.";
+        return {};
+    }
+
+    return robotInterface->getKinDynComputations();
+}
+
+std::weak_ptr<wbt::RobotInterface>
+WBBlock::getRobotInterface(const BlockInformation* blockInfo) const
+{
+    auto robotInterface = blockInfo->getRobotInterface();
+    if (!robotInterface.lock()) {
+        return {};
+    }
+
+    return robotInterface;
+}
+
 bool WBBlock::setRobotState(const wbt::Signal* basePose,
                             const wbt::Signal* jointsPos,
                             const wbt::Signal* baseVelocity,
-                            const wbt::Signal* jointsVelocity)
+                            const wbt::Signal* jointsVelocity,
+                            iDynTree::KinDynComputations* kinDyn)
 {
     // SAVE THE ROBOT STATE
     // ====================
 
     using namespace iDynTree;
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
+    typedef Matrix<double, 4, 4, Eigen::ColMajor> Matrix4dSimulink;
 
     // Base pose
     // ---------
@@ -60,7 +83,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        fromEigen(robotState.m_world_T_base, Matrix4dSimulink(buffer));
+        fromEigen(m_robotState.m_world_T_base, Matrix4dSimulink(buffer));
     }
 
     // Joints position
@@ -74,8 +97,8 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        for (auto i = 0; i < jointsPos->getWidth(); ++i) {
-            robotState.m_jointsPosition.setVal(i, buffer[i]);
+        for (unsigned i = 0; i < jointsPos->getWidth(); ++i) {
+            m_robotState.m_jointsPosition.setVal(i, buffer[i]);
         }
     }
 
@@ -90,7 +113,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3), AngVelocity(buffer + 3, 3));
+        m_robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3), AngVelocity(buffer + 3, 3));
     }
 
     // Joints velocity
@@ -104,26 +127,24 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        for (auto i = 0; i < jointsVelocity->getWidth(); ++i) {
-            robotState.m_jointsVelocity.setVal(i, buffer[i]);
+        for (unsigned i = 0; i < jointsVelocity->getWidth(); ++i) {
+            m_robotState.m_jointsVelocity.setVal(i, buffer[i]);
         }
     }
 
     // UPDATE THE IDYNTREE ROBOT STATE WITH NEW DATA
     // =============================================
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
+    if (!kinDyn) {
         wbtError << "Failed to access the KinDynComputations object.";
         return false;
     }
 
-    bool ok = model->setRobotState(robotState.m_world_T_base,
-                                   robotState.m_jointsPosition,
-                                   robotState.m_baseVelocity,
-                                   robotState.m_jointsVelocity,
-                                   robotState.m_gravity);
+    bool ok = kinDyn->setRobotState(m_robotState.m_world_T_base,
+                                    m_robotState.m_jointsPosition,
+                                    m_robotState.m_baseVelocity,
+                                    m_robotState.m_jointsVelocity,
+                                    m_robotState.m_gravity);
 
     if (!ok) {
         wbtError << "Failed to set the iDynTree robot state.";
@@ -216,10 +237,6 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool WBBlock::initialize(BlockInformation* blockInfo)
 {
-    // CONFIGURE the ToolboxSingleton
-    // ==============================
-
-    ToolboxSingleton& interface = ToolboxSingleton::sharedInstance();
     if (!Block::initialize(blockInfo)) {
         return false;
     }
@@ -230,12 +247,16 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the RobotInterface object
+    auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
 
-    // Initialize the iDynTreeRobotState struct
-    const unsigned& dofs = interface.numberOfDoFs(confKey);
-    robotState = iDynTreeRobotState(dofs, getConfiguration().getGravityVector());
+    // Initialize the m_robotState member
+    const unsigned& dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    m_robotState = iDynTreeRobotState(dofs, robotInterface->getConfiguration().getGravityVector());
 
     return true;
 }

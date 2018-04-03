@@ -1,6 +1,8 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
+#include <cstdint>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -9,9 +11,15 @@ namespace wbt {
     class Signal;
     class ParameterMetadata;
     class Parameters;
+    class Configuration;
+    class RobotInterface;
     enum class DataType;
     extern const std::string BlockOptionPrioritizeOrder;
 } // namespace wbt
+
+namespace iDynTree {
+    class KinDynComputations;
+}
 
 enum class wbt::DataType
 {

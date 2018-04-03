@@ -11,12 +11,12 @@ namespace wbt {
 
 struct wbt::Limit
 {
-    std::vector<double> min;
-    std::vector<double> max;
+    std::vector<double> m_min;
+    std::vector<double> m_max;
 
     Limit(unsigned size = 0)
-        : min(size)
-        , max(size)
+        : m_min(size)
+        , m_max(size)
     {}
 };
 
@@ -24,7 +24,6 @@ class wbt::GetLimits : public wbt::WBBlock
 {
 private:
     std::unique_ptr<Limit> m_limits;
-    static double deg2rad(const double& v);
     std::string m_limitType;
 
 public:

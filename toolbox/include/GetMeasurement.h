@@ -19,7 +19,6 @@ class wbt::GetMeasurement : public wbt::WBBlock
 private:
     std::vector<double> m_measurement;
     wbt::MeasuredType m_measuredType;
-    static void deg2rad(std::vector<double>& v);
 
 public:
     static const std::string ClassName;
