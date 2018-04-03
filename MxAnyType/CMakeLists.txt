@@ -1,6 +1,6 @@
 cmake_policy(SET CMP0048 NEW)
 project(MxAnyType LANGUAGES CXX VERSION 0.1)
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 
 # Configure the project
 # =====================
