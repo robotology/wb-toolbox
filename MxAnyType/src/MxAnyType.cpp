@@ -1,4 +1,6 @@
 #include "MxAnyType.h"
+
+#include <matrix.h>
 #include <memory>
 
 // PRIVATE METHODS
@@ -6,9 +8,17 @@
 
 bool MxAnyType::asScalar(double& d)
 {
-    if (!mx) return false;
-    if (!mxIsScalar(mx)) return false;  // 1x1
-    if (!mxIsNumeric(mx)) return false; // Types: https://it.mathworks.com/help/matlab/apiref/mxisnumeric.html
+    if (!mx) {
+        return false;
+    }
+
+    if (!mxIsScalar(mx)) {
+        return false; // 1x1
+    }
+
+    if (!mxIsNumeric(mx)) {
+        return false; // Types: https://it.mathworks.com/help/matlab/apiref/mxisnumeric.html
+    }
 
     // Cast to double since even a mxINT8_CLASS is returned as double:
     // https://it.mathworks.com/help/matlab/apiref/mxgetscalar.html
@@ -18,10 +28,12 @@ bool MxAnyType::asScalar(double& d)
 
 bool MxAnyType::validateClassId(mxClassID id1, mxClassID id2)
 {
-    if (validate)
+    if (validate) {
         return id1 == id2;
-    else
+    }
+    else {
         return true;
+    }
 }
 
 // PUBLIC METHODS
@@ -30,12 +42,9 @@ bool MxAnyType::validateClassId(mxClassID id1, mxClassID id2)
 // Constructors
 // ============
 
-MxAnyType::MxAnyType() : mx(nullptr), validate(false)
-{
-    md.id = mxUNKNOWN_CLASS;
-}
-
-MxAnyType::MxAnyType(const mxArray* m, bool validateId) : mx(m), validate(validateId)
+MxAnyType::MxAnyType(const mxArray* m, bool validateId)
+    : mx(m)
+    , validate(validateId)
 {
     assert(mx);
 
@@ -46,16 +55,17 @@ MxAnyType::MxAnyType(const mxArray* m, bool validateId) : mx(m), validate(valida
 
     // Get the other metadata
     md.isScalar = mxIsScalar(mx);
-    md.rows  = static_cast<unsigned>(mxGetN(mx));
-    md.cols  = static_cast<unsigned>(mxGetM(mx));
+    md.rows = static_cast<unsigned>(mxGetN(mx));
+    md.cols = static_cast<unsigned>(mxGetM(mx));
     md.nElem = static_cast<unsigned>(mxGetNumberOfElements(mx));
     md.nDims = static_cast<unsigned>(mxGetNumberOfDimensions(mx));
 
-    if (md.isScalar)
+    if (md.isScalar) {
         assert(md.rows == md.cols == md.nElem == 1);
+    }
 
     // TODO: only 2 dims currently supported
-    assert(md.nDims == 2);
+    assert(md.nDims <= 2);
     assert(md.rows * md.cols == md.nElem);
 
     const size_t* size = mxGetDimensions(mx);
@@ -66,9 +76,9 @@ MxAnyType::MxAnyType(const mxArray* m, bool validateId) : mx(m), validate(valida
 }
 
 MxAnyType::MxAnyType(const MxAnyType& mxAnyType)
-: mx(mxAnyType.mx)
-, md(mxAnyType.md)
-, validate(mxAnyType.validate)
+    : mx(mxAnyType.mx)
+    , md(mxAnyType.md)
+    , validate(mxAnyType.validate)
 {}
 
 void MxAnyType::enableClassIDValidation()
@@ -81,8 +91,12 @@ void MxAnyType::enableClassIDValidation()
 
 bool MxAnyType::asString(std::string& s)
 {
-    if (!mx) return false;
-    if (md.id != mxCHAR_CLASS) return false;
+    if (!mx) {
+        return false;
+    }
+    if (md.id != mxCHAR_CLASS) {
+        return false;
+    }
     char* buffer = mxArrayToString(mx);
     s = std::string(buffer);
     mxFree(buffer);
@@ -98,7 +112,9 @@ bool MxAnyType::asString(std::string& s)
 bool MxAnyType::asInt(int& i)
 {
     double buffer;
-    if (!asScalar(buffer)) return false;
+    if (!asScalar(buffer)) {
+        return false;
+    }
     i = static_cast<int>(buffer);
     return true;
 }
@@ -106,7 +122,9 @@ bool MxAnyType::asInt(int& i)
 bool MxAnyType::asUInt(unsigned& i)
 {
     double buffer;
-    if (!asScalar(buffer)) return false;
+    if (!asScalar(buffer)) {
+        return false;
+    }
     i = static_cast<unsigned>(buffer);
     return true;
 }
@@ -117,7 +135,9 @@ bool MxAnyType::asUInt(unsigned& i)
 bool MxAnyType::asInt32(int32_t& i)
 {
     double buffer;
-    if (!asScalar(buffer)) return false;
+    if (!asScalar(buffer)) {
+        return false;
+    }
     i = static_cast<int32_t>(buffer);
     return validateClassId(md.id, mxINT32_CLASS);
 }
@@ -138,9 +158,13 @@ bool MxAnyType::asDouble(double& d)
 }
 
 bool MxAnyType::asBool(bool& b)
- {
-    if (!mx) return false;
-    if (!mxIsLogicalScalar(mx)) return false;
+{
+    if (!mx) {
+        return false;
+    }
+    if (!mxIsLogicalScalar(mx)) {
+        return false;
+    }
     b = mxIsLogicalScalarTrue(mx);
     return true;
 }
@@ -150,15 +174,23 @@ bool MxAnyType::asBool(bool& b)
 
 bool MxAnyType::asAnyStruct(AnyStruct& s)
 {
-    if (!mx) return false;
-    if (md.id != mxSTRUCT_CLASS) return false;
+    if (!mx) {
+        return false;
+    }
+    if (md.id != mxSTRUCT_CLASS) {
+        return false;
+    }
 
     for (unsigned i = 0; i < mxGetNumberOfFields(mx); ++i) {
-        const char* fieldName = mxGetFieldNameByNumber(mx,i);
+        const char* fieldName = mxGetFieldNameByNumber(mx, i);
         // TODO multidimensional struct
-        mxArray* fieldContent = mxGetFieldByNumber(mx,0,i);
-        if (fieldName == nullptr) return false;
-        if (fieldContent == nullptr) return false;
+        mxArray* fieldContent = mxGetFieldByNumber(mx, 0, i);
+        if (!fieldName) {
+            return false;
+        }
+        if (!fieldContent) {
+            return false;
+        }
         s[std::string(fieldName)] = std::make_shared<MxAnyType>(fieldContent);
     }
     return true;
@@ -166,13 +198,19 @@ bool MxAnyType::asAnyStruct(AnyStruct& s)
 
 bool MxAnyType::asAnyCell(AnyCell& cell)
 {
-    if (!mx) return false;
-    if (md.id != mxCELL_CLASS) return false;
+    if (!mx) {
+        return false;
+    }
+    if (md.id != mxCELL_CLASS) {
+        return false;
+    }
 
     // TODO: AnyCell then will have a operator()(3,4) method;
-    for (unsigned i=0; i < mxGetNumberOfElements(mx); ++i) {
+    for (unsigned i = 0; i < mxGetNumberOfElements(mx); ++i) {
         mxArray* cellContent = mxGetCell(mx, i);
-        if (!cellContent) return false;
+        if (!cellContent) {
+            return false;
+        }
         cell.push_back(std::make_shared<MxAnyType>(cellContent));
     }
     return true;
@@ -185,21 +223,30 @@ bool MxAnyType::asAnyCell(AnyCell& cell)
 // ======
 
 // TODO:
-// Tests with other types (uint8) https://it.mathworks.com/help/matlab/apiref/mxgetdata.html (Description)
+// Tests with other types (uint8) https://it.mathworks.com/help/matlab/apiref/mxgetdata.html
+// (Description)
 bool MxAnyType::asVectorDouble(std::vector<double>& vec)
 {
-    if (!mx) return false;
-    if (!mxIsDouble(mx)) return false;
+    if (!mx) {
+        return false;
+    }
+    if (!mxIsDouble(mx)) {
+        return false;
+    }
 
     if (md.rows > 1 && md.cols > 1) {
         return false;
     }
 
     // TODO add method for complex vectors (and move the check into md)
-    if (mxIsComplex(mx)) return false;
+    if (mxIsComplex(mx)) {
+        return false;
+    }
 
     double* buffer = mxGetPr(mx);
-    if (!buffer) return false;
+    if (!buffer) {
+        return false;
+    }
 
     vec.reserve(md.rows * md.cols);
     vec.assign(buffer, buffer + md.rows * md.cols);

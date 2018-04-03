@@ -1,9 +1,9 @@
 #ifndef ANYTYPE_H
 #define ANYTYPE_H
 
-#include <vector>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 class AnyType;
 
@@ -14,13 +14,12 @@ typedef std::unordered_map<std::string, AnyTypeSPtr> AnyStruct;
 class AnyType
 {
 protected:
-
 public:
     AnyType() = default;
     virtual ~AnyType() = default;
 
     // Integers
-    virtual bool asInt(int& i)       = 0;
+    virtual bool asInt(int& i) = 0;
     // virtual bool asInt8(int8_t& i)   = 0;
     // virtual bool asInt16(int16_t& i) = 0;
     virtual bool asInt32(int32_t& i) = 0;
@@ -58,4 +57,4 @@ public:
     virtual bool asVectorDouble(std::vector<double>& vec) = 0;
 };
 
-#endif /* ANYTYPE_H */
+#endif // ANYTYPE_H
