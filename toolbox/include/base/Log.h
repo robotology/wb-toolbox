@@ -1,37 +1,66 @@
 #ifndef WBT_LOG_H
 #define WBT_LOG_H
 
+#include <sstream>
 #include <string>
 #include <vector>
 
+#ifdef NDEBUG
+#define WBT_LOG_VERBOSITY wbt::Log::RELEASE
+#else
+#define WBT_LOG_VERBOSITY wbt::Log::DEBUG
+#endif
+
+#ifndef wbtError
+#define wbtError \
+    wbt::Log::getSingleton().getLogStringStream(wbt::Log::ERROR, __FILE__, __LINE__, __FUNCTION__)
+#endif
+
+#ifndef wbtWarning
+#define wbtWarning \
+    wbt::Log::getSingleton().getLogStringStream(wbt::Log::WARNING, __FILE__, __LINE__, __FUNCTION__)
+#endif
+
 namespace wbt {
     class Log;
-}
+} // namespace wbt
 
 /**
  * Basic Log class
  */
 class wbt::Log
 {
-private:
-    std::vector<std::string> errors;
-    std::vector<std::string> warnings;
-    std::string prefix;
+public:
+    enum LogType
+    {
+        ERROR,
+        WARNING
+    };
 
-    static std::string serializeVectorString(std::vector<std::string> v,
-                                             const std::string& prefix = "");
+    enum LogVerbosity
+    {
+        RELEASE,
+        DEBUG
+    };
+
+private:
+    std::vector<std::stringstream> m_errorsSStream;
+    std::vector<std::stringstream> m_warningsSStream;
+
+    const LogVerbosity m_verbosity = WBT_LOG_VERBOSITY;
+
+    std::string serializeVectorStringStream(const std::vector<std::stringstream>& ss) const;
 
 public:
+    Log() = default;
+    ~Log() = default;
+
     static wbt::Log& getSingleton();
 
-    void error(const std::string& errorMessage);
-    void warning(const std::string& warningMessage);
-
-    void errorAppend(const std::string& errorMessage);
-    void warningAppend(const std::string& warningMessage);
-
-    void resetPrefix();
-    void setPrefix(const std::string& prefixMessage);
+    std::stringstream& getLogStringStream(const LogType& type,
+                                          const std::string& file,
+                                          const unsigned& line,
+                                          const std::string& function);
 
     std::string getErrors() const;
     std::string getWarnings() const;
@@ -42,4 +71,4 @@ public:
     void clear();
 };
 
-#endif /* end of include guard: WBT_LOG_H */
+#endif // WBT_LOG_H

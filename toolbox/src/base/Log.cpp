@@ -11,75 +11,70 @@ Log& Log::getSingleton()
     return logInstance;
 }
 
-void Log::error(const std::string& errorMessage)
+std::stringstream& Log::getLogStringStream(const Log::LogType& type,
+                                           const std::string& file,
+                                           const unsigned& line,
+                                           const std::string& function)
 {
-    errors.push_back(errorMessage);
-}
-
-void Log::warning(const std::string& warningMessage)
-{
-    warnings.push_back(warningMessage);
-}
-
-void Log::errorAppend(const std::string& errorMessage)
-{
-    if (errors.empty()) {
-        error(errorMessage);
-        return;
+    switch (m_verbosity) {
+        case RELEASE:
+            switch (type) {
+                case ERROR:
+                    m_errorsSStream.emplace_back();
+                    return m_errorsSStream.back();
+                case WARNING:
+                    m_warningsSStream.emplace_back();
+                    return m_warningsSStream.back();
+            }
+        case DEBUG:
+            switch (type) {
+                case ERROR: {
+                    m_errorsSStream.emplace_back();
+                    auto& ss = m_errorsSStream.back();
+                    ss << std::endl
+                       << file << "@" << function << ":" << std::to_string(line) << std::endl;
+                    return ss;
+                }
+                case WARNING: {
+                    m_warningsSStream.emplace_back();
+                    auto& ss = m_warningsSStream.back();
+                    ss << std::endl
+                       << file << "@" << function << ":" << std::to_string(line) << std::endl;
+                    return ss;
+                }
+            }
     }
-    errors.back() += errorMessage;
 }
 
-void Log::warningAppend(const std::string& warningMessage)
-{
-    if (warnings.empty()) {
-        warning(warningMessage);
-    }
-    warnings.back() += warningMessage;
-}
-
-void Log::setPrefix(const std::string& prefixMessage)
-{
-    prefix = prefixMessage;
-}
-
-void Log::resetPrefix()
-{
-    prefix.clear();
-}
-
-std::string Log::serializeVectorString(std::vector<std::string> v, const std::string& prefix)
+std::string Log::serializeVectorStringStream(const std::vector<std::stringstream>& ss) const
 {
     std::stringstream output;
-    std::ostream_iterator<std::string> output_iterator(output, "\n");
-    std::copy(v.begin(), v.end(), output_iterator);
 
-    if (prefix.empty()) {
-        return output.str();
+    for (const auto& ss_elem : ss) {
+        output << ss_elem.str() << std::endl;
     }
-    else {
-        return prefix + "\n" + output.str();
-    }
+
+    return output.str();
 }
 
 std::string Log::getErrors() const
 {
-    return serializeVectorString(errors, prefix);
+    return serializeVectorStringStream(m_errorsSStream);
 }
 
 std::string Log::getWarnings() const
 {
-    return serializeVectorString(warnings, prefix);
+    return serializeVectorStringStream(m_warningsSStream);
 }
 
 void Log::clearWarnings()
 {
-    warnings.clear();
+    m_warningsSStream.clear();
 }
 
 void Log::clearErrors()
 {
-    errors.clear();
+    m_errorsSStream.clear();
 }
 
 void Log::clear()
