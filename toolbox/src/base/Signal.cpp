@@ -64,6 +64,8 @@ void Signal::allocateBuffer(const void* const bufferInput, void*& bufferOutput, 
             return;
         }
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return;
     }
 }
@@ -81,6 +83,8 @@ void Signal::deleteBuffer()
             m_bufferPtr = nullptr;
             return;
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return;
     }
 }
@@ -88,6 +92,8 @@ void Signal::deleteBuffer()
 bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 {
     if (m_dataFormat != CONTIGUOUS_ZEROCOPY) {
+        wbtError << "Trying to initialize a CONTIGUOUS_ZEROCOPY signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
@@ -98,6 +104,8 @@ bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 bool Signal::initializeBufferFromContiguous(const void* buffer)
 {
     if (m_dataFormat != CONTIGUOUS || m_width <= 0) {
+        wbtError << "Trying to initialize a CONTIGUOUS signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
@@ -116,6 +124,8 @@ bool Signal::initializeBufferFromContiguous(const void* buffer)
 bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
 {
     if (m_dataFormat != NONCONTIGUOUS || m_width <= 0) {
+        wbtError << "Trying to initialize a NONCONTIGUOUS signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
@@ -161,10 +171,16 @@ SignalDataFormat Signal::getDataFormat() const
 bool Signal::set(const unsigned& index, const double& data)
 {
     if (m_isConst || m_width <= index) {
+        wbtError << "The signal is either const or the index exceeds its width.";
         return false;
     }
 
     // TODO: Implement other PortDataType
+    if (!m_bufferPtr) {
+        wbtError << "The pointer to data is null. The signal was not configured properly.";
+        return false;
+    }
+
     switch (m_portDataType) {
         case PortDataTypeDouble: {
             double* buffer = static_cast<double*>(m_bufferPtr);
@@ -177,6 +193,8 @@ bool Signal::set(const unsigned& index, const double& data)
             break;
         }
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return false;
             break;
     }

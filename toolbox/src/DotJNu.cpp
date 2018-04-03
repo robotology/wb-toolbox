@@ -47,7 +47,7 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(4)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -66,7 +66,7 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -78,7 +78,7 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -102,7 +102,7 @@ bool DotJNu::initialize(const BlockInformation* blockInfo)
     int parentParameters = WBBlock::numberOfParameters();
 
     if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
-        Log::getSingleton().error("Cannot retrieve string from frame parameter.");
+        wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
@@ -111,14 +111,14 @@ bool DotJNu::initialize(const BlockInformation* blockInfo)
 
     const auto& model = getRobotInterface()->getKinDynComputations();
     if (!model) {
-        Log::getSingleton().error("Cannot retrieve handle to KinDynComputations.");
+        wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
         m_frameIndex = model->getFrameIndex(frame);
         if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            Log::getSingleton().error("Cannot find " + frame + " in the frame list.");
+            wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
@@ -145,7 +145,7 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     const auto& model = getRobotInterface()->getKinDynComputations();
 
     if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -161,7 +161,7 @@ bool DotJNu::output(const BlockInformation* blockInfo)
         setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 

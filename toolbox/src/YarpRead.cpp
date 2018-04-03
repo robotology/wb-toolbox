@@ -48,7 +48,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -72,12 +72,12 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     ok = ok && blockInfo->getScalarParameterAtIndex(PARAM_IDX_PORTSIZE, signalSize);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to read input parameters.");
+        wbtError << "Failed to read input parameters.";
         return false;
     }
 
     if (signalSize < 0) {
-        Log::getSingleton().error("Signal size must be non negative.");
+        wbtError << "Signal size must be non negative.";
         return false;
     }
 
@@ -89,7 +89,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
                                              // on the connection status
 
     if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -119,7 +119,7 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        Log::getSingleton().error("YARP server wasn't found active!!");
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -138,7 +138,7 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
 
     std::string portName;
     if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_PORTNAME, portName)) {
-        Log::getSingleton().error("Cannot retrieve string from port name parameter.");
+        wbtError << "Failed to read input parameters.";
         return false;
     }
 
@@ -160,16 +160,15 @@ bool YarpRead::initialize(const BlockInformation* blockInfo)
     m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
 
     if (!m_port || !m_port->open(destinationPortName)) {
-        Log::getSingleton().error("Error while opening yarp port.");
+        wbtError << "Error while opening yarp port.";
         return false;
     }
 
     if (m_autoconnect) {
         if (!Network::connect(sourcePortName, m_port->getName())) {
-            Log::getSingleton().warning("Failed to connect " + sourcePortName + " to "
-                                        + m_port->getName());
+            wbtWarning << "Failed to connect " + sourcePortName + " to " + m_port->getName() + ".";
             if (m_errorOnMissingPort) {
-                Log::getSingleton().error("Failed connecting ports.");
+                wbtError << "Failed connecting ports.";
                 return false;
             }
         }
@@ -218,8 +217,8 @@ bool YarpRead::output(const BlockInformation* blockInfo)
             yarp::os::Time::delay(0.0005);
             const double now = yarp::os::Time::now();
             if ((now - t0) > m_timeout) {
-                Log::getSingleton().error(
-                    "The port didn't receive any data for longer than the configured timeout.");
+                wbtError << "The port didn't receive any data for longer "
+                         << "than the configured timeout.";
                 return false;
             }
         }
@@ -234,9 +233,8 @@ bool YarpRead::output(const BlockInformation* blockInfo)
             connectionStatusPortIndex++;
             yarp::os::Stamp timestamp;
             if (!m_port->getEnvelope(timestamp)) {
-                Log::getSingleton().error("Failed to read port envelope (timestamp).");
-                Log::getSingleton().errorAppend(
-                    "Be sure that the input port actually writes this data.");
+                wbtError << "Failed to read port envelope (timestamp). Be sure"
+                         << " that the input port actually writes this data.";
                 return false;
             }
 

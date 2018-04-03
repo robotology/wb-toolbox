@@ -53,7 +53,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -62,7 +62,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setInputPortType(0, PortDataTypeDouble);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -73,7 +73,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -89,13 +89,13 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
     // Reading the control type
     std::string controlType;
     if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, controlType)) {
-        Log::getSingleton().error("Could not read control type parameter.");
+        wbtError << "Could not read control type parameter.";
         return false;
     }
 
     // Reading the refSpeed
     if (!blockInfo->getScalarParameterAtIndex(WBBlock::numberOfParameters() + 2, m_refSpeed)) {
-        Log::getSingleton().error("Could not read reference speed parameter.");
+        wbtError << "Could not read reference speed parameter.";
         return false;
     }
 
@@ -123,7 +123,7 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
         m_controlModes.assign(dofs, VOCAB_CM_CURRENT);
     }
     else {
-        Log::getSingleton().error("Control Mode not supported.");
+        wbtError << "Control Mode not supported.";
         return false;
     }
 
@@ -135,13 +135,13 @@ bool SetReferences::initialize(const BlockInformation* blockInfo)
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
         if (!getRobotInterface()->getInterface(interface) || !interface) {
-            Log::getSingleton().error("Failed to get IPositionControl interface.");
+            wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
         std::vector<double> speedInitalization(dofs, m_refSpeed);
         // Set the references
         if (!interface->setRefSpeeds(speedInitalization.data())) {
-            Log::getSingleton().error("Failed to initialize speed references.");
+            wbtError << "Failed to initialize speed references.";
             return false;
         }
     }
@@ -165,7 +165,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     IControlMode2* icmd2 = nullptr;
     ok = ok && getRobotInterface()->getInterface(icmd2);
     if (!ok || !icmd2) {
-        Log::getSingleton().error("Failed to get the IControlMode2 interface.");
+        wbtError << "Failed to get the IControlMode2 interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
@@ -175,14 +175,14 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
 
     ok = ok && icmd2->setControlModes(m_controlModes.data());
     if (!ok) {
-        Log::getSingleton().error("Failed to set control mode.");
+        wbtError << "Failed to set control mode.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Release the RemoteControlBoardRemapper
     ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
-        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
@@ -214,12 +214,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         // Get the interface
         IControlMode2* icmd2 = nullptr;
         if (!getRobotInterface()->getInterface(icmd2) || !icmd2) {
-            Log::getSingleton().error("Failed to get the IControlMode2 interface.");
+            wbtError << "Failed to get the IControlMode2 interface.";
             return false;
         }
         // Set the control mode to all the controlledJoints
         if (!icmd2->setControlModes(m_controlModes.data())) {
-            Log::getSingleton().error("Failed to set control mode.");
+            wbtError << "Failed to set control mode.";
             return false;
         }
     }
@@ -230,7 +230,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
 
     double* bufferReferences = references.getBuffer<double>();
     if (!bufferReferences) {
-        Log::getSingleton().error("Failed to get the buffer containing references.");
+        wbtError << "Failed to get the buffer containing references.";
         return false;
     }
 
@@ -238,14 +238,14 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     // TODO: here only the first element is checked
     switch (m_controlModes.front()) {
         case VOCAB_CM_UNKNOWN:
-            Log::getSingleton().error("Control mode has not been successfully set.");
+            wbtError << "Control mode has not been successfully set.";
             return false;
             break;
         case VOCAB_CM_POSITION: {
             // Get the interface
             IPositionControl* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get IPositionControl interface.");
+                wbtError << "Failed to get IPositionControl interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -258,7 +258,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IPositionDirect* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get IPositionDirect interface.");
+                wbtError << "Failed to get IPositionDirect interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -271,7 +271,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IVelocityControl* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get IVelocityControl interface.");
+                wbtError << "Failed to get IVelocityControl interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -284,7 +284,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get ITorqueControl interface.");
+                wbtError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Set the references
@@ -295,7 +295,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IPWMControl* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get IPWMControl interface.");
+                wbtError << "Failed to get IPWMControl interface.";
                 return false;
             }
             // Set the references
@@ -306,7 +306,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ICurrentControl* interface = nullptr;
             if (!getRobotInterface()->getInterface(interface) || !interface) {
-                Log::getSingleton().error("Failed to get ICurrentControl interface.");
+                wbtError << "Failed to get ICurrentControl interface.";
                 return false;
             }
             // Set the references
@@ -316,7 +316,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set references.");
+        wbtError << "Failed to set references.";
         return false;
     }
 

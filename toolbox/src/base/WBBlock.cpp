@@ -53,7 +53,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         // Get the buffer
         double* buffer = basePose->getBuffer<double>();
         if (!buffer) {
-            Log::getSingleton().error("Failed to read the base pose from input port.");
+            wbtError << "Failed to read the base pose from input port.";
             return false;
         }
         // Fill the data
@@ -67,7 +67,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         // Get the buffer
         double* buffer = jointsPos->getBuffer<double>();
         if (!buffer) {
-            Log::getSingleton().error("Failed to read joints positions from input port.");
+            wbtError << "Failed to read joints positions from input port.";
             return false;
         }
         // Fill the data
@@ -83,7 +83,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         // Get the buffer
         double* buffer = baseVelocity->getBuffer<double>();
         if (!buffer) {
-            Log::getSingleton().error("Failed to read the base velocity from input port.");
+            wbtError << "Failed to read the base velocity from input port.";
             return false;
         }
         // Fill the data
@@ -97,7 +97,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         // Get the buffer
         double* buffer = jointsVelocity->getBuffer<double>();
         if (!buffer) {
-            Log::getSingleton().error("Failed to read joints velocities from input port.");
+            wbtError << "Failed to read joints velocities from input port.";
             return false;
         }
         // Fill the data
@@ -112,7 +112,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
     const auto& model = getRobotInterface()->getKinDynComputations();
 
     if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        wbtError << "Failed to access the KinDynComputations object.";
         return false;
     }
 
@@ -123,7 +123,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
                                    robotState.m_gravity);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the iDynTree robot state.");
+        wbtError << "Failed to set the iDynTree robot state.";
         return false;
     }
 
@@ -226,7 +226,7 @@ bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformati
     // LocalName
     std::string localName;
     if (!s["LocalName"]->asString(localName)) {
-        Log::getSingleton().error("Cannot retrieve string from LocalName parameter.");
+        wbtError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -309,7 +309,7 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
     const Configuration& configFromSingleton = getConfiguration();
 
     if (configFromSingleton.getNumberOfDoFs() < 1) {
-        Log::getSingleton().error("Failed to configure WBBlock. Read 0 DoFs.");
+        wbtError << "Failed to configure WBBlock. Read 0 DoFs.";
         return false;
     }
 

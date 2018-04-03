@@ -54,7 +54,7 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
     // Number of input ports
     int numberOfInputPorts = 1;
     if (!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
-        Log::getSingleton().error("Failed to set input port number.");
+        wbtError << "Failed to set input port number.";
         return false;
     }
 
@@ -68,7 +68,7 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
     // Number of output ports
     int numberOfOutputPorts = 1;
     if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -108,7 +108,7 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_IDX_INIT_U0, u0_str);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to parse parameters.");
+        wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -149,8 +149,8 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
     // -----------------------
     else if (filter_type == "FirstOrderLowPassFilter") {
         if (firstOrderLowPassFilter_fc == 0 || firstOrderLowPassFilter_ts == 0) {
-            Log::getSingleton().error("(FirstOrderLowPassFilter) You need to "
-                                      "specify Fc and Ts.");
+            wbtError << "(FirstOrderLowPassFilter) You need to "
+                        "specify Fc and Ts.";
             return false;
         }
         filter = std::unique_ptr<FirstOrderLowPassFilter>(
@@ -160,15 +160,14 @@ bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
     // ------------
     else if (filter_type == "MedianFilter") {
         if (static_cast<int>(medianFilter_order) == 0) {
-            Log::getSingleton().error("(MedianFilter) You need to specify the "
-                                      "filter order.");
+            wbtError << "(MedianFilter) You need to specify the filter order.";
             return false;
         }
         filter =
             std::unique_ptr<MedianFilter>(new MedianFilter(static_cast<int>(medianFilter_order)));
     }
     else {
-        Log::getSingleton().error("Filter type not recognized.");
+        wbtError << "Filter type not recognized.";
         return false;
     }
 

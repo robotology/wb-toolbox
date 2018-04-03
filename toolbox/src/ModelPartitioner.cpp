@@ -31,7 +31,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     unsigned yarp2WBIParameterIdx = WBBlock::numberOfParameters() + 1;
 
     if (!blockInfo->getBooleanParameterAtIndex(yarp2WBIParameterIdx, yarp2WBI)) {
-        Log::getSingleton().error("Failed to get input parameters.");
+        wbtError << "Failed to get input parameters.";
         return false;
     }
 
@@ -70,7 +70,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set input port number.");
+        wbtError << "Failed to set input port number.";
         return false;
     }
 
@@ -117,20 +117,19 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     if (yarp2WBI) {
         m_controlBoardIdxLimit = getRobotInterface()->getControlBoardIdxLimit();
         if (!m_controlBoardIdxLimit) {
-            Log::getSingleton().error("Failed to get the map CBIdx <--> CBMaxIdx.");
+            wbtError << "Failed to get the map CBIdx <--> CBMaxIdx.";
             return false;
         }
         for (const auto& cb : *m_controlBoardIdxLimit) {
             if (!blockInfo->setOutputPortVectorSize(cb.first, cb.second)) {
-                Log::getSingleton().error(
-                    "Failed to set ouput port size reading them from cb map.");
+                wbtError << "Failed to set ouput port size reading them from cb map.";
                 return false;
             }
         }
     }
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -145,7 +144,7 @@ bool ModelPartitioner::initialize(const BlockInformation* blockInfo)
 
     unsigned yarp2WBIParameterIdx = WBBlock::numberOfParameters() + 1;
     if (!blockInfo->getBooleanParameterAtIndex(yarp2WBIParameterIdx, m_yarp2WBI)) {
-        Log::getSingleton().error("Failed to get input parameters.");
+        wbtError << "Failed to parse parameters.";
         return false;
     }
 
@@ -153,12 +152,12 @@ bool ModelPartitioner::initialize(const BlockInformation* blockInfo)
     m_controlledJointsMapCB = getRobotInterface()->getControlledJointsMapCB();
 
     if (!m_jointsMapString) {
-        Log::getSingleton().error("Failed to get the joint map iDynTree <--> Yarp.");
+        wbtError << "Failed to get the joint map iDynTree <--> Yarp.";
         return false;
     }
 
     if (!m_controlledJointsMapCB) {
-        Log::getSingleton().error("Failed to get the joint map iDynTree <--> controlledJointsIdx.");
+        wbtError << "Failed to get the joint map iDynTree <--> controlledJointsIdx.";
         return false;
     }
 

@@ -30,7 +30,7 @@ bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -41,7 +41,7 @@ bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -124,9 +124,8 @@ bool SetLowLevelPID::readWBTPidConfigObject(const BlockInformation* blockInfo)
                 std::tuple<double, double, double>(Pvector[i], Ivector[i], Dvector[i]);
         }
         else {
-            Log::getSingleton().warning("Attempted to set PID of joint "
-                                        + jointNamesFromParameters[i]);
-            Log::getSingleton().warningAppend(" non currently controlled. Skipping it.");
+            wbtWarning << "Attempted to set PID of joint " << controlledJoints[i]
+                       << " which is not currently controlled. Skipping it.";
         }
     }
 
@@ -170,7 +169,7 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
 
     // Retain the RemoteControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
         return false;
     }
 
@@ -182,13 +181,13 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
     // Get the interface
     yarp::dev::IPidControl* iPidControl = nullptr;
     if (!getRobotInterface()->getInterface(iPidControl) || !iPidControl) {
-        Log::getSingleton().error("Failed to get IPidControl interface.");
+        wbtError << "Failed to get IPidControl interface.";
         return false;
     }
 
     // Store the default gains
     if (!iPidControl->getPids(m_controlType, m_defaultPidValues.data())) {
-        Log::getSingleton().error("Failed to get default data from IPidControl.");
+        wbtError << "Failed to get default data from IPidControl.";
         return false;
     }
 
@@ -209,7 +208,7 @@ bool SetLowLevelPID::initialize(const BlockInformation* blockInfo)
 
     // Apply the new pid gains
     if (!iPidControl->setPids(m_controlType, m_appliedPidValues.data())) {
-        Log::getSingleton().error("Failed to set PID values.");
+        wbtError << "Failed to set PID values.";
         return false;
     }
 
@@ -224,21 +223,21 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     yarp::dev::IPidControl* iPidControl = nullptr;
     ok = ok && getRobotInterface()->getInterface(iPidControl);
     if (!ok || !iPidControl) {
-        Log::getSingleton().error("Failed to get IPidControl interface.");
+        wbtError << "Failed to get IPidControl interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Reset default pid gains
     ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
     if (!ok) {
-        Log::getSingleton().error("Failed to set default PID values.");
+        wbtError << "Failed to reset PIDs to the default values.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Release the RemoteControlBoardRemapper
     ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
-        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 

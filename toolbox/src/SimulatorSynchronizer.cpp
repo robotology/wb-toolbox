@@ -54,7 +54,7 @@ bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -65,7 +65,7 @@ bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -83,19 +83,19 @@ bool SimulatorSynchronizer::initialize(const BlockInformation* blockInfo)
     ok = ok && blockInfo->getStringParameterAtIndex(PARAM_RPC_PORT, clientPortName);
 
     if (!ok) {
-        Log::getSingleton().error("Error reading RPC parameters.");
+        wbtError << "Error reading RPC parameters.";
         return false;
     }
 
     yarp::os::Network::init();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork()) {
-        Log::getSingleton().error("Error initializing Yarp network.");
+        wbtError << "Error initializing Yarp network.";
         return false;
     }
 
     m_rpcData = std::unique_ptr<RPCData>(new struct RPCData());
     if (!m_rpcData) {
-        Log::getSingleton().error("Error creating RPC data structure.");
+        wbtError << "Error creating RPC data structure.";
         return false;
     }
 
@@ -114,7 +114,7 @@ bool SimulatorSynchronizer::terminate(const BlockInformation* /*S*/)
             m_rpcData->clockServer.continueSimulation();
             if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName,
                                                m_rpcData->configuration.serverPortName)) {
-                Log::getSingleton().error("Error disconnecting from simulator clock server.");
+                wbtError << "Error disconnecting from simulator clock server.";
             }
             m_rpcData->clientPort.close();
         }
@@ -131,7 +131,7 @@ bool SimulatorSynchronizer::output(const BlockInformation* /*S*/)
         if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName)
             || !yarp::os::Network::connect(m_rpcData->configuration.clientPortName,
                                            m_rpcData->configuration.serverPortName)) {
-            Log::getSingleton().error("Error connecting to simulator clock server.");
+            wbtError << "Error connecting to simulator clock server.";
             return false;
         }
 

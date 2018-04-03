@@ -36,7 +36,7 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(1)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
     blockInfo->setInputPortVectorSize(0, -1);
@@ -49,7 +49,7 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -64,7 +64,7 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        Log::getSingleton().error("YARP server wasn't found active!!");
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -80,7 +80,7 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
 
     std::string portParameter;
     if (!blockInfo->getStringParameterAtIndex(PARAM_IDX_PORTNAME, portParameter)) {
-        Log::getSingleton().error("Error reading port name parameter.");
+        wbtError << "Failed to read input parameters.";
         return false;
     }
 
@@ -101,16 +101,16 @@ bool YarpWrite::initialize(const BlockInformation* blockInfo)
     m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
 
     if (!m_port || !m_port->open(sourcePortName)) {
-        Log::getSingleton().error("Error while opening yarp port.");
+        wbtError << "Error while opening yarp port.";
         return false;
     }
 
     if (m_autoconnect) {
         if (!Network::connect(m_port->getName(), m_destinationPortName)) {
-            Log::getSingleton().warning("Failed to connect " + m_port->getName() + " to "
-                                        + m_destinationPortName);
+            wbtWarning << "Failed to connect " << m_port->getName() << " to "
+                       << m_destinationPortName << ".";
             if (m_errorOnMissingPort) {
-                Log::getSingleton().error("Failed connecting ports.");
+                wbtError << "Failed connecting ports.";
                 return false;
             }
         }

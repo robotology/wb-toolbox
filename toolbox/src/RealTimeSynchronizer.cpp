@@ -30,7 +30,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -41,7 +41,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -51,12 +51,12 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 bool RealTimeSynchronizer::initialize(const BlockInformation* blockInfo)
 {
     if (!blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period)) {
-        Log::getSingleton().error("Failed to get input parametes.");
+        wbtError << "Failed to parse parameters.";
         return false;
     }
 
     if (m_period < 0) {
-        Log::getSingleton().error("Period must be greater than 0.");
+        wbtError << "Failed to get parameter 'period' after its parsing.";
         return false;
     }
 

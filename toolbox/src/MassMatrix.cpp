@@ -37,7 +37,7 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(2)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -52,7 +52,7 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -64,7 +64,7 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -106,7 +106,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     const auto& model = getRobotInterface()->getKinDynComputations();
 
     if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -119,7 +119,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 

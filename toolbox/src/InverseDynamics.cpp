@@ -50,7 +50,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(6)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -74,7 +74,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setInputPortType(INPUT_IDX_JOINT_ACC, PortDataTypeDouble);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -86,7 +86,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -146,7 +146,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
         setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 
@@ -156,7 +156,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
     double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
     if (!bufBaseAcc) {
-        Log::getSingleton().error("Failed to read data from input port.");
+        wbtError << "Base Acceleration signal not valid.";
         return false;
     }
     for (auto i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
@@ -169,7 +169,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
     double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
     if (!bufJointsAcc) {
-        Log::getSingleton().error("Failed to read data from input port.");
+        wbtError << "Joints Acceleration signal not valid.";
         return false;
     }
     for (auto i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
@@ -182,7 +182,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     const auto& model = getRobotInterface()->getKinDynComputations();
 
     if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+        wbtError << "iDynTree failed to compute inverse dynamics.";
         return false;
     }
 
@@ -196,7 +196,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_TORQUES);
     double* outputBuffer = output.getBuffer<double>();
     if (!outputBuffer) {
-        Log::getSingleton().error("Failed to get output buffer.");
+        wbtError << "Output signal not valid.";
         return false;
     }
 

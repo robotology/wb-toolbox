@@ -24,7 +24,7 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -35,7 +35,7 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -50,7 +50,7 @@ bool YarpClock::initialize(const BlockInformation* blockInfo)
     yarp::os::Network::init();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        Log::getSingleton().error("YARP server wasn't found active!!");
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 

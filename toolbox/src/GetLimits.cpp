@@ -41,7 +41,7 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -52,7 +52,7 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(2)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -66,7 +66,7 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     blockInfo->setOutputPortType(1, PortDataTypeDouble);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure output ports.");
+        wbtError << "Failed to configure output ports.";
         return false;
     }
 
@@ -84,7 +84,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     // Read the control type
     std::string limitType;
     if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, limitType)) {
-        Log::getSingleton().error("Could not read estimate type parameter.");
+        wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -109,12 +109,12 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
         if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-            Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+            wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
             return false;
         }
         // Get the interface
         if (!getRobotInterface()->getInterface(iControlLimits2) || !iControlLimits2) {
-            Log::getSingleton().error("Failed to get IControlLimits2 interface.");
+            wbtError << "Failed to get IControlLimits2 interface.";
             return false;
         }
     }
@@ -122,7 +122,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     if (limitType == "ControlBoardPosition") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getLimits(i, &min, &max)) {
-                Log::getSingleton().error("Failed to get limits from the interface.");
+                wbtError << "Failed to get limits from the interface.";
                 return false;
             }
             m_limits->min[i] = deg2rad(min);
@@ -132,7 +132,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     else if (limitType == "ControlBoardVelocity") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getVelLimits(i, &min, &max)) {
-                Log::getSingleton().error("Failed to get limits from the interface.");
+                wbtError << "Failed to get limits from the interface.";
                 return false;
             }
             m_limits->min[i] = deg2rad(min);
@@ -151,7 +151,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
         // Get the KinDynComputations pointer
         const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
         if (!kindyncomp) {
-            Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+            wbtError << "Failed to retrieve the KinDynComputations object.";
             return false;
         }
 
@@ -166,7 +166,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
             iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
 
             if (jointIndex == iDynTree::JOINT_INVALID_INDEX) {
-                Log::getSingleton().error("Invalid iDynTree joint index.");
+                wbtError << "Invalid iDynTree joint index.";
                 return false;
             }
 
@@ -174,14 +174,14 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
             p_joint = model.getJoint(jointIndex);
 
             if (!p_joint->hasPosLimits()) {
-                Log::getSingleton().warning("Joint " + joint + " has no model limits.");
                 m_limits->min[i] = -std::numeric_limits<double>::infinity();
                 m_limits->max[i] = std::numeric_limits<double>::infinity();
+                wbtWarning << "Joint " << joint << " has no model limits.";
             }
             else {
                 if (!p_joint->getPosLimits(0, min, max)) {
-                    Log::getSingleton().error("Failed to get joint limits from the URDF model ");
-                    Log::getSingleton().errorAppend("for the joint " + joint + ".");
+                    wbtError << "Failed to get joint limits from the URDF model "
+                             << "for the joint " << joint + ".";
                     return false;
                 }
                 m_limits->min[i] = min;
@@ -195,7 +195,7 @@ bool GetLimits::initialize(const BlockInformation* blockInfo)
     // else if (limitType == "ModelEffort") {
     // }
     else {
-        Log::getSingleton().error("Limit type " + limitType + " not recognized.");
+        wbtError << "Limit type " + m_limitType + " not recognized.";
         return false;
     }
 
@@ -218,7 +218,7 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
     if (limitType == "ControlBoardPosition" || limitType == "ControlBoardVelocity") {
         ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
         if (!ok) {
-            Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+            wbtError << "Failed to release the RemoteControlBoardRemapper.";
             // Don't return false here. WBBlock::terminate must be called in any case
         }
     }

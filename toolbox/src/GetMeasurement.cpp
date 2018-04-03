@@ -40,7 +40,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -51,7 +51,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
@@ -60,7 +60,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     bool success = blockInfo->setOutputPortVectorSize(0, dofs);
     blockInfo->setOutputPortType(0, PortDataTypeDouble);
     if (!success) {
-        Log::getSingleton().error("Failed to configure output ports.");
+        wbtError << "Failed to configure output ports.";
         return false;
     }
 
@@ -76,7 +76,7 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
     // Reading the control type
     std::string informationType;
     if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, informationType)) {
-        Log::getSingleton().error("Could not read estimate type parameter.");
+        wbtError << "Could not read measured type parameter.";
         return false;
     }
 
@@ -103,7 +103,7 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 
     // Retain the ControlBoardRemapper
     if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
         return false;
     }
 
@@ -116,7 +116,7 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
     bool ok = true;
     ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
     if (!ok) {
-        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
@@ -131,7 +131,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IPidControl interface.");
+                wbtError << "Failed to get IPidControl interface.";
                 return false;
             }
             // Get the measurement
@@ -143,7 +143,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IEncoders interface.");
+                wbtError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -155,7 +155,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IEncoders interface.");
+                wbtError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -167,7 +167,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::ITorqueControl* iTorqueControl = nullptr;
             if (!getRobotInterface()->getInterface(iTorqueControl) || !iTorqueControl) {
-                Log::getSingleton().error("Failed to get ITorqueControl interface.");
+                wbtError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Get the measurement

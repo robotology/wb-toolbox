@@ -68,7 +68,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
          && blockInfo->getBooleanParameterAtIndex(PARAM_IDX_EXT_SETTLINGTIME, externalSettlingTime);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to get input parameters.");
+        wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -85,7 +85,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     //
 
     if (!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
-        Log::getSingleton().error("Failed to set input port number.");
+        wbtError << "Failed to set input port number.";
         return false;
     }
 
@@ -119,7 +119,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     numberOfOutputPorts += static_cast<unsigned>(outputSecondDerivative);
 
     if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
@@ -154,7 +154,7 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
                                                   m_resetOnSettlingTimeChange);
 
     if (!ok) {
-        Log::getSingleton().error("Failed to get input parameters.");
+        wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -181,7 +181,7 @@ bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInf
     m_reference = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
 
     if (!m_generator || !m_initialValues || !m_reference) {
-        Log::getSingleton().error("Could not allocate memory for trajectory generator.");
+        wbtError << "Could not allocate memory for trajectory generator.";
         return false;
     }
 
