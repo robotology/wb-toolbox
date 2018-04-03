@@ -12,11 +12,6 @@ using namespace wbt;
 
 const std::string YarpWrite::ClassName = "YarpWrite";
 
-YarpWrite::YarpWrite()
-    : m_autoconnect(false)
-    , m_errorOnMissingPort(true)
-    , m_destinationPortName("")
-{}
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // Port name
 const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 2; // Autoconnect boolean
@@ -29,6 +24,10 @@ unsigned YarpWrite::numberOfParameters()
 
 bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUT
     // =====
     //
@@ -56,7 +55,7 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool YarpWrite::initialize(const BlockInformation* blockInfo)
+bool YarpWrite::initialize(BlockInformation* blockInfo)
 {
     using namespace yarp::os;
     using namespace yarp::sig;

@@ -55,14 +55,14 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     // Size and type
-    bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+    bool ok = true;
+    ok = ok && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
 
     blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
     blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
 
-    if (!success) {
+    if (!ok) {
         wbtError << "Failed to configure input ports.";
         return false;
     }
@@ -80,13 +80,13 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Size and type
-    success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, 4, 4);
+    ok = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, {4, 4});
     blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, DataType::DOUBLE);
 
-    return success;
+    return ok;
 }
 
-bool ForwardKinematics::initialize(const BlockInformation* blockInfo)
+bool ForwardKinematics::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -148,8 +148,8 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
     bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 

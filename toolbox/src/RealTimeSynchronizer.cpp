@@ -8,23 +8,22 @@ using namespace wbt;
 
 const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 
-const unsigned RealTimeSynchronizer::PARAM_PERIOD = 1; // Period
-
-RealTimeSynchronizer::RealTimeSynchronizer()
-    : m_period(0.01)
-    , m_initialTime(0)
-    , m_counter(0)
-{}
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
 
 unsigned RealTimeSynchronizer::numberOfParameters()
 {
-    return 1;
+    return Block::numberOfParameters() + 1;
+}
+
 }
 
 bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUTS
     // ======
     //
@@ -50,7 +49,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool RealTimeSynchronizer::initialize(const BlockInformation* blockInfo)
+bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
 {
     if (!blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period)) {
         wbtError << "Failed to parse parameters.";

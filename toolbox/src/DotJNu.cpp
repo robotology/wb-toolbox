@@ -19,10 +19,6 @@ const unsigned INPUT_IDX_BASE_VEL = 2;
 const unsigned INPUT_IDX_JOINT_VEL = 3;
 const unsigned OUTPUT_IDX_DOTJ_NU = 0;
 
-DotJNu::DotJNu()
-    : m_frameIsCoM(false)
-    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
-{}
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
@@ -56,18 +52,18 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     // Size and type
-    bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
+    bool ok = true;
+    ok = ok && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
 
     blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
     blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
     blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
     blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
 
-    if (!success) {
+    if (!ok) {
         wbtError << "Failed to configure input ports.";
         return false;
     }
@@ -85,13 +81,13 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Size and type
-    success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_DOTJ_NU, 6);
+    ok = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_DOTJ_NU, 6);
     blockInfo->setOutputPortType(OUTPUT_IDX_DOTJ_NU, DataType::DOUBLE);
 
-    return success;
+    return ok;
 }
 
-bool DotJNu::initialize(const BlockInformation* blockInfo)
+bool DotJNu::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -154,10 +150,10 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
     bool ok =
         setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);

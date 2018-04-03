@@ -24,8 +24,7 @@ public:
     ~CentroidalMomentum() override = default;
 
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };

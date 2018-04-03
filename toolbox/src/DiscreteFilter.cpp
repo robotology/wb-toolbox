@@ -25,6 +25,7 @@ const unsigned PARAM_IDX_STRUCT = PARAM_IDX_BIAS + 1; // Struct containing filte
 const unsigned INPUT_IDX_SIGNAL = 0;
 const unsigned OUTPUT_IDX_SIGNAL = 0;
 
+// Cannot use = default due to yarp::sig::Vector instantiation
 DiscreteFilter::DiscreteFilter() {}
 
 unsigned DiscreteFilter::numberOfParameters()
@@ -38,6 +39,9 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Specify I/O
     // ===========
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ------
@@ -68,10 +72,13 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool DiscreteFilter::initialize(const BlockInformation* blockInfo)
+bool DiscreteFilter::initialize(BlockInformation* blockInfo)
 {
     // Handle the parameters
     // =====================
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
 
     // Variables for the filter parameters
     std::string filter_type;

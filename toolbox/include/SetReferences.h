@@ -12,20 +12,19 @@ class wbt::SetReferences : public wbt::WBBlock
 {
 private:
     std::vector<int> m_controlModes;
-    bool m_resetControlMode;
+    bool m_resetControlMode = true;
     double m_refSpeed;
     static const std::vector<double> rad2deg(const double* buffer, const unsigned width);
 
 public:
     static const std::string ClassName;
 
-    SetReferences();
+    SetReferences() = default;
     ~SetReferences() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool initializeInitialConditions(const BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;

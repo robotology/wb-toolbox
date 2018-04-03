@@ -31,10 +31,8 @@ const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_GZCLK_PORT = PARAM_IDX_BIAS + 2;
 const unsigned PARAM_IDX_RPC_PORT = PARAM_IDX_BIAS + 3;
 
-SimulatorSynchronizer::SimulatorSynchronizer()
-    : m_period(0.01)
-    , m_firstRun(true)
-{}
+// Cannot use = default due to RPCData instantiation
+SimulatorSynchronizer::SimulatorSynchronizer() {}
 
 unsigned SimulatorSynchronizer::numberOfParameters()
 {
@@ -48,6 +46,10 @@ std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
 
 bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUTS
     // ======
     //
@@ -73,8 +75,12 @@ bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool SimulatorSynchronizer::initialize(const BlockInformation* blockInfo)
+bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     std::string serverPortName;
     std::string clientPortName;
 

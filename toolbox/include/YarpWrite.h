@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include <memory>
+#include <yarp/sig/Vector.h>
 
 namespace wbt {
     class YarpWrite;
@@ -13,31 +14,29 @@ namespace yarp {
         template <class T>
         class BufferedPort;
     }
-    namespace sig {
-        class Vector;
-    }
-}
+} // namespace yarp
 
 class wbt::YarpWrite : public wbt::Block
 {
+private:
+    bool m_autoconnect = false;
+    bool m_errorOnMissingPort = true;
+
+    std::string m_destinationPortName;
+    yarp::sig::Vector m_outputVector;
+    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
+
 public:
     static const std::string ClassName;
 
-    YarpWrite();
+    YarpWrite() = default;
     ~YarpWrite() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
-
-private:
-    bool m_autoconnect;
-    bool m_errorOnMissingPort;
-
-    std::string m_destinationPortName;
-    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
 };
 
 #endif /* end of include guard: WBT_YARPWRITE_H */

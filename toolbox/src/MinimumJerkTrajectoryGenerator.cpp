@@ -15,15 +15,6 @@ using namespace wbt;
 
 const std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
 
-
-MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
-    : m_outputFirstDerivativeIndex(-1)
-    , m_outputSecondDerivativeIndex(-1)
-    , m_firstRun(true)
-    , m_explicitInitialValue(false)
-    , m_externalSettlingTime(false)
-    , m_resetOnSettlingTimeChange(false)
-{}
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_SAMPLE_TIME = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_SETTLING_TIME = PARAM_IDX_BIAS + 2;
@@ -33,6 +24,9 @@ const unsigned PARAM_IDX_INITIAL_VALUE = PARAM_IDX_BIAS + 5;
 const unsigned PARAM_IDX_EXT_SETTLINGTIME = PARAM_IDX_BIAS + 6;
 const unsigned PARAM_IDX_RESET_CHANGEST = PARAM_IDX_BIAS + 7;
 
+// Cannot use = default due to iCub::ctrl::minJerkTrajGen instantiation
+MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator() {}
+
 unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 {
     return Block::numberOfParameters() + 7;
@@ -40,6 +34,10 @@ unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 
 bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // PARAMETERS
     // ==========
     //
@@ -132,7 +130,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     return true;
 }
 
-bool MinimumJerkTrajectoryGenerator::initialize(const BlockInformation* blockInfo)
+bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
 {
     // Get the additional parameters
     bool outputFirstDerivative;

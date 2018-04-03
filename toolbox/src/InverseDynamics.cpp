@@ -59,7 +59,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
@@ -97,7 +97,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     return success;
 }
 
-bool InverseDynamics::initialize(const BlockInformation* blockInfo)
+bool InverseDynamics::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -137,10 +137,10 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
     bool ok =
         setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
@@ -153,9 +153,9 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Base acceleration
     // -----------------
 
-    Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
     double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
     if (!bufBaseAcc) {
+    const Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
         wbtError << "Base Acceleration signal not valid.";
         return false;
     }
@@ -166,9 +166,9 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Joints acceleration
     // -------------------
 
-    Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
     double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
     if (!bufJointsAcc) {
+    const Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
         wbtError << "Joints Acceleration signal not valid.";
         return false;
     }

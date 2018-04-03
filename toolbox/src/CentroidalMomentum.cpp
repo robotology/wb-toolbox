@@ -20,6 +20,7 @@ const unsigned INPUT_IDX_BASE_VEL = 2;
 const unsigned INPUT_IDX_JOINT_VEL = 3;
 const unsigned OUTPUT_IDX_CENTRMOM = 0;
 
+// Cannot use = default due to iDynTree::SpatialMomentum instantiation
 CentroidalMomentum::CentroidalMomentum() {}
 
 bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
@@ -48,7 +49,7 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
@@ -82,7 +83,7 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
     return success;
 }
 
-bool CentroidalMomentum::initialize(const BlockInformation* blockInfo)
+bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo))
         return false;
@@ -112,10 +113,10 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
     bool ok =
         setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);

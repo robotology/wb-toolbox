@@ -45,7 +45,7 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
 
     blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
@@ -69,13 +69,13 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Size and type
-    success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT, dofs + 6, dofs + 6);
+    success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT, {dofs + 6, dofs + 6});
     blockInfo->setOutputPortType(OUTPUT_IDX_MASS_MAT, DataType::DOUBLE);
 
     return success;
 }
 
-bool MassMatrix::initialize(const BlockInformation* blockInfo)
+bool MassMatrix::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -113,8 +113,8 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
     bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
 

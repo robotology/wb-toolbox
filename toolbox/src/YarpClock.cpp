@@ -17,6 +17,10 @@ unsigned YarpClock::numberOfParameters()
 
 bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUTS
     // ======
     //
@@ -45,8 +49,12 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool YarpClock::initialize(const BlockInformation* blockInfo)
+bool YarpClock::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     yarp::os::Network::init();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {

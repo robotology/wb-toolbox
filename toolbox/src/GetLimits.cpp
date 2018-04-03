@@ -76,7 +76,7 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool GetLimits::initialize(const BlockInformation* blockInfo)
+bool GetLimits::initialize(BlockInformation* blockInfo)
 {
     using namespace yarp::os;
 

@@ -139,7 +139,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool ModelPartitioner::initialize(const BlockInformation* blockInfo)
+bool ModelPartitioner::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;

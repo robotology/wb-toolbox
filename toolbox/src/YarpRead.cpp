@@ -15,17 +15,6 @@ using namespace wbt;
 
 const std::string YarpRead::ClassName = "YarpRead";
 
-
-const double DEFAULT_TIMEOUT = 1.0;
-
-YarpRead::YarpRead()
-    : m_autoconnect(false)
-    , m_blocking(false)
-    , m_shouldReadTimestamp(false)
-    , m_errorOnMissingPort(true)
-    , m_bufferSize(0)
-    , m_timeout(DEFAULT_TIMEOUT)
-{}
 // Parameters
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // port name
@@ -113,7 +102,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool YarpRead::initialize(const BlockInformation* blockInfo)
+bool YarpRead::initialize(BlockInformation* blockInfo)
 {
     using namespace yarp::os;
     using namespace yarp::sig;

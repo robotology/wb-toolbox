@@ -13,10 +13,6 @@ using namespace wbt;
 
 const std::string SetReferences::ClassName = "SetReferences";
 
-SetReferences::SetReferences()
-    : m_resetControlMode(true)
-    , m_refSpeed(0)
-{}
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_REF_SPEED = PARAM_IDX_BIAS + 2;
@@ -83,7 +79,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool SetReferences::initialize(const BlockInformation* blockInfo)
+bool SetReferences::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;

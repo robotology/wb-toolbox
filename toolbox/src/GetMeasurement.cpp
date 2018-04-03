@@ -70,7 +70,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
-bool GetMeasurement::initialize(const BlockInformation* blockInfo)
+bool GetMeasurement::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
