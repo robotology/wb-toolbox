@@ -65,8 +65,8 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     success = success && blockInfo->setOutputPortVectorSize(0, dofs); // Min limit
     success = success && blockInfo->setOutputPortVectorSize(1, dofs); // Max limit
 
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
-    blockInfo->setOutputPortType(1, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
+    blockInfo->setOutputPortType(1, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure output ports.";

@@ -40,7 +40,7 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     blockInfo->setOutputPortVectorSize(0, 1);
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
 
     return true;
 }

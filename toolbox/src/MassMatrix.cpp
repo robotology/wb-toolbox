@@ -48,8 +48,8 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
     success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure input ports.";
@@ -70,7 +70,7 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT, dofs + 6, dofs + 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_MASS_MAT, PortDataTypeDouble);
+    blockInfo->setOutputPortType(OUTPUT_IDX_MASS_MAT, DataType::DOUBLE);
 
     return success;
 }

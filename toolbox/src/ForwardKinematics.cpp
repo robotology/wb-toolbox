@@ -59,8 +59,8 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure input ports.";
@@ -81,7 +81,7 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, 4, 4);
-    blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, PortDataTypeDouble);
+    blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, DataType::DOUBLE);
 
     return success;
 }

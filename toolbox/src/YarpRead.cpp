@@ -96,18 +96,18 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     blockInfo->setOutputPortVectorSize(0, static_cast<int>(signalSize));
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
 
     int portIndex = 1;
     if (shouldReadTimestamp) {
         blockInfo->setOutputPortVectorSize(portIndex, 2);
-        blockInfo->setOutputPortType(portIndex, PortDataTypeDouble);
+        blockInfo->setOutputPortType(portIndex, DataType::DOUBLE);
         portIndex++;
     }
     if (!autoconnect) {
         blockInfo->setOutputPortVectorSize(portIndex, 1);
         blockInfo->setOutputPortType(
-            portIndex, PortDataTypeInt8); // use double anyway. Simplifies simulink stuff
+            portIndex, DataType::DOUBLE); // use double anyway. Simplifies simulink stuff
         portIndex++;
     }
     return true;

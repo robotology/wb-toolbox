@@ -66,12 +66,12 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_ACC, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_ACC, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_ACC, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_ACC, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_ACC, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_ACC, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure input ports.";
@@ -92,7 +92,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_TORQUES, dofs + 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_TORQUES, PortDataTypeDouble);
+    blockInfo->setOutputPortType(OUTPUT_IDX_TORQUES, DataType::DOUBLE);
 
     return success;
 }

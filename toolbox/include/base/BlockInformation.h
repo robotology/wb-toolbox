@@ -7,26 +7,25 @@
 namespace wbt {
     class BlockInformation;
     class Signal;
-
-    typedef enum _PortDataType
-    {
-        PortDataTypeDouble,
-        PortDataTypeSingle,
-        PortDataTypeInt8,
-        PortDataTypeUInt8,
-        PortDataTypeInt16,
-        PortDataTypeUInt16,
-        PortDataTypeInt32,
-        PortDataTypeUInt32,
-        PortDataTypeBoolean,
-    } PortDataType;
-
+    enum class DataType;
     extern const std::string BlockOptionPrioritizeOrder;
 } // namespace wbt
 
+enum class wbt::DataType
+{
+    DOUBLE,
+    SINGLE,
+    INT8,
+    UINT8,
+    INT16,
+    UINT16,
+    INT32,
+    UINT32,
+    BOOLEAN,
+};
+
 class wbt::BlockInformation
 {
-
 public:
     BlockInformation() = default;
     virtual ~BlockInformation() = default;

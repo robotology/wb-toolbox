@@ -90,20 +90,20 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
         return false;
     }
 
-    blockInfo->setInputPortVectorSize(0, -1);
-    blockInfo->setInputPortType(0, PortDataTypeDouble);
+    blockInfo->setInputPortVectorSize(0, Signal::DynamicSize);
+    blockInfo->setInputPortType(0, DataType::DOUBLE);
 
     unsigned portIndex = 1;
 
     if (explicitInitialValue) {
-        blockInfo->setInputPortVectorSize(portIndex, -1);
-        blockInfo->setInputPortType(portIndex, PortDataTypeDouble);
+        blockInfo->setInputPortVectorSize(portIndex, Signal::DynamicSize);
+        blockInfo->setInputPortType(portIndex, DataType::DOUBLE);
         portIndex++;
     }
 
     if (externalSettlingTime) {
         blockInfo->setInputPortVectorSize(portIndex, 1);
-        blockInfo->setInputPortType(portIndex, PortDataTypeDouble);
+        blockInfo->setInputPortType(portIndex, DataType::DOUBLE);
         portIndex++;
     }
 
@@ -125,8 +125,8 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     }
 
     for (int i = 0; i < numberOfOutputPorts; ++i) {
-        blockInfo->setOutputPortVectorSize(i, -1);
-        blockInfo->setOutputPortType(i, PortDataTypeDouble);
+        blockInfo->setOutputPortVectorSize(i, Signal::DynamicSize);
+        blockInfo->setOutputPortType(i, DataType::DOUBLE);
     }
 
     return true;

@@ -18,8 +18,6 @@ using namespace yarp::sig;
 const std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
 // Parameters
-// Other defines
-const int DiscreteFilter::SIGNAL_DYNAMIC_SIZE = -1;
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_STRUCT = PARAM_IDX_BIAS + 1; // Struct containing filter parameters
 
@@ -51,9 +49,8 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // Input port sizes
-    blockInfo->setInputPortVectorSize(INPUT_IDX_SIGNAL, SIGNAL_DYNAMIC_SIZE);
-    blockInfo->setInputPortType(INPUT_IDX_SIGNAL, PortDataTypeDouble);
+    blockInfo->setInputPortVectorSize(INPUT_IDX_SIGNAL, Signal::DynamicSize);
+    blockInfo->setInputPortType(INPUT_IDX_SIGNAL, DataType::DOUBLE);
 
     // OUTPUTS
     // -------
@@ -65,9 +62,8 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // Output port sizes
-    blockInfo->setOutputPortVectorSize(OUTPUT_IDX_SIGNAL, SIGNAL_DYNAMIC_SIZE);
-    blockInfo->setOutputPortType(OUTPUT_IDX_SIGNAL, PortDataTypeDouble);
+    blockInfo->setOutputPortVectorSize(OUTPUT_IDX_SIGNAL, Signal::DynamicSize);
+    blockInfo->setOutputPortType(OUTPUT_IDX_SIGNAL, DataType::DOUBLE);
 
     return true;
 }

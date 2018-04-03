@@ -61,7 +61,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
     bool success = blockInfo->setOutputPortVectorSize(0, dofs);
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
     if (!success) {
         wbtError << "Failed to configure output ports.";
         return false;

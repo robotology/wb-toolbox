@@ -39,8 +39,8 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
         wbtError << "Failed to set input port number to 0.";
         return false;
     }
-    blockInfo->setInputPortVectorSize(0, -1);
-    blockInfo->setInputPortType(0, PortDataTypeDouble);
+    blockInfo->setInputPortVectorSize(0, Signal::DynamicSize);
+    blockInfo->setInputPortType(0, DataType::DOUBLE);
 
     // OUTPUT
     // ======

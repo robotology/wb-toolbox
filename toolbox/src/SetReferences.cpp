@@ -62,7 +62,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     bool success = blockInfo->setInputPortVectorSize(0, dofs);
-    blockInfo->setInputPortType(0, PortDataTypeDouble);
+    blockInfo->setInputPortType(0, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure input ports.";

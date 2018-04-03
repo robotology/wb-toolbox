@@ -62,10 +62,10 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
 
     if (!success) {
         wbtError << "Failed to configure input ports.";
@@ -86,7 +86,7 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Size and type
     success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_DOTJ_NU, 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_DOTJ_NU, PortDataTypeDouble);
+    blockInfo->setOutputPortType(OUTPUT_IDX_DOTJ_NU, DataType::DOUBLE);
 
     return success;
 }

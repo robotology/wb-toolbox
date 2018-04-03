@@ -59,16 +59,16 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     if (yarp2WBI) {
         numberOfInputs = 1;
         ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
-        blockInfo->setInputPortVectorSize(0, getConfiguration().getNumberOfDoFs());
-        blockInfo->setInputPortType(0, PortDataTypeDouble);
+        blockInfo->setInputPortVectorSize(0, dofs);
+        blockInfo->setInputPortType(0, DataType::DOUBLE);
     }
     else {
         numberOfInputs = controlBoardsNumber;
         ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
         // Set the size as dynamic
         for (unsigned i = 0; i < numberOfInputs; ++i) {
-            blockInfo->setInputPortVectorSize(i, -1);
-            blockInfo->setInputPortType(i, PortDataTypeDouble);
+            blockInfo->setInputPortVectorSize(i, Signal::DynamicSize);
+            blockInfo->setInputPortType(i, DataType::DOUBLE);
         }
     }
 
@@ -98,8 +98,8 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
         ok = blockInfo->setNumberOfOutputPorts(numberOfOutputs);
         // Set the size as dynamic
         for (unsigned i = 0; i < numberOfOutputs; ++i) {
-            blockInfo->setOutputPortVectorSize(i, -1);
-            blockInfo->setOutputPortType(i, PortDataTypeDouble);
+            blockInfo->setOutputPortVectorSize(i, Signal::DynamicSize);
+            blockInfo->setOutputPortType(i, DataType::DOUBLE);
         }
     }
     else {

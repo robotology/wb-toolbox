@@ -8,21 +8,24 @@
 
 namespace wbt {
     class Signal;
-    enum SignalDataFormat
+    enum class DataType;
+} // namespace wbt
+
+class wbt::Signal
+{
+public:
+    enum class DataFormat
     {
         NONCONTIGUOUS = 0,
         CONTIGUOUS = 1,
         CONTIGUOUS_ZEROCOPY = 2
     };
-} // namespace wbt
 
-class wbt::Signal
-{
 private:
     int m_width;
     const bool m_isConst;
-    const PortDataType m_portDataType;
-    const SignalDataFormat m_dataFormat;
+    const DataType m_portDataType;
+    const DataFormat m_dataFormat;
 
     void* m_bufferPtr;
 
@@ -33,9 +36,11 @@ private:
     T* getCastBuffer() const;
 
 public:
+    static const int DynamicSize;
+
     // Ctor and Dtor
-    Signal(const SignalDataFormat& dataFormat = CONTIGUOUS_ZEROCOPY,
-           const PortDataType& dataType = PortDataTypeDouble,
+    Signal(const DataFormat& dataFormat = DataFormat::CONTIGUOUS_ZEROCOPY,
+           const DataType& dataType = DataType::DOUBLE,
            const bool& isConst = true);
     ~Signal();
     // Copy
@@ -51,10 +56,12 @@ public:
 
     bool isConst() const;
     unsigned getWidth() const;
-    PortDataType getPortDataType() const;
-    SignalDataFormat getDataFormat() const;
+    DataType getPortDataType() const;
+    DataFormat getDataFormat() const;
+
     template <typename T>
     T* getBuffer() const;
+
     template <typename T>
     T get(const unsigned& i) const;
 
