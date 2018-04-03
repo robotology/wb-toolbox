@@ -15,6 +15,9 @@ using namespace wbt;
 const std::string GetMeasurement::ClassName = "GetMeasurement";
 
 void GetMeasurement::deg2rad(std::vector<double>& v)
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_MEAS_TYPE = PARAM_IDX_BIAS + 1;
+
 {
     const double Deg2Rad = M_PI / 180.0;
     for (auto& element : v) {

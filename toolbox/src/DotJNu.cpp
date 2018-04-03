@@ -13,16 +13,18 @@ using namespace wbt;
 
 const std::string DotJNu::ClassName = "DotJNu";
 
-const unsigned DotJNu::INPUT_IDX_BASE_POSE = 0;
-const unsigned DotJNu::INPUT_IDX_JOINTCONF = 1;
-const unsigned DotJNu::INPUT_IDX_BASE_VEL = 2;
-const unsigned DotJNu::INPUT_IDX_JOINT_VEL = 3;
-const unsigned DotJNu::OUTPUT_IDX_DOTJ_NU = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned INPUT_IDX_BASE_VEL = 2;
+const unsigned INPUT_IDX_JOINT_VEL = 3;
+const unsigned OUTPUT_IDX_DOTJ_NU = 0;
 
 DotJNu::DotJNu()
     : m_frameIsCoM(false)
     , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
 {}
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
 unsigned DotJNu::numberOfParameters()
 {

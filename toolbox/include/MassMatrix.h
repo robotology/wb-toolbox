@@ -17,10 +17,6 @@ class wbt::MassMatrix : public wbt::WBBlock
 private:
     std::unique_ptr<iDynTree::MatrixDynSize> m_massMatrix;
 
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned OUTPUT_IDX_MASS_MAT;
-
 public:
     static const std::string ClassName;
     MassMatrix();

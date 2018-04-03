@@ -26,8 +26,6 @@ private:
 
     double m_initialTime;
     unsigned long m_counter;
-
-    static const unsigned PARAM_PERIOD; // Period
 };
 
 #endif /* end of include guard: WBT_REALTIMESYNCHRONIZER_H */

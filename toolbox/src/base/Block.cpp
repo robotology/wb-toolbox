@@ -4,6 +4,13 @@
 using namespace wbt;
 
 Block::~Block() {}
+const unsigned Block::NumberOfParameters = 1;
+
+unsigned Block::numberOfParameters()
+{
+    return Block::NumberOfParameters;
+}
+
 std::vector<std::string> Block::additionalBlockOptions()
 {
     return std::vector<std::string>();
@@ -16,6 +23,16 @@ void Block::parameterAtIndexIsTunable(unsigned /*index*/, bool& tunable)
 
 bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
 {
+    return true;
+}
+
+bool Block::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    if (!Block::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse Block parameters.";
+        return false;
+    }
+
     return true;
 }
 

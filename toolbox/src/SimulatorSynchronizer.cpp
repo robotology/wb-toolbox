@@ -26,9 +26,10 @@ struct SimulatorSynchronizer::RPCData
 
 const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
 
-const unsigned SimulatorSynchronizer::PARAM_PERIOD = 1;
-const unsigned SimulatorSynchronizer::PARAM_GZCLK_PORT = 2;
-const unsigned SimulatorSynchronizer::PARAM_RPC_PORT = 3;
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
+const unsigned PARAM_IDX_GZCLK_PORT = PARAM_IDX_BIAS + 2;
+const unsigned PARAM_IDX_RPC_PORT = PARAM_IDX_BIAS + 3;
 
 SimulatorSynchronizer::SimulatorSynchronizer()
     : m_period(0.01)
@@ -37,7 +38,7 @@ SimulatorSynchronizer::SimulatorSynchronizer()
 
 unsigned SimulatorSynchronizer::numberOfParameters()
 {
-    return 3;
+    return Block::numberOfParameters() + 3;
 }
 
 std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()

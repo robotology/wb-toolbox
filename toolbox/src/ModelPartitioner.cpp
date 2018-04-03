@@ -11,6 +11,9 @@ using namespace wbt;
 
 const std::string ModelPartitioner::ClassName = "ModelPartitioner";
 
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_DIRECTION = PARAM_IDX_BIAS + 1;
+
 unsigned ModelPartitioner::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

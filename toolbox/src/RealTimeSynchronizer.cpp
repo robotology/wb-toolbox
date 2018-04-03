@@ -15,6 +15,8 @@ RealTimeSynchronizer::RealTimeSynchronizer()
     , m_initialTime(0)
     , m_counter(0)
 {}
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
 
 unsigned RealTimeSynchronizer::numberOfParameters()
 {

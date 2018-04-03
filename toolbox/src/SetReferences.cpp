@@ -17,6 +17,9 @@ SetReferences::SetReferences()
     : m_resetControlMode(true)
     , m_refSpeed(0)
 {}
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 1;
+const unsigned PARAM_IDX_REF_SPEED = PARAM_IDX_BIAS + 2;
 
 const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
 {

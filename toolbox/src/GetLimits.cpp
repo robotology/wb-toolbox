@@ -19,6 +19,9 @@ using namespace wbt;
 const std::string GetLimits::ClassName = "GetLimits";
 
 double GetLimits::deg2rad(const double& v)
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_LIMIT_SRC = PARAM_IDX_BIAS + 1;
+
 {
     return v * M_PI / 180.0;
 }

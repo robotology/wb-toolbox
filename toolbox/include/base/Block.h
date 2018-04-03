@@ -39,13 +39,14 @@ public:
      *
      */
     virtual ~Block();
+    static const unsigned NumberOfParameters;
 
     /**
      * Returns the number of configuration parameters needed by this block
      *
      * @return the number of parameters
      */
-    virtual unsigned numberOfParameters() = 0;
+    virtual unsigned numberOfParameters();
 
     /**
      * Returns vector of additional block options
@@ -112,7 +113,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool configureSizeAndPorts(BlockInformation* blockInfo) = 0;
+    virtual bool configureSizeAndPorts(BlockInformation* blockInfo);
 
     /**
      * Never called.

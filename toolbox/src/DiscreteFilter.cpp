@@ -18,27 +18,20 @@ using namespace yarp::sig;
 const std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
 // Parameters
-const unsigned DiscreteFilter::PARAM_IDX_FLT_TYPE = 1; // ::Filter type
-const unsigned DiscreteFilter::PARAM_IDX_NUMCOEFF = 2; // ::Filter numerator coefficients
-const unsigned DiscreteFilter::PARAM_IDX_DENCOEFF = 3; // ::Filter denominator coefficients
-const unsigned DiscreteFilter::PARAM_IDX_1LOWP_FC = 4; // ::FirstOrderLowPassFilter cut frequency
-const unsigned DiscreteFilter::PARAM_IDX_1LOWP_TS = 5; // ::FirstOrderLowPassFilter sampling time
-const unsigned DiscreteFilter::PARAM_IDX_MD_ORDER = 6; // ::MedianFilter order
-const unsigned DiscreteFilter::PARAM_IDX_INIT_Y0 = 7; // Output initialization
-const unsigned DiscreteFilter::PARAM_IDX_INIT_U0 = 8; // ::Filter input initialization
-
-// Inputs
-const unsigned DiscreteFilter::INPUT_IDX_SIGNAL = 0;
-// Outputs
-const unsigned DiscreteFilter::OUTPUT_IDX_SIGNAL = 0;
 // Other defines
 const int DiscreteFilter::SIGNAL_DYNAMIC_SIZE = -1;
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_STRUCT = PARAM_IDX_BIAS + 1; // Struct containing filter parameters
+
+// Inputs / Outputs
+const unsigned INPUT_IDX_SIGNAL = 0;
+const unsigned OUTPUT_IDX_SIGNAL = 0;
 
 DiscreteFilter::DiscreteFilter() {}
 
 unsigned DiscreteFilter::numberOfParameters()
 {
-    return 8;
+    return Block::numberOfParameters() + 1;
 }
 
 bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)

@@ -20,11 +20,6 @@ private:
     bool m_frameIsCoM;
     iDynTree::FrameIndex m_frameIndex;
 
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned INPUT_IDX_BASE_VEL;
-    static const unsigned INPUT_IDX_JOINT_VEL;
-    static const unsigned OUTPUT_IDX_DOTJ_NU;
 
 public:
     static const std::string ClassName;

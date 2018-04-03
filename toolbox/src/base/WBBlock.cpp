@@ -21,9 +21,12 @@
 
 using namespace wbt;
 
-const unsigned WBBlock::ConfigurationParameterIndex = 1; // Struct from Simulink
-const unsigned WBBlock::ConfBlockNameParameterIndex = 2; // Absolute name of the block containing
-                                                         // the configuration
+const unsigned WBBlock::NumberOfParameters = Block::NumberOfParameters + 2;
+
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned ConfigurationParameterIndex = PARAM_IDX_BIAS + 1; // Struct from Simulink
+const unsigned ConfBlockNameParameterIndex =
+    PARAM_IDX_BIAS + 2; // Absolute name of the block containing the configuration
 
 iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity)
     : m_gravity(gravity.data(), 3)
@@ -132,7 +135,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
 unsigned WBBlock::numberOfParameters()
 {
-    return 2;
+    return WBBlock::NumberOfParameters;
 }
 
 bool WBBlock::getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo)

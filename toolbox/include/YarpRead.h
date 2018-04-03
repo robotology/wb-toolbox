@@ -41,14 +41,6 @@ private:
     double m_timeout;
 
     std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
-
-    static const unsigned PARAM_IDX_PORTNAME; // port name
-    static const unsigned PARAM_IDX_PORTSIZE; // Size of the port you're reading
-    static const unsigned PARAM_IDX_WAITDATA; // boolean for blocking reading
-    static const unsigned PARAM_IDX_READ_TS; // boolean to stream timestamp
-    static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean
-    static const unsigned PARAM_IDX_ERR_NO_PORT; // Error on missing port if autoconnect is on
-    static const unsigned PARAM_IDX_TIMEOUT; // Timeout if blocking read
 };
 
 #endif /* end of include guard: WBT_YARPREAD_H */

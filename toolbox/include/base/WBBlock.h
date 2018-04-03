@@ -64,10 +64,6 @@ struct iDynTreeRobotState
  */
 class wbt::WBBlock : public wbt::Block
 {
-private:
-    static const unsigned ConfigurationParameterIndex;
-    static const unsigned ConfBlockNameParameterIndex;
-
 protected:
     std::string confKey;
     iDynTreeRobotState robotState;
@@ -80,6 +76,8 @@ protected:
                        const wbt::Signal* jointsVelocity);
 
 public:
+    static const unsigned NumberOfParameters;
+
     WBBlock() = default;
     ~WBBlock() override = default;
     unsigned numberOfParameters() override;

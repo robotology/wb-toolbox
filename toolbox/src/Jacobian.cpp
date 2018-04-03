@@ -14,9 +14,12 @@ using namespace wbt;
 
 const std::string Jacobian::ClassName = "Jacobian";
 
-const unsigned Jacobian::INPUT_IDX_BASE_POSE = 0;
-const unsigned Jacobian::INPUT_IDX_JOINTCONF = 1;
-const unsigned Jacobian::OUTPUT_IDX_FW_FRAME = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned OUTPUT_IDX_FW_FRAME = 0;
+
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
 Jacobian::Jacobian()
     : m_frameIsCoM(false)

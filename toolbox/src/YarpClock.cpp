@@ -12,7 +12,7 @@ const std::string YarpClock::ClassName = "YarpClock";
 
 unsigned YarpClock::numberOfParameters()
 {
-    return 0;
+    return Block::numberOfParameters();
 }
 
 bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)

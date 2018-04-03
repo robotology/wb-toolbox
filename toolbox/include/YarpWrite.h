@@ -38,10 +38,6 @@ private:
 
     std::string m_destinationPortName;
     std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
-
-    static const unsigned PARAM_IDX_PORTNAME;    // Port name
-    static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean
-    static const unsigned PARAM_IDX_ERR_NO_PORT; // Error on missing port if autoconnect is true
 };
 
 #endif /* end of include guard: WBT_YARPWRITE_H */

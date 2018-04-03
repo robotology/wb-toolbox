@@ -14,9 +14,12 @@ using namespace wbt;
 
 const std::string ForwardKinematics::ClassName = "ForwardKinematics";
 
-const unsigned ForwardKinematics::INPUT_IDX_BASE_POSE = 0;
-const unsigned ForwardKinematics::INPUT_IDX_JOINTCONF = 1;
-const unsigned ForwardKinematics::OUTPUT_IDX_FW_FRAME = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned OUTPUT_IDX_FW_FRAME = 0;
+
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
 ForwardKinematics::ForwardKinematics()
     : m_frameIsCoM(false)

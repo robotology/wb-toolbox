@@ -14,9 +14,9 @@ using namespace wbt;
 
 const std::string MassMatrix::ClassName = "MassMatrix";
 
-const unsigned MassMatrix::INPUT_IDX_BASE_POSE = 0;
-const unsigned MassMatrix::INPUT_IDX_JOINTCONF = 1;
-const unsigned MassMatrix::OUTPUT_IDX_MASS_MAT = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned OUTPUT_IDX_MASS_MAT = 0;
 
 MassMatrix::MassMatrix() {}
 

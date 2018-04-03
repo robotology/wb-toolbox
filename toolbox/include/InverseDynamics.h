@@ -23,14 +23,6 @@ private:
     // Output
     std::unique_ptr<iDynTree::FreeFloatingGeneralizedTorques> m_torques;
 
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned INPUT_IDX_BASE_VEL;
-    static const unsigned INPUT_IDX_JOINT_VEL;
-    static const unsigned INPUT_IDX_BASE_ACC;
-    static const unsigned INPUT_IDX_JOINT_ACC;
-    static const unsigned OUTPUT_IDX_TORQUES;
-
 public:
     static const std::string ClassName;
 

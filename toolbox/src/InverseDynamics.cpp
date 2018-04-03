@@ -15,13 +15,13 @@ using namespace wbt;
 
 const std::string InverseDynamics::ClassName = "InverseDynamics";
 
-const unsigned InverseDynamics::INPUT_IDX_BASE_POSE = 0;
-const unsigned InverseDynamics::INPUT_IDX_JOINTCONF = 1;
-const unsigned InverseDynamics::INPUT_IDX_BASE_VEL = 2;
-const unsigned InverseDynamics::INPUT_IDX_JOINT_VEL = 3;
-const unsigned InverseDynamics::INPUT_IDX_BASE_ACC = 4;
-const unsigned InverseDynamics::INPUT_IDX_JOINT_ACC = 5;
-const unsigned InverseDynamics::OUTPUT_IDX_TORQUES = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned INPUT_IDX_BASE_VEL = 2;
+const unsigned INPUT_IDX_JOINT_VEL = 3;
+const unsigned INPUT_IDX_BASE_ACC = 4;
+const unsigned INPUT_IDX_JOINT_ACC = 5;
+const unsigned OUTPUT_IDX_TORQUES = 0;
 
 InverseDynamics::InverseDynamics() {}
 

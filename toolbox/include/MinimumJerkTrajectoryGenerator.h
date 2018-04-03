@@ -49,16 +49,6 @@ private:
     bool m_resetOnSettlingTimeChange;
     std::unique_ptr<yarp::sig::Vector> m_initialValues;
     std::unique_ptr<yarp::sig::Vector> m_reference;
-
-    static const unsigned PARAM_IDX_SAMPLE_TIME; // Sample Time (double)
-    static const unsigned PARAM_IDX_SETTLING_TIME; // Settling Time (double)
-    static const unsigned PARAM_IDX_OUTPUT_1ST_DERIVATIVE; // Output first derivative (boolean)
-    static const unsigned PARAM_IDX_OUTPUT_2ND_DERIVATIVE; // Output second derivative (boolean)
-    static const unsigned PARAM_IDX_INITIAL_VALUE; // Initial signal value as input (boolean)
-    static const unsigned PARAM_IDX_EXT_SETTLINGTIME; // Control if the settling time comes from
-                                                      // external port or static parameter
-    static const unsigned PARAM_IDX_RESET_CHANGEST; // True if the block should reset the traj
-                                                    // generator in case settling time changes
 };
 
 #endif /* end of include guard: WBT_MINJERKTRAJGENERATOR_H */

@@ -15,13 +15,6 @@ using namespace wbt;
 
 const std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
 
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_SAMPLE_TIME = 1;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_SETTLING_TIME = 2;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_OUTPUT_1ST_DERIVATIVE = 3;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_OUTPUT_2ND_DERIVATIVE = 4;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_INITIAL_VALUE = 5;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_EXT_SETTLINGTIME = 6;
-const unsigned MinimumJerkTrajectoryGenerator::PARAM_IDX_RESET_CHANGEST = 7;
 
 MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
     : m_outputFirstDerivativeIndex(-1)
@@ -31,10 +24,18 @@ MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
     , m_externalSettlingTime(false)
     , m_resetOnSettlingTimeChange(false)
 {}
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_SAMPLE_TIME = PARAM_IDX_BIAS + 1;
+const unsigned PARAM_IDX_SETTLING_TIME = PARAM_IDX_BIAS + 2;
+const unsigned PARAM_IDX_OUTPUT_1ST_DERIVATIVE = PARAM_IDX_BIAS + 3;
+const unsigned PARAM_IDX_OUTPUT_2ND_DERIVATIVE = PARAM_IDX_BIAS + 4;
+const unsigned PARAM_IDX_INITIAL_VALUE = PARAM_IDX_BIAS + 5;
+const unsigned PARAM_IDX_EXT_SETTLINGTIME = PARAM_IDX_BIAS + 6;
+const unsigned PARAM_IDX_RESET_CHANGEST = PARAM_IDX_BIAS + 7;
 
 unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 {
-    return 7;
+    return Block::numberOfParameters() + 7;
 }
 
 bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blockInfo)

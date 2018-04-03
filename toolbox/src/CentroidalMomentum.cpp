@@ -14,11 +14,11 @@ using namespace wbt;
 
 const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
 
-const unsigned CentroidalMomentum::INPUT_IDX_BASE_POSE = 0;
-const unsigned CentroidalMomentum::INPUT_IDX_JOINTCONF = 1;
-const unsigned CentroidalMomentum::INPUT_IDX_BASE_VEL = 2;
-const unsigned CentroidalMomentum::INPUT_IDX_JOINT_VEL = 3;
-const unsigned CentroidalMomentum::OUTPUT_IDX_CENTRMOM = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned INPUT_IDX_BASE_VEL = 2;
+const unsigned INPUT_IDX_JOINT_VEL = 3;
+const unsigned OUTPUT_IDX_CENTRMOM = 0;
 
 CentroidalMomentum::CentroidalMomentum() {}
 

@@ -26,10 +26,6 @@ private:
     bool m_frameIsCoM;
     iDynTree::FrameIndex m_frameIndex;
 
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned OUTPUT_IDX_FW_FRAME;
-
 public:
     static const std::string ClassName;
     Jacobian();

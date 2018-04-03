@@ -7,12 +7,6 @@
 
 namespace wbt {
     class SetLowLevelPID;
-    enum PidDataIndex
-    {
-        PGAIN = 0,
-        IGAIN = 1,
-        DGAIN = 2
-    };
     typedef std::tuple<double, double, double> PidData;
 } // namespace wbt
 

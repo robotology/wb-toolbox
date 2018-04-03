@@ -11,10 +11,20 @@ using namespace wbt;
 
 const std::string SetLowLevelPID::ClassName = "SetLowLevelPID";
 
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PIDCONFIG = PARAM_IDX_BIAS + 1;
+const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 2;
+
+enum PidDataIndex
+{
+    PGAIN = 0,
+    IGAIN = 1,
+    DGAIN = 2
+};
+
 unsigned SetLowLevelPID::numberOfParameters()
 {
-    return WBBlock::numberOfParameters() + 1 // WBTPIDConfig object
-           + 1; // Control type
+    return WBBlock::numberOfParameters() + 2;
 }
 
 bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)

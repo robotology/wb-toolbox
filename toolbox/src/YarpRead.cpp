@@ -15,13 +15,6 @@ using namespace wbt;
 
 const std::string YarpRead::ClassName = "YarpRead";
 
-const unsigned YarpRead::PARAM_IDX_PORTNAME = 1; // port name
-const unsigned YarpRead::PARAM_IDX_PORTSIZE = 2; // Size of the port you're reading
-const unsigned YarpRead::PARAM_IDX_WAITDATA = 3; // boolean for blocking reading
-const unsigned YarpRead::PARAM_IDX_READ_TS = 4; // boolean to stream timestamp
-const unsigned YarpRead::PARAM_IDX_AUTOCONNECT = 5; // Autoconnect boolean
-const unsigned YarpRead::PARAM_IDX_ERR_NO_PORT = 6; // Error on missing port if autoconnect is on
-const unsigned YarpRead::PARAM_IDX_TIMEOUT = 7; // Timeout if blocking read
 
 const double DEFAULT_TIMEOUT = 1.0;
 
@@ -33,10 +26,19 @@ YarpRead::YarpRead()
     , m_bufferSize(0)
     , m_timeout(DEFAULT_TIMEOUT)
 {}
+// Parameters
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // port name
+const unsigned PARAM_IDX_PORTSIZE = PARAM_IDX_BIAS + 2; // Size of the port you're reading
+const unsigned PARAM_IDX_WAITDATA = PARAM_IDX_BIAS + 3; // boolean for blocking reading
+const unsigned PARAM_IDX_READ_TS = PARAM_IDX_BIAS + 4; // boolean to stream timestamp
+const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 5; // Autoconnect boolean
+const unsigned PARAM_IDX_ERR_NO_PORT = PARAM_IDX_BIAS + 6; // Error on missing port if autoconnect
+const unsigned PARAM_IDX_TIMEOUT = PARAM_IDX_BIAS + 7; // Timeout if blocking read
 
 unsigned YarpRead::numberOfParameters()
 {
-    return 7;
+    return Block::numberOfParameters() + 7;
 }
 
 bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)

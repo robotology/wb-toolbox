@@ -12,19 +12,19 @@ using namespace wbt;
 
 const std::string YarpWrite::ClassName = "YarpWrite";
 
-const unsigned YarpWrite::PARAM_IDX_PORTNAME = 1; // Port name
-const unsigned YarpWrite::PARAM_IDX_AUTOCONNECT = 2; // Autoconnect boolean
-const unsigned YarpWrite::PARAM_IDX_ERR_NO_PORT = 3; // Error on missing port if autoconnect is true
-
 YarpWrite::YarpWrite()
     : m_autoconnect(false)
     , m_errorOnMissingPort(true)
     , m_destinationPortName("")
 {}
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // Port name
+const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 2; // Autoconnect boolean
+const unsigned PARAM_IDX_ERR_NO_PORT = PARAM_IDX_BIAS + 3; // Error on missing port if autoconnect
 
 unsigned YarpWrite::numberOfParameters()
 {
-    return 3;
+    return Block::numberOfParameters() + 3;
 }
 
 bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
