@@ -4,10 +4,10 @@
 #include "AnyType.h"
 #include "BlockInformation.h"
 #include "simstruc.h"
+#include "Signal.h"
 
 namespace wbt {
     class SimulinkBlockInformation;
-    class Signal;
 } // namespace wbt
 
 class wbt::SimulinkBlockInformation : public wbt::BlockInformation
@@ -15,8 +15,8 @@ class wbt::SimulinkBlockInformation : public wbt::BlockInformation
 private:
     SimStruct* simstruct;
 
-    PortDataType mapSimulinkToPortType(const DTypeId& typeId) const;
-    DTypeId mapPortTypeToSimulink(const PortDataType& dataType) const;
+    DataType mapSimulinkToPortType(const DTypeId& typeId) const;
+    DTypeId mapPortTypeToSimulink(const DataType& dataType) const;
 
 public:
     SimulinkBlockInformation(SimStruct* simstruct);
@@ -40,24 +40,28 @@ public:
     // PORT INFORMATION SETTERS
     // ========================
 
-    bool setNumberOfInputPorts(unsigned numberOfPorts) override;
-    bool setNumberOfOutputPorts(unsigned numberOfPorts) override;
-    bool setInputPortVectorSize(unsigned portNumber, int portSize) override;
-    bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns) override;
-    bool setOutputPortVectorSize(unsigned portNumber, int portSize) override;
-    bool setOutputPortMatrixSize(unsigned portNumber, int rows, int columns) override;
-    bool setInputPortType(unsigned portNumber, PortDataType portType) override;
-    bool setOutputPortType(unsigned portNumber, PortDataType portType) override;
+    bool setNumberOfInputPorts(const unsigned& numberOfPorts) override;
+    bool setNumberOfOutputPorts(const unsigned& numberOfPorts) override;
+    bool setInputPortVectorSize(const SignalIndex& idx, const VectorSize& size) override;
+    bool setInputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) override;
+    bool setOutputPortVectorSize(const SignalIndex& idx, const VectorSize& size) override;
+    bool setOutputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) override;
+    bool setInputPortType(const SignalIndex& idx, const DataType& portType) override;
+    bool setOutputPortType(const SignalIndex& idx, const DataType& portType) override;
 
     // PORT INFORMATION GETTERS
     // ========================
 
-    unsigned getInputPortWidth(unsigned portNumber) const override;
-    unsigned getOutputPortWidth(unsigned portNumber) const override;
-    wbt::Signal getInputPortSignal(unsigned portNumber,
-                                   int portWidth = DYNAMICALLY_SIZED) const override;
-    wbt::Signal getOutputPortSignal(unsigned portNumber,
-                                    int portWidth = DYNAMICALLY_SIZED) const override;
+    unsigned getInputPortWidth(const SignalIndex& idx) const override;
+    unsigned getOutputPortWidth(const SignalIndex& idx) const override;
+    wbt::Signal
+    getInputPortSignal(const SignalIndex& idx,
+                       const VectorSize& size = wbt::Signal::DynamicSize) const override;
+    wbt::Signal
+    getOutputPortSignal(const SignalIndex& idx,
+                        const VectorSize& size = wbt::Signal::DynamicSize) const override;
+    MatrixSize getInputPortMatrixSize(const SignalIndex& idx) const override;
+    MatrixSize getOutputPortMatrixSize(const SignalIndex& idx) const override;
 };
 
 #endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */
