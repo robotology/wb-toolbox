@@ -15,9 +15,9 @@ Visit the [WB-Toolbox Website](https://robotology.github.io/wb-toolbox/) for mor
 
 ## Who use `WB-Toolbox`
 
-`WB-Toolbox` is used extensively in the controllers stored in [robotology-playground/wholeBodyControllers](https://github.com/robotology-playground/wholeBodyControllers).
+`WB-Toolbox` is used extensively in the controllers stored in [robotology-playground/whole-body-controllers](https://github.com/robotology-playground/whole-body-controllers).
 
-This video shows latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the `WB-Toolbox` achieves a running `100 Hz` rate.
+This video shows the latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the `WB-Toolbox` achieves a running `100 Hz` rate.
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/VrPBSSQEr3A/0.jpg)](https://youtu.be/UXU3KSa201o "iCub balancing on one foot via external force control and interacting with humans")
 
@@ -39,3 +39,10 @@ title={A Whole-Body Software Abstraction layer for Control Design of free-floati
 year={2017},
 }
 ```
+
+### Acknowledgments
+
+The development of WB-Toolbox is supported by:
+
+- FP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)
+- H2020 EU projects An.Dy. (No. 731540 H2020-ICT-2016-1).
