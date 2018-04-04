@@ -20,7 +20,7 @@ namespace wbt {
 class wbt::Configuration
 {
 private:
-    const std::string m_confKey; ///< Name of the block which this object refers to
+    std::string m_confKey; ///< Name of the block which this object refers to
     std::string m_robotName; ///< Name of the robot
     std::string m_urdfFile; ///< Name of the file containing the urdf model
     std::string m_localName; ///< Prefix appended to the opened ports
@@ -30,7 +30,7 @@ private:
     size_t m_dofs; //< DoFs extracted my m_controlBoardsNames vector
 
 public:
-    Configuration() = delete;
+    Configuration() = default;
     Configuration(const std::string& confKey);
     ~Configuration() = default;
 
@@ -153,6 +153,8 @@ public:
      * @return The configured number of DoFs
      */
     const size_t& getNumberOfDoFs() const;
+
+    const std::string getConfKey() const { return m_confKey; }
 
     // OTHER METHODS
     // =============
