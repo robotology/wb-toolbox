@@ -1,10 +1,11 @@
 #ifndef WBT_SIMULINKBLOCKINFORMATION_H
 #define WBT_SIMULINKBLOCKINFORMATION_H
 
-#include "AnyType.h"
 #include "BlockInformation.h"
-#include "simstruc.h"
+#include "MxAnyType.h"
 #include "Signal.h"
+#include <simstruc.h>
+#include <vector>
 
 namespace wbt {
     class SimulinkBlockInformation;
@@ -14,11 +15,15 @@ class wbt::SimulinkBlockInformation : public wbt::BlockInformation
 {
 private:
     SimStruct* simstruct;
+    std::string m_confBlockName;
+    std::vector<wbt::ParameterMetadata> m_paramsMetadata;
 
     DataType mapSimulinkToPortType(const DTypeId& typeId) const;
     DTypeId mapPortTypeToSimulink(const DataType& dataType) const;
 
 public:
+    typedef unsigned ParameterIndex;
+
     SimulinkBlockInformation(SimStruct* simstruct);
     ~SimulinkBlockInformation() override = default;
 
@@ -30,12 +35,8 @@ public:
     // PARAMETERS METHODS
     // ==================
 
-    bool getStringParameterAtIndex(unsigned parameterIndex,
-                                   std::string& stringParameter) const override;
-    bool getScalarParameterAtIndex(unsigned parameterIndex, double& value) const override;
-    bool getBooleanParameterAtIndex(unsigned parameterIndex, bool& value) const override;
-    bool getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const override;
-    bool getVectorAtIndex(unsigned parameterIndex, std::vector<double>& vec) const override;
+    bool addParameterMetadata(const wbt::ParameterMetadata& paramMD) override;
+    bool parseParameters(wbt::Parameters& parameters) override;
 
     // PORT INFORMATION SETTERS
     // ========================
@@ -62,6 +63,39 @@ public:
                         const VectorSize& size = wbt::Signal::DynamicSize) const override;
     MatrixSize getInputPortMatrixSize(const SignalIndex& idx) const override;
     MatrixSize getOutputPortMatrixSize(const SignalIndex& idx) const override;
+
+    std::weak_ptr<wbt::RobotInterface> getRobotInterface() const override;
+    std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const override;
+
+    // METHODS OUTSIDE THE INTERFACE
+    // =============================
+
+    // Scalar parameters
+    bool getScalarParameterAtIndex(const ParameterIndex& idx, double& value) const;
+    bool getBooleanParameterAtIndex(const ParameterIndex& idx, bool& value) const;
+    bool getStringParameterAtIndex(const ParameterIndex& idx, std::string& value) const;
+
+    // Struct parameters
+    bool getStringFieldAtIndex(const ParameterIndex& idx,
+                               const std::string& fieldName,
+                               std::string& value) const;
+    bool getScalarFieldAtIndex(const ParameterIndex& idx,
+                               const std::string& fieldName,
+                               double& value) const;
+    bool getBooleanFieldAtIndex(const ParameterIndex& idx,
+                                const std::string& fieldName,
+                                bool& value) const;
+    bool getCellFieldAtIndex(const ParameterIndex& idx,
+                             const std::string& fieldName,
+                             AnyCell& value) const;
+    bool getVectorDoubleFieldAtIndex(const ParameterIndex& idx,
+                                     const std::string& fieldName,
+                                     std::vector<double>& value) const;
+
+    // Cell / Struct / Vector paramters
+    bool getCellAtIndex(const ParameterIndex& idx, AnyCell& value) const;
+    bool getStructAtIndex(const ParameterIndex& idx, AnyStruct& value) const;
+    bool getVectorAtIndex(const ParameterIndex& idx, std::vector<double>& value) const;
 };
 
 #endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */

@@ -1,8 +1,11 @@
 #include "SimulinkBlockInformation.h"
+#include "Log.h"
 #include "MxAnyType.h"
+#include "Parameters.h"
 #include "Signal.h"
+#include "ToolboxSingleton.h"
 
-#include <simstruc.h>
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -22,31 +25,32 @@ bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& opt
         return true;
     }
 
+    wbtError << "Unrecognized block option.";
     return false;
 }
 
 // PARAMETERS METHODS
 // ==================
 
-bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex,
-                                                         std::string& stringParameter) const
+bool SimulinkBlockInformation::getStringParameterAtIndex(const ParameterIndex& idx,
+                                                         std::string& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asString(stringParameter);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asString(value);
 }
 
-bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex,
+bool SimulinkBlockInformation::getScalarParameterAtIndex(const ParameterIndex& idx,
                                                          double& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asDouble(value);
 }
 
-bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex,
+bool SimulinkBlockInformation::getBooleanParameterAtIndex(const ParameterIndex& idx,
                                                           bool& value) const
 {
     double tmpValue = 0;
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
 
     // The Simulink mask often doesn't store boolean data from the mask as bool but as double.
     // Calling asBool() will fail in this case. If this happens, asDouble() is used as fallback.
@@ -57,20 +61,123 @@ bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterInde
         value = static_cast<bool>(tmpValue);
         return true;
     }
-    return MxAnyType(blockParam).asBool(value);
+
+    wbtError << "Failed to parse bool parameter";
+    return false;
 }
 
-bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const
+bool SimulinkBlockInformation::getCellAtIndex(const ParameterIndex& idx, AnyCell& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asAnyStruct(map);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asAnyCell(value);
 }
 
-bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex,
-                                                std::vector<double>& vec) const
+bool SimulinkBlockInformation::getStructAtIndex(const ParameterIndex& idx, AnyStruct& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asVectorDouble(vec);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asAnyStruct(value);
+}
+
+bool SimulinkBlockInformation::getVectorAtIndex(const ParameterIndex& idx,
+                                                std::vector<double>& value) const
+{
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asVectorDouble(value);
+}
+
+bool SimulinkBlockInformation::getStringFieldAtIndex(const ParameterIndex& idx,
+                                                     const std::string& fieldName,
+                                                     std::string& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asString(value);
+}
+
+bool SimulinkBlockInformation::getScalarFieldAtIndex(const ParameterIndex& idx,
+                                                     const std::string& fieldName,
+                                                     double& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asDouble(value);
+}
+
+bool SimulinkBlockInformation::getBooleanFieldAtIndex(const ParameterIndex& idx,
+                                                      const std::string& fieldName,
+                                                      bool& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asBool(value);
+}
+
+bool SimulinkBlockInformation::getCellFieldAtIndex(const ParameterIndex& idx,
+                                                   const std::string& fieldName,
+                                                   AnyCell& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asAnyCell(value);
+}
+
+bool SimulinkBlockInformation::getVectorDoubleFieldAtIndex(const ParameterIndex& idx,
+                                                           const std::string& fieldName,
+                                                           std::vector<double>& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asVectorDouble(value);
 }
 
 // PORT INFORMATION SETTERS
@@ -268,7 +375,33 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const SignalIndex& idx
     return signal;
 }
 
-PortDataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
+BlockInformation::MatrixSize
+SimulinkBlockInformation::getInputPortMatrixSize(const SignalIndex& idx) const
+{
+    if (ssGetInputPortNumDimensions(simstruct, idx) < 2) {
+        wbtError << "Signal at index " << idx
+                 << "does not contain a matrix. Failed to gete its size.";
+        return {};
+    }
+
+    const int_T* sizes = ssGetInputPortDimensions(simstruct, idx);
+    return {sizes[0], sizes[1]};
+}
+
+BlockInformation::MatrixSize
+SimulinkBlockInformation::getOutputPortMatrixSize(const SignalIndex& idx) const
+{
+    if (ssGetOutputPortNumDimensions(simstruct, idx) < 2) {
+        wbtError << "Signal at index " << idx
+                 << "does not contain a matrix. Failed to gete its size.";
+        return {};
+    }
+
+    const int_T* sizes = ssGetOutputPortDimensions(simstruct, idx);
+    return {sizes[0], sizes[1]};
+}
+
+DataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
 {
     switch (typeId) {
         case SS_DOUBLE:
@@ -316,4 +449,281 @@ DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const DataType& dataType
         case DataType::BOOLEAN:
             return SS_BOOLEAN;
     }
+}
+
+bool SimulinkBlockInformation::addParameterMetadata(const wbt::ParameterMetadata& paramMD)
+{
+    for (auto md : m_paramsMetadata) {
+        if (md.m_name == paramMD.m_name) {
+            wbtError << "Trying to store an already existing " << md.m_name << " parameter.";
+            return false;
+        }
+    }
+
+    // Add the new metadata to the block information
+    m_paramsMetadata.push_back(paramMD);
+    return true;
+}
+
+bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
+{
+    auto metadataContainsScalarParam = [](const wbt::ParameterMetadata& md) -> const bool {
+        return md.m_rows == 1 && md.m_cols == 1;
+    };
+
+    for (wbt::ParameterMetadata paramMD : m_paramsMetadata) {
+
+        bool ok;
+
+        // TODO Right now the cells are reshaped to a 1 x NumElements by MxAnyType
+        if (paramMD.m_rows == ParameterMetadata::DynamicSize) {
+            wbtError << "Dynamically sized rows are not currently supported.";
+            return false;
+        }
+
+        // Handle the case of dynamically sized columns. In this case the metadata passed
+        // from the Block (containing DynamicSize) is modified with the length of the
+        // vector that is going to be stored.
+        const bool hasDynSizeColumns = (paramMD.m_cols == ParameterMetadata::DynamicSize);
+
+        switch (paramMD.m_type) {
+            // SCALAR / VECTOR PARAMETERS
+            // --------------------------
+            //
+            // getScalarParameterAtIndex and getVectorAtIndex operate on type double.
+            // The cast to other types is handled by storeParameter internally,
+            // accordingly to the type stored in the metadata.
+            //
+            // Despite bool has its own bool parser, considering that both int and double
+            // are loaded as double (Simulink limitation), in order to simplify the
+            // maintainability of this code, everything is handled as double.
+            //
+            case PARAM_INT:
+            case PARAM_BOOL:
+            case PARAM_DOUBLE: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    double paramValue;
+                    if (!getScalarParameterAtIndex(paramMD.m_index, paramValue)) {
+                        wbtError << "Failed to get scalar parameter at index " << paramMD.m_index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<double>(paramValue, paramMD);
+                }
+                else {
+                    std::vector<double> paramVector;
+                    if (!getVectorAtIndex(paramMD.m_index, paramVector)) {
+                        wbtError << "Failed to get vector parameter at index " << paramMD.m_index
+                                 << ".";
+                        return false;
+                    }
+                    if (hasDynSizeColumns) {
+                        paramMD.m_cols = paramVector.size();
+                    }
+                    ok = parameters.storeParameter<double>(paramVector, paramMD);
+                }
+                break;
+            }
+            case PARAM_STRING: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    std::string paramValue;
+                    if (!getStringParameterAtIndex(paramMD.m_index, paramValue)) {
+                        wbtError << "Failed to get string parameter at index " << paramMD.m_index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<std::string>(paramValue, paramMD);
+                }
+                else {
+                    wbtError << "Char arrays are not yet supported.";
+                    return false;
+                }
+                break;
+            }
+            // CELL PARAMETERS
+            // ---------------
+            case PARAM_CELL_INT:
+            case PARAM_CELL_BOOL:
+            case PARAM_CELL_DOUBLE: {
+                AnyCell cell;
+                if (!getCellAtIndex(paramMD.m_index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
+                    return false;
+                }
+                std::vector<double> paramVector;
+                for (auto element : cell) {
+                    double value;
+                    if (!element->asDouble(value)) {
+                        wbtError << "Failed to parse an element of the cell at index "
+                                 << paramMD.m_index << " as a double.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    paramMD.m_cols = paramVector.size();
+                }
+                ok = parameters.storeParameter<double>(paramVector, paramMD);
+                break;
+            }
+            case PARAM_CELL_STRING: {
+                AnyCell cell;
+                if (!getCellAtIndex(paramMD.m_index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
+                    return false;
+                }
+                std::vector<std::string> paramVector;
+                for (auto element : cell) {
+                    std::string value;
+                    if (!element->asString(value)) {
+                        wbtError << "Failed to parse an element of the cell at index "
+                                 << paramMD.m_index << " as a string.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    paramMD.m_cols = paramVector.size();
+                }
+                ok = parameters.storeParameter<std::string>(paramVector, paramMD);
+                break;
+            }
+            // STRUCT PARAMETERS
+            // -----------------
+            case PARAM_STRUCT_INT:
+            case PARAM_STRUCT_BOOL:
+            case PARAM_STRUCT_DOUBLE: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    double paramValue;
+                    if (!getScalarFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
+                        wbtError << "Failed to get struct parameter at index " << paramMD.m_index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<double>(paramValue, paramMD);
+                }
+                else {
+                    std::vector<double> paramVector;
+                    if (!getVectorDoubleFieldAtIndex(
+                            paramMD.m_index, paramMD.m_name, paramVector)) {
+                        wbtError << "Failed to get vector field " << paramMD.m_name
+                                 << "from the struct at index " << paramMD.m_index << ".";
+                        return false;
+                    }
+                    if (hasDynSizeColumns) {
+                        paramMD.m_cols = paramVector.size();
+                    }
+                    ok = parameters.storeParameter<double>(paramVector, paramMD);
+                }
+                break;
+            }
+            case PARAM_STRUCT_STRING: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    std::string paramValue;
+                    if (!getStringFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
+                        wbtError << "Failed to get string field " << paramMD.m_name
+                                 << "from the struct at index " << paramMD.m_index << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<std::string>(paramValue, paramMD);
+                }
+                else {
+                    wbtError << "Char arrays are not yet supported.";
+                    return false;
+                }
+                break;
+            }
+            case PARAM_STRUCT_CELL_INT:
+            case PARAM_STRUCT_CELL_BOOL:
+            case PARAM_STRUCT_CELL_DOUBLE: {
+                AnyCell cell;
+                std::vector<double> paramVector;
+                if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.m_name
+                             << " from the struct at index " << paramMD.m_index << ".";
+                    return false;
+                }
+                for (auto element : cell) {
+                    double value;
+                    if (!element->asDouble(value)) {
+                        wbtError << "Failed to parse an element of the cell field "
+                                 << paramMD.m_name << " from the struct at index "
+                                 << paramMD.m_index << " as a double.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    paramMD.m_cols = paramVector.size();
+                }
+                ok = parameters.storeParameter<double>(paramVector, paramMD);
+                break;
+            }
+            case PARAM_STRUCT_CELL_STRING: {
+                AnyCell cell;
+                std::vector<std::string> paramVector;
+                if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.m_name
+                             << " from the struct at index " << paramMD.m_index << ".";
+                    return false;
+                }
+                for (auto element : cell) {
+                    std::string value;
+                    if (!element->asString(value)) {
+                        wbtError << "Failed to parse an element of the cell field "
+                                 << paramMD.m_name << " from the struct at index "
+                                 << paramMD.m_index << " as a string.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    paramMD.m_cols = paramVector.size();
+                }
+                ok = parameters.storeParameter<std::string>(paramVector, paramMD);
+                break;
+            }
+        }
+
+        if (!ok) {
+            wbtError << "Failed to process parameter with index " << paramMD.m_index << ".";
+            return false;
+        }
+    }
+
+    // This code is shared with the CoderBlockParameter
+    //
+    // Check if the parameters object contains all the information for creating a
+    // Configuration object.
+    if (Parameters::containConfigurationData(parameters)) {
+        if (!ToolboxSingleton::sharedInstance().storeConfiguration(parameters)) {
+            wbtError << "Failed to store a Configuration object in the ToolboxSigleton.";
+            return false;
+        }
+        // Save the name of the Configuration block which the processed WBBlock refers to
+        if (!parameters.getParameter("ConfBlockName", m_confBlockName)) {
+            wbtError << "Failed to read ConfBlockName parameter from the Parameters object "
+                     << "that should store Configuration data.";
+            return false;
+        }
+    }
+
+    // Remove the metadata of the parameters already parsed.
+    // This is necessary for adding later more metadata and calling again this method
+    // (storing again an already stored parameter raises an error).
+    m_paramsMetadata.clear();
+
+    return true;
+}
+
+std::weak_ptr<wbt::RobotInterface> SimulinkBlockInformation::getRobotInterface() const
+{
+    // Returns a nullptr if it fails
+    return ToolboxSingleton::sharedInstance().getRobotInterface(m_confBlockName);
+}
+
+std::weak_ptr<iDynTree::KinDynComputations> SimulinkBlockInformation::getKinDynComputations() const
+{
+    // Returns a nullptr if it fails
+    return ToolboxSingleton::sharedInstance().getKinDynComputations(m_confBlockName);
 }
