@@ -371,11 +371,305 @@ static void mdlTerminate(SimStruct* S)
     ssSetPWorkValue(S, 0, nullptr);
     ssSetPWorkValue(S, 1, nullptr);
 }
+
+#if defined(MATLAB_MEX_FILE)
+#define MDL_RTW
+
+template <typename T>
+static std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
+{
+    std::vector<real_T> output;
+    output.reserve(vectorInput.size());
+
+    output.assign(vectorInput.begin(), vectorInput.end());
+    return output;
+}
+
+static std::string toRTWStringVector(const std::vector<std::string>& stringInput)
+{
+    std::string output;
+
+    for (unsigned i = 0; i < stringInput.size(); ++i) {
+        if (i == 0) {
+            output += "[\"" + stringInput[i] + "\"";
+        }
+        else {
+            output += ", \"" + stringInput[i] + "\"";
+        }
+    }
+    output += "]";
+    return output;
+}
+
+const std::pair<std::string, std::string> parameterTypeToString(const wbt::ParameterType& type)
+{
+    switch (type) {
+        case wbt::PARAM_INT:
+            return {"PARAM_INT", "int"};
+        case wbt::PARAM_BOOL:
+            return {"PARAM_BOOL", "bool"};
+        case wbt::PARAM_DOUBLE:
+            return {"PARAM_DOUBLE", "double"};
+        case wbt::PARAM_STRING:
+            return {"PARAM_STRING", "std::string"};
+        case wbt::PARAM_CELL_INT:
+            return {"PARAM_CELL_INT", "int"};
+        case wbt::PARAM_CELL_BOOL:
+            return {"PARAM_CELL_BOOL", "bool"};
+        case wbt::PARAM_CELL_DOUBLE:
+            return {"PARAM_CELL_DOUBLE", "double"};
+        case wbt::PARAM_CELL_STRING:
+            return {"PARAM_CELL_STRING", "std::string"};
+        case wbt::PARAM_STRUCT_INT:
+            return {"PARAM_STRUCT_INT", "int"};
+        case wbt::PARAM_STRUCT_BOOL:
+            return {"PARAM_STRUCT_BOOL", "bool"};
+        case wbt::PARAM_STRUCT_DOUBLE:
+            return {"PARAM_STRUCT_DOUBLE", "double"};
+        case wbt::PARAM_STRUCT_STRING:
+            return {"PARAM_STRUCT_STRING", "std::string"};
+        case wbt::PARAM_STRUCT_CELL_INT:
+            return {"PARAM_STRUCT_CELL_INT", "int"};
+        case wbt::PARAM_STRUCT_CELL_BOOL:
+            return {"PARAM_STRUCT_CELL_BOOL", "bool"};
+        case wbt::PARAM_STRUCT_CELL_DOUBLE:
+            return {"PARAM_STRUCT_CELL_DOUBLE", "double"};
+        case wbt::PARAM_STRUCT_CELL_STRING:
+            return {"PARAM_STRUCT_CELL_STRING", "std::string"};
+    }
+}
+
+template <typename T>
+static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
+{
+    if (param.getMetadata().m_cols == wbt::ParameterMetadata::DynamicSize
+        || param.getMetadata().m_rows == wbt::ParameterMetadata::DynamicSize) {
+        wbtError << "Storing in the rtw file dynamically-sized parameters is not supported.";
+        return false;
+    }
+
+    if (param.isScalar()) {
+        return ssWriteRTWParamSettings(
+            S,
+            8,
+            SSWRITE_VALUE_NUM,
+            "index",
+            static_cast<real_T>(param.getMetadata().m_index),
+            SSWRITE_VALUE_QSTR,
+            "name",
+            param.getMetadata().m_name.c_str(),
+            SSWRITE_VALUE_NUM,
+            "isScalar",
+            static_cast<real_T>(param.isScalar()),
+            SSWRITE_VALUE_NUM,
+            "rows",
+            static_cast<real_T>(param.getMetadata().m_rows),
+            SSWRITE_VALUE_NUM,
+            "cols",
+            static_cast<real_T>(param.getMetadata().m_cols),
+            SSWRITE_VALUE_QSTR,
+            "type",
+            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            SSWRITE_VALUE_QSTR,
+            "storage",
+            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            SSWRITE_VALUE_NUM,
+            "valueScalar",
+            static_cast<real_T>(param.getScalarParameter()));
+    }
+    else {
+        const std::vector<real_T> vectorRealT = toRTWNumericVector(param.getVectorParameter());
+        return ssWriteRTWParamSettings(
+            S,
+            8,
+            SSWRITE_VALUE_NUM,
+            "index",
+            static_cast<real_T>(param.getMetadata().m_index),
+            SSWRITE_VALUE_QSTR,
+            "name",
+            param.getMetadata().m_name.c_str(),
+            SSWRITE_VALUE_NUM,
+            "isScalar",
+            static_cast<real_T>(param.isScalar()),
+            SSWRITE_VALUE_NUM,
+            "rows",
+            static_cast<real_T>(param.getMetadata().m_rows),
+            SSWRITE_VALUE_NUM,
+            "cols",
+            static_cast<real_T>(param.getMetadata().m_cols),
+            SSWRITE_VALUE_QSTR,
+            "type",
+            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            SSWRITE_VALUE_QSTR,
+            "storage",
+            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            SSWRITE_VALUE_VECT,
+            "valueVector",
+            vectorRealT.data(),
+            param.getVectorParameter().size());
+    }
+}
+
+// Specialize the template for std::string
+template <>
+bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
+{
+    if (param.getMetadata().m_cols == wbt::ParameterMetadata::DynamicSize
+        || param.getMetadata().m_rows == wbt::ParameterMetadata::DynamicSize) {
+        wbtError << "Storing in the rtw file dynamically-sized parameters is not supported.";
+        return false;
+    }
+
+    if (param.isScalar()) {
+        return ssWriteRTWParamSettings(
+            S,
+            8,
+            SSWRITE_VALUE_NUM,
+            "index",
+            static_cast<real_T>(param.getMetadata().m_index),
+            SSWRITE_VALUE_QSTR,
+            "name",
+            param.getMetadata().m_name.c_str(),
+            SSWRITE_VALUE_NUM,
+            "isScalar",
+            static_cast<real_T>(param.isScalar()),
+            SSWRITE_VALUE_NUM,
+            "rows",
+            static_cast<real_T>(param.getMetadata().m_rows),
+            SSWRITE_VALUE_NUM,
+            "cols",
+            static_cast<real_T>(param.getMetadata().m_cols),
+            SSWRITE_VALUE_QSTR,
+            "type",
+            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            SSWRITE_VALUE_QSTR,
+            "storage",
+            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            SSWRITE_VALUE_QSTR,
+            "valueScalar",
+            param.getScalarParameter().c_str());
+    }
+    else {
+        const std::string serializedVectorOfStrings = toRTWStringVector(param.getVectorParameter());
+        return ssWriteRTWParamSettings(
+            S,
+            8,
+            SSWRITE_VALUE_NUM,
+            "index",
+            static_cast<real_T>(param.getMetadata().m_index),
+            SSWRITE_VALUE_QSTR,
+            "name",
+            param.getMetadata().m_name.c_str(),
+            SSWRITE_VALUE_NUM,
+            "isScalar",
+            static_cast<real_T>(param.isScalar()),
+            SSWRITE_VALUE_NUM,
+            "rows",
+            static_cast<real_T>(param.getMetadata().m_rows),
+            SSWRITE_VALUE_NUM,
+            "cols",
+            static_cast<real_T>(param.getMetadata().m_cols),
+            SSWRITE_VALUE_QSTR,
+            "type",
+            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            SSWRITE_VALUE_QSTR,
+            "storage",
+            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            SSWRITE_VALUE_VECT_STR,
+            "valueVector",
+            serializedVectorOfStrings.c_str(),
+            param.getMetadata().m_cols);
+    }
+}
+
+static bool writeRTW(SimStruct* S, const wbt::Parameters& params)
+{
+    // RTW Parameters record metadata
+    // ==============================
+
+    // The first entry in the parameter record (SFcnParamSettings[0]) contains
+    // information useful to parse the others
+
+    // Get the number or parameters
+    const unsigned numberOfParameters = params.getNumberOfParameters();
+
+    // Get the class name
+    std::string className;
+    params.getParameter("className", className);
+
+    // Create the record
+    ssWriteRTWParamSettings(S,
+                            2,
+                            SSWRITE_VALUE_NUM,
+                            "numberOfParameters",
+                            static_cast<real_T>(numberOfParameters),
+                            SSWRITE_VALUE_QSTR,
+                            "className",
+                            className.c_str());
+
+    // RTW Parameters
+    // ==============
+
+    bool ok = true;
+
+    for (const auto& param : params.getIntParameters()) {
+        ok = ok && writeParameterToRTW(param, S);
+    }
+
+    for (const auto& param : params.getBoolParameters()) {
+        ok = ok && writeParameterToRTW(param, S);
+    }
+
+    for (const auto& param : params.getDoubleParameters()) {
+        ok = ok && writeParameterToRTW(param, S);
+    }
+
+    for (const auto& param : params.getStringParameters()) {
+        ok = ok && writeParameterToRTW(param, S);
+    }
+
+    if (!ok) {
+        wbtError << "Failed to write parameters to RTW file.";
+        catchLogMessages(false, S);
+        return false;
+    }
+
+    return true;
+}
+
+static void mdlRTW(SimStruct* S)
+{
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
+
+        // Get the block object from the PWork
         wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
+        bool ok;
+        wbt::Parameters params;
 
+        if (!block) {
+            wbtError << "Unable to get the class from the PWork vector.";
+            catchLogMessages(false, S);
+            return;
         }
+
+        // Get the parameters from the block
+        ok = block->getParameters(params);
+        catchLogMessages(ok, S);
+        if (!ok)
+            return;
+
+        // Use parameters metadata to populate the rtw file used by the coder
+        ok = writeRTW(S, params);
+        catchLogMessages(ok, S);
+        if (!ok)
+            return;
+
+        // Store the PWork vector in the rtw file.
+        ok = ssWriteRTWWorkVect(S, "PWork", 1, "blockPWork", ssGetNumPWork(S));
+        catchLogMessages(ok, S);
+        if (!ok)
+            return;
     }
 }
 #endif
