@@ -1,59 +1,28 @@
-/*
- * Copyright (C) 2013-2015 Robotics, Brain and Cognitive Sciences - Istituto Italiano di Tecnologia
- * Author: Jorhabib Eljaik Gomez, Francesco Romano
- * email: jorhabib.eljaik@iit.it, francesco.romano@iit.it
- *
- * The development of this software was supported by the FP7 EU project
- * CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics (b))
- * http://www.codyco.eu
- *
- * Permission is granted to copy, distribute, and/or modify this program
- * under the terms of the GNU General Public License, version 2 or any
- * later version published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details
- */
-
 #define S_FUNCTION_LEVEL 2
 #define S_FUNCTION_NAME WBToolbox
 
-// Need to include simstruc.h for the definition of the SimStruct and
-// its associated macro definitions.
-
 #include "toolbox.h"
+
 #include "Block.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "SimulinkBlockInformation.h"
 
+#include <algorithm>
 #include <simstruc.h>
 #include <string>
-#include <yarp/os/LogStream.h>
 
-static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
+const bool ForwardLogsToStdErr = true;
+
+static void catchLogMessages(bool status, SimStruct* S)
 {
     // Initialize static buffers
     const unsigned bufferLen = 1024;
-    static char errorBuffer[bufferLen];
-    static char warningBuffer[bufferLen];
 
     // Notify warnings
     if (!wbt::Log::getSingleton().getWarnings().empty()) {
-        // Get the singleton
-        wbt::Log& log = wbt::Log::getSingleton();
-
-        // Handle the prefix
-        std::string warningMsg;
-        if (!prefix.empty()) {
-            log.setPrefix(prefix);
-            warningMsg = log.getWarnings();
-            log.resetPrefix();
-        }
-        else {
-            warningMsg = log.getWarnings();
-        }
+        // Get the warnings
+        std::string warningMsg = wbt::Log::getSingleton().getWarnings();
 
         // Trim the message if needed
         if (warningMsg.length() >= bufferLen) {
@@ -61,26 +30,22 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
         }
 
         // Forward to Simulink
+        char warningBuffer[bufferLen];
         sprintf(warningBuffer, "%s", warningMsg.c_str());
         ssWarning(S, warningBuffer);
-        log.clearWarnings();
+
+        if (ForwardLogsToStdErr) {
+            fprintf(stderr, "%s", warningBuffer);
+        }
+
+        // Clean the notified warnings
+        wbt::Log::getSingleton().clearWarnings();
     }
 
     // Notify errors
     if (!status) {
-        // Get the singleton
-        wbt::Log& log = wbt::Log::getSingleton();
-
-        // Handle the prefix
-        std::string errorMsg;
-        if (!prefix.empty()) {
-            log.setPrefix(prefix);
-            errorMsg = log.getErrors();
-            log.resetPrefix();
-        }
-        else {
-            errorMsg = log.getErrors();
-        }
+        // Get the errors
+        std::string errorMsg = wbt::Log::getSingleton().getErrors();
 
         // Trim the message if needed
         if (errorMsg.length() >= bufferLen) {
@@ -88,9 +53,16 @@ static void catchLogMessages(bool status, SimStruct* S, std::string prefix)
         }
 
         // Forward to Simulink
+        char errorBuffer[bufferLen];
         sprintf(errorBuffer, "%s", errorMsg.c_str());
         ssSetErrorStatus(S, errorBuffer);
-        log.clearErrors();
+
+        if (ForwardLogsToStdErr) {
+            fprintf(stderr, "%s", errorBuffer);
+        }
+
+        // Clean the notified errors
+        wbt::Log::getSingleton().clearErrors();
         return;
     }
 }
@@ -131,8 +103,8 @@ static void mdlInitializeSizes(SimStruct* S)
     wbt::Log::getSingleton().clear();
 
     if (ssGetSFcnParamsCount(S) < 1) {
-        wbt::Log::getSingleton().error("The block type parameter must be specified");
-        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
+        wbtError << "The block type parameter must be specified";
+        catchLogMessages(false, S);
         return;
     }
     char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
@@ -140,21 +112,26 @@ static void mdlInitializeSizes(SimStruct* S)
     mxFree(classNameStr);
     wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
 
-    // We cannot save data in PWork during the initializeSizes phase
-    ssSetNumPWork(S, 1);
-
     // Notify errors
     if (!block) {
-        wbt::Log::getSingleton().error("Could not create an object of type " + className);
-        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
+        wbtError << "Could not create an object of type " + className;
+        catchLogMessages(false, S);
         return;
     }
 
-    ssSetNumSFcnParams(S, 1 + block->numberOfParameters());
+    // We cannot save data in PWork during the initializeSizes phase.
+
+    // Two PWorks:
+    // 0: pointer to the class
+    // 1: empty in Simulink, pointer to CoderBlockInformation in Simulink Coder
+    ssSetNumPWork(S, 2);
+
+    // Setup the block parameters' properties
+    ssSetNumSFcnParams(S, block->numberOfParameters());
     ssSetSFcnParamTunable(S, 0, false);
-    for (unsigned i = 1; i < ssGetNumSFcnParams(S); ++i) {
+    for (unsigned i = 0; i < ssGetNumSFcnParams(S); ++i) {
         bool tunable = false;
-        block->parameterAtIndexIsTunable(i - 1, tunable);
+        block->parameterAtIndexIsTunable(i, tunable);
         ssSetSFcnParamTunable(S, i, tunable);
     }
 
@@ -166,15 +143,19 @@ static void mdlInitializeSizes(SimStruct* S)
         }
     }
     else {
-        wbt::Log::getSingleton().error("Number of parameters different from those defined");
-        catchLogMessages(false, S, "\n[" + std::string(__func__) + "]");
+        wbtError << "Number of parameters different from those defined";
+        catchLogMessages(false, S);
         return;
     }
 #endif
 
     wbt::SimulinkBlockInformation blockInfo(S);
     bool ok = block->configureSizeAndPorts(&blockInfo);
-    catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+    catchLogMessages(ok, S);
+
+    if (!ok) {
+        return;
+    }
 
     for (auto i = 0; i < ssGetNumInputPorts(S); ++i) {
         // Set explicitly the inputs port to be SS_NOT_REUSABLE_AND_GLOBAL (which actually
@@ -231,18 +212,28 @@ static void mdlInitializeSampleTimes(SimStruct* S)
 #define MDL_START
 static void mdlStart(SimStruct* S)
 {
+    // Get the class name for allocating the object
     char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
+
+    // Allocate the object and store its pointer in the PWork
     wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
     ssSetPWorkValue(S, 0, block);
 
-    wbt::SimulinkBlockInformation blockInfo(S);
-    bool ok = false;
-    if (block) {
-        ok = block->initialize(&blockInfo);
+    // Allocate the BlockInformation object and store its pointer in the PWork
+    wbt::BlockInformation* blockInfo = new wbt::SimulinkBlockInformation(S);
+    ssSetPWorkValue(S, 1, blockInfo);
+
+    if (!block || !blockInfo) {
+        wbtError << "Failed to create objects before storing them in the PWork.";
+        catchLogMessages(false, S);
+        return;
     }
-    catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+
+    // Call the initialize() method
+    bool ok = block->initialize(blockInfo);
+    catchLogMessages(ok, S);
 }
 
 #define MDL_UPDATE
@@ -250,16 +241,27 @@ static void mdlStart(SimStruct* S)
 static void mdlUpdate(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) > 0) {
-        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-
-        wbt::SimulinkBlockInformation blockInfo(S);
-        bool ok = false;
-        if (block) {
-            ok = block->updateDiscreteState(&blockInfo);
-        }
-        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
+        catchLogMessages(false, S);
+        return;
     }
+
+    // Get the Block object
+    wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+    // Get the SimulinkBlockInformation object
+    wbt::SimulinkBlockInformation* blockInfo;
+    blockInfo = static_cast<wbt::SimulinkBlockInformation*>(ssGetPWorkValue(S, 1));
+
+    if (!block || !blockInfo) {
+        wbtError << "Failed to get pointers from the PWork vector.";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Call the updateDiscreteState() method
+    bool ok = block->updateDiscreteState(blockInfo);
+    catchLogMessages(ok, S);
 }
 #endif
 
@@ -268,22 +270,33 @@ static void mdlUpdate(SimStruct* S, int_T tid)
 #if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
 static void mdlInitializeConditions(SimStruct* S)
 {
-    if (ssGetNumPWork(S) > 0) {
-        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-
-        wbt::SimulinkBlockInformation blockInfo(S);
-        bool ok = false;
-        if (block) {
-            ok = block->initializeInitialConditions(&blockInfo);
-        }
-        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
+        catchLogMessages(false, S);
+        return;
     }
+
+    // Get the Block object
+    wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+    // Get the SimulinkBlockInformation object
+    wbt::SimulinkBlockInformation* blockInfo;
+    blockInfo = static_cast<wbt::SimulinkBlockInformation*>(ssGetPWorkValue(S, 1));
+
+    if (!block || !blockInfo) {
+        wbtError << "Failed to get pointers from the PWork vector.";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Call the initializeInitialConditions() method
+    bool ok = block->initializeInitialConditions(blockInfo);
+    catchLogMessages(ok, S);
 }
 #endif
 
 #define MDL_DERIVATIVES
 #if defined(MDL_DERIVATIVES) && defined(MATLAB_MEX_FILE)
-static void mdlDerivatives(SimStruct* S)
+static void mdlDerivatives(SimStruct* /*S*/)
 {
     /* Add mdlDerivatives code here */
 }
@@ -296,40 +309,80 @@ static void mdlDerivatives(SimStruct* S)
 static void mdlOutputs(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) > 0) {
-        wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
-
-        wbt::SimulinkBlockInformation blockInfo(S);
-        bool ok = false;
-        if (block) {
-            ok = block->output(&blockInfo);
-        }
-        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
+        catchLogMessages(false, S);
+        return;
     }
+
+    // Get the Block object
+    wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+    // Get the SimulinkBlockInformation object
+    wbt::SimulinkBlockInformation* blockInfo;
+    blockInfo = static_cast<wbt::SimulinkBlockInformation*>(ssGetPWorkValue(S, 1));
+
+    if (!block || !blockInfo) {
+        wbtError << "Failed to get pointers from the PWork vector.";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Call the output() method
+    bool ok = block->output(blockInfo);
+    catchLogMessages(ok, S);
 }
 
 static void mdlTerminate(SimStruct* S)
 {
+    // This function is called during the initialization phase, when the PWorks are not yet
+    // allocated. Only the number of elements is known at this stage.
+    // This check will pass if called after the initialize(), that stores data in the PWorks.
+    if (!ssGetPWork(S)) {
+        return;
+    }
+
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Get the Block object
+    wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
+    // Get the SimulinkBlockInformation object
+    wbt::SimulinkBlockInformation* blockInfo;
+    blockInfo = static_cast<wbt::SimulinkBlockInformation*>(ssGetPWorkValue(S, 1));
+
+    if (!block || !blockInfo) {
+        wbtError << "Failed to get pointers from the PWork vector.";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Call the terminate() method
+    bool ok = block->terminate(blockInfo);
+    catchLogMessages(ok, S);
+
+    // Delete the resources allocated in the PWork vector;
+    delete block;
+    delete blockInfo;
+
+    // Clean the PWork vector
+    ssSetPWorkValue(S, 0, nullptr);
+    ssSetPWorkValue(S, 1, nullptr);
+}
     if (ssGetNumPWork(S) > 0 && ssGetPWork(S)) {
         wbt::Block* block = static_cast<wbt::Block*>(ssGetPWorkValue(S, 0));
 
-        wbt::SimulinkBlockInformation blockInfo(S);
-        bool ok = false;
-        if (block) {
-            ok = block->terminate(&blockInfo);
-        }
-        catchLogMessages(ok, S, "\n[" + std::string(__func__) + "]");
 
-        if (ok) {
-            delete block;
-            ssSetPWorkValue(S, 0, NULL);
         }
     }
 }
+#endif
 
 // Required S-function trailer
 #ifdef MATLAB_MEX_FILE /* Is this file being compiled as a MEX-file? */
-#include "simulink.c" /* MEX-file interface mechanism */
+#include <simulink.c> /* MEX-file interface mechanism */
 #else
 #include "cg_sfun.h" /* Code generation registration function */
 #endif
