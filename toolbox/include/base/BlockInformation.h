@@ -89,6 +89,9 @@ public:
                                            const VectorSize& size = -1) const = 0;
     virtual wbt::Signal getOutputPortSignal(const SignalIndex& idx,
                                             const VectorSize& size = -1) const = 0;
+
+    virtual std::weak_ptr<wbt::RobotInterface> getRobotInterface() const = 0;
+    virtual std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const = 0;
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */
