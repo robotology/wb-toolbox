@@ -182,51 +182,58 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Base acceleration
     // -----------------
 
-    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
-    if (!bufBaseAcc) {
     const Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
+    if (!baseAccelerationSignal.isValid()) {
         wbtError << "Base Acceleration signal not valid.";
         return false;
     }
-    for (auto i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
-        m_baseAcceleration->setVal(i, bufBaseAcc[i]);
+    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
+
+    for (unsigned i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
+        if (!m_baseAcceleration->setVal(i, bufBaseAcc[i])) {
+            wbtError << "Failed to fill base accelerations class member.";
+            return false;
+        }
     }
 
     // Joints acceleration
     // -------------------
 
-    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
-    if (!bufJointsAcc) {
     const Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
+    if (!jointsAccelerationSignal.isValid()) {
         wbtError << "Joints Acceleration signal not valid.";
         return false;
     }
-    for (auto i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
-        m_jointsAcceleration->setVal(i, bufJointsAcc[i]);
+    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
+
+    for (unsigned i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
+        if (!m_jointsAcceleration->setVal(i, bufJointsAcc[i])) {
+            wbtError << "Failed to fill joint accelerations class member.";
+            return false;
+        }
     }
 
     // OUTPUT
     // ======
 
+    // Calculate the inverse dynamics (assuming zero external forces)
+    ok = kinDyn->inverseDynamics(*m_baseAcceleration,
+                                 *m_jointsAcceleration,
+                                 iDynTree::LinkNetExternalWrenches(kinDyn->getNrOfLinks()),
+                                 *m_torques);
 
-    if (!model) {
+    if (!ok) {
         wbtError << "iDynTree failed to compute inverse dynamics.";
         return false;
     }
 
-    // Calculate the inverse dynamics (assuming zero external forces)
-    model->inverseDynamics(*m_baseAcceleration,
-                           *m_jointsAcceleration,
-                           iDynTree::LinkNetExternalWrenches(model->getNrOfLinks()),
-                           *m_torques);
-
     // Get the output signal
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_TORQUES);
-    double* outputBuffer = output.getBuffer<double>();
-    if (!outputBuffer) {
+    if (!output.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
     }
+    double* outputBuffer = output.getBuffer<double>();
 
     // Convert generalized torques and forward the directly to Simulink
     // mapping the memory through Eigen::Map

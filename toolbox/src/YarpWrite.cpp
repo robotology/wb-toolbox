@@ -166,10 +166,18 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    Signal signal = blockInfo->getInputPortSignal(0);
+    const Signal signal = blockInfo->getInputPortSignal(0);
 
-    for (unsigned i = 0; i < blockInfo->getInputPortWidth(0); ++i) {
-        outputVector[i] = signal.get<double>(i);
+    if (!signal.isValid()) {
+        wbtError << "Input signal not valid.";
+        return false;
+    }
+
+    m_outputVector = m_port->prepare();
+    m_outputVector.resize(signal.getWidth()); // this should be a no-op
+
+    for (unsigned i = 0; i < signal.getWidth(); ++i) {
+        m_outputVector[i] = signal.get<double>(i);
     }
 
     m_port->write();

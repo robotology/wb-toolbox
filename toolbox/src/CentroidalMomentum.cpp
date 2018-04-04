@@ -144,9 +144,15 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // Calculate the centroidal momentum
     *m_centroidalMomentum = kinDyn->getCentroidalTotalMomentum();
 
-    // Forward the output to Simulink
+    // Get the output signal
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_CENTRMOM);
-    output.setBuffer(toEigen(*m_centroidalMomentum).data(),
-                     blockInfo->getOutputPortWidth(OUTPUT_IDX_CENTRMOM));
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    // Fill the output buffer
+    output.setBuffer(toEigen(*m_centroidalMomentum).data(), output.getWidth());
+
     return true;
 }

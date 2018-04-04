@@ -223,13 +223,25 @@ bool Jacobian::output(const BlockInformation* blockInfo)
         toEigen(*m_jacobian).block(3, 0, 3, cols).setZero();
     }
 
+    if (!ok) {
+        wbtError << "Failed to get the Jacobian.";
+        return false;
+    }
+
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(*m_jacobian);
-    Map<MatrixXdSimulink> jacobianColMajor(output.getBuffer<double>(), 6, 6 + dofs);
+
+    const BlockInformation::MatrixSize outputSize =
+        blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME);
+    Map<MatrixXdSimulink> jacobianColMajor(
+        output.getBuffer<double>(), outputSize.first, outputSize.second);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     jacobianColMajor = jacobianRowMajor;

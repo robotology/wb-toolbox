@@ -78,7 +78,15 @@ bool YarpClock::terminate(const BlockInformation* /*S*/)
 
 bool YarpClock::output(const BlockInformation* blockInfo)
 {
-    Signal signal = blockInfo->getOutputPortSignal(0);
-    signal.set(0, yarp::os::Time::now());
+    Signal outputSignal = blockInfo->getOutputPortSignal(0);
+    if (!outputSignal.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    if (!outputSignal.set(0, yarp::os::Time::now())) {
+        wbtError << "Failed to write data to the output signal.";
+        return false;
+    }
     return true;
 }

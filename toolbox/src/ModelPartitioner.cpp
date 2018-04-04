@@ -240,14 +240,21 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
 
             // Get the data to forward
             Signal ithOutput = blockInfo->getOutputPortSignal(controlBoardOfJoint);
-            ithOutput.set(contrJointIdxCB, dofsSignal.get<double>(ithJoint));
+            if (!ithOutput.set(contrJointIdxCB, dofsSignal.get<double>(ithJoint))) {
+                wbtError << "Failed to set the output signal.";
+                return false;
+            }
         }
     }
     else {
         Signal dofsSignal = blockInfo->getOutputPortSignal(0);
+        if (!dofsSignal.isValid()) {
+            wbtError << "Failed to get the input signal buffer.";
+            return false;
+        }
 
-        for (unsigned ithJoint = 0; ithJoint < getConfiguration().getNumberOfDoFs(); ++ithJoint) {
-            const std::string ithJointName = getConfiguration().getControlledJoints()[ithJoint];
+        for (unsigned ithJoint = 0; ithJoint < configuration.getNumberOfDoFs(); ++ithJoint) {
+            const std::string ithJointName = configuration.getControlledJoints()[ithJoint];
             // Get the ControlBoard number the ith joint belongs
             const cb_idx& controlBoardOfJoint = m_jointsMapString->at(ithJointName).first;
             // Get the index of the ith joint inside the controlledJoints vector relative to
@@ -256,7 +263,10 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
 
             // Get the data to forward
             const Signal ithInput = blockInfo->getInputPortSignal(controlBoardOfJoint);
-            dofsSignal.set(ithJoint, ithInput.get<double>(contrJointIdxCB));
+            if (!dofsSignal.set(ithJoint, ithInput.get<double>(contrJointIdxCB))) {
+                wbtError << "Failed to set the output signal.";
+                return false;
+            }
         }
     }
     return true;

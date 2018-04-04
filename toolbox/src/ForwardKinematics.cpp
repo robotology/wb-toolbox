@@ -199,6 +199,10 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
 
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
 
     // Allocate objects for row-major -> col-major conversion
     Map<const Matrix4diDynTree> world_H_frame_RowMajor =

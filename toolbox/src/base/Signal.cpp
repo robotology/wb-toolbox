@@ -1,4 +1,5 @@
 #include "Signal.h"
+#include "Log.h"
 
 using namespace wbt;
 
@@ -141,12 +142,17 @@ bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
     return true;
 }
 
+bool Signal::isValid() const
+{
+    return m_bufferPtr && (m_width > 0);
+}
+
 void Signal::setWidth(const unsigned& width)
 {
     m_width = width;
 }
 
-unsigned Signal::getWidth() const
+int Signal::getWidth() const
 {
     return m_width;
 }

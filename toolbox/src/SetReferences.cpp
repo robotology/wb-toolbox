@@ -281,8 +281,13 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     // Get the signal
-    Signal references = blockInfo->getInputPortSignal(0);
-    unsigned signalWidth = blockInfo->getInputPortWidth(0);
+    const Signal references = blockInfo->getInputPortSignal(0);
+    const unsigned signalWidth = references.getWidth();
+
+    if (!references.isValid()) {
+        wbtError << "Input signal not valid.";
+        return false;
+    }
 
     double* bufferReferences = references.getBuffer<double>();
     if (!bufferReferences) {

@@ -153,10 +153,17 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
 
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_MASS_MAT);
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(*m_massMatrix);
-    Map<MatrixXdSimulink> massMatrixColMajor(output.getBuffer<double>(), 6 + dofs, 6 + dofs);
+    Map<MatrixXdSimulink> massMatrixColMajor(
+        output.getBuffer<double>(),
+        blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT).first,
+        blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT).second);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     massMatrixColMajor = massMatrixRowMajor;

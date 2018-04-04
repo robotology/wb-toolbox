@@ -270,19 +270,26 @@ bool YarpRead::output(const BlockInformation* blockInfo)
 
         Signal signal = blockInfo->getOutputPortSignal(0);
 
+        if (!signal.isValid()) {
+            wbtError << "Output signal not valid.";
+            return false;
+        }
+
         // Crop the buffer if it exceeds the OutputPortWidth.
-        signal.setBuffer(
-            v->data(),
-            std::min(blockInfo->getOutputPortWidth(0), static_cast<unsigned>(v->size())));
+        bool ok =
+            signal.setBuffer(v->data(), std::min(signal.getWidth(), static_cast<int>(v->size())));
+
+        if (!ok) {
+            wbtError << "Failed to set the output buffer.";
+            return false;
+        }
 
         if (!m_autoconnect) {
             Signal statusPort = blockInfo->getOutputPortSignal(connectionStatusPortIndex);
-            statusPort.set(0, 1); // somebody wrote in the port => the port is connected
-
-            // TODO implement a sort of "timeout" paramter
-            // At the current state this is equal to timeout = inf
-            // Otherwise we can check the timeout and if nobody sent data in the last X secs
-            // we set the port to zero again
+            if (!statusPort.set(0, 1.0)) {
+                wbtError << "Failed to write data to output buffer.";
+                return false;
+            }
         }
     }
 

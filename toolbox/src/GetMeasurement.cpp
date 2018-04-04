@@ -225,18 +225,22 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             ok = iTorqueControl->getTorques(m_measurement.data());
             break;
         }
-        default:
-            Log::getSingleton().error("Estimate type not recognized.");
-            return false;
     }
 
     if (!ok) {
-        Log::getSingleton().error("Failed to get estimate.");
+        wbtError << "Failed to get measurement.";
         return false;
     }
 
-    Signal signal = blockInfo->getOutputPortSignal(0);
-    signal.setBuffer(m_measurement.data(), blockInfo->getOutputPortWidth(0));
+    // Get the output signal
+    Signal output = blockInfo->getOutputPortSignal(0);
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    // Fill the output buffer
+    output.setBuffer(m_measurement.data(), output.getWidth());
 
     return true;
 }

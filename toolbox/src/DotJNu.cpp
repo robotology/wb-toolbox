@@ -204,6 +204,11 @@ bool DotJNu::output(const BlockInformation* blockInfo)
 
     // Forward the output to Simulink
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_DOTJ_NU);
-    output.setBuffer(m_dotJNu->data(), blockInfo->getOutputPortWidth(OUTPUT_IDX_DOTJ_NU));
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    output.setBuffer(m_dotJNu->data(), output.getWidth());
     return true;
 }

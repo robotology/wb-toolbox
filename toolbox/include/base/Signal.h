@@ -51,8 +51,10 @@ public:
     bool initializeBufferFromContiguousZeroCopy(const void* buffer);
     bool initializeBufferFromNonContiguous(const void* const* bufferPtrs);
 
+    bool isValid() const;
+
     bool isConst() const;
-    unsigned getWidth() const;
+    int getWidth() const;
     DataType getPortDataType() const;
     DataFormat getDataFormat() const;
 
