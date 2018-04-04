@@ -3,6 +3,7 @@
 
 #include "AnyType.h"
 #include <string>
+#include <utility>
 
 namespace wbt {
     class BlockInformation;
@@ -27,6 +28,12 @@ enum class wbt::DataType
 class wbt::BlockInformation
 {
 public:
+    typedef int Rows;
+    typedef int Cols;
+    typedef int SignalIndex;
+    typedef int VectorSize;
+    typedef std::pair<Rows, Cols> MatrixSize;
+
     BlockInformation() = default;
     virtual ~BlockInformation() = default;
 
@@ -63,12 +70,12 @@ public:
     // PORT INFORMATION SETTERS
     // ========================
 
-    virtual bool setNumberOfInputPorts(unsigned numberOfPorts) = 0;
-    virtual bool setNumberOfOutputPorts(unsigned numberOfPorts) = 0;
-    virtual bool setInputPortVectorSize(unsigned portNumber, int portSize) = 0;
-    virtual bool setInputPortMatrixSize(unsigned portNumber, int rows, int columns) = 0;
-    virtual bool setOutputPortVectorSize(unsigned portNumber, int portSize) = 0;
-    virtual bool setOutputPortMatrixSize(unsigned portNumber, int rows, int columns) = 0;
+    virtual bool setNumberOfInputPorts(const unsigned& numberOfPorts) = 0;
+    virtual bool setNumberOfOutputPorts(const unsigned& numberOfPorts) = 0;
+    virtual bool setInputPortVectorSize(const SignalIndex& idx, const VectorSize& size) = 0;
+    virtual bool setInputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) = 0;
+    virtual bool setOutputPortVectorSize(const SignalIndex& idx, const VectorSize& size) = 0;
+    virtual bool setOutputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) = 0;
 
     /**
      * Set data type for the specified input port
@@ -78,16 +85,21 @@ public:
      *
      * @return true if succeded, false otherwise
      */
-    virtual bool setInputPortType(unsigned portNumber, PortDataType portType) = 0;
-    virtual bool setOutputPortType(unsigned portNumber, PortDataType portType) = 0;
+    virtual bool setInputPortType(const SignalIndex& idx, const DataType& type) = 0;
+    virtual bool setOutputPortType(const SignalIndex& idx, const DataType& type) = 0;
 
     // PORT INFORMATION GETTERS
     // ========================
 
-    virtual unsigned getInputPortWidth(unsigned portNumber) const = 0;
-    virtual unsigned getOutputPortWidth(unsigned portNumber) const = 0;
-    virtual wbt::Signal getInputPortSignal(unsigned portNumber, int portWidth = -1) const = 0;
-    virtual wbt::Signal getOutputPortSignal(unsigned portNumber, int portWidth = -1) const = 0;
+    virtual unsigned getInputPortWidth(const SignalIndex& idx) const = 0;
+    virtual unsigned getOutputPortWidth(const SignalIndex& idx) const = 0;
+    virtual MatrixSize getInputPortMatrixSize(const SignalIndex& port) const = 0;
+    virtual MatrixSize getOutputPortMatrixSize(const SignalIndex& port) const = 0;
+
+    virtual wbt::Signal getInputPortSignal(const SignalIndex& idx,
+                                           const VectorSize& size = -1) const = 0;
+    virtual wbt::Signal getOutputPortSignal(const SignalIndex& idx,
+                                            const VectorSize& size = -1) const = 0;
 };
 
 #endif /* end of include guard: WBT_BLOCKINFORMATION_H */

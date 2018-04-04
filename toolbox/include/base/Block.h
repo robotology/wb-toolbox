@@ -38,7 +38,8 @@ public:
      * Destructor
      *
      */
-    virtual ~Block();
+    virtual ~Block() = default;
+
     static const unsigned NumberOfParameters;
 
     /**
@@ -133,7 +134,7 @@ public:
      *
      * @return true for success, false otherwise
      */
-    virtual bool initialize(const BlockInformation* blockInfo) = 0;
+    virtual bool initialize(BlockInformation* blockInfo);
 
     /**
      * Called to initialize the initial conditions

@@ -3,7 +3,6 @@
 
 using namespace wbt;
 
-Block::~Block() {}
 const unsigned Block::NumberOfParameters = 1;
 
 unsigned Block::numberOfParameters()
@@ -33,6 +32,11 @@ bool Block::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
+    return true;
+}
+
+bool Block::initialize(BlockInformation* blockInfo)
+{
     return true;
 }
 
