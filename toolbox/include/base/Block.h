@@ -180,4 +180,4 @@ public:
 public:
 };
 
-#endif /* end of include guard: WBT_BLOCK_H */
+#endif // WBT_BLOCK_H

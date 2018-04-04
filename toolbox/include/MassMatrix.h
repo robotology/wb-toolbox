@@ -19,6 +19,7 @@ private:
 
 public:
     static const std::string ClassName;
+
     MassMatrix();
     ~MassMatrix() override = default;
 
@@ -28,4 +29,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_MASSMATRIX_H */
+#endif // WBT_MASSMATRIX_H

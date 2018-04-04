@@ -32,4 +32,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_SIMULATORSYNCHRONIZER_H */
+#endif // WBT_SIMULATORSYNCHRONIZER_H

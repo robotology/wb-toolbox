@@ -41,4 +41,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_GETLIMITS_H */
+#endif // WBT_GETLIMITS_H

@@ -25,10 +25,9 @@ CentroidalMomentum::CentroidalMomentum() {}
 
 bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // Memory allocation / Saving data not allowed here
-
-    if (!WBBlock::configureSizeAndPorts(blockInfo))
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
+    }
 
     // INPUTS
     // ======
@@ -91,8 +90,9 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
 {
-    if (!WBBlock::initialize(blockInfo))
+    if (!WBBlock::initialize(blockInfo)) {
         return false;
+    }
 
     // OUTPUT
     // ======

@@ -1,5 +1,5 @@
-#ifndef WBT_WBIBLOCK_H
-#define WBT_WBIBLOCK_H
+#ifndef WBT_WBBLOCK_H
+#define WBT_WBBLOCK_H
 
 #include "Block.h"
 
@@ -90,4 +90,4 @@ public:
     bool terminate(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_WBIBLOCK_H */
+#endif // WBT_WBBLOCK_H

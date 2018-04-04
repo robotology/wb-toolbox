@@ -22,4 +22,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_YARPCLOCK_H */
+#endif // WBT_YARPCLOCK_H

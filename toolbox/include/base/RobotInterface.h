@@ -2,7 +2,6 @@
 #define WBT_ROBOTINTERFACE_H
 
 #include "Configuration.h"
-
 #include <cassert>
 #include <memory>
 #include <string>
@@ -85,11 +84,6 @@ struct wbt::YarpInterfaces
         , iPidControl(nullptr)
     {}
 };
-
-// TODO o pensare come evitare di avere due conf con es position e torque nei setref con lo stesso
-// robot. e' un casino -> aggiungere max un warning o solo documentazione. Solo un setReference
-// attivo per configuration.Se ci sono due setReference con lo stesso set di giunti attivi
-// contemporaneamente. Oppure due stessi blocchi setReference con lo stesso blocco config.
 
 /**
  * \class wbt::RobotInterface RobotInterface.h
@@ -273,7 +267,6 @@ public:
     bool releaseRemoteControlBoardRemapper();
 };
 
-#endif /* end of include guard: WBT_ROBOTINTERFACE_H */
 // Specialize the getInterface template
 namespace wbt {
     template <>
@@ -297,3 +290,5 @@ namespace wbt {
     template <>
     bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface);
 } // namespace wbt
+
+#endif // WBT_ROBOTINTERFACE_H

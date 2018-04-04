@@ -34,8 +34,9 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)){
-        return false;}
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======

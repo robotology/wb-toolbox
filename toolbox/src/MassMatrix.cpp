@@ -22,8 +22,6 @@ MassMatrix::MassMatrix() {}
 
 bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // Memory allocation / Saving data not allowed here
-
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
     }

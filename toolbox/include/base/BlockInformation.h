@@ -102,4 +102,4 @@ public:
     virtual std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const = 0;
 };
 
-#endif /* end of include guard: WBT_BLOCKINFORMATION_H */
+#endif // WBT_BLOCKINFORMATION_H

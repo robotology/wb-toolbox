@@ -34,4 +34,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_GETMEASUREMENT_H */
+#endif // WBT_GETMEASUREMENT_H

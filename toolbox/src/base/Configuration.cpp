@@ -1,5 +1,4 @@
 #include "Configuration.h"
-
 #include <algorithm>
 
 using namespace wbt;

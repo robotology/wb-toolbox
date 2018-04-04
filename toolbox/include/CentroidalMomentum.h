@@ -29,4 +29,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_CENTROIDALMOMENTUM_H */
+#endif // WBT_CENTROIDALMOMENTUM_H

@@ -3,10 +3,9 @@
 #include "Log.h"
 #include "thrift/ClockServer.h"
 
+#include <cmath>
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
-
-#include <cmath>
 
 using namespace wbt;
 

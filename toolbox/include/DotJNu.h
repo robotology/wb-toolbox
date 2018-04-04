@@ -1,5 +1,5 @@
-#ifndef WBT_DOTJDOTQ_H
-#define WBT_DOTJDOTQ_H
+#ifndef WBT_DOTJNU_H
+#define WBT_DOTJNU_H
 
 #include "WBBlock.h"
 #include <iDynTree/Core/VectorFixSize.h>
@@ -34,4 +34,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_DOTJDOTQ_H */
+#endif // WBT_DOTJNU_H

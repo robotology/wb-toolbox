@@ -19,8 +19,6 @@ class wbt::InverseDynamics : public wbt::WBBlock
 private:
     std::unique_ptr<iDynTree::Vector6> m_baseAcceleration;
     std::unique_ptr<iDynTree::VectorDynSize> m_jointsAcceleration;
-
-    // Output
     std::unique_ptr<iDynTree::FreeFloatingGeneralizedTorques> m_torques;
 
 public:
@@ -36,4 +34,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_INVERSEDYNAMICS_H */
+#endif // WBT_INVERSEDYNAMICS_H

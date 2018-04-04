@@ -8,11 +8,9 @@
 #include <iDynTree/Model/Model.h>
 #include <yarp/dev/IControlLimits2.h>
 
+#include <cmath>
 #include <limits>
 #include <vector>
-
-#define _USE_MATH_DEFINES
-#include <cmath>
 
 using namespace wbt;
 

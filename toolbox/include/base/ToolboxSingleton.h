@@ -1,8 +1,7 @@
-#ifndef WBT_ToolboxSingleton_H
-#define WBT_ToolboxSingleton_H
+#ifndef WBT_TOOLBOXSINGLETON_H
+#define WBT_TOOLBOXSINGLETON_H
 
 #include "Configuration.h"
-
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -144,4 +143,4 @@ public:
     void eraseConfiguration(const std::string& confKey);
 };
 
-#endif /* end of include guard: WBT_ToolboxSingleton_H */
+#endif // WBT_TOOLBOXSINGLETON_H

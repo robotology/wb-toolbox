@@ -44,4 +44,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_YARPREAD_H */
+#endif // WBT_YARPREAD_H

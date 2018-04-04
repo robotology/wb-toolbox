@@ -16,13 +16,9 @@ namespace iDynTree {
 class wbt::Jacobian : public wbt::WBBlock
 {
 private:
-    // Support variables
     std::unique_ptr<iDynTree::MatrixDynSize> m_jacobianCOM;
-
-    // Output
     std::unique_ptr<iDynTree::MatrixDynSize> m_jacobian;
 
-    // Other variables
     bool m_frameIsCoM;
     iDynTree::FrameIndex m_frameIndex;
 
@@ -40,4 +36,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_JACOBIAN_H */
+#endif // WBT_JACOBIAN_H

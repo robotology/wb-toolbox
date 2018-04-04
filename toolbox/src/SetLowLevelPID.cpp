@@ -225,7 +225,7 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
-    // Reset default pid gains
+    // Reset default PID gains
     ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
     if (!ok) {
         wbtError << "Failed to reset PIDs to the default values.";

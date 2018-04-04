@@ -98,4 +98,4 @@ public:
     bool getVectorAtIndex(const ParameterIndex& idx, std::vector<double>& value) const;
 };
 
-#endif /* end of include guard: WBT_SIMULINKBLOCKINFORMATION_H */
+#endif /* WBT_SIMULINKBLOCKINFORMATION_H */

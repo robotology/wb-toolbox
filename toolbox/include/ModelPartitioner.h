@@ -33,4 +33,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_MODELPARTITIONER_H */
+#endif // WBT_MODELPARTITIONER_H

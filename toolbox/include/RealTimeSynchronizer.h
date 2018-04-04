@@ -28,4 +28,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_REALTIMESYNCHRONIZER_H */
+#endif // WBT_REALTIMESYNCHRONIZER_H

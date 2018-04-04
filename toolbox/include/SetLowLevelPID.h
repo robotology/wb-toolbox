@@ -1,5 +1,5 @@
-#ifndef WBT_SETLOWLEVELPID_H_
-#define WBT_SETLOWLEVELPID_H_
+#ifndef WBT_SETLOWLEVELPID_H
+#define WBT_SETLOWLEVELPID_H
 
 #include "WBBlock.h"
 #include <unordered_map>
@@ -38,4 +38,4 @@ public:
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_SETLOWLEVELPID_H_ */
+#endif // WBT_SETLOWLEVELPID_H

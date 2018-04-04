@@ -6,7 +6,6 @@
 
 #include <yarp/dev/ControlBoardInterfaces.h>
 
-#define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace wbt;
@@ -56,10 +55,9 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo))
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
-
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    }
 
     // INPUTS
     // ======
@@ -247,9 +245,12 @@ bool SetReferences::initializeInitialConditions(const BlockInformation* /*blockI
     // and in this case the control mode should be set.
     //
     // It is worth noting that this toolbox disables parameters to be tunable for
-    // all the blocks
+    // all the blocks.
 
+    // Set again the control mode on the first output() call after the new enabling
+    // of the block
     m_resetControlMode = true;
+
     return true;
 }
 

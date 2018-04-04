@@ -7,7 +7,6 @@
 #include <yarp/dev/IEncoders.h>
 #include <yarp/dev/ITorqueControl.h>
 
-#define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace wbt;
