@@ -2,6 +2,7 @@
 #include "BlockInformation.h"
 #include "Log.h"
 
+#include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
 using namespace wbt;
@@ -82,12 +83,19 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    yarp::os::Network::init();
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+        wbtError << "YARP server wasn't found active!!";
+        return false;
+    }
+
     m_counter = 0;
     return true;
 }
 
 bool RealTimeSynchronizer::terminate(const BlockInformation* blockInfo)
 {
+    yarp::os::Network::fini();
     return true;
 }
 
