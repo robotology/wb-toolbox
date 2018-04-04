@@ -197,3 +197,113 @@ bool Signal::set(const unsigned& index, const double& data)
     }
     return true;
 }
+
+// Explicit template instantiations
+// ================================
+template double* Signal::getBuffer<double>() const;
+template double Signal::get<double>(const unsigned& i) const;
+template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+
+// Template definitions
+// ===================
+
+template <typename T>
+T Signal::get(const unsigned& i) const
+{
+    T* buffer = getBuffer<T>();
+
+    if (!buffer) {
+        return false;
+    }
+
+    if (i >= m_width) {
+        wbtError << "Trying to access an element that exceeds signal width.";
+        return false;
+    }
+
+    return buffer[i];
+}
+
+template <typename T>
+T* Signal::getBuffer() const
+{
+    const std::map<DataType, size_t> mapDataTypeToHash = {
+        {DataType::DOUBLE, typeid(double).hash_code()},
+        {DataType::SINGLE, typeid(float).hash_code()},
+        {DataType::INT8, typeid(int8_t).hash_code()},
+        {DataType::UINT8, typeid(uint8_t).hash_code()},
+        {DataType::INT16, typeid(int16_t).hash_code()},
+        {DataType::UINT16, typeid(uint16_t).hash_code()},
+        {DataType::INT32, typeid(int32_t).hash_code()},
+        {DataType::UINT32, typeid(uint32_t).hash_code()},
+        {DataType::BOOLEAN, typeid(bool).hash_code()}};
+
+    if (!m_bufferPtr) {
+        wbtError << "The pointer to data is null. The signal was not configured properly.";
+        return nullptr;
+    }
+
+    // Check the returned matches the same type of the portType.
+    // If this is not met, applying pointer arithmetics on the returned
+    // pointer would show unknown behaviour.
+    if (typeid(T).hash_code() != mapDataTypeToHash.at(m_portDataType)) {
+        wbtError << "Trying to get the buffer using a type different that its DataType";
+        return nullptr;
+    }
+
+    // Return the correct pointer
+    return static_cast<T*>(m_bufferPtr);
+}
+
+template <typename T>
+bool Signal::setBuffer(const T* data, const unsigned& length)
+{
+    // Non contiguous signals follow the Simulink convention of being read-only.
+    // They are used only for input signals.
+    if (m_dataFormat == DataFormat::NONCONTIGUOUS || m_isConst) {
+        wbtError << "Changing buffer address to NONCONTIGUOUS and const signals is not allowed.";
+        return false;
+    }
+
+    // Fail if the length is greater of the signal width
+    if (m_dataFormat == DataFormat::CONTIGUOUS_ZEROCOPY && length > m_width) {
+        wbtError << "Trying to set a buffer with a length greater than the signal width.";
+        return false;
+    }
+
+    // Check that T matches the type of raw buffer stored. Use getBuffer since it will return
+    // nullptr if this is not met.
+    if (!getBuffer<T>()) {
+        wbtError << "Trying to get a pointer with a type not matching the signal's DataType.";
+        return false;
+    }
+
+    switch (m_dataFormat) {
+        case DataFormat::CONTIGUOUS:
+            // Delete the current array
+            if (m_bufferPtr) {
+                delete getBuffer<T>();
+                m_bufferPtr = nullptr;
+                m_width = 0;
+            }
+            // Allocate a new empty array
+            m_bufferPtr = static_cast<void*>(new T[length]);
+            m_width = length;
+            // Fill it with new data
+            std::copy(data, data + length, getBuffer<T>());
+            break;
+        case DataFormat::CONTIGUOUS_ZEROCOPY:
+            // Reset current data
+            std::fill(getBuffer<T>(), getBuffer<T>() + m_width, 0);
+            // Copy new data
+            std::copy(data, data + length, getBuffer<T>());
+            // Update the width
+            m_width = length;
+            break;
+        case DataFormat::NONCONTIGUOUS:
+            wbtError << "The code should never arrive here. Unexpected error.";
+            return false;
+    }
+
+    return true;
+}

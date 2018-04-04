@@ -2,8 +2,8 @@
 #define WBT_SIGNAL_H
 
 #include "BlockInformation.h"
-
 #include <cassert>
+#include <map>
 #include <memory>
 
 namespace wbt {
@@ -22,7 +22,7 @@ public:
     };
 
 private:
-    int m_width;
+    int m_width = DynamicSize;
     const bool m_isConst;
     const DataType m_portDataType;
     const DataFormat m_dataFormat;
@@ -31,9 +31,6 @@ private:
 
     void deleteBuffer();
     void allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length);
-
-    template <typename T>
-    T* getCastBuffer() const;
 
 public:
     static const int DynamicSize;
@@ -71,119 +68,17 @@ public:
     bool setBuffer(const T* data, const unsigned& length);
 };
 
-template <typename T>
-T* wbt::Signal::getBuffer() const
-{
-    // Check the returned matches the same type of the portType.
-    // If this is not met, appliying pointer arithmetics on the returned
-    // pointer would show unknown behaviour.
-    switch (m_portDataType) {
-        case wbt::PortDataTypeDouble:
-            if (typeid(T).hash_code() != typeid(double).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeSingle:
-            if (typeid(T).hash_code() != typeid(float).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt8:
-            if (typeid(T).hash_code() != typeid(int8_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt8:
-            if (typeid(T).hash_code() != typeid(uint8_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt16:
-            if (typeid(T).hash_code() != typeid(int16_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt16:
-            if (typeid(T).hash_code() != typeid(uint16_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt32:
-            if (typeid(T).hash_code() != typeid(int32_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt32:
-            if (typeid(T).hash_code() != typeid(uint32_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeBoolean:
-            if (typeid(T).hash_code() != typeid(bool).hash_code()) {
-                return nullptr;
-            }
-            break;
-        default:
-            return nullptr;
-            break;
-    }
+// Explicit declaration of templates for all the supported types
+// =============================================================
 
-    // Return the correct pointer
-    return static_cast<T*>(m_bufferPtr);
-}
+// TODO: for the time being, only DOUBLE is allowed. The toolbox has an almost complete support to
+//       many other data types, but they need to be tested.
 
-template <typename T>
-bool wbt::Signal::setBuffer(const T* data, const unsigned& length)
-{
-    // Non contiguous signals follow the Simulink convention of being read-only
-    if (m_dataFormat == NONCONTIGUOUS || m_isConst) {
-        return false;
-    }
+namespace wbt {
+    // DataType::DOUBLE
+    extern template double* Signal::getBuffer<double>() const;
+    extern template double Signal::get<double>(const unsigned& i) const;
+    extern template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+} // namespace wbt
 
-    if (m_dataFormat == CONTIGUOUS_ZEROCOPY && length > m_width) {
-        return false;
-    }
-
-    if (typeid(getBuffer<T>()).hash_code() != typeid(T*).hash_code()) {
-        return false;
-    }
-
-    switch (m_dataFormat) {
-        case CONTIGUOUS:
-            // Delete the current array
-            if (m_bufferPtr) {
-                delete getBuffer<T>();
-                m_bufferPtr = nullptr;
-                m_width = 0;
-            }
-            // Allocate a new empty array
-            m_bufferPtr = static_cast<void*>(new T[length]);
-            m_width = length;
-            // Fill it with new data
-            std::copy(data, data + length, getBuffer<T>());
-            break;
-        case CONTIGUOUS_ZEROCOPY:
-            // Reset current data
-            std::fill(getBuffer<T>(), getBuffer<T>() + m_width, 0);
-            // Copy new data
-            std::copy(data, data + length, getBuffer<T>());
-            // Update the width
-            m_width = length;
-            break;
-        case NONCONTIGUOUS:
-            return false;
-    }
-
-    return true;
-}
-
-template <typename T>
-T wbt::Signal::get(const unsigned& i) const
-{
-    T* buffer = getBuffer<T>();
-    assert(buffer);
-
-    return buffer[i];
-}
-
-#endif /* end of include guard: WBT_SIGNAL_H */
+#endif // WBT_SIGNAL_H
