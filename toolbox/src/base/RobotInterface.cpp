@@ -14,31 +14,6 @@
 #include <sstream>
 #include <utility>
 
-namespace wbt {
-    // The declaration of the following template specializations are required only by GCC
-    using namespace yarp::dev;
-    template <>
-    bool RobotInterface::getInterface(IControlMode2*& interface);
-    template <>
-    bool RobotInterface::getInterface(IPositionControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(IPositionDirect*& interface);
-    template <>
-    bool RobotInterface::getInterface(IVelocityControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(ITorqueControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(IPWMControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(ICurrentControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(IEncoders*& interface);
-    template <>
-    bool RobotInterface::getInterface(IControlLimits2*& interface);
-    template <>
-    bool RobotInterface::getInterface(IPidControl*& interface);
-} // namespace wbt
-
 using namespace wbt;
 
 // CONSTRUCTOR / DESTRUCTOR
@@ -278,76 +253,6 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
     return m_kinDynComp;
 }
 
-template <>
-bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iControlMode2);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iPositionControl);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iPositionDirect);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iVelocityControl);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iTorqueControl);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iPWMControl);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iCurrentControl);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iEncoders);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iControlLimits2);
-    return interface;
-}
-
-template <>
-bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface)
-{
-    interface = getInterfaceFromTemplate(m_yarpInterfaces.iPidControl);
-    return interface;
-}
-
 // LAZY EVALUATION
 // ===============
 
@@ -540,18 +445,16 @@ bool RobotInterface::initializeRemoteControlBoardRemapper()
     return true;
 }
 
-// OTHER METHODS
-// =============
+// TEMPLATED METHODS
+// =================
 
 template <typename T>
-T* RobotInterface::getInterfaceFromTemplate(T*& interface)
+T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
 {
     if (!interface) {
         // Blocks which require the RemoteControlBoardRemapper need to retain / release it
         // in their initialization / terminate phase;
-        // assert(m_robotDevice);
-        if (!m_robotDevice) {
-            // Return an empty weak pointer
+        if (!cbRemapper) {
             wbtError << "The RemoteControlBoardRemapper has not been initialized. " << std::endl
                      << "You need to retain the CB device in the initialize() method.";
             return nullptr;
@@ -563,5 +466,77 @@ T* RobotInterface::getInterfaceFromTemplate(T*& interface)
             return nullptr;
         }
     }
+
+    // Return true if the raw pointer is not null
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iControlMode2, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iPositionControl, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iPositionDirect, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iVelocityControl, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iTorqueControl, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iPWMControl, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iCurrentControl, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iEncoders, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iControlLimits2, m_robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface)
+{
+    interface = getInterfaceLazyEval(m_yarpInterfaces.iPidControl, m_robotDevice.get());
     return interface;
 }

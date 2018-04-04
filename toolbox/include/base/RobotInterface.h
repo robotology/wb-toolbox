@@ -145,16 +145,6 @@ private:
     // =====================
 
     /**
-     * Gather a device from the RemoteControlBoardRemapper as a \c weak_ptr
-     *
-     * @param  device The RemoteControlBoardRemapper device
-     * @return        The dynamic(ally)_cast device
-     * @tparam T      The type of the retured device
-     */
-    template <typename T>
-    T* getInterfaceFromTemplate(T*& device);
-
-    /**
      * Creates the map between joints (specified as either names or idyntree indices) and
      * their YARP representation, which consist in a pair: Control Board index and joint index
      * inside the its Control Board.
@@ -284,3 +274,26 @@ public:
 };
 
 #endif /* end of include guard: WBT_ROBOTINTERFACE_H */
+// Specialize the getInterface template
+namespace wbt {
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface);
+} // namespace wbt
