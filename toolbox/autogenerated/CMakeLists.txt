@@ -1,3 +1,7 @@
+# Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+# This software may be modified and distributed under the terms of the
+# GNU Lesser General Public License v2.1 or any later version.
+
 #cmake_policy(SET CMP0048 NEW)
 #project(ClockServer LANGUAGES CXX VERSION 0.1)
 #cmake_minimum_required(VERSION 3.0.2)

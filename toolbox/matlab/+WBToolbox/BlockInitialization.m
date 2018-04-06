@@ -1,3 +1,7 @@
+% Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+% This software may be modified and distributed under the terms of the
+% GNU Lesser General Public License v2.1 or any later version.
+
 function [configBlock, WBTConfig] = BlockInitialization(currentBlock, currentSystem)
 %BLOCKINITIALIZATION Initialize blocks that read a Config block
 %   This function is used to initialize the mask of block that need to
