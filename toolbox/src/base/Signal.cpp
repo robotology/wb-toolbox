@@ -320,10 +320,8 @@ bool Signal::setBuffer(const T* data, const unsigned& length)
             std::copy(data, data + length, getBuffer<T>());
             break;
         case DataFormat::CONTIGUOUS_ZEROCOPY:
-            // Reset current data
-            std::fill(getBuffer<T>(), getBuffer<T>() + m_width, 0);
-            // Copy new data
-            std::copy(data, data + length, getBuffer<T>());
+            // Override the buffer pointer
+            m_bufferPtr = static_cast<void*>(const_cast<T*>(data));
             // Update the width
             m_width = length;
             break;
