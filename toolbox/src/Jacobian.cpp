@@ -41,7 +41,7 @@ unsigned Jacobian::numberOfParameters()
 
 bool Jacobian::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame");
+    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
 
     bool ok = blockInfo->addParameterMetadata(frameMetadata);
 
@@ -128,7 +128,7 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     }
 
     std::string frame;
-    if (!m_parameters.getParameter("frame", frame)) {
+    if (!m_parameters.getParameter("Frame", frame)) {
         wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }
@@ -184,8 +184,8 @@ bool Jacobian::terminate(const BlockInformation* blockInfo)
 bool Jacobian::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
-    typedef Matrix<double, Dynamic, Dynamic, Eigen::ColMajor> MatrixXdSimulink;
-    typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
+    using MatrixXdSimulink = Matrix<double, Dynamic, Dynamic, Eigen::ColMajor>;
+    using MatrixXdiDynTree = Matrix<double, Dynamic, Dynamic, Eigen::RowMajor>;
 
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations(blockInfo).lock();

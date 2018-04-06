@@ -39,7 +39,8 @@ unsigned GetMeasurement::numberOfParameters()
 
 bool GetMeasurement::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_measType(PARAM_STRING, PARAM_IDX_MEAS_TYPE, 1, 1, "MeasuredType");
+    ParameterMetadata paramMD_measType(
+        ParameterType::STRING, PARAM_IDX_MEAS_TYPE, 1, 1, "MeasuredType");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_measType);

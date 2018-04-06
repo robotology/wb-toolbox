@@ -15,9 +15,9 @@
 
 class AnyType;
 
-typedef std::shared_ptr<AnyType> AnyTypeSPtr;
-typedef std::vector<AnyTypeSPtr> AnyCell;
-typedef std::unordered_map<std::string, AnyTypeSPtr> AnyStruct;
+using AnyTypeSPtr = std::shared_ptr<AnyType>;
+using AnyCell = std::vector<AnyTypeSPtr>;
+using AnyStruct = std::unordered_map<std::string, AnyTypeSPtr>;
 
 class AnyType
 {

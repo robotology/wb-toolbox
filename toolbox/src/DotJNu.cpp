@@ -37,7 +37,7 @@ unsigned DotJNu::numberOfParameters()
 
 bool DotJNu::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame");
+    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
         wbtError << "Failed to store parameters metadata.";
@@ -128,7 +128,7 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
     }
 
     std::string frame;
-    if (!m_parameters.getParameter("frame", frame)) {
+    if (!m_parameters.getParameter("Frame", frame)) {
         wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }

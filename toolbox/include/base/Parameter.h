@@ -16,31 +16,31 @@ namespace wbt {
     class ParameterMetadata;
     template <typename T>
     class Parameter;
-    class Parameters;
-    enum ParameterType
-    {
-        // Scalar / Vector / Matrix
-        PARAM_INT,
-        PARAM_BOOL,
-        PARAM_DOUBLE,
-        PARAM_STRING,
-        // Cell
-        PARAM_CELL_INT,
-        PARAM_CELL_BOOL,
-        PARAM_CELL_DOUBLE,
-        PARAM_CELL_STRING,
-        // Struct
-        PARAM_STRUCT_INT,
-        PARAM_STRUCT_BOOL,
-        PARAM_STRUCT_DOUBLE,
-        PARAM_STRUCT_STRING,
-        PARAM_STRUCT_CELL_INT,
-        PARAM_STRUCT_CELL_BOOL,
-        PARAM_STRUCT_CELL_DOUBLE,
-        PARAM_STRUCT_CELL_STRING
-    };
+    enum class ParameterType;
 } // namespace wbt
 
+enum class wbt::ParameterType
+{
+    // Scalar / Vector / Matrix
+    INT,
+    BOOL,
+    DOUBLE,
+    STRING,
+    // Cell
+    CELL_INT,
+    CELL_BOOL,
+    CELL_DOUBLE,
+    CELL_STRING,
+    // Struct
+    STRUCT_INT,
+    STRUCT_BOOL,
+    STRUCT_DOUBLE,
+    STRUCT_STRING,
+    STRUCT_CELL_INT,
+    STRUCT_CELL_BOOL,
+    STRUCT_CELL_DOUBLE,
+    STRUCT_CELL_STRING
+};
 class wbt::ParameterMetadata
 {
 public:
@@ -74,7 +74,7 @@ template <typename T>
 class wbt::Parameter
 {
 private:
-    typedef std::vector<T> ParamVector;
+    using ParamVector = std::vector<T>;
 
     bool m_isScalar;
     T m_valueScalar;
@@ -82,6 +82,7 @@ private:
     wbt::ParameterMetadata m_metadata;
 
 public:
+    enum class Type;
     Parameter() = delete;
     ~Parameter() = default;
 

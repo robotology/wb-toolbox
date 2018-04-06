@@ -44,7 +44,7 @@ bool GetLimits::parseParameters(BlockInformation* blockInfo)
         return false;
     }
 
-    ParameterMetadata limitType(PARAM_DOUBLE, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
+    ParameterMetadata limitType(ParameterType::DOUBLE, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
 
     bool ok = blockInfo->addParameterMetadata(limitType);
 

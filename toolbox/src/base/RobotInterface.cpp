@@ -141,25 +141,27 @@ bool RobotInterface::mapDoFs()
                         return false;
                     }
                     // If this is the first entry to add, allocate the objects
-                    if (!m_jointsMapIndex) {
-                        m_jointsMapIndex = std::make_shared<JointsMapIndex>();
+                    if (!m_jointIndexToYarpMap) {
+                        m_jointIndexToYarpMap = std::make_shared<JointIndexToYarpMap>();
                     }
-                    if (!m_jointsMapString) {
-                        m_jointsMapString = std::make_shared<JointsMapString>();
+                    if (!m_jointNameToYarpMap) {
+                        m_jointNameToYarpMap = std::make_shared<JointNameToYarpMap>();
                     }
-                    if (!m_controlledJointsMapCB) {
-                        m_controlledJointsMapCB = std::make_shared<ControlledJointsMapCB>();
+                    if (!m_jointNameToIndexInControlBoardMap) {
+                        m_jointNameToIndexInControlBoardMap =
+                            std::make_shared<JointNameToIndexInControlBoardMap>();
                     }
-                    if (!m_controlBoardIdxLimit) {
-                        m_controlBoardIdxLimit = std::make_shared<ControlBoardIdxLimit>();
+                    if (!m_controlBoardIndexLimit) {
+                        m_controlBoardIndexLimit = std::make_shared<ControlBoardIndexLimit>();
                     }
                     // Create a new entry in the map objects
-                    m_jointsMapString->insert(
+                    m_jointNameToYarpMap->insert(
                         std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
-                    m_jointsMapIndex->insert(std::make_pair(static_cast<int>(iDynJointIdx),
-                                                            std::make_pair(cbNum, axis)));
-                    m_controlledJointsMapCB->insert(std::make_pair(controlledJoint, found));
-                    (*m_controlBoardIdxLimit)[cbNum] = found + 1;
+                    m_jointIndexToYarpMap->insert(std::make_pair(static_cast<int>(iDynJointIdx),
+                                                                 std::make_pair(cbNum, axis)));
+                    m_jointNameToIndexInControlBoardMap->insert(
+                        std::make_pair(controlledJoint, found));
+                    (*m_controlBoardIndexLimit)[cbNum] = found + 1;
                     break;
                 }
             }
@@ -194,55 +196,55 @@ const wbt::Configuration& RobotInterface::getConfiguration() const
     return m_config;
 }
 
-const std::shared_ptr<JointsMapString> RobotInterface::getJointsMapString()
+const std::shared_ptr<JointNameToYarpMap> RobotInterface::getJointsMapString()
 {
-    if (!m_jointsMapString || m_jointsMapString->empty()) {
+    if (!m_jointNameToYarpMap || m_jointNameToYarpMap->empty()) {
         if (!mapDoFs()) {
             wbtError << "Failed to create the joint maps.";
             return nullptr;
         }
     }
 
-    return m_jointsMapString;
+    return m_jointNameToYarpMap;
 }
 
-const std::shared_ptr<JointsMapIndex> RobotInterface::getJointsMapIndex()
+const std::shared_ptr<JointIndexToYarpMap> RobotInterface::getJointsMapIndex()
 {
-    if (!m_jointsMapIndex || m_jointsMapIndex->empty()) {
+    if (!m_jointIndexToYarpMap || m_jointIndexToYarpMap->empty()) {
         if (!mapDoFs()) {
             wbtError << "Failed to create the joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_jointsMapIndex);
-    return m_jointsMapIndex;
+    assert(m_jointIndexToYarpMap);
+    return m_jointIndexToYarpMap;
 }
 
-const std::shared_ptr<ControlledJointsMapCB> RobotInterface::getControlledJointsMapCB()
+const std::shared_ptr<JointNameToIndexInControlBoardMap> RobotInterface::getControlledJointsMapCB()
 {
-    if (!m_controlledJointsMapCB || m_controlledJointsMapCB->empty()) {
+    if (!m_jointNameToIndexInControlBoardMap || m_jointNameToIndexInControlBoardMap->empty()) {
         if (!mapDoFs()) {
             wbtError << "Failed to create joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_controlledJointsMapCB);
-    return m_controlledJointsMapCB;
+    assert(m_jointNameToIndexInControlBoardMap);
+    return m_jointNameToIndexInControlBoardMap;
 }
 
-const std::shared_ptr<ControlBoardIdxLimit> RobotInterface::getControlBoardIdxLimit()
+const std::shared_ptr<ControlBoardIndexLimit> RobotInterface::getControlBoardIdxLimit()
 {
-    if (!m_controlBoardIdxLimit || m_controlBoardIdxLimit->empty()) {
+    if (!m_controlBoardIndexLimit || m_controlBoardIndexLimit->empty()) {
         if (!mapDoFs()) {
             wbtError << "Failed to create joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_controlBoardIdxLimit);
-    return m_controlBoardIdxLimit;
+    assert(m_controlBoardIndexLimit);
+    return m_controlBoardIndexLimit;
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynComputations()

@@ -30,7 +30,7 @@ unsigned ModelPartitioner::numberOfParameters()
 bool ModelPartitioner::parseParameters(BlockInformation* blockInfo)
 {
     ParameterMetadata directionMetadata(
-        PARAM_BOOL, PARAM_IDX_DIRECTION, 1, 1, "VectorToControlBoards");
+        ParameterType::BOOL, PARAM_IDX_DIRECTION, 1, 1, "VectorToControlBoards");
 
     bool ok = blockInfo->addParameterMetadata(directionMetadata);
 
@@ -147,19 +147,19 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // For some reason, the output ports widths in the yarp2WBI case are not detected
     // properly by Simulink if set as DYNAMICALLY_SIZED (-1).
-    // Set them manually using the m_controlBoardIdxLimit map.
+    // Set them manually using the m_controlBoardIndexLimit map.
     //
     // Doing this now has the disadvantage of allocating the KinDynComputations and the
     // RemoteControlBoardRemapper already at this early stage, but this happens only at the
     // first execution of the model if the joint list doesn't change.
     //
     if (vectorToControlBoards) {
-        m_controlBoardIdxLimit = robotInterface->getControlBoardIdxLimit();
-        if (!m_controlBoardIdxLimit) {
+        m_controlBoardIndexLimit = robotInterface->getControlBoardIdxLimit();
+        if (!m_controlBoardIndexLimit) {
             wbtError << "Failed to get the map CBIdx <--> CBMaxIdx.";
             return false;
         }
-        for (const auto& cb : *m_controlBoardIdxLimit) {
+        for (const auto& cb : *m_controlBoardIndexLimit) {
             if (!blockInfo->setOutputPortVectorSize(cb.first, cb.second)) {
                 wbtError << "Failed to set ouput port size reading them from cb map.";
                 return false;
@@ -198,15 +198,15 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    m_jointsMapString = robotInterface->getJointsMapString();
-    m_controlledJointsMapCB = robotInterface->getControlledJointsMapCB();
+    m_jointNameToYarpMap = robotInterface->getJointsMapString();
+    m_jointNameToIndexInControlBoardMap = robotInterface->getControlledJointsMapCB();
 
-    if (!m_jointsMapString) {
+    if (!m_jointNameToYarpMap) {
         wbtError << "Failed to get the joint map iDynTree <--> Yarp.";
         return false;
     }
 
-    if (!m_controlledJointsMapCB) {
+    if (!m_jointNameToIndexInControlBoardMap) {
         wbtError << "Failed to get the joint map iDynTree <--> controlledJointsIdx.";
         return false;
     }
@@ -241,14 +241,16 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
         for (unsigned ithJoint = 0; ithJoint < configuration.getNumberOfDoFs(); ++ithJoint) {
             const std::string ithJointName = configuration.getControlledJoints()[ithJoint];
             // Get the ControlBoard number the ith joint belongs
-            const cb_idx& controlBoardOfJoint = m_jointsMapString->at(ithJointName).first;
+            const ControlBoardIndex& controlBoardOfJoint =
+                m_jointNameToYarpMap->at(ithJointName).first;
             // Get the index of the ith joint inside the controlledJoints vector relative to
             // its ControlBoard
-            const controlledJointIdxCB contrJointIdxCB = m_controlledJointsMapCB->at(ithJointName);
+            const JointIndexInControlBoard jointIdxInCB =
+                m_jointNameToIndexInControlBoardMap->at(ithJointName);
 
             // Get the data to forward
             Signal ithOutput = blockInfo->getOutputPortSignal(controlBoardOfJoint);
-            if (!ithOutput.set(contrJointIdxCB, dofsSignal.get<double>(ithJoint))) {
+            if (!ithOutput.set(jointIdxInCB, dofsSignal.get<double>(ithJoint))) {
                 wbtError << "Failed to set the output signal.";
                 return false;
             }
@@ -264,14 +266,16 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
         for (unsigned ithJoint = 0; ithJoint < configuration.getNumberOfDoFs(); ++ithJoint) {
             const std::string ithJointName = configuration.getControlledJoints()[ithJoint];
             // Get the ControlBoard number the ith joint belongs
-            const cb_idx& controlBoardOfJoint = m_jointsMapString->at(ithJointName).first;
+            const ControlBoardIndex& controlBoardOfJoint =
+                m_jointNameToYarpMap->at(ithJointName).first;
             // Get the index of the ith joint inside the controlledJoints vector relative to
             // its ControlBoard
-            const controlledJointIdxCB contrJointIdxCB = m_controlledJointsMapCB->at(ithJointName);
+            const JointIndexInControlBoard jointIdxInCB =
+                m_jointNameToIndexInControlBoardMap->at(ithJointName);
 
             // Get the data to forward
             const Signal ithInput = blockInfo->getInputPortSignal(controlBoardOfJoint);
-            if (!dofsSignal.set(ithJoint, ithInput.get<double>(contrJointIdxCB))) {
+            if (!dofsSignal.set(ithJoint, ithInput.get<double>(jointIdxInCB))) {
                 wbtError << "Failed to set the output signal.";
                 return false;
             }

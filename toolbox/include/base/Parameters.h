@@ -23,21 +23,21 @@ namespace wbt {
 class wbt::Parameters
 {
 public:
-    typedef int ParamIndex;
-    typedef std::string ParamName;
+    using ParamIndex = int;
+    using ParamName = std::string;
 
 private:
-    // Typedefs for generic parameters
-    typedef Parameter<int> ParameterInt;
-    typedef Parameter<bool> ParameterBool;
-    typedef Parameter<double> ParameterDouble;
-    typedef Parameter<std::string> ParameterString;
+    // Typedefs for generic scalar / vector parameters
+    using ParameterInt = Parameter<int>;
+    using ParameterBool = Parameter<bool>;
+    using ParameterDouble = Parameter<double>;
+    using ParameterString = Parameter<std::string>;
 
     // Typedefs for the storage of vector parameters
-    typedef std::vector<int> ParamVectorInt;
-    typedef std::vector<bool> ParamVectorBool;
-    typedef std::vector<double> ParamVectorDouble;
-    typedef std::vector<std::string> ParamVectorString;
+    using ParamVectorInt = std::vector<int>;
+    using ParamVectorBool = std::vector<bool>;
+    using ParamVectorDouble = std::vector<double>;
+    using ParamVectorString = std::vector<std::string>;
 
     // Maps for storing parameters and their metadata
     std::unordered_map<ParamName, ParameterInt> m_paramsInt;

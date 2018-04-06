@@ -23,9 +23,9 @@ class wbt::ModelPartitioner : public wbt::WBBlock
 private:
     bool m_vectorToControlBoards;
 
-    std::shared_ptr<JointsMapString> m_jointsMapString;
-    std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
-    std::shared_ptr<ControlBoardIdxLimit> m_controlBoardIdxLimit;
+    std::shared_ptr<JointNameToYarpMap> m_jointNameToYarpMap;
+    std::shared_ptr<JointNameToIndexInControlBoardMap> m_jointNameToIndexInControlBoardMap;
+    std::shared_ptr<ControlBoardIndexLimit> m_controlBoardIndexLimit;
 
 public:
     static const std::string ClassName;

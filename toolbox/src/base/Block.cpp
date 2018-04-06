@@ -21,7 +21,7 @@ unsigned Block::numberOfParameters()
 
 std::vector<std::string> Block::additionalBlockOptions()
 {
-    return std::vector<std::string>();
+    return {};
 }
 
 void Block::parameterAtIndexIsTunable(unsigned /*index*/, bool& tunable)
@@ -36,7 +36,7 @@ bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
 
 bool Block::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_className(PARAM_STRING, 0, 1, 1, "className");
+    ParameterMetadata paramMD_className(ParameterType::STRING, 0, 1, 1, "className");
     blockInfo->addParameterMetadata(paramMD_className);
     return blockInfo->parseParameters(m_parameters);
 }

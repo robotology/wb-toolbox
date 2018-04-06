@@ -37,13 +37,16 @@ unsigned SetLowLevelPID::numberOfParameters()
 
 bool SetLowLevelPID::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_P_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "P");
-    ParameterMetadata paramMD_I_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "I");
-    ParameterMetadata paramMD_D_cell(PARAM_STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "D");
-    ParameterMetadata paramMD_ctrlType_cell(PARAM_STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "ControlType");
-
+    ParameterMetadata paramMD_P_cell(
+        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "P");
+    ParameterMetadata paramMD_I_cell(
+        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "I");
+    ParameterMetadata paramMD_D_cell(
+        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "D");
+    ParameterMetadata paramMD_ctrlType_cell(
+        ParameterType::STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "ControlType");
     ParameterMetadata paramMD_jointList_cell(
-        PARAM_CELL_STRING, PARAM_IDX_PIDCONFIG, 1, 1, "jointList");
+        ParameterType::CELL_STRING, PARAM_IDX_PIDCONFIG, 1, 1, "jointList");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_P_cell);

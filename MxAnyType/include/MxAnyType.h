@@ -11,8 +11,9 @@
 
 #include "AnyType.h"
 
-#include <cassert>
 #include <matrix.h>
+
+#include <cassert>
 #include <string>
 #include <unordered_map>
 #include <vector>

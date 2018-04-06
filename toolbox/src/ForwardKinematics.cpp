@@ -41,7 +41,7 @@ unsigned ForwardKinematics::numberOfParameters()
 
 bool ForwardKinematics::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame");
+    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
         wbtError << "Failed to store parameters metadata.";
@@ -127,7 +127,7 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     }
 
     std::string frame;
-    if (!m_parameters.getParameter("frame", frame)) {
+    if (!m_parameters.getParameter("Frame", frame)) {
         wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }
@@ -164,8 +164,8 @@ bool ForwardKinematics::terminate(const BlockInformation* blockInfo)
 bool ForwardKinematics::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, Eigen::ColMajor> Matrix4dSimulink;
-    typedef Matrix<double, 4, 4, Eigen::RowMajor> Matrix4diDynTree;
+    using Matrix4dSimulink = Matrix<double, 4, 4, Eigen::ColMajor>;
+    using Matrix4diDynTree = Matrix<double, 4, 4, Eigen::RowMajor>;
 
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations(blockInfo).lock();

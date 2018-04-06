@@ -26,6 +26,7 @@ namespace wbt {
     class Configuration;
     class BlockInformation;
     class RobotInterface;
+    struct iDynTreeRobotState;
 } // namespace wbt
 
 namespace iDynTree {
@@ -39,7 +40,7 @@ namespace iDynTree {
  * This struct contains the iDynTree objects used to configure the
  * state of iDynTree::KinDynComputations objects.
  */
-struct iDynTreeRobotState
+struct wbt::iDynTreeRobotState
 {
     iDynTree::Twist m_baseVelocity;
     iDynTree::Vector3 m_gravity;
@@ -74,7 +75,7 @@ struct iDynTreeRobotState
 class wbt::WBBlock : public wbt::Block
 {
 protected:
-    iDynTreeRobotState m_robotState;
+    wbt::iDynTreeRobotState m_robotState;
 
     std::weak_ptr<iDynTree::KinDynComputations>
     getKinDynComputations(const BlockInformation* blockInfo) const;
@@ -95,7 +96,6 @@ public:
     bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_WBBLOCK_H

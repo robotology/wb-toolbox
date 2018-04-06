@@ -20,6 +20,19 @@ namespace wbt {
     enum class DataType;
 } // namespace wbt
 
+enum class wbt::DataType
+{
+    DOUBLE,
+    SINGLE,
+    INT8,
+    UINT8,
+    INT16,
+    UINT16,
+    INT32,
+    UINT32,
+    BOOLEAN,
+};
+
 class wbt::Signal
 {
 public:

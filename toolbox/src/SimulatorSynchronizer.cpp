@@ -53,11 +53,11 @@ std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
 
 bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_period(PARAM_DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
-    ParameterMetadata paramMD_rpcPort(PARAM_STRING, PARAM_IDX_RPC_PORT, 1, 1, "RpcPort");
+    ParameterMetadata paramMD_period(ParameterType::DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
+    ParameterMetadata paramMD_rpcPort(ParameterType::STRING, PARAM_IDX_RPC_PORT, 1, 1, "RpcPort");
 
     ParameterMetadata paramMD_gzclkPort(
-        PARAM_STRING, PARAM_IDX_GZCLK_PORT, 1, 1, "GazeboClockPort");
+        ParameterType::STRING, PARAM_IDX_GZCLK_PORT, 1, 1, "GazeboClockPort");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_period);

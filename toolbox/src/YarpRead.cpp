@@ -41,15 +41,17 @@ unsigned YarpRead::numberOfParameters()
 
 bool YarpRead::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_portName(PARAM_STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
-    ParameterMetadata paramMD_signalSize(PARAM_INT, PARAM_IDX_PORTSIZE, 1, 1, "SignalSize");
-    ParameterMetadata paramMD_waitData(PARAM_BOOL, PARAM_IDX_WAITDATA, 1, 1, "WaitData");
-    ParameterMetadata paramMD_readTimestamp(PARAM_BOOL, PARAM_IDX_READ_TS, 1, 1, "ReadTimestamp");
-    ParameterMetadata paramMD_autoconnect(PARAM_BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
-    ParameterMetadata paramMD_timeout(PARAM_DOUBLE, PARAM_IDX_TIMEOUT, 1, 1, "Timeout");
-
+    ParameterMetadata paramMD_portName(ParameterType::STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
+    ParameterMetadata paramMD_signalSize(
+        ParameterType::INT, PARAM_IDX_PORTSIZE, 1, 1, "SignalSize");
+    ParameterMetadata paramMD_waitData(ParameterType::BOOL, PARAM_IDX_WAITDATA, 1, 1, "WaitData");
+    ParameterMetadata paramMD_readTimestamp(
+        ParameterType::BOOL, PARAM_IDX_READ_TS, 1, 1, "ReadTimestamp");
+    ParameterMetadata paramMD_autoconnect(
+        ParameterType::BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
+    ParameterMetadata paramMD_timeout(ParameterType::DOUBLE, PARAM_IDX_TIMEOUT, 1, 1, "Timeout");
     ParameterMetadata paramMD_errMissingPort(
-        PARAM_BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+        ParameterType::BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_portName);

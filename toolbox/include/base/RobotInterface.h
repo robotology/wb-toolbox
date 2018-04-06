@@ -42,15 +42,21 @@ namespace wbt {
     class RobotInterface;
     struct YarpInterfaces;
 
-    typedef int jointIdx_yarp;
-    typedef int jointIdx_iDynTree;
-    typedef unsigned cb_idx;
-    typedef unsigned max_cb_idx;
-    typedef unsigned controlledJointIdxCB;
-    typedef std::unordered_map<jointIdx_iDynTree, std::pair<cb_idx, jointIdx_yarp>> JointsMapIndex;
-    typedef std::unordered_map<std::string, std::pair<cb_idx, jointIdx_yarp>> JointsMapString;
-    typedef std::unordered_map<std::string, controlledJointIdxCB> ControlledJointsMapCB;
-    typedef std::unordered_map<cb_idx, max_cb_idx> ControlBoardIdxLimit;
+    using JointIndex_Yarp = int;
+    using JointIndex_iDynTree = int;
+    using JointName = std::string;
+    using ControlBoardIndex = unsigned;
+    using JointIndexInControlBoard = unsigned;
+
+    using JointIndexToYarpMap =
+        std::unordered_map<JointIndex_iDynTree, std::pair<ControlBoardIndex, JointIndex_Yarp>>;
+    using JointNameToYarpMap =
+        std::unordered_map<JointName, std::pair<ControlBoardIndex, JointIndex_Yarp>>;
+    using JointNameToIndexInControlBoardMap =
+        std::unordered_map<JointName, JointIndexInControlBoard>;
+
+    using ControlBoardMaxIndex = unsigned;
+    using ControlBoardIndexLimit = std::unordered_map<ControlBoardIndex, ControlBoardMaxIndex>;
 } // namespace wbt
 
 /**
@@ -69,29 +75,16 @@ namespace wbt {
  */
 struct wbt::YarpInterfaces
 {
-    yarp::dev::IControlMode2* iControlMode2;
-    yarp::dev::IPositionControl* iPositionControl;
-    yarp::dev::IPositionDirect* iPositionDirect;
-    yarp::dev::IVelocityControl* iVelocityControl;
-    yarp::dev::ITorqueControl* iTorqueControl;
-    yarp::dev::IPWMControl* iPWMControl;
-    yarp::dev::ICurrentControl* iCurrentControl;
-    yarp::dev::IEncoders* iEncoders;
-    yarp::dev::IControlLimits2* iControlLimits2;
-    yarp::dev::IPidControl* iPidControl;
-
-    YarpInterfaces()
-        : iControlMode2(nullptr)
-        , iPositionControl(nullptr)
-        , iPositionDirect(nullptr)
-        , iVelocityControl(nullptr)
-        , iTorqueControl(nullptr)
-        , iPWMControl(nullptr)
-        , iCurrentControl(nullptr)
-        , iEncoders(nullptr)
-        , iControlLimits2(nullptr)
-        , iPidControl(nullptr)
-    {}
+    yarp::dev::IControlMode2* iControlMode2 = nullptr;
+    yarp::dev::IPositionControl* iPositionControl = nullptr;
+    yarp::dev::IPositionDirect* iPositionDirect = nullptr;
+    yarp::dev::IVelocityControl* iVelocityControl = nullptr;
+    yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+    yarp::dev::IPWMControl* iPWMControl = nullptr;
+    yarp::dev::ICurrentControl* iCurrentControl = nullptr;
+    yarp::dev::IEncoders* iEncoders = nullptr;
+    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
+    yarp::dev::IPidControl* iPidControl = nullptr;
 };
 
 /**
@@ -112,10 +105,10 @@ private:
     wbt::YarpInterfaces m_yarpInterfaces;
 
     // Maps used to store infos about yarp's and idyntree's internal joint indexing
-    std::shared_ptr<JointsMapIndex> m_jointsMapIndex;
-    std::shared_ptr<JointsMapString> m_jointsMapString;
-    std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
-    std::shared_ptr<ControlBoardIdxLimit> m_controlBoardIdxLimit;
+    std::shared_ptr<JointIndexToYarpMap> m_jointIndexToYarpMap;
+    std::shared_ptr<JointNameToYarpMap> m_jointNameToYarpMap;
+    std::shared_ptr<JointNameToIndexInControlBoardMap> m_jointNameToIndexInControlBoardMap;
+    std::shared_ptr<ControlBoardIndexLimit> m_controlBoardIndexLimit;
 
     // Configuration from Simulink Block's parameters
     const wbt::Configuration m_config;

@@ -201,8 +201,7 @@ bool SimulinkBlockInformation::setNumberOfOutputPorts(const unsigned& numberOfPo
     return ssSetNumOutputPorts(simstruct, numberOfPorts);
 }
 
-bool SimulinkBlockInformation::setInputPortVectorSize(const SignalIndex& idx,
-                                                      const VectorSize& size)
+bool SimulinkBlockInformation::setInputPortVectorSize(const PortIndex& idx, const VectorSize& size)
 {
     if (size == Signal::DynamicSize) {
         // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
@@ -213,8 +212,7 @@ bool SimulinkBlockInformation::setInputPortVectorSize(const SignalIndex& idx,
     return ssSetInputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setInputPortMatrixSize(const SignalIndex& idx,
-                                                      const MatrixSize& size)
+bool SimulinkBlockInformation::setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
     // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetoutputportmatrixdimensions.html
     if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
@@ -226,8 +224,7 @@ bool SimulinkBlockInformation::setInputPortMatrixSize(const SignalIndex& idx,
     return ssSetInputPortMatrixDimensions(simstruct, idx, size.first, size.first);
 }
 
-bool SimulinkBlockInformation::setOutputPortVectorSize(const SignalIndex& idx,
-                                                       const VectorSize& size)
+bool SimulinkBlockInformation::setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size)
 {
     if (size == Signal::DynamicSize) {
         // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
@@ -238,8 +235,7 @@ bool SimulinkBlockInformation::setOutputPortVectorSize(const SignalIndex& idx,
     return ssSetOutputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setOutputPortMatrixSize(const SignalIndex& idx,
-                                                       const MatrixSize& size)
+bool SimulinkBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
     // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetinputportmatrixdimensions.html
     if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
@@ -252,14 +248,14 @@ bool SimulinkBlockInformation::setOutputPortMatrixSize(const SignalIndex& idx,
     return ssSetOutputPortMatrixDimensions(simstruct, idx, size.first, size.second);
 }
 
-bool SimulinkBlockInformation::setInputPortType(const SignalIndex& idx, const DataType& type)
+bool SimulinkBlockInformation::setInputPortType(const PortIndex& idx, const DataType& type)
 {
     ssSetInputPortDirectFeedThrough(simstruct, idx, 1);
     ssSetInputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
 }
 
-bool SimulinkBlockInformation::setOutputPortType(const SignalIndex& idx, const DataType& type)
+bool SimulinkBlockInformation::setOutputPortType(const PortIndex& idx, const DataType& type)
 {
     ssSetOutputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
@@ -268,17 +264,17 @@ bool SimulinkBlockInformation::setOutputPortType(const SignalIndex& idx, const D
 // PORT INFORMATION GETTERS
 // ========================
 
-unsigned SimulinkBlockInformation::getInputPortWidth(const SignalIndex& idx) const
+unsigned SimulinkBlockInformation::getInputPortWidth(const PortIndex& idx) const
 {
     return ssGetInputPortWidth(simstruct, idx);
 }
 
-unsigned SimulinkBlockInformation::getOutputPortWidth(const SignalIndex& idx) const
+unsigned SimulinkBlockInformation::getOutputPortWidth(const PortIndex& idx) const
 {
     return ssGetOutputPortWidth(simstruct, idx);
 }
 
-Signal SimulinkBlockInformation::getInputPortSignal(const SignalIndex& idx,
+Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex& idx,
                                                     const VectorSize& size) const
 {
     // Read if the signal is contiguous or non-contiguous
@@ -347,7 +343,7 @@ Signal SimulinkBlockInformation::getInputPortSignal(const SignalIndex& idx,
     }
 }
 
-wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const SignalIndex& idx,
+wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex& idx,
                                                           const VectorSize& size) const
 {
     // Check if the signal is dynamically sized (which means that the dimension
@@ -384,7 +380,7 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const SignalIndex& idx
 }
 
 BlockInformation::MatrixSize
-SimulinkBlockInformation::getInputPortMatrixSize(const SignalIndex& idx) const
+SimulinkBlockInformation::getInputPortMatrixSize(const PortIndex& idx) const
 {
     if (ssGetInputPortNumDimensions(simstruct, idx) < 2) {
         wbtError << "Signal at index " << idx
@@ -397,7 +393,7 @@ SimulinkBlockInformation::getInputPortMatrixSize(const SignalIndex& idx) const
 }
 
 BlockInformation::MatrixSize
-SimulinkBlockInformation::getOutputPortMatrixSize(const SignalIndex& idx) const
+SimulinkBlockInformation::getOutputPortMatrixSize(const PortIndex& idx) const
 {
     if (ssGetOutputPortNumDimensions(simstruct, idx) < 2) {
         wbtError << "Signal at index " << idx
@@ -506,9 +502,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             // are loaded as double (Simulink limitation), in order to simplify the
             // maintainability of this code, everything is handled as double.
             //
-            case PARAM_INT:
-            case PARAM_BOOL:
-            case PARAM_DOUBLE: {
+            case ParameterType::INT:
+            case ParameterType::BOOL:
+            case ParameterType::DOUBLE: {
                 if (metadataContainsScalarParam(paramMD)) {
                     double paramValue;
                     if (!getScalarParameterAtIndex(paramMD.m_index, paramValue)) {
@@ -532,7 +528,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 }
                 break;
             }
-            case PARAM_STRING: {
+            case ParameterType::STRING: {
                 if (metadataContainsScalarParam(paramMD)) {
                     std::string paramValue;
                     if (!getStringParameterAtIndex(paramMD.m_index, paramValue)) {
@@ -550,9 +546,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             }
             // CELL PARAMETERS
             // ---------------
-            case PARAM_CELL_INT:
-            case PARAM_CELL_BOOL:
-            case PARAM_CELL_DOUBLE: {
+            case ParameterType::CELL_INT:
+            case ParameterType::CELL_BOOL:
+            case ParameterType::CELL_DOUBLE: {
                 AnyCell cell;
                 if (!getCellAtIndex(paramMD.m_index, cell)) {
                     wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
@@ -574,7 +570,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
             }
-            case PARAM_CELL_STRING: {
+            case ParameterType::CELL_STRING: {
                 AnyCell cell;
                 if (!getCellAtIndex(paramMD.m_index, cell)) {
                     wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
@@ -598,9 +594,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             }
             // STRUCT PARAMETERS
             // -----------------
-            case PARAM_STRUCT_INT:
-            case PARAM_STRUCT_BOOL:
-            case PARAM_STRUCT_DOUBLE: {
+            case ParameterType::STRUCT_INT:
+            case ParameterType::STRUCT_BOOL:
+            case ParameterType::STRUCT_DOUBLE: {
                 if (metadataContainsScalarParam(paramMD)) {
                     double paramValue;
                     if (!getScalarFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
@@ -625,7 +621,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 }
                 break;
             }
-            case PARAM_STRUCT_STRING: {
+            case ParameterType::STRUCT_STRING: {
                 if (metadataContainsScalarParam(paramMD)) {
                     std::string paramValue;
                     if (!getStringFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
@@ -641,9 +637,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 }
                 break;
             }
-            case PARAM_STRUCT_CELL_INT:
-            case PARAM_STRUCT_CELL_BOOL:
-            case PARAM_STRUCT_CELL_DOUBLE: {
+            case ParameterType::STRUCT_CELL_INT:
+            case ParameterType::STRUCT_CELL_BOOL:
+            case ParameterType::STRUCT_CELL_DOUBLE: {
                 AnyCell cell;
                 std::vector<double> paramVector;
                 if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {
@@ -667,7 +663,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
             }
-            case PARAM_STRUCT_CELL_STRING: {
+            case ParameterType::STRUCT_CELL_STRING: {
                 AnyCell cell;
                 std::vector<std::string> paramVector;
                 if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {

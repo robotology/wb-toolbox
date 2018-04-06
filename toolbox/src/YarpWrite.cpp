@@ -32,11 +32,11 @@ unsigned YarpWrite::numberOfParameters()
 
 bool YarpWrite::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_portName(PARAM_STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
-    ParameterMetadata paramMD_autoconnect(PARAM_BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
-
+    ParameterMetadata paramMD_portName(ParameterType::STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
+    ParameterMetadata paramMD_autoconnect(
+        ParameterType::BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
     ParameterMetadata paramMD_errMissingPort(
-        PARAM_BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+        ParameterType::BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_portName);

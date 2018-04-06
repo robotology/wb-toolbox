@@ -10,7 +10,7 @@
 
 using namespace wbt;
 
-Block* Block::instantiateBlockWithClassName(std::string blockClassName)
+Block* Block::instantiateBlockWithClassName(const std::string& blockClassName)
 {
     Block* block = nullptr;
 

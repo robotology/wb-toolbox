@@ -118,8 +118,8 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
     using namespace iDynTree;
-    typedef Matrix<double, Dynamic, Dynamic, Eigen::ColMajor> MatrixXdSimulink;
-    typedef Matrix<double, Dynamic, Dynamic, Eigen::RowMajor> MatrixXdiDynTree;
+    using MatrixXdSimulink = Matrix<double, Dynamic, Dynamic, Eigen::ColMajor>;
+    using MatrixXdiDynTree = Matrix<double, Dynamic, Dynamic, Eigen::RowMajor>;
 
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations(blockInfo).lock();

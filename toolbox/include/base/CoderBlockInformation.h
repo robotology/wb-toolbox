@@ -27,14 +27,14 @@ private:
     unsigned m_numberOfOutputs;
 
     std::vector<wbt::ParameterMetadata> m_paramsMetadata;
-    std::unordered_map<SignalIndex, wbt::Signal> m_inputSignals;
-    std::unordered_map<SignalIndex, wbt::Signal> m_outputSignals;
+    std::unordered_map<PortIndex, wbt::Signal> m_inputSignals;
+    std::unordered_map<PortIndex, wbt::Signal> m_outputSignals;
 
     std::string m_confBlockName;
     Parameters m_parametersFromRTW;
 
-    std::unordered_map<SignalIndex, std::pair<Rows, Cols>> m_inputSignalSize;
-    std::unordered_map<SignalIndex, std::pair<Rows, Cols>> m_outputSignalSize;
+    std::unordered_map<PortIndex, std::pair<Rows, Cols>> m_inputSignalSize;
+    std::unordered_map<PortIndex, std::pair<Rows, Cols>> m_outputSignalSize;
 
 public:
     CoderBlockInformation() = default;
@@ -56,26 +56,26 @@ public:
 
     bool setNumberOfInputPorts(const unsigned& numberOfPorts) override;
     bool setNumberOfOutputPorts(const unsigned& numberOfPorts) override;
-    bool setInputPortVectorSize(const SignalIndex& idx, const VectorSize& size) override;
-    bool setInputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) override;
-    bool setOutputPortVectorSize(const SignalIndex& idx, const VectorSize& size) override;
-    bool setOutputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) override;
-    bool setInputPortType(const SignalIndex& idx, const DataType& type) override;
-    bool setOutputPortType(const SignalIndex& idx, const DataType& type) override;
+    bool setInputPortVectorSize(const PortIndex& idx, const VectorSize& size) override;
+    bool setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) override;
+    bool setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size) override;
+    bool setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) override;
+    bool setInputPortType(const PortIndex& idx, const DataType& type) override;
+    bool setOutputPortType(const PortIndex& idx, const DataType& type) override;
 
     // PORT INFORMATION GETTERS
     // ========================
 
-    unsigned getInputPortWidth(const SignalIndex& idx) const override;
-    unsigned getOutputPortWidth(const SignalIndex& idx) const override;
+    unsigned getInputPortWidth(const PortIndex& idx) const override;
+    unsigned getOutputPortWidth(const PortIndex& idx) const override;
     wbt::Signal
-    getInputPortSignal(const SignalIndex& idx,
+    getInputPortSignal(const PortIndex& idx,
                        const VectorSize& size = wbt::Signal::DynamicSize) const override;
     wbt::Signal
-    getOutputPortSignal(const SignalIndex& idx,
+    getOutputPortSignal(const PortIndex& idx,
                         const VectorSize& size = wbt::Signal::DynamicSize) const override;
-    MatrixSize getInputPortMatrixSize(const SignalIndex& idx) const override;
-    MatrixSize getOutputPortMatrixSize(const SignalIndex& idx) const override;
+    MatrixSize getInputPortMatrixSize(const PortIndex& idx) const override;
+    MatrixSize getOutputPortMatrixSize(const PortIndex& idx) const override;
 
     std::weak_ptr<wbt::RobotInterface> getRobotInterface() const override;
     std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const override;
@@ -84,8 +84,8 @@ public:
     // =============================
 
     bool storeRTWParameters(const Parameters& parameters);
-    bool setInputSignal(const SignalIndex& idx, void* address, const MatrixSize& size);
-    bool setOutputSignal(const SignalIndex& idx, void* address, const MatrixSize& size);
+    bool setInputSignal(const PortIndex& idx, void* address, const MatrixSize& size);
+    bool setOutputSignal(const PortIndex& idx, void* address, const MatrixSize& size);
 };
 
 #endif // WBT_CODERBLOCKINFORMATION_H

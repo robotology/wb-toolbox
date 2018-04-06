@@ -44,8 +44,10 @@ unsigned SetReferences::numberOfParameters()
 
 bool SetReferences::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_ctrlType(PARAM_STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "CtrlType");
-    ParameterMetadata paramMD_refSpeed(PARAM_DOUBLE, PARAM_IDX_REF_SPEED, 1, 1, "RefSpeed");
+    ParameterMetadata paramMD_ctrlType(
+        ParameterType::STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "CtrlType");
+    ParameterMetadata paramMD_refSpeed(
+        ParameterType::DOUBLE, PARAM_IDX_REF_SPEED, 1, 1, "RefSpeed");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_ctrlType);

@@ -29,27 +29,14 @@ namespace iDynTree {
     class KinDynComputations;
 }
 
-enum class wbt::DataType
-{
-    DOUBLE,
-    SINGLE,
-    INT8,
-    UINT8,
-    INT16,
-    UINT16,
-    INT32,
-    UINT32,
-    BOOLEAN,
-};
-
 class wbt::BlockInformation
 {
 public:
-    typedef int Rows;
-    typedef int Cols;
-    typedef int SignalIndex;
-    typedef int VectorSize;
-    typedef std::pair<Rows, Cols> MatrixSize;
+    using Rows = int;
+    using Cols = int;
+    using PortIndex = int;
+    using VectorSize = int;
+    using MatrixSize = std::pair<Rows, Cols>;
 
     BlockInformation() = default;
     virtual ~BlockInformation() = default;

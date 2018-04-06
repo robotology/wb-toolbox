@@ -27,7 +27,7 @@ unsigned RealTimeSynchronizer::numberOfParameters()
 
 bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_period(PARAM_DOUBLE, PARAM_IDX_PERIOD, 1, 1, "period");
+    ParameterMetadata paramMD_period(ParameterType::DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
 
     bool ok = blockInfo->addParameterMetadata(paramMD_period);
 
@@ -81,7 +81,7 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!m_parameters.getParameter("period", m_period)) {
+    if (!m_parameters.getParameter("Period", m_period)) {
         wbtError << "Failed to get parameter 'period' after its parsing.";
         return false;
     }

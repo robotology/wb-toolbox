@@ -42,25 +42,26 @@ unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 
 bool MinimumJerkTrajectoryGenerator::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_sampleTime(PARAM_DOUBLE, PARAM_IDX_SAMPLE_TIME, 1, 1, "SampleTime");
+    ParameterMetadata paramMD_sampleTime(
+        ParameterType::DOUBLE, PARAM_IDX_SAMPLE_TIME, 1, 1, "SampleTime");
 
     ParameterMetadata paramMD_settlingTime(
-        PARAM_DOUBLE, PARAM_IDX_SETTLING_TIME, 1, 1, "SettlingTime");
+        ParameterType::DOUBLE, PARAM_IDX_SETTLING_TIME, 1, 1, "SettlingTime");
 
     ParameterMetadata paramMD_computeDot(
-        PARAM_BOOL, PARAM_IDX_OUTPUT_1ST_DERIVATIVE, 1, 1, "ComputeFirstDerivative");
+        ParameterType::BOOL, PARAM_IDX_OUTPUT_1ST_DERIVATIVE, 1, 1, "ComputeFirstDerivative");
 
     ParameterMetadata paramMD_computeDDot(
-        PARAM_BOOL, PARAM_IDX_OUTPUT_2ND_DERIVATIVE, 1, 1, "ComputeSecondDerivative");
+        ParameterType::BOOL, PARAM_IDX_OUTPUT_2ND_DERIVATIVE, 1, 1, "ComputeSecondDerivative");
 
     ParameterMetadata paramMD_initialValue(
-        PARAM_BOOL, PARAM_IDX_INITIAL_VALUE, 1, 1, "ReadInitialValue");
+        ParameterType::BOOL, PARAM_IDX_INITIAL_VALUE, 1, 1, "ReadInitialValue");
 
     ParameterMetadata paramMD_extSettlingTime(
-        PARAM_BOOL, PARAM_IDX_EXT_SETTLINGTIME, 1, 1, "ReadExternalSettlingTime");
+        ParameterType::BOOL, PARAM_IDX_EXT_SETTLINGTIME, 1, 1, "ReadExternalSettlingTime");
 
     ParameterMetadata paramMD_resetOnExcSettlingTime(
-        PARAM_BOOL, PARAM_IDX_RESET_CHANGEST, 1, 1, "ResetOnSettlingTimeChange");
+        ParameterType::BOOL, PARAM_IDX_RESET_CHANGEST, 1, 1, "ResetOnSettlingTimeChange");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_sampleTime);

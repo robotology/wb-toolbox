@@ -78,7 +78,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     using namespace iDynTree;
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, Eigen::ColMajor> Matrix4dSimulink;
+    using Matrix4dSimulink = Matrix<double, 4, 4, Eigen::ColMajor>;
 
     // Base pose
     // ---------
@@ -170,31 +170,25 @@ unsigned WBBlock::numberOfParameters()
 bool WBBlock::parseParameters(BlockInformation* blockInfo)
 {
     ParameterMetadata fieldRobotNameMedatata(
-        PARAM_STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "RobotName");
-
+        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "RobotName");
     ParameterMetadata fieldUrdfFileMedatata(
-        PARAM_STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "UrdfFile");
-
-    ParameterMetadata fieldControlledJointsMedatata(PARAM_STRUCT_CELL_STRING,
+        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "UrdfFile");
+    ParameterMetadata fieldControlledJointsMedatata(ParameterType::STRUCT_CELL_STRING,
                                                     ConfigurationParameterIndex,
                                                     1,
                                                     ParameterMetadata::DynamicSize,
                                                     "ControlledJoints");
-
-    ParameterMetadata fieldControlBoardsMedatata(PARAM_STRUCT_CELL_STRING,
+    ParameterMetadata fieldControlBoardsMedatata(ParameterType::STRUCT_CELL_STRING,
                                                  ConfigurationParameterIndex,
                                                  1,
                                                  ParameterMetadata::DynamicSize,
                                                  "ControlBoardsNames");
-
     ParameterMetadata fieldLocalNameMedatata(
-        PARAM_STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "LocalName");
-
+        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "LocalName");
     ParameterMetadata fieldGravityVectorMedatata(
-        PARAM_STRUCT_DOUBLE, ConfigurationParameterIndex, 1, 3, "GravityVector");
-
+        ParameterType::STRUCT_DOUBLE, ConfigurationParameterIndex, 1, 3, "GravityVector");
     ParameterMetadata confBlockNameMedatata(
-        PARAM_STRING, ConfBlockNameParameterIndex, 1, 1, "ConfBlockName");
+        ParameterType::STRING, ConfBlockNameParameterIndex, 1, 1, "ConfBlockName");
 
     // Add the struct into the block information
     bool ok = true;
@@ -266,10 +260,5 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
     const unsigned& dofs = robotInterface->getConfiguration().getNumberOfDoFs();
     m_robotState = iDynTreeRobotState(dofs, robotInterface->getConfiguration().getGravityVector());
 
-    return true;
-}
-
-bool WBBlock::terminate(const BlockInformation* /*blockInfo*/)
-{
     return true;
 }

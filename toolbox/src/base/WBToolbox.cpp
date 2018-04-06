@@ -412,38 +412,38 @@ static std::string toRTWStringVector(const std::vector<std::string>& stringInput
 const std::pair<std::string, std::string> parameterTypeToString(const wbt::ParameterType& type)
 {
     switch (type) {
-        case wbt::PARAM_INT:
-            return {"PARAM_INT", "int"};
-        case wbt::PARAM_BOOL:
-            return {"PARAM_BOOL", "bool"};
-        case wbt::PARAM_DOUBLE:
-            return {"PARAM_DOUBLE", "double"};
-        case wbt::PARAM_STRING:
-            return {"PARAM_STRING", "std::string"};
-        case wbt::PARAM_CELL_INT:
-            return {"PARAM_CELL_INT", "int"};
-        case wbt::PARAM_CELL_BOOL:
-            return {"PARAM_CELL_BOOL", "bool"};
-        case wbt::PARAM_CELL_DOUBLE:
-            return {"PARAM_CELL_DOUBLE", "double"};
-        case wbt::PARAM_CELL_STRING:
-            return {"PARAM_CELL_STRING", "std::string"};
-        case wbt::PARAM_STRUCT_INT:
-            return {"PARAM_STRUCT_INT", "int"};
-        case wbt::PARAM_STRUCT_BOOL:
-            return {"PARAM_STRUCT_BOOL", "bool"};
-        case wbt::PARAM_STRUCT_DOUBLE:
-            return {"PARAM_STRUCT_DOUBLE", "double"};
-        case wbt::PARAM_STRUCT_STRING:
-            return {"PARAM_STRUCT_STRING", "std::string"};
-        case wbt::PARAM_STRUCT_CELL_INT:
-            return {"PARAM_STRUCT_CELL_INT", "int"};
-        case wbt::PARAM_STRUCT_CELL_BOOL:
-            return {"PARAM_STRUCT_CELL_BOOL", "bool"};
-        case wbt::PARAM_STRUCT_CELL_DOUBLE:
-            return {"PARAM_STRUCT_CELL_DOUBLE", "double"};
-        case wbt::PARAM_STRUCT_CELL_STRING:
-            return {"PARAM_STRUCT_CELL_STRING", "std::string"};
+        case wbt::ParameterType::INT:
+            return {"ParameterType::INT", "int"};
+        case wbt::ParameterType::BOOL:
+            return {"ParameterType::BOOL", "bool"};
+        case wbt::ParameterType::DOUBLE:
+            return {"ParameterType::DOUBLE", "double"};
+        case wbt::ParameterType::STRING:
+            return {"ParameterType::STRING", "std::string"};
+        case wbt::ParameterType::CELL_INT:
+            return {"ParameterType::CELL_INT", "int"};
+        case wbt::ParameterType::CELL_BOOL:
+            return {"ParameterType::CELL_BOOL", "bool"};
+        case wbt::ParameterType::CELL_DOUBLE:
+            return {"ParameterType::CELL_DOUBLE", "double"};
+        case wbt::ParameterType::CELL_STRING:
+            return {"ParameterType::CELL_STRING", "std::string"};
+        case wbt::ParameterType::STRUCT_INT:
+            return {"ParameterType::STRUCT_INT", "int"};
+        case wbt::ParameterType::STRUCT_BOOL:
+            return {"ParameterType::STRUCT_BOOL", "bool"};
+        case wbt::ParameterType::STRUCT_DOUBLE:
+            return {"ParameterType::STRUCT_DOUBLE", "double"};
+        case wbt::ParameterType::STRUCT_STRING:
+            return {"ParameterType::STRUCT_STRING", "std::string"};
+        case wbt::ParameterType::STRUCT_CELL_INT:
+            return {"ParameterType::STRUCT_CELL_INT", "int"};
+        case wbt::ParameterType::STRUCT_CELL_BOOL:
+            return {"ParameterType::STRUCT_CELL_BOOL", "bool"};
+        case wbt::ParameterType::STRUCT_CELL_DOUBLE:
+            return {"ParameterType::STRUCT_CELL_DOUBLE", "double"};
+        case wbt::ParameterType::STRUCT_CELL_STRING:
+            return {"ParameterType::STRUCT_CELL_STRING", "std::string"};
     }
 }
 

@@ -44,7 +44,7 @@ public:
      *
      * @return the newly created Block object or NULL.
      */
-    static wbt::Block* instantiateBlockWithClassName(std::string blockClassName);
+    static wbt::Block* instantiateBlockWithClassName(const std::string& blockClassName);
 
     /**
      * Destructor

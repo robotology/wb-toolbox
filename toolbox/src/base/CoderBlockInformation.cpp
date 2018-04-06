@@ -19,7 +19,7 @@ using namespace wbt;
 // BLOCK OPTIONS METHODS
 // =====================
 
-bool CoderBlockInformation::optionFromKey(const std::string& key, double& option) const
+bool CoderBlockInformation::optionFromKey(const std::string& /*key*/, double& /*option*/) const
 {
     return true;
 }
@@ -42,37 +42,37 @@ bool CoderBlockInformation::setNumberOfOutputPorts(const unsigned& numberOfPorts
     return true;
 }
 
-bool CoderBlockInformation::setInputPortVectorSize(const SignalIndex& idx, const VectorSize& size)
+bool CoderBlockInformation::setInputPortVectorSize(const PortIndex& idx, const VectorSize& size)
 {
     m_inputSignalSize[idx] = {1, size};
     return true;
 }
 
-bool CoderBlockInformation::setInputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size)
+bool CoderBlockInformation::setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
     m_inputSignalSize[idx] = {size.first, size.second};
     return true;
 }
 
-bool CoderBlockInformation::setOutputPortVectorSize(const SignalIndex& idx,
+bool CoderBlockInformation::setOutputPortVectorSize(const PortIndex& idx,
                                                     const VectorSize& portSize)
 {
     m_outputSignalSize[idx] = {1, portSize};
     return true;
 }
 
-bool CoderBlockInformation::setOutputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size)
+bool CoderBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
     m_outputSignalSize[idx] = {size.first, size.second};
     return true;
 }
 
-bool CoderBlockInformation::setInputPortType(const SignalIndex& /*idx*/, const DataType& /*type*/)
+bool CoderBlockInformation::setInputPortType(const PortIndex& /*idx*/, const DataType& /*type*/)
 {
     return true;
 }
 
-bool CoderBlockInformation::setOutputPortType(const SignalIndex& /*idx*/, const DataType& /*type*/)
+bool CoderBlockInformation::setOutputPortType(const PortIndex& /*idx*/, const DataType& /*type*/)
 {
     return true;
 }
@@ -80,7 +80,7 @@ bool CoderBlockInformation::setOutputPortType(const SignalIndex& /*idx*/, const 
 // PORT INFORMATION GETTERS
 // ========================
 
-unsigned CoderBlockInformation::getInputPortWidth(const SignalIndex& idx) const
+unsigned CoderBlockInformation::getInputPortWidth(const PortIndex& idx) const
 {
     if (m_inputSignalSize.find(idx) == m_inputSignalSize.end()) {
         wbtError << "Failed to get width of signal at index " << idx << ".";
@@ -90,7 +90,7 @@ unsigned CoderBlockInformation::getInputPortWidth(const SignalIndex& idx) const
     return static_cast<unsigned>(m_inputSignalSize.at(idx).second);
 }
 
-unsigned CoderBlockInformation::getOutputPortWidth(const SignalIndex& idx) const
+unsigned CoderBlockInformation::getOutputPortWidth(const PortIndex& idx) const
 {
     if (m_outputSignalSize.find(idx) == m_outputSignalSize.end()) {
         wbtError << "Failed to get width of signal at index " << idx << ".";
@@ -100,7 +100,7 @@ unsigned CoderBlockInformation::getOutputPortWidth(const SignalIndex& idx) const
     return static_cast<unsigned>(m_outputSignalSize.at(idx).second);
 }
 
-wbt::Signal CoderBlockInformation::getInputPortSignal(const SignalIndex& idx,
+wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex& idx,
                                                       const VectorSize& size) const
 {
     if (m_inputSignals.find(idx) == m_inputSignals.end()) {
@@ -121,7 +121,7 @@ wbt::Signal CoderBlockInformation::getInputPortSignal(const SignalIndex& idx,
     return m_inputSignals.at(idx);
 }
 
-wbt::Signal CoderBlockInformation::getOutputPortSignal(const SignalIndex& idx,
+wbt::Signal CoderBlockInformation::getOutputPortSignal(const PortIndex& idx,
                                                        const VectorSize& /*size*/) const
 {
     if (m_outputSignals.find(idx) == m_outputSignals.end()) {
@@ -139,7 +139,7 @@ wbt::Signal CoderBlockInformation::getOutputPortSignal(const SignalIndex& idx,
 }
 
 BlockInformation::MatrixSize
-CoderBlockInformation::getInputPortMatrixSize(const BlockInformation::SignalIndex& idx) const
+CoderBlockInformation::getInputPortMatrixSize(const BlockInformation::PortIndex& idx) const
 {
     if (m_inputSignalSize.find(idx) == m_inputSignalSize.end()) {
         wbtError << "Trying to get the size of non-existing signal " << idx << ".";
@@ -150,7 +150,7 @@ CoderBlockInformation::getInputPortMatrixSize(const BlockInformation::SignalInde
 }
 
 BlockInformation::MatrixSize
-CoderBlockInformation::getOutputPortMatrixSize(const BlockInformation::SignalIndex& idx) const
+CoderBlockInformation::getOutputPortMatrixSize(const BlockInformation::PortIndex& idx) const
 {
     if (m_outputSignalSize.find(idx) == m_outputSignalSize.end()) {
         wbtError << "Trying to get the size of non-existing signal " << idx << ".";
@@ -231,7 +231,7 @@ bool CoderBlockInformation::storeRTWParameters(const Parameters& parameters)
     return true;
 }
 
-bool CoderBlockInformation::setInputSignal(const SignalIndex& portNumber,
+bool CoderBlockInformation::setInputSignal(const PortIndex& portNumber,
                                            void* address,
                                            const MatrixSize& portSize)
 {
@@ -255,7 +255,7 @@ bool CoderBlockInformation::setInputSignal(const SignalIndex& portNumber,
     return m_inputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
 }
 
-bool CoderBlockInformation::setOutputSignal(const SignalIndex& portNumber,
+bool CoderBlockInformation::setOutputSignal(const PortIndex& portNumber,
                                             void* address,
                                             const MatrixSize& portSize)
 {

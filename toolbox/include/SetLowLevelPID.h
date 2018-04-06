@@ -16,7 +16,7 @@
 
 namespace wbt {
     class SetLowLevelPID;
-    typedef std::tuple<double, double, double> PidData;
+    using PidData = std::tuple<double, double, double>;
 } // namespace wbt
 
 namespace yarp {

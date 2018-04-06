@@ -34,10 +34,11 @@ Parameters::ParamIndex Parameters::getParamIndex(const Parameters::ParamName& na
 
 bool Parameters::existName(const Parameters::ParamName& name) const
 {
-    if (existName(name, PARAM_INT) || existName(name, PARAM_BOOL) || existName(name, PARAM_DOUBLE)
-        || existName(name, PARAM_STRING) || existName(name, PARAM_STRUCT_INT)
-        || existName(name, PARAM_STRUCT_BOOL) || existName(name, PARAM_STRUCT_DOUBLE)
-        || existName(name, PARAM_STRUCT_STRING)) {
+    if (existName(name, ParameterType::INT) || existName(name, ParameterType::BOOL)
+        || existName(name, ParameterType::DOUBLE) || existName(name, ParameterType::STRING)
+        || existName(name, ParameterType::STRUCT_INT) || existName(name, ParameterType::STRUCT_BOOL)
+        || existName(name, ParameterType::STRUCT_DOUBLE)
+        || existName(name, ParameterType::STRUCT_STRING)) {
         return true;
     }
     return false;
@@ -46,34 +47,34 @@ bool Parameters::existName(const Parameters::ParamName& name) const
 bool Parameters::existName(const Parameters::ParamName& name, const wbt::ParameterType& type) const
 {
     switch (type) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             if (m_paramsInt.find(name) == m_paramsInt.end()) {
                 return false;
             }
             break;
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             if (m_paramsBool.find(name) == m_paramsBool.end()) {
                 return false;
             }
             break;
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             if (m_paramsDouble.find(name) == m_paramsDouble.end()) {
                 return false;
             }
             break;
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             if (m_paramsString.find(name) == m_paramsString.end()) {
                 return false;
             }
@@ -149,29 +150,29 @@ wbt::ParameterMetadata Parameters::getParameterMetadata(const ParamName& name)
 {
     if (!existName(name) || !existName(name, m_nameToType.at(name))) {
         // TODO: here dummy metadata are returned. This can be improved.
-        return {PARAM_INT, 0, 0, 0, "dummy"};
+        return {ParameterType::INT, 0, 0, 0, "dummy"};
     }
 
     switch (m_nameToType[name]) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             return m_paramsInt.at(name).getMetadata();
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             return m_paramsBool.at(name).getMetadata();
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             return m_paramsDouble.at(name).getMetadata();
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             return m_paramsString.at(name).getMetadata();
     }
 }
@@ -208,37 +209,37 @@ bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name, T& pa
     }
 
     switch (m_nameToType.at(name)) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             if (!m_paramsInt.at(name).isScalar()) {
                 return false;
             }
             param = static_cast<T>(m_paramsInt.at(name).getScalarParameter());
             break;
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             if (!m_paramsBool.at(name).isScalar()) {
                 return false;
             }
             param = static_cast<T>(m_paramsBool.at(name).getScalarParameter());
             break;
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             if (!m_paramsDouble.at(name).isScalar()) {
                 return false;
             }
             param = static_cast<T>(m_paramsDouble.at(name).getScalarParameter());
             break;
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             if (!m_paramsString.at(name).isScalar()) {
                 return false;
             }
@@ -271,10 +272,10 @@ bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name,
     param.clear();
 
     switch (m_nameToType.at(name)) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT: {
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT: {
             if (m_paramsInt.at(name).isScalar()) {
                 return false;
             }
@@ -282,10 +283,10 @@ bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name,
             convertStdVector(m_paramsInt.at(name).getVectorParameter(), param);
             break;
         }
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL: {
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL: {
             if (m_paramsBool.at(name).isScalar()) {
                 return false;
             }
@@ -293,10 +294,10 @@ bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name,
             convertStdVector(m_paramsBool.at(name).getVectorParameter(), param);
             break;
         }
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE: {
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE: {
             if (m_paramsDouble.at(name).isScalar()) {
                 return false;
             }
@@ -304,10 +305,10 @@ bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name,
             convertStdVector(m_paramsDouble.at(name).getVectorParameter(), param);
             break;
         }
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING: {
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING: {
             if (m_paramsString.at(name).isScalar()) {
                 return false;
             }
@@ -344,31 +345,31 @@ bool wbt::Parameters::storeParameter(const T& param, const wbt::ParameterMetadat
     }
 
     switch (paramMetadata.m_type) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             m_paramsInt.emplace(std::make_pair(
                 paramMetadata.m_name, ParameterInt(static_cast<int>(param), paramMetadata)));
             break;
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             m_paramsBool.emplace(std::make_pair(
                 paramMetadata.m_name, ParameterBool(static_cast<bool>(param), paramMetadata)));
             break;
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             m_paramsDouble.emplace(std::make_pair(
                 paramMetadata.m_name, ParameterDouble(static_cast<double>(param), paramMetadata)));
             break;
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             m_paramsString.emplace(std::make_pair(
                 paramMetadata.m_name, ParameterString(std::to_string(param), paramMetadata)));
             break;
@@ -406,40 +407,40 @@ bool wbt::Parameters::storeParameter(const std::vector<T>& param,
     }
 
     switch (paramMetadata.m_type) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT: {
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT: {
             std::vector<int> paramInt(param.size());
             convertStdVector<T, int>(param, paramInt);
             m_paramsInt.emplace(
                 std::make_pair(paramMetadata.m_name, ParameterInt(paramInt, paramMetadata)));
             break;
         }
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL: {
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL: {
             std::vector<bool> paramBool(param.size());
             convertStdVector<T, bool>(param, paramBool);
             m_paramsBool.emplace(
                 std::make_pair(paramMetadata.m_name, ParameterBool(paramBool, paramMetadata)));
             break;
         }
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE: {
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE: {
             std::vector<double> paramDouble(param.size());
             convertStdVector<T, double>(param, paramDouble);
             m_paramsDouble.emplace(
                 std::make_pair(paramMetadata.m_name, ParameterDouble(paramDouble, paramMetadata)));
             break;
         }
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING: {
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING: {
             std::vector<std::string> paramString(param.size());
             convertStdVector<T, std::string>(param, paramString);
             m_paramsString.emplace(
@@ -489,37 +490,37 @@ bool Parameters::getParameter<std::string>(const ParamName& name, std::string& p
     }
 
     switch (m_nameToType.at(name)) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             if (!m_paramsInt.at(name).isScalar()) {
                 return false;
             }
             param = std::to_string(m_paramsInt.at(name).getScalarParameter());
             break;
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             if (!m_paramsBool.at(name).isScalar()) {
                 return false;
             }
             param = std::to_string(m_paramsBool.at(name).getScalarParameter());
             break;
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             if (!m_paramsDouble.at(name).isScalar()) {
                 return false;
             }
             param = std::to_string(m_paramsDouble.at(name).getScalarParameter());
             break;
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             if (!m_paramsString.at(name).isScalar()) {
                 return false;
             }
@@ -542,32 +543,32 @@ bool wbt::Parameters::storeParameter<std::string>(const std::string& param,
     }
 
     switch (paramMetadata.m_type) {
-        case PARAM_INT:
-        case PARAM_CELL_INT:
-        case PARAM_STRUCT_INT:
-        case PARAM_STRUCT_CELL_INT:
+        case ParameterType::INT:
+        case ParameterType::CELL_INT:
+        case ParameterType::STRUCT_INT:
+        case ParameterType::STRUCT_CELL_INT:
             m_paramsInt.emplace(std::make_pair(paramMetadata.m_name,
                                                ParameterInt(std::stoi(param), paramMetadata)));
             break;
-        case PARAM_BOOL:
-        case PARAM_CELL_BOOL:
-        case PARAM_STRUCT_BOOL:
-        case PARAM_STRUCT_CELL_BOOL:
+        case ParameterType::BOOL:
+        case ParameterType::CELL_BOOL:
+        case ParameterType::STRUCT_BOOL:
+        case ParameterType::STRUCT_CELL_BOOL:
             m_paramsBool.emplace(
                 std::make_pair(paramMetadata.m_name,
                                ParameterBool(static_cast<bool>(std::stoi(param)), paramMetadata)));
             break;
-        case PARAM_DOUBLE:
-        case PARAM_CELL_DOUBLE:
-        case PARAM_STRUCT_DOUBLE:
-        case PARAM_STRUCT_CELL_DOUBLE:
+        case ParameterType::DOUBLE:
+        case ParameterType::CELL_DOUBLE:
+        case ParameterType::STRUCT_DOUBLE:
+        case ParameterType::STRUCT_CELL_DOUBLE:
             m_paramsDouble.emplace(std::make_pair(
                 paramMetadata.m_name, ParameterDouble(std::stod(param), paramMetadata)));
             break;
-        case PARAM_STRING:
-        case PARAM_CELL_STRING:
-        case PARAM_STRUCT_STRING:
-        case PARAM_STRUCT_CELL_STRING:
+        case ParameterType::STRING:
+        case ParameterType::CELL_STRING:
+        case ParameterType::STRUCT_STRING:
+        case ParameterType::STRUCT_CELL_STRING:
             m_paramsString.emplace(
                 std::make_pair(paramMetadata.m_name, ParameterString(param, paramMetadata)));
             break;

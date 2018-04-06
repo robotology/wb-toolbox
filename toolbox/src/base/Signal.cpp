@@ -110,9 +110,15 @@ bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 
 bool Signal::initializeBufferFromContiguous(const void* buffer)
 {
-    if (m_dataFormat != DataFormat::CONTIGUOUS || m_width <= 0) {
+    if (m_dataFormat != DataFormat::CONTIGUOUS) {
         wbtError << "Trying to initialize a CONTIGUOUS signal but the configured "
                  << "DataFormat does not match.";
+        return false;
+    }
+
+    if (m_width <= 0) {
+        wbtError << "Signal width unknown. Unable to initialize the buffer if the "
+                 << "signal size is not set.";
         return false;
     }
 
@@ -130,9 +136,15 @@ bool Signal::initializeBufferFromContiguous(const void* buffer)
 
 bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
 {
-    if (m_dataFormat != DataFormat::NONCONTIGUOUS || m_width <= 0) {
+    if (m_dataFormat != DataFormat::NONCONTIGUOUS) {
         wbtError << "Trying to initialize a NONCONTIGUOUS signal but the configured "
                  << "DataFormat does not match.";
+        return false;
+    }
+
+    if (m_width <= 0) {
+        wbtError << "Signal width unknown. Unable to initialize the buffer if the "
+                 << "signal size is not set.";
         return false;
     }
 
@@ -227,12 +239,13 @@ T Signal::get(const unsigned& i) const
     T* buffer = getBuffer<T>();
 
     if (!buffer) {
-        return false;
+        wbtError << "The buffer inside the signal has not been initialized properly.";
+        return {};
     }
 
     if (i >= m_width) {
         wbtError << "Trying to access an element that exceeds signal width.";
-        return false;
+        return {};
     }
 
     return buffer[i];

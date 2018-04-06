@@ -44,24 +44,29 @@ unsigned DiscreteFilter::numberOfParameters()
 
 bool DiscreteFilter::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_1lowp_fc(PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Fc");
-    ParameterMetadata paramMD_1lowp_ts(PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Ts");
-    ParameterMetadata paramMD_md_order(PARAM_STRUCT_INT, PARAM_IDX_STRUCT, 1, 1, "MedianOrder");
-    ParameterMetadata paramMD_flt_type(PARAM_STRUCT_STRING, PARAM_IDX_STRUCT, 1, 1, "FilterType");
-
-    ParameterMetadata paramMD_numcoeff(
-        PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "NumCoeffs");
-
-    ParameterMetadata paramMD_dencoeff(
-        PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "DenCoeffs");
-
-    ParameterMetadata paramMD_init_status(PARAM_STRUCT_BOOL, PARAM_IDX_STRUCT, 1, 1, "InitStatus");
-
+    ParameterMetadata paramMD_1lowp_fc(ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Fc");
+    ParameterMetadata paramMD_1lowp_ts(ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Ts");
+    ParameterMetadata paramMD_md_order(
+        ParameterType::STRUCT_INT, PARAM_IDX_STRUCT, 1, 1, "MedianOrder");
+    ParameterMetadata paramMD_flt_type(
+        ParameterType::STRUCT_STRING, PARAM_IDX_STRUCT, 1, 1, "FilterType");
+    ParameterMetadata paramMD_numcoeff(ParameterType::STRUCT_DOUBLE,
+                                       PARAM_IDX_STRUCT,
+                                       1,
+                                       ParameterMetadata::DynamicSize,
+                                       "NumCoeffs");
+    ParameterMetadata paramMD_dencoeff(ParameterType::STRUCT_DOUBLE,
+                                       PARAM_IDX_STRUCT,
+                                       1,
+                                       ParameterMetadata::DynamicSize,
+                                       "DenCoeffs");
+    ParameterMetadata paramMD_init_status(
+        ParameterType::STRUCT_BOOL, PARAM_IDX_STRUCT, 1, 1, "InitStatus");
     ParameterMetadata paramMD_init_y0(
-        PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "y0");
+        ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "y0");
 
     ParameterMetadata paramMD_init_u0(
-        PARAM_STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "u0");
+        ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "u0");
 
     bool ok = true;
     ok = ok && blockInfo->addParameterMetadata(paramMD_1lowp_fc);
