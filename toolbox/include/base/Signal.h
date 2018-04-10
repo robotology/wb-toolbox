@@ -9,6 +9,8 @@
 #ifndef WBT_SIGNAL_H
 #define WBT_SIGNAL_H
 
+#include <memory>
+
 namespace wbt {
     class Signal;
     enum class DataType;
@@ -75,15 +77,8 @@ public:
     };
 
 private:
-    int m_width = DynamicSize;
-    const bool m_isConst;
-    const DataType m_portDataType;
-    const DataFormat m_dataFormat;
-
-    void* m_bufferPtr; ///< Pointer to the data buffer @see DataFormat
-
-    void deleteBuffer();
-    void allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length);
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const int DynamicSize;
@@ -93,11 +88,11 @@ public:
            const bool& isConst = true);
     ~Signal();
 
-    Signal(const Signal& signal);
-    Signal& operator=(const Signal& signal) = delete;
+    Signal(const Signal& other);
+    Signal& operator=(const Signal& other) = delete;
 
-    Signal(Signal&& signal);
-    Signal& operator=(Signal&& signal) = delete;
+    Signal(Signal&& other);
+    Signal& operator=(Signal&& other) = delete;
 
     /**
      * @brief Initialize the signal from a contiguous buffer
