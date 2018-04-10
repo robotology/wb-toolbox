@@ -37,13 +37,13 @@ namespace iDynTree {
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::PARAM_STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "RobotName" |
- * | ::PARAM_STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "UrdfFile" |
- * | ::PARAM_STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlledJoints" |
- * | ::PARAM_STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlBoardsNames" |
- * | ::PARAM_STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "LocalName" |
- * | ::PARAM_STRUCT_DOUBLE      | 0 + Block::NumberOfParameters | 1 | 3 | "GravityVector" |
- * | ::PARAM_STRING             | 1 + Block::NumberOfParameters | 1 | 1 | "ConfBlockName" |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "RobotName"          |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "UrdfFile"           |
+ * | ::STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlledJoints"   |
+ * | ::STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlBoardsNames" |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "LocalName"          |
+ * | ::STRUCT_DOUBLE      | 0 + Block::NumberOfParameters | 1 | 3 | "GravityVector"      |
+ * | ::STRING             | 1 + Block::NumberOfParameters | 1 | 1 | "ConfBlockName"      |
  *
  * @note The first set of parameters are fields of the same struct. For this reason they share the
  * same index.

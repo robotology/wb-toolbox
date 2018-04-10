@@ -35,12 +35,26 @@ using namespace wbt;
 // ROBOTINTERFACE PIMPL
 // ====================
 
+struct YarpInterfaces
+{
+    yarp::dev::IControlMode2* iControlMode2 = nullptr;
+    yarp::dev::IPositionControl* iPositionControl = nullptr;
+    yarp::dev::IPositionDirect* iPositionDirect = nullptr;
+    yarp::dev::IVelocityControl* iVelocityControl = nullptr;
+    yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+    yarp::dev::IPWMControl* iPWMControl = nullptr;
+    yarp::dev::ICurrentControl* iCurrentControl = nullptr;
+    yarp::dev::IEncoders* iEncoders = nullptr;
+    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
+    yarp::dev::IPidControl* iPidControl = nullptr;
+};
+
 class RobotInterface::impl
 {
 public:
     std::unique_ptr<yarp::dev::PolyDriver> robotDevice;
     std::shared_ptr<iDynTree::KinDynComputations> kinDynComp;
-    wbt::YarpInterfaces yarpInterfaces;
+    YarpInterfaces yarpInterfaces;
 
     // Maps used to store infos about yarp's and idyntree's internal joint indexing
     std::shared_ptr<JointIndexToYarpMap> jointIndexToYarpMap;

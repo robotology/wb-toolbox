@@ -36,7 +36,6 @@ namespace iDynTree {
 namespace wbt {
     class RobotInterface;
     class Configuration;
-    struct YarpInterfaces;
 
     using JointIndex_Yarp = int;
     using JointIndex_iDynTree = int;
@@ -56,39 +55,13 @@ namespace wbt {
 } // namespace wbt
 
 /**
- * @brief A container for yarp interfaces pointers
- *
- * The pointers are lazy-asked by wbt::RobotInterface and stored in this struct.
- *
- * @remark Right now only operating on the whole joint set of the current Configuration is
- *         supported. If in the future the support of operating on a subset will be implemented,
- *         `IPositionControl2` and `IVelocityControl2` should be implemented. For the time being,
- *         a possible workaround for this situation is creating a new configuration block
- *         containing only the reduced set in a deeper-hierarchy Simulink's subsystem.
- * @see RobotInterface::getInterface
- */
-struct wbt::YarpInterfaces
-{
-    yarp::dev::IControlMode2* iControlMode2 = nullptr;
-    yarp::dev::IPositionControl* iPositionControl = nullptr;
-    yarp::dev::IPositionDirect* iPositionDirect = nullptr;
-    yarp::dev::IVelocityControl* iVelocityControl = nullptr;
-    yarp::dev::ITorqueControl* iTorqueControl = nullptr;
-    yarp::dev::IPWMControl* iPWMControl = nullptr;
-    yarp::dev::ICurrentControl* iCurrentControl = nullptr;
-    yarp::dev::IEncoders* iEncoders = nullptr;
-    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
-    yarp::dev::IPidControl* iPidControl = nullptr;
-};
-
-/**
  * @brief Class for handling model and robot resources
  *
  * This class is a wrapper of yarp::dev::RemoteControlBoardRemapper and
  * iDynTree::KinDynComputations. By filling information in a wbt::Configuration object, it provides
  * a simple initialization and combined usage of these two resources.
  *
- * @see wbt::Configuration, wbt::YarpInterfaces
+ * @see wbt::Configuration
  */
 class wbt::RobotInterface
 {

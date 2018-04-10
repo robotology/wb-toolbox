@@ -116,7 +116,7 @@ public:
      *
      * @tparam The type of the output argument
      * @param name The name of the parameter.
-     * @param param[out] The variable where the parameter value will be stored. Data get cast
+     * @param[out] param The variable where the parameter value will be stored. Data get cast
      *                   internally, even for string to numeric types.
      * @return True for success, false otherwise.
      */
@@ -128,7 +128,7 @@ public:
      *
      * @tparam The type of the output argument
      * @param name The name of the parameter.
-     * @param param[out] The variable where the parameter value will be stored. Data get cast
+     * @param[out] param The variable where the parameter value will be stored. Data get cast
      *                   internally, even for string to numeric types.
      * @return True for success, false otherwise.
      */

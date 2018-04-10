@@ -134,7 +134,7 @@ public:
      *
      * @note You must set the signal width with Signal::setWidth in order to have a valid signal.
      *
-     * @param buffer The pointer to the original non-contiguous buffer.
+     * @param bufferPtrs The pointer to the original non-contiguous buffer.
      * @return True for success, false otherwise.
      * @see Signal::DataFormat
      */
