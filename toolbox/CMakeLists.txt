@@ -17,11 +17,12 @@ find_package(Matlab REQUIRED
     MX_LIBRARY
     ENG_LIBRARY
     MAIN_PROGRAM
+    # SIMULINK # Requires CMake > 3.7
 )
 
 find_package(iDynTree 0.7.2 REQUIRED)
 
-# This find loads Eigen from YCM.
+# This find loads Eigen.
 # It would be nice using the EigenConfig shipped with eigen package, but
 # on Ubuntu 16.04 eigen is old and provides only FindEigen.
 find_package(Eigen3 REQUIRED)
@@ -91,9 +92,8 @@ configure_block(
 
 option(WBT_USES_ICUB "Build models which need iCub library (e.g. Minimum Jerk Traj. Generator)" ON)
 
-if (WBT_USES_ICUB)
+if(WBT_USES_ICUB)
     find_package(ICUB REQUIRED)
-    add_definitions(-DWBT_USES_ICUB)
 
     configure_block(BLOCK_NAME "Minimum Jerk Trajectory Generator"
         GROUP "Utilities"
@@ -224,14 +224,17 @@ get_property(ALL_SOURCES GLOBAL PROPERTY WBT_SOURCES)
 add_library(WBToolboxLibrary SHARED
     ${ALL_HEADERS} ${ALL_SOURCES}
 )
+
 set_target_properties(WBToolboxLibrary PROPERTIES
     OUTPUT_NAME "WBToolbox"
     # VERSION ${PROJECT_VERSION}
     PUBLIC_HEADER "${ALL_HEADERS}"
 )
 
-# Import math symbols from standard cmath
-target_compile_definitions(WBToolboxLibrary PUBLIC "-D_USE_MATH_DEFINES")
+if(MSVC)
+    # Import math symbols from standard cmath
+    target_compile_definitions(WBToolboxLibrary PRIVATE "USE_MATH_DEFINES")
+endif()
 
 # Set other properties of the target WBToolbox
 # --------------------------------------------
@@ -241,31 +244,34 @@ target_include_directories(WBToolboxLibrary PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/base>
 )
 
-target_include_directories(WBToolboxLibrary SYSTEM PUBLIC
-    ${Matlab_INCLUDE_DIRS}
-    ${Matlab_ROOT_DIR}/simulink/include
-    ${YARP_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
-)
+target_include_directories(WBToolboxLibrary SYSTEM PRIVATE ${EIGEN3_INCLUDE_DIR})
 
-set(IDYNTREE_REQUIRED_LIBS
+list(APPEND WBTOOLBOX_EXT_LIBRARIES
     iDynTree::idyntree-core
     iDynTree::idyntree-model
     iDynTree::idyntree-modelio-urdf
     iDynTree::idyntree-high-level
 )
-target_link_libraries(WBToolboxLibrary PUBLIC
-    ${YARP_LIBRARIES}
-    ${IDYNTREE_REQUIRED_LIBS}
-    ${WBTOOLBOX_EXT_LIBRARIES}
+
+list(APPEND WBTOOLBOX_EXT_LIBRARIES
+    YARP::YARP_OS
+    YARP::YARP_dev
+    YARP::YARP_math
 )
 
-if (WBT_USES_ICUB)
-    target_compile_definitions(WBToolboxLibrary PUBLIC -DWBT_USES_ICUB)
-    target_link_libraries(WBToolboxLibrary PUBLIC ctrlLib)
-    if (${ICUB_USE_IPOPT})
-        target_link_libraries(WBToolboxLibrary PUBLIC iKin)
-    endif()
+target_link_libraries(WBToolboxLibrary PRIVATE ${WBTOOLBOX_EXT_LIBRARIES})
+
+if(WBT_USES_ICUB)
+    target_compile_definitions(WBToolboxLibrary PUBLIC "WBT_USES_ICUB")
+    target_link_libraries(WBToolboxLibrary PRIVATE ctrlLib)
+
+    # Manually include iCub include folders. They are not exported by the linked library.
+    include_directories(${ctrlLib_INCLUDE_DIRS})
+
+#    if (${ICUB_USE_IPOPT})
+#        target_link_libraries(WBToolboxLibrary PUBLIC iKin)
+#        include_directories(${iKin_INCLUDE_DIRS})
+#    endif()
 endif()
 
 # TOOLBOX S-FUNCTION MEX LIBRARY
@@ -282,13 +288,17 @@ matlab_add_mex(
     LINK_TO MxAnyType WBToolboxLibrary
 )
 
-target_compile_options(WBToolboxMex PUBLIC -DMATLAB_MEX_FILE)
+target_compile_definitions(WBToolboxMex PUBLIC "MATLAB_MEX_FILE")
+target_include_directories(WBToolboxMex PUBLIC
+    ${Matlab_INCLUDE_DIRS}
+    ${Matlab_ROOT_DIR}/simulink/include)
 
 # Install S-Function
 install(TARGETS WBToolboxMex DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
 # Install TLC file
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox.tlc
+install(
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox.tlc
     DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
 # MATLAB CLASSES AND SIMULINK CONFIGURATION
@@ -319,8 +329,10 @@ set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox")
 
 # The following line is to properly configure the installation script of the toolbox
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/matlab/startup_wbitoolbox.m.in
-               ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/matlab/startup_wbitoolbox.m.in
+    ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m
+)
 
 # Install configuration files
 install(
@@ -410,7 +422,7 @@ set_property(GLOBAL APPEND
              WBToolboxCoder WBToolboxLibrary)
 
 set(WBToolboxSimulinkCoderExport_DEPENDENCIES YARP iDynTree)
-if (WBT_USES_ICUB)
+if(WBT_USES_ICUB)
     list(APPEND WBToolboxSimulinkCoderExport_DEPENDENCIES iCub)
 endif()
 

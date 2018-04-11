@@ -13,7 +13,6 @@
 
 #include <memory>
 #include <string>
-#include <yarp/os/BufferedPort-inl.h>
 
 namespace wbt {
     class BlockInformation;

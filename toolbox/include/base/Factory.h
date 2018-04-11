@@ -27,7 +27,7 @@
 #include "Jacobian.h"
 #include "MassMatrix.h"
 
-// iCub-depent blocks
+// iCub-dependent blocks
 #ifdef WBT_USES_ICUB
 #include "DiscreteFilter.h"
 #include "MinimumJerkTrajectoryGenerator.h"
