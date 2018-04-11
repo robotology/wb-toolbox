@@ -72,8 +72,8 @@ public:
     wbt::RobotInterface* robotInterface = nullptr;
 
     impl() = delete;
-    impl(const Configuration& c)
-        : config(c)
+    explicit impl(const Configuration& configuration)
+        : config(configuration)
     {}
 
     void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
@@ -401,8 +401,8 @@ public:
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
-RobotInterface::RobotInterface(const wbt::Configuration& c)
-    : pImpl{new impl(c)}
+RobotInterface::RobotInterface(const wbt::Configuration& config)
+    : pImpl{new impl(config)}
 {
     pImpl->setOwner(this);
 }

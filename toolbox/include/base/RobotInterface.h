@@ -74,7 +74,7 @@ public:
     // ========================
 
     RobotInterface() = delete;
-    RobotInterface(const wbt::Configuration& c);
+    RobotInterface(const wbt::Configuration& config);
     ~RobotInterface();
 
     // GET METHODS
