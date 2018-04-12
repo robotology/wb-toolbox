@@ -5,10 +5,220 @@ language: cpp
 os:
   - linux
 
-matrix:
+cache:
+  directories:
+    - $HOME/cache
+    - $HOME/.ccache
+    - $HOME/Library/Caches/Homebrew
+
+stages:
+  - prepare linux
+  - test # Default stage with matrix
+  - osx
+  - deploy
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:nschloe/eigen-backports'
+      - sourceline: 'deb http://www.icub.org/ubuntu trusty contrib/science'
+    packages:
+      - cmake3
+      - ninja-build
+      # YARP / iCub / wb-toolbox
+      - icub-common
+      - libqt5opengl5-dev
+      - libeigen3-dev
+
+compiler:
+  - gcc
+  - clang
+
+env:
+  global: TRAVIS_CMAKE_GENERATOR="Ninja"
+  matrix:
+    - TRAVIS_BUILD_TYPE="Release"
+    - TRAVIS_BUILD_TYPE="Debug"
+
+# ==============
+# STAGE: prepare
+# ==============
+
+stage_prepare:
+  script: &prepare_script
+    # Clean the dependencies cache from previous builds (ccache is instead kept)
+    - rm -rf $DEPS_CACHE
+    - mkdir -p $DEPS_CACHE
+
+    # Install dependencies
+    # --------------------
+
+    # Limit concurrency for some project in order to avoid let the CI fail
+    - if [ "$TRAVIS_OS_NAME" == "linux" ] ; then CMAKE_BUILD_OPTIONS="-- -j4" ; fi
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]   ; then CMAKE_BUILD_OPTIONS="" ; fi
+
+    - mkdir $HOME/git
+    - export CXXFLAGS="-Wno-unused-command-line-argument"
+
+    # Install YCM
+    - cd $HOME/git
+    - git clone --depth 1 https://github.com/robotology/ycm.git
+    - cd ycm
+    - mkdir build && cd build
+    - >-
+      cmake .. \
+        -G"$TRAVIS_CMAKE_GENERATOR" \
+        -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE
+    - cmake --build . --target install
+
+    # Install Yarp
+    - cd $HOME/git
+    - git clone --depth 1 https://github.com/robotology/yarp.git
+    - cd yarp
+    - mkdir build && cd build
+    - >-
+      cmake .. \
+        -G"$TRAVIS_CMAKE_GENERATOR" \
+        -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE \
+        -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE \
+        -DCREATE_LIB_MATH=ON
+    - cmake --build . --config $TRAVIS_BUILD_TYPE --target install
+
+    # Install icub-main
+    - cd $HOME/git
+    - git clone --depth 1 https://github.com/robotology/icub-main.git
+    - cd icub-main
+    - mkdir build && cd build
+    - >-
+      cmake .. \
+        -G"$TRAVIS_CMAKE_GENERATOR" \
+        -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE \
+        -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE
+    - cmake --build . --config $TRAVIS_BUILD_TYPE --target install $CMAKE_BUILD_OPTIONS
+
+    # Install iDynTree
+    - cd $HOME/git
+    - git clone --depth 1 https://github.com/robotology/idyntree.git
+    - cd idyntree
+    - mkdir build && cd build
+    - >-
+      cmake .. \
+        -G"$TRAVIS_CMAKE_GENERATOR" \
+        -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE \
+        -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE
+    - cmake --build . --config $TRAVIS_BUILD_TYPE --target install $CMAKE_BUILD_OPTIONS
+
+# ===================
+# STAGE: test (linux)
+# ===================
+
+before_install: &before_install
+  # Prepare ccache
+  - mkdir -p $HOME/.local/bin
+  - ln -s $(which ccache) $HOME/.local/bin/$CC
+  - ln -s $(which ccache) $HOME/.local/bin/$CXX
+  - export PATH=/$HOME/.local/bin:$PATH
+  - echo "max_size = 1.0G" > $HOME/.ccache/ccache.conf
+  # Setup the dependencies cache
+  - export DEPS_CACHE=$HOME/cache/$TRAVIS_OS_NAME/$TRAVIS_BUILD_TYPE
+  - export PATH=$PATH:$DEPS_CACHE/bin
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DEPS_CACHE/lib
+  - export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
+
+script: &script
+  - cd $TRAVIS_BUILD_DIR
+  - mkdir build && cd build
+  - cmake -G"$TRAVIS_CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE ..
+  - cmake --build . --config $TRAVIS_BUILD_TYPE
+
+before_cache: &before_cache
+  - before_cache: rm -rf $DEPS_CACHE
+
+# ==========
+# STAGE: osx
+# ==========
+
+stage_osx:
+  before_install: &osx_before_install
+    # Setup the dependencies cache
+    - export DEPS_CACHE=$HOME/cache/$TRAVIS_OS_NAME/$TRAVIS_BUILD_TYPE
+    - export PATH=$PATH:$DEPS_CACHE/bin
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DEPS_CACHE/lib
+    - export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
+  install: &osx_install
+    # Setup ccache
+    - brew install ccache
+    - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+    # Install dependencies
+    - brew install eigen ace tinyxml gsl
+
+# =============
+# STAGE: deploy
+# =============
+
+stage_deploy:
+  install: &deploy_install
+    - pip3 install --user Pygments mkdocs mkdocs-material
+    - export PATH=$HOME/.local/bin:$PATH
+  script: &deploy_script
+    - ./$TRAVIS_BUILD_DIR/.ci/generateDocumentation.sh
+
+#after_success: &after_success_deploy
+  #- ./$PROJECT_DIR_ABS/.ci/generateDocumentation.sh || travis_terminate 1
+
+# ======================
+# BUILD JOBS FROM STAGES
+# ======================
+
+jobs:
   include:
-    # Enable a job for building the documentation
-    - os: linux
+    - &prepare_template
+      stage: prepare linux
+      before_install: *before_install
+      install: skip
+      script: *prepare_script
+      before_cache: skip
+      compiler: clang
+      env:
+        TRAVIS_BUILD_TYPE="Release"
+    - <<: *prepare_template
+      compiler: gcc
+    - <<: *prepare_template
+      compiler: clang
+      env:
+        TRAVIS_BUILD_TYPE="Debug"
+    - <<: *prepare_template
+      compiler: gcc
+      env:
+        TRAVIS_BUILD_TYPE="Debug"
+    - &osx_template
+      stage: osx
+      os: osx
+      compiler: clang
+      osx_image: xcode9.3
+      before_install: *osx_before_install
+      install: *osx_install
+      before_script: *prepare_script
+      script: *script
+      before_cache: skip
+      env:
+        TRAVIS_CMAKE_GENERATOR="Xcode"
+        TRAVIS_BUILD_TYPE="Debug"
+    - <<: *osx_template
+      env:
+        TRAVIS_CMAKE_GENERATOR="Unix Makefiles"
+        TRAVIS_BUILD_TYPE="Debug"
+    - stage: deploy
+      compiler:
+      cache:
+      if: ((branch = master) AND (type != pull_request))
+      before_install: skip
+      install: *deploy_install
+      before_script: skip
+      script: *deploy_script
+      before_cache: skip
+      #after_success: &deploy_after_success
+      after_success: skip
       env:
         TRAVIS_BUILD_DOCS=true
         GIT_COMMITTER_USERNAME=LOC2Bot
@@ -24,26 +234,6 @@ matrix:
             - doxygen-gui
             - graphviz
             - python3-pip
-
-before_install:
-  # Install documentation dependencies
-  - >-
-    if [[ "$TRAVIS_BRANCH" = "master" && -n "$TRAVIS_BUILD_DOCS" && "$TRAVIS_PULL_REQUEST" = "false" ]] ; then
-      pip3 install --user Pygments mkdocs mkdocs-material || travis_terminate 1
-      export PATH=$HOME/.local/bin:$PATH
-    fi
-
-# before_script:
-script:
-  # Right now Travis only builds the documentation
-  - true
-
-after_success:
-  # Generate the docs only if master, the TRAVIS_BUILD_DOCS is true and we can use secure variables
-  - >-
-    if [[ "$TRAVIS_BRANCH" = "master" && -n "$TRAVIS_BUILD_DOCS" && "$TRAVIS_PULL_REQUEST" = "false" ]] ; then
-      ./$PROJECT_DIR_ABS/.ci/generateDocumentation.sh || travis_terminate 1
-    fi
 
 # notifications:
 #  email:
