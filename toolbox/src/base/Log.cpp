@@ -15,12 +15,13 @@ using namespace wbt;
 class Log::impl
 {
 public:
-    std::vector<std::stringstream> errorsSStream;
-    std::vector<std::stringstream> warningsSStream;
+    std::vector<std::unique_ptr<std::stringstream>> errorsSStream;
+    std::vector<std::unique_ptr<std::stringstream>> warningsSStream;
 
     const Verbosity verbosity = WBT_LOG_VERBOSITY;
 
-    static std::string serializeVectorStringStream(const std::vector<std::stringstream>& ss);
+    static std::string
+    serializeVectorStringStream(const std::vector<std::unique_ptr<std::stringstream>>& ss);
 };
 
 Log::Log()
@@ -42,24 +43,24 @@ std::stringstream& Log::getLogStringStream(const Log::Type& type,
         case Log::Verbosity::RELEASE:
             switch (type) {
                 case Log::Type::ERROR:
-                    pImpl->errorsSStream.emplace_back();
-                    return pImpl->errorsSStream.back();
+                    pImpl->errorsSStream.emplace_back(new std::stringstream);
+                    return *pImpl->errorsSStream.back();
                 case Log::Type::WARNING:
-                    pImpl->warningsSStream.emplace_back();
-                    return pImpl->warningsSStream.back();
+                    pImpl->warningsSStream.emplace_back(new std::stringstream);
+                    return *pImpl->warningsSStream.back();
             }
         case Log::Verbosity::DEBUG:
             switch (type) {
                 case Log::Type::ERROR: {
-                    pImpl->errorsSStream.emplace_back();
-                    auto& ss = pImpl->errorsSStream.back();
+                    pImpl->errorsSStream.emplace_back(new std::stringstream);
+                    auto& ss = *pImpl->errorsSStream.back();
                     ss << std::endl
                        << file << "@" << function << ":" << std::to_string(line) << std::endl;
                     return ss;
                 }
                 case Log::Type::WARNING: {
-                    pImpl->warningsSStream.emplace_back();
-                    auto& ss = pImpl->warningsSStream.back();
+                    pImpl->warningsSStream.emplace_back(new std::stringstream);
+                    auto& ss = *pImpl->warningsSStream.back();
                     ss << std::endl
                        << file << "@" << function << ":" << std::to_string(line) << std::endl;
                     return ss;
@@ -68,12 +69,13 @@ std::stringstream& Log::getLogStringStream(const Log::Type& type,
     }
 }
 
-std::string Log::impl::serializeVectorStringStream(const std::vector<std::stringstream>& ss)
+std::string
+Log::impl::serializeVectorStringStream(const std::vector<std::unique_ptr<std::stringstream>>& ss)
 {
     std::stringstream output;
 
     for (const auto& ss_elem : ss) {
-        output << ss_elem.str() << std::endl;
+        output << ss_elem->str() << std::endl;
     }
 
     return output.str();
