@@ -13,13 +13,6 @@ if(NOT ${YARP_IS_SHARED_LIBRARY})
     message(FATAL_ERROR "YARP was found, but it was compiled as static library. A shared library version of YARP is required.")
 endif()
 
-find_package(Matlab REQUIRED
-    MX_LIBRARY
-    ENG_LIBRARY
-    MAIN_PROGRAM
-    # SIMULINK # Requires CMake > 3.7
-)
-
 find_package(iDynTree 0.7.2 REQUIRED)
 
 # This find loads Eigen.
@@ -236,8 +229,8 @@ if(MSVC)
     target_compile_definitions(WBToolboxLibrary PRIVATE "USE_MATH_DEFINES")
 endif()
 
-# Set other properties of the target WBToolbox
-# --------------------------------------------
+# Set other properties of the target WBToolboxLibrary
+# ---------------------------------------------------
 
 target_include_directories(WBToolboxLibrary PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -274,32 +267,55 @@ if(WBT_USES_ICUB)
 #    endif()
 endif()
 
-# TOOLBOX S-FUNCTION MEX LIBRARY
-# ==============================
+# Install the library
+install(
+    TARGETS WBToolboxLibrary
+    EXPORT WBToolboxLibrary
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/WB-Toolbox
+)
 
-matlab_add_mex(
-    NAME WBToolboxMex
-    OUTPUT_NAME WBToolbox
-    SRC include/base/SimulinkBlockInformation.h
+include(InstallBasicPackageFiles)
+set(WBToolboxLibraryExport_DEPENDENCIES YARP iDynTree)
+
+install_basic_package_files(WBToolboxLibrary
+    VERSION ${PROJECT_VERSION}
+    DEPENDENCIES ${WBToolboxLibraryExport_DEPENDENCIES}
+    COMPATIBILITY AnyNewerVersion
+    TARGETS_PROPERTY WBToolboxLibrary
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+
+## TOOLBOX S-FUNCTION MEX LIBRARY
+## ==============================
+
+if(WBTOOLBOX_USES_MATLAB)
+    matlab_add_mex(
+        NAME WBToolboxMex
+        OUTPUT_NAME WBToolbox
+        SRC include/base/SimulinkBlockInformation.h
         src/base/SimulinkBlockInformation.cpp
         include/base/Factory.h
         src/base/Factory.cpp
         src/base/WBToolbox.cpp
-    LINK_TO MxAnyType WBToolboxLibrary
-)
+        LINK_TO MxAnyType WBToolboxLibrary
+        )
 
-target_compile_definitions(WBToolboxMex PUBLIC "MATLAB_MEX_FILE")
-target_include_directories(WBToolboxMex PUBLIC
-    ${Matlab_INCLUDE_DIRS}
-    ${Matlab_ROOT_DIR}/simulink/include)
+    target_compile_definitions(WBToolboxMex PUBLIC "MATLAB_MEX_FILE")
+    target_include_directories(WBToolboxMex PUBLIC
+        ${Matlab_INCLUDE_DIRS}
+        ${Matlab_ROOT_DIR}/simulink/include)
 
-# Install S-Function
-install(TARGETS WBToolboxMex DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
+    # Install S-Function
+    install(TARGETS WBToolboxMex DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
-# Install TLC file
-install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox.tlc
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
+    # Install TLC file
+    install(
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox.tlc
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
+endif()
 
 # MATLAB CLASSES AND SIMULINK CONFIGURATION
 # =========================================
@@ -314,69 +330,71 @@ install(
 # * Developers should export the changes using the export_library custom target.
 # * Users will use the files installed from the exported/ folder.
 
-# Custom script to generate the library to be committed on the repository.
-# This target is excluded from the normal build and must be called explicitly by the
-# developer who modifies the library.
-add_custom_target(export_libraries
-    ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r export_library
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab
-)
-set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
+if(WBTOOLBOX_USES_MATLAB)
+    # Custom script to generate the library to be committed on the repository.
+    # This target is excluded from the normal build and must be called explicitly by the
+    # developer who modifies the library.
+    add_custom_target(export_libraries
+        ${Matlab_MAIN_PROGRAM} -nosplash -nodesktop -r export_library
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab
+        )
+    set_target_properties(export_libraries PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
-# Install all the other files needed by the toolbox
-# -------------------------------------------------
+    # Install all the other files needed by the toolbox
+    # -------------------------------------------------
 
-set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox")
+    set(WB-TOOLBOX_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox")
 
-# The following line is to properly configure the installation script of the toolbox
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/matlab/startup_wbitoolbox.m.in
-    ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m
-)
+    # The following line is to properly configure the installation script of the toolbox
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/matlab/startup_wbitoolbox.m.in
+        ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m
+        )
 
-# Install configuration files
-install(
-    FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m
-    DESTINATION ${WB-TOOLBOX_SHARE_DIR}
-)
-install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/slblocks.m
-    DESTINATION ${WB-TOOLBOX_SHARE_DIR}
-)
+    # Install configuration files
+    install(
+        FILES ${CMAKE_BINARY_DIR}/startup_wbitoolbox.m
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR}
+        )
+    install(
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/slblocks.m
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR}
+        )
 
-# Install the Matlab package folder
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab/+WBToolbox
-    DESTINATION ${WB-TOOLBOX_SHARE_DIR}
-)
+    # Install the Matlab package folder
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/matlab/+WBToolbox
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR}
+        )
 
-# Install images for the Simulink Library
-install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/images
-    DESTINATION ${WB-TOOLBOX_SHARE_DIR}
-)
+    # Install images for the Simulink Library
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/images
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR}
+        )
 
-# Install script for enabling debugging capabilities
-# (update the mex and avoid restarting matlab)
-configure_file(
-    matlab/setupForMatlabDebug.m.in
-    ${CMAKE_BINARY_DIR}/toolbox/setupForMatlabDebug.m
-    @ONLY
-)
+    # Install script for enabling debugging capabilities
+    # (update the mex and avoid restarting matlab)
+    configure_file(
+        matlab/setupForMatlabDebug.m.in
+        ${CMAKE_BINARY_DIR}/toolbox/setupForMatlabDebug.m
+        @ONLY
+        )
 
-#if MAJOR >= 2014 && MINOR >= b
-# Note: We had issues with Matlab 2014b and .mdl models.
-# But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
-# TODO: check if the mdl support is still required
-# if (${Matlab_VERSION_STRING} GREATER "8.3")
+    #if MAJOR >= 2014 && MINOR >= b
+    # Note: We had issues with Matlab 2014b and .mdl models.
+    # But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
+    # TODO: check if the mdl support is still required
+    # if (${Matlab_VERSION_STRING} GREATER "8.3")
     # install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# else()
+    # else()
     # install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# endif()
-install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/library/exported/WBToolboxLibrary.slx
-    DESTINATION ${WB-TOOLBOX_SHARE_DIR}
-)
+    # endif()
+    install(
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/matlab/library/exported/WBToolboxLibrary.slx
+        DESTINATION ${WB-TOOLBOX_SHARE_DIR}
+        )
+endif()
 
 # AUTOMATIC CODE GENERATION SUPPORT
 # =================================
@@ -391,14 +409,12 @@ set(CODER_SRC
 )
 
 add_library(WBToolboxCoder SHARED ${CODER_HDR} ${CODER_SRC})
-
-target_link_libraries(WBToolboxCoder PUBLIC WBToolboxLibrary)
-
 set_target_properties(WBToolboxCoder PROPERTIES
     # VERSION ${PROJECT_VERSION}
     PUBLIC_HEADER "${CODER_HDR}"
 )
 
+target_link_libraries(WBToolboxCoder PUBLIC WBToolboxLibrary)
 target_include_directories(WBToolboxCoder INTERFACE
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WB-Toolbox>)
 
@@ -412,7 +428,7 @@ install(
     TARGETS WBToolboxCoder WBToolboxLibrary
     EXPORT WBToolboxSimulinkCoder
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/WB-Toolbox
 )
