@@ -10,6 +10,7 @@
 #define WBT_TOOLBOXCONFIG_H
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace wbt {
