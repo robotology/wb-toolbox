@@ -16,6 +16,19 @@ namespace wbt {
     class SetReferences;
 }
 
+/**
+ * @brief The wbt::SetReferences class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::SetReferences requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "CtrlType" |
+ * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "RefSpeed" |
+ *
+ */
 class wbt::SetReferences : public wbt::WBBlock
 {
 private:

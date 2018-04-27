@@ -22,6 +22,9 @@ namespace iDynTree {
     class FreeFloatingGeneralizedTorques;
 } // namespace iDynTree
 
+/**
+ * @brief The wbt::InverseDynamics class
+ */
 class wbt::InverseDynamics : public wbt::WBBlock
 {
 private:

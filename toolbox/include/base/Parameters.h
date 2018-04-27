@@ -20,6 +20,13 @@ namespace wbt {
     const std::string PARAM_INVALID_NAME = {};
 } // namespace wbt
 
+/**
+ * @brief Class for storing block's parameters
+ *
+ * This class can contain scalar and vector parameters of the supported types.
+ *
+ * @see wbt::Parameter, wbt::ParameterMetadata, wbt::ParameterType
+ */
 class wbt::Parameters
 {
 public:
@@ -57,41 +64,147 @@ public:
     Parameters() = default;
     ~Parameters() = default;
 
+    /**
+     * @brief Get the name of a stored parameter from its index.
+     * @param index The index of the parameter.
+     * @return The name if the parameter exists, wbt::PARAM_INVALID_NAME otherwise.
+     */
     ParamName getParamName(const ParamIndex& index) const;
+
+    /**
+     * @brief Get the index of a stored parameter from its name.
+     * @param name The name of the parameter.
+     * @return The index if the parameter exists, wbt::PARAM_INVALID_INDEX otherwise.
+     */
     ParamIndex getParamIndex(const ParamName& name) const;
+
+    /**
+     * @brief Get the number of stored parameters
+     *
+     * @return The number of stored parameters.
+     */
     unsigned getNumberOfParameters() const;
 
+    /**
+     * @brief Check if a parameter with a given name is stored
+     *
+     * @param name The name of the parameter.
+     * @return True if the parameters exists, false otherwise.
+     */
     bool existName(const ParamName& name) const;
 
-    // Scalar parameters
+    /**
+     * @brief Store a scalar parameter
+     *
+     * @tparam The type of the parameter to store. Despite this, the parameter get cast accordingly
+     *         to its metadata.
+     * @param param The value of the scalar parameter to store.
+     * @param paramMetadata The metadata associated to the parameter to store.
+     * @return True for success, false otherwise.
+     */
     template <typename T>
     bool storeParameter(const T& param, const wbt::ParameterMetadata& paramMetadata);
 
-    // Vector parameters
+    /**
+     * @brief Store a vector parameter
+     *
+     * @tparam The type of the parameter to store. Despite this, the parameter get cast accordingly
+     *         to its metadata.
+     * @param param The value of the vector parameter to store.
+     * @param paramMetadata The metadata associated to the parameter to store.
+     * @return True for success, false otherwise.
+     */
     template <typename T>
     bool storeParameter(const std::vector<T>& param, const wbt::ParameterMetadata& paramMetadata);
 
-    // Generic
+    /**
+     * @brief Store a parameter
+     *
+     * @tparam The type of the parameter to store.
+     * @param parameter The parameter object to store.
+     * @return True for success, false otherwise.
+     *
+     * @see wbt::Parameter
+     */
     template <typename T>
     bool storeParameter(const Parameter<T>& parameter);
 
-    // Scalar / Struct Fields
+    /**
+     * @brief Get a scalar parameter
+     *
+     * @tparam The type of the output argument
+     * @param name The name of the parameter.
+     * @param param[out] The variable where the parameter value will be stored. Data get cast
+     *                   internally, even for string to numeric types.
+     * @return True for success, false otherwise.
+     */
     template <typename T>
     bool getParameter(const ParamName& name, T& param) const;
 
+    /**
+     * @brief Get a vector parameter
+     *
+     * @tparam The type of the output argument
+     * @param name The name of the parameter.
+     * @param param[out] The variable where the parameter value will be stored. Data get cast
+     *                   internally, even for string to numeric types.
+     * @return True for success, false otherwise.
+     */
     template <typename T>
     bool getParameter(const ParamName& name, std::vector<T>& param) const;
 
+    /**
+     * @brief Get all the integer parameters
+     *
+     * @return The integer parameters
+     */
     std::vector<Parameter<int>> getIntParameters() const;
+
+    /**
+     * @brief Get all the boolean parameters
+     *
+     * @return The boolean parameters
+     */
     std::vector<Parameter<bool>> getBoolParameters() const;
+
+    /**
+     * @brief Get all the double parameters
+     *
+     * @return The double parameters
+     */
     std::vector<Parameter<double>> getDoubleParameters() const;
+
+    /**
+     * @brief Get all the string parameters
+     *
+     * @return The string parameters
+     */
     std::vector<Parameter<std::string>> getStringParameters() const;
 
+    /**
+     * @brief Get the metadata associated to a stored parameter
+     *
+     * @param name The name of the parameter.
+     * @return The metadata associate with the parameter for success, a metadata with a stored name
+     *         `dummy` otherwise.
+     */
     wbt::ParameterMetadata getParameterMetadata(const ParamName& name);
 
+    /**
+     * @brief Helper function for creating wbt::Configuration objects
+     *
+     * This helper method checks if the object has all the parameters for creating a
+     * wbt::Configuration object.
+     *
+     * @param parameters The parameters set where to look.
+     * @return True if the requirements are met, false otherwise.
+     *
+     * @see ToolboxSingleton::storeConfiguration
+     */
     static bool containConfigurationData(const wbt::Parameters& parameters);
 };
 
+// ============
 // GETPARAMETER
 // ============
 
@@ -124,6 +237,7 @@ namespace wbt {
                                           std::vector<std::string>& param) const;
 } // namespace wbt
 
+// ==============
 // STOREPARAMETER
 // ==============
 

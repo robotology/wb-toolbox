@@ -35,4 +35,4 @@ Bibtex citation:
 The development of WB-Toolbox is supported by:
 
 - FP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)
-- H2020 EU projects An.Dy. (No. 731540 H2020-ICT-2016-1).
+- H2020 EU projects AnDy (No. 731540 H2020-ICT-2016-1)

@@ -26,6 +26,22 @@ namespace yarp {
     }
 } // namespace yarp
 
+/**
+ * @brief The wbt::YarpRead class
+ *
+ * In addition to @ref block_parameters, wbt::YarpRead requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
+ * | ::INT    | 1 + Block::NumberOfParameters | 1 | 1 | "SignalSize"         |
+ * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "WaitData"           |
+ * | ::BOOL   | 3 + Block::NumberOfParameters | 1 | 1 | "ReadTimestamp"      |
+ * | ::BOOL   | 4 + Block::NumberOfParameters | 1 | 1 | "Autoconnect"        |
+ * | ::DOUBLE | 5 + Block::NumberOfParameters | 1 | 1 | "Timeout"            |
+ * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
+ *
+ */
 class wbt::YarpRead : public wbt::Block
 {
 private:

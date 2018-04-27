@@ -18,6 +18,18 @@ namespace wbt {
     class DotJNu;
 }
 
+/**
+ * @brief The wbt::DotJNu class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::DotJNu requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ *
+ */
 class wbt::DotJNu : public wbt::WBBlock
 {
 private:

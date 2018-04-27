@@ -28,6 +28,18 @@ struct wbt::Limit
     {}
 };
 
+/**
+ * @brief The wbt::GetLimits class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::GetLimits requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "LimitType" |
+ *
+ */
 class wbt::GetLimits : public wbt::WBBlock
 {
 private:

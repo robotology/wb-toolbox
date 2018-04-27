@@ -15,6 +15,9 @@ namespace wbt {
     class YarpClock;
 }
 
+/**
+ * @brief The wbt::YarpClock class
+ */
 class wbt::YarpClock : public wbt::Block
 {
 public:

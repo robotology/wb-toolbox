@@ -31,6 +31,26 @@ namespace yarp {
     }
 } // namespace yarp
 
+/**
+ * @brief The wbt::DiscreteFilter class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref block_parameters, wbt::DiscreteFilter requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "Fc"          |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "Ts"          |
+ * | ::STRUCT_INT    | 0 + Block::NumberOfParameters | 1 | 1             | "MedianOrder" |
+ * | ::STRUCT_STRING | 0 + Block::NumberOfParameters | 1 | 1             | "FilterType"  |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ::DynamicSize | "NumCoeffs"   |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ::DynamicSize | "DenCoeffs"   |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "InitStatus"  |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "y0"          |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "u0"          |
+ *
+ */
 class wbt::DiscreteFilter : public wbt::Block
 {
 private:

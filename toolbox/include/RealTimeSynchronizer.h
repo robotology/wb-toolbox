@@ -15,6 +15,18 @@ namespace wbt {
     class RealTimeSynchronizer;
 }
 
+/**
+ * @brief The wbt::RealTimeSynchronizer class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref block_parameters, wbt::RealTimeSynchronizer requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "Period" |
+ *
+ */
 class wbt::RealTimeSynchronizer : public wbt::Block
 {
 private:

@@ -19,6 +19,10 @@ namespace wbt {
     enum class ParameterType;
 } // namespace wbt
 
+/**
+ * @brief Defines the types of parameters supported by wbt::Parameter
+ * @see wbt::ParameterMetadata, wbt::Parameter
+ */
 enum class wbt::ParameterType
 {
     // Scalar / Vector / Matrix
@@ -41,6 +45,14 @@ enum class wbt::ParameterType
     STRUCT_CELL_DOUBLE,
     STRUCT_CELL_STRING
 };
+
+/**
+ * @brief Class for storing parameter metadata
+ *
+ * A metadata must be constructed with an index and a name, and they cannot be changed afterwards.
+ *
+ * @see wbt::Parameter
+ */
 class wbt::ParameterMetadata
 {
 public:
@@ -70,6 +82,16 @@ public:
     inline bool operator!=(const ParameterMetadata& rhs) { return !(*this == rhs); }
 };
 
+/**
+ * @brief Class for storing a generic parameter
+ *
+ * A generic parameters can be either a scalar or a vector. Supported types are defined by the
+ * wbt::ParameterType enum.Use wbt::ParameterMetadata to set these information.
+ *
+ * @tparam The type of the container type. For vector parameters, T is the type of an element of the
+ *         container.
+ * @see wbt::Parameters, wbt::ParameterMetadata
+ */
 template <typename T>
 class wbt::Parameter
 {

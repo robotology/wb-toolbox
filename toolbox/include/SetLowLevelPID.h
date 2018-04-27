@@ -25,6 +25,21 @@ namespace yarp {
     }
 } // namespace yarp
 
+/**
+ * @brief The wbt::SetLowLevelPID class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::SetLowLevelPID requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "P"           |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "I"           |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "D"           |
+ * | ::STRING             | 1 + WBBlock::NumberOfParameters | 1 | 1 | "ControlType" |
+ *
+ */
 class wbt::SetLowLevelPID : public wbt::WBBlock
 {
 private:

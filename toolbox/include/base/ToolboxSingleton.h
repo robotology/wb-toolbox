@@ -89,8 +89,6 @@ public:
      */
     static wbt::ToolboxSingleton& sharedInstance();
 
-    // TODO: check if doxygen ref work
-
     /**
      * Returns the Configuration object labelled by confKey.
      * This object is contained into the wbt::RobotInterface object.
@@ -134,13 +132,24 @@ public:
      *       subsequent compilation in Simulink, when the block's parameters have been
      *       changed.
      *
-     * @param  confKey The key describing the configuration (name of the Simulink block)
      * @param  config  The wbt::Configuration object parsed from Simulink's parameters
      * @return         Returns \c true if configure is successful, \c false otherwise
      * @see            ToolboxSingleton::isKeyValid
      */
     bool storeConfiguration(const Configuration& config);
 
+    /*! Saves in the singleton a new configuration \c config.
+     *
+     * Same as ToolboxSingleton::storeConfiguration but taking a wbt::Parameters object
+     * as input.
+     *
+     * @param  parameters A wbt::Parameters object containing all the parameters to fill
+     *                    a wbt::Configuration object
+     * @return Returns \c true if configure is successful, \c false otherwise
+     * @see    ToolboxSingleton::storeConfiguration
+     * @see    wbt::Configuration
+     * @see    wbt::Parameters::containConfigurationData
+     */
     bool storeConfiguration(const wbt::Parameters& parameters);
 
     /**

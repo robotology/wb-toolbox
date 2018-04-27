@@ -21,6 +21,18 @@ namespace iDynTree {
     class MatrixDynSize;
 }
 
+/**
+ * @brief The wbt::Jacobian class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::Jacobian requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ *
+ */
 class wbt::Jacobian : public wbt::WBBlock
 {
 private:

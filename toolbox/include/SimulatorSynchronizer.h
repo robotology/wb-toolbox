@@ -16,6 +16,20 @@ namespace wbt {
     class SimulatorSynchronizer;
 }
 
+/**
+ * @brief The wbt::SimulatorSynchronizer class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::SetReferences requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Period"          |
+ * | ::STRING | 1 + WBBlock::NumberOfParameters | 1 | 1 | "RpcPort"         |
+ * | ::STRING | 2 + WBBlock::NumberOfParameters | 1 | 1 | "GazeboClockPort" |
+ *
+ */
 class wbt::SimulatorSynchronizer : public wbt::Block
 {
 private:

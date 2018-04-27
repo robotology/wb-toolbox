@@ -9,6 +9,7 @@
 - Matlab 7.1+ and Simulink: tested with Matlab `R2017b`, `R2016b`
 - [`YARP`](https://github.com/robotology/yarp) compiled as shared library (default behavior)
 - [`iDynTree`](https://github.com/robotology/idyntree)
+- [`YCM`](https://github.com/robotology/ycm)
 - Supported Operating Systems: Linux, macOS,  Windows
 
 ## Optional requirements

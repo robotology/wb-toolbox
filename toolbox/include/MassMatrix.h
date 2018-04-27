@@ -20,6 +20,9 @@ namespace iDynTree {
     class MatrixDynSize;
 }
 
+/**
+ * @brief The wbt::MassMatrix class
+ */
 class wbt::MassMatrix : public wbt::WBBlock
 {
 private:

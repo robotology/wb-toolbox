@@ -60,18 +60,16 @@ namespace wbt {
 } // namespace wbt
 
 /**
- * \struct wbt::YarpInterfaces RobotInterface.h
+ * @brief A container for yarp interfaces pointers
  *
- * This struct contains shared_ptrs to the devices which are (lazy) asked from the blocks.
+ * The pointers are lazy-asked by wbt::RobotInterface and stored in this struct.
  *
- * @note The shared_ptr is owned only by wbt::RobotInterface. All the blocks will receive a
- *       weak_ptr.
- * @remark Right now only asking / setting the whole joint set of the current Configuration is
+ * @remark Right now only operating on the whole joint set of the current Configuration is
  *         supported. If in the future the support of operating on a subset will be implemented,
- *         IPositionControl2 and IVelocityControl2 should be implemented. For the time being,
+ *         `IPositionControl2` and `IVelocityControl2` should be implemented. For the time being,
  *         a possible workaround for this situation is creating a new configuration block
  *         containing only the reduced set in a deeper-hierarchy Simulink's subsystem.
- * @see RobotInterface::getDevice
+ * @see RobotInterface::getInterface
  */
 struct wbt::YarpInterfaces
 {
@@ -88,14 +86,13 @@ struct wbt::YarpInterfaces
 };
 
 /**
- * \class wbt::RobotInterface RobotInterface.h
+ * @brief Class for handling model and robot resources
  *
- * This class holds the configuration used by one or more blocks, and all the objects to operate
- * with the specified robot (real or model).
+ * This class is a wrapper of yarp::dev::RemoteControlBoardRemapper and
+ * iDynTree::KinDynComputations. By filling information in a wbt::Configuration object, it provides
+ * a simple initialization and combined usage of these two resources.
  *
- * @see wbt::Configuration
- * @see wbt::YarpInterfaces
- * @see iDynTree::KinDynComputations
+ * @see wbt::Configuration, wbt::YarpInterfaces
  */
 class wbt::RobotInterface
 {
@@ -116,51 +113,58 @@ private:
     // Counters for resource allocation / deallocation
     unsigned m_robotDeviceCounter;
 
+    // ======================
     // INITIALIZATION HELPERS
     // ======================
 
     /**
-     * Initialize the iDynTree::KinDynComputations with the information contained
-     * in wbt::Configuration. It finds the urdf file and stores the object to operate on it.
-     * If the joint list contained in RobotInterface::m_config is not complete, it loads a
-     * reduced model of the robot
      *
-     * @return True if success
+     * @brief Initialize the model
+     *
+     * Initialize the iDynTree::KinDynComputations with the information contained
+     * in wbt::Configuration. It finds from the file system the urdf file and stores the object to
+     * operate on it. If the joint list contained in RobotInterface::m_config is not complete, it
+     * loads a reduced model of the robot.
+     *
+     * @return True if success, false otherwise.
      */
     bool initializeModel();
 
     /**
-     * Configure a RemoteControlBoardRemapper device in order to allow
+     * @brief Initialize the remote controlboard remapper
+     *
+     * Configure a yarp::dev::RemoteControlBoardRemapper device in order to allow
      * interfacing the toolbox with the robot (real or in Gazebo).
      *
-     * @return True if success
+     * @return True if success, false otherwise.
      */
     bool initializeRemoteControlBoardRemapper();
 
+    // =====================
     // OTHER PRIVATE METHODS
     // =====================
 
     /**
+     * @brief Map joints between iDynTree and Yarp indices
+     *
      * Creates the map between joints (specified as either names or idyntree indices) and
      * their YARP representation, which consist in a pair: Control Board index and joint index
      * inside the its Control Board.
      *
-     * @see getJointsMapString
-     * @see getJointsMapIndex
+     * @see RobotInterface::getJointsMapString, RobotInterface::getJointsMapIndex
      *
-     * @return True if the map has been created successfully
+     * @return True if the map has been created successfully, false otherwise.
      */
     bool mapDoFs();
 
     /**
-     * Create a RemoteControlBoard object for a given remoteName
+     * @brief Create a RemoteControlBoard object for a given remoteName
      *
      * @see mapDoFs
      *
-     * @param  remoteName   [in]  Name of the remote from which the remote control board is be
-     * initialized
-     * @param  controlBoard [out] Smart pointer to the allocated remote control board
-     * @return                    True if success
+     * @param remoteName Name of the remote from which the remote control board is be initialized
+     * @param[out] controlBoard Smart pointer to the allocated remote control board
+     * @return True if success, false otherwise.
      */
     bool getSingleControlBoard(const std::string& remoteName,
                                std::unique_ptr<yarp::dev::PolyDriver>& controlBoard);
@@ -177,66 +181,72 @@ public:
     // ===========
 
     /**
-     * Get the current configuration
+     * @brief Get the stored configuration
      *
-     * @return A reference of the Configuration object containing the current configuraton
+     * @return A reference of the configuration this object refers to.
      */
     const wbt::Configuration& getConfiguration() const;
 
     /**
-     * Get the map between model joint names and the YARP representation (Control Board and
+     * @brief Get the map between model joint names and the YARP representation (Control Board and
      * joint index)
      *
-     * @return The joint map
+     * @return The joint map.
      */
     const std::shared_ptr<JointNameToYarpMap> getJointsMapString();
 
     /**
-     * Get the map between model joint indices and the YARP representation (Control Board and
+     * @brief Get the map between model joint indices and the YARP representation (Control Board and
      * joint index)
      *
-     * @return The joint map
+     * @return The joint map.
      */
     const std::shared_ptr<JointIndexToYarpMap> getJointsMapIndex();
 
     /**
-     * Get the map between model joint names and the index representing their relative ordering
-     * inside the controlledJoints vector relative to their ControlBoard.
+     * @brief Get the map between model joint names and the index representing their relative
+     * ordering inside the controlledJoints vector relative to their ControlBoard
      *
-     * @note For example, if the joints are
-     * \verbatim j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3 \endverbatim, the map links them to
-     * \verbatim 0 1 2 0 1 0 \end
+     * @remark For example, if the joints are `j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3`, the map
+     * links them to `0 1 2 0 1 0`. Note that joints are 0-indexed.
      *
-     * @return The joint map
+     * @return The joint map.
      */
     const std::shared_ptr<JointNameToIndexInControlBoardMap> getControlledJointsMapCB();
 
     /**
-     * Get the map between the ControlBoard index inside the RemoteControlBoardRemapper
-     * and the number of the controlled joints which belongs to it.
+     * @brief Get the map between the ControlBoard index inside the RemoteControlBoardRemapper
+     * and the number of the controlled joints belonging to it
      *
-     * @note For example, if the joints are
-     * \verbatim j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3 \endverbatim, the generated map is
-     * \verbatim  {{0,3}{1,2}{2,1}} \endverbatim
+     * @remark For example, if the joints are
+     * ```
+     * j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3
+     * ```
+     * the generated map is
+     * ```
+     * {{0,3}{1,2}{2,1}}
+     * ```
      * Note that the map key is 0-indexed.
      *
-     * @return The control board limit map
+     * @return The control board limit map.
      */
     const std::shared_ptr<ControlBoardIndexLimit> getControlBoardIdxLimit();
 
     /**
-     * Get the object to operate on the configured model
+     * @brief Get the object to operate on the configured model
      *
-     * @return A \c shared_ptr to the KinDynComputations object
+     * @return A `shared_ptr` to the KinDynComputations object.
      */
     const std::shared_ptr<iDynTree::KinDynComputations> getKinDynComputations();
 
     /**
-     * Get a \c weak_ptr to an interface from the RemoteControlBoardRemapper
+     * @brief Get a Yarp interface
      *
-     * param interface [out] A \c weak_ptr to the interface
-     * @return               True if the \c weak_ptr is valid
-     * @tparam T             The type of interface
+     * The interface is lazy-evaluated. The handling of the memory is not responbility of the
+     * caller. It is handled internally.
+     *
+     * @param[out] interface The object that will contain the pointer to the interface.
+     * @return True for success, false otherwise.
      */
     template <typename T>
     bool getInterface(T*& interface);
@@ -245,26 +255,27 @@ public:
     // ===============
 
     /**
-     * Handles the internal counter for using the RemoteControlBoardRemapper
+     * @brief Handle the internal counter for using the `RemoteControlBoardRemapper`.
      *
      * @attention All the blocks which need to use any of the interfaces provided by
-     *            wbt::YarpInterfaces must call this function in their initialize() method.
-     * @see releaseRemoteControlBoardRemapper
+     *            wbt::YarpInterfaces must call this function in their Block::initialize method.
      *
-     * @return True if success
+     * @return True if success, false otherwise.
+     * @see RobotInterface::releaseRemoteControlBoardRemapper
      */
     bool retainRemoteControlBoardRemapper();
 
     /**
-     * Handles the internal counter for using the RemoteControlBoardRemapper. After the call
-     * from the last instance which retained the object, the RemoteControlBoardRemapper and all
-     * the allocated drivers get destroyed.
+     * @brief Handle the internal counter for using the `RemoteControlBoardRemapper`.
      *
-     * @note On the contrary of retainRemoteControlBoardRemapper, this method is already
-     *       called in wbt::~WBBlock
-     * @see retainRemoteControlBoardRemapper
+     * After the call from the last instance which retained the object, the
+     * `RemoteControlBoardRemapper` and all the allocated drivers get destroyed.
      *
-     * @return True if success
+     * @attention All the blocks which need to use any of the interfaces provided by
+     *            wbt::YarpInterfaces must call this function in their Block::terminate method.
+     *
+     * @return True if success, false otherwise.
+     * @see RobotInterface::retainRemoteControlBoardRemapper
      */
     bool releaseRemoteControlBoardRemapper();
 };

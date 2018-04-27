@@ -22,6 +22,18 @@ namespace wbt {
     };
 } // namespace wbt
 
+/**
+ * @brief The wbt::GetMeasurement class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::GetMeasurement requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "MeasuredType" |
+ *
+ */
 class wbt::GetMeasurement : public wbt::WBBlock
 {
 private:

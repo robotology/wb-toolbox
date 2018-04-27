@@ -17,6 +17,18 @@ namespace wbt {
     class ForwardKinematics;
 }
 
+/**
+ * @brief The wbt::ForwardKinematics class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::ForwardKinematics requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ *
+ */
 class wbt::ForwardKinematics : public wbt::WBBlock
 {
 private:

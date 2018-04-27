@@ -18,6 +18,17 @@ namespace wbt {
     class ModelPartitioner;
 }
 
+/**
+ * @brief The wbt::ModelPartitioner class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::ModelPartitioner requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::BOOL | 0 + WBBlock::NumberOfParameters | 1 | 1 | "VectorToControlBoards" |
+ */
 class wbt::ModelPartitioner : public wbt::WBBlock
 {
 private:

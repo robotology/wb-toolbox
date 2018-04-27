@@ -20,6 +20,9 @@ namespace iDynTree {
     class SpatialMomentum;
 }
 
+/**
+ * @brief The wbt::CentroidalMomentum class
+ */
 class wbt::CentroidalMomentum : public wbt::WBBlock
 {
 private:

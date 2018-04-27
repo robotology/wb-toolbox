@@ -24,6 +24,18 @@ namespace yarp {
     }
 } // namespace yarp
 
+/**
+ * @brief The wbt::YarpWrite class
+ *
+ * In addition to @ref block_parameters, wbt::YarpWrite requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
+ * | ::BOOL   | 1 + Block::NumberOfParameters | 1 | 1 | "Autoconnect"        |
+ * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
+ *
+ */
 class wbt::YarpWrite : public wbt::Block
 {
 private:
