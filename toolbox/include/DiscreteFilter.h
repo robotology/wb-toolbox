@@ -70,7 +70,6 @@ public:
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
     bool initializeInitialConditions(const BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };
 

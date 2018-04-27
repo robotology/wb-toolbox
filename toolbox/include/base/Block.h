@@ -289,7 +289,7 @@ public:
      * @param blockInfo The pointer to a BlockInformation object.
      * @return True for success, false otherwise.
      */
-    virtual bool terminate(const BlockInformation* blockInfo) = 0;
+    virtual bool terminate(const BlockInformation* blockInfo);
 
     /**
      * @brief Compute the output of the block

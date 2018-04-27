@@ -247,11 +247,6 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     return true;
 }
 
-bool MinimumJerkTrajectoryGenerator::terminate(const BlockInformation* blockInfo)
-{
-    return true;
-}
-
 bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 {
     if (!m_generator) {

@@ -86,6 +86,11 @@ bool Block::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
     return true;
 }
 
+bool Block::terminate(const BlockInformation* /*blockInfo*/)
+{
+    return true;
+}
+
 bool Block::getParameters(wbt::Parameters& params) const
 {
     params = m_parameters;

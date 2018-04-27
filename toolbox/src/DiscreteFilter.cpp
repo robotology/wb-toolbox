@@ -259,11 +259,6 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     return true;
 }
 
-bool DiscreteFilter::terminate(const BlockInformation* /*blockInfo*/)
-{
-    return true;
-}
-
 bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
 {
     // Reminder: this function is called when, during runtime, a block is disabled
