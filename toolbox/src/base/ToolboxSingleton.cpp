@@ -7,6 +7,7 @@
  */
 
 #include "ToolboxSingleton.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "Parameters.h"
 #include "RobotInterface.h"
@@ -19,7 +20,9 @@
 #include <string>
 
 using namespace wbt;
-bool fillConfiguration(wbt::Configuration& configuration, const wbt::Parameters& parameters);
+
+bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
+                       const wbt::Parameters& parameters);
 
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
@@ -121,7 +124,8 @@ bool ToolboxSingleton::storeConfiguration(const Configuration& config)
     return true;
 }
 
-bool fillConfiguration(wbt::Configuration& configuration, const wbt::Parameters& parameters)
+bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
+                       const wbt::Parameters& parameters)
 {
     bool ok = true;
 
@@ -144,18 +148,18 @@ bool fillConfiguration(wbt::Configuration& configuration, const wbt::Parameters&
     // Populate the Configuration object
     // =================================
 
-    configuration = Configuration(confBlockName);
-    configuration.setRobotName(robotName);
-    configuration.setUrdfFile(urdfFile);
-    configuration.setControlledJoints(controlledJoints);
-    configuration.setControlBoardsNames(controlBoardsNames);
-    configuration.setLocalName(localName);
+    configurationPtr.reset(new wbt::Configuration(confBlockName));
+    configurationPtr->setRobotName(robotName);
+    configurationPtr->setUrdfFile(urdfFile);
+    configurationPtr->setControlledJoints(controlledJoints);
+    configurationPtr->setControlBoardsNames(controlBoardsNames);
+    configurationPtr->setLocalName(localName);
 
     std::array<double, 3> gravityArray;
     for (size_t i = 0; i < 3; ++i) {
         gravityArray[i] = gravityVector[i];
     }
-    configuration.setGravityVector(gravityArray);
+    configurationPtr->setGravityVector(gravityArray);
 
     return ok;
 }
@@ -168,19 +172,19 @@ bool ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
         return false;
     }
 
-    Configuration configuration;
-    if (!fillConfiguration(configuration, parameters)) {
+    std::shared_ptr<Configuration> configurationPtr = nullptr;
+    if (!fillConfiguration(configurationPtr, parameters)) {
         wbtError << "Failed to fill the configuration with input parameters.";
         return false;
     }
 
-    if (!configuration.isValid()) {
+    if (!configurationPtr || !configurationPtr->isValid()) {
         wbtError << "Parsed Configuration object is not valid.";
         return false;
     }
 
     // Insert the configuration into the Toolbox Singleton
-    if (!storeConfiguration(configuration)) {
+    if (!storeConfiguration(*configurationPtr)) {
         wbtError << "Failed to store the given configuration in the ToolboxSingleton.";
         return false;
     }

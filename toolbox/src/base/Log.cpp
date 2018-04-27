@@ -9,9 +9,25 @@
 #include "Log.h"
 
 #include <iterator>
-#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace wbt;
+
+class Log::impl
+{
+public:
+    std::vector<std::stringstream> errorsSStream;
+    std::vector<std::stringstream> warningsSStream;
+
+    const Verbosity verbosity = WBT_LOG_VERBOSITY;
+
+    static std::string serializeVectorStringStream(const std::vector<std::stringstream>& ss);
+};
+
+Log::Log()
+    : pImpl{new Log::impl()}
+{}
 
 Log& Log::getSingleton()
 {
@@ -19,33 +35,33 @@ Log& Log::getSingleton()
     return logInstance;
 }
 
-std::stringstream& Log::getLogStringStream(const Log::LogType& type,
+std::stringstream& Log::getLogStringStream(const Log::Type& type,
                                            const std::string& file,
                                            const unsigned& line,
                                            const std::string& function)
 {
-    switch (m_verbosity) {
-        case RELEASE:
+    switch (pImpl->verbosity) {
+        case Log::Verbosity::RELEASE:
             switch (type) {
-                case ERROR:
-                    m_errorsSStream.emplace_back();
-                    return m_errorsSStream.back();
-                case WARNING:
-                    m_warningsSStream.emplace_back();
-                    return m_warningsSStream.back();
+                case Log::Type::ERROR:
+                    pImpl->errorsSStream.emplace_back();
+                    return pImpl->errorsSStream.back();
+                case Log::Type::WARNING:
+                    pImpl->warningsSStream.emplace_back();
+                    return pImpl->warningsSStream.back();
             }
-        case DEBUG:
+        case Log::Verbosity::DEBUG:
             switch (type) {
-                case ERROR: {
-                    m_errorsSStream.emplace_back();
-                    auto& ss = m_errorsSStream.back();
+                case Log::Type::ERROR: {
+                    pImpl->errorsSStream.emplace_back();
+                    auto& ss = pImpl->errorsSStream.back();
                     ss << std::endl
                        << file << "@" << function << ":" << std::to_string(line) << std::endl;
                     return ss;
                 }
-                case WARNING: {
-                    m_warningsSStream.emplace_back();
-                    auto& ss = m_warningsSStream.back();
+                case Log::Type::WARNING: {
+                    pImpl->warningsSStream.emplace_back();
+                    auto& ss = pImpl->warningsSStream.back();
                     ss << std::endl
                        << file << "@" << function << ":" << std::to_string(line) << std::endl;
                     return ss;
@@ -54,7 +70,7 @@ std::stringstream& Log::getLogStringStream(const Log::LogType& type,
     }
 }
 
-std::string Log::serializeVectorStringStream(const std::vector<std::stringstream>& ss) const
+std::string Log::impl::serializeVectorStringStream(const std::vector<std::stringstream>& ss)
 {
     std::stringstream output;
 
@@ -67,22 +83,22 @@ std::string Log::serializeVectorStringStream(const std::vector<std::stringstream
 
 std::string Log::getErrors() const
 {
-    return serializeVectorStringStream(m_errorsSStream);
+    return impl::serializeVectorStringStream(pImpl->errorsSStream);
 }
 
 std::string Log::getWarnings() const
 {
-    return serializeVectorStringStream(m_warningsSStream);
+    return impl::serializeVectorStringStream(pImpl->warningsSStream);
 }
 
 void Log::clearWarnings()
 {
-    m_warningsSStream.clear();
+    pImpl->warningsSStream.clear();
 }
 
 void Log::clearErrors()
 {
-    m_errorsSStream.clear();
+    pImpl->errorsSStream.clear();
 }
 
 void Log::clear()

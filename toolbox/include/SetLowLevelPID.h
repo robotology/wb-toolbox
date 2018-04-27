@@ -12,18 +12,10 @@
 
 #include "WBBlock.h"
 #include <unordered_map>
-#include <yarp/dev/IPidControl.h>
 
 namespace wbt {
     class SetLowLevelPID;
-    using PidData = std::tuple<double, double, double>;
 } // namespace wbt
-
-namespace yarp {
-    namespace dev {
-        class Pid;
-    }
-} // namespace yarp
 
 /**
  * @brief The wbt::SetLowLevelPID class
@@ -40,18 +32,16 @@ namespace yarp {
  * | ::STRING             | 1 + WBBlock::NumberOfParameters | 1 | 1 | "ControlType" |
  *
  */
-class wbt::SetLowLevelPID : public wbt::WBBlock
+class wbt::SetLowLevelPID final : public wbt::WBBlock
 {
 private:
-    std::vector<yarp::dev::Pid> m_appliedPidValues;
-    std::vector<yarp::dev::Pid> m_defaultPidValues;
-    std::unordered_map<std::string, PidData> m_pidJointsFromParameters;
-    yarp::dev::PidControlTypeEnum m_controlType;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    SetLowLevelPID() = default;
+    SetLowLevelPID();
     ~SetLowLevelPID() override = default;
 
     unsigned numberOfParameters() override;

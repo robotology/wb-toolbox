@@ -8,12 +8,14 @@
 
 #include "InverseDynamics.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingState.h>
 
@@ -31,7 +33,17 @@ const unsigned INPUT_IDX_BASE_ACC = 4;
 const unsigned INPUT_IDX_JOINT_ACC = 5;
 const unsigned OUTPUT_IDX_TORQUES = 0;
 
-InverseDynamics::InverseDynamics() {}
+class InverseDynamics::impl
+{
+public:
+    iDynTree::Vector6 baseAcceleration;
+    iDynTree::VectorDynSize jointsAcceleration;
+    iDynTree::FreeFloatingGeneralizedTorques torques;
+};
+
+InverseDynamics::InverseDynamics()
+    : pImpl{new impl()}
+{}
 
 unsigned InverseDynamics::numberOfParameters()
 {
@@ -130,10 +142,10 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     }
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    m_baseAcceleration = std::unique_ptr<Vector6>(new Vector6());
-    m_baseAcceleration->zero();
-    m_jointsAcceleration = std::unique_ptr<VectorDynSize>(new VectorDynSize(dofs));
-    m_jointsAcceleration->zero();
+    // Initialize sizes and value
+    pImpl->baseAcceleration.zero();
+    pImpl->jointsAcceleration.resize(dofs);
+    pImpl->jointsAcceleration.zero();
 
     // Get the KinDynComputations pointer
     const auto& kindyn = robotInterface->getKinDynComputations();
@@ -145,11 +157,10 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     // Get the model from the KinDynComputations object
     const auto& model = kindyn->model();
 
-    m_torques =
-        std::unique_ptr<FreeFloatingGeneralizedTorques>(new FreeFloatingGeneralizedTorques(model));
+    // Initialize the output object
+    pImpl->torques = FreeFloatingGeneralizedTorques(model);
 
-    return static_cast<bool>(m_baseAcceleration) && static_cast<bool>(m_jointsAcceleration)
-           && static_cast<bool>(m_torques);
+    return true;
 }
 
 bool InverseDynamics::terminate(const BlockInformation* blockInfo)
@@ -174,8 +185,8 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
-        || jointsVelocitySignal.isValid()) {
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
+        || !jointsVelocitySignal.isValid()) {
         wbtError << "Input signals not valid.";
         return false;
     }
@@ -199,7 +210,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
 
     for (unsigned i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
-        if (!m_baseAcceleration->setVal(i, bufBaseAcc[i])) {
+        if (!pImpl->baseAcceleration.setVal(i, bufBaseAcc[i])) {
             wbtError << "Failed to fill base accelerations class member.";
             return false;
         }
@@ -216,7 +227,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
 
     for (unsigned i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
-        if (!m_jointsAcceleration->setVal(i, bufJointsAcc[i])) {
+        if (!pImpl->jointsAcceleration.setVal(i, bufJointsAcc[i])) {
             wbtError << "Failed to fill joint accelerations class member.";
             return false;
         }
@@ -226,10 +237,10 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // ======
 
     // Calculate the inverse dynamics (assuming zero external forces)
-    ok = kinDyn->inverseDynamics(*m_baseAcceleration,
-                                 *m_jointsAcceleration,
+    ok = kinDyn->inverseDynamics(pImpl->baseAcceleration,
+                                 pImpl->jointsAcceleration,
                                  iDynTree::LinkNetExternalWrenches(kinDyn->getNrOfLinks()),
-                                 *m_torques);
+                                 pImpl->torques);
 
     if (!ok) {
         wbtError << "iDynTree failed to compute inverse dynamics.";
@@ -246,10 +257,10 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
 
     // Convert generalized torques and forward the directly to Simulink
     // mapping the memory through Eigen::Map
-    const auto& torquesSize = m_torques->jointTorques().size();
+    const auto& torquesSize = pImpl->torques.jointTorques().size();
     Eigen::Map<Eigen::VectorXd> generalizedOutputTrqs(outputBuffer, torquesSize + 6);
-    generalizedOutputTrqs.segment(0, 6) = toEigen(m_torques->baseWrench());
-    generalizedOutputTrqs.segment(6, torquesSize) = toEigen(m_torques->jointTorques());
+    generalizedOutputTrqs.segment(0, 6) = toEigen(pImpl->torques.baseWrench());
+    generalizedOutputTrqs.segment(6, torquesSize) = toEigen(pImpl->torques.jointTorques());
 
     return true;
 }

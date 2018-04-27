@@ -9,8 +9,8 @@
 #ifndef WBT_SIMULINKBLOCKINFORMATION_H
 #define WBT_SIMULINKBLOCKINFORMATION_H
 
+#include "AnyType.h"
 #include "BlockInformation.h"
-#include "MxAnyType.h"
 #include "Signal.h"
 #include <simstruc.h>
 #include <vector>
@@ -19,7 +19,7 @@ namespace wbt {
     class SimulinkBlockInformation;
 } // namespace wbt
 
-class wbt::SimulinkBlockInformation : public wbt::BlockInformation
+class wbt::SimulinkBlockInformation final : public wbt::BlockInformation
 {
 private:
     SimStruct* simstruct;

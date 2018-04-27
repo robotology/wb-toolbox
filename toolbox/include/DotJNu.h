@@ -10,8 +10,6 @@
 #define WBT_DOTJNU_H
 
 #include "WBBlock.h"
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Model/Indices.h>
 #include <memory>
 
 namespace wbt {
@@ -30,20 +28,16 @@ namespace wbt {
  * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
  *
  */
-class wbt::DotJNu : public wbt::WBBlock
+class wbt::DotJNu final : public wbt::WBBlock
 {
 private:
-    // Output
-    std::unique_ptr<iDynTree::Vector6> m_dotJNu;
-
-    // Other variables
-    bool m_frameIsCoM = false;
-    iDynTree::FrameIndex m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    DotJNu() = default;
+    DotJNu();
     ~DotJNu() override = default;
 
     unsigned numberOfParameters() override;

@@ -9,6 +9,7 @@
 #include "DiscreteFilter.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "Parameters.h"
 #include "Signal.h"
 
@@ -19,6 +20,7 @@
 #include <cassert>
 #include <sstream>
 #include <string>
+#include <vector>
 
 using namespace wbt;
 using namespace iCub::ctrl;
@@ -34,8 +36,18 @@ const unsigned PARAM_IDX_STRUCT = PARAM_IDX_BIAS + 1; // Struct containing filte
 const unsigned INPUT_IDX_SIGNAL = 0;
 const unsigned OUTPUT_IDX_SIGNAL = 0;
 
-// Cannot use = default due to yarp::sig::Vector instantiation
-DiscreteFilter::DiscreteFilter() {}
+class DiscreteFilter::impl
+{
+public:
+    std::unique_ptr<iCub::ctrl::IFilter> filter;
+    yarp::sig::Vector y0;
+    yarp::sig::Vector u0;
+    yarp::sig::Vector inputSignalVector;
+};
+
+DiscreteFilter::DiscreteFilter()
+    : pImpl{new impl()}
+{}
 
 unsigned DiscreteFilter::numberOfParameters()
 {
@@ -169,9 +181,9 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // DYNAMICALLY SIZED SIGNALS
     // =========================
 
-    const unsigned inputSignalSize = blockInfo->getInputPortWidth(0);
-    blockInfo->setInputPortVectorSize(0, inputSignalSize);
-    blockInfo->setOutputPortVectorSize(0, inputSignalSize);
+    const unsigned inputSignalSize = blockInfo->getInputPortWidth(INPUT_IDX_SIGNAL);
+    blockInfo->setInputPortVectorSize(INPUT_IDX_SIGNAL, inputSignalSize);
+    blockInfo->setOutputPortVectorSize(OUTPUT_IDX_SIGNAL, inputSignalSize);
 
     // CLASS INITIALIZATION
     // ====================
@@ -208,22 +220,24 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
             return false;
         }
         // Allocate the initial conditions
-        m_y0 = std::unique_ptr<yarp::sig::Vector>(new Vector(y0.size(), y0.data()));
-        m_u0 = std::unique_ptr<yarp::sig::Vector>(new Vector(u0.size(), u0.data()));
+        pImpl->y0 = Vector(y0.size(), y0.data());
+        pImpl->u0 = Vector(u0.size(), u0.data());
     }
     else {
         // Initialize zero initial conditions
-        m_y0 = std::unique_ptr<yarp::sig::Vector>(new Vector(y0.size(), 0.0));
-        m_u0 = std::unique_ptr<yarp::sig::Vector>(new Vector(u0.size(), 0.0));
+        pImpl->y0.resize(y0.size());
+        pImpl->y0.zero();
+        pImpl->u0.resize(u0.size());
+        pImpl->u0.zero();
     }
 
-    // Create the filter object
-    // ========================
+    // Allocate the filter object
+    // ==========================
 
     // Generic
     // -------
     if (filter_type == "Generic") {
-        m_filter = std::unique_ptr<IFilter>(new Filter(num, den));
+        pImpl->filter = std::unique_ptr<IFilter>(new Filter(num, den));
     }
     // FirstOrderLowPassFilter
     // -----------------------
@@ -233,28 +247,29 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
                         "specify Fc and Ts.";
             return false;
         }
-        m_filter = std::unique_ptr<IFilter>(
+        pImpl->filter = std::unique_ptr<IFilter>(
             new FirstOrderLowPassFilter(firstOrderLowPassFilter_fc, firstOrderLowPassFilter_ts));
     }
     // MedianFilter
     // ------------
     else if (filter_type == "MedianFilter") {
-        if (static_cast<int>(medianFilter_order) == 0) {
+        if (medianFilter_order == 0) {
             wbtError << "(MedianFilter) You need to specify the filter order.";
             return false;
         }
-        m_filter = std::unique_ptr<IFilter>(new MedianFilter(static_cast<int>(medianFilter_order)));
+        pImpl->filter = std::unique_ptr<IFilter>(new MedianFilter(medianFilter_order));
     }
     else {
         wbtError << "Filter type not recognized.";
         return false;
     }
 
-    // Initialize the other data
-    // =========================
+    // Initialize other data
+    // =====================
 
-    // Allocate the input signal
-    m_inputSignalVector = std::unique_ptr<Vector>(new Vector(inputSignalWidth, 0.0));
+    // Resize the input signal
+    pImpl->inputSignalVector.resize(inputSignalWidth);
+    pImpl->inputSignalVector.zero();
 
     return true;
 }
@@ -264,31 +279,20 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*block
     // Reminder: this function is called when, during runtime, a block is disabled
     // and enabled again. The method ::initialize instead is called just one time.
 
-    // If the initial conditions for the output are not set, allocate a properly
-    // sized vector
-    // bool initStatus {false};
-    // parameters.getParameter("InitStatus", initStatus);
-
-    // Check that initial conditions are initialized
-    if (!(m_y0 && m_u0)) {
-        wbtError << "Initial conditions not initialized.";
-        return false;
-    }
-
     // Initialize the filter. This is required because if the signal is not 1D,
     // the default filter constructor initialize a wrongly sized y0.
-    // Moreover, the Filter class has a different constructor that handles the
-    // zero-gain case.
-    IFilter* baseFilter = m_filter.get();
+    // Moreover, the iCub::ctrl::Filter class has an additional constructor that handles
+    // the zero-gain case.
+    IFilter* baseFilter = pImpl->filter.get();
     Filter* filter_c = dynamic_cast<Filter*>(baseFilter);
     if (filter_c) {
         // The filter is a Filter object
-        filter_c->init(*m_y0, *m_u0);
+        filter_c->init(pImpl->y0, pImpl->u0);
     }
     else {
         // The filter is not a Filter object
-        if (m_filter) {
-            m_filter->init(*m_y0);
+        if (pImpl->filter) {
+            pImpl->filter->init(pImpl->y0);
         }
         else {
             wbtError << "Failed to get the IFilter object.";
@@ -301,7 +305,7 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*block
 
 bool DiscreteFilter::output(const BlockInformation* blockInfo)
 {
-    if (!m_filter) {
+    if (!pImpl->filter) {
         return false;
     }
 
@@ -309,18 +313,18 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
     const Signal inputSignal = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
     Signal outputSignal = blockInfo->getOutputPortSignal(OUTPUT_IDX_SIGNAL);
 
-    if (inputSignal.isValid() || !outputSignal.isValid()) {
+    if (!inputSignal.isValid() || !outputSignal.isValid()) {
         wbtError << "Signals not valid.";
         return false;
     }
 
     // Copy the Signal to the data structure that the filter wants
     for (unsigned i = 0; i < inputSignal.getWidth(); ++i) {
-        (*m_inputSignalVector)[i] = inputSignal.get<double>(i);
+        pImpl->inputSignalVector[i] = inputSignal.get<double>(i);
     }
 
     // Filter the current component of the input signal
-    const Vector& outputVector = m_filter->filt(*m_inputSignalVector);
+    const Vector& outputVector = pImpl->filter->filt(pImpl->inputSignalVector);
 
     // Forward the filtered signals to the output port
     outputSignal.setBuffer(outputVector.data(), outputVector.length());

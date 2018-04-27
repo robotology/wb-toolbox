@@ -8,13 +8,16 @@
 
 #include "ForwardKinematics.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Indices.h>
 
 #include <memory>
 
@@ -29,9 +32,15 @@ const unsigned OUTPUT_IDX_FW_FRAME = 0;
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
+class ForwardKinematics::impl
+{
+public:
+    bool frameIsCoM = false;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
+};
+
 ForwardKinematics::ForwardKinematics()
-    : m_frameIsCoM(false)
-    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : pImpl{new impl()}
 {}
 
 unsigned ForwardKinematics::numberOfParameters()
@@ -142,15 +151,15 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     }
 
     if (frame != "com") {
-        m_frameIndex = kinDyn->getFrameIndex(frame);
-        if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+        pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+        if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
     else {
-        m_frameIsCoM = true;
-        m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+        pImpl->frameIsCoM = true;
+        pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
     return true;
@@ -198,8 +207,8 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     iDynTree::Transform world_H_frame;
 
     // Compute the transform to the selected frame
-    if (!m_frameIsCoM) {
-        world_H_frame = kinDyn->getWorldTransform(m_frameIndex);
+    if (!pImpl->frameIsCoM) {
+        world_H_frame = kinDyn->getWorldTransform(pImpl->frameIndex);
     }
     else {
         world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());

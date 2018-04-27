@@ -10,6 +10,7 @@
 #define WBT_REALTIMESYNCHRONIZER_H
 
 #include "Block.h"
+#include <memory>
 
 namespace wbt {
     class RealTimeSynchronizer;
@@ -27,17 +28,16 @@ namespace wbt {
  * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "Period" |
  *
  */
-class wbt::RealTimeSynchronizer : public wbt::Block
+class wbt::RealTimeSynchronizer final : public wbt::Block
 {
 private:
-    double m_period = 0.01;
-    double m_initialTime;
-    unsigned long m_counter;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    RealTimeSynchronizer() = default;
+    RealTimeSynchronizer();
     ~RealTimeSynchronizer() override = default;
 
     unsigned numberOfParameters() override;

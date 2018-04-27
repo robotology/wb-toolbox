@@ -10,7 +10,7 @@
 #define WBT_SETREFERENCES_H
 
 #include "WBBlock.h"
-#include <vector>
+#include <memory>
 
 namespace wbt {
     class SetReferences;
@@ -29,18 +29,16 @@ namespace wbt {
  * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "RefSpeed" |
  *
  */
-class wbt::SetReferences : public wbt::WBBlock
+class wbt::SetReferences final : public wbt::WBBlock
 {
 private:
-    std::vector<int> m_controlModes;
-    bool m_resetControlMode = true;
-    double m_refSpeed;
-    static const std::vector<double> rad2deg(const double* buffer, const unsigned width);
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    SetReferences() = default;
+    SetReferences();
     ~SetReferences() override = default;
 
     unsigned numberOfParameters() override;

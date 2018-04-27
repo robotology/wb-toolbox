@@ -10,7 +10,6 @@
 #define WBT_CODERBLOCKINFORMATION_H
 
 #include "BlockInformation.h"
-#include "Parameters.h"
 #include "Signal.h"
 
 #include <unordered_map>
@@ -20,25 +19,15 @@ namespace wbt {
     class CoderBlockInformation;
 }
 
-class wbt::CoderBlockInformation : public wbt::BlockInformation
+class wbt::CoderBlockInformation final : public wbt::BlockInformation
 {
 private:
-    unsigned m_numberOfInputs;
-    unsigned m_numberOfOutputs;
-
-    std::vector<wbt::ParameterMetadata> m_paramsMetadata;
-    std::unordered_map<PortIndex, wbt::Signal> m_inputSignals;
-    std::unordered_map<PortIndex, wbt::Signal> m_outputSignals;
-
-    std::string m_confBlockName;
-    Parameters m_parametersFromRTW;
-
-    std::unordered_map<PortIndex, std::pair<Rows, Cols>> m_inputSignalSize;
-    std::unordered_map<PortIndex, std::pair<Rows, Cols>> m_outputSignalSize;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
-    CoderBlockInformation() = default;
-    ~CoderBlockInformation() override = default;
+    CoderBlockInformation();
+    ~CoderBlockInformation() override;
 
     // BLOCK OPTIONS METHODS
     // =====================

@@ -8,13 +8,16 @@
 
 #include "SetReferences.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <yarp/dev/ControlBoardInterfaces.h>
 
 #include <cmath>
+#include <vector>
 
 using namespace wbt;
 
@@ -24,18 +27,26 @@ const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_REF_SPEED = PARAM_IDX_BIAS + 2;
 
-const std::vector<double> SetReferences::rad2deg(const double* buffer, const unsigned width)
+class SetReferences::impl
 {
-    const double Rad2Deg = 180.0 / M_PI;
+public:
+    std::vector<int> controlModes;
+    bool resetControlMode = true;
+    double refSpeed;
 
-    std::vector<double> vectorDeg(width);
+    static void rad2deg(double* buffer, const unsigned width)
+    {
+        const double Rad2Deg = 180.0 / M_PI;
 
-    for (auto i = 0; i < width; ++i) {
-        vectorDeg[i] = buffer[i] * Rad2Deg;
+        for (unsigned i = 0; i < width; ++i) {
+            buffer[i] *= Rad2Deg;
+        }
     }
+};
 
-    return vectorDeg;
-}
+SetReferences::SetReferences()
+    : pImpl{new impl()}
+{}
 
 unsigned SetReferences::numberOfParameters()
 {
@@ -132,7 +143,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!m_parameters.getParameter("RefSpeed", m_refSpeed)) {
+    if (!m_parameters.getParameter("RefSpeed", pImpl->refSpeed)) {
         wbtError << "Could not read reference speed parameter.";
         return false;
     }
@@ -155,26 +166,26 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     }
 
     // Initialize the size of std::vectors
-    m_controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
+    pImpl->controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
 
     // IControlMode.h
     if (controlType == "Position") {
-        m_controlModes.assign(dofs, VOCAB_CM_POSITION);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
     }
     else if (controlType == "Position Direct") {
-        m_controlModes.assign(dofs, VOCAB_CM_POSITION_DIRECT);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION_DIRECT);
     }
     else if (controlType == "Velocity") {
-        m_controlModes.assign(dofs, VOCAB_CM_VELOCITY);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_VELOCITY);
     }
     else if (controlType == "Torque") {
-        m_controlModes.assign(dofs, VOCAB_CM_TORQUE);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
     }
     else if (controlType == "PWM") {
-        m_controlModes.assign(dofs, VOCAB_CM_PWM);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_PWM);
     }
     else if (controlType == "Current") {
-        m_controlModes.assign(dofs, VOCAB_CM_CURRENT);
+        pImpl->controlModes.assign(dofs, VOCAB_CM_CURRENT);
     }
     else {
         wbtError << "Control Mode not supported.";
@@ -192,7 +203,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
             wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
-        std::vector<double> speedInitalization(dofs, m_refSpeed);
+        std::vector<double> speedInitalization(dofs, pImpl->refSpeed);
         // Set the references
         if (!interface->setRefSpeeds(speedInitalization.data())) {
             wbtError << "Failed to initialize speed references.";
@@ -200,7 +211,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         }
     }
 
-    m_resetControlMode = true;
+    pImpl->resetControlMode = true;
     return true;
 }
 
@@ -228,9 +239,9 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     }
 
     // Set  all the controlledJoints VOCAB_CM_POSITION
-    m_controlModes.assign(dofs, VOCAB_CM_POSITION);
+    pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
 
-    ok = ok && icmd2->setControlModes(m_controlModes.data());
+    ok = ok && icmd2->setControlModes(pImpl->controlModes.data());
     if (!ok) {
         wbtError << "Failed to set control mode.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -254,12 +265,11 @@ bool SetReferences::initializeInitialConditions(const BlockInformation* /*blockI
     // This initializeInitialConditions method is called when the block is enabled,
     // and in this case the control mode should be set.
     //
-    // It is worth noting that this toolbox disables parameters to be tunable for
-    // all the blocks.
+    // It is worth noting that this toolbox does not support tunable parameters.
 
     // Set again the control mode on the first output() call after the new enabling
     // of the block
-    m_resetControlMode = true;
+    pImpl->resetControlMode = true;
 
     return true;
 }
@@ -276,8 +286,8 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     // Set the control mode at the first run
-    if (m_resetControlMode) {
-        m_resetControlMode = false;
+    if (pImpl->resetControlMode) {
+        pImpl->resetControlMode = false;
         // Get the interface
         IControlMode2* icmd2 = nullptr;
         if (!robotInterface->getInterface(icmd2) || !icmd2) {
@@ -285,7 +295,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             return false;
         }
         // Set the control mode to all the controlledJoints
-        if (!icmd2->setControlModes(m_controlModes.data())) {
+        if (!icmd2->setControlModes(pImpl->controlModes.data())) {
             wbtError << "Failed to set control mode.";
             return false;
         }
@@ -308,11 +318,10 @@ bool SetReferences::output(const BlockInformation* blockInfo)
 
     bool ok = false;
     // TODO: here only the first element is checked
-    switch (m_controlModes.front()) {
+    switch (pImpl->controlModes.front()) {
         case VOCAB_CM_UNKNOWN:
             wbtError << "Control mode has not been successfully set.";
             return false;
-            break;
         case VOCAB_CM_POSITION: {
             // Get the interface
             IPositionControl* interface = nullptr;
@@ -321,9 +330,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->positionMove(referencesDeg.data());
+            ok = interface->positionMove(bufferReferences);
             break;
         }
         case VOCAB_CM_POSITION_DIRECT: {
@@ -334,9 +343,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->setPositions(referencesDeg.data());
+            ok = interface->setPositions(bufferReferences);
             break;
         }
         case VOCAB_CM_VELOCITY: {
@@ -347,9 +356,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            auto referencesDeg = rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
             // Set the references
-            ok = interface->velocityMove(referencesDeg.data());
+            ok = interface->velocityMove(bufferReferences);
             break;
         }
         case VOCAB_CM_TORQUE: {

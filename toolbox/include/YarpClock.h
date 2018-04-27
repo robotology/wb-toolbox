@@ -18,7 +18,7 @@ namespace wbt {
 /**
  * @brief The wbt::YarpClock class
  */
-class wbt::YarpClock : public wbt::Block
+class wbt::YarpClock final : public wbt::Block
 {
 public:
     static const std::string ClassName;

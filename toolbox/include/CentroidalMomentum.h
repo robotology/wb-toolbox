@@ -16,17 +16,14 @@ namespace wbt {
     class CentroidalMomentum;
 }
 
-namespace iDynTree {
-    class SpatialMomentum;
-}
-
 /**
  * @brief The wbt::CentroidalMomentum class
  */
-class wbt::CentroidalMomentum : public wbt::WBBlock
+class wbt::CentroidalMomentum final : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<iDynTree::SpatialMomentum> m_centroidalMomentum;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

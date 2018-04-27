@@ -9,6 +9,7 @@
 #include "MinimumJerkTrajectoryGenerator.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "Signal.h"
 
 #include <iCub/ctrl/minJerkCtrl.h>
@@ -32,8 +33,27 @@ const unsigned PARAM_IDX_INITIAL_VALUE = PARAM_IDX_BIAS + 5;
 const unsigned PARAM_IDX_EXT_SETTLINGTIME = PARAM_IDX_BIAS + 6;
 const unsigned PARAM_IDX_RESET_CHANGEST = PARAM_IDX_BIAS + 7;
 
-// Cannot use = default due to iCub::ctrl::minJerkTrajGen instantiation
-MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator() {}
+class MinimumJerkTrajectoryGenerator::impl
+{
+public:
+    std::unique_ptr<iCub::ctrl::minJerkTrajGen> generator;
+
+    int outputFirstDerivativeIndex = -1;
+    int outputSecondDerivativeIndex = -1;
+
+    double previousSettlingTime;
+
+    bool firstRun = true;
+    bool readInitialValue = false;
+    bool readExternalSettlingTime = false;
+    bool resetOnSettlingTimeChange = false;
+    yarp::sig::Vector initialValues;
+    yarp::sig::Vector reference;
+};
+
+MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
+    : pImpl{new impl()}
+{}
 
 unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 {
@@ -202,9 +222,12 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("SettlingTime", settlingTime);
     ok = ok && m_parameters.getParameter("ComputeFirstDerivative", computeFirstDerivative);
     ok = ok && m_parameters.getParameter("ComputeSecondDerivative", computeSecondDerivative);
-    ok = ok && m_parameters.getParameter("ReadInitialValue", m_readInitialValue);
-    ok = ok && m_parameters.getParameter("ReadExternalSettlingTime", m_readExternalSettlingTime);
-    ok = ok && m_parameters.getParameter("ResetOnSettlingTimeChange", m_resetOnSettlingTimeChange);
+    ok = ok && m_parameters.getParameter("ReadInitialValue", pImpl->readInitialValue);
+    ok = ok
+         && m_parameters.getParameter("ReadExternalSettlingTime", pImpl->readExternalSettlingTime);
+    ok =
+        ok
+        && m_parameters.getParameter("ResetOnSettlingTimeChange", pImpl->resetOnSettlingTimeChange);
 
     if (!ok) {
         wbtError << "Failed to get parameters after their parsing.";
@@ -215,11 +238,11 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     // ====================
 
     if (computeFirstDerivative) {
-        m_outputFirstDerivativeIndex = 1;
+        pImpl->outputFirstDerivativeIndex = 1;
     }
 
     if (computeSecondDerivative) {
-        m_outputSecondDerivativeIndex = computeFirstDerivative ? 2 : 1;
+        pImpl->outputSecondDerivativeIndex = computeFirstDerivative ? 2 : 1;
     }
 
     // Since the signals sizes were set as dynamic in the configureSizeAndPorts,
@@ -232,91 +255,82 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     blockInfo->setOutputPortVectorSize(2, signalSize);
 
     // Initialize the class
-    m_previousSettlingTime = settlingTime;
-    m_initialValues = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
-    m_reference = std::unique_ptr<yarp::sig::Vector>(new yarp::sig::Vector(signalSize));
-    m_generator = std::unique_ptr<iCub::ctrl::minJerkTrajGen>(
+    pImpl->previousSettlingTime = settlingTime;
+    pImpl->initialValues.resize(signalSize);
+    pImpl->reference.resize(signalSize);
+    pImpl->generator = std::unique_ptr<iCub::ctrl::minJerkTrajGen>(
         new iCub::ctrl::minJerkTrajGen(signalSize, sampleTime, settlingTime));
 
-    if (!m_generator || !m_initialValues || !m_reference) {
-        wbtError << "Could not allocate memory for trajectory generator.";
-        return false;
-    }
-
-    m_firstRun = true;
+    pImpl->firstRun = true;
     return true;
 }
 
 bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 {
-    if (!m_generator) {
-        return false;
-    }
-
-    if (m_readExternalSettlingTime) {
+    if (pImpl->readExternalSettlingTime) {
         unsigned portIndex = 1;
-        if (m_readInitialValue) {
+        if (pImpl->readInitialValue) {
             portIndex++;
         }
 
         const Signal externalTimeSignal = blockInfo->getInputPortSignal(portIndex);
-        if (externalTimeSignal.isValid()) {
+        if (!externalTimeSignal.isValid()) {
             wbtError << "Input signal not valid.";
             return false;
         }
 
         const double externalTime = externalTimeSignal.get<double>(0);
 
-        if (std::abs(m_previousSettlingTime - externalTime) > 1e-5) {
-            m_previousSettlingTime = externalTime;
+        if (std::abs(pImpl->previousSettlingTime - externalTime) > 1e-5) {
+            pImpl->previousSettlingTime = externalTime;
 
-            m_generator->setT(externalTime);
-            if (m_resetOnSettlingTimeChange && !m_firstRun) {
-                m_generator->init(m_generator->getPos());
+            pImpl->generator->setT(externalTime);
+            if (pImpl->resetOnSettlingTimeChange && !pImpl->firstRun) {
+                pImpl->generator->init(pImpl->generator->getPos());
             }
         }
     }
 
-    if (m_firstRun) {
-        m_firstRun = false;
+    if (pImpl->firstRun) {
+        pImpl->firstRun = false;
         unsigned portIndex = 0;
-        if (m_readInitialValue) {
+        if (pImpl->readInitialValue) {
             portIndex = 1;
         }
         const Signal initialValuesSignal = blockInfo->getInputPortSignal(portIndex);
-        if (initialValuesSignal.isValid()) {
+        if (!initialValuesSignal.isValid()) {
             wbtError << "Input signal not valid.";
             return false;
         }
 
         for (unsigned i = 0; i < initialValuesSignal.getWidth(); ++i) {
-            (*m_initialValues)[i] = initialValuesSignal.get<double>(i);
+            pImpl->initialValues[i] = initialValuesSignal.get<double>(i);
         }
-        m_generator->init(*m_initialValues);
+        pImpl->generator->init(pImpl->initialValues);
     }
 
     // Input signal
     // ------------
 
     const Signal referencesSignal = blockInfo->getInputPortSignal(0);
-    if (referencesSignal.isValid()) {
+    if (!referencesSignal.isValid()) {
         wbtError << "Input signal not valid.";
         return false;
     }
 
     for (unsigned i = 0; i < referencesSignal.getWidth(); ++i) {
-        (*m_reference)[i] = referencesSignal.get<double>(i);
+        pImpl->reference[i] = referencesSignal.get<double>(i);
     }
 
-    m_generator->computeNextValues(*m_reference);
+    pImpl->generator->computeNextValues(pImpl->reference);
 
-    const yarp::sig::Vector& signal = m_generator->getPos();
+    const yarp::sig::Vector& signal = pImpl->generator->getPos();
 
     // Output signal
     // -------------
 
     Signal outputSignal = blockInfo->getOutputPortSignal(0);
-    if (outputSignal.isValid()) {
+    if (!outputSignal.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
     }
@@ -326,10 +340,11 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
     // First derivative
     // ----------------
 
-    if (m_outputFirstDerivativeIndex != -1) {
-        const yarp::sig::Vector& derivative = m_generator->getVel();
-        Signal firstDerivativeSignal = blockInfo->getOutputPortSignal(m_outputFirstDerivativeIndex);
-        if (firstDerivativeSignal.isValid()) {
+    if (pImpl->outputFirstDerivativeIndex != -1) {
+        const yarp::sig::Vector& derivative = pImpl->generator->getVel();
+        Signal firstDerivativeSignal =
+            blockInfo->getOutputPortSignal(pImpl->outputFirstDerivativeIndex);
+        if (!firstDerivativeSignal.isValid()) {
             wbtError << "Output signal not valid.";
             return false;
         }
@@ -340,11 +355,11 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
     // Second derivative
     // -----------------
 
-    if (m_outputSecondDerivativeIndex != -1) {
-        const yarp::sig::Vector& derivative = m_generator->getAcc();
+    if (pImpl->outputSecondDerivativeIndex != -1) {
+        const yarp::sig::Vector& derivative = pImpl->generator->getAcc();
         Signal secondDerivativeSignal =
-            blockInfo->getOutputPortSignal(m_outputSecondDerivativeIndex);
-        if (secondDerivativeSignal.isValid()) {
+            blockInfo->getOutputPortSignal(pImpl->outputSecondDerivativeIndex);
+        if (!secondDerivativeSignal.isValid()) {
             wbtError << "Output signal not valid.";
             return false;
         }

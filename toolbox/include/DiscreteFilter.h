@@ -7,10 +7,7 @@
  */
 
 #include "Block.h"
-
 #include <memory>
-#include <string>
-#include <vector>
 
 #ifndef WBT_FILTER_H
 #define WBT_FILTER_H
@@ -19,18 +16,7 @@ namespace wbt {
     class DiscreteFilter;
 } // namespace wbt
 
-namespace iCub {
-    namespace ctrl {
-        class IFilter;
-    }
-} // namespace iCub
-
-namespace yarp {
-    namespace sig {
-        class Vector;
-    }
-} // namespace yarp
-
+// clang-format off
 /**
  * @brief The wbt::DiscreteFilter class
  *
@@ -44,20 +30,19 @@ namespace yarp {
  * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "Ts"          |
  * | ::STRUCT_INT    | 0 + Block::NumberOfParameters | 1 | 1             | "MedianOrder" |
  * | ::STRUCT_STRING | 0 + Block::NumberOfParameters | 1 | 1             | "FilterType"  |
- * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ::DynamicSize | "NumCoeffs"   |
- * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ::DynamicSize | "DenCoeffs"   |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ParameterMetadata::DynamicSize | "NumCoeffs"   |
+ * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | ParameterMetadata::DynamicSize | "DenCoeffs"   |
  * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "InitStatus"  |
  * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "y0"          |
  * | ::STRUCT_DOUBLE | 0 + Block::NumberOfParameters | 1 | 1             | "u0"          |
  *
  */
-class wbt::DiscreteFilter : public wbt::Block
+// clang-format on
+class wbt::DiscreteFilter final : public wbt::Block
 {
 private:
-    std::unique_ptr<iCub::ctrl::IFilter> m_filter;
-    std::unique_ptr<yarp::sig::Vector> m_y0;
-    std::unique_ptr<yarp::sig::Vector> m_u0;
-    std::unique_ptr<yarp::sig::Vector> m_inputSignalVector;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

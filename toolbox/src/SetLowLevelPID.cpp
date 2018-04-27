@@ -8,10 +8,13 @@
 
 #include "SetLowLevelPID.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 
 #include <yarp/dev/ControlBoardPid.h>
+#include <yarp/dev/IPidControl.h>
 
 #include <algorithm>
 
@@ -23,12 +26,27 @@ const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PIDCONFIG = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 2;
 
-enum PidDataIndex
+class SetLowLevelPID::impl
 {
-    PGAIN = 0,
-    IGAIN = 1,
-    DGAIN = 2
+public:
+    enum Pid
+    {
+        P = 0,
+        I = 1,
+        D = 2
+    };
+
+    using PidData = std::tuple<double, double, double>;
+
+    std::vector<yarp::dev::Pid> appliedPidValues;
+    std::vector<yarp::dev::Pid> defaultPidValues;
+    std::unordered_map<std::string, PidData> pidJointsFromParameters;
+    yarp::dev::PidControlTypeEnum controlType;
 };
+
+SetLowLevelPID::SetLowLevelPID()
+    : pImpl{new impl()}
+{}
 
 unsigned SetLowLevelPID::numberOfParameters()
 {
@@ -146,8 +164,8 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
             std::begin(controlledJoints), std::end(controlledJoints), controlledJoints[i]);
         // Edit the PID for this joint
         if (findElement != std::end(controlledJoints)) {
-            m_pidJointsFromParameters.emplace(pidJointList[i],
-                                              std::make_tuple(p_Gains[i], i_Gains[i], d_Gains[i]));
+            pImpl->pidJointsFromParameters.emplace(
+                pidJointList[i], std::make_tuple(p_Gains[i], i_Gains[i], d_Gains[i]));
         }
         else {
             wbtWarning << "Attempted to set PID of joint " << controlledJoints[i]
@@ -159,10 +177,10 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     // ===================
 
     if (controlType == "Position") {
-        m_controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
+        pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
     }
     else if (controlType == "Torque") {
-        m_controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
+        pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
     }
     else {
         wbtError << "Control type not recognized.";
@@ -178,7 +196,7 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     const auto dofs = configuration.getNumberOfDoFs();
 
     // Initialize the vector size to the number of dofs
-    m_defaultPidValues.resize(dofs);
+    pImpl->defaultPidValues.resize(dofs);
 
     // Get the interface
     yarp::dev::IPidControl* iPidControl = nullptr;
@@ -188,28 +206,29 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     }
 
     // Store the default gains
-    if (!iPidControl->getPids(m_controlType, m_defaultPidValues.data())) {
+    if (!iPidControl->getPids(pImpl->controlType, pImpl->defaultPidValues.data())) {
         wbtError << "Failed to get default data from IPidControl.";
         return false;
     }
 
     // Initialize the vector of the applied pid gains with the default gains
-    m_appliedPidValues = m_defaultPidValues;
+    pImpl->appliedPidValues = pImpl->defaultPidValues;
 
     // Override the PID with the gains specified as block parameters
     for (unsigned i = 0; i < dofs; ++i) {
         const std::string& jointName = controlledJoints[i];
         // If the pid has been passed, set the new gains
-        if (m_pidJointsFromParameters.find(jointName) != m_pidJointsFromParameters.end()) {
-            PidData gains = m_pidJointsFromParameters[jointName];
-            m_appliedPidValues[i].setKp(std::get<PGAIN>(gains));
-            m_appliedPidValues[i].setKi(std::get<IGAIN>(gains));
-            m_appliedPidValues[i].setKd(std::get<DGAIN>(gains));
+        if (pImpl->pidJointsFromParameters.find(jointName)
+            != pImpl->pidJointsFromParameters.end()) {
+            const impl::PidData& gains = pImpl->pidJointsFromParameters[jointName];
+            pImpl->appliedPidValues[i].setKp(std::get<impl::Pid::P>(gains));
+            pImpl->appliedPidValues[i].setKi(std::get<impl::Pid::I>(gains));
+            pImpl->appliedPidValues[i].setKd(std::get<impl::Pid::D>(gains));
         }
     }
 
     // Apply the new pid gains
-    if (!iPidControl->setPids(m_controlType, m_appliedPidValues.data())) {
+    if (!iPidControl->setPids(pImpl->controlType, pImpl->appliedPidValues.data())) {
         wbtError << "Failed to set PID values.";
         return false;
     }
@@ -237,7 +256,7 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     }
 
     // Reset default PID gains
-    ok = ok && iPidControl->setPids(m_controlType, m_defaultPidValues.data());
+    ok = ok && iPidControl->setPids(pImpl->controlType, pImpl->defaultPidValues.data());
     if (!ok) {
         wbtError << "Failed to reset PIDs to the default values.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -253,7 +272,7 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     return ok && WBBlock::terminate(blockInfo);
 }
 
-bool SetLowLevelPID::output(const BlockInformation* blockInfo)
+bool SetLowLevelPID::output(const BlockInformation* /*blockInfo*/)
 {
     return true;
 }

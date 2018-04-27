@@ -30,14 +30,11 @@ namespace wbt {
  * | ::STRING | 2 + WBBlock::NumberOfParameters | 1 | 1 | "GazeboClockPort" |
  *
  */
-class wbt::SimulatorSynchronizer : public wbt::Block
+class wbt::SimulatorSynchronizer final : public wbt::Block
 {
 private:
-    double m_period = 0.01;
-    bool m_firstRun = true;
-
-    struct RPCData;
-    std::unique_ptr<RPCData> m_rpcData;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

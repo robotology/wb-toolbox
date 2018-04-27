@@ -9,6 +9,7 @@
 #include "SimulatorSynchronizer.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "thrift/ClockServer.h"
 
 #include <cmath>
@@ -17,20 +18,6 @@
 
 using namespace wbt;
 
-struct SimulatorSynchronizer::RPCData
-{
-    struct
-    {
-        std::string clientPortName;
-        std::string serverPortName;
-
-        unsigned numberOfSteps;
-    } configuration;
-
-    yarp::os::Port clientPort;
-    gazebo::ClockServer clockServer;
-};
-
 const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
 
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
@@ -38,8 +25,30 @@ const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
 const unsigned PARAM_IDX_GZCLK_PORT = PARAM_IDX_BIAS + 2;
 const unsigned PARAM_IDX_RPC_PORT = PARAM_IDX_BIAS + 3;
 
-// Cannot use = default due to RPCData instantiation
-SimulatorSynchronizer::SimulatorSynchronizer() {}
+class SimulatorSynchronizer::impl
+{
+public:
+    double period = 0.01;
+    bool firstRun = true;
+
+    struct RPCData
+    {
+        struct
+        {
+            std::string clientPortName;
+            std::string serverPortName;
+
+            unsigned numberOfSteps;
+        } configuration;
+
+        yarp::os::Port clientPort;
+        gazebo::ClockServer clockServer;
+    } rpcData;
+};
+
+SimulatorSynchronizer::SimulatorSynchronizer()
+    : pImpl{new impl()}
+{}
 
 unsigned SimulatorSynchronizer::numberOfParameters()
 {
@@ -118,7 +127,7 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     std::string clientPortName;
 
     bool ok = true;
-    ok = ok && m_parameters.getParameter("Period", m_period);
+    ok = ok && m_parameters.getParameter("Period", pImpl->period);
     ok = ok && m_parameters.getParameter("GazeboClockPort", serverPortName);
     ok = ok && m_parameters.getParameter("RpcPort", clientPortName);
 
@@ -133,55 +142,55 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    m_rpcData = std::unique_ptr<RPCData>(new struct RPCData());
-    if (!m_rpcData) {
-        wbtError << "Error creating RPC data structure.";
-        return false;
-    }
+    pImpl->rpcData.configuration.clientPortName = clientPortName;
+    pImpl->rpcData.configuration.serverPortName = serverPortName;
 
-    m_rpcData->configuration.clientPortName = clientPortName;
-    m_rpcData->configuration.serverPortName = serverPortName;
-
-    m_firstRun = true;
+    pImpl->firstRun = true;
 
     return true;
 }
 
-bool SimulatorSynchronizer::terminate(const BlockInformation* /*S*/)
+bool SimulatorSynchronizer::terminate(const BlockInformation* /*blockInfo*/)
 {
-    if (m_rpcData) {
-        if (m_rpcData->clientPort.isOpen()) {
-            m_rpcData->clockServer.continueSimulation();
-            if (!yarp::os::Network::disconnect(m_rpcData->configuration.clientPortName,
-                                               m_rpcData->configuration.serverPortName)) {
-                wbtError << "Error disconnecting from simulator clock server.";
-            }
-            m_rpcData->clientPort.close();
+    if (pImpl->rpcData.clientPort.isOpen()) {
+        pImpl->rpcData.clockServer.continueSimulation();
+        if (!yarp::os::Network::disconnect(pImpl->rpcData.configuration.clientPortName,
+                                           pImpl->rpcData.configuration.serverPortName)) {
+            wbtError << "Error disconnecting from simulator clock server.";
         }
+        pImpl->rpcData.clientPort.close();
     }
     yarp::os::Network::fini();
     return true;
 }
 
-bool SimulatorSynchronizer::output(const BlockInformation* /*S*/)
+bool SimulatorSynchronizer::output(const BlockInformation* /*blockInfo*/)
 {
-    if (m_firstRun) {
-        m_firstRun = false;
+    if (pImpl->firstRun) {
+        pImpl->firstRun = false;
 
-        if (!m_rpcData->clientPort.open(m_rpcData->configuration.clientPortName)
-            || !yarp::os::Network::connect(m_rpcData->configuration.clientPortName,
-                                           m_rpcData->configuration.serverPortName)) {
+        // Connect the ports on first run
+        if (!pImpl->rpcData.clientPort.open(pImpl->rpcData.configuration.clientPortName)
+            || !yarp::os::Network::connect(pImpl->rpcData.configuration.clientPortName,
+                                           pImpl->rpcData.configuration.serverPortName)) {
             wbtError << "Error connecting to simulator clock server.";
             return false;
         }
 
-        m_rpcData->clockServer.yarp().attachAsClient(m_rpcData->clientPort);
+        // Configure the Wire object from which ClockServer inherits
+        pImpl->rpcData.clockServer.yarp().attachAsClient(pImpl->rpcData.clientPort);
 
-        double stepSize = m_rpcData->clockServer.getStepSize();
-        m_rpcData->configuration.numberOfSteps = static_cast<unsigned>(m_period / stepSize);
-        m_rpcData->clockServer.pauseSimulation();
+        // Calculate how many simulator steps are contained in a single execution of output()
+        double stepSize = pImpl->rpcData.clockServer.getStepSize();
+        pImpl->rpcData.configuration.numberOfSteps =
+            static_cast<unsigned>(pImpl->period / stepSize);
+
+        // Pause the simulation at its very beginning
+        pImpl->rpcData.clockServer.pauseSimulation();
     }
-    m_rpcData->clockServer.stepSimulationAndWait(m_rpcData->configuration.numberOfSteps);
+
+    // Simulate the calculated number of steps
+    pImpl->rpcData.clockServer.stepSimulationAndWait(pImpl->rpcData.configuration.numberOfSteps);
 
     return true;
 }

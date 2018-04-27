@@ -10,7 +10,6 @@
 #define WBT_FORWARDKINEMATICS_H
 
 #include "WBBlock.h"
-#include <iDynTree/Model/Indices.h>
 #include <memory>
 
 namespace wbt {
@@ -29,11 +28,11 @@ namespace wbt {
  * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
  *
  */
-class wbt::ForwardKinematics : public wbt::WBBlock
+class wbt::ForwardKinematics final : public wbt::WBBlock
 {
 private:
-    bool m_frameIsCoM;
-    iDynTree::FrameIndex m_frameIndex;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

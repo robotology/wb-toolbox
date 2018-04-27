@@ -10,27 +10,20 @@
 #define WBT_INVERSEDYNAMICS_H
 
 #include "WBBlock.h"
-#include <iDynTree/Core/VectorFixSize.h>
 #include <memory>
 
 namespace wbt {
     class InverseDynamics;
 }
 
-namespace iDynTree {
-    class VectorDynSize;
-    class FreeFloatingGeneralizedTorques;
-} // namespace iDynTree
-
 /**
  * @brief The wbt::InverseDynamics class
  */
-class wbt::InverseDynamics : public wbt::WBBlock
+class wbt::InverseDynamics final : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<iDynTree::Vector6> m_baseAcceleration;
-    std::unique_ptr<iDynTree::VectorDynSize> m_jointsAcceleration;
-    std::unique_ptr<iDynTree::FreeFloatingGeneralizedTorques> m_torques;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

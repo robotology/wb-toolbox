@@ -16,17 +16,14 @@ namespace wbt {
     class MassMatrix;
 }
 
-namespace iDynTree {
-    class MatrixDynSize;
-}
-
 /**
  * @brief The wbt::MassMatrix class
  */
-class wbt::MassMatrix : public wbt::WBBlock
+class wbt::MassMatrix final : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<iDynTree::MatrixDynSize> m_massMatrix;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

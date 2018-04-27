@@ -9,6 +9,7 @@
 #include "YarpWrite.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "Signal.h"
 
 #include <yarp/os/BufferedPort.h>
@@ -24,6 +25,21 @@ const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // Port name
 const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 2; // Autoconnect boolean
 const unsigned PARAM_IDX_ERR_NO_PORT = PARAM_IDX_BIAS + 3; // Error on missing port if autoconnect
+
+class YarpWrite::impl
+{
+public:
+    bool autoconnect = false;
+    bool errorOnMissingPort = true;
+
+    std::string destinationPortName;
+    yarp::sig::Vector outputVector;
+    yarp::os::BufferedPort<yarp::sig::Vector> port;
+};
+
+YarpWrite::YarpWrite()
+    : pImpl{new impl()}
+{}
 
 unsigned YarpWrite::numberOfParameters()
 {
@@ -105,8 +121,8 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
 
     bool ok = true;
     ok = ok && m_parameters.getParameter("PortName", portName);
-    ok = ok && m_parameters.getParameter("Autoconnect", m_autoconnect);
-    ok = ok && m_parameters.getParameter("ErrorOnMissingPort", m_errorOnMissingPort);
+    ok = ok && m_parameters.getParameter("Autoconnect", pImpl->autoconnect);
+    ok = ok && m_parameters.getParameter("ErrorOnMissingPort", pImpl->errorOnMissingPort);
 
     if (!ok) {
         wbtError << "Failed to read input parameters.";
@@ -117,9 +133,9 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
 
     // Autoconnect: the block opens a temporary output port ..., and it connects to an existing
     //              port portName (which will receive data).
-    if (m_autoconnect) {
+    if (pImpl->autoconnect) {
         sourcePortName = "...";
-        m_destinationPortName = portName;
+        pImpl->destinationPortName = portName;
     }
     // Manual connection: the block opens an output port portName, and waits a manual connection to
     // an input port.
@@ -127,18 +143,16 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         sourcePortName = portName;
     }
 
-    m_port = std::unique_ptr<BufferedPort<Vector>>(new BufferedPort<Vector>());
-
-    if (!m_port || !m_port->open(sourcePortName)) {
+    if (!pImpl->port.open(sourcePortName)) {
         wbtError << "Error while opening yarp port.";
         return false;
     }
 
-    if (m_autoconnect) {
-        if (!Network::connect(m_port->getName(), m_destinationPortName)) {
-            wbtWarning << "Failed to connect " << m_port->getName() << " to "
-                       << m_destinationPortName << ".";
-            if (m_errorOnMissingPort) {
+    if (pImpl->autoconnect) {
+        if (!Network::connect(pImpl->port.getName(), pImpl->destinationPortName)) {
+            wbtWarning << "Failed to connect " << pImpl->port.getName() << " to "
+                       << pImpl->destinationPortName << ".";
+            if (pImpl->errorOnMissingPort) {
                 wbtError << "Failed connecting ports.";
                 return false;
             }
@@ -151,29 +165,26 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     blockInfo->setInputPortVectorSize(0, inputPortWidth);
 
     // Initialize the size of the internal buffer handled by m_port
-    m_outputVector = m_port->prepare();
-    m_outputVector.resize(inputPortWidth);
+    pImpl->outputVector = pImpl->port.prepare();
+    pImpl->outputVector.resize(inputPortWidth);
     return true;
 }
 
-bool YarpWrite::terminate(const BlockInformation* /*S*/)
+bool YarpWrite::terminate(const BlockInformation* /*blockInfo*/)
 {
-    if (m_port) {
-        if (m_autoconnect) {
-            yarp::os::Network::disconnect(m_port->getName(), m_destinationPortName);
-        }
-        m_port->close();
+    if (pImpl->autoconnect) {
+        yarp::os::Network::disconnect(pImpl->port.getName(), pImpl->destinationPortName);
     }
+
+    // Close the port
+    pImpl->port.close();
+
     yarp::os::Network::fini();
     return true;
 }
 
 bool YarpWrite::output(const BlockInformation* blockInfo)
 {
-    if (!m_port) {
-        return false;
-    }
-
     const Signal signal = blockInfo->getInputPortSignal(0);
 
     if (!signal.isValid()) {
@@ -181,14 +192,14 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    m_outputVector = m_port->prepare();
-    m_outputVector.resize(signal.getWidth()); // this should be a no-op
+    pImpl->outputVector = pImpl->port.prepare();
+    pImpl->outputVector.resize(signal.getWidth()); // this should be a no-op
 
     for (unsigned i = 0; i < signal.getWidth(); ++i) {
-        m_outputVector[i] = signal.get<double>(i);
+        pImpl->outputVector[i] = signal.get<double>(i);
     }
 
-    m_port->write();
+    pImpl->port.write();
 
     return true;
 }

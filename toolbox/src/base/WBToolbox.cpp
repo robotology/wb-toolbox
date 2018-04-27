@@ -450,8 +450,8 @@ const std::pair<std::string, std::string> parameterTypeToString(const wbt::Param
 template <typename T>
 static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
 {
-    if (param.getMetadata().m_cols == wbt::ParameterMetadata::DynamicSize
-        || param.getMetadata().m_rows == wbt::ParameterMetadata::DynamicSize) {
+    if (param.getMetadata().cols == wbt::ParameterMetadata::DynamicSize
+        || param.getMetadata().rows == wbt::ParameterMetadata::DynamicSize) {
         wbtError << "Storing in the rtw file dynamically-sized parameters is not supported.";
         return false;
     }
@@ -462,25 +462,25 @@ static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
             8,
             SSWRITE_VALUE_NUM,
             "index",
-            static_cast<real_T>(param.getMetadata().m_index),
+            static_cast<real_T>(param.getMetadata().index),
             SSWRITE_VALUE_QSTR,
             "name",
-            param.getMetadata().m_name.c_str(),
+            param.getMetadata().name.c_str(),
             SSWRITE_VALUE_NUM,
             "isScalar",
             static_cast<real_T>(param.isScalar()),
             SSWRITE_VALUE_NUM,
             "rows",
-            static_cast<real_T>(param.getMetadata().m_rows),
+            static_cast<real_T>(param.getMetadata().rows),
             SSWRITE_VALUE_NUM,
             "cols",
-            static_cast<real_T>(param.getMetadata().m_cols),
+            static_cast<real_T>(param.getMetadata().cols),
             SSWRITE_VALUE_QSTR,
             "type",
-            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            parameterTypeToString(param.getMetadata().type).first.c_str(),
             SSWRITE_VALUE_QSTR,
             "storage",
-            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            parameterTypeToString(param.getMetadata().type).second.c_str(),
             SSWRITE_VALUE_NUM,
             "valueScalar",
             static_cast<real_T>(param.getScalarParameter()));
@@ -492,25 +492,25 @@ static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
             8,
             SSWRITE_VALUE_NUM,
             "index",
-            static_cast<real_T>(param.getMetadata().m_index),
+            static_cast<real_T>(param.getMetadata().index),
             SSWRITE_VALUE_QSTR,
             "name",
-            param.getMetadata().m_name.c_str(),
+            param.getMetadata().name.c_str(),
             SSWRITE_VALUE_NUM,
             "isScalar",
             static_cast<real_T>(param.isScalar()),
             SSWRITE_VALUE_NUM,
             "rows",
-            static_cast<real_T>(param.getMetadata().m_rows),
+            static_cast<real_T>(param.getMetadata().rows),
             SSWRITE_VALUE_NUM,
             "cols",
-            static_cast<real_T>(param.getMetadata().m_cols),
+            static_cast<real_T>(param.getMetadata().cols),
             SSWRITE_VALUE_QSTR,
             "type",
-            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            parameterTypeToString(param.getMetadata().type).first.c_str(),
             SSWRITE_VALUE_QSTR,
             "storage",
-            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            parameterTypeToString(param.getMetadata().type).second.c_str(),
             SSWRITE_VALUE_VECT,
             "valueVector",
             vectorRealT.data(),
@@ -522,8 +522,8 @@ static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
 template <>
 bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
 {
-    if (param.getMetadata().m_cols == wbt::ParameterMetadata::DynamicSize
-        || param.getMetadata().m_rows == wbt::ParameterMetadata::DynamicSize) {
+    if (param.getMetadata().cols == wbt::ParameterMetadata::DynamicSize
+        || param.getMetadata().rows == wbt::ParameterMetadata::DynamicSize) {
         wbtError << "Storing in the rtw file dynamically-sized parameters is not supported.";
         return false;
     }
@@ -534,25 +534,25 @@ bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
             8,
             SSWRITE_VALUE_NUM,
             "index",
-            static_cast<real_T>(param.getMetadata().m_index),
+            static_cast<real_T>(param.getMetadata().index),
             SSWRITE_VALUE_QSTR,
             "name",
-            param.getMetadata().m_name.c_str(),
+            param.getMetadata().name.c_str(),
             SSWRITE_VALUE_NUM,
             "isScalar",
             static_cast<real_T>(param.isScalar()),
             SSWRITE_VALUE_NUM,
             "rows",
-            static_cast<real_T>(param.getMetadata().m_rows),
+            static_cast<real_T>(param.getMetadata().rows),
             SSWRITE_VALUE_NUM,
             "cols",
-            static_cast<real_T>(param.getMetadata().m_cols),
+            static_cast<real_T>(param.getMetadata().cols),
             SSWRITE_VALUE_QSTR,
             "type",
-            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            parameterTypeToString(param.getMetadata().type).first.c_str(),
             SSWRITE_VALUE_QSTR,
             "storage",
-            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            parameterTypeToString(param.getMetadata().type).second.c_str(),
             SSWRITE_VALUE_QSTR,
             "valueScalar",
             param.getScalarParameter().c_str());
@@ -564,29 +564,29 @@ bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
             8,
             SSWRITE_VALUE_NUM,
             "index",
-            static_cast<real_T>(param.getMetadata().m_index),
+            static_cast<real_T>(param.getMetadata().index),
             SSWRITE_VALUE_QSTR,
             "name",
-            param.getMetadata().m_name.c_str(),
+            param.getMetadata().name.c_str(),
             SSWRITE_VALUE_NUM,
             "isScalar",
             static_cast<real_T>(param.isScalar()),
             SSWRITE_VALUE_NUM,
             "rows",
-            static_cast<real_T>(param.getMetadata().m_rows),
+            static_cast<real_T>(param.getMetadata().rows),
             SSWRITE_VALUE_NUM,
             "cols",
-            static_cast<real_T>(param.getMetadata().m_cols),
+            static_cast<real_T>(param.getMetadata().cols),
             SSWRITE_VALUE_QSTR,
             "type",
-            parameterTypeToString(param.getMetadata().m_type).first.c_str(),
+            parameterTypeToString(param.getMetadata().type).first.c_str(),
             SSWRITE_VALUE_QSTR,
             "storage",
-            parameterTypeToString(param.getMetadata().m_type).second.c_str(),
+            parameterTypeToString(param.getMetadata().type).second.c_str(),
             SSWRITE_VALUE_VECT_STR,
             "valueVector",
             serializedVectorOfStrings.c_str(),
-            param.getMetadata().m_cols);
+            param.getMetadata().cols);
     }
 }
 

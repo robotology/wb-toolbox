@@ -9,8 +9,7 @@
 #ifndef WBT_TOOLBOXCONFIG_H
 #define WBT_TOOLBOXCONFIG_H
 
-#include <array>
-#include <string>
+#include <memory>
 #include <vector>
 
 namespace wbt {
@@ -33,19 +32,13 @@ namespace wbt {
 class wbt::Configuration
 {
 private:
-    std::string m_confKey; ///< Name of the block which this object refers to (unique identifier)
-    std::string m_robotName; ///< Name of the robot
-    std::string m_urdfFile; ///< Name of the file containing the urdf model
-    std::string m_localName; ///< Prefix appended to the opened ports
-    std::vector<std::string> m_controlledJoints; ///< Subset of controlled joints
-    std::vector<std::string> m_controlBoardsNames; ///< Names of the used ControlBoard names
-    std::array<double, 3> m_gravityVector; ///< The gravity vector
-    size_t m_dofs; ///< DoFs extracted from Configuration::m_controlBoardsNames vector
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
-    Configuration() = default;
-    Configuration(const std::string& confKey);
-    ~Configuration() = default;
+    Configuration(const std::string& confKey = {});
+    Configuration(const Configuration& conf);
+    ~Configuration();
 
     // ===========
     // SET METHODS
@@ -180,7 +173,7 @@ public:
      *
      * @return The unique identifier.
      */
-    const std::string getConfKey() const { return m_confKey; }
+    const std::string getConfKey() const;
 
     // =============
     // OTHER METHODS

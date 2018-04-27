@@ -7,6 +7,7 @@
  */
 
 #include "RobotInterface.h"
+#include "Configuration.h"
 #include "Log.h"
 
 #include <iDynTree/KinDynComputations.h>
@@ -24,168 +25,380 @@
 
 using namespace wbt;
 
+// ====================
+// ROBOTINTERFACE PIMPL
+// ====================
+
+class RobotInterface::impl
+{
+public:
+    std::unique_ptr<yarp::dev::PolyDriver> robotDevice;
+    std::shared_ptr<iDynTree::KinDynComputations> kinDynComp;
+    wbt::YarpInterfaces yarpInterfaces;
+
+    // Maps used to store infos about yarp's and idyntree's internal joint indexing
+    std::shared_ptr<JointIndexToYarpMap> jointIndexToYarpMap;
+    std::shared_ptr<JointNameToYarpMap> jointNameToYarpMap;
+    std::shared_ptr<JointNameToIndexInControlBoardMap> jointNameToIndexInControlBoardMap;
+    std::shared_ptr<ControlBoardIndexLimit> controlBoardIndexLimit;
+
+    // Configuration from Simulink Block's parameters
+    const wbt::Configuration config;
+
+    // Counters for resource allocation / deallocation
+    unsigned robotDeviceCounter = 0;
+
+    // Pointer to the RobotInterface object
+    wbt::RobotInterface* robotInterface = nullptr;
+
+    impl() = delete;
+    impl(const Configuration& c)
+        : config(c)
+    {}
+
+    void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
+
+    // ======================
+    // INITIALIZATION HELPERS
+    // ======================
+
+    /**
+     *
+     * @brief Initialize the model
+     *
+     * Initialize the iDynTree::KinDynComputations with the information contained
+     * in wbt::Configuration. It finds from the file system the urdf file and stores the object to
+     * operate on it. If the joint list contained in RobotInterface::pImpl->config is not complete,
+     * it loads a reduced model of the robot.
+     *
+     * @return True if success, false otherwise.
+     */
+    bool initializeModel()
+    {
+        assert(!kinDynComp);
+
+        // Allocate the object
+        kinDynComp = std::make_shared<iDynTree::KinDynComputations>();
+        if (!kinDynComp)
+            return false;
+
+        // Explicitly set the velocity representation
+        kinDynComp->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
+
+        // Use RF to load the urdf file
+        // ----------------------------
+
+        // Initialize RF
+        // Workaround for the fact that ResourceFinder initializes the network by itself. See
+        // YARP#1014
+        using namespace yarp::os;
+        Network network;
+        ResourceFinder& rf = ResourceFinder::getResourceFinderSingleton();
+        rf.configure(0, 0);
+
+        // Get the absolute path of the urdf file
+        std::string urdf_file = config.getUrdfFile();
+        std::string urdf_file_path = rf.findFile(urdf_file.c_str());
+
+        // Fail if the file is not found
+        if (urdf_file_path.empty()) {
+            wbtError << "ResourceFinder couldn't find urdf file " + urdf_file + ".";
+            return false;
+        }
+
+        // Load the reduced model into KinDynComputations
+        // ----------------------------------------------
+
+        // Load the joint list
+        std::vector<std::string> controlledJoints = config.getControlledJoints();
+
+        // Use ModelLoader to load the reduced model
+        iDynTree::ModelLoader mdlLoader;
+        if (!mdlLoader.loadReducedModelFromFile(urdf_file_path, controlledJoints)) {
+            wbtError << "Impossible to load " + urdf_file + "." << std::endl
+                     << "Possible causes: file not found, or the joint "
+                     << "list contains an entry not present in the urdf model.";
+            return false;
+        }
+
+        // Add the loaded model to the KinDynComputations object
+        return kinDynComp->loadRobotModel(mdlLoader.model());
+    }
+
+    /**
+     * @brief Initialize the remote controlboard remapper
+     *
+     * Configure a yarp::dev::RemoteControlBoardRemapper device in order to allow
+     * interfacing the toolbox with the robot (real or in Gazebo).
+     *
+     * @return True if success, false otherwise.
+     */
+    bool initializeRemoteControlBoardRemapper()
+    {
+        // Initialize the network
+        yarp::os::Network::init();
+        if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+            wbtError << "YARP server wasn't found active.";
+            return false;
+        }
+
+        // Object where the RemoteControlBoardRemapper options will be stored
+        yarp::os::Property options;
+
+        // Name of the device
+        options.put("device", "remotecontrolboardremapper");
+
+        // Controlled joints (axes)
+        yarp::os::Bottle axesNames;
+        yarp::os::Bottle& axesList = axesNames.addList();
+        for (auto axis : config.getControlledJoints()) {
+            axesList.addString(axis);
+        }
+        options.put("axesNames", axesNames.get(0));
+
+        // ControlBoard names
+        yarp::os::Bottle remoteControlBoards;
+        yarp::os::Bottle& remoteControlBoardsList = remoteControlBoards.addList();
+        for (auto cb : config.getControlBoardsNames()) {
+            remoteControlBoardsList.addString("/" + config.getRobotName() + "/" + cb);
+        }
+        options.put("remoteControlBoards", remoteControlBoards.get(0));
+
+        // Prefix of the openened ports
+        // In this case appending the unique id is necessary, since multiple configuration can
+        // share some ControlBoard in their RemoteControlBoardRemappers. In this case, it is not
+        // possible using the same prefix for all the RemoteControlBoardRemapper devices.
+        options.put("localPortPrefix", config.getLocalName() + "/" + config.getUniqueId());
+
+        // Misc options
+        yarp::os::Property& remoteCBOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
+        remoteCBOpts.put("writeStrict", "on");
+
+        // If resources have been properly cleaned, there should be no allocated device.
+        // However, if blocks fail and they don't terminate, the state of the singleton
+        // could be not clean.
+        if (robotDevice) {
+            // Force the release
+            robotDeviceCounter = 1;
+            wbtWarning << "The RobotInterface state is dirty. "
+                       << "Trying to clean the state before proceeding.";
+            if (!robotInterface->releaseRemoteControlBoardRemapper()) {
+                wbtError << "Failed to force the release of the RemoteControlBoardRemapper.";
+                return false;
+            }
+        }
+
+        // Allocate the interface driver
+        robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
+
+        if (!robotDevice) {
+            wbtError << "Failed to instantiante an empty PolyDriver class.";
+            return false;
+        }
+
+        // Open the interface driver
+        if (!robotDevice->open(options) && !robotDevice->isValid()) {
+            // Remove garbage if the opening fails
+            robotDevice.reset();
+            wbtError << "Failed to open the RemoteControlBoardRemapper with the options passed.";
+            return false;
+        }
+
+        return true;
+    }
+
+    // =====================
+    // OTHER PRIVATE METHODS
+    // =====================
+
+    /**
+     * @brief Map joints between iDynTree and Yarp indices
+     *
+     * Creates the map between joints (specified as either names or idyntree indices) and
+     * their YARP representation, which consist in a pair: Control Board index and joint index
+     * inside the its Control Board.
+     *
+     * @see RobotInterface::getJointsMapString, RobotInterface::getJointsMapIndex
+     *
+     * @return True if the map has been created successfully, false otherwise.
+     */
+    bool mapDoFs()
+    {
+        // Initialize the network
+        yarp::os::Network::init();
+        if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+            wbtError << "YARP server wasn't found active.";
+            return false;
+        }
+
+        std::vector<std::unique_ptr<yarp::dev::IAxisInfo>> iAxisInfos;
+
+        for (unsigned cbNum = 0; cbNum < config.getControlBoardsNames().size(); ++cbNum) {
+
+            std::unique_ptr<yarp::dev::PolyDriver> controlBoard;
+            const std::string prefix = "/" + config.getRobotName() + "/";
+            const std::string remoteName = prefix + config.getControlBoardsNames().at(cbNum);
+
+            if (!getSingleControlBoard(remoteName, controlBoard)) {
+                return false;
+            }
+
+            // Get an IAxisInfo object from the interface
+            std::unique_ptr<yarp::dev::IAxisInfo> iAxisInfo;
+            yarp::dev::IAxisInfo* iAxisInfoPtr = iAxisInfo.get();
+            controlBoard->view(iAxisInfoPtr);
+            if (!iAxisInfoPtr) {
+                wbtError << "Unable to open IAxisInfo from " << remoteName << ".";
+                return false;
+            }
+
+            // Get an IEncoders object from the interface
+            // This is used to get how many joints the control board contains
+            std::unique_ptr<yarp::dev::IEncoders> iEnc;
+            yarp::dev::IEncoders* iEncPtr = iEnc.get();
+            controlBoard->view(iEncPtr);
+            int numAxes;
+            if (!iEncPtr || !iEncPtr->getAxes(&numAxes)) {
+                wbtError << "Unable to open IEncoders from " << remoteName << ".";
+                return false;
+            }
+
+            int found = -1;
+            // Iterate all the joints in the selected Control Board
+            for (unsigned axis = 0; axis < numAxes; ++axis) {
+                std::string axisName;
+                if (!iAxisInfoPtr->getAxisName(axis, axisName)) {
+                    wbtError << "Unable to get AxisName from " << remoteName << ".";
+                    return false;
+                }
+                // Look if axisName is a controlledJoint
+                for (const auto& controlledJoint : config.getControlledJoints()) {
+                    if (controlledJoint == axisName) {
+                        found++;
+                        // Get the iDynTree index from the model
+                        const auto& kinDynComp = robotInterface->getKinDynComputations();
+                        if (!kinDynComp) {
+                            wbtError << "Failed to get KinDynComputations.";
+                            return false;
+                        }
+                        const auto& model = kinDynComp->model();
+                        iDynTree::JointIndex iDynJointIdx = model.getJointIndex(axisName);
+                        if (iDynJointIdx == iDynTree::JOINT_INVALID_INDEX) {
+                            wbtError << "Joint " << axisName << " exists in the " << remoteName
+                                     << " control board but not in the model.";
+                            return false;
+                        }
+                        // If this is the first entry to add, allocate the objects
+                        if (!jointIndexToYarpMap) {
+                            jointIndexToYarpMap = std::make_shared<JointIndexToYarpMap>();
+                        }
+                        if (!jointNameToYarpMap) {
+                            jointNameToYarpMap = std::make_shared<JointNameToYarpMap>();
+                        }
+                        if (!jointNameToIndexInControlBoardMap) {
+                            jointNameToIndexInControlBoardMap =
+                                std::make_shared<JointNameToIndexInControlBoardMap>();
+                        }
+                        if (!controlBoardIndexLimit) {
+                            controlBoardIndexLimit = std::make_shared<ControlBoardIndexLimit>();
+                        }
+                        // Create a new entry in the map objects
+                        jointNameToYarpMap->insert(
+                            std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
+                        jointIndexToYarpMap->insert(std::make_pair(static_cast<int>(iDynJointIdx),
+                                                                   std::make_pair(cbNum, axis)));
+                        jointNameToIndexInControlBoardMap->insert(
+                            std::make_pair(controlledJoint, found));
+                        (*controlBoardIndexLimit)[cbNum] = found + 1;
+                        break;
+                    }
+                }
+            }
+
+            // Notify that the control board just checked is not used by any joint
+            // of the controlledJoints list
+            if (found < 0) {
+                wbtWarning << "No controlled joints found in "
+                                  + config.getControlBoardsNames().at(cbNum)
+                                  + " control board. It might be unused.";
+            }
+
+            // Close the ControlBoard device
+            if (!controlBoard->close()) {
+                wbtError << "Unable to close the interface of the Control Board.";
+                return false;
+            }
+        }
+
+        // Initialize the network
+        yarp::os::Network::fini();
+
+        return true;
+    }
+
+    /**
+     * @brief Create a RemoteControlBoard object for a given remoteName
+     *
+     * @see mapDoFs
+     *
+     * @param remoteName Name of the remote from which the remote control board is be initialized
+     * @param[out] controlBoard Smart pointer to the allocated remote control board
+     * @return True if success, false otherwise.
+     */
+    bool getSingleControlBoard(const std::string& remoteName,
+                               std::unique_ptr<yarp::dev::PolyDriver>& controlBoard)
+    {
+        // Configure the single control board
+        yarp::os::Property options;
+        options.clear();
+        options.put("device", "remote_controlboard");
+        options.put("remote", remoteName);
+        options.put("local", config.getLocalName() + "/CBtmp");
+        options.put("writeStrict", "on");
+
+        // Initialize the device
+        controlBoard = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
+        if (!controlBoard) {
+            wbtError << "Failed to retain the RemoteControlBoard "
+                     << "used for mapping iDynTree - YARP DoFs.";
+            return false;
+        }
+
+        // Try to open the control board
+        if (!controlBoard->open(options) || !controlBoard->isValid()) {
+            wbtError << "Unable to open RemoteControlBoard " << remoteName << ".";
+            return false;
+        }
+
+        return true;
+    }
+};
+
+// ==============
+// ROBOTINTERFACE
+// ==============
+
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
 RobotInterface::RobotInterface(const wbt::Configuration& c)
-    : m_config(c)
-    , m_robotDeviceCounter(0)
-{}
+    : pImpl{new impl(c)}
+{
+    pImpl->setOwner(this);
+}
 
 RobotInterface::~RobotInterface()
 {
     // Asserts for debugging purpose.
 
     // - 1 if at least one block asked the model. At this point only the shared_ptr
-    //     of m_kinDynComp should be still alive (--> 1)
-    // - 0 if no block asked for the model. m_kinDynComp was never allocated.
-    assert(m_kinDynComp.use_count() <= 1);
+    //     of pImpl->kinDynComp should be still alive (--> 1)
+    // - 0 if no block asked for the model. pImpl->kinDynComp was never allocated.
+    assert(pImpl->kinDynComp.use_count() <= 1);
 
-    // m_robotDevice should be destroyed by the last releaseCB()
-    assert(!m_robotDevice);
-    assert(m_robotDeviceCounter == 0);
-}
-
-bool RobotInterface::getSingleControlBoard(const std::string& remoteName,
-                                           std::unique_ptr<yarp::dev::PolyDriver>& controlBoard)
-{
-    // Configure the single control board
-    yarp::os::Property options;
-    options.clear();
-    options.put("device", "remote_controlboard");
-    options.put("remote", remoteName);
-    options.put("local", m_config.getLocalName() + "/CBtmp");
-    options.put("writeStrict", "on");
-
-    // Initialize the device
-    controlBoard = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
-    if (!controlBoard) {
-        wbtError << "Failed to retain the RemoteControlBoard "
-                 << "used for mapping iDynTree - YARP DoFs.";
-        return false;
-    }
-
-    // Try to open the control board
-    if (!controlBoard->open(options) || !controlBoard->isValid()) {
-        wbtError << "Unable to open RemoteControlBoard " << remoteName << ".";
-        return false;
-    }
-
-    return true;
-}
-
-bool RobotInterface::mapDoFs()
-{
-    // Initialize the network
-    yarp::os::Network::init();
-    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
-        return false;
-    }
-
-    std::vector<std::unique_ptr<yarp::dev::IAxisInfo>> iAxisInfos;
-
-    for (unsigned cbNum = 0; cbNum < m_config.getControlBoardsNames().size(); ++cbNum) {
-
-        std::unique_ptr<yarp::dev::PolyDriver> controlBoard;
-        const std::string prefix = "/" + m_config.getRobotName() + "/";
-        const std::string remoteName = prefix + m_config.getControlBoardsNames().at(cbNum);
-
-        if (!getSingleControlBoard(remoteName, controlBoard)) {
-            return false;
-        }
-
-        // Get an IAxisInfo object from the interface
-        std::unique_ptr<yarp::dev::IAxisInfo> iAxisInfo;
-        yarp::dev::IAxisInfo* iAxisInfoPtr = iAxisInfo.get();
-        controlBoard->view(iAxisInfoPtr);
-        if (!iAxisInfoPtr) {
-            wbtError << "Unable to open IAxisInfo from " << remoteName << ".";
-            return false;
-        }
-
-        // Get an IEncoders object from the interface
-        // This is used to get how many joints the control board contains
-        std::unique_ptr<yarp::dev::IEncoders> iEnc;
-        yarp::dev::IEncoders* iEncPtr = iEnc.get();
-        controlBoard->view(iEncPtr);
-        int numAxes;
-        if (!iEncPtr || !iEncPtr->getAxes(&numAxes)) {
-            wbtError << "Unable to open IEncoders from " << remoteName << ".";
-            return false;
-        }
-
-        int found = -1;
-        // Iterate all the joints in the selected Control Board
-        for (unsigned axis = 0; axis < numAxes; ++axis) {
-            std::string axisName;
-            if (!iAxisInfoPtr->getAxisName(axis, axisName)) {
-                wbtError << "Unable to get AxisName from " << remoteName << ".";
-                return false;
-            }
-            // Look if axisName is a controlledJoint
-            for (const auto& controlledJoint : m_config.getControlledJoints()) {
-                if (controlledJoint == axisName) {
-                    found++;
-                    // Get the iDynTree index from the model
-                    const auto& kinDynComp = getKinDynComputations();
-                    if (!kinDynComp) {
-                        wbtError << "Failed to get KinDynComputations.";
-                        return false;
-                    }
-                    const auto& model = kinDynComp->model();
-                    iDynTree::JointIndex iDynJointIdx = model.getJointIndex(axisName);
-                    if (iDynJointIdx == iDynTree::JOINT_INVALID_INDEX) {
-                        wbtError << "Joint " << axisName << " exists in the " << remoteName
-                                 << " control board but not in the model.";
-                        return false;
-                    }
-                    // If this is the first entry to add, allocate the objects
-                    if (!m_jointIndexToYarpMap) {
-                        m_jointIndexToYarpMap = std::make_shared<JointIndexToYarpMap>();
-                    }
-                    if (!m_jointNameToYarpMap) {
-                        m_jointNameToYarpMap = std::make_shared<JointNameToYarpMap>();
-                    }
-                    if (!m_jointNameToIndexInControlBoardMap) {
-                        m_jointNameToIndexInControlBoardMap =
-                            std::make_shared<JointNameToIndexInControlBoardMap>();
-                    }
-                    if (!m_controlBoardIndexLimit) {
-                        m_controlBoardIndexLimit = std::make_shared<ControlBoardIndexLimit>();
-                    }
-                    // Create a new entry in the map objects
-                    m_jointNameToYarpMap->insert(
-                        std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
-                    m_jointIndexToYarpMap->insert(std::make_pair(static_cast<int>(iDynJointIdx),
-                                                                 std::make_pair(cbNum, axis)));
-                    m_jointNameToIndexInControlBoardMap->insert(
-                        std::make_pair(controlledJoint, found));
-                    (*m_controlBoardIndexLimit)[cbNum] = found + 1;
-                    break;
-                }
-            }
-        }
-
-        // Notify that the control board just checked is not used by any joint
-        // of the controlledJoints list
-        if (found < 0) {
-            wbtWarning << "No controlled joints found in "
-                              + m_config.getControlBoardsNames().at(cbNum)
-                              + " control board. It might be unused.";
-        }
-
-        // Close the ControlBoard device
-        if (!controlBoard->close()) {
-            wbtError << "Unable to close the interface of the Control Board.";
-            return false;
-        }
-    }
-
-    // Initialize the network
-    yarp::os::Network::fini();
-
-    return true;
+    // pImpl->robotDevice should be destroyed by the last releaseCB()
+    assert(!pImpl->robotDevice);
+    assert(pImpl->robotDeviceCounter == 0);
 }
 
 // GET METHODS
@@ -193,74 +406,75 @@ bool RobotInterface::mapDoFs()
 
 const wbt::Configuration& RobotInterface::getConfiguration() const
 {
-    return m_config;
+    return pImpl->config;
 }
 
 const std::shared_ptr<JointNameToYarpMap> RobotInterface::getJointsMapString()
 {
-    if (!m_jointNameToYarpMap || m_jointNameToYarpMap->empty()) {
-        if (!mapDoFs()) {
+    if (!pImpl->jointNameToYarpMap || pImpl->jointNameToYarpMap->empty()) {
+        if (!pImpl->mapDoFs()) {
             wbtError << "Failed to create the joint maps.";
             return nullptr;
         }
     }
 
-    return m_jointNameToYarpMap;
+    return pImpl->jointNameToYarpMap;
 }
 
 const std::shared_ptr<JointIndexToYarpMap> RobotInterface::getJointsMapIndex()
 {
-    if (!m_jointIndexToYarpMap || m_jointIndexToYarpMap->empty()) {
-        if (!mapDoFs()) {
+    if (!pImpl->jointIndexToYarpMap || pImpl->jointIndexToYarpMap->empty()) {
+        if (!pImpl->mapDoFs()) {
             wbtError << "Failed to create the joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_jointIndexToYarpMap);
-    return m_jointIndexToYarpMap;
+    assert(pImpl->jointIndexToYarpMap);
+    return pImpl->jointIndexToYarpMap;
 }
 
 const std::shared_ptr<JointNameToIndexInControlBoardMap> RobotInterface::getControlledJointsMapCB()
 {
-    if (!m_jointNameToIndexInControlBoardMap || m_jointNameToIndexInControlBoardMap->empty()) {
-        if (!mapDoFs()) {
+    if (!pImpl->jointNameToIndexInControlBoardMap
+        || pImpl->jointNameToIndexInControlBoardMap->empty()) {
+        if (!pImpl->mapDoFs()) {
             wbtError << "Failed to create joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_jointNameToIndexInControlBoardMap);
-    return m_jointNameToIndexInControlBoardMap;
+    assert(pImpl->jointNameToIndexInControlBoardMap);
+    return pImpl->jointNameToIndexInControlBoardMap;
 }
 
 const std::shared_ptr<ControlBoardIndexLimit> RobotInterface::getControlBoardIdxLimit()
 {
-    if (!m_controlBoardIndexLimit || m_controlBoardIndexLimit->empty()) {
-        if (!mapDoFs()) {
+    if (!pImpl->controlBoardIndexLimit || pImpl->controlBoardIndexLimit->empty()) {
+        if (!pImpl->mapDoFs()) {
             wbtError << "Failed to create joint maps.";
             return nullptr;
         }
     }
 
-    assert(m_controlBoardIndexLimit);
-    return m_controlBoardIndexLimit;
+    assert(pImpl->controlBoardIndexLimit);
+    return pImpl->controlBoardIndexLimit;
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynComputations()
 {
-    if (m_kinDynComp) {
-        return m_kinDynComp;
+    if (pImpl->kinDynComp) {
+        return pImpl->kinDynComp;
     }
 
     // Otherwise, initialize a new object
-    if (!initializeModel()) {
+    if (!pImpl->initializeModel()) {
         wbtError << "Failed to initialize the KinDynComputations object.";
         // Return an empty shared_ptr (implicitly initialized)
         return nullptr;
     }
 
-    return m_kinDynComp;
+    return pImpl->kinDynComp;
 }
 
 // LAZY EVALUATION
@@ -268,190 +482,62 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
 
 bool RobotInterface::retainRemoteControlBoardRemapper()
 {
-    if (m_robotDeviceCounter > 0) {
-        m_robotDeviceCounter++;
+    if (pImpl->robotDeviceCounter > 0) {
+        pImpl->robotDeviceCounter++;
         return true;
     }
 
-    assert(!m_robotDevice);
-    if (m_robotDevice) {
-        m_robotDevice.reset();
+    assert(!pImpl->robotDevice);
+    if (pImpl->robotDevice) {
+        pImpl->robotDevice.reset();
     }
 
-    if (!initializeRemoteControlBoardRemapper()) {
+    if (!pImpl->initializeRemoteControlBoardRemapper()) {
         wbtError << "First initialization of the RemoteControlBoardRemapper failed.";
         return false;
     }
 
-    m_robotDeviceCounter++;
+    pImpl->robotDeviceCounter++;
     return true;
 }
 
 bool RobotInterface::releaseRemoteControlBoardRemapper()
 {
     // The RemoteControlBoardRemapper has not been used
-    if (m_robotDeviceCounter == 0) {
+    if (pImpl->robotDeviceCounter == 0) {
         return true;
     }
 
     // If there are at most 2 blocks with th CB still used
-    if (m_robotDeviceCounter > 1) {
-        m_robotDeviceCounter--;
+    if (pImpl->robotDeviceCounter > 1) {
+        pImpl->robotDeviceCounter--;
         return true;
     }
 
-    // This should be executed by the last block which uses CB (m_robotDeviceCounter=1)
-    assert(m_robotDevice);
-    if (m_robotDevice) {
+    // This should be executed by the last block which uses CB (pImpl->robotDeviceCounter=1)
+    assert(pImpl->robotDevice);
+    if (pImpl->robotDevice) {
         // Set to zero all the pointers to the interfaces
-        m_yarpInterfaces.iControlMode2 = nullptr;
-        m_yarpInterfaces.iPositionControl = nullptr;
-        m_yarpInterfaces.iPositionDirect = nullptr;
-        m_yarpInterfaces.iVelocityControl = nullptr;
-        m_yarpInterfaces.iTorqueControl = nullptr;
-        m_yarpInterfaces.iPWMControl = nullptr;
-        m_yarpInterfaces.iCurrentControl = nullptr;
-        m_yarpInterfaces.iEncoders = nullptr;
-        m_yarpInterfaces.iControlLimits2 = nullptr;
-        m_yarpInterfaces.iPidControl = nullptr;
+        pImpl->yarpInterfaces.iControlMode2 = nullptr;
+        pImpl->yarpInterfaces.iPositionControl = nullptr;
+        pImpl->yarpInterfaces.iPositionDirect = nullptr;
+        pImpl->yarpInterfaces.iVelocityControl = nullptr;
+        pImpl->yarpInterfaces.iTorqueControl = nullptr;
+        pImpl->yarpInterfaces.iPWMControl = nullptr;
+        pImpl->yarpInterfaces.iCurrentControl = nullptr;
+        pImpl->yarpInterfaces.iEncoders = nullptr;
+        pImpl->yarpInterfaces.iControlLimits2 = nullptr;
+        pImpl->yarpInterfaces.iPidControl = nullptr;
         //  Close the device (which deletes the interfaces it allocated)
-        m_robotDevice->close();
+        pImpl->robotDevice->close();
         // Free the object
-        m_robotDevice.reset();
+        pImpl->robotDevice.reset();
     }
 
     // Initialize the network
     yarp::os::Network::init();
 
-    m_robotDeviceCounter = 0;
-    return true;
-}
-
-// INITIALIZATION HELPERS
-// ======================
-
-bool RobotInterface::initializeModel()
-{
-    assert(!m_kinDynComp);
-
-    // Allocate the object
-    m_kinDynComp = std::make_shared<iDynTree::KinDynComputations>();
-    if (!m_kinDynComp)
-        return false;
-
-    // Explicitly set the velocity representation
-    m_kinDynComp->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
-
-    // Use RF to load the urdf file
-    // ----------------------------
-
-    // Initialize RF
-    // Workaround for the fact that ResourceFinder initializes the network by itself. See YARP#1014
-    using namespace yarp::os;
-    Network network;
-    ResourceFinder& rf = ResourceFinder::getResourceFinderSingleton();
-    rf.configure(0, 0);
-
-    // Get the absolute path of the urdf file
-    std::string urdf_file = getConfiguration().getUrdfFile();
-    std::string urdf_file_path = rf.findFile(urdf_file.c_str());
-
-    // Fail if the file is not found
-    if (urdf_file_path.empty()) {
-        wbtError << "ResourceFinder couldn't find urdf file " + urdf_file + ".";
-        return false;
-    }
-
-    // Load the reduced model into KinDynComputations
-    // ----------------------------------------------
-
-    // Load the joint list
-    std::vector<std::string> controlledJoints = getConfiguration().getControlledJoints();
-
-    // Use ModelLoader to load the reduced model
-    iDynTree::ModelLoader mdlLoader;
-    if (!mdlLoader.loadReducedModelFromFile(urdf_file_path, controlledJoints)) {
-        wbtError << "Impossible to load " + urdf_file + "." << std::endl
-                 << "Possible causes: file not found, or the joint "
-                 << "list contains an entry not present in the urdf model.";
-        return false;
-    }
-
-    // Add the loaded model to the KinDynComputations object
-    return m_kinDynComp->loadRobotModel(mdlLoader.model());
-}
-
-bool RobotInterface::initializeRemoteControlBoardRemapper()
-{
-    // Initialize the network
-    yarp::os::Network::init();
-    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
-        return false;
-    }
-
-    // Object where the RemoteControlBoardRemapper options will be stored
-    yarp::os::Property options;
-
-    // Name of the device
-    options.put("device", "remotecontrolboardremapper");
-
-    // Controlled joints (axes)
-    yarp::os::Bottle axesNames;
-    yarp::os::Bottle& axesList = axesNames.addList();
-    for (auto axis : m_config.getControlledJoints()) {
-        axesList.addString(axis);
-    }
-    options.put("axesNames", axesNames.get(0));
-
-    // ControlBoard names
-    yarp::os::Bottle remoteControlBoards;
-    yarp::os::Bottle& remoteControlBoardsList = remoteControlBoards.addList();
-    for (auto cb : m_config.getControlBoardsNames()) {
-        remoteControlBoardsList.addString("/" + m_config.getRobotName() + "/" + cb);
-    }
-    options.put("remoteControlBoards", remoteControlBoards.get(0));
-
-    // Prefix of the openened ports
-    // In this case appending the unique id is necessary, since multiple configuration can
-    // share some ControlBoard in their RemoteControlBoardRemappers. In this case, it is not
-    // possible using the same prefix for all the RemoteControlBoardRemapper devices.
-    options.put("localPortPrefix", m_config.getLocalName() + "/" + m_config.getUniqueId());
-
-    // Misc options
-    yarp::os::Property& remoteCBOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
-    remoteCBOpts.put("writeStrict", "on");
-
-    // If resources have been properly cleaned, there should be no allocated device.
-    // However, if blocks fail and they don't terminate, the state of the singleton
-    // could be not clean.
-    if (m_robotDevice) {
-        // Force the release
-        m_robotDeviceCounter = 1;
-        wbtWarning << "The RobotInterface state is dirty. "
-                   << "Trying to clean the state before proceeding.";
-        if (!releaseRemoteControlBoardRemapper()) {
-            wbtError << "Failed to force the release of the RemoteControlBoardRemapper.";
-            return false;
-        }
-    }
-
-    // Allocate the interface driver
-    m_robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
-
-    if (!m_robotDevice) {
-        wbtError << "Failed to instantiante an empty PolyDriver class.";
-        return false;
-    }
-
-    // Open the interface driver
-    if (!m_robotDevice->open(options) && !m_robotDevice->isValid()) {
-        // Remove garbage if the opening fails
-        m_robotDevice.reset();
-        wbtError << "Failed to open the RemoteControlBoardRemapper with the options passed.";
-        return false;
-    }
-
+    pImpl->robotDeviceCounter = 0;
     return true;
 }
 
@@ -484,69 +570,75 @@ T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
 template <>
 bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iControlMode2, m_robotDevice.get());
+    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iControlMode2, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iPositionControl, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionControl, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iPositionDirect, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionDirect, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iVelocityControl, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iVelocityControl, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iTorqueControl, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iTorqueControl, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iPWMControl, m_robotDevice.get());
+    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iPWMControl, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iCurrentControl, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iCurrentControl, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iEncoders, m_robotDevice.get());
+    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iEncoders, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iControlLimits2, m_robotDevice.get());
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iControlLimits2, pImpl->robotDevice.get());
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface)
 {
-    interface = getInterfaceLazyEval(m_yarpInterfaces.iPidControl, m_robotDevice.get());
+    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iPidControl, pImpl->robotDevice.get());
     return interface;
 }

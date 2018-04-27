@@ -9,6 +9,7 @@
 #include "Block.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 
 using namespace wbt;
 

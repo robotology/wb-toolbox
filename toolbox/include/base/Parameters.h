@@ -9,12 +9,13 @@
 #ifndef WBT_PARAMETERS_H
 #define WBT_PARAMETERS_H
 
-#include "Parameter.h"
-
-#include <unordered_map>
+#include <memory>
 #include <vector>
 
 namespace wbt {
+    template <typename T>
+    class Parameter;
+    class ParameterMetadata;
     class Parameters;
     const int PARAM_INVALID_INDEX = -1;
     const std::string PARAM_INVALID_NAME = {};
@@ -34,35 +35,15 @@ public:
     using ParamName = std::string;
 
 private:
-    // Typedefs for generic scalar / vector parameters
-    using ParameterInt = Parameter<int>;
-    using ParameterBool = Parameter<bool>;
-    using ParameterDouble = Parameter<double>;
-    using ParameterString = Parameter<std::string>;
-
-    // Typedefs for the storage of vector parameters
-    using ParamVectorInt = std::vector<int>;
-    using ParamVectorBool = std::vector<bool>;
-    using ParamVectorDouble = std::vector<double>;
-    using ParamVectorString = std::vector<std::string>;
-
-    // Maps for storing parameters and their metadata
-    std::unordered_map<ParamName, ParameterInt> m_paramsInt;
-    std::unordered_map<ParamName, ParameterBool> m_paramsBool;
-    std::unordered_map<ParamName, ParameterDouble> m_paramsDouble;
-    std::unordered_map<ParamName, ParameterString> m_paramsString;
-
-    // Maps for handling the internal indexing
-    std::unordered_map<ParamName, wbt::ParameterType> m_nameToType;
-    std::unordered_map<ParamIndex, ParamName> m_indexToName;
-    std::unordered_map<ParamName, ParamIndex> m_nameToIndex;
-
-    bool existIndex(const ParamIndex& index) const;
-    bool existName(const ParamName& name, const wbt::ParameterType& type) const;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
-    Parameters() = default;
-    ~Parameters() = default;
+    Parameters();
+    Parameters(const wbt::Parameters& other);
+    Parameters& operator=(const Parameters& other);
+
+    ~Parameters();
 
     /**
      * @brief Get the name of a stored parameter from its index.

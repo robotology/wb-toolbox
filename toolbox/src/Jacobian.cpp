@@ -8,13 +8,16 @@
 
 #include "Jacobian.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Indices.h>
 
 #include <memory>
 
@@ -29,9 +32,18 @@ const unsigned OUTPUT_IDX_FW_FRAME = 0;
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
 
+class Jacobian::impl
+{
+public:
+    iDynTree::MatrixDynSize jacobianCOM;
+    iDynTree::MatrixDynSize jacobian;
+
+    bool frameIsCoM = false;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
+};
+
 Jacobian::Jacobian()
-    : m_frameIsCoM(false)
-    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : pImpl{new impl()}
 {}
 
 unsigned Jacobian::numberOfParameters()
@@ -143,15 +155,15 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     }
 
     if (frame != "com") {
-        m_frameIndex = kinDyn->getFrameIndex(frame);
-        if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+        pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+        if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
     else {
-        m_frameIsCoM = true;
-        m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+        pImpl->frameIsCoM = true;
+        pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
     // OUTPUT / VARIABLES
@@ -165,15 +177,14 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     }
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    m_jacobianCOM =
-        std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(3, 6 + dofs));
-    m_jacobianCOM->zero();
+    pImpl->jacobianCOM.resize(3, 6 + dofs);
+    pImpl->jacobianCOM.zero();
 
     // Output
-    m_jacobian = std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6, 6 + dofs));
-    m_jacobian->zero();
+    pImpl->jacobian.resize(6, 6 + dofs);
+    pImpl->jacobian.zero();
 
-    return static_cast<bool>(m_jacobianCOM) && static_cast<bool>(m_jacobian);
+    return true;
 }
 
 bool Jacobian::terminate(const BlockInformation* blockInfo)
@@ -219,16 +230,16 @@ bool Jacobian::output(const BlockInformation* blockInfo)
 
     // Compute the jacobian
     ok = false;
-    if (!m_frameIsCoM) {
-        world_H_frame = kinDyn->getWorldTransform(m_frameIndex);
-        ok = kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, *m_jacobian);
+    if (!pImpl->frameIsCoM) {
+        world_H_frame = kinDyn->getWorldTransform(pImpl->frameIndex);
+        ok = kinDyn->getFrameFreeFloatingJacobian(pImpl->frameIndex, pImpl->jacobian);
     }
     else {
         world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());
-        ok = kinDyn->getCenterOfMassJacobian(*m_jacobianCOM);
-        int cols = m_jacobianCOM->cols();
-        toEigen(*m_jacobian).block(0, 0, 3, cols) = toEigen(*m_jacobianCOM);
-        toEigen(*m_jacobian).block(3, 0, 3, cols).setZero();
+        ok = kinDyn->getCenterOfMassJacobian(pImpl->jacobianCOM);
+        auto cols = pImpl->jacobianCOM.cols();
+        toEigen(pImpl->jacobian).block(0, 0, 3, cols) = toEigen(pImpl->jacobianCOM);
+        toEigen(pImpl->jacobian).block(3, 0, 3, cols).setZero();
     }
 
     if (!ok) {
@@ -244,7 +255,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     }
 
     // Allocate objects for row-major -> col-major conversion
-    Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(*m_jacobian);
+    Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(pImpl->jacobian);
 
     const BlockInformation::MatrixSize outputSize =
         blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME);

@@ -9,24 +9,25 @@
 #ifndef WBT_LOG_H
 #define WBT_LOG_H
 
+#include <memory>
 #include <sstream>
-#include <string>
-#include <vector>
 
 #ifdef NDEBUG
-#define WBT_LOG_VERBOSITY wbt::Log::RELEASE
+#define WBT_LOG_VERBOSITY wbt::Log::Verbosity::RELEASE
 #else
-#define WBT_LOG_VERBOSITY wbt::Log::DEBUG
+#define WBT_LOG_VERBOSITY wbt::Log::Verbosity::DEBUG
 #endif
 
 #ifndef wbtError
-#define wbtError \
-    wbt::Log::getSingleton().getLogStringStream(wbt::Log::ERROR, __FILE__, __LINE__, __FUNCTION__)
+#define wbtError                                 \
+    wbt::Log::getSingleton().getLogStringStream( \
+        wbt::Log::Type::ERROR, __FILE__, __LINE__, __FUNCTION__)
 #endif
 
 #ifndef wbtWarning
-#define wbtWarning \
-    wbt::Log::getSingleton().getLogStringStream(wbt::Log::WARNING, __FILE__, __LINE__, __FUNCTION__)
+#define wbtWarning                               \
+    wbt::Log::getSingleton().getLogStringStream( \
+        wbt::Log::Type::WARNING, __FILE__, __LINE__, __FUNCTION__)
 #endif
 
 namespace wbt {
@@ -41,33 +42,24 @@ namespace wbt {
 class wbt::Log
 {
 public:
-    enum LogType
+    enum class Type
     {
         ERROR,
         WARNING
     };
 
-private:
-    /**
-     * @brief Define the verbosity of the logs
-     *
-     * The verbosity is changed automatically detecting if the class is compiled in Debug.
-     */
-    enum LogVerbosity
+    enum class Verbosity
     {
         RELEASE,
         DEBUG
     };
 
-    std::vector<std::stringstream> m_errorsSStream;
-    std::vector<std::stringstream> m_warningsSStream;
-
-    const LogVerbosity m_verbosity = WBT_LOG_VERBOSITY;
-
-    std::string serializeVectorStringStream(const std::vector<std::stringstream>& ss) const;
+private:
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
-    Log() = default;
+    Log();
     ~Log() = default;
 
     /**
@@ -88,7 +80,7 @@ public:
      * @param function The function from which this method is called (preprocessor directive).
      * @return The stringstream object matching the log type.
      */
-    std::stringstream& getLogStringStream(const LogType& type,
+    std::stringstream& getLogStringStream(const Type& type,
                                           const std::string& file,
                                           const unsigned& line,
                                           const std::string& function);

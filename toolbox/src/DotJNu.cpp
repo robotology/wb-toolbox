@@ -8,12 +8,16 @@
 
 #include "DotJNu.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Indices.h>
 
 #include <memory>
 
@@ -29,6 +33,18 @@ const unsigned OUTPUT_IDX_DOTJ_NU = 0;
 
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+
+class DotJNu::impl
+{
+public:
+    iDynTree::Vector6 dotJNu;
+    bool frameIsCoM = false;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
+};
+
+DotJNu::DotJNu()
+    : pImpl{new impl()}
+{}
 
 unsigned DotJNu::numberOfParameters()
 {
@@ -51,8 +67,9 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo))
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
+    }
 
     // INPUTS
     // ======
@@ -143,23 +160,22 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
     }
 
     if (frame != "com") {
-        m_frameIndex = kinDyn->getFrameIndex(frame);
-        if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+        pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+        if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
             wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
     else {
-        m_frameIsCoM = true;
-        m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+        pImpl->frameIsCoM = true;
+        pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
     // OUTPUT
     // ======
-    m_dotJNu = std::unique_ptr<iDynTree::Vector6>(new iDynTree::Vector6());
-    m_dotJNu->zero();
+    pImpl->dotJNu.zero();
 
-    return static_cast<bool>(m_dotJNu);
+    return true;
 }
 
 bool DotJNu::terminate(const BlockInformation* blockInfo)
@@ -184,8 +200,8 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
-        || jointsVelocitySignal.isValid()) {
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
+        || !jointsVelocitySignal.isValid()) {
         wbtError << "Input signals not valid.";
         return false;
     }
@@ -201,13 +217,13 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // OUTPUT
     // ======
 
-    if (!m_frameIsCoM) {
-        *m_dotJNu = kinDyn->getFrameBiasAcc(m_frameIndex);
+    if (!pImpl->frameIsCoM) {
+        pImpl->dotJNu = kinDyn->getFrameBiasAcc(pImpl->frameIndex);
     }
     else {
         iDynTree::Vector3 comBiasAcc = kinDyn->getCenterOfMassBiasAcc();
-        toEigen(*m_dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
-        toEigen(*m_dotJNu).segment<3>(3).setZero();
+        toEigen(pImpl->dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
+        toEigen(pImpl->dotJNu).segment<3>(3).setZero();
     }
 
     // Forward the output to Simulink
@@ -217,6 +233,6 @@ bool DotJNu::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    output.setBuffer(m_dotJNu->data(), output.getWidth());
+    output.setBuffer(pImpl->dotJNu.data(), output.getWidth());
     return true;
 }

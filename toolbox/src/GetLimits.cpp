@@ -8,7 +8,9 @@
 
 #include "GetLimits.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
@@ -27,10 +29,25 @@ const std::string GetLimits::ClassName = "GetLimits";
 const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
 const unsigned PARAM_IDX_LIMIT_SRC = PARAM_IDX_BIAS + 1;
 
-double deg2rad(const double& v)
+class GetLimits::impl
 {
-    return v * M_PI / 180.0;
-}
+private:
+    struct Limit
+    {
+        std::vector<double> min;
+        std::vector<double> max;
+    };
+
+public:
+    Limit limits;
+    std::string limitType;
+
+    static double deg2rad(const double& v) { return v * M_PI / 180.0; }
+};
+
+wbt::GetLimits::GetLimits()
+    : pImpl{new impl()}
+{}
 
 unsigned GetLimits::numberOfParameters()
 {
@@ -124,7 +141,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     }
 
     // Read the control type
-    if (!m_parameters.getParameter("LimitType", m_limitType)) {
+    if (!m_parameters.getParameter("LimitType", pImpl->limitType)) {
         wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
@@ -139,7 +156,8 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     const auto dofs = configuration.getNumberOfDoFs();
 
     // Initialize the structure that stores the limits
-    m_limits.reset(new Limit(dofs));
+    pImpl->limits.min.resize(dofs);
+    pImpl->limits.max.resize(dofs);
 
     // Initializes some buffers
     double min = 0;
@@ -155,7 +173,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
 
     // Get the RemoteControlBoardRemapper and IControlLimits2 interface if needed
     yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
-    if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
+    if (pImpl->limitType == "ControlBoardPosition" || pImpl->limitType == "ControlBoardVelocity") {
         // Retain the control board remapper
         if (!robotInterface->retainRemoteControlBoardRemapper()) {
             wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
@@ -168,24 +186,24 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         }
     }
 
-    if (m_limitType == "ControlBoardPosition") {
+    if (pImpl->limitType == "ControlBoardPosition") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getLimits(i, &min, &max)) {
                 wbtError << "Failed to get limits from the interface.";
                 return false;
             }
-            m_limits->m_min[i] = deg2rad(min);
-            m_limits->m_max[i] = deg2rad(max);
+            pImpl->limits.min[i] = GetLimits::impl::deg2rad(min);
+            pImpl->limits.max[i] = GetLimits::impl::deg2rad(max);
         }
     }
-    else if (m_limitType == "ControlBoardVelocity") {
+    else if (pImpl->limitType == "ControlBoardVelocity") {
         for (auto i = 0; i < dofs; ++i) {
             if (!iControlLimits2->getVelLimits(i, &min, &max)) {
                 wbtError << "Failed to get limits from the interface.";
                 return false;
             }
-            m_limits->m_min[i] = deg2rad(min);
-            m_limits->m_max[i] = deg2rad(max);
+            pImpl->limits.min[i] = GetLimits::impl::deg2rad(min);
+            pImpl->limits.max[i] = GetLimits::impl::deg2rad(max);
         }
     }
 
@@ -194,7 +212,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     //
     // For the time being, only position limits are supported.
 
-    else if (m_limitType == "ModelPosition") {
+    else if (pImpl->limitType == "ModelPosition") {
         iDynTree::IJointConstPtr p_joint;
 
         // Get the KinDynComputations pointer
@@ -224,8 +242,8 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
 
             if (!p_joint->hasPosLimits()) {
                 wbtWarning << "Joint " << joint << " has no model limits.";
-                m_limits->m_min[i] = -std::numeric_limits<double>::infinity();
-                m_limits->m_max[i] = std::numeric_limits<double>::infinity();
+                pImpl->limits.min[i] = -std::numeric_limits<double>::infinity();
+                pImpl->limits.max[i] = std::numeric_limits<double>::infinity();
             }
             else {
                 if (!p_joint->getPosLimits(0, min, max)) {
@@ -233,8 +251,8 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
                              << "for the joint " << joint + ".";
                     return false;
                 }
-                m_limits->m_min[i] = min;
-                m_limits->m_max[i] = max;
+                pImpl->limits.min[i] = min;
+                pImpl->limits.max[i] = max;
             }
         }
     }
@@ -244,7 +262,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     // else if (limitType == "ModelEffort") {
     // }
     else {
-        wbtError << "Limit type " + m_limitType + " not recognized.";
+        wbtError << "Limit type " + pImpl->limitType + " not recognized.";
         return false;
     }
 
@@ -256,10 +274,11 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
     bool ok = true;
 
     // Release the RemoteControlBoardRemapper
-    if (m_limitType == "ControlBoardPosition" || m_limitType == "ControlBoardVelocity") {
+    if (pImpl->limitType == "ControlBoardPosition" || pImpl->limitType == "ControlBoardVelocity") {
         auto robotInterface = getRobotInterface(blockInfo).lock();
         if (!robotInterface || !robotInterface->releaseRemoteControlBoardRemapper()) {
             wbtError << "Failed to release the RemoteControlBoardRemapper.";
+            ok = false;
             // Don't return false here. WBBlock::terminate must be called in any case
         }
     }
@@ -269,10 +288,6 @@ bool GetLimits::terminate(const BlockInformation* blockInfo)
 
 bool GetLimits::output(const BlockInformation* blockInfo)
 {
-    if (!m_limits) {
-        return false;
-    }
-
     Signal minPort = blockInfo->getOutputPortSignal(0);
     Signal maxPort = blockInfo->getOutputPortSignal(1);
 
@@ -291,8 +306,8 @@ bool GetLimits::output(const BlockInformation* blockInfo)
 
     bool ok = true;
 
-    ok = ok && minPort.setBuffer(m_limits->m_min.data(), dofs);
-    ok = ok && maxPort.setBuffer(m_limits->m_max.data(), dofs);
+    ok = ok && minPort.setBuffer(pImpl->limits.min.data(), dofs);
+    ok = ok && maxPort.setBuffer(pImpl->limits.max.data(), dofs);
 
     if (!ok) {
         wbtError << "Failed to set output buffers.";

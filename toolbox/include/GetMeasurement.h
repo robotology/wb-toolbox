@@ -13,13 +13,6 @@
 
 namespace wbt {
     class GetMeasurement;
-    enum MeasuredType
-    {
-        MEASUREMENT_JOINT_POS,
-        MEASUREMENT_JOINT_VEL,
-        MEASUREMENT_JOINT_ACC,
-        ESTIMATE_JOINT_TORQUE
-    };
 } // namespace wbt
 
 /**
@@ -34,16 +27,16 @@ namespace wbt {
  * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "MeasuredType" |
  *
  */
-class wbt::GetMeasurement : public wbt::WBBlock
+class wbt::GetMeasurement final : public wbt::WBBlock
 {
 private:
-    std::vector<double> m_measurement;
-    wbt::MeasuredType m_measuredType;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    GetMeasurement() = default;
+    GetMeasurement();
     ~GetMeasurement() override = default;
 
     unsigned numberOfParameters() override;

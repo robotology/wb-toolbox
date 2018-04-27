@@ -9,7 +9,6 @@
 #ifndef WBT_TOOLBOXSINGLETON_H
 #define WBT_TOOLBOXSINGLETON_H
 
-#include "Configuration.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -19,6 +18,7 @@ namespace wbt {
     class ToolboxSingleton;
     class RobotInterface;
     class Parameters;
+    class Configuration;
 } // namespace wbt
 
 namespace iDynTree {

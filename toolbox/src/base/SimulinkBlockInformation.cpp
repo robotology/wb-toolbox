@@ -9,6 +9,7 @@
 #include "SimulinkBlockInformation.h"
 #include "Log.h"
 #include "MxAnyType.h"
+#include "Parameter.h"
 #include "Parameters.h"
 #include "Signal.h"
 #include "ToolboxSingleton.h"
@@ -458,8 +459,8 @@ DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const DataType& dataType
 bool SimulinkBlockInformation::addParameterMetadata(const wbt::ParameterMetadata& paramMD)
 {
     for (auto md : m_paramsMetadata) {
-        if (md.m_name == paramMD.m_name) {
-            wbtError << "Trying to store an already existing " << md.m_name << " parameter.";
+        if (md.name == paramMD.name) {
+            wbtError << "Trying to store an already existing " << md.name << " parameter.";
             return false;
         }
     }
@@ -472,7 +473,7 @@ bool SimulinkBlockInformation::addParameterMetadata(const wbt::ParameterMetadata
 bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
 {
     auto metadataContainsScalarParam = [](const wbt::ParameterMetadata& md) -> const bool {
-        return md.m_rows == 1 && md.m_cols == 1;
+        return md.rows == 1 && md.cols == 1;
     };
 
     for (wbt::ParameterMetadata paramMD : m_paramsMetadata) {
@@ -480,7 +481,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
         bool ok;
 
         // TODO Right now the cells are reshaped to a 1 x NumElements by MxAnyType
-        if (paramMD.m_rows == ParameterMetadata::DynamicSize) {
+        if (paramMD.rows == ParameterMetadata::DynamicSize) {
             wbtError << "Dynamically sized rows are not currently supported.";
             return false;
         }
@@ -488,9 +489,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
         // Handle the case of dynamically sized columns. In this case the metadata passed
         // from the Block (containing DynamicSize) is modified with the length of the
         // vector that is going to be stored.
-        const bool hasDynSizeColumns = (paramMD.m_cols == ParameterMetadata::DynamicSize);
+        const bool hasDynSizeColumns = (paramMD.cols == ParameterMetadata::DynamicSize);
 
-        switch (paramMD.m_type) {
+        switch (paramMD.type) {
             // SCALAR / VECTOR PARAMETERS
             // --------------------------
             //
@@ -507,8 +508,8 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::DOUBLE: {
                 if (metadataContainsScalarParam(paramMD)) {
                     double paramValue;
-                    if (!getScalarParameterAtIndex(paramMD.m_index, paramValue)) {
-                        wbtError << "Failed to get scalar parameter at index " << paramMD.m_index
+                    if (!getScalarParameterAtIndex(paramMD.index, paramValue)) {
+                        wbtError << "Failed to get scalar parameter at index " << paramMD.index
                                  << ".";
                         return false;
                     }
@@ -516,13 +517,13 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 }
                 else {
                     std::vector<double> paramVector;
-                    if (!getVectorAtIndex(paramMD.m_index, paramVector)) {
-                        wbtError << "Failed to get vector parameter at index " << paramMD.m_index
+                    if (!getVectorAtIndex(paramMD.index, paramVector)) {
+                        wbtError << "Failed to get vector parameter at index " << paramMD.index
                                  << ".";
                         return false;
                     }
                     if (hasDynSizeColumns) {
-                        paramMD.m_cols = paramVector.size();
+                        paramMD.cols = paramVector.size();
                     }
                     ok = parameters.storeParameter<double>(paramVector, paramMD);
                 }
@@ -531,8 +532,8 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::STRING: {
                 if (metadataContainsScalarParam(paramMD)) {
                     std::string paramValue;
-                    if (!getStringParameterAtIndex(paramMD.m_index, paramValue)) {
-                        wbtError << "Failed to get string parameter at index " << paramMD.m_index
+                    if (!getStringParameterAtIndex(paramMD.index, paramValue)) {
+                        wbtError << "Failed to get string parameter at index " << paramMD.index
                                  << ".";
                         return false;
                     }
@@ -550,8 +551,8 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::CELL_BOOL:
             case ParameterType::CELL_DOUBLE: {
                 AnyCell cell;
-                if (!getCellAtIndex(paramMD.m_index, cell)) {
-                    wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
+                if (!getCellAtIndex(paramMD.index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.index << ".";
                     return false;
                 }
                 std::vector<double> paramVector;
@@ -559,21 +560,21 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     double value;
                     if (!element->asDouble(value)) {
                         wbtError << "Failed to parse an element of the cell at index "
-                                 << paramMD.m_index << " as a double.";
+                                 << paramMD.index << " as a double.";
                         return false;
                     }
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.m_cols = paramVector.size();
+                    paramMD.cols = paramVector.size();
                 }
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
             }
             case ParameterType::CELL_STRING: {
                 AnyCell cell;
-                if (!getCellAtIndex(paramMD.m_index, cell)) {
-                    wbtError << "Failed to get cell parameter at index " << paramMD.m_index << ".";
+                if (!getCellAtIndex(paramMD.index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.index << ".";
                     return false;
                 }
                 std::vector<std::string> paramVector;
@@ -581,13 +582,13 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     std::string value;
                     if (!element->asString(value)) {
                         wbtError << "Failed to parse an element of the cell at index "
-                                 << paramMD.m_index << " as a string.";
+                                 << paramMD.index << " as a string.";
                         return false;
                     }
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.m_cols = paramVector.size();
+                    paramMD.cols = paramVector.size();
                 }
                 ok = parameters.storeParameter<std::string>(paramVector, paramMD);
                 break;
@@ -599,8 +600,8 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::STRUCT_DOUBLE: {
                 if (metadataContainsScalarParam(paramMD)) {
                     double paramValue;
-                    if (!getScalarFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
-                        wbtError << "Failed to get struct parameter at index " << paramMD.m_index
+                    if (!getScalarFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
+                        wbtError << "Failed to get struct parameter at index " << paramMD.index
                                  << ".";
                         return false;
                     }
@@ -608,14 +609,13 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 }
                 else {
                     std::vector<double> paramVector;
-                    if (!getVectorDoubleFieldAtIndex(
-                            paramMD.m_index, paramMD.m_name, paramVector)) {
-                        wbtError << "Failed to get vector field " << paramMD.m_name
-                                 << "from the struct at index " << paramMD.m_index << ".";
+                    if (!getVectorDoubleFieldAtIndex(paramMD.index, paramMD.name, paramVector)) {
+                        wbtError << "Failed to get vector field " << paramMD.name
+                                 << "from the struct at index " << paramMD.index << ".";
                         return false;
                     }
                     if (hasDynSizeColumns) {
-                        paramMD.m_cols = paramVector.size();
+                        paramMD.cols = paramVector.size();
                     }
                     ok = parameters.storeParameter<double>(paramVector, paramMD);
                 }
@@ -624,9 +624,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::STRUCT_STRING: {
                 if (metadataContainsScalarParam(paramMD)) {
                     std::string paramValue;
-                    if (!getStringFieldAtIndex(paramMD.m_index, paramMD.m_name, paramValue)) {
-                        wbtError << "Failed to get string field " << paramMD.m_name
-                                 << "from the struct at index " << paramMD.m_index << ".";
+                    if (!getStringFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
+                        wbtError << "Failed to get string field " << paramMD.name
+                                 << "from the struct at index " << paramMD.index << ".";
                         return false;
                     }
                     ok = parameters.storeParameter<std::string>(paramValue, paramMD);
@@ -642,23 +642,23 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::STRUCT_CELL_DOUBLE: {
                 AnyCell cell;
                 std::vector<double> paramVector;
-                if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {
-                    wbtError << "Failed to get cell field " << paramMD.m_name
-                             << " from the struct at index " << paramMD.m_index << ".";
+                if (!getCellFieldAtIndex(paramMD.index, paramMD.name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.name
+                             << " from the struct at index " << paramMD.index << ".";
                     return false;
                 }
                 for (auto element : cell) {
                     double value;
                     if (!element->asDouble(value)) {
-                        wbtError << "Failed to parse an element of the cell field "
-                                 << paramMD.m_name << " from the struct at index "
-                                 << paramMD.m_index << " as a double.";
+                        wbtError << "Failed to parse an element of the cell field " << paramMD.name
+                                 << " from the struct at index " << paramMD.index
+                                 << " as a double.";
                         return false;
                     }
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.m_cols = paramVector.size();
+                    paramMD.cols = paramVector.size();
                 }
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
@@ -666,23 +666,23 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
             case ParameterType::STRUCT_CELL_STRING: {
                 AnyCell cell;
                 std::vector<std::string> paramVector;
-                if (!getCellFieldAtIndex(paramMD.m_index, paramMD.m_name, cell)) {
-                    wbtError << "Failed to get cell field " << paramMD.m_name
-                             << " from the struct at index " << paramMD.m_index << ".";
+                if (!getCellFieldAtIndex(paramMD.index, paramMD.name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.name
+                             << " from the struct at index " << paramMD.index << ".";
                     return false;
                 }
                 for (auto element : cell) {
                     std::string value;
                     if (!element->asString(value)) {
-                        wbtError << "Failed to parse an element of the cell field "
-                                 << paramMD.m_name << " from the struct at index "
-                                 << paramMD.m_index << " as a string.";
+                        wbtError << "Failed to parse an element of the cell field " << paramMD.name
+                                 << " from the struct at index " << paramMD.index
+                                 << " as a string.";
                         return false;
                     }
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.m_cols = paramVector.size();
+                    paramMD.cols = paramVector.size();
                 }
                 ok = parameters.storeParameter<std::string>(paramVector, paramMD);
                 break;
@@ -690,7 +690,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
         }
 
         if (!ok) {
-            wbtError << "Failed to process parameter with index " << paramMD.m_index << ".";
+            wbtError << "Failed to process parameter with index " << paramMD.index << ".";
             return false;
         }
     }

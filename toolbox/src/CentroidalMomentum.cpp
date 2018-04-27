@@ -8,6 +8,7 @@
 
 #include "CentroidalMomentum.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
@@ -15,8 +16,6 @@
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
-
-#include <memory>
 
 using namespace wbt;
 
@@ -28,8 +27,15 @@ const unsigned INPUT_IDX_BASE_VEL = 2;
 const unsigned INPUT_IDX_JOINT_VEL = 3;
 const unsigned OUTPUT_IDX_CENTRMOM = 0;
 
-// Cannot use = default due to iDynTree::SpatialMomentum instantiation
-CentroidalMomentum::CentroidalMomentum() {}
+class CentroidalMomentum::impl
+{
+public:
+    iDynTree::SpatialMomentum centroidalMomentum;
+};
+
+CentroidalMomentum::CentroidalMomentum()
+    : pImpl{new impl()}
+{}
 
 bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -102,12 +108,7 @@ bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // OUTPUT
-    // ======
-
-    m_centroidalMomentum =
-        std::unique_ptr<iDynTree::SpatialMomentum>(new iDynTree::SpatialMomentum());
-    return static_cast<bool>(m_centroidalMomentum);
+    return true;
 }
 
 bool CentroidalMomentum::terminate(const BlockInformation* blockInfo)
@@ -150,7 +151,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // ======
 
     // Calculate the centroidal momentum
-    *m_centroidalMomentum = kinDyn->getCentroidalTotalMomentum();
+    pImpl->centroidalMomentum = kinDyn->getCentroidalTotalMomentum();
 
     // Get the output signal
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_CENTRMOM);
@@ -160,7 +161,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     }
 
     // Fill the output buffer
-    output.setBuffer(toEigen(*m_centroidalMomentum).data(), output.getWidth());
+    output.setBuffer(toEigen(pImpl->centroidalMomentum).data(), output.getWidth());
 
     return true;
 }

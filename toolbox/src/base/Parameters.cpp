@@ -8,50 +8,60 @@
 
 #include "Parameters.h"
 #include "ConvertStdVector.h"
+#include "Parameter.h"
 
 #include <algorithm>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 using namespace wbt;
 
-Parameters::ParamName Parameters::getParamName(const Parameters::ParamIndex& index) const
+// ================
+// PARAMETERS::IMPL
+// ================
+
+class Parameters::impl
 {
-    if (m_indexToName.find(index) == m_indexToName.end()) {
-        return PARAM_INVALID_NAME;
-    }
+public:
+    // Typedefs for generic scalar / vector parameters
+    using ParameterInt = Parameter<int>;
+    using ParameterBool = Parameter<bool>;
+    using ParameterDouble = Parameter<double>;
+    using ParameterString = Parameter<std::string>;
 
-    return m_indexToName.at(index);
-}
+    // Typedefs for the storage of vector parameters
+    using ParamVectorInt = std::vector<int>;
+    using ParamVectorBool = std::vector<bool>;
+    using ParamVectorDouble = std::vector<double>;
+    using ParamVectorString = std::vector<std::string>;
 
-Parameters::ParamIndex Parameters::getParamIndex(const Parameters::ParamName& name) const
-{
-    if (m_nameToIndex.find(name) == m_nameToIndex.end()) {
-        return PARAM_INVALID_INDEX;
-    }
+    // Maps for storing parameters and their metadata
+    std::unordered_map<ParamName, ParameterInt> paramsInt;
+    std::unordered_map<ParamName, ParameterBool> paramsBool;
+    std::unordered_map<ParamName, ParameterDouble> paramsDouble;
+    std::unordered_map<ParamName, ParameterString> paramsString;
 
-    return m_nameToIndex.at(name);
-}
+    // Maps for handling the internal indexing
+    std::unordered_map<ParamName, wbt::ParameterType> nameToType;
+    std::unordered_map<ParamIndex, ParamName> indexToName;
+    std::unordered_map<ParamName, ParamIndex> nameToIndex;
 
-bool Parameters::existName(const Parameters::ParamName& name) const
-{
-    if (existName(name, ParameterType::INT) || existName(name, ParameterType::BOOL)
-        || existName(name, ParameterType::DOUBLE) || existName(name, ParameterType::STRING)
-        || existName(name, ParameterType::STRUCT_INT) || existName(name, ParameterType::STRUCT_BOOL)
-        || existName(name, ParameterType::STRUCT_DOUBLE)
-        || existName(name, ParameterType::STRUCT_STRING)) {
-        return true;
-    }
-    return false;
-}
+    bool existIndex(const ParamIndex& index) const;
+    bool existName(const ParamName& name, const wbt::ParameterType& type) const;
 
-bool Parameters::existName(const Parameters::ParamName& name, const wbt::ParameterType& type) const
+    impl* clone() { return new impl(*this); }
+};
+
+bool Parameters::impl::existName(const Parameters::ParamName& name,
+                                 const wbt::ParameterType& type) const
 {
     switch (type) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            if (m_paramsInt.find(name) == m_paramsInt.end()) {
+            if (paramsInt.find(name) == paramsInt.end()) {
                 return false;
             }
             break;
@@ -59,7 +69,7 @@ bool Parameters::existName(const Parameters::ParamName& name, const wbt::Paramet
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            if (m_paramsBool.find(name) == m_paramsBool.end()) {
+            if (paramsBool.find(name) == paramsBool.end()) {
                 return false;
             }
             break;
@@ -67,7 +77,7 @@ bool Parameters::existName(const Parameters::ParamName& name, const wbt::Paramet
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            if (m_paramsDouble.find(name) == m_paramsDouble.end()) {
+            if (paramsDouble.find(name) == paramsDouble.end()) {
                 return false;
             }
             break;
@@ -75,7 +85,7 @@ bool Parameters::existName(const Parameters::ParamName& name, const wbt::Paramet
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            if (m_paramsString.find(name) == m_paramsString.end()) {
+            if (paramsString.find(name) == paramsString.end()) {
                 return false;
             }
             break;
@@ -83,21 +93,75 @@ bool Parameters::existName(const Parameters::ParamName& name, const wbt::Paramet
     return true;
 }
 
-bool Parameters::existIndex(const Parameters::ParamIndex& index) const
+bool Parameters::impl::existIndex(const Parameters::ParamIndex& index) const
 {
-    if (m_indexToName.find(index) == m_indexToName.end()) {
+    if (indexToName.find(index) == indexToName.end()) {
         return false;
     }
 
     return true;
 }
 
+// ==========
+// PARAMETERS
+// ==========
+
+Parameters::Parameters()
+    : pImpl{new impl()}
+{}
+
+// Defining the destructor as default here in the cpp avoids the usage
+// of a custom pimpl deleter
+Parameters::~Parameters() = default;
+
+Parameters::Parameters(const wbt::Parameters& other)
+    : pImpl{other.pImpl->clone()}
+{}
+
+wbt::Parameters& Parameters::operator=(const wbt::Parameters& other)
+{
+    pImpl.reset(other.pImpl->clone());
+    return *this;
+}
+
+Parameters::ParamName Parameters::getParamName(const Parameters::ParamIndex& index) const
+{
+    if (pImpl->indexToName.find(index) == pImpl->indexToName.end()) {
+        return PARAM_INVALID_NAME;
+    }
+
+    return pImpl->indexToName.at(index);
+}
+
+Parameters::ParamIndex Parameters::getParamIndex(const Parameters::ParamName& name) const
+{
+    if (pImpl->nameToIndex.find(name) == pImpl->nameToIndex.end()) {
+        return PARAM_INVALID_INDEX;
+    }
+
+    return pImpl->nameToIndex.at(name);
+}
+
+bool Parameters::existName(const Parameters::ParamName& name) const
+{
+    if (pImpl->existName(name, ParameterType::INT) || pImpl->existName(name, ParameterType::BOOL)
+        || pImpl->existName(name, ParameterType::DOUBLE)
+        || pImpl->existName(name, ParameterType::STRING)
+        || pImpl->existName(name, ParameterType::STRUCT_INT)
+        || pImpl->existName(name, ParameterType::STRUCT_BOOL)
+        || pImpl->existName(name, ParameterType::STRUCT_DOUBLE)
+        || pImpl->existName(name, ParameterType::STRUCT_STRING)) {
+        return true;
+    }
+    return false;
+}
+
 unsigned Parameters::getNumberOfParameters() const
 {
-    const unsigned numIntParams = m_paramsInt.size();
-    const unsigned numBoolParams = m_paramsBool.size();
-    const unsigned numDoubleParams = m_paramsDouble.size();
-    const unsigned numStringParams = m_paramsString.size();
+    const size_t numIntParams = pImpl->paramsInt.size();
+    const size_t numBoolParams = pImpl->paramsBool.size();
+    const size_t numDoubleParams = pImpl->paramsDouble.size();
+    const size_t numStringParams = pImpl->paramsString.size();
 
     return numIntParams + numBoolParams + numDoubleParams + numStringParams;
 }
@@ -106,7 +170,7 @@ std::vector<Parameter<int>> Parameters::getIntParameters() const
 {
     std::vector<Parameter<int>> vectorParams;
 
-    for (auto p : m_paramsInt) {
+    for (auto p : pImpl->paramsInt) {
         vectorParams.push_back(p.second);
     }
 
@@ -117,7 +181,7 @@ std::vector<Parameter<bool>> Parameters::getBoolParameters() const
 {
     std::vector<Parameter<bool>> vectorParams;
 
-    for (auto p : m_paramsBool) {
+    for (auto p : pImpl->paramsBool) {
         vectorParams.push_back(p.second);
     }
 
@@ -128,7 +192,7 @@ std::vector<Parameter<double>> Parameters::getDoubleParameters() const
 {
     std::vector<Parameter<double>> vectorParams;
 
-    for (auto p : m_paramsDouble) {
+    for (auto p : pImpl->paramsDouble) {
         vectorParams.push_back(p.second);
     }
 
@@ -139,7 +203,7 @@ std::vector<Parameter<std::string>> Parameters::getStringParameters() const
 {
     std::vector<Parameter<std::string>> vectorParams;
 
-    for (auto p : m_paramsString) {
+    for (auto p : pImpl->paramsString) {
         vectorParams.push_back(p.second);
     }
 
@@ -148,32 +212,32 @@ std::vector<Parameter<std::string>> Parameters::getStringParameters() const
 
 wbt::ParameterMetadata Parameters::getParameterMetadata(const ParamName& name)
 {
-    if (!existName(name) || !existName(name, m_nameToType.at(name))) {
+    if (!existName(name) || !pImpl->existName(name, pImpl->nameToType.at(name))) {
         // TODO: here dummy metadata are returned. This can be improved.
         return {ParameterType::INT, 0, 0, 0, "dummy"};
     }
 
-    switch (m_nameToType[name]) {
+    switch (pImpl->nameToType[name]) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            return m_paramsInt.at(name).getMetadata();
+            return pImpl->paramsInt.at(name).getMetadata();
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            return m_paramsBool.at(name).getMetadata();
+            return pImpl->paramsBool.at(name).getMetadata();
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            return m_paramsDouble.at(name).getMetadata();
+            return pImpl->paramsDouble.at(name).getMetadata();
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            return m_paramsString.at(name).getMetadata();
+            return pImpl->paramsString.at(name).getMetadata();
     }
 }
 
@@ -204,46 +268,46 @@ template bool Parameters::getParameter<double>(const Parameters::ParamName& name
 template <typename T>
 bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name, T& param) const
 {
-    if (!existName(name) || !existName(name, m_nameToType.at(name))) {
+    if (!existName(name) || !pImpl->existName(name, pImpl->nameToType.at(name))) {
         return false;
     }
 
-    switch (m_nameToType.at(name)) {
+    switch (pImpl->nameToType.at(name)) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            if (!m_paramsInt.at(name).isScalar()) {
+            if (!pImpl->paramsInt.at(name).isScalar()) {
                 return false;
             }
-            param = static_cast<T>(m_paramsInt.at(name).getScalarParameter());
+            param = static_cast<T>(pImpl->paramsInt.at(name).getScalarParameter());
             break;
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            if (!m_paramsBool.at(name).isScalar()) {
+            if (!pImpl->paramsBool.at(name).isScalar()) {
                 return false;
             }
-            param = static_cast<T>(m_paramsBool.at(name).getScalarParameter());
+            param = static_cast<T>(pImpl->paramsBool.at(name).getScalarParameter());
             break;
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            if (!m_paramsDouble.at(name).isScalar()) {
+            if (!pImpl->paramsDouble.at(name).isScalar()) {
                 return false;
             }
-            param = static_cast<T>(m_paramsDouble.at(name).getScalarParameter());
+            param = static_cast<T>(pImpl->paramsDouble.at(name).getScalarParameter());
             break;
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            if (!m_paramsString.at(name).isScalar()) {
+            if (!pImpl->paramsString.at(name).isScalar()) {
                 return false;
             }
-            param = static_cast<T>(std::stod(m_paramsString.at(name).getScalarParameter()));
+            param = static_cast<T>(std::stod(pImpl->paramsString.at(name).getScalarParameter()));
             break;
     }
     return true;
@@ -265,55 +329,55 @@ template <typename T>
 bool wbt::Parameters::getParameter(const wbt::Parameters::ParamName& name,
                                    std::vector<T>& param) const
 {
-    if (!existName(name) || !existName(name, m_nameToType.at(name))) {
+    if (!existName(name) || !pImpl->existName(name, pImpl->nameToType.at(name))) {
         return false;
     }
 
     param.clear();
 
-    switch (m_nameToType.at(name)) {
+    switch (pImpl->nameToType.at(name)) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT: {
-            if (m_paramsInt.at(name).isScalar()) {
+            if (pImpl->paramsInt.at(name).isScalar()) {
                 return false;
             }
             std::vector<T> output;
-            convertStdVector(m_paramsInt.at(name).getVectorParameter(), param);
+            convertStdVector(pImpl->paramsInt.at(name).getVectorParameter(), param);
             break;
         }
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL: {
-            if (m_paramsBool.at(name).isScalar()) {
+            if (pImpl->paramsBool.at(name).isScalar()) {
                 return false;
             }
             std::vector<T> output;
-            convertStdVector(m_paramsBool.at(name).getVectorParameter(), param);
+            convertStdVector(pImpl->paramsBool.at(name).getVectorParameter(), param);
             break;
         }
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE: {
-            if (m_paramsDouble.at(name).isScalar()) {
+            if (pImpl->paramsDouble.at(name).isScalar()) {
                 return false;
             }
             std::vector<T> output;
-            convertStdVector(m_paramsDouble.at(name).getVectorParameter(), param);
+            convertStdVector(pImpl->paramsDouble.at(name).getVectorParameter(), param);
             break;
         }
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING: {
-            if (m_paramsString.at(name).isScalar()) {
+            if (pImpl->paramsString.at(name).isScalar()) {
                 return false;
             }
             std::vector<T> output;
-            convertStdVector(m_paramsString.at(name).getVectorParameter(), param);
+            convertStdVector(pImpl->paramsString.at(name).getVectorParameter(), param);
             break;
         }
     }
@@ -336,48 +400,49 @@ template bool Parameters::storeParameter<double>(const double& param,
 template <typename T>
 bool wbt::Parameters::storeParameter(const T& param, const wbt::ParameterMetadata& paramMetadata)
 {
-    if (existName(paramMetadata.m_name) || existName(paramMetadata.m_name, paramMetadata.m_type)) {
+    if (existName(paramMetadata.name) || pImpl->existName(paramMetadata.name, paramMetadata.type)) {
         return false;
     }
 
-    if (paramMetadata.m_rows != 1 && paramMetadata.m_cols != 1) {
+    if (paramMetadata.rows != 1 && paramMetadata.cols != 1) {
         return false;
     }
 
-    switch (paramMetadata.m_type) {
+    switch (paramMetadata.type) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            m_paramsInt.emplace(std::make_pair(
-                paramMetadata.m_name, ParameterInt(static_cast<int>(param), paramMetadata)));
+            pImpl->paramsInt.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterInt(static_cast<int>(param), paramMetadata)));
             break;
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            m_paramsBool.emplace(std::make_pair(
-                paramMetadata.m_name, ParameterBool(static_cast<bool>(param), paramMetadata)));
+            pImpl->paramsBool.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterBool(static_cast<bool>(param), paramMetadata)));
             break;
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            m_paramsDouble.emplace(std::make_pair(
-                paramMetadata.m_name, ParameterDouble(static_cast<double>(param), paramMetadata)));
+            pImpl->paramsDouble.emplace(
+                std::make_pair(paramMetadata.name,
+                               impl::ParameterDouble(static_cast<double>(param), paramMetadata)));
             break;
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            m_paramsString.emplace(std::make_pair(
-                paramMetadata.m_name, ParameterString(std::to_string(param), paramMetadata)));
+            pImpl->paramsString.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterString(std::to_string(param), paramMetadata)));
             break;
     }
 
-    m_nameToType[paramMetadata.m_name] = paramMetadata.m_type;
-    m_nameToIndex[paramMetadata.m_name] = paramMetadata.m_index;
-    m_indexToName[paramMetadata.m_index] = paramMetadata.m_name;
+    pImpl->nameToType[paramMetadata.name] = paramMetadata.type;
+    pImpl->nameToIndex[paramMetadata.name] = paramMetadata.index;
+    pImpl->indexToName[paramMetadata.index] = paramMetadata.name;
 
     return true;
 }
@@ -398,23 +463,23 @@ template <typename T>
 bool wbt::Parameters::storeParameter(const std::vector<T>& param,
                                      const wbt::ParameterMetadata& paramMetadata)
 {
-    if (existName(paramMetadata.m_name) || existName(paramMetadata.m_name, paramMetadata.m_type)) {
+    if (existName(paramMetadata.name) || pImpl->existName(paramMetadata.name, paramMetadata.type)) {
         return false;
     }
 
-    if (paramMetadata.m_rows != 1 && paramMetadata.m_cols != param.size()) {
+    if (paramMetadata.rows != 1 && paramMetadata.cols != param.size()) {
         return false;
     }
 
-    switch (paramMetadata.m_type) {
+    switch (paramMetadata.type) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT: {
             std::vector<int> paramInt(param.size());
             convertStdVector<T, int>(param, paramInt);
-            m_paramsInt.emplace(
-                std::make_pair(paramMetadata.m_name, ParameterInt(paramInt, paramMetadata)));
+            pImpl->paramsInt.emplace(
+                std::make_pair(paramMetadata.name, impl::ParameterInt(paramInt, paramMetadata)));
             break;
         }
         case ParameterType::BOOL:
@@ -423,8 +488,8 @@ bool wbt::Parameters::storeParameter(const std::vector<T>& param,
         case ParameterType::STRUCT_CELL_BOOL: {
             std::vector<bool> paramBool(param.size());
             convertStdVector<T, bool>(param, paramBool);
-            m_paramsBool.emplace(
-                std::make_pair(paramMetadata.m_name, ParameterBool(paramBool, paramMetadata)));
+            pImpl->paramsBool.emplace(
+                std::make_pair(paramMetadata.name, impl::ParameterBool(paramBool, paramMetadata)));
             break;
         }
         case ParameterType::DOUBLE:
@@ -433,8 +498,8 @@ bool wbt::Parameters::storeParameter(const std::vector<T>& param,
         case ParameterType::STRUCT_CELL_DOUBLE: {
             std::vector<double> paramDouble(param.size());
             convertStdVector<T, double>(param, paramDouble);
-            m_paramsDouble.emplace(
-                std::make_pair(paramMetadata.m_name, ParameterDouble(paramDouble, paramMetadata)));
+            pImpl->paramsDouble.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterDouble(paramDouble, paramMetadata)));
             break;
         }
         case ParameterType::STRING:
@@ -443,15 +508,15 @@ bool wbt::Parameters::storeParameter(const std::vector<T>& param,
         case ParameterType::STRUCT_CELL_STRING: {
             std::vector<std::string> paramString(param.size());
             convertStdVector<T, std::string>(param, paramString);
-            m_paramsString.emplace(
-                std::make_pair(paramMetadata.m_name, ParameterString(paramString, paramMetadata)));
+            pImpl->paramsString.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterString(paramString, paramMetadata)));
             break;
         }
     }
 
-    m_nameToType[paramMetadata.m_name] = paramMetadata.m_type;
-    m_nameToIndex[paramMetadata.m_name] = paramMetadata.m_index;
-    m_indexToName[paramMetadata.m_index] = paramMetadata.m_name;
+    pImpl->nameToType[paramMetadata.name] = paramMetadata.type;
+    pImpl->nameToIndex[paramMetadata.name] = paramMetadata.index;
+    pImpl->indexToName[paramMetadata.index] = paramMetadata.name;
 
     return true;
 }
@@ -467,7 +532,7 @@ template bool Parameters::storeParameter<std::string>(const Parameter<std::strin
 template <typename T>
 bool wbt::Parameters::storeParameter(const wbt::Parameter<T>& parameter)
 {
-    if (existName(parameter.getMetadata().m_name)) {
+    if (existName(parameter.getMetadata().name)) {
         return false;
     }
 
@@ -485,46 +550,46 @@ bool wbt::Parameters::storeParameter(const wbt::Parameter<T>& parameter)
 template <>
 bool Parameters::getParameter<std::string>(const ParamName& name, std::string& param) const
 {
-    if (!existName(name) || !existName(name, m_nameToType.at(name))) {
+    if (!existName(name) || !pImpl->existName(name, pImpl->nameToType.at(name))) {
         return false;
     }
 
-    switch (m_nameToType.at(name)) {
+    switch (pImpl->nameToType.at(name)) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            if (!m_paramsInt.at(name).isScalar()) {
+            if (!pImpl->paramsInt.at(name).isScalar()) {
                 return false;
             }
-            param = std::to_string(m_paramsInt.at(name).getScalarParameter());
+            param = std::to_string(pImpl->paramsInt.at(name).getScalarParameter());
             break;
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            if (!m_paramsBool.at(name).isScalar()) {
+            if (!pImpl->paramsBool.at(name).isScalar()) {
                 return false;
             }
-            param = std::to_string(m_paramsBool.at(name).getScalarParameter());
+            param = std::to_string(pImpl->paramsBool.at(name).getScalarParameter());
             break;
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            if (!m_paramsDouble.at(name).isScalar()) {
+            if (!pImpl->paramsDouble.at(name).isScalar()) {
                 return false;
             }
-            param = std::to_string(m_paramsDouble.at(name).getScalarParameter());
+            param = std::to_string(pImpl->paramsDouble.at(name).getScalarParameter());
             break;
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            if (!m_paramsString.at(name).isScalar()) {
+            if (!pImpl->paramsString.at(name).isScalar()) {
                 return false;
             }
-            param = m_paramsString.at(name).getScalarParameter();
+            param = pImpl->paramsString.at(name).getScalarParameter();
             break;
     }
     return true;
@@ -534,49 +599,49 @@ template <>
 bool wbt::Parameters::storeParameter<std::string>(const std::string& param,
                                                   const wbt::ParameterMetadata& paramMetadata)
 {
-    if (existName(paramMetadata.m_name) || existName(paramMetadata.m_name, paramMetadata.m_type)) {
+    if (existName(paramMetadata.name) || pImpl->existName(paramMetadata.name, paramMetadata.type)) {
         return false;
     }
 
-    if (paramMetadata.m_rows != 1 && paramMetadata.m_cols != 1) {
+    if (paramMetadata.rows != 1 && paramMetadata.cols != 1) {
         return false;
     }
 
-    switch (paramMetadata.m_type) {
+    switch (paramMetadata.type) {
         case ParameterType::INT:
         case ParameterType::CELL_INT:
         case ParameterType::STRUCT_INT:
         case ParameterType::STRUCT_CELL_INT:
-            m_paramsInt.emplace(std::make_pair(paramMetadata.m_name,
-                                               ParameterInt(std::stoi(param), paramMetadata)));
+            pImpl->paramsInt.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterInt(std::stoi(param), paramMetadata)));
             break;
         case ParameterType::BOOL:
         case ParameterType::CELL_BOOL:
         case ParameterType::STRUCT_BOOL:
         case ParameterType::STRUCT_CELL_BOOL:
-            m_paramsBool.emplace(
-                std::make_pair(paramMetadata.m_name,
-                               ParameterBool(static_cast<bool>(std::stoi(param)), paramMetadata)));
+            pImpl->paramsBool.emplace(std::make_pair(
+                paramMetadata.name,
+                impl::ParameterBool(static_cast<bool>(std::stoi(param)), paramMetadata)));
             break;
         case ParameterType::DOUBLE:
         case ParameterType::CELL_DOUBLE:
         case ParameterType::STRUCT_DOUBLE:
         case ParameterType::STRUCT_CELL_DOUBLE:
-            m_paramsDouble.emplace(std::make_pair(
-                paramMetadata.m_name, ParameterDouble(std::stod(param), paramMetadata)));
+            pImpl->paramsDouble.emplace(std::make_pair(
+                paramMetadata.name, impl::ParameterDouble(std::stod(param), paramMetadata)));
             break;
         case ParameterType::STRING:
         case ParameterType::CELL_STRING:
         case ParameterType::STRUCT_STRING:
         case ParameterType::STRUCT_CELL_STRING:
-            m_paramsString.emplace(
-                std::make_pair(paramMetadata.m_name, ParameterString(param, paramMetadata)));
+            pImpl->paramsString.emplace(
+                std::make_pair(paramMetadata.name, impl::ParameterString(param, paramMetadata)));
             break;
     }
 
-    m_nameToType[paramMetadata.m_name] = paramMetadata.m_type;
-    m_nameToIndex[paramMetadata.m_name] = paramMetadata.m_index;
-    m_indexToName[paramMetadata.m_index] = paramMetadata.m_name;
+    pImpl->nameToType[paramMetadata.name] = paramMetadata.type;
+    pImpl->nameToIndex[paramMetadata.name] = paramMetadata.index;
+    pImpl->indexToName[paramMetadata.index] = paramMetadata.name;
 
     return true;
 }

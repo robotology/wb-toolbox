@@ -9,9 +9,6 @@
 #ifndef WBT_ROBOTINTERFACE_H
 #define WBT_ROBOTINTERFACE_H
 
-#include "Configuration.h"
-
-#include <cassert>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -40,6 +37,7 @@ namespace iDynTree {
 
 namespace wbt {
     class RobotInterface;
+    class Configuration;
     struct YarpInterfaces;
 
     using JointIndex_Yarp = int;
@@ -97,77 +95,8 @@ struct wbt::YarpInterfaces
 class wbt::RobotInterface
 {
 private:
-    std::unique_ptr<yarp::dev::PolyDriver> m_robotDevice;
-    std::shared_ptr<iDynTree::KinDynComputations> m_kinDynComp;
-    wbt::YarpInterfaces m_yarpInterfaces;
-
-    // Maps used to store infos about yarp's and idyntree's internal joint indexing
-    std::shared_ptr<JointIndexToYarpMap> m_jointIndexToYarpMap;
-    std::shared_ptr<JointNameToYarpMap> m_jointNameToYarpMap;
-    std::shared_ptr<JointNameToIndexInControlBoardMap> m_jointNameToIndexInControlBoardMap;
-    std::shared_ptr<ControlBoardIndexLimit> m_controlBoardIndexLimit;
-
-    // Configuration from Simulink Block's parameters
-    const wbt::Configuration m_config;
-
-    // Counters for resource allocation / deallocation
-    unsigned m_robotDeviceCounter;
-
-    // ======================
-    // INITIALIZATION HELPERS
-    // ======================
-
-    /**
-     *
-     * @brief Initialize the model
-     *
-     * Initialize the iDynTree::KinDynComputations with the information contained
-     * in wbt::Configuration. It finds from the file system the urdf file and stores the object to
-     * operate on it. If the joint list contained in RobotInterface::m_config is not complete, it
-     * loads a reduced model of the robot.
-     *
-     * @return True if success, false otherwise.
-     */
-    bool initializeModel();
-
-    /**
-     * @brief Initialize the remote controlboard remapper
-     *
-     * Configure a yarp::dev::RemoteControlBoardRemapper device in order to allow
-     * interfacing the toolbox with the robot (real or in Gazebo).
-     *
-     * @return True if success, false otherwise.
-     */
-    bool initializeRemoteControlBoardRemapper();
-
-    // =====================
-    // OTHER PRIVATE METHODS
-    // =====================
-
-    /**
-     * @brief Map joints between iDynTree and Yarp indices
-     *
-     * Creates the map between joints (specified as either names or idyntree indices) and
-     * their YARP representation, which consist in a pair: Control Board index and joint index
-     * inside the its Control Board.
-     *
-     * @see RobotInterface::getJointsMapString, RobotInterface::getJointsMapIndex
-     *
-     * @return True if the map has been created successfully, false otherwise.
-     */
-    bool mapDoFs();
-
-    /**
-     * @brief Create a RemoteControlBoard object for a given remoteName
-     *
-     * @see mapDoFs
-     *
-     * @param remoteName Name of the remote from which the remote control board is be initialized
-     * @param[out] controlBoard Smart pointer to the allocated remote control board
-     * @return True if success, false otherwise.
-     */
-    bool getSingleControlBoard(const std::string& remoteName,
-                               std::unique_ptr<yarp::dev::PolyDriver>& controlBoard);
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     // CONSTRUCTOR / DESTRUCTOR

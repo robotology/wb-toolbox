@@ -9,6 +9,7 @@
 #ifndef WBT_PARAMETER_H
 #define WBT_PARAMETER_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -58,12 +59,12 @@ class wbt::ParameterMetadata
 public:
     static const int DynamicSize;
 
-    const unsigned m_index;
-    const std::string m_name;
+    const unsigned index;
+    const std::string name;
 
-    int m_rows;
-    int m_cols;
-    wbt::ParameterType m_type;
+    int rows;
+    int cols;
+    wbt::ParameterType type;
 
     ParameterMetadata() = delete;
     ~ParameterMetadata() = default;

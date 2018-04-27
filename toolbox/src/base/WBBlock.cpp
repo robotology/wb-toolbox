@@ -10,6 +10,7 @@
 #include "BlockInformation.h"
 #include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 #include "ToolboxSingleton.h"
@@ -20,9 +21,10 @@
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
 
-#include <memory>
+#include <array>
 #include <string>
 
 using namespace wbt;
@@ -34,13 +36,28 @@ const unsigned ConfigurationParameterIndex = PARAM_IDX_BIAS + 1; // Struct from 
 const unsigned ConfBlockNameParameterIndex =
     PARAM_IDX_BIAS + 2; // Absolute name of the block containing the configuration
 
-iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity)
-    : m_gravity(gravity.data(), 3)
-    , m_jointsVelocity(dofs)
-    , m_jointsPosition(dofs)
+/**
+ * @brief Container for data structures used for using
+ * `iDynTree::KinDynComputations::setRobotState`
+ */
+struct WBBlock::iDynTreeRobotState
 {
-    m_jointsPosition.zero();
-    m_jointsVelocity.zero();
+    iDynTree::Twist baseVelocity;
+    iDynTree::Vector3 gravity;
+    iDynTree::Transform world_T_base;
+    iDynTree::VectorDynSize jointsVelocity;
+    iDynTree::VectorDynSize jointsPosition;
+    iDynTreeRobotState(const unsigned& dofs = 0, const std::array<double, 3>& gravity = {});
+};
+
+WBBlock::iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs,
+                                                const std::array<double, 3>& gravity)
+    : gravity(gravity.data(), 3)
+    , jointsVelocity(dofs)
+    , jointsPosition(dofs)
+{
+    jointsPosition.zero();
+    jointsVelocity.zero();
 }
 
 std::weak_ptr<iDynTree::KinDynComputations>
@@ -80,6 +97,11 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
     using namespace Eigen;
     using Matrix4dSimulink = Matrix<double, 4, 4, Eigen::ColMajor>;
 
+    if (!m_robotState) {
+        wbtError << "Failed to access iDynTreeRobotState object.";
+        return false;
+    }
+
     // Base pose
     // ---------
 
@@ -91,7 +113,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        fromEigen(m_robotState.m_world_T_base, Matrix4dSimulink(buffer));
+        fromEigen(m_robotState->world_T_base, Matrix4dSimulink(buffer));
     }
 
     // Joints position
@@ -106,7 +128,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         }
         // Fill the data
         for (unsigned i = 0; i < jointsPos->getWidth(); ++i) {
-            m_robotState.m_jointsPosition.setVal(i, buffer[i]);
+            m_robotState->jointsPosition.setVal(i, buffer[i]);
         }
     }
 
@@ -121,7 +143,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
             return false;
         }
         // Fill the data
-        m_robotState.m_baseVelocity = Twist(LinVelocity(buffer, 3), AngVelocity(buffer + 3, 3));
+        m_robotState->baseVelocity = Twist(LinVelocity(buffer, 3), AngVelocity(buffer + 3, 3));
     }
 
     // Joints velocity
@@ -136,7 +158,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         }
         // Fill the data
         for (unsigned i = 0; i < jointsVelocity->getWidth(); ++i) {
-            m_robotState.m_jointsVelocity.setVal(i, buffer[i]);
+            m_robotState->jointsVelocity.setVal(i, buffer[i]);
         }
     }
 
@@ -148,11 +170,11 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
         return false;
     }
 
-    bool ok = kinDyn->setRobotState(m_robotState.m_world_T_base,
-                                    m_robotState.m_jointsPosition,
-                                    m_robotState.m_baseVelocity,
-                                    m_robotState.m_jointsVelocity,
-                                    m_robotState.m_gravity);
+    bool ok = kinDyn->setRobotState(m_robotState->world_T_base,
+                                    m_robotState->jointsPosition,
+                                    m_robotState->baseVelocity,
+                                    m_robotState->jointsVelocity,
+                                    m_robotState->gravity);
 
     if (!ok) {
         wbtError << "Failed to set the iDynTree robot state.";
@@ -161,6 +183,12 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     return true;
 }
+
+WBBlock::WBBlock()
+    : m_robotState{nullptr}
+{}
+
+WBBlock::~WBBlock() = default;
 
 unsigned WBBlock::numberOfParameters()
 {
@@ -258,7 +286,8 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
 
     // Initialize the m_robotState member
     const unsigned& dofs = robotInterface->getConfiguration().getNumberOfDoFs();
-    m_robotState = iDynTreeRobotState(dofs, robotInterface->getConfiguration().getGravityVector());
+    m_robotState.reset(
+        new iDynTreeRobotState(dofs, robotInterface->getConfiguration().getGravityVector()));
 
-    return true;
+    return static_cast<bool>(m_robotState);
 }

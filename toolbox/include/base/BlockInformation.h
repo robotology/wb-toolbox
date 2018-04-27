@@ -9,10 +9,8 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
-#include <cstdint>
 #include <memory>
 #include <string>
-#include <utility>
 
 namespace wbt {
     class BlockInformation;

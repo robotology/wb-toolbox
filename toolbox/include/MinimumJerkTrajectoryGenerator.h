@@ -11,18 +11,10 @@
 
 #include "Block.h"
 #include <memory>
-#include <yarp/sig/Vector.h>
 
 namespace wbt {
     class MinimumJerkTrajectoryGenerator;
-    class BlockInformation;
 } // namespace wbt
-
-namespace iCub {
-    namespace ctrl {
-        class minJerkTrajGen;
-    }
-} // namespace iCub
 
 /**
  * @brief The wbt::MinimumJerkTrajectoryGenerator class
@@ -42,22 +34,11 @@ namespace iCub {
  * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ResetOnSettlingTimeChange" |
  *
  */
-class wbt::MinimumJerkTrajectoryGenerator : public wbt::Block
+class wbt::MinimumJerkTrajectoryGenerator final : public wbt::Block
 {
 private:
-    std::unique_ptr<iCub::ctrl::minJerkTrajGen> m_generator;
-
-    int m_outputFirstDerivativeIndex = -1;
-    int m_outputSecondDerivativeIndex = -1;
-
-    double m_previousSettlingTime;
-
-    bool m_firstRun = true;
-    bool m_readInitialValue = false;
-    bool m_readExternalSettlingTime = false;
-    bool m_resetOnSettlingTimeChange = false;
-    std::unique_ptr<yarp::sig::Vector> m_initialValues;
-    std::unique_ptr<yarp::sig::Vector> m_reference;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

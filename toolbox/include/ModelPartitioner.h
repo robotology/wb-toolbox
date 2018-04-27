@@ -9,10 +9,8 @@
 #ifndef WBT_MODELPARTITIONER_H
 #define WBT_MODELPARTITIONER_H
 
-#include "RobotInterface.h"
 #include "WBBlock.h"
 #include <memory>
-#include <vector>
 
 namespace wbt {
     class ModelPartitioner;
@@ -29,19 +27,16 @@ namespace wbt {
  * | ---- | :---: | :---: | :---: | ----- |
  * | ::BOOL | 0 + WBBlock::NumberOfParameters | 1 | 1 | "VectorToControlBoards" |
  */
-class wbt::ModelPartitioner : public wbt::WBBlock
+class wbt::ModelPartitioner final : public wbt::WBBlock
 {
 private:
-    bool m_vectorToControlBoards;
-
-    std::shared_ptr<JointNameToYarpMap> m_jointNameToYarpMap;
-    std::shared_ptr<JointNameToIndexInControlBoardMap> m_jointNameToIndexInControlBoardMap;
-    std::shared_ptr<ControlBoardIndexLimit> m_controlBoardIndexLimit;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    ModelPartitioner() = default;
+    ModelPartitioner();
     ~ModelPartitioner() override = default;
 
     unsigned numberOfParameters() override;

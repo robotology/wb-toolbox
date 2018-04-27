@@ -14,19 +14,7 @@
 
 namespace wbt {
     class GetLimits;
-    struct Limit;
 } // namespace wbt
-
-struct wbt::Limit
-{
-    std::vector<double> m_min;
-    std::vector<double> m_max;
-
-    Limit(unsigned size = 0)
-        : m_min(size)
-        , m_max(size)
-    {}
-};
 
 /**
  * @brief The wbt::GetLimits class
@@ -40,16 +28,16 @@ struct wbt::Limit
  * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "LimitType" |
  *
  */
-class wbt::GetLimits : public wbt::WBBlock
+class wbt::GetLimits final : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<Limit> m_limits;
-    std::string m_limitType;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    GetLimits() = default;
+    GetLimits();
     ~GetLimits() override = default;
 
     unsigned numberOfParameters() override;

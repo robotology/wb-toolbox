@@ -10,7 +10,6 @@
 #define WBT_BLOCK_H
 
 #include "Parameters.h"
-
 #include <string>
 #include <vector>
 

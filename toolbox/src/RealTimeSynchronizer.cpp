@@ -9,6 +9,7 @@
 #include "RealTimeSynchronizer.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
@@ -19,6 +20,18 @@ const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 
 const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
 const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
+
+class RealTimeSynchronizer::impl
+{
+public:
+    double period = 0.01;
+    double initialTime;
+    unsigned long counter = 0;
+};
+
+RealTimeSynchronizer::RealTimeSynchronizer()
+    : pImpl{new impl()}
+{}
 
 unsigned RealTimeSynchronizer::numberOfParameters()
 {
@@ -81,12 +94,12 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!m_parameters.getParameter("Period", m_period)) {
+    if (!m_parameters.getParameter("Period", pImpl->period)) {
         wbtError << "Failed to get parameter 'period' after its parsing.";
         return false;
     }
 
-    if (m_period <= 0) {
+    if (pImpl->period <= 0) {
         wbtError << "Period must be greater than 0.";
         return false;
     }
@@ -97,7 +110,6 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    m_counter = 0;
     return true;
 }
 
@@ -109,13 +121,13 @@ bool RealTimeSynchronizer::terminate(const BlockInformation* blockInfo)
 
 bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
 {
-    if (m_counter == 0) {
-        m_initialTime = yarp::os::Time::now();
+    if (pImpl->counter == 0) {
+        pImpl->initialTime = yarp::os::Time::now();
     }
 
     // read current time
-    double currentTime = yarp::os::Time::now() - m_initialTime;
-    double desiredTime = m_counter * m_period;
+    double currentTime = yarp::os::Time::now() - pImpl->initialTime;
+    double desiredTime = pImpl->counter * pImpl->period;
 
     double sleepPeriod = desiredTime - currentTime;
 
@@ -124,7 +136,7 @@ bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
         yarp::os::Time::delay(sleepPeriod);
     }
 
-    m_counter++;
+    pImpl->counter++;
 
     return true;
 }

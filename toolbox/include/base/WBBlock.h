@@ -10,15 +10,7 @@
 #define WBT_WBBLOCK_H
 
 #include "Block.h"
-
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
-
-#include <array>
 #include <memory>
-#include <string>
 
 namespace wbt {
     class WBBlock;
@@ -26,30 +18,12 @@ namespace wbt {
     class Configuration;
     class BlockInformation;
     class RobotInterface;
-    struct iDynTreeRobotState;
 } // namespace wbt
 
 namespace iDynTree {
     class MatrixDynSize;
     class KinDynComputations;
 } // namespace iDynTree
-
-/**
- * @brief Container for data structures used for using `iDynTree::KinDynComputations::setRobotState`
- */
-struct wbt::iDynTreeRobotState
-{
-    iDynTree::Twist m_baseVelocity;
-    iDynTree::Vector3 m_gravity;
-    iDynTree::Transform m_world_T_base;
-    iDynTree::VectorDynSize m_jointsVelocity;
-    iDynTree::VectorDynSize m_jointsPosition;
-
-    iDynTreeRobotState() = default;
-    ~iDynTreeRobotState() = default;
-
-    iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity);
-};
 
 /**
  * @brief Extension of wbt::Block for simplifying the development of whole-body blocks
@@ -79,7 +53,8 @@ struct wbt::iDynTreeRobotState
 class wbt::WBBlock : public wbt::Block
 {
 protected:
-    wbt::iDynTreeRobotState m_robotState;
+    struct iDynTreeRobotState;
+    std::unique_ptr<iDynTreeRobotState> m_robotState;
 
     /**
      * @brief Helper for retrieving the iDynTree::KinDynComputations object from
@@ -120,8 +95,8 @@ public:
     /// The number of parameters WBBlock requires
     static const unsigned NumberOfParameters;
 
-    WBBlock() = default;
-    ~WBBlock() override = default;
+    WBBlock();
+    ~WBBlock() override;
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

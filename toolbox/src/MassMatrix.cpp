@@ -8,6 +8,7 @@
 
 #include "MassMatrix.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
@@ -26,7 +27,15 @@ const unsigned INPUT_IDX_BASE_POSE = 0;
 const unsigned INPUT_IDX_JOINTCONF = 1;
 const unsigned OUTPUT_IDX_MASS_MAT = 0;
 
-MassMatrix::MassMatrix() {}
+class MassMatrix::impl
+{
+public:
+    iDynTree::MatrixDynSize massMatrix;
+};
+
+MassMatrix::MassMatrix()
+    : pImpl{new impl()}
+{}
 
 bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 {
@@ -102,11 +111,10 @@ bool MassMatrix::initialize(BlockInformation* blockInfo)
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Output
-    m_massMatrix =
-        std::unique_ptr<iDynTree::MatrixDynSize>(new iDynTree::MatrixDynSize(6 + dofs, 6 + dofs));
-    m_massMatrix->zero();
+    pImpl->massMatrix.resize(6 + dofs, 6 + dofs);
+    pImpl->massMatrix.zero();
 
-    return static_cast<bool>(m_massMatrix);
+    return true;
 }
 
 bool MassMatrix::terminate(const BlockInformation* blockInfo)
@@ -155,7 +163,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     // ======
 
     // Compute the Mass Matrix
-    kinDyn->getFreeFloatingMassMatrix(*m_massMatrix);
+    kinDyn->getFreeFloatingMassMatrix(pImpl->massMatrix);
 
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_MASS_MAT);
@@ -165,7 +173,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     }
 
     // Allocate objects for row-major -> col-major conversion
-    Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(*m_massMatrix);
+    Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(pImpl->massMatrix);
     Map<MatrixXdSimulink> massMatrixColMajor(
         output.getBuffer<double>(),
         blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_MASS_MAT).first,

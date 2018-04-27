@@ -11,18 +11,10 @@
 
 #include "Block.h"
 #include <memory>
-#include <yarp/sig/Vector.h>
 
 namespace wbt {
     class YarpWrite;
 }
-
-namespace yarp {
-    namespace os {
-        template <class T>
-        class BufferedPort;
-    }
-} // namespace yarp
 
 /**
  * @brief The wbt::YarpWrite class
@@ -36,20 +28,16 @@ namespace yarp {
  * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
  *
  */
-class wbt::YarpWrite : public wbt::Block
+class wbt::YarpWrite final : public wbt::Block
 {
 private:
-    bool m_autoconnect = false;
-    bool m_errorOnMissingPort = true;
-
-    std::string m_destinationPortName;
-    yarp::sig::Vector m_outputVector;
-    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    YarpWrite() = default;
+    YarpWrite();
     ~YarpWrite() override = default;
 
     unsigned numberOfParameters() override;

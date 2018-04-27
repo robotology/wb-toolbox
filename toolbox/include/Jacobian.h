@@ -10,15 +10,10 @@
 #define WBT_JACOBIAN_H
 
 #include "WBBlock.h"
-#include <iDynTree/Model/Indices.h>
 #include <memory>
 
 namespace wbt {
     class Jacobian;
-}
-
-namespace iDynTree {
-    class MatrixDynSize;
 }
 
 /**
@@ -33,14 +28,11 @@ namespace iDynTree {
  * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
  *
  */
-class wbt::Jacobian : public wbt::WBBlock
+class wbt::Jacobian final : public wbt::WBBlock
 {
 private:
-    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobianCOM;
-    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobian;
-
-    bool m_frameIsCoM;
-    iDynTree::FrameIndex m_frameIndex;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;

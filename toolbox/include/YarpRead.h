@@ -16,16 +16,6 @@ namespace wbt {
     class YarpRead;
 }
 
-namespace yarp {
-    namespace os {
-        template <class T>
-        class BufferedPort;
-    }
-    namespace sig {
-        class Vector;
-    }
-} // namespace yarp
-
 /**
  * @brief The wbt::YarpRead class
  *
@@ -42,22 +32,16 @@ namespace yarp {
  * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
  *
  */
-class wbt::YarpRead : public wbt::Block
+class wbt::YarpRead final : public wbt::Block
 {
 private:
-    bool m_autoconnect = false;
-    bool m_blocking = false;
-    bool m_shouldReadTimestamp = false;
-    bool m_errorOnMissingPort = true;
-    int m_bufferSize;
-    double m_timeout = 1.0;
-
-    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    YarpRead() = default;
+    YarpRead();
     ~YarpRead() override = default;
 
     unsigned numberOfParameters() override;

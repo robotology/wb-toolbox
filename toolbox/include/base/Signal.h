@@ -10,8 +10,6 @@
 #define WBT_SIGNAL_H
 
 #include "BlockInformation.h"
-
-#include <cassert>
 #include <map>
 #include <memory>
 
