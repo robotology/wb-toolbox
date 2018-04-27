@@ -64,33 +64,33 @@ public:
 
     virtual bool setNumberOfInputPorts(const unsigned& numberOfPorts) = 0;
     virtual bool setNumberOfOutputPorts(const unsigned& numberOfPorts) = 0;
-    virtual bool setInputPortVectorSize(const SignalIndex& idx, const VectorSize& size) = 0;
-    virtual bool setInputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) = 0;
-    virtual bool setOutputPortVectorSize(const SignalIndex& idx, const VectorSize& size) = 0;
-    virtual bool setOutputPortMatrixSize(const SignalIndex& idx, const MatrixSize& size) = 0;
 
     /**
      * Set data type for the specified input port
+    virtual bool setInputPortVectorSize(const PortIndex& idx, const VectorSize& size) = 0;
      *
      * @param portNumber number of input port
      * @param portType   data type
+    virtual bool setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size) = 0;
      *
      * @return true if succeded, false otherwise
      */
-    virtual bool setInputPortType(const SignalIndex& idx, const DataType& type) = 0;
-    virtual bool setOutputPortType(const SignalIndex& idx, const DataType& type) = 0;
+    virtual bool setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) = 0;
 
+    virtual bool setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) = 0;
+    virtual bool setInputPortType(const PortIndex& idx, const DataType& type) = 0;
+    virtual bool setOutputPortType(const PortIndex& idx, const DataType& type) = 0;
     // PORT INFORMATION GETTERS
     // ========================
 
-    virtual unsigned getInputPortWidth(const SignalIndex& idx) const = 0;
-    virtual unsigned getOutputPortWidth(const SignalIndex& idx) const = 0;
-    virtual MatrixSize getInputPortMatrixSize(const SignalIndex& port) const = 0;
-    virtual MatrixSize getOutputPortMatrixSize(const SignalIndex& port) const = 0;
+    virtual unsigned getInputPortWidth(const PortIndex& idx) const = 0;
 
-    virtual wbt::Signal getInputPortSignal(const SignalIndex& idx,
+    virtual unsigned getOutputPortWidth(const PortIndex& idx) const = 0;
+    virtual MatrixSize getInputPortMatrixSize(const PortIndex& idx) const = 0;
+    virtual MatrixSize getOutputPortMatrixSize(const PortIndex& idx) const = 0;
+    virtual wbt::Signal getInputPortSignal(const PortIndex& idx,
                                            const VectorSize& size = -1) const = 0;
-    virtual wbt::Signal getOutputPortSignal(const SignalIndex& idx,
+    virtual wbt::Signal getOutputPortSignal(const PortIndex& idx,
                                             const VectorSize& size = -1) const = 0;
 
     virtual std::weak_ptr<wbt::RobotInterface> getRobotInterface() const = 0;

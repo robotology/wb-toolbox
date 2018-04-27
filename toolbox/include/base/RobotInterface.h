@@ -189,7 +189,7 @@ public:
      *
      * @return The joint map
      */
-    const std::shared_ptr<JointsMapString> getJointsMapString();
+    const std::shared_ptr<JointNameToYarpMap> getJointsMapString();
 
     /**
      * Get the map between model joint indices and the YARP representation (Control Board and
@@ -197,7 +197,7 @@ public:
      *
      * @return The joint map
      */
-    const std::shared_ptr<JointsMapIndex> getJointsMapIndex();
+    const std::shared_ptr<JointIndexToYarpMap> getJointsMapIndex();
 
     /**
      * Get the map between model joint names and the index representing their relative ordering
@@ -209,7 +209,7 @@ public:
      *
      * @return The joint map
      */
-    const std::shared_ptr<ControlledJointsMapCB> getControlledJointsMapCB();
+    const std::shared_ptr<JointNameToIndexInControlBoardMap> getControlledJointsMapCB();
 
     /**
      * Get the map between the ControlBoard index inside the RemoteControlBoardRemapper
@@ -222,7 +222,7 @@ public:
      *
      * @return The control board limit map
      */
-    const std::shared_ptr<ControlBoardIdxLimit> getControlBoardIdxLimit();
+    const std::shared_ptr<ControlBoardIndexLimit> getControlBoardIdxLimit();
 
     /**
      * Get the object to operate on the configured model

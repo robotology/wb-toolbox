@@ -127,6 +127,7 @@ public:
      * @param S     simulink structure
      *
      * @return true for success, false otherwise
+    bool getParameters(wbt::Parameters& params) const;
      */
     virtual bool configureSizeAndPorts(BlockInformation* blockInfo);
 
@@ -183,10 +184,6 @@ public:
      * @return true for success, false otherwise
      */
     virtual bool output(const BlockInformation* blockInfo) = 0;
-
-    virtual bool getParameters(wbt::Parameters& params) const;
-
-public:
 };
 
 #endif // WBT_BLOCK_H
