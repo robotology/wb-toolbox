@@ -9,10 +9,24 @@ cmake_minimum_required(VERSION 3.5)
 
 # Configure the project
 # =====================
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
+
+# Export all symbols in Windows
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+# Add a postfix to Windows libraries compiled in debug
+if(MSVC)
+    set(CMAKE_DEBUG_POSTFIX "d")
+endif()
+
+# Control where binaries and libraries are placed in the build folder.
+# This simplifies tests running in Windows.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
 
 # Use a general prefix for the project
 # set(VARS_PREFIX ${PROJECT_NAME})

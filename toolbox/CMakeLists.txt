@@ -36,6 +36,20 @@ if(NOT MSVC)
     mark_as_advanced(WB-TOOLBOX_ENABLE_RPATH)
 endif(NOT MSVC)
 
+# Export all symbols in Windows
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+# Add a postfix to Windows libraries compiled in debug
+if(MSVC)
+    set(CMAKE_DEBUG_POSTFIX "d")
+endif()
+
+# Control where binaries and libraries are placed in the build folder.
+# This simplifies tests running in Windows.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+
 include(AddInstallRPATHSupport)
 add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           LIB_DIRS ${CMAKE_INSTALL_PREFIX}/mex ${CMAKE_INSTALL_PREFIX}/lib
@@ -226,7 +240,7 @@ set_target_properties(WBToolboxLibrary PROPERTIES
 
 if(MSVC)
     # Import math symbols from standard cmath
-    target_compile_definitions(WBToolboxLibrary PRIVATE "USE_MATH_DEFINES")
+    target_compile_definitions(WBToolboxLibrary PRIVATE "_USE_MATH_DEFINES")
 endif()
 
 # Set other properties of the target WBToolboxLibrary

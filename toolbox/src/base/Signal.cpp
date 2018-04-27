@@ -18,8 +18,6 @@
 
 using namespace wbt;
 
-const int Signal::DynamicSize = -1;
-
 // ============
 // SIGNAL::IMPL
 // ============

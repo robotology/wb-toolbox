@@ -81,7 +81,10 @@ private:
     std::unique_ptr<impl> pImpl;
 
 public:
-    static const int DynamicSize;
+    enum
+    {
+        DynamicSize = -1
+    };
 
     Signal(const DataFormat& dataFormat = DataFormat::CONTIGUOUS_ZEROCOPY,
            const DataType& dataType = DataType::DOUBLE,

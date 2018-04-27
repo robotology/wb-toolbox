@@ -56,7 +56,10 @@ enum class wbt::ParameterType
 class wbt::ParameterMetadata
 {
 public:
-    static const int DynamicSize;
+    enum
+    {
+        DynamicSize = -1
+    };
 
     const unsigned index;
     const std::string name;

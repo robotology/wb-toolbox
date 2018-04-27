@@ -10,7 +10,6 @@
 
 using namespace wbt;
 
-const int ParameterMetadata::DynamicSize = -1;
 const std::string defaultParamPrefix = "ParamIndex_";
 
 ParameterMetadata::ParameterMetadata(const ParameterType& t,
