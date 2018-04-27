@@ -7,12 +7,15 @@
  */
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
 
 #ifndef WBT_FILTER_H
 #define WBT_FILTER_H
 
 namespace wbt {
+    class BlockInformation;
     class DiscreteFilter;
 } // namespace wbt
 

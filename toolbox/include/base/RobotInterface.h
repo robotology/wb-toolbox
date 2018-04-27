@@ -13,11 +13,9 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
 namespace yarp {
     namespace dev {
-        class PolyDriver;
         class IPositionControl;
         class IPositionDirect;
         class IVelocityControl;

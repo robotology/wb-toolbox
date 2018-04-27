@@ -11,17 +11,23 @@
 #include "Log.h"
 
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/FreeFloatingMatrices.h>
+#include <iDynTree/Model/Indices.h>
+#include <iDynTree/Model/Model.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/IControlLimits2.h>
+#include <yarp/dev/IEncoders.h>
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Bottle.h>
+#include <yarp/os/Network.h>
 #include <yarp/os/Property.h>
 #include <yarp/os/ResourceFinder.h>
 
-#include <iterator>
+#include <cassert>
 #include <sstream>
 #include <utility>
+#include <vector>
 
 using namespace wbt;
 

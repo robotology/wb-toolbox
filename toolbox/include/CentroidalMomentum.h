@@ -10,11 +10,14 @@
 #define WBT_CENTROIDALMOMENTUM_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class CentroidalMomentum;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::CentroidalMomentum class

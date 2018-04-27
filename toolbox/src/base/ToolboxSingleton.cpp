@@ -12,12 +12,12 @@
 #include "Parameters.h"
 #include "RobotInterface.h"
 
-#include <iDynTree/KinDynComputations.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/ResourceFinder.h>
-
+#include <array>
+#include <cassert>
+#include <ostream>
+#include <stddef.h>
 #include <string>
+#include <vector>
 
 using namespace wbt;
 

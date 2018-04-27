@@ -14,6 +14,8 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
+#include <ostream>
+
 using namespace wbt;
 
 const std::string YarpClock::ClassName = "YarpClock";

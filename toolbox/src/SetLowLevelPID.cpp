@@ -11,12 +11,18 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 
 #include <yarp/dev/ControlBoardPid.h>
 #include <yarp/dev/IPidControl.h>
 
 #include <algorithm>
+#include <iterator>
+#include <ostream>
+#include <tuple>
+#include <unordered_map>
+#include <vector>
 
 using namespace wbt;
 

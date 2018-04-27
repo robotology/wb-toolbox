@@ -11,6 +11,8 @@
 #include "Log.h"
 #include "Parameter.h"
 
+#include <ostream>
+
 using namespace wbt;
 
 const unsigned Block::NumberOfParameters = 1;

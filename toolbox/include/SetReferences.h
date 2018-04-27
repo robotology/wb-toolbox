@@ -10,11 +10,14 @@
 #define WBT_SETREFERENCES_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class SetReferences;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::SetReferences class

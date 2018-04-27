@@ -15,11 +15,16 @@
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/Core/Wrench.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingState.h>
+#include <iDynTree/Model/JointState.h>
+#include <iDynTree/Model/LinkState.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 

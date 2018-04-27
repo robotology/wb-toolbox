@@ -11,15 +11,19 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/MatrixDynSize.h>
+#include <iDynTree/Core/Transform.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/Indices.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 

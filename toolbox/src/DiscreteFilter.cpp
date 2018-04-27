@@ -16,8 +16,6 @@
 #include <iCub/ctrl/filters.h>
 #include <yarp/sig/Vector.h>
 
-#include <algorithm>
-#include <cassert>
 #include <sstream>
 #include <string>
 #include <vector>

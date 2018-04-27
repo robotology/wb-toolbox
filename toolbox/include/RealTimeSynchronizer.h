@@ -12,9 +12,13 @@
 #include "Block.h"
 #include <memory>
 
+#include <memory>
+#include <string>
+
 namespace wbt {
+    class BlockInformation;
     class RealTimeSynchronizer;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::RealTimeSynchronizer class

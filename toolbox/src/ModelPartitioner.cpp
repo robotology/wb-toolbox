@@ -11,11 +11,13 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
-#include <algorithm>
-
+#include <ostream>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace wbt;

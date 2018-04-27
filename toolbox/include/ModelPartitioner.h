@@ -10,11 +10,14 @@
 #define WBT_MODELPARTITIONER_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class ModelPartitioner;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::ModelPartitioner class

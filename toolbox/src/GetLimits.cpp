@@ -11,15 +11,19 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/IJoint.h>
+#include <iDynTree/Model/Indices.h>
 #include <iDynTree/Model/Model.h>
 #include <yarp/dev/IControlLimits2.h>
 
 #include <cmath>
 #include <limits>
+#include <ostream>
 #include <vector>
 
 using namespace wbt;

@@ -11,12 +11,22 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
-#include <yarp/dev/ControlBoardInterfaces.h>
+#include <yarp/dev/ICurrentControl.h>
+#include <yarp/dev/IPWMControl.h>
+#include <yarp/dev/IPositionControl.h>
+#include <yarp/dev/IPositionDirect.h>
+#include <yarp/dev/ITorqueControl.h>
+#include <yarp/dev/IVelocityControl.h>
+
+#include <yarp/dev/IControlMode.h>
+#include <yarp/dev/IControlMode2.h>
 
 #include <cmath>
+#include <ostream>
 #include <vector>
 
 using namespace wbt;

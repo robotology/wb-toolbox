@@ -10,12 +10,15 @@
 #include "BlockInformation.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "Signal.h"
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
-#include <yarp/os/Stamp.h>
+#include <yarp/os/PortReaderBuffer-inl.h>
 #include <yarp/sig/Vector.h>
+
+#include <ostream>
 
 using namespace wbt;
 

@@ -10,11 +10,14 @@
 #define WBT_MASSMATRIX_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class MassMatrix;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::MassMatrix class

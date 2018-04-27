@@ -9,6 +9,13 @@
 #include "Signal.h"
 #include "Log.h"
 
+#include <algorithm>
+#include <map>
+#include <ostream>
+#include <stddef.h>
+#include <stdint.h>
+#include <typeinfo>
+
 using namespace wbt;
 
 const int Signal::DynamicSize = -1;

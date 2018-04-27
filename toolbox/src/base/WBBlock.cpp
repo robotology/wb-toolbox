@@ -13,11 +13,11 @@
 #include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
-#include "ToolboxSingleton.h"
 
 #include <Eigen/Core>
+#include <iDynTree/Core/AngularMotionVector3.h>
 #include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/MatrixFixSize.h>
+#include <iDynTree/Core/LinearMotionVector3.h>
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorDynSize.h>
@@ -25,7 +25,8 @@
 #include <iDynTree/KinDynComputations.h>
 
 #include <array>
-#include <string>
+#include <memory>
+#include <ostream>
 
 using namespace wbt;
 

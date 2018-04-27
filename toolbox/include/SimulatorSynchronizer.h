@@ -10,11 +10,15 @@
 #define WBT_SIMULATORSYNCHRONIZER_H
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace wbt {
+    class BlockInformation;
     class SimulatorSynchronizer;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::SimulatorSynchronizer class

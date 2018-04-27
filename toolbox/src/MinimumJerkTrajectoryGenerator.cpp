@@ -10,15 +10,14 @@
 #include "BlockInformation.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "Signal.h"
 
 #include <iCub/ctrl/minJerkCtrl.h>
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
 
 #include <cmath>
+#include <ostream>
 
 using namespace wbt;
 

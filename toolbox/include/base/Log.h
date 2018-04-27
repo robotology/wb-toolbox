@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <sstream>
+#include <string>
 
 #ifdef NDEBUG
 #define WBT_LOG_VERBOSITY wbt::Log::Verbosity::RELEASE

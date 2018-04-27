@@ -6,7 +6,8 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "toolbox.h"
+#include "Factory.h"
+#include <string>
 
 using namespace wbt;
 

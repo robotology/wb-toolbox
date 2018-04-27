@@ -10,11 +10,14 @@
 #include "BlockInformation.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "thrift/ClockServer.h"
 
-#include <cmath>
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
+#include <yarp/os/WireLink.h>
+
+#include <ostream>
 
 using namespace wbt;
 

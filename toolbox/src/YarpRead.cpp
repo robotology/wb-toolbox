@@ -15,7 +15,10 @@
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
+#include <yarp/os/PortReaderBuffer-inl.h>
 #include <yarp/os/Stamp.h>
+#include <yarp/os/SystemClock.h>
+#include <yarp/os/Time.h>
 #include <yarp/sig/Vector.h>
 
 #include <algorithm>

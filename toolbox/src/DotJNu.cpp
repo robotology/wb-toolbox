@@ -11,6 +11,7 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
@@ -20,6 +21,7 @@
 #include <iDynTree/Model/Indices.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 

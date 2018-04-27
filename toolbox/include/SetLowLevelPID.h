@@ -11,9 +11,12 @@
 #define WBT_SETLOWLEVELPID_H
 
 #include "WBBlock.h"
-#include <unordered_map>
+
+#include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class SetLowLevelPID;
 } // namespace wbt
 

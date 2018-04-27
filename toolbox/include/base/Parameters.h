@@ -10,6 +10,7 @@
 #define WBT_PARAMETERS_H
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace wbt {

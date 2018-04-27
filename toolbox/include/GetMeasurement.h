@@ -11,7 +11,11 @@
 
 #include "WBBlock.h"
 
+#include <memory>
+#include <string>
+
 namespace wbt {
+    class BlockInformation;
     class GetMeasurement;
 } // namespace wbt
 

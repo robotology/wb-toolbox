@@ -10,11 +10,14 @@
 #define WBT_INVERSEDYNAMICS_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class InverseDynamics;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::InverseDynamics class

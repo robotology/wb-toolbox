@@ -9,10 +9,6 @@
 #ifndef WBT_SIGNAL_H
 #define WBT_SIGNAL_H
 
-#include "BlockInformation.h"
-#include <map>
-#include <memory>
-
 namespace wbt {
     class Signal;
     enum class DataType;

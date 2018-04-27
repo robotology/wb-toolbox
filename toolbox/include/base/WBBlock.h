@@ -15,13 +15,11 @@
 namespace wbt {
     class WBBlock;
     class Signal;
-    class Configuration;
     class BlockInformation;
     class RobotInterface;
 } // namespace wbt
 
 namespace iDynTree {
-    class MatrixDynSize;
     class KinDynComputations;
 } // namespace iDynTree
 

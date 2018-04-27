@@ -10,11 +10,15 @@
 #define WBT_YARPWRITE_H
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
+#include <yarp/os/BufferedPort-inl.h>
 
 namespace wbt {
+    class BlockInformation;
     class YarpWrite;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::YarpWrite class

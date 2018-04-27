@@ -8,8 +8,6 @@
 
 #include "Log.h"
 
-#include <iterator>
-#include <string>
 #include <vector>
 
 using namespace wbt;

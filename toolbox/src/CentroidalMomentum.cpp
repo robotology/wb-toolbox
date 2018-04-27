@@ -17,6 +17,8 @@
 #include <iDynTree/Core/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
 
+#include <ostream>
+
 using namespace wbt;
 
 const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";

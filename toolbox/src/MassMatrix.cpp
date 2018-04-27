@@ -15,9 +15,10 @@
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/MatrixDynSize.h>
 #include <iDynTree/KinDynComputations.h>
 
-#include <memory>
+#include <ostream>
 
 using namespace wbt;
 

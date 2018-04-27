@@ -10,9 +10,12 @@
 #define WBT_MINJERKTRAJGENERATOR_H
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class MinimumJerkTrajectoryGenerator;
 } // namespace wbt
 

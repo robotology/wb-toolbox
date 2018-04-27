@@ -11,6 +11,7 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
@@ -18,6 +19,8 @@
 #include <yarp/dev/ITorqueControl.h>
 
 #include <cmath>
+#include <ostream>
+#include <vector>
 
 using namespace wbt;
 

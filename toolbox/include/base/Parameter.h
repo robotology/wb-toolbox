@@ -9,7 +9,6 @@
 #ifndef WBT_PARAMETER_H
 #define WBT_PARAMETER_H
 
-#include <memory>
 #include <string>
 #include <vector>
 

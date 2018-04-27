@@ -10,11 +10,14 @@
 #define WBT_DOTJNU_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class DotJNu;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::DotJNu class

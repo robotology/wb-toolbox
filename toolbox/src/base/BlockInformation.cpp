@@ -7,7 +7,6 @@
  */
 
 #include "BlockInformation.h"
-#include "Parameters.h"
 
 const std::string wbt::BlockOptionPrioritizeOrder = "wbt.BlockOptionPrioritizeOrder";
 

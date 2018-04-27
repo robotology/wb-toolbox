@@ -10,9 +10,12 @@
 #define WBT_GETLIMITS_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class GetLimits;
 } // namespace wbt
 

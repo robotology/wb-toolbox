@@ -10,11 +10,15 @@
 #define WBT_YARPREAD_H
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
+#include <yarp/os/BufferedPort-inl.h>
 
 namespace wbt {
+    class BlockInformation;
     class YarpRead;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::YarpRead class

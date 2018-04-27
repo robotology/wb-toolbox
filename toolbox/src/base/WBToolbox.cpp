@@ -9,16 +9,25 @@
 #define S_FUNCTION_LEVEL 2
 #define S_FUNCTION_NAME WBToolbox
 
-#include "toolbox.h"
-
 #include "Block.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 #include "SimulinkBlockInformation.h"
 
-#include <algorithm>
+#include <ext/alloc_traits.h>
+#include <matrix.h>
 #include <simstruc.h>
+#include <simstruc_types.h>
+#include <sl_sample_time_defs.h>
+#include <tmwtypes.h>
+
+#include <iostream>
+#include <stdint.h>
+#include <stdio.h>
 #include <string>
+#include <utility>
+#include <vector>
 
 const bool ForwardLogsToStdErr = true;
 

@@ -11,9 +11,12 @@
 
 #include "Block.h"
 
+#include <string>
+
 namespace wbt {
+    class BlockInformation;
     class YarpClock;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::YarpClock class

@@ -10,9 +10,12 @@
 #include "BlockInformation.h"
 #include "Log.h"
 #include "Parameter.h"
+#include "Parameters.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
+
+#include <ostream>
 
 using namespace wbt;
 

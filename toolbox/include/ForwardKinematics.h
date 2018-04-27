@@ -10,11 +10,14 @@
 #define WBT_FORWARDKINEMATICS_H
 
 #include "WBBlock.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class ForwardKinematics;
-}
+} // namespace wbt
 
 /**
  * @brief The wbt::ForwardKinematics class

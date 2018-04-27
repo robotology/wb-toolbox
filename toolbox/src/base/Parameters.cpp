@@ -10,9 +10,9 @@
 #include "ConvertStdVector.h"
 #include "Parameter.h"
 
-#include <algorithm>
-#include <string>
+#include <stddef.h>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace wbt;
