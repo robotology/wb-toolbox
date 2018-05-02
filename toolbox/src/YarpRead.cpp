@@ -311,10 +311,8 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         }
 
         // Crop the buffer if it exceeds the OutputPortWidth.
-        bool ok =
-            signal.setBuffer(v->data(), std::min(signal.getWidth(), static_cast<int>(v->size())));
-
-        if (!ok) {
+        if (!signal.setBuffer(v->data(),
+                              std::min(signal.getWidth(), static_cast<int>(v->size())))) {
             wbtError << "Failed to set the output buffer.";
             return false;
         }

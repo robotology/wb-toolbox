@@ -325,7 +325,9 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
     const Vector& outputVector = pImpl->filter->filt(pImpl->inputSignalVector);
 
     // Forward the filtered signals to the output port
-    outputSignal.setBuffer(outputVector.data(), outputVector.length());
+    if (!outputSignal.setBuffer(outputVector.data(), outputVector.length())) {
+        wbtError << "Failed to set output buffer.";
+    }
 
     return true;
 }

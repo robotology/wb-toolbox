@@ -235,6 +235,9 @@ bool DotJNu::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    output.setBuffer(pImpl->dotJNu.data(), output.getWidth());
+    if (!output.setBuffer(pImpl->dotJNu.data(), output.getWidth())) {
+        wbtError << "Failed to set output buffer.";
+    }
+
     return true;
 }

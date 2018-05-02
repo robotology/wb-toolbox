@@ -334,7 +334,9 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    outputSignal.setBuffer(signal.data(), signal.size());
+    if (!outputSignal.setBuffer(signal.data(), signal.size())) {
+        wbtError << "Failed to set output buffer.";
+    }
 
     // First derivative
     // ----------------
@@ -348,7 +350,9 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
             return false;
         }
 
-        firstDerivativeSignal.setBuffer(derivative.data(), firstDerivativeSignal.getWidth());
+        if (!firstDerivativeSignal.setBuffer(derivative.data(), firstDerivativeSignal.getWidth())) {
+            wbtError << "Failed to set output buffer.";
+        }
     }
 
     // Second derivative
@@ -363,7 +367,10 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
             return false;
         }
 
-        secondDerivativeSignal.setBuffer(derivative.data(), secondDerivativeSignal.getWidth());
+        if (!secondDerivativeSignal.setBuffer(derivative.data(),
+                                              secondDerivativeSignal.getWidth())) {
+            wbtError << "Failed to set output buffer.";
+        }
     }
 
     return true;

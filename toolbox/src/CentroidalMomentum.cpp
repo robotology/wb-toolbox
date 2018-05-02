@@ -163,7 +163,9 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     }
 
     // Fill the output buffer
-    output.setBuffer(toEigen(pImpl->centroidalMomentum).data(), output.getWidth());
+    if (!output.setBuffer(toEigen(pImpl->centroidalMomentum).data(), output.getWidth())) {
+        wbtError << "Failed to set output buffer.";
+    }
 
     return true;
 }

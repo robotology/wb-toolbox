@@ -272,7 +272,9 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     }
 
     // Fill the output buffer
-    output.setBuffer(pImpl->measurement.data(), output.getWidth());
+    if (!output.setBuffer(pImpl->measurement.data(), output.getWidth())) {
+        wbtError << "Failed to set output buffer.";
+    }
 
     return true;
 }
