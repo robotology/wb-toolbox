@@ -23,6 +23,7 @@
 #include <tmwtypes.h>
 
 #include <iostream>
+#include <memory>
 #include <stdint.h>
 #include <stdio.h>
 #include <string>
@@ -127,7 +128,11 @@ static void mdlInitializeSizes(SimStruct* S)
     char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
     std::string className(classNameStr);
     mxFree(classNameStr);
-    wbt::Block* block = wbt::Block::instantiateBlockWithClassName(className);
+
+    // Allocate the block.
+    // At this stage, the object is just temporary.
+    std::unique_ptr<wbt::Block> block =
+        std::unique_ptr<wbt::Block>(wbt::Block::instantiateBlockWithClassName(className));
 
     // Notify errors
     if (!block) {
@@ -139,8 +144,8 @@ static void mdlInitializeSizes(SimStruct* S)
     // We cannot save data in PWork during the initializeSizes phase.
 
     // Two PWorks:
-    // 0: pointer to the class
-    // 1: empty in Simulink, pointer to CoderBlockInformation in Simulink Coder
+    // 0: pointer to a Block implementation
+    // 1: pointer to a BlockInformation implementation
     ssSetNumPWork(S, 2);
 
     // Setup the block parameters' properties
@@ -198,15 +203,19 @@ static void mdlInitializeSizes(SimStruct* S)
 
     std::vector<std::string> additionalOptions = block->additionalBlockOptions();
 
-    for (auto additionalOption : additionalOptions) {
+    for (const auto& additionalOption : additionalOptions) {
         double option;
-        if (blockInfo.optionFromKey(additionalOption, option)) {
-            options |= static_cast<uint32_t>(option);
+        if (!blockInfo.optionFromKey(additionalOption, option)) {
+            wbtError << "Failed to get option from key.";
+            catchLogMessages(false, S);
+            return;
         }
+        // Store the parsed option
+        options |= static_cast<uint32_t>(option);
     }
-    ssSetOptions(S, options);
 
-    delete block;
+    // Set the options
+    ssSetOptions(S, options);
 }
 
 // Function: mdlInitializeSampleTimes =========================================
