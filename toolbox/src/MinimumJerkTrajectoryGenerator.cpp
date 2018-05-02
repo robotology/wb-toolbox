@@ -117,7 +117,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     // 7) Reset the trajectory generator when settling time changes (bool)
     //
 
-    if (!parseParameters(blockInfo)) {
+    if (!MinimumJerkTrajectoryGenerator::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
@@ -206,7 +206,7 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     // PARAMETERS
     // ==========
 
-    if (!parseParameters(blockInfo)) {
+    if (!MinimumJerkTrajectoryGenerator::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

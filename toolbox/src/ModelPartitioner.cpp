@@ -66,7 +66,7 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!parseParameters(blockInfo)) {
+    if (!ModelPartitioner::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
@@ -199,7 +199,7 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!parseParameters(blockInfo)) {
+    if (!ModelPartitioner::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

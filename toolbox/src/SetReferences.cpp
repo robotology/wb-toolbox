@@ -142,7 +142,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    if (!parseParameters(blockInfo)) {
+    if (!SetReferences::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

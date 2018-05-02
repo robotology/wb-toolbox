@@ -138,7 +138,7 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    if (!parseParameters(blockInfo)) {
+    if (!Jacobian::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

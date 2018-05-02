@@ -92,7 +92,7 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!parseParameters(blockInfo)) {
+    if (!RealTimeSynchronizer::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

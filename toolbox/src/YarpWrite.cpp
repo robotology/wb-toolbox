@@ -108,7 +108,7 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     using namespace yarp::os;
     using namespace yarp::sig;
 
-    if (!parseParameters(blockInfo)) {
+    if (!YarpWrite::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

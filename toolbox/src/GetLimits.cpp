@@ -139,7 +139,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    if (!parseParameters(blockInfo)) {
+    if (!GetLimits::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

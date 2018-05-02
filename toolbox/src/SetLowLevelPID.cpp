@@ -127,7 +127,7 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    if (!parseParameters(blockInfo)) {
+    if (!SetLowLevelPID::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

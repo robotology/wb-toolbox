@@ -65,11 +65,6 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
-        return false;
-    }
-
     yarp::os::Network::init();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {

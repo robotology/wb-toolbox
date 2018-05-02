@@ -133,7 +133,7 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    if (!parseParameters(blockInfo)) {
+    if (!ForwardKinematics::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

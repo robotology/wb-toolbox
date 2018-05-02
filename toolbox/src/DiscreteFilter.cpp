@@ -145,7 +145,7 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // PARAMETERS
     // ==========
 
-    if (!parseParameters(blockInfo)) {
+    if (!DiscreteFilter::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }

@@ -115,7 +115,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     //              (and hence it means that the user connected manually the port)
     //
 
-    if (!parseParameters(blockInfo)) {
+    if (!YarpRead::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
@@ -173,7 +173,7 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     using namespace yarp::os;
     using namespace yarp::sig;
 
-    if (!parseParameters(blockInfo)) {
+    if (!YarpRead::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
