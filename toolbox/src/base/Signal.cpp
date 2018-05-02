@@ -346,8 +346,12 @@ bool Signal::setBuffer(const T* data, const unsigned& length)
             std::copy(data, data + length, getBuffer<T>());
             break;
         case DataFormat::CONTIGUOUS_ZEROCOPY:
-            // Override the buffer pointer
-            pImpl->bufferPtr = static_cast<void*>(const_cast<T*>(data));
+            // Reset current data if width changes
+            if (length != pImpl->width) {
+                std::fill(getBuffer<T>(), getBuffer<T>() + length, 0);
+            }
+            // Copy new data
+            std::copy(data, data + length, getBuffer<T>());
             // Update the width
             pImpl->width = length;
             break;
