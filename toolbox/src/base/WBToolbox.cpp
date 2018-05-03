@@ -379,15 +379,16 @@ static void mdlTerminate(SimStruct* S)
     wbt::SimulinkBlockInformation* blockInfo;
     blockInfo = static_cast<wbt::SimulinkBlockInformation*>(ssGetPWorkValue(S, 1));
 
-    if (!block || !blockInfo) {
-        wbtError << "Failed to get pointers from the PWork vector.";
-        catchLogMessages(false, S);
-        return;
+    if (block) {
+        if (!block->terminate(blockInfo)) {
+            wbtError << "Failed to terminate block.";
+            catchLogMessages(false, S);
+        }
     }
-
-    // Call the terminate() method
-    bool ok = block->terminate(blockInfo);
-    catchLogMessages(ok, S);
+    else {
+        wbtWarning << "Failed to get Block pointer from the PWork vector." << std::endl
+                   << "Could't terminate block";
+    }
 
     // Delete the resources allocated in the PWork vector;
     delete block;
