@@ -286,7 +286,9 @@ public:
             int found = -1;
             // Iterate all the joints in the selected Control Board
             for (unsigned axis = 0; axis < numAxes; ++axis) {
-                std::string axisName;
+                // TODO: when also in Windows ConstString will not wrap anymore std::string, use
+                // std::string
+                yarp::os::ConstString axisName;
                 if (!iAxisInfoPtr->getAxisName(axis, axisName)) {
                     wbtError << "Unable to get AxisName from " << remoteName << ".";
                     return false;
