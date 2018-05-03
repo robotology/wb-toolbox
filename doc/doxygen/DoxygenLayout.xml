@@ -29,6 +29,7 @@
     <briefdescription visible="yes"/>
     <includes visible="$SHOW_INCLUDE_FILES"/>
     <inheritancegraph visible="$CLASS_GRAPH"/>
+    <detaileddescription title=""/>
     <collaborationgraph visible="$COLLABORATION_GRAPH"/>
     <memberdecl>
       <nestedclasses visible="yes" title=""/>
@@ -64,7 +65,6 @@
       <related title="" subtitle=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title=""/>
     <memberdef>
       <inlineclasses title=""/>
       <typedefs title=""/>
@@ -86,6 +86,7 @@
   <!-- Layout definition for a namespace page -->
   <namespace>
     <briefdescription visible="yes"/>
+    <detaileddescription title=""/>
     <memberdecl>
       <nestednamespaces visible="yes" title=""/>
       <constantgroups visible="yes" title=""/>
@@ -96,7 +97,6 @@
       <variables title=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title=""/>
     <memberdef>
       <inlineclasses title=""/>
       <typedefs title=""/>
@@ -114,6 +114,7 @@
     <includegraph visible="$INCLUDE_GRAPH"/>
     <includedbygraph visible="$INCLUDED_BY_GRAPH"/>
     <sourcelink visible="yes"/>
+    <detaileddescription title=""/>
     <memberdecl>
       <classes visible="yes" title=""/>
       <namespaces visible="yes" title=""/>
@@ -125,7 +126,6 @@
       <variables title=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title=""/>
     <memberdef>
       <inlineclasses title=""/>
       <defines title=""/>
@@ -141,6 +141,7 @@
   <group>
     <briefdescription visible="yes"/>
     <groupgraph visible="$GROUP_GRAPHS"/>
+    <detaileddescription title=""/>
     <memberdecl>
       <nestedgroups visible="yes" title=""/>
       <dirs visible="yes" title=""/>
@@ -162,7 +163,6 @@
       <friends title=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title=""/>
     <memberdef>
       <pagedocs/>
       <inlineclasses title=""/>
@@ -187,10 +187,10 @@
   <directory>
     <briefdescription visible="yes"/>
     <directorygraph visible="yes"/>
+    <detaileddescription title=""/>
     <memberdecl>
       <dirs visible="yes"/>
       <files visible="yes"/>
     </memberdecl>
-    <detaileddescription title=""/>
   </directory>
 </doxygenlayout>
