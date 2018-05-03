@@ -135,8 +135,8 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
     const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || baseVelocitySignal.isValid()
-        || jointsVelocitySignal.isValid()) {
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
+        || !jointsVelocitySignal.isValid()) {
         wbtError << "Input signals not valid.";
         return false;
     }

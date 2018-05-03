@@ -60,13 +60,7 @@ unsigned GetLimits::numberOfParameters()
 
 bool GetLimits::parseParameters(BlockInformation* blockInfo)
 {
-    if (!WBBlock::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse WBBlock parameters.";
-        return false;
-    }
-
-    ParameterMetadata limitType(ParameterType::DOUBLE, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
-
+    ParameterMetadata limitType(ParameterType::STRING, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
     bool ok = blockInfo->addParameterMetadata(limitType);
 
     if (!ok) {

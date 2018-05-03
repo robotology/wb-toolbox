@@ -28,7 +28,7 @@ namespace wbt {
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "LimitType" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "LimitType" |
  *
  */
 class wbt::GetLimits final : public wbt::WBBlock
