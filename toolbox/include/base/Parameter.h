@@ -50,8 +50,9 @@ enum class wbt::ParameterType
  * @brief Class for storing parameter metadata
  *
  * A metadata must be constructed with an index and a name, and they cannot be changed afterwards.
+ * Only bool, int, double or std::string types are currently supported.
  *
- * @see wbt::Parameter
+ * @see wbt::Parameter, wbt::ParameterType
  */
 class wbt::ParameterMetadata
 {

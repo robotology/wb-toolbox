@@ -209,7 +209,7 @@ bool CoderBlockInformation::parseParameters(wbt::Parameters& parameters)
         // Check that all the parameters that are parsed have already been stored from the coder
         if (!pImpl->parametersFromRTW.existName(md.name)) {
             wbtError << "Trying to get a parameter value for " << md.name
-                     << ", but its value has never been sored.";
+                     << ", but its value has never been stored.";
             return false;
         }
         // Check if the parameters are not dynamically sized

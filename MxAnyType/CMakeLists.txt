@@ -40,9 +40,9 @@ set(VARS_PREFIX "MxAnyType")
 # =================
 
 # Add the target
-add_library(${VARS_PREFIX} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/include/AnyType.h
-                                  ${CMAKE_CURRENT_SOURCE_DIR}/include/MxAnyType.h
-                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/MxAnyType.cpp)
+add_library(${VARS_PREFIX} SHARED "${CMAKE_CURRENT_SOURCE_DIR}/include/AnyType.h"
+                                  "${CMAKE_CURRENT_SOURCE_DIR}/include/MxAnyType.h"
+                                  "${CMAKE_CURRENT_SOURCE_DIR}/src/MxAnyType.cpp")
 
 set_target_properties(${VARS_PREFIX} PROPERTIES
         VERSION ${PROJECT_VERSION} # This is for the symlink of the .so
@@ -51,7 +51,7 @@ set_target_properties(${VARS_PREFIX} PROPERTIES
 
 # Find Matlab resources
 find_package(Matlab REQUIRED MX_LIBRARY)
-target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC ${Matlab_INCLUDE_DIRS})
+target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}")
 
 # Setup the include directories
 target_include_directories(${VARS_PREFIX} PUBLIC
@@ -68,10 +68,10 @@ target_include_directories(${VARS_PREFIX} PUBLIC
 
 install(TARGETS MxAnyType
         #EXPORT WBToolboxSimulinkCoder
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${VARS_PREFIX}
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${VARS_PREFIX}"
 )
 
 # TODO: when splitting this library from the toolbox, this will provide find_package support
