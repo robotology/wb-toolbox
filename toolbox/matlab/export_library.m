@@ -28,8 +28,8 @@ try
 
   % Export the library
   fprintf('\nExporting for 2014b\n');
-  save_system(libraryName, 'WBToolboxLibraryTmp', 'ExportToVersion', 'R2014B_SLX');
-  movefile('WBToolboxLibraryTmp.slx', 'library/exported/WBToolboxLibrary.slx');
+  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
+  movefile('WBToolboxLibrary.slx', 'library/exported/WBToolboxLibrary.slx');
   % TODO: Check if mdl support is still required
   % fprintf('\nExporting for 2012a\n');
   % save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2012A_MDL');
