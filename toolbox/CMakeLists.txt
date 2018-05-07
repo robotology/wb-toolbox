@@ -201,6 +201,12 @@ configure_block(BLOCK_NAME "DotJ Nu"
     SOURCES src/DotJNu.cpp
     HEADERS include/DotJNu.h)
 
+configure_block(BLOCK_NAME "Relative Transform"
+    GROUP "Model"
+    LIST_PREFIX WBT
+    SOURCES src/RelativeTransform.cpp
+    HEADERS include/RelativeTransform.h)
+
 configure_block(BLOCK_NAME "Set References"
     GROUP "Actuators"
     LIST_PREFIX WBT
