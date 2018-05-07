@@ -131,9 +131,6 @@ script: &script
   - cmake -G"$TRAVIS_CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE ..
   - cmake --build . --config $TRAVIS_BUILD_TYPE
 
-before_cache: &before_cache
-  - before_cache: rm -rf $DEPS_CACHE
-
 # ==========
 # STAGE: osx
 # ==========
@@ -161,10 +158,51 @@ stage_deploy:
     - pip3 install --user Pygments mkdocs mkdocs-material
     - export PATH=$HOME/.local/bin:$PATH
   script: &deploy_script
-    - ./$TRAVIS_BUILD_DIR/.ci/generateDocumentation.sh
-
-#after_success: &after_success_deploy
-  #- ./$PROJECT_DIR_ABS/.ci/generateDocumentation.sh || travis_terminate 1
+    # Setup the dependencies cache
+    - export DEPS_CACHE=$HOME/cache/$TRAVIS_OS_NAME/$TRAVIS_BUILD_TYPE
+    - export PATH=$PATH:$DEPS_CACHE/bin
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DEPS_CACHE/lib
+    - export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
+    # Clone the gh-pages branch
+    - GH_PAGES_ROOTDIR=$HOME/gh-pages
+    - export GH_REPO_ORG=${TRAVIS_REPO_SLUG%*/*}
+    - export GH_REPO_NAME=${TRAVIS_REPO_SLUG#*/*}
+    - export GH_REPO_REF="github.com/$GH_REPO_ORG/$GH_REPO_NAME.git"
+    # Select the deploy folder
+    - if [ "$TRAVIS_BRANCH" = "master" ] ; then DEPLOY_FOLDER=$GH_PAGES_ROOTDIR ; fi
+    - if [ "$TRAVIS_BRANCH" = "devel" ] ; then DEPLOY_FOLDER=$GH_PAGES_ROOTDIR/devel ; fi
+    # Check if the gh-pages branch exists and clone it
+    - cd $TRAVIS_BUILD_DIR
+    - git ls-remote --heads --exit-code https://$GH_REPO_REF gh-pages || travis_terminate 1
+    - git clone -b gh-pages https://$GH_REPO_REF $GH_PAGES_ROOTDIR
+    # Push only the current branch
+    - cd $GH_PAGES_ROOTDIR
+    - git config push.default simple
+    # Disable GitHub jekyll generation
+    - touch $GH_PAGES_ROOTDIR/.nojekyll
+    # Generate documentation
+    - cd $TRAVIS_BUILD_DIR
+    - mkdir build
+    - cd build
+    - cmake .. -DWBTOOLBOX_BUILD_DOCS:BOOL=TRUE
+    - make dox || travis_terminate 1
+    - make mkdocs || travis_terminate 1
+    # Move the new doxygen documentation to the deploy folder
+    - rm -rf $DEPLOY_FOLDER/doxygen
+    - mv $DOXYGEN_INPUT_FOLDER/html $DEPLOY_FOLDER/doxygen
+    # Move the new mkdocs documentation to the deploy folder
+    - rm -rf $DEPLOY_FOLDER/mkdocs
+    - mv $MKDOCS_INPUT_FOLDER $DEPLOY_FOLDER/mkdocs
+    # Deploy the folder
+    - cd $GH_PAGES_ROOTDIR
+    - git remote add origin-botlogin https://$GIT_COMMITTER_USERNAME:$DEPLOY_TOKEN@$GH_REPO_REF
+    - git add --all
+    - COMMIT_AUTHOR="$(git --no-pager show -s --format='%an <%ae>' $TRAVIS_COMMIT)"
+    - >-
+      git commit -m "Automatic docs deployment Travis#${TRAVIS_BUILD_NUMBER}" \
+                 -m "Commit: https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT" \
+                 --author "$COMMIT_AUTHOR"
+    - git push --force origin-botlogin gh-pages
 
 # ======================
 # BUILD JOBS FROM STAGES
@@ -177,7 +215,6 @@ jobs:
       before_install: *before_install
       install: skip
       script: *prepare_script
-      before_cache: skip
       compiler: clang
       env:
         TRAVIS_BUILD_TYPE="Release"
@@ -200,7 +237,6 @@ jobs:
       install: *osx_install
       before_script: *prepare_script
       script: *script
-      before_cache: skip
       env:
         TRAVIS_CMAKE_GENERATOR="Xcode"
         TRAVIS_BUILD_TYPE="Debug"
@@ -208,7 +244,8 @@ jobs:
       env:
         TRAVIS_CMAKE_GENERATOR="Unix Makefiles"
         TRAVIS_BUILD_TYPE="Debug"
-    - stage: deploy
+    - &deploy_template
+      stage: deploy
       compiler:
       cache:
       if: ((branch = master) AND (type != pull_request))
@@ -216,16 +253,13 @@ jobs:
       install: *deploy_install
       before_script: skip
       script: *deploy_script
-      before_cache: skip
-      #after_success: &deploy_after_success
       after_success: skip
       env:
-        TRAVIS_BUILD_DOCS=true
         GIT_COMMITTER_USERNAME=LOC2Bot
         GIT_COMMITTER_NAME=LOC2Bot
         GIT_COMMITTER_EMAIL=locomotion.control@gmail.com
-        DOXYGEN_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/doxygen
-        MKDOCS_INPUT_FOLDER=$TRAVIS_BUILD_DIR/doc/mkdocs
+        DOXYGEN_INPUT_FOLDER=$TRAVIS_BUILD_DIR/build/doc/doxygen
+        MKDOCS_INPUT_FOLDER=$TRAVIS_BUILD_DIR/build/doc/mkdocs
       addons:
         apt:
           packages:
@@ -234,6 +268,8 @@ jobs:
             - doxygen-gui
             - graphviz
             - python3-pip
+    - <<: *deploy_template
+      if: ((branch = devel) AND (type != pull_request))
 
 # notifications:
 #  email:

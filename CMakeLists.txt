@@ -5,6 +5,11 @@
 cmake_minimum_required(VERSION 3.5)
 project(WB-Toolbox LANGUAGES CXX VERSION 3.1)
 
+if(WBTOOLBOX_BUILD_DOCS)
+    add_subdirectory(doc)
+    return()
+endif()
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -25,7 +30,7 @@ if(NOT WBTOOLBOX_USES_MATLAB)
     option(WBTOOLBOX_USES_MATLAB "Compile also Matlab-related components" ${Matlab_FOUND})
 endif()
 
-if(WBTOOLBOX_USES_MATLAB)
+if(${Matlab_FOUND})
     add_subdirectory(MxAnyType)
 endif()
 
