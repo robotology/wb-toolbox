@@ -42,7 +42,9 @@ class SetReferences::impl
 public:
     std::vector<int> controlModes;
     bool resetControlMode = true;
+
     double refSpeed;
+    std::vector<double> defaultRefSpeed;
 
     static void rad2deg(double* buffer, const unsigned width)
     {
@@ -207,16 +209,27 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // The generated trajectory takes an additional parameter: the speed.
     // If not properly initialized, this contol mode does not work as expected.
     if (controlType == "Position") {
+        // Convert the reference speed from radians to degrees
+        pImpl->refSpeed *= 180.0 / M_PI;
+
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
         if (!robotInterface->getInterface(interface) || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
+
+        // Store the default reference speeds
+        pImpl->defaultRefSpeed.resize(dofs);
+        if (!interface->getRefSpeeds(pImpl->defaultRefSpeed.data())) {
+            wbtError << "Failed to get default reference speed.";
+            return false;
+        }
+
+        // Set the new reference speeds
         std::vector<double> speedInitalization(dofs, pImpl->refSpeed);
-        // Set the references
         if (!interface->setRefSpeeds(speedInitalization.data())) {
-            wbtError << "Failed to initialize speed references.";
+            wbtError << "Failed to initialize reference speed.";
             return false;
         }
     }
@@ -248,13 +261,32 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
-    // Set  all the controlledJoints VOCAB_CM_POSITION
-    pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
+    if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
+        // Set all the controlledJoints VOCAB_CM_POSITION
+        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
 
-    ok = ok && icmd2->setControlModes(pImpl->controlModes.data());
-    if (!ok) {
-        wbtError << "Failed to set control mode.";
-        // Don't return false here. WBBlock::terminate must be called in any case
+        ok = ok && icmd2->setControlModes(pImpl->controlModes.data());
+        if (!ok) {
+            wbtError << "Failed to set control mode.";
+            // Don't return false here. WBBlock::terminate must be called in any case
+        }
+    }
+    else { // In Position mode, restore the default reference speeds
+        // Get the interface
+        yarp::dev::IPositionControl* interface = nullptr;
+        ok = ok && robotInterface->getInterface(interface);
+        if (!ok || !interface) {
+            wbtError << "Failed to get IPositionControl interface.";
+            // Don't return false here. WBBlock::terminate must be called in any case
+        }
+        // Restore default reference speeds
+        if (interface) {
+            ok = ok && interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
+            if (!ok) {
+                wbtError << "Failed to restore default reference speed.";
+                // Don't return false here. WBBlock::terminate must be called in any case
+            }
+        }
     }
 
     // Release the RemoteControlBoardRemapper
