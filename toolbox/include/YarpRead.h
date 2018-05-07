@@ -1,25 +1,46 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef WBT_YARPREAD_H
 #define WBT_YARPREAD_H
 
 #include "Block.h"
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class YarpRead;
-}
+} // namespace wbt
 
-namespace yarp {
-    namespace os {
-        template <class T>
-        class BufferedPort;
-    }
-    namespace sig {
-        class Vector;
-    }
-} // namespace yarp
-
-class wbt::YarpRead : public wbt::Block
+/**
+ * @brief The wbt::YarpRead class
+ *
+ * In addition to @ref block_parameters, wbt::YarpRead requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
+ * | ::INT    | 1 + Block::NumberOfParameters | 1 | 1 | "SignalSize"         |
+ * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "WaitData"           |
+ * | ::BOOL   | 3 + Block::NumberOfParameters | 1 | 1 | "ReadTimestamp"      |
+ * | ::BOOL   | 4 + Block::NumberOfParameters | 1 | 1 | "Autoconnect"        |
+ * | ::DOUBLE | 5 + Block::NumberOfParameters | 1 | 1 | "Timeout"            |
+ * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
+ *
+ */
+class wbt::YarpRead final : public wbt::Block
 {
+private:
+    class impl;
+    std::unique_ptr<impl> pImpl;
+
 public:
     static const std::string ClassName;
 
@@ -27,28 +48,11 @@ public:
     ~YarpRead() override = default;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
-
-private:
-    bool m_autoconnect;
-    bool m_blocking;
-    bool m_shouldReadTimestamp;
-    bool m_errorOnMissingPort;
-    int m_bufferSize;
-    double m_timeout;
-
-    std::unique_ptr<yarp::os::BufferedPort<yarp::sig::Vector>> m_port;
-
-    static const unsigned PARAM_IDX_PORTNAME; // port name
-    static const unsigned PARAM_IDX_PORTSIZE; // Size of the port you're reading
-    static const unsigned PARAM_IDX_WAITDATA; // boolean for blocking reading
-    static const unsigned PARAM_IDX_READ_TS; // boolean to stream timestamp
-    static const unsigned PARAM_IDX_AUTOCONNECT; // Autoconnect boolean
-    static const unsigned PARAM_IDX_ERR_NO_PORT; // Error on missing port if autoconnect is on
-    static const unsigned PARAM_IDX_TIMEOUT; // Timeout if blocking read
 };
 
-#endif /* end of include guard: WBT_YARPREAD_H */
+#endif // WBT_YARPREAD_H

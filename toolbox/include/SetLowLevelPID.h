@@ -1,50 +1,58 @@
-#ifndef WBT_SETLOWLEVELPID_H_
-#define WBT_SETLOWLEVELPID_H_
+/*
+
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
+#ifndef WBT_SETLOWLEVELPID_H
+#define WBT_SETLOWLEVELPID_H
 
 #include "WBBlock.h"
-#include <unordered_map>
-#include <yarp/dev/IPidControl.h>
+
+#include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class SetLowLevelPID;
-    enum PidDataIndex
-    {
-        PGAIN = 0,
-        IGAIN = 1,
-        DGAIN = 2
-    };
-    typedef std::tuple<double, double, double> PidData;
 } // namespace wbt
 
-namespace yarp {
-    namespace dev {
-        class Pid;
-    }
-} // namespace yarp
-
-class wbt::SetLowLevelPID : public wbt::WBBlock
+/**
+ * @brief The wbt::SetLowLevelPID class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::SetLowLevelPID requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "P"           |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "I"           |
+ * | ::STRUCT_CELL_DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "D"           |
+ * | ::STRING             | 1 + WBBlock::NumberOfParameters | 1 | 1 | "ControlType" |
+ *
+ */
+class wbt::SetLowLevelPID final : public wbt::WBBlock
 {
 private:
-    std::vector<yarp::dev::Pid> m_appliedPidValues;
-    std::vector<yarp::dev::Pid> m_defaultPidValues;
-    std::unordered_map<std::string, PidData> m_pidJointsFromParameters;
-
-    yarp::dev::PidControlTypeEnum m_controlType;
-
-    bool readWBTPidConfigObject(const BlockInformation* blockInfo);
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    SetLowLevelPID() = default;
+    SetLowLevelPID();
     ~SetLowLevelPID() override = default;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool parseParameters(BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_SETLOWLEVELPID_H_ */
+#endif // WBT_SETLOWLEVELPID_H

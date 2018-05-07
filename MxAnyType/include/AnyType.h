@@ -1,26 +1,33 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef ANYTYPE_H
 #define ANYTYPE_H
 
-#include <vector>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 class AnyType;
 
-typedef std::shared_ptr<AnyType> AnyTypeSPtr;
-typedef std::vector<AnyTypeSPtr> AnyCell;
-typedef std::unordered_map<std::string, AnyTypeSPtr> AnyStruct;
+using AnyTypeSPtr = std::shared_ptr<AnyType>;
+using AnyCell = std::vector<AnyTypeSPtr>;
+using AnyStruct = std::unordered_map<std::string, AnyTypeSPtr>;
 
 class AnyType
 {
 protected:
-
 public:
     AnyType() = default;
     virtual ~AnyType() = default;
 
     // Integers
-    virtual bool asInt(int& i)       = 0;
+    virtual bool asInt(int& i) = 0;
     // virtual bool asInt8(int8_t& i)   = 0;
     // virtual bool asInt16(int16_t& i) = 0;
     virtual bool asInt32(int32_t& i) = 0;
@@ -58,4 +65,4 @@ public:
     virtual bool asVectorDouble(std::vector<double>& vec) = 0;
 };
 
-#endif /* ANYTYPE_H */
+#endif // ANYTYPE_H

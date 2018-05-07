@@ -1,13 +1,46 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "Configuration.h"
 
 #include <algorithm>
+#include <array>
 
 using namespace wbt;
 
+class Configuration::impl
+{
+public:
+    std::string confKey;
+    std::string robotName;
+    std::string urdfFile;
+    std::string localName;
+    std::vector<std::string> controlledJoints;
+    std::vector<std::string> controlBoardsNames;
+    std::array<double, 3> gravityVector;
+    size_t dofs = 0;
+
+    impl* clone() { return new impl(*this); }
+};
+
 Configuration::Configuration(const std::string& confKey)
-    : m_confKey(confKey)
-    , m_dofs(0)
+    : pImpl{new impl()}
+{
+    pImpl->confKey = confKey;
+}
+
+Configuration::Configuration(const wbt::Configuration& other)
+    : pImpl{other.pImpl->clone()}
 {}
+
+// Defining the destructor as default here in the cpp avoids the usage
+// of a custom pimpl deleter
+Configuration::~Configuration() = default;
 
 // SET METHODS
 // ===========
@@ -29,38 +62,38 @@ void Configuration::setParameters(const std::string& robotName,
 
 void Configuration::setRobotName(const std::string& robotName)
 {
-    m_robotName = robotName;
+    pImpl->robotName = robotName;
 }
 
 void Configuration::setUrdfFile(const std::string& urdfFile)
 {
-    m_urdfFile = urdfFile;
+    pImpl->urdfFile = urdfFile;
 }
 
 void Configuration::setControlledJoints(const std::vector<std::string>& controlledJoints)
 {
-    m_controlledJoints = controlledJoints;
-    m_dofs = controlledJoints.size();
+    pImpl->controlledJoints = controlledJoints;
+    pImpl->dofs = controlledJoints.size();
 }
 
 void Configuration::setControlBoardsNames(const std::vector<std::string>& controlBoardsNames)
 {
-    m_controlBoardsNames = controlBoardsNames;
+    pImpl->controlBoardsNames = controlBoardsNames;
 }
 
 void Configuration::setLocalName(const std::string& localName)
 {
-    m_localName = localName;
+    pImpl->localName = localName;
 
     // Add the leading "/" if missing
-    if (m_localName.compare(0, 1, "/")) {
-        m_localName = "/" + m_localName;
+    if (pImpl->localName.compare(0, 1, "/")) {
+        pImpl->localName = "/" + pImpl->localName;
     }
 }
 
 const std::string Configuration::getUniqueId() const
 {
-    std::string uniqueId(m_confKey);
+    std::string uniqueId(pImpl->confKey);
 
     // Remove spaces
     auto it = std::remove(uniqueId.begin(), uniqueId.end(), ' ');
@@ -75,7 +108,7 @@ const std::string Configuration::getUniqueId() const
 
 void Configuration::setGravityVector(const std::array<double, 3>& gravityVector)
 {
-    m_gravityVector = gravityVector;
+    pImpl->gravityVector = gravityVector;
 }
 
 // GET METHODS
@@ -83,37 +116,42 @@ void Configuration::setGravityVector(const std::array<double, 3>& gravityVector)
 
 const std::string& Configuration::getRobotName() const
 {
-    return m_robotName;
+    return pImpl->robotName;
 }
 
 const std::string& Configuration::getUrdfFile() const
 {
-    return m_urdfFile;
+    return pImpl->urdfFile;
 }
 
 const std::vector<std::string>& Configuration::getControlledJoints() const
 {
-    return m_controlledJoints;
+    return pImpl->controlledJoints;
 }
 
 const std::vector<std::string>& Configuration::getControlBoardsNames() const
 {
-    return m_controlBoardsNames;
+    return pImpl->controlBoardsNames;
 }
 
 const std::string& Configuration::getLocalName() const
 {
-    return m_localName;
+    return pImpl->localName;
 }
 
 const std::array<double, 3>& Configuration::getGravityVector() const
 {
-    return m_gravityVector;
+    return pImpl->gravityVector;
 }
 
 const size_t& Configuration::getNumberOfDoFs() const
 {
-    return m_dofs;
+    return pImpl->dofs;
+}
+
+const std::string Configuration::getConfKey() const
+{
+    return pImpl->confKey;
 }
 
 // OTHER METHODS
@@ -121,9 +159,9 @@ const size_t& Configuration::getNumberOfDoFs() const
 
 bool Configuration::isValid() const
 {
-    bool status = !m_robotName.empty() && !m_urdfFile.empty() && !m_localName.empty()
-                  && !m_controlledJoints.empty() && !m_controlBoardsNames.empty()
-                  && !m_gravityVector.empty() && m_dofs > 0;
+    bool status = !pImpl->robotName.empty() && !pImpl->urdfFile.empty() && !pImpl->localName.empty()
+                  && !pImpl->controlledJoints.empty() && !pImpl->controlBoardsNames.empty()
+                  && !pImpl->gravityVector.empty() && pImpl->dofs > 0;
     return status;
 }
 
@@ -132,9 +170,11 @@ bool Configuration::isValid() const
 
 bool Configuration::operator==(const Configuration& config) const
 {
-    return this->m_robotName == config.m_robotName && this->m_urdfFile == config.m_urdfFile
-           && this->m_localName == config.m_localName
-           && this->m_controlledJoints == config.m_controlledJoints
-           && this->m_controlBoardsNames == config.m_controlBoardsNames
-           && this->m_gravityVector == config.m_gravityVector && this->m_dofs == config.m_dofs;
+    return this->pImpl->robotName == config.pImpl->robotName
+           && this->pImpl->urdfFile == config.pImpl->urdfFile
+           && this->pImpl->localName == config.pImpl->localName
+           && this->pImpl->controlledJoints == config.pImpl->controlledJoints
+           && this->pImpl->controlBoardsNames == config.pImpl->controlBoardsNames
+           && this->pImpl->gravityVector == config.pImpl->gravityVector
+           && this->pImpl->dofs == config.pImpl->dofs;
 }

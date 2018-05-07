@@ -1,30 +1,41 @@
-#ifndef WBT_DOTJDOTQ_H
-#define WBT_DOTJDOTQ_H
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
+#ifndef WBT_DOTJNU_H
+#define WBT_DOTJNU_H
 
 #include "WBBlock.h"
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Model/Indices.h>
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class DotJNu;
-}
+} // namespace wbt
 
-class wbt::DotJNu : public wbt::WBBlock
+/**
+ * @brief The wbt::DotJNu class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::DotJNu requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ *
+ */
+class wbt::DotJNu final : public wbt::WBBlock
 {
 private:
-    // Output
-    std::unique_ptr<iDynTree::Vector6> m_dotJNu;
-
-    // Other variables
-    bool m_frameIsCoM;
-    iDynTree::FrameIndex m_frameIndex;
-
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned INPUT_IDX_BASE_VEL;
-    static const unsigned INPUT_IDX_JOINT_VEL;
-    static const unsigned OUTPUT_IDX_DOTJ_NU;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
@@ -34,10 +45,10 @@ public:
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool parseParameters(BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_DOTJDOTQ_H */
+#endif // WBT_DOTJNU_H

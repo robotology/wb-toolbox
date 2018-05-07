@@ -1,29 +1,54 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "InverseDynamics.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/Core/Wrench.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingState.h>
+#include <iDynTree/Model/JointState.h>
+#include <iDynTree/Model/LinkState.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 
 const std::string InverseDynamics::ClassName = "InverseDynamics";
 
-const unsigned InverseDynamics::INPUT_IDX_BASE_POSE = 0;
-const unsigned InverseDynamics::INPUT_IDX_JOINTCONF = 1;
-const unsigned InverseDynamics::INPUT_IDX_BASE_VEL = 2;
-const unsigned InverseDynamics::INPUT_IDX_JOINT_VEL = 3;
-const unsigned InverseDynamics::INPUT_IDX_BASE_ACC = 4;
-const unsigned InverseDynamics::INPUT_IDX_JOINT_ACC = 5;
-const unsigned InverseDynamics::OUTPUT_IDX_TORQUES = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned INPUT_IDX_BASE_VEL = 2;
+const unsigned INPUT_IDX_JOINT_VEL = 3;
+const unsigned INPUT_IDX_BASE_ACC = 4;
+const unsigned INPUT_IDX_JOINT_ACC = 5;
+const unsigned OUTPUT_IDX_TORQUES = 0;
 
-InverseDynamics::InverseDynamics() {}
+class InverseDynamics::impl
+{
+public:
+    iDynTree::Vector6 baseAcceleration;
+    iDynTree::VectorDynSize jointsAcceleration;
+    iDynTree::FreeFloatingGeneralizedTorques torques;
+};
+
+InverseDynamics::InverseDynamics()
+    : pImpl{new impl()}
+{}
 
 unsigned InverseDynamics::numberOfParameters()
 {
@@ -34,8 +59,9 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo)){
-        return false;}
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
+        return false;
+    }
 
     // INPUTS
     // ======
@@ -50,31 +76,36 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(6)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
     // Get the DoFs
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
     bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
+    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_ACC, 6);
     success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_ACC, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_ACC, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_ACC, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_ACC, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_ACC, DataType::DOUBLE);
 
     if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -86,18 +117,18 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
     // Size and type
     success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_TORQUES, dofs + 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_TORQUES, PortDataTypeDouble);
+    blockInfo->setOutputPortType(OUTPUT_IDX_TORQUES, DataType::DOUBLE);
 
     return success;
 }
 
-bool InverseDynamics::initialize(const BlockInformation* blockInfo)
+bool InverseDynamics::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -107,24 +138,34 @@ bool InverseDynamics::initialize(const BlockInformation* blockInfo)
     // ==================
 
     using namespace iDynTree;
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
 
-    m_baseAcceleration = std::unique_ptr<Vector6>(new Vector6());
-    m_baseAcceleration->zero();
-    m_jointsAcceleration = std::unique_ptr<VectorDynSize>(new VectorDynSize(dofs));
-    m_jointsAcceleration->zero();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
+    // Initialize sizes and value
+    pImpl->baseAcceleration.zero();
+    pImpl->jointsAcceleration.resize(dofs);
+    pImpl->jointsAcceleration.zero();
 
     // Get the KinDynComputations pointer
-    const auto& kindyncomp = getRobotInterface()->getKinDynComputations();
+    const auto& kindyn = robotInterface->getKinDynComputations();
+    if (!kindyn) {
+        wbtError << "Failed to get the KinDynComputations object";
+        return false;
+    }
 
     // Get the model from the KinDynComputations object
-    const auto& model = kindyncomp->model();
+    const auto& model = kindyn->model();
 
-    m_torques =
-        std::unique_ptr<FreeFloatingGeneralizedTorques>(new FreeFloatingGeneralizedTorques(model));
+    // Initialize the output object
+    pImpl->torques = FreeFloatingGeneralizedTorques(model);
 
-    return static_cast<bool>(m_baseAcceleration) && static_cast<bool>(m_jointsAcceleration)
-           && static_cast<bool>(m_torques);
+    return true;
 }
 
 bool InverseDynamics::terminate(const BlockInformation* blockInfo)
@@ -134,78 +175,97 @@ bool InverseDynamics::terminate(const BlockInformation* blockInfo)
 
 bool InverseDynamics::output(const BlockInformation* blockInfo)
 {
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Failed to retrieve the KinDynComputations object.";
+        return false;
+    }
+
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok =
-        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
+        || !jointsVelocitySignal.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(
+        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 
     // Base acceleration
     // -----------------
 
-    Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
-    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
-    if (!bufBaseAcc) {
-        Log::getSingleton().error("Failed to read data from input port.");
+    const Signal baseAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_ACC);
+    if (!baseAccelerationSignal.isValid()) {
+        wbtError << "Base Acceleration signal not valid.";
         return false;
     }
-    for (auto i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
-        m_baseAcceleration->setVal(i, bufBaseAcc[i]);
+    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
+
+    for (unsigned i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
+        if (!pImpl->baseAcceleration.setVal(i, bufBaseAcc[i])) {
+            wbtError << "Failed to fill base accelerations class member.";
+            return false;
+        }
     }
 
     // Joints acceleration
     // -------------------
 
-    Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
-    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
-    if (!bufJointsAcc) {
-        Log::getSingleton().error("Failed to read data from input port.");
+    const Signal jointsAccelerationSignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_ACC);
+    if (!jointsAccelerationSignal.isValid()) {
+        wbtError << "Joints Acceleration signal not valid.";
         return false;
     }
-    for (auto i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
-        m_jointsAcceleration->setVal(i, bufJointsAcc[i]);
+    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
+
+    for (unsigned i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
+        if (!pImpl->jointsAcceleration.setVal(i, bufJointsAcc[i])) {
+            wbtError << "Failed to fill joint accelerations class member.";
+            return false;
+        }
     }
 
     // OUTPUT
     // ======
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
+    // Calculate the inverse dynamics (assuming zero external forces)
+    ok = kinDyn->inverseDynamics(pImpl->baseAcceleration,
+                                 pImpl->jointsAcceleration,
+                                 iDynTree::LinkNetExternalWrenches(kinDyn->getNrOfLinks()),
+                                 pImpl->torques);
 
-    if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+    if (!ok) {
+        wbtError << "iDynTree failed to compute inverse dynamics.";
         return false;
     }
-
-    // Calculate the inverse dynamics (assuming zero external forces)
-    model->inverseDynamics(*m_baseAcceleration,
-                           *m_jointsAcceleration,
-                           iDynTree::LinkNetExternalWrenches(model->getNrOfLinks()),
-                           *m_torques);
 
     // Get the output signal
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_TORQUES);
-    double* outputBuffer = output.getBuffer<double>();
-    if (!outputBuffer) {
-        Log::getSingleton().error("Failed to get output buffer.");
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
         return false;
     }
+    double* outputBuffer = output.getBuffer<double>();
 
     // Convert generalized torques and forward the directly to Simulink
     // mapping the memory through Eigen::Map
-    const auto& torquesSize = m_torques->jointTorques().size();
+    const auto& torquesSize = pImpl->torques.jointTorques().size();
     Eigen::Map<Eigen::VectorXd> generalizedOutputTrqs(outputBuffer, torquesSize + 6);
-    generalizedOutputTrqs.segment(0, 6) = toEigen(m_torques->baseWrench());
-    generalizedOutputTrqs.segment(6, torquesSize) = toEigen(m_torques->jointTorques());
+    generalizedOutputTrqs.segment(0, 6) = toEigen(pImpl->torques.baseWrench());
+    generalizedOutputTrqs.segment(6, torquesSize) = toEigen(pImpl->torques.jointTorques());
 
     return true;
 }

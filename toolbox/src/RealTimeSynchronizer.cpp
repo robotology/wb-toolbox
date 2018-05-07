@@ -1,28 +1,66 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "RealTimeSynchronizer.h"
 #include "BlockInformation.h"
 #include "Log.h"
+#include "Parameter.h"
+#include "Parameters.h"
 
+#include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
+
+#include <ostream>
 
 using namespace wbt;
 
 const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 
-const unsigned RealTimeSynchronizer::PARAM_PERIOD = 1; // Period
+const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
+const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
+
+class RealTimeSynchronizer::impl
+{
+public:
+    double period = 0.01;
+    double initialTime;
+    unsigned long counter = 0;
+};
 
 RealTimeSynchronizer::RealTimeSynchronizer()
-    : m_period(0.01)
-    , m_initialTime(0)
-    , m_counter(0)
+    : pImpl{new impl()}
 {}
 
 unsigned RealTimeSynchronizer::numberOfParameters()
 {
-    return 1;
+    return Block::numberOfParameters() + 1;
+}
+
+bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_period(ParameterType::DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
+
+    bool ok = blockInfo->addParameterMetadata(paramMD_period);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
 }
 
 bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUTS
     // ======
     //
@@ -30,7 +68,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -41,43 +79,58 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(0)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
     return true;
 }
 
-bool RealTimeSynchronizer::initialize(const BlockInformation* blockInfo)
+bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
 {
-    if (!blockInfo->getScalarParameterAtIndex(PARAM_PERIOD, m_period)) {
-        Log::getSingleton().error("Failed to get input parametes.");
+    if (!Block::initialize(blockInfo)) {
         return false;
     }
 
-    if (m_period < 0) {
-        Log::getSingleton().error("Period must be greater than 0.");
+    if (!RealTimeSynchronizer::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
         return false;
     }
 
-    m_counter = 0;
+    if (!m_parameters.getParameter("Period", pImpl->period)) {
+        wbtError << "Failed to get parameter 'period' after its parsing.";
+        return false;
+    }
+
+    if (pImpl->period <= 0) {
+        wbtError << "Period must be greater than 0.";
+        return false;
+    }
+
+    yarp::os::Network::init();
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
+        wbtError << "YARP server wasn't found active!!";
+        return false;
+    }
+
     return true;
 }
 
 bool RealTimeSynchronizer::terminate(const BlockInformation* blockInfo)
 {
+    yarp::os::Network::fini();
     return true;
 }
 
 bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
 {
-    if (m_counter == 0) {
-        m_initialTime = yarp::os::Time::now();
+    if (pImpl->counter == 0) {
+        pImpl->initialTime = yarp::os::Time::now();
     }
 
     // read current time
-    double currentTime = yarp::os::Time::now() - m_initialTime;
-    double desiredTime = m_counter * m_period;
+    double currentTime = yarp::os::Time::now() - pImpl->initialTime;
+    double desiredTime = pImpl->counter * pImpl->period;
 
     double sleepPeriod = desiredTime - currentTime;
 
@@ -86,7 +139,7 @@ bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
         yarp::os::Time::delay(sleepPeriod);
     }
 
-    m_counter++;
+    pImpl->counter++;
 
     return true;
 }

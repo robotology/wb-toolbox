@@ -1,61 +1,63 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "Signal.h"
+#include "Log.h"
+
+#include <algorithm>
+#include <map>
+#include <ostream>
+#include <stddef.h>
+#include <stdint.h>
+#include <typeinfo>
 
 using namespace wbt;
 
-Signal::~Signal()
-{
-    deleteBuffer();
-}
+// ============
+// SIGNAL::IMPL
+// ============
 
-Signal::Signal(const Signal& signal)
-    : m_width(signal.m_width)
-    , m_isConst(signal.m_isConst)
-    , m_portDataType(signal.m_portDataType)
-    , m_dataFormat(signal.m_dataFormat)
-    , m_bufferPtr(nullptr)
+class Signal::impl
 {
-    if (signal.m_bufferPtr) {
-        switch (signal.m_dataFormat) {
-            // Just copy the pointer to MATLAB's memory
-            case CONTIGUOUS_ZEROCOPY:
-                m_bufferPtr = signal.m_bufferPtr;
-                break;
-            // Copy the allocated data
-            case NONCONTIGUOUS:
-            case CONTIGUOUS:
-                allocateBuffer(signal.m_bufferPtr, m_bufferPtr, signal.m_width);
-                break;
-        }
+public:
+    int width = DynamicSize;
+    const bool isConst;
+    const DataType portDataType;
+    const DataFormat dataFormat;
+
+    void* bufferPtr = nullptr;
+
+    void deleteBuffer();
+    void allocateBuffer(const void* const bufferInput, void*& bufferOutput, const unsigned& length);
+
+    impl(const DataFormat& dFormat, const DataType& dType, const bool& c)
+        : isConst(c)
+        , portDataType(dType)
+        , dataFormat(dFormat)
+    {}
+
+    impl* clone() { return new impl(*this); }
+};
+
+void Signal::impl::allocateBuffer(const void* const bufferInput,
+                                  void*& bufferOutput,
+                                  const unsigned& length)
+{
+    if (dataFormat == DataFormat::CONTIGUOUS_ZEROCOPY) {
+        wbtWarning << "Trying to allocate a buffer with a non-supported "
+                   << "CONTIGUOUS_ZEROCOPY data format.";
+        return;
     }
-}
 
-Signal::Signal(const SignalDataFormat& dataFormat,
-               const PortDataType& dataType,
-               const bool& isConst)
-    : m_isConst(isConst)
-    , m_portDataType(dataType)
-    , m_dataFormat(dataFormat)
-    , m_bufferPtr(nullptr)
-{}
-
-Signal::Signal(Signal&& other)
-    : m_width(other.m_width)
-    , m_isConst(other.m_isConst)
-    , m_portDataType(other.m_portDataType)
-    , m_dataFormat(other.m_dataFormat)
-    , m_bufferPtr(other.m_bufferPtr)
-{
-    other.m_width = 0;
-    other.m_bufferPtr = nullptr;
-}
-
-void Signal::allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length)
-{
-    // TODO: Implement other PortDataType
-    switch (m_portDataType) {
-        case PortDataTypeDouble: {
+    switch (portDataType) {
+        case DataType::DOUBLE: {
             // Allocate the array
-            bufferOutput = static_cast<void*>(new double[m_width]);
+            bufferOutput = static_cast<void*>(new double[length]);
             // Cast to double
             const double* const bufferInputDouble = static_cast<const double*>(bufferInput);
             double* bufferOutputDouble = static_cast<double*>(bufferOutput);
@@ -64,68 +66,121 @@ void Signal::allocateBuffer(const void* const bufferInput, void*& bufferOutput, 
             return;
         }
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return;
     }
 }
 
-void Signal::deleteBuffer()
+void Signal::impl::deleteBuffer()
 {
-    if (m_dataFormat == CONTIGUOUS_ZEROCOPY || !m_bufferPtr) {
+    if (dataFormat == DataFormat::CONTIGUOUS_ZEROCOPY || !bufferPtr) {
         return;
     }
 
-    // TODO: Implement other PortDataType
-    switch (m_portDataType) {
-        case PortDataTypeDouble:
-            delete static_cast<double*>(m_bufferPtr);
-            m_bufferPtr = nullptr;
+    switch (portDataType) {
+        case DataType::DOUBLE:
+            delete static_cast<double*>(bufferPtr);
+            bufferPtr = nullptr;
             return;
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return;
     }
+}
+
+// ======
+// SIGNAL
+// ======
+
+Signal::~Signal()
+{
+    pImpl->deleteBuffer();
+}
+
+Signal::Signal(const Signal& other)
+    : pImpl{other.pImpl->clone()}
+{
+    if (pImpl->bufferPtr) {
+        switch (pImpl->dataFormat) {
+            case DataFormat::CONTIGUOUS_ZEROCOPY:
+                // We just need the buffer pointer, which has been already copied
+                // by the pImpl clone.
+                break;
+            case DataFormat::NONCONTIGUOUS:
+            case DataFormat::CONTIGUOUS:
+                // Copy the allocated data
+                pImpl->allocateBuffer(other.pImpl->bufferPtr, pImpl->bufferPtr, other.pImpl->width);
+                break;
+        }
+    }
+}
+
+Signal::Signal(const DataFormat& dataFormat, const DataType& dataType, const bool& isConst)
+    : pImpl{new impl(dataFormat, dataType, isConst)}
+{}
+
+Signal::Signal(Signal&& other)
+    : pImpl{other.pImpl->clone()}
+{
+    other.pImpl->width = 0;
+    other.pImpl->bufferPtr = nullptr;
 }
 
 bool Signal::initializeBufferFromContiguousZeroCopy(const void* buffer)
 {
-    if (m_dataFormat != CONTIGUOUS_ZEROCOPY) {
+    if (pImpl->dataFormat != DataFormat::CONTIGUOUS_ZEROCOPY) {
+        wbtError << "Trying to initialize a CONTIGUOUS_ZEROCOPY signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
-    m_bufferPtr = const_cast<void*>(buffer);
+    pImpl->bufferPtr = const_cast<void*>(buffer);
     return true;
 }
 
 bool Signal::initializeBufferFromContiguous(const void* buffer)
 {
-    if (m_dataFormat != CONTIGUOUS || m_width <= 0) {
+    if (pImpl->dataFormat != DataFormat::CONTIGUOUS) {
+        wbtError << "Trying to initialize a CONTIGUOUS signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
-    if (m_portDataType == PortDataTypeDouble) {
-        // Allocate a new vector to store data from the non-contiguous signal
-        m_bufferPtr = static_cast<void*>(new double[m_width]);
-        const double* bufferInputDouble = static_cast<const double*>(buffer);
-        double* bufferOutputDouble = static_cast<double*>(m_bufferPtr);
-
-        // Copy data from the input memory location
-        std::copy(bufferInputDouble, bufferInputDouble + m_width, bufferOutputDouble);
+    if (pImpl->width <= 0) {
+        wbtError << "Signal width unknown. Unable to initialize the buffer if the "
+                 << "signal size is not set.";
+        return false;
     }
+
+    // Copy data from the external contiguous buffer to the internal buffer
+    pImpl->allocateBuffer(buffer, pImpl->bufferPtr, pImpl->width);
+
     return true;
 }
 
 bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
 {
-    if (m_dataFormat != NONCONTIGUOUS || m_width <= 0) {
+    if (pImpl->dataFormat != DataFormat::NONCONTIGUOUS) {
+        wbtError << "Trying to initialize a NONCONTIGUOUS signal but the configured "
+                 << "DataFormat does not match.";
         return false;
     }
 
-    if (m_portDataType == PortDataTypeDouble) {
+    if (pImpl->width <= 0) {
+        wbtError << "Signal width unknown. Unable to initialize the buffer if the "
+                 << "signal size is not set.";
+        return false;
+    }
+
+    if (pImpl->portDataType == DataType::DOUBLE) {
         // Allocate a new vector to store data from the non-contiguous signal
-        m_bufferPtr = static_cast<void*>(new double[m_width]);
-        double* bufferPtrDouble = static_cast<double*>(m_bufferPtr);
+        pImpl->bufferPtr = static_cast<void*>(new double[pImpl->width]);
+        double* bufferPtrDouble = static_cast<double*>(pImpl->bufferPtr);
 
         // Copy data from MATLAB's memory to the Signal object
-        for (auto i = 0; i < m_width; ++i) {
+        for (auto i = 0; i < pImpl->width; ++i) {
             const double* valuePtr = static_cast<const double*>(*bufferPtrs);
             bufferPtrDouble[i] = valuePtr[i];
         }
@@ -133,52 +188,177 @@ bool Signal::initializeBufferFromNonContiguous(const void* const* bufferPtrs)
     return true;
 }
 
+bool Signal::isValid() const
+{
+    return pImpl->bufferPtr && (pImpl->width > 0);
+}
+
 void Signal::setWidth(const unsigned& width)
 {
-    m_width = width;
+    pImpl->width = width;
 }
 
-unsigned Signal::getWidth() const
+int Signal::getWidth() const
 {
-    return m_width;
+    return pImpl->width;
 }
 
-PortDataType Signal::getPortDataType() const
+DataType Signal::getPortDataType() const
 {
-    return m_portDataType;
+    return pImpl->portDataType;
 }
 
 bool Signal::isConst() const
 {
-    return m_isConst;
+    return pImpl->isConst;
 }
 
-SignalDataFormat Signal::getDataFormat() const
+Signal::DataFormat Signal::getDataFormat() const
 {
-    return m_dataFormat;
+    return pImpl->dataFormat;
 }
 
 bool Signal::set(const unsigned& index, const double& data)
 {
-    if (m_isConst || m_width <= index) {
+    if (pImpl->isConst || pImpl->width <= index) {
+        wbtError << "The signal is either const or the index exceeds its width.";
         return false;
     }
 
-    // TODO: Implement other PortDataType
-    switch (m_portDataType) {
-        case PortDataTypeDouble: {
-            double* buffer = static_cast<double*>(m_bufferPtr);
+    if (!pImpl->bufferPtr) {
+        wbtError << "The pointer to data is null. The signal was not configured properly.";
+        return false;
+    }
+
+    switch (pImpl->portDataType) {
+        case DataType::DOUBLE: {
+            double* buffer = static_cast<double*>(pImpl->bufferPtr);
             buffer[index] = data;
             break;
         }
-        case PortDataTypeSingle: {
-            float* buffer = static_cast<float*>(m_bufferPtr);
+        case DataType::SINGLE: {
+            float* buffer = static_cast<float*>(pImpl->bufferPtr);
             buffer[index] = data;
             break;
         }
         default:
+            // TODO: Implement other DataType
+            wbtError << "The specified DataType is not yet supported. Used DOUBLE instead.";
             return false;
             break;
     }
+    return true;
+}
+
+// Explicit template instantiations
+// ================================
+template double* Signal::getBuffer<double>() const;
+template double Signal::get<double>(const unsigned& i) const;
+template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+
+// Template definitions
+// ===================
+
+template <typename T>
+T Signal::get(const unsigned& i) const
+{
+    T* buffer = getBuffer<T>();
+
+    if (!buffer) {
+        wbtError << "The buffer inside the signal has not been initialized properly.";
+        return {};
+    }
+
+    if (i >= pImpl->width) {
+        wbtError << "Trying to access an element that exceeds signal width.";
+        return {};
+    }
+
+    return buffer[i];
+}
+
+template <typename T>
+T* Signal::getBuffer() const
+{
+    const std::map<DataType, size_t> mapDataTypeToHash = {
+        {DataType::DOUBLE, typeid(double).hash_code()},
+        {DataType::SINGLE, typeid(float).hash_code()},
+        {DataType::INT8, typeid(int8_t).hash_code()},
+        {DataType::UINT8, typeid(uint8_t).hash_code()},
+        {DataType::INT16, typeid(int16_t).hash_code()},
+        {DataType::UINT16, typeid(uint16_t).hash_code()},
+        {DataType::INT32, typeid(int32_t).hash_code()},
+        {DataType::UINT32, typeid(uint32_t).hash_code()},
+        {DataType::BOOLEAN, typeid(bool).hash_code()}};
+
+    if (!pImpl->bufferPtr) {
+        wbtError << "The pointer to data is null. The signal was not configured properly.";
+        return nullptr;
+    }
+
+    // Check the returned matches the same type of the portType.
+    // If this is not met, applying pointer arithmetics on the returned
+    // pointer would show unknown behaviour.
+    if (typeid(T).hash_code() != mapDataTypeToHash.at(pImpl->portDataType)) {
+        wbtError << "Trying to get the buffer using a type different that its DataType";
+        return nullptr;
+    }
+
+    // Return the correct pointer
+    return static_cast<T*>(pImpl->bufferPtr);
+}
+
+template <typename T>
+bool Signal::setBuffer(const T* data, const unsigned& length)
+{
+    // Non contiguous signals follow the Simulink convention of being read-only.
+    // They are used only for input signals.
+    if (pImpl->dataFormat == DataFormat::NONCONTIGUOUS || pImpl->isConst) {
+        wbtError << "Changing buffer address to NONCONTIGUOUS and const signals is not allowed.";
+        return false;
+    }
+
+    // Fail if the length is greater of the signal width
+    if (pImpl->dataFormat == DataFormat::CONTIGUOUS_ZEROCOPY && length > pImpl->width) {
+        wbtError << "Trying to set a buffer with a length greater than the signal width.";
+        return false;
+    }
+
+    // Check that T matches the type of raw buffer stored. Use getBuffer since it will return
+    // nullptr if this is not met.
+    if (!getBuffer<T>()) {
+        wbtError << "Trying to get a pointer with a type not matching the signal's DataType.";
+        return false;
+    }
+
+    switch (pImpl->dataFormat) {
+        case DataFormat::CONTIGUOUS:
+            // Delete the current array
+            if (pImpl->bufferPtr) {
+                delete getBuffer<T>();
+                pImpl->bufferPtr = nullptr;
+                pImpl->width = 0;
+            }
+            // Allocate a new empty array
+            pImpl->bufferPtr = static_cast<void*>(new T[length]);
+            pImpl->width = length;
+            // Fill it with new data
+            std::copy(data, data + length, getBuffer<T>());
+            break;
+        case DataFormat::CONTIGUOUS_ZEROCOPY:
+            // Reset current data if width changes
+            if (length != pImpl->width) {
+                std::fill(getBuffer<T>(), getBuffer<T>() + length, 0);
+            }
+            // Copy new data
+            std::copy(data, data + length, getBuffer<T>());
+            // Update the width
+            pImpl->width = length;
+            break;
+        case DataFormat::NONCONTIGUOUS:
+            wbtError << "The code should never arrive here. Unexpected error.";
+            return false;
+    }
+
     return true;
 }

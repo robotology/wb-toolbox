@@ -1,9 +1,32 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "Log.h"
 
-#include <iterator>
-#include <sstream>
+#include <vector>
 
 using namespace wbt;
+
+class Log::impl
+{
+public:
+    std::vector<std::unique_ptr<std::stringstream>> errorsSStream;
+    std::vector<std::unique_ptr<std::stringstream>> warningsSStream;
+
+    const Verbosity verbosity = WBT_LOG_VERBOSITY;
+
+    static std::string
+    serializeVectorStringStream(const std::vector<std::unique_ptr<std::stringstream>>& ss);
+};
+
+Log::Log()
+    : pImpl{new Log::impl()}
+{}
 
 Log& Log::getSingleton()
 {
@@ -11,75 +34,71 @@ Log& Log::getSingleton()
     return logInstance;
 }
 
-void Log::error(const std::string& errorMessage)
+std::stringstream& Log::getLogStringStream(const Log::Type& type,
+                                           const std::string& file,
+                                           const unsigned& line,
+                                           const std::string& function)
 {
-    errors.push_back(errorMessage);
-}
-
-void Log::warning(const std::string& warningMessage)
-{
-    warnings.push_back(warningMessage);
-}
-
-void Log::errorAppend(const std::string& errorMessage)
-{
-    if (errors.empty()) {
-        error(errorMessage);
-        return;
+    switch (pImpl->verbosity) {
+        case Log::Verbosity::RELEASE:
+            switch (type) {
+                case Log::Type::ERROR:
+                    pImpl->errorsSStream.emplace_back(new std::stringstream);
+                    return *pImpl->errorsSStream.back();
+                case Log::Type::WARNING:
+                    pImpl->warningsSStream.emplace_back(new std::stringstream);
+                    return *pImpl->warningsSStream.back();
+            }
+        case Log::Verbosity::DEBUG:
+            switch (type) {
+                case Log::Type::ERROR: {
+                    pImpl->errorsSStream.emplace_back(new std::stringstream);
+                    auto& ss = *pImpl->errorsSStream.back();
+                    ss << std::endl
+                       << file << "@" << function << ":" << std::to_string(line) << std::endl;
+                    return ss;
+                }
+                case Log::Type::WARNING: {
+                    pImpl->warningsSStream.emplace_back(new std::stringstream);
+                    auto& ss = *pImpl->warningsSStream.back();
+                    ss << std::endl
+                       << file << "@" << function << ":" << std::to_string(line) << std::endl;
+                    return ss;
+                }
+            }
     }
-    errors.back() += errorMessage;
 }
 
-void Log::warningAppend(const std::string& warningMessage)
-{
-    if (warnings.empty()) {
-        warning(warningMessage);
-    }
-    warnings.back() += warningMessage;
-}
-
-void Log::setPrefix(const std::string& prefixMessage)
-{
-    prefix = prefixMessage;
-}
-
-void Log::resetPrefix()
-{
-    prefix.clear();
-}
-
-std::string Log::serializeVectorString(std::vector<std::string> v, const std::string& prefix)
+std::string
+Log::impl::serializeVectorStringStream(const std::vector<std::unique_ptr<std::stringstream>>& ss)
 {
     std::stringstream output;
-    std::ostream_iterator<std::string> output_iterator(output, "\n");
-    std::copy(v.begin(), v.end(), output_iterator);
 
-    if (prefix.empty()) {
-        return output.str();
+    for (const auto& ss_elem : ss) {
+        output << ss_elem->str() << std::endl;
     }
-    else {
-        return prefix + "\n" + output.str();
-    }
+
+    return output.str();
 }
 
 std::string Log::getErrors() const
 {
-    return serializeVectorString(errors, prefix);
+    return impl::serializeVectorStringStream(pImpl->errorsSStream);
 }
 
 std::string Log::getWarnings() const
 {
-    return serializeVectorString(warnings, prefix);
+    return impl::serializeVectorStringStream(pImpl->warningsSStream);
 }
 
 void Log::clearWarnings()
 {
-    warnings.clear();
+    pImpl->warningsSStream.clear();
 }
 
 void Log::clearErrors()
 {
-    errors.clear();
+    pImpl->errorsSStream.clear();
 }
 
 void Log::clear()

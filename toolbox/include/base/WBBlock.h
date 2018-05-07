@@ -1,91 +1,104 @@
-#ifndef WBT_WBIBLOCK_H
-#define WBT_WBIBLOCK_H
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
+#ifndef WBT_WBBLOCK_H
+#define WBT_WBBLOCK_H
 
 #include "Block.h"
-
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
-
-#include <array>
 #include <memory>
-#include <string>
 
 namespace wbt {
     class WBBlock;
     class Signal;
-    class Configuration;
     class BlockInformation;
     class RobotInterface;
 } // namespace wbt
 
 namespace iDynTree {
-    class MatrixDynSize;
-}
+    class KinDynComputations;
+} // namespace iDynTree
 
 /**
- * \struct iDynTreeRobotState WBBlock.h
+ * @brief Extension of wbt::Block for simplifying the development of whole-body blocks
  *
- * This struct contains the iDynTree objects used to configure the
- * state of iDynTree::KinDynComputations objects.
- */
-struct iDynTreeRobotState
-{
-    iDynTree::Twist m_baseVelocity;
-    iDynTree::Vector3 m_gravity;
-    iDynTree::Transform m_world_T_base;
-    iDynTree::VectorDynSize m_jointsVelocity;
-    iDynTree::VectorDynSize m_jointsPosition;
-
-    iDynTreeRobotState() = default;
-    ~iDynTreeRobotState() = default;
-
-    iDynTreeRobotState(const unsigned& dofs, const std::array<double, 3>& gravity);
-};
-
-/**
- * Basic class for Whole-Body related blocks.
- * This class (the whole toolbox in reality) assumes the block represent
- * an instantaneous system (i.e. not a dynamic system).
+ * This class provides support of parsing the parameters for creating a wbt::RobotInterface object,
+ * and helpers for retrieving iDynTree::KinDynComputations and wbt::RobotInterface objects.
  *
- * You can create a new block by deriving this class and implementing at least
- * the output method.
+ * @see wbt::Block
  *
- * This block implements the following default behaviours:
- * - it ask for 4 parameters (robot name, local (module) name, names of the remote control boards,
- *   and the list of joints which should all belong to one of the remote control boards)
- * - It initializes the yarp network and the whole body interface object
- * - During terminate it closes and release the interface object and terminate the yarp network
+ * @section wbblock_parameters WBBlock Parameters
  *
- * @note Usually you want to call this class implementations at some point in your
- * method overridings, unless you want to completely change the code (but at that point
- * you probabily want to derive from Block instead)
+ * In addition to @ref block_parameters, wbt::WBBlock requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "RobotName"          |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "UrdfFile"           |
+ * | ::STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlledJoints"   |
+ * | ::STRUCT_CELL_STRING | 0 + Block::NumberOfParameters | 1 | 1 | "ControlBoardsNames" |
+ * | ::STRUCT_STRING      | 0 + Block::NumberOfParameters | 1 | 1 | "LocalName"          |
+ * | ::STRUCT_DOUBLE      | 0 + Block::NumberOfParameters | 1 | 3 | "GravityVector"      |
+ * | ::STRING             | 1 + Block::NumberOfParameters | 1 | 1 | "ConfBlockName"      |
+ *
+ * @note The first set of parameters are fields of the same struct. For this reason they share the
+ * same index.
  */
 class wbt::WBBlock : public wbt::Block
 {
-private:
-    static const unsigned ConfigurationParameterIndex;
-    static const unsigned ConfBlockNameParameterIndex;
-
 protected:
-    std::string confKey;
-    iDynTreeRobotState robotState;
-    bool getWBToolboxParameters(Configuration& config, const BlockInformation* blockInfo);
-    const std::shared_ptr<wbt::RobotInterface> getRobotInterface();
-    const Configuration& getConfiguration();
+    struct iDynTreeRobotState;
+    std::unique_ptr<iDynTreeRobotState> m_robotState;
+
+    /**
+     * @brief Helper for retrieving the iDynTree::KinDynComputations object from
+     *        wbt::BlockInformation
+     * @param blockInfo A BlockInformation object.
+     * @return A pointer to iDynTree::KinDynComputations.
+     */
+    std::weak_ptr<iDynTree::KinDynComputations>
+    getKinDynComputations(const BlockInformation* blockInfo) const;
+
+    /**
+     * @brief Helper for retrieving the wbt::RobotInterface object from
+     *        wbt::BlockInformation
+     * @param blockInfo A BlockInformation object.
+     * @return A pointer to wbt::RobotInterface.
+     */
+    std::weak_ptr<wbt::RobotInterface> getRobotInterface(const BlockInformation* blockInfo) const;
+
+    /**
+     * @brief Helper for setting the robot state inside the iDynTree::KinDynComputations object
+     *
+     * @param basePose The vector containing the base pose.
+     * @param jointsPos The vector containing the joints positions.
+     * @param baseVelocity The vector containing the base velocity.
+     * @param jointsVelocity The vector containing the joints velocities.
+     * @param kinDyn A pointer to the block's KinDynComputations object.
+     * @return True if success, false otherwise.
+     *
+     * @see iDynTree::KinDynComputations::setRobotState, wbt::iDynTreeRobotState
+     */
     bool setRobotState(const wbt::Signal* basePose,
                        const wbt::Signal* jointsPos,
                        const wbt::Signal* baseVelocity,
-                       const wbt::Signal* jointsVelocity);
+                       const wbt::Signal* jointsVelocity,
+                       iDynTree::KinDynComputations* kinDyn);
 
 public:
-    WBBlock() = default;
-    ~WBBlock() override = default;
+    /// The number of parameters WBBlock requires
+    static const unsigned NumberOfParameters;
+
+    WBBlock();
+    ~WBBlock() override;
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(const BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_WBIBLOCK_H */
+#endif // WBT_WBBLOCK_H

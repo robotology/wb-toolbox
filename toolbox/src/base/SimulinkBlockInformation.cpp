@@ -1,8 +1,20 @@
-#include "SimulinkBlockInformation.h"
-#include "MxAnyType.h"
-#include "Signal.h"
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
 
-#include <simstruc.h>
+#include "SimulinkBlockInformation.h"
+#include "Log.h"
+#include "MxAnyType.h"
+#include "Parameter.h"
+#include "Parameters.h"
+#include "Signal.h"
+#include "ToolboxSingleton.h"
+
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -22,31 +34,32 @@ bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& opt
         return true;
     }
 
+    wbtError << "Unrecognized block option.";
     return false;
 }
 
 // PARAMETERS METHODS
 // ==================
 
-bool SimulinkBlockInformation::getStringParameterAtIndex(unsigned parameterIndex,
-                                                         std::string& stringParameter) const
+bool SimulinkBlockInformation::getStringParameterAtIndex(const ParameterIndex& idx,
+                                                         std::string& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asString(stringParameter);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asString(value);
 }
 
-bool SimulinkBlockInformation::getScalarParameterAtIndex(unsigned parameterIndex,
+bool SimulinkBlockInformation::getScalarParameterAtIndex(const ParameterIndex& idx,
                                                          double& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asDouble(value);
 }
 
-bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterIndex,
+bool SimulinkBlockInformation::getBooleanParameterAtIndex(const ParameterIndex& idx,
                                                           bool& value) const
 {
     double tmpValue = 0;
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
 
     // The Simulink mask often doesn't store boolean data from the mask as bool but as double.
     // Calling asBool() will fail in this case. If this happens, asDouble() is used as fallback.
@@ -57,231 +70,688 @@ bool SimulinkBlockInformation::getBooleanParameterAtIndex(unsigned parameterInde
         value = static_cast<bool>(tmpValue);
         return true;
     }
-    return MxAnyType(blockParam).asBool(value);
+
+    wbtError << "Failed to parse bool parameter";
+    return false;
 }
 
-bool SimulinkBlockInformation::getStructAtIndex(unsigned parameterIndex, AnyStruct& map) const
+bool SimulinkBlockInformation::getCellAtIndex(const ParameterIndex& idx, AnyCell& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asAnyStruct(map);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asAnyCell(value);
 }
 
-bool SimulinkBlockInformation::getVectorAtIndex(unsigned parameterIndex,
-                                                std::vector<double>& vec) const
+bool SimulinkBlockInformation::getStructAtIndex(const ParameterIndex& idx, AnyStruct& value) const
 {
-    const mxArray* blockParam = ssGetSFcnParam(simstruct, parameterIndex);
-    return MxAnyType(blockParam).asVectorDouble(vec);
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asAnyStruct(value);
+}
+
+bool SimulinkBlockInformation::getVectorAtIndex(const ParameterIndex& idx,
+                                                std::vector<double>& value) const
+{
+    const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
+    return MxAnyType(blockParam).asVectorDouble(value);
+}
+
+bool SimulinkBlockInformation::getStringFieldAtIndex(const ParameterIndex& idx,
+                                                     const std::string& fieldName,
+                                                     std::string& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asString(value);
+}
+
+bool SimulinkBlockInformation::getScalarFieldAtIndex(const ParameterIndex& idx,
+                                                     const std::string& fieldName,
+                                                     double& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asDouble(value);
+}
+
+bool SimulinkBlockInformation::getBooleanFieldAtIndex(const ParameterIndex& idx,
+                                                      const std::string& fieldName,
+                                                      bool& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asBool(value);
+}
+
+bool SimulinkBlockInformation::getCellFieldAtIndex(const ParameterIndex& idx,
+                                                   const std::string& fieldName,
+                                                   AnyCell& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asAnyCell(value);
+}
+
+bool SimulinkBlockInformation::getVectorDoubleFieldAtIndex(const ParameterIndex& idx,
+                                                           const std::string& fieldName,
+                                                           std::vector<double>& value) const
+{
+    AnyStruct s;
+
+    if (!getStructAtIndex(idx, s)) {
+        wbtError << "Failed to get struct at index " << idx << ".";
+        return false;
+    }
+
+    if (s.find(fieldName) == s.end()) {
+        wbtError << "Struct at index " << idx << " does not contain any " << fieldName << " field.";
+        return false;
+    }
+
+    return s.at(fieldName)->asVectorDouble(value);
 }
 
 // PORT INFORMATION SETTERS
 // ========================
 
-bool SimulinkBlockInformation::setNumberOfInputPorts(unsigned numberOfPorts)
+bool SimulinkBlockInformation::setNumberOfInputPorts(const unsigned& numberOfPorts)
 {
     return ssSetNumInputPorts(simstruct, numberOfPorts);
 }
 
-bool SimulinkBlockInformation::setNumberOfOutputPorts(unsigned numberOfPorts)
+bool SimulinkBlockInformation::setNumberOfOutputPorts(const unsigned& numberOfPorts)
 {
     return ssSetNumOutputPorts(simstruct, numberOfPorts);
 }
 
-bool SimulinkBlockInformation::setInputPortVectorSize(unsigned portNumber, int portSize)
+bool SimulinkBlockInformation::setInputPortVectorSize(const PortIndex& idx, const VectorSize& size)
 {
-    if (portSize == -1) {
-        portSize = DYNAMICALLY_SIZED;
+    if (size == Signal::DynamicSize) {
+        // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
+        // mdlSetDefaultPortDimensionInfo
+        return ssSetInputPortVectorDimension(simstruct, idx, DYNAMICALLY_SIZED);
     }
-    return ssSetInputPortVectorDimension(simstruct, portNumber, portSize);
+
+    return ssSetInputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setInputPortMatrixSize(unsigned portNumber, int rows, int columns)
+bool SimulinkBlockInformation::setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
-    if (rows == -1) {
-        rows = DYNAMICALLY_SIZED;
+    // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetoutputportmatrixdimensions.html
+    if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
+        // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
+        // mdlSetDefaultPortDimensionInfo
+        ssSetInputPortMatrixDimensions(simstruct, idx, DYNAMICALLY_SIZED, DYNAMICALLY_SIZED);
     }
-    if (columns == -1) {
-        columns = DYNAMICALLY_SIZED;
-    }
-    return ssSetInputPortMatrixDimensions(simstruct, portNumber, rows, columns);
+
+    return ssSetInputPortMatrixDimensions(simstruct, idx, size.first, size.first);
 }
 
-bool SimulinkBlockInformation::setOutputPortVectorSize(unsigned portNumber, int portSize)
+bool SimulinkBlockInformation::setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size)
 {
-    if (portSize == -1) {
-        portSize = DYNAMICALLY_SIZED;
+    if (size == Signal::DynamicSize) {
+        // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
+        // mdlSetDefaultPortDimensionInfo
+        return ssSetOutputPortVectorDimension(simstruct, idx, DYNAMICALLY_SIZED);
     }
-    return ssSetOutputPortVectorDimension(simstruct, portNumber, portSize);
+
+    return ssSetOutputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setOutputPortMatrixSize(unsigned portNumber, int rows, int columns)
+bool SimulinkBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
 {
-    if (rows == -1) {
-        rows = DYNAMICALLY_SIZED;
+    // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetinputportmatrixdimensions.html
+    if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
+        // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
+        // mdlSetDefaultPortDimensionInfo
+        return ssSetOutputPortMatrixDimensions(
+            simstruct, idx, DYNAMICALLY_SIZED, DYNAMICALLY_SIZED);
     }
-    if (columns == -1) {
-        columns = DYNAMICALLY_SIZED;
-    }
-    return ssSetOutputPortMatrixDimensions(simstruct, portNumber, rows, columns);
+
+    return ssSetOutputPortMatrixDimensions(simstruct, idx, size.first, size.second);
 }
 
-bool SimulinkBlockInformation::setInputPortType(unsigned portNumber, PortDataType portType)
+bool SimulinkBlockInformation::setInputPortType(const PortIndex& idx, const DataType& type)
 {
-    ssSetInputPortDirectFeedThrough(simstruct, portNumber, 1);
-    ssSetInputPortDataType(simstruct, portNumber, mapSimulinkToPortType(portType));
+    ssSetInputPortDirectFeedThrough(simstruct, idx, 1);
+    ssSetInputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
 }
 
-bool SimulinkBlockInformation::setOutputPortType(unsigned portNumber, PortDataType portType)
+bool SimulinkBlockInformation::setOutputPortType(const PortIndex& idx, const DataType& type)
 {
-    ssSetOutputPortDataType(simstruct, portNumber, mapSimulinkToPortType(portType));
+    ssSetOutputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
 }
 
 // PORT INFORMATION GETTERS
 // ========================
 
-unsigned SimulinkBlockInformation::getInputPortWidth(unsigned portNumber) const
+unsigned SimulinkBlockInformation::getInputPortWidth(const PortIndex& idx) const
 {
-    return ssGetInputPortWidth(simstruct, portNumber);
+    return ssGetInputPortWidth(simstruct, idx);
 }
 
-unsigned SimulinkBlockInformation::getOutputPortWidth(unsigned portNumber) const
+unsigned SimulinkBlockInformation::getOutputPortWidth(const PortIndex& idx) const
 {
-    return ssGetOutputPortWidth(simstruct, portNumber);
+    return ssGetOutputPortWidth(simstruct, idx);
 }
 
-wbt::Signal SimulinkBlockInformation::getInputPortSignal(unsigned portNumber, int portWidth) const
+Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex& idx,
+                                                    const VectorSize& size) const
 {
     // Read if the signal is contiguous or non-contiguous
-    boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, portNumber);
-    SignalDataFormat sigDataFormat = isContiguous ? CONTIGUOUS_ZEROCOPY : NONCONTIGUOUS;
+    boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, idx);
+    Signal::DataFormat sigDataFormat =
+        isContiguous ? Signal::DataFormat::CONTIGUOUS_ZEROCOPY : Signal::DataFormat::NONCONTIGUOUS;
 
     // Check if the signal is dynamically sized (which means that the dimension
     // cannot be read)
-    bool isDynamicallySized = (ssGetInputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED);
+    bool isDynamicallySized = (ssGetInputPortWidth(simstruct, idx) == DYNAMICALLY_SIZED);
 
-    // Note that if the signal is DYNAMICALLY_SIZED (-1), portWidth is necessary
-    if (isDynamicallySized && portWidth == -1) {
-        return Signal();
+    // Note that if the signal is dynamically sized, portWidth is necessary
+    if (isDynamicallySized && size == Signal::DynamicSize) {
+        wbtError << "Trying to get a dynamically sized signal without specifying its size.";
+        return {};
     }
 
     // Read the width of the signal if it is not provided as input and the signal is not
     // dynamically sized
-    if (!isDynamicallySized && portWidth == -1) {
-        portWidth = ssGetInputPortWidth(simstruct, portNumber);
+    VectorSize signalSize = size;
+    if (!isDynamicallySized && size == Signal::DynamicSize) {
+        signalSize = ssGetInputPortWidth(simstruct, idx);
     }
 
     // Get the data type of the Signal if set (default: double)
-    DTypeId dataType = ssGetInputPortDataType(simstruct, portNumber);
+    DTypeId dataType = ssGetInputPortDataType(simstruct, idx);
 
     switch (sigDataFormat) {
-        case CONTIGUOUS_ZEROCOPY: {
+        case Signal::DataFormat::CONTIGUOUS_ZEROCOPY: {
             // Initialize the signal
             bool isConstPort = true;
-            Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
-            signal.setWidth(portWidth);
+            Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY,
+                          mapSimulinkToPortType(dataType),
+                          isConstPort);
+            signal.setWidth(signalSize);
             // Initialize signal's data
             if (!signal.initializeBufferFromContiguousZeroCopy(
-                    ssGetInputPortSignal(simstruct, portNumber))) {
-                return Signal();
+                    ssGetInputPortSignal(simstruct, idx))) {
+                wbtError << "Failed to inititialize CONTIGUOUS_ZEROCOPY signal at index " << idx
+                         << ".";
+                return {};
             }
             return signal;
         }
-        case NONCONTIGUOUS: {
+        case Signal::DataFormat::NONCONTIGUOUS: {
             // Initialize the signal
             bool isConstPort = true;
-            Signal signal(NONCONTIGUOUS, mapSimulinkToPortType(dataType), isConstPort);
-            signal.setWidth(portWidth);
+            Signal signal(
+                Signal::DataFormat::NONCONTIGUOUS, mapSimulinkToPortType(dataType), isConstPort);
+            signal.setWidth(signalSize);
             // Initialize signal's data
-            InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, portNumber);
+            InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, idx);
             if (!signal.initializeBufferFromNonContiguous(static_cast<const void* const*>(port))) {
-                return Signal();
+                wbtError << "Failed to inititialize NONCONTIGUOUS signal at index " << idx << ".";
+                return {};
             }
             return signal;
         }
-        default:
-            return Signal();
+        case Signal::DataFormat::CONTIGUOUS: {
+            wbtError << "Failed to inititialize CONTIGUOUS signal at index " << idx << "."
+                     << std::endl
+                     << "CONTIGUOUS input signals are not yet supported."
+                     << "Use CONTIGUOUS_ZEROCOPY instead.";
+            return {};
+        }
     }
 }
 
-wbt::Signal SimulinkBlockInformation::getOutputPortSignal(unsigned portNumber, int portWidth) const
+wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex& idx,
+                                                          const VectorSize& size) const
 {
     // Check if the signal is dynamically sized (which means that the dimension
     // cannot be read)
-    bool isDynamicallySized = ssGetOutputPortWidth(simstruct, portNumber) == DYNAMICALLY_SIZED;
+    bool isDynamicallySized = (ssGetOutputPortWidth(simstruct, idx) == DYNAMICALLY_SIZED);
 
-    // Note that if the signal is DYNAMICALLY_SIZED (-1), portWidth is necessary
-    if (isDynamicallySized && portWidth == -1) {
-        return Signal();
+    // Note that if the signal is dynamically sized, portWidth is necessary
+    if (isDynamicallySized && size == Signal::DynamicSize) {
+        wbtError << "Trying to get a dynamically sized signal without specifying its size.";
+        return {};
     }
 
     // Read the width of the signal if it is not provided as input and the signal is not
     // dynamically sized
-    if (!isDynamicallySized && portWidth == -1) {
-        portWidth = ssGetOutputPortWidth(simstruct, portNumber);
+    VectorSize signalSize = size;
+    if (!isDynamicallySized && size == Signal::DynamicSize) {
+        signalSize = ssGetOutputPortWidth(simstruct, idx);
     }
 
     // Get the data type of the Signal if set (default: double)
-    DTypeId dataType = ssGetOutputPortDataType(simstruct, portNumber);
+    DTypeId dataType = ssGetOutputPortDataType(simstruct, idx);
 
     bool isConstPort = false;
-    Signal signal(CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
-    signal.setWidth(portWidth);
+    Signal signal(
+        Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
+    signal.setWidth(signalSize);
 
-    if (!signal.initializeBufferFromContiguousZeroCopy(
-            ssGetOutputPortSignal(simstruct, portNumber))) {
-        return Signal();
+    if (!signal.initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, idx))) {
+        wbtError << "Failed to inititialize CONTIGUOUS_ZEROCOPY signal at index " << idx << ".";
+        return {};
     }
 
     return signal;
 }
 
-PortDataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
+BlockInformation::MatrixSize
+SimulinkBlockInformation::getInputPortMatrixSize(const PortIndex& idx) const
+{
+    if (ssGetInputPortNumDimensions(simstruct, idx) < 2) {
+        wbtError << "Signal at index " << idx
+                 << "does not contain a matrix. Failed to gete its size.";
+        return {};
+    }
+
+    const int_T* sizes = ssGetInputPortDimensions(simstruct, idx);
+    return {sizes[0], sizes[1]};
+}
+
+BlockInformation::MatrixSize
+SimulinkBlockInformation::getOutputPortMatrixSize(const PortIndex& idx) const
+{
+    if (ssGetOutputPortNumDimensions(simstruct, idx) < 2) {
+        wbtError << "Signal at index " << idx
+                 << "does not contain a matrix. Failed to gete its size.";
+        return {};
+    }
+
+    const int_T* sizes = ssGetOutputPortDimensions(simstruct, idx);
+    return {sizes[0], sizes[1]};
+}
+
+DataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
 {
     switch (typeId) {
         case SS_DOUBLE:
-            return PortDataTypeDouble;
+            return DataType::DOUBLE;
         case SS_SINGLE:
-            return PortDataTypeSingle;
+            return DataType::SINGLE;
         case SS_INT8:
-            return PortDataTypeInt8;
+            return DataType::INT8;
         case SS_UINT8:
-            return PortDataTypeUInt8;
+            return DataType::UINT8;
         case SS_INT16:
-            return PortDataTypeInt16;
+            return DataType::INT16;
         case SS_UINT16:
-            return PortDataTypeUInt16;
+            return DataType::UINT16;
         case SS_INT32:
-            return PortDataTypeInt32;
+            return DataType::INT32;
         case SS_UINT32:
-            return PortDataTypeUInt32;
+            return DataType::UINT32;
         case SS_BOOLEAN:
-            return PortDataTypeBoolean;
+            return DataType::BOOLEAN;
         default:
-            return PortDataTypeDouble;
+            return DataType::DOUBLE;
     }
 }
 
-DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const PortDataType& dataType) const
+DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const DataType& dataType) const
 {
     switch (dataType) {
-        case PortDataTypeDouble:
+        case DataType::DOUBLE:
             return SS_DOUBLE;
-        case PortDataTypeSingle:
+        case DataType::SINGLE:
             return SS_SINGLE;
-        case PortDataTypeInt8:
+        case DataType::INT8:
             return SS_INT8;
-        case PortDataTypeUInt8:
+        case DataType::UINT8:
             return SS_UINT8;
-        case PortDataTypeInt16:
+        case DataType::INT16:
             return SS_INT16;
-        case PortDataTypeUInt16:
+        case DataType::UINT16:
             return SS_UINT16;
-        case PortDataTypeInt32:
+        case DataType::INT32:
             return SS_INT32;
-        case PortDataTypeUInt32:
+        case DataType::UINT32:
             return SS_UINT32;
-        case PortDataTypeBoolean:
+        case DataType::BOOLEAN:
             return SS_BOOLEAN;
     }
+}
+
+bool SimulinkBlockInformation::addParameterMetadata(const wbt::ParameterMetadata& paramMD)
+{
+    for (auto md : m_paramsMetadata) {
+        if (md.name == paramMD.name) {
+            wbtError << "Trying to store an already existing " << md.name << " parameter.";
+            return false;
+        }
+    }
+
+    // Add the new metadata to the block information
+    m_paramsMetadata.push_back(paramMD);
+    return true;
+}
+
+bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
+{
+    auto metadataContainsScalarParam = [](const wbt::ParameterMetadata& md) -> const bool {
+        return md.rows == 1 && md.cols == 1;
+    };
+
+    for (wbt::ParameterMetadata paramMD : m_paramsMetadata) {
+
+        bool ok;
+
+        // TODO Right now the cells are reshaped to a 1 x NumElements by MxAnyType
+        if (paramMD.rows == ParameterMetadata::DynamicSize) {
+            wbtError << "Dynamically sized rows are not currently supported.";
+            return false;
+        }
+
+        // Handle the case of dynamically sized columns. In this case the metadata passed
+        // from the Block (containing DynamicSize) is modified with the length of the
+        // vector that is going to be stored.
+        // This is necessary in the pipeline for storing the metadata in the RTW file, which should
+        // not have any dynamic size.
+        const bool hasDynSizeColumns = (paramMD.cols == ParameterMetadata::DynamicSize);
+        auto handleDynSizeColumns = [](int& sizeToUpdate, const int& realSize) -> const bool {
+            if (realSize == ParameterMetadata::DynamicSize) {
+                wbtError << "Trying to store the cols of a dynamically sized parameters, but the "
+                         << "metadata does not specify a valid size. Probably the block didn't "
+                         << "updat the size in its initialization phase.";
+                return false;
+            }
+            sizeToUpdate = realSize;
+            return true;
+        };
+
+        switch (paramMD.type) {
+            // SCALAR / VECTOR PARAMETERS
+            // --------------------------
+            //
+            // getScalarParameterAtIndex and getVectorAtIndex operate on type double.
+            // The cast to other types is handled by storeParameter internally,
+            // accordingly to the type stored in the metadata.
+            //
+            // Despite bool has its own bool parser, considering that both int and double
+            // are loaded as double (Simulink limitation), in order to simplify the
+            // maintainability of this code, everything is handled as double.
+            //
+            case ParameterType::INT:
+            case ParameterType::BOOL:
+            case ParameterType::DOUBLE: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    double paramValue;
+                    if (!getScalarParameterAtIndex(paramMD.index, paramValue)) {
+                        wbtError << "Failed to get scalar parameter at index " << paramMD.index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<double>(paramValue, paramMD);
+                }
+                else {
+                    std::vector<double> paramVector;
+                    if (!getVectorAtIndex(paramMD.index, paramVector)) {
+                        wbtError << "Failed to get vector parameter at index " << paramMD.index
+                                 << ".";
+                        return false;
+                    }
+                    if (hasDynSizeColumns) {
+                        if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                            return false;
+                        }
+                    }
+                    ok = parameters.storeParameter<double>(paramVector, paramMD);
+                }
+                break;
+            }
+            case ParameterType::STRING: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    std::string paramValue;
+                    if (!getStringParameterAtIndex(paramMD.index, paramValue)) {
+                        wbtError << "Failed to get string parameter at index " << paramMD.index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<std::string>(paramValue, paramMD);
+                }
+                else {
+                    wbtError << "Char arrays are not yet supported.";
+                    return false;
+                }
+                break;
+            }
+            // CELL PARAMETERS
+            // ---------------
+            case ParameterType::CELL_INT:
+            case ParameterType::CELL_BOOL:
+            case ParameterType::CELL_DOUBLE: {
+                AnyCell cell;
+                if (!getCellAtIndex(paramMD.index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.index << ".";
+                    return false;
+                }
+                std::vector<double> paramVector;
+                for (auto element : cell) {
+                    double value;
+                    if (!element->asDouble(value)) {
+                        wbtError << "Failed to parse an element of the cell at index "
+                                 << paramMD.index << " as a double.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
+                }
+                ok = parameters.storeParameter<double>(paramVector, paramMD);
+                break;
+            }
+            case ParameterType::CELL_STRING: {
+                AnyCell cell;
+                if (!getCellAtIndex(paramMD.index, cell)) {
+                    wbtError << "Failed to get cell parameter at index " << paramMD.index << ".";
+                    return false;
+                }
+                std::vector<std::string> paramVector;
+                for (auto element : cell) {
+                    std::string value;
+                    if (!element->asString(value)) {
+                        wbtError << "Failed to parse an element of the cell at index "
+                                 << paramMD.index << " as a string.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
+                }
+                ok = parameters.storeParameter<std::string>(paramVector, paramMD);
+                break;
+            }
+            // STRUCT PARAMETERS
+            // -----------------
+            case ParameterType::STRUCT_INT:
+            case ParameterType::STRUCT_BOOL:
+            case ParameterType::STRUCT_DOUBLE: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    double paramValue;
+                    if (!getScalarFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
+                        wbtError << "Failed to get struct parameter at index " << paramMD.index
+                                 << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<double>(paramValue, paramMD);
+                }
+                else {
+                    std::vector<double> paramVector;
+                    if (!getVectorDoubleFieldAtIndex(paramMD.index, paramMD.name, paramVector)) {
+                        wbtError << "Failed to get vector field " << paramMD.name
+                                 << "from the struct at index " << paramMD.index << ".";
+                        return false;
+                    }
+                    if (hasDynSizeColumns) {
+                        if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                            return false;
+                        }
+                    }
+                    ok = parameters.storeParameter<double>(paramVector, paramMD);
+                }
+                break;
+            }
+            case ParameterType::STRUCT_STRING: {
+                if (metadataContainsScalarParam(paramMD)) {
+                    std::string paramValue;
+                    if (!getStringFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
+                        wbtError << "Failed to get string field " << paramMD.name
+                                 << "from the struct at index " << paramMD.index << ".";
+                        return false;
+                    }
+                    ok = parameters.storeParameter<std::string>(paramValue, paramMD);
+                }
+                else {
+                    wbtError << "Char arrays are not yet supported.";
+                    return false;
+                }
+                break;
+            }
+            case ParameterType::STRUCT_CELL_INT:
+            case ParameterType::STRUCT_CELL_BOOL:
+            case ParameterType::STRUCT_CELL_DOUBLE: {
+                AnyCell cell;
+                std::vector<double> paramVector;
+                if (!getCellFieldAtIndex(paramMD.index, paramMD.name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.name
+                             << " from the struct at index " << paramMD.index << ".";
+                    return false;
+                }
+                for (auto element : cell) {
+                    double value;
+                    if (!element->asDouble(value)) {
+                        wbtError << "Failed to parse an element of the cell field " << paramMD.name
+                                 << " from the struct at index " << paramMD.index
+                                 << " as a double.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
+                }
+                ok = parameters.storeParameter<double>(paramVector, paramMD);
+                break;
+            }
+            case ParameterType::STRUCT_CELL_STRING: {
+                AnyCell cell;
+                std::vector<std::string> paramVector;
+                if (!getCellFieldAtIndex(paramMD.index, paramMD.name, cell)) {
+                    wbtError << "Failed to get cell field " << paramMD.name
+                             << " from the struct at index " << paramMD.index << ".";
+                    return false;
+                }
+                for (auto element : cell) {
+                    std::string value;
+                    if (!element->asString(value)) {
+                        wbtError << "Failed to parse an element of the cell field " << paramMD.name
+                                 << " from the struct at index " << paramMD.index
+                                 << " as a string.";
+                        return false;
+                    }
+                    paramVector.push_back(value);
+                }
+                if (hasDynSizeColumns) {
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
+                }
+                ok = parameters.storeParameter<std::string>(paramVector, paramMD);
+                break;
+            }
+        }
+
+        if (!ok) {
+            wbtError << "Failed to process parameter with index " << paramMD.index << ".";
+            return false;
+        }
+    }
+
+    // This code is shared with the CoderBlockParameter
+    //
+    // Check if the parameters object contains all the information for creating a
+    // Configuration object.
+    if (Parameters::containConfigurationData(parameters)) {
+        if (!ToolboxSingleton::sharedInstance().storeConfiguration(parameters)) {
+            wbtError << "Failed to store a Configuration object in the ToolboxSigleton.";
+            return false;
+        }
+        // Save the name of the Configuration block which the processed WBBlock refers to
+        if (!parameters.getParameter("ConfBlockName", m_confBlockName)) {
+            wbtError << "Failed to read ConfBlockName parameter from the Parameters object "
+                     << "that should store Configuration data.";
+            return false;
+        }
+    }
+
+    // Remove the metadata of the parameters already parsed.
+    // This is necessary for adding later more metadata and calling again this method
+    // (storing again an already stored parameter raises an error).
+    m_paramsMetadata.clear();
+
+    return true;
+}
+
+std::weak_ptr<wbt::RobotInterface> SimulinkBlockInformation::getRobotInterface() const
+{
+    // Returns a nullptr if it fails
+    return ToolboxSingleton::sharedInstance().getRobotInterface(m_confBlockName);
+}
+
+std::weak_ptr<iDynTree::KinDynComputations> SimulinkBlockInformation::getKinDynComputations() const
+{
+    // Returns a nullptr if it fails
+    return ToolboxSingleton::sharedInstance().getKinDynComputations(m_confBlockName);
 }

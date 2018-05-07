@@ -1,3 +1,7 @@
+% Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+% This software may be modified and distributed under the terms of the
+% GNU Lesser General Public License v2.1 or any later version.
+
 classdef PID < handle
     %PID Class to store pid parameters for a single joint.
     %   PID('jointName') creates an object for the joint 'jointName' with

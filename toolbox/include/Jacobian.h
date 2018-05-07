@@ -1,46 +1,54 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef WBT_JACOBIAN_H
 #define WBT_JACOBIAN_H
 
 #include "WBBlock.h"
-#include <iDynTree/Model/Indices.h>
+
 #include <memory>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class Jacobian;
-}
+} // namespace wbt
 
-namespace iDynTree {
-    class MatrixDynSize;
-}
-
-class wbt::Jacobian : public wbt::WBBlock
+/**
+ * @brief The wbt::Jacobian class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::Jacobian requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ *
+ */
+class wbt::Jacobian final : public wbt::WBBlock
 {
 private:
-    // Support variables
-    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobianCOM;
-
-    // Output
-    std::unique_ptr<iDynTree::MatrixDynSize> m_jacobian;
-
-    // Other variables
-    bool m_frameIsCoM;
-    iDynTree::FrameIndex m_frameIndex;
-
-    static const unsigned INPUT_IDX_BASE_POSE;
-    static const unsigned INPUT_IDX_JOINTCONF;
-    static const unsigned OUTPUT_IDX_FW_FRAME;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
+
     Jacobian();
     ~Jacobian() override = default;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* WBT_JACOBIAN_H */
+#endif // WBT_JACOBIAN_H

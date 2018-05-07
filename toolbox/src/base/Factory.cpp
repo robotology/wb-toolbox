@@ -1,8 +1,17 @@
-#include "toolbox.h"
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
+#include "Factory.h"
+#include <string>
 
 using namespace wbt;
 
-Block* Block::instantiateBlockWithClassName(std::string blockClassName)
+Block* Block::instantiateBlockWithClassName(const std::string& blockClassName)
 {
     Block* block = nullptr;
 

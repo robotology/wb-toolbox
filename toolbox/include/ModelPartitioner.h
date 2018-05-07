@@ -1,36 +1,53 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef WBT_MODELPARTITIONER_H
 #define WBT_MODELPARTITIONER_H
 
-#include "RobotInterface.h"
 #include "WBBlock.h"
+
 #include <memory>
-#include <vector>
+#include <string>
 
 namespace wbt {
+    class BlockInformation;
     class ModelPartitioner;
-}
+} // namespace wbt
 
-class wbt::ModelPartitioner : public wbt::WBBlock
+/**
+ * @brief The wbt::ModelPartitioner class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref wbblock_parameters, wbt::ModelPartitioner requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::BOOL | 0 + WBBlock::NumberOfParameters | 1 | 1 | "VectorToControlBoards" |
+ */
+class wbt::ModelPartitioner final : public wbt::WBBlock
 {
 private:
-    bool m_yarp2WBI;
-
-    std::shared_ptr<JointsMapString> m_jointsMapString;
-    std::shared_ptr<ControlledJointsMapCB> m_controlledJointsMapCB;
-    std::shared_ptr<ControlBoardIdxLimit> m_controlBoardIdxLimit;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
     static const std::string ClassName;
 
-    ModelPartitioner() = default;
+    ModelPartitioner();
     ~ModelPartitioner() override = default;
 
     unsigned numberOfParameters() override;
-
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool terminate(const BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
 };
 
-#endif /* end of include guard: WBT_MODELPARTITIONER_H */
+#endif // WBT_MODELPARTITIONER_H

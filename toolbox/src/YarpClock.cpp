@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "YarpClock.h"
 #include "BlockInformation.h"
 #include "Log.h"
@@ -6,17 +14,23 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
+#include <ostream>
+
 using namespace wbt;
 
 const std::string YarpClock::ClassName = "YarpClock";
 
 unsigned YarpClock::numberOfParameters()
 {
-    return 0;
+    return Block::numberOfParameters();
 }
 
 bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     // INPUTS
     // ======
     //
@@ -24,7 +38,7 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to set input port number to 0.");
+        wbtError << "Failed to set input port number to 0.";
         return false;
     }
 
@@ -35,22 +49,26 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to set output port number.");
+        wbtError << "Failed to set output port number.";
         return false;
     }
 
     blockInfo->setOutputPortVectorSize(0, 1);
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
 
     return true;
 }
 
-bool YarpClock::initialize(const BlockInformation* blockInfo)
+bool YarpClock::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     yarp::os::Network::init();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        Log::getSingleton().error("YARP server wasn't found active!!");
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -65,7 +83,15 @@ bool YarpClock::terminate(const BlockInformation* /*S*/)
 
 bool YarpClock::output(const BlockInformation* blockInfo)
 {
-    Signal signal = blockInfo->getOutputPortSignal(0);
-    signal.set(0, yarp::os::Time::now());
+    Signal outputSignal = blockInfo->getOutputPortSignal(0);
+    if (!outputSignal.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    if (!outputSignal.set(0, yarp::os::Time::now())) {
+        wbtError << "Failed to write data to the output signal.";
+        return false;
+    }
     return true;
 }

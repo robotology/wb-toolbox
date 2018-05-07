@@ -1,182 +1,269 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef WBT_SIGNAL_H
 #define WBT_SIGNAL_H
 
-#include "BlockInformation.h"
-
-#include <cassert>
 #include <memory>
 
 namespace wbt {
     class Signal;
-    enum SignalDataFormat
+    enum class DataType;
+} // namespace wbt
+
+/**
+ * @brief Defines allowed signal data types
+ *
+ * This enum defines the data types of signals that are handled by this toolbox.
+ *
+ * @note Currently only `DOUBLE` is fully implemented.
+ * @see Signal::Signal, BlockInformation::setInputPortType, BlockInformation::setOutputPortType
+ */
+enum class wbt::DataType
+{
+    DOUBLE,
+    SINGLE,
+    INT8,
+    UINT8,
+    INT16,
+    UINT16,
+    INT32,
+    UINT32,
+    BOOLEAN,
+};
+
+/**
+ * @brief Class to represent data shared between blocks, labelled as signals.
+ *
+ * Analogously to the block-algorithm corrispondence, this class introduces the signal-data
+ * corrispondence. Signals are basically the connections between blocks.
+ *
+ * Signals do not directly translate to block's input and output. Signals are plugged to block
+ * ports, and this block port fill the signal with data.
+ *
+ * @remark A signal can be plugged to more than one block port.
+ * @see wbt::Block
+ */
+class wbt::Signal
+{
+public:
+    /// Defines the format of signals supported by Signal. It specifies what kind of data the
+    /// Signal::m_bufferPtr points.
+    ///
+    /// - `NONCONTIGUOUS` matches the default Simulink input signals. Signal::m_bufferPtr is a
+    ///   pointer to an array of pointers, each of them storing an element of the signal.
+    /// - `CONTIGUOUS` means that the Signal::m_bufferPtr points to a contiguous array of
+    ///   Signal::m_portDataType type.
+    /// - `CONTIGUOUS_ZEROCOPY` matches the default Simulink output signals. Signal::m_bufferPtr is
+    ///   a pointer to an _external_ array of Signal::m_portDataType type.
+    ///
+    /// @note `CONTIGUOUS_ZEROCOPY` is the only format that doesn't copy data from the original
+    ///       buffer address. Instead, both `CONTIGUOUS` and `NONCONTIGUOUS` data formats copy
+    ///       the content of the buffer inside the Signal object. For performance reason, prefer
+    ///       using `CONTIGUOUS_ZEROCOPY`.
+    /// @see initializeBufferFromContiguous, initializeBufferFromContiguousZeroCopy,
+    ///      initializeBufferFromNonContiguous
+    /// @see BlockInformation::getInputPortSignal, BlockInformation::getOutputPortSignal
+    enum class DataFormat
     {
         NONCONTIGUOUS = 0,
         CONTIGUOUS = 1,
         CONTIGUOUS_ZEROCOPY = 2
     };
-} // namespace wbt
 
-class wbt::Signal
-{
 private:
-    int m_width;
-    const bool m_isConst;
-    const PortDataType m_portDataType;
-    const SignalDataFormat m_dataFormat;
-
-    void* m_bufferPtr;
-
-    void deleteBuffer();
-    void allocateBuffer(const void* const bufferInput, void*& bufferOutput, unsigned length);
-
-    template <typename T>
-    T* getCastBuffer() const;
+    class impl;
+    std::unique_ptr<impl> pImpl;
 
 public:
-    // Ctor and Dtor
-    Signal(const SignalDataFormat& dataFormat = CONTIGUOUS_ZEROCOPY,
-           const PortDataType& dataType = PortDataTypeDouble,
+    enum
+    {
+        DynamicSize = -1
+    };
+
+    Signal(const DataFormat& dataFormat = DataFormat::CONTIGUOUS_ZEROCOPY,
+           const DataType& dataType = DataType::DOUBLE,
            const bool& isConst = true);
     ~Signal();
-    // Copy
-    Signal(const Signal& signal);
-    Signal& operator=(const Signal& signal) = delete;
-    // Move
-    Signal(Signal&& signal);
-    Signal& operator=(Signal&& signal) = delete;
 
+    Signal(const Signal& other);
+    Signal& operator=(const Signal& other) = delete;
+
+    Signal(Signal&& other);
+    Signal& operator=(Signal&& other) = delete;
+
+    /**
+     * @brief Initialize the signal from a contiguous buffer
+     *
+     * This method allocates a new array with the same size of `buffer` and copies the data. In this
+     * case, the Signal object will own the data.
+     *
+     * @param buffer The pointer to the original contiguous buffer.
+     * @return True for success, false otherwise.
+     * @see Signal::DataFormat
+     */
     bool initializeBufferFromContiguous(const void* buffer);
+
+    /**
+     * @brief Initialize the signal from a contiguous buffer without copying data
+     *
+     * This methods accepts an external contiguous buffer and holds its pointer. The data is not
+     * owned by this object.
+     *
+     * @note You must set the signal width with Signal::setWidth in order to have a valid signal.
+     *
+     * @param buffer The pointer to the original contiguous buffer.
+     * @return True for success, false otherwise.
+     * @see Signal::DataFormat
+     */
     bool initializeBufferFromContiguousZeroCopy(const void* buffer);
+
+    /**
+     * @brief Initialize the signal from a non-contiguous buffer
+     *
+     * This method allocates a new array with the same size of `bufferPtrs` and copies the data. In
+     * this case, the Signal object will own the data. `bufferPtrs` points to an array of pointers.
+     * Each of these pointers points to a data element.
+     *
+     * @note You must set the signal width with Signal::setWidth in order to have a valid signal.
+     *
+     * @param bufferPtrs The pointer to the original non-contiguous buffer.
+     * @return True for success, false otherwise.
+     * @see Signal::DataFormat
+     */
     bool initializeBufferFromNonContiguous(const void* const* bufferPtrs);
 
+    /**
+     * @brief Check if the signal is valid
+     *
+     * Checks if Signal::m_bufferPtr is not `nullptr` and Signal::m_width is greater than zero.
+     *
+     * @return True for valid signal, false otherwise.
+     */
+    bool isValid() const;
+
+    /**
+     * @brief Check if the object a constant signal
+     *
+     * A constant Signal object can only read data from its buffer. It is widely used for input
+     * signals.
+     *
+     * @return True if the signal is constant, false otherwise.
+     */
     bool isConst() const;
-    unsigned getWidth() const;
-    PortDataType getPortDataType() const;
-    SignalDataFormat getDataFormat() const;
+
+    /**
+     * @brief Read the width of the signal
+     *
+     * By default the width of Signal is Signal::DynamicSize. However, for being a valid signal, an
+     * object must have a specified width.
+     *
+     * @return The signal width.
+     * @see Signal::setWidth, Signal::isValid
+     */
+    int getWidth() const;
+
+    /**
+     * @brief Read the wbt::DataType of the signal
+     *
+     * The default type is DataType::DOUBLE.
+     *
+     * @return The signal data type.
+     */
+    DataType getPortDataType() const;
+
+    /**
+     * @brief Read the Signal::DataFormat of the signal
+     *
+     * The default type is DataFormat::CONTIGUOUS_ZEROCOPY.
+     *
+     * @return The signal data format.
+     */
+    DataFormat getDataFormat() const;
+
+    /**
+     * @brief Get the pointer to the buffer storing signal's data
+     *
+     * The buffer is stored as a void pointer in Signal::m_bufferPtr. In order to use the buffer it
+     * should be properly cast to the right data type. Be sure that the Signal::DataType match the
+     * type of the buffer otherwise pointer arithmetics does not work.
+     *
+     * If `T` does not match Signal::m_portDataType the returned value is a `nullptr`.
+     *
+     * @note Always check if the pointer is not `nullptr` before using it.
+     * @tparam The data type of the returned buffer.
+     * @return The pointer to the buffer if the class is properly configured, `nullptr` otherwise.
+     * @see Signal::setBuffer
+     */
     template <typename T>
     T* getBuffer() const;
+
+    /**
+     * @brief Get a single element of the signal
+     *
+     * This method returns the `i-th` element of the handled buffer.
+     *
+     * @note It is recommended to use Signal::isValid before using this method.
+     * @tparam The data type of the returned signal. It must match Signal::m_portDataType.
+     * @param i The index of the element. It should not exceed Signal::m_width.
+     * @return The `i-th` element of the vector if the signal is valid, or the default value of the
+     *         type otherwise.
+     */
     template <typename T>
     T get(const unsigned& i) const;
 
+    /**
+     * @brief Set the width of the signal
+     *
+     * @param width The width to set.
+     */
     void setWidth(const unsigned& width);
+
+    /**
+     * @brief Set the value of a sigle element of the buffer
+     *
+     * @param index The index of the element to write.
+     * @param data The content of the data to write.
+     * @return True for success, false otherwise.
+     *
+     * @todo Port this to a template
+     */
     bool set(const unsigned& index, const double& data);
+
+    /**
+     * @brief Set the pointer to the buffer storing signal's data
+     *
+     * This method allows changing the handled buffer. In the DataFormat::CONTIGUOUS case the data
+     * is copied inside the object. Instead, in the DataFormat::CONTIGUOUS_ZEROCOPY only the pointer
+     * to the buffer is changed.
+     *
+     * This method is not allowed for DataFormat::NONCONTIGUOUS format.
+     *
+     * @tparam The data type of the new buffer.
+     * @param data The new buffer address.
+     * @param length The size of the new buffer.
+     * @return True if the buffer was set sucessfully, false otherwise.
+     */
     template <typename T>
     bool setBuffer(const T* data, const unsigned& length);
 };
 
-template <typename T>
-T* wbt::Signal::getBuffer() const
-{
-    // Check the returned matches the same type of the portType.
-    // If this is not met, appliying pointer arithmetics on the returned
-    // pointer would show unknown behaviour.
-    switch (m_portDataType) {
-        case wbt::PortDataTypeDouble:
-            if (typeid(T).hash_code() != typeid(double).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeSingle:
-            if (typeid(T).hash_code() != typeid(float).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt8:
-            if (typeid(T).hash_code() != typeid(int8_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt8:
-            if (typeid(T).hash_code() != typeid(uint8_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt16:
-            if (typeid(T).hash_code() != typeid(int16_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt16:
-            if (typeid(T).hash_code() != typeid(uint16_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeInt32:
-            if (typeid(T).hash_code() != typeid(int32_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeUInt32:
-            if (typeid(T).hash_code() != typeid(uint32_t).hash_code()) {
-                return nullptr;
-            }
-            break;
-        case wbt::PortDataTypeBoolean:
-            if (typeid(T).hash_code() != typeid(bool).hash_code()) {
-                return nullptr;
-            }
-            break;
-        default:
-            return nullptr;
-            break;
-    }
+// Explicit declaration of templates for all the supported types
+// =============================================================
 
-    // Return the correct pointer
-    return static_cast<T*>(m_bufferPtr);
-}
+// TODO: for the time being, only DOUBLE is allowed. The toolbox has an almost complete support to
+//       many other data types, but they need to be tested.
 
-template <typename T>
-bool wbt::Signal::setBuffer(const T* data, const unsigned& length)
-{
-    // Non contiguous signals follow the Simulink convention of being read-only
-    if (m_dataFormat == NONCONTIGUOUS || m_isConst) {
-        return false;
-    }
+namespace wbt {
+    // DataType::DOUBLE
+    extern template double* Signal::getBuffer<double>() const;
+    extern template double Signal::get<double>(const unsigned& i) const;
+    extern template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+} // namespace wbt
 
-    if (m_dataFormat == CONTIGUOUS_ZEROCOPY && length > m_width) {
-        return false;
-    }
-
-    if (typeid(getBuffer<T>()).hash_code() != typeid(T*).hash_code()) {
-        return false;
-    }
-
-    switch (m_dataFormat) {
-        case CONTIGUOUS:
-            // Delete the current array
-            if (m_bufferPtr) {
-                delete getBuffer<T>();
-                m_bufferPtr = nullptr;
-                m_width = 0;
-            }
-            // Allocate a new empty array
-            m_bufferPtr = static_cast<void*>(new T[length]);
-            m_width = length;
-            // Fill it with new data
-            std::copy(data, data + length, getBuffer<T>());
-            break;
-        case CONTIGUOUS_ZEROCOPY:
-            // Reset current data
-            std::fill(getBuffer<T>(), getBuffer<T>() + m_width, 0);
-            // Copy new data
-            std::copy(data, data + length, getBuffer<T>());
-            // Update the width
-            m_width = length;
-            break;
-        case NONCONTIGUOUS:
-            return false;
-    }
-
-    return true;
-}
-
-template <typename T>
-T wbt::Signal::get(const unsigned& i) const
-{
-    T* buffer = getBuffer<T>();
-    assert(buffer);
-
-    return buffer[i];
-}
-
-#endif /* end of include guard: WBT_SIGNAL_H */
+#endif // WBT_SIGNAL_H

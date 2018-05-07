@@ -1,27 +1,51 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "DotJNu.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Indices.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 
 const std::string DotJNu::ClassName = "DotJNu";
 
-const unsigned DotJNu::INPUT_IDX_BASE_POSE = 0;
-const unsigned DotJNu::INPUT_IDX_JOINTCONF = 1;
-const unsigned DotJNu::INPUT_IDX_BASE_VEL = 2;
-const unsigned DotJNu::INPUT_IDX_JOINT_VEL = 3;
-const unsigned DotJNu::OUTPUT_IDX_DOTJ_NU = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned INPUT_IDX_BASE_VEL = 2;
+const unsigned INPUT_IDX_JOINT_VEL = 3;
+const unsigned OUTPUT_IDX_DOTJ_NU = 0;
+
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+
+class DotJNu::impl
+{
+public:
+    iDynTree::Vector6 dotJNu;
+    bool frameIsCoM = false;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
+};
 
 DotJNu::DotJNu()
-    : m_frameIsCoM(false)
-    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : pImpl{new impl()}
 {}
 
 unsigned DotJNu::numberOfParameters()
@@ -29,12 +53,25 @@ unsigned DotJNu::numberOfParameters()
     return WBBlock::numberOfParameters() + 1;
 }
 
+bool DotJNu::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
+
+    if (!blockInfo->addParameterMetadata(frameMetadata)) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
+}
+
 bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     // Memory allocation / Saving data not allowed here
 
-    if (!WBBlock::configureSizeAndPorts(blockInfo))
+    if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
+    }
 
     // INPUTS
     // ======
@@ -47,26 +84,32 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(4)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
-    bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
+    bool ok = true;
+    ok = ok && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
 
-    if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+    if (!ok) {
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -78,18 +121,18 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
     // Size and type
-    success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_DOTJ_NU, 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_DOTJ_NU, PortDataTypeDouble);
+    ok = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_DOTJ_NU, 6);
+    blockInfo->setOutputPortType(OUTPUT_IDX_DOTJ_NU, DataType::DOUBLE);
 
-    return success;
+    return ok;
 }
 
-bool DotJNu::initialize(const BlockInformation* blockInfo)
+bool DotJNu::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -98,41 +141,43 @@ bool DotJNu::initialize(const BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    std::string frame;
-    int parentParameters = WBBlock::numberOfParameters();
+    if (!DotJNu::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
 
-    if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
-        Log::getSingleton().error("Cannot retrieve string from frame parameter.");
+    std::string frame;
+    if (!m_parameters.getParameter("Frame", frame)) {
+        wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
     // Check if the frame is valid
     // ---------------------------
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-    if (!model) {
-        Log::getSingleton().error("Cannot retrieve handle to KinDynComputations.");
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
-        m_frameIndex = model->getFrameIndex(frame);
-        if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            Log::getSingleton().error("Cannot find " + frame + " in the frame list.");
+        pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+        if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+            wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
     else {
-        m_frameIsCoM = true;
-        m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+        pImpl->frameIsCoM = true;
+        pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
     // OUTPUT
     // ======
-    m_dotJNu = std::unique_ptr<iDynTree::Vector6>(new iDynTree::Vector6());
-    m_dotJNu->zero();
+    pImpl->dotJNu.zero();
 
-    return static_cast<bool>(m_dotJNu);
+    return true;
 }
 
 bool DotJNu::terminate(const BlockInformation* blockInfo)
@@ -142,43 +187,57 @@ bool DotJNu::terminate(const BlockInformation* blockInfo)
 
 bool DotJNu::output(const BlockInformation* blockInfo)
 {
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
 
-    bool ok =
-        setRobotState(&basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
+        || !jointsVelocitySignal.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(
+        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 
     // OUTPUT
     // ======
 
-    if (!m_frameIsCoM) {
-        *m_dotJNu = model->getFrameBiasAcc(m_frameIndex);
+    if (!pImpl->frameIsCoM) {
+        pImpl->dotJNu = kinDyn->getFrameBiasAcc(pImpl->frameIndex);
     }
     else {
-        iDynTree::Vector3 comBiasAcc = model->getCenterOfMassBiasAcc();
-        toEigen(*m_dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
-        toEigen(*m_dotJNu).segment<3>(3).setZero();
+        iDynTree::Vector3 comBiasAcc = kinDyn->getCenterOfMassBiasAcc();
+        toEigen(pImpl->dotJNu).segment<3>(0) = iDynTree::toEigen(comBiasAcc);
+        toEigen(pImpl->dotJNu).segment<3>(3).setZero();
     }
 
     // Forward the output to Simulink
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_DOTJ_NU);
-    output.setBuffer(m_dotJNu->data(), blockInfo->getOutputPortWidth(OUTPUT_IDX_DOTJ_NU));
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    if (!output.setBuffer(pImpl->dotJNu.data(), output.getWidth())) {
+        wbtError << "Failed to set output buffer.";
+    }
+
     return true;
 }

@@ -1,12 +1,22 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #ifndef MXANYTYPE_H
 #define MXANYTYPE_H
 
-#include <vector>
+#include "AnyType.h"
+
+#include <matrix.h>
+
+#include <cassert>
 #include <string>
 #include <unordered_map>
-#include <cassert>
-#include "AnyType.h"
-#include "matrix.h"
+#include <vector>
 
 class MxAnyType;
 
@@ -14,7 +24,8 @@ class MxAnyType;
 // class MxAnyCell : public AnyCell {};
 // class MxAnyStruct : public AnyStruct {};
 
-struct MxArrayMetadata {
+struct MxArrayMetadata
+{
     mxClassID id;
     bool isScalar;
     size_t rows;
@@ -35,16 +46,10 @@ private:
     bool asScalar(double& d);
     bool validateClassId(mxClassID id1, mxClassID id2);
 
-    // mxArray* getMxArrayPtr() const { return static_cast<mxArray*>(getAnyDataPtr()); }
-
 public:
-    // void* getAnyDataPtr() const override {
-    //     return (void*) mx;
-    // }
-
-    MxAnyType();
+    MxAnyType() = delete;
     MxAnyType(const mxArray* m, bool validateId = false);
-    ~MxAnyType() = default;
+    ~MxAnyType() override = default;
     MxAnyType(const MxAnyType& mxAnyType);
 
     void enableClassIDValidation();
@@ -95,4 +100,4 @@ public:
     bool asVectorDouble(std::vector<double>& vec) override;
 };
 
-#endif /* MXANYTYPE_H */
+#endif // MXANYTYPE_H

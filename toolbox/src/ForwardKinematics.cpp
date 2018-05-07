@@ -1,31 +1,66 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "ForwardKinematics.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/Transform.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Indices.h>
 
 #include <memory>
+#include <ostream>
 
 using namespace wbt;
 
 const std::string ForwardKinematics::ClassName = "ForwardKinematics";
 
-const unsigned ForwardKinematics::INPUT_IDX_BASE_POSE = 0;
-const unsigned ForwardKinematics::INPUT_IDX_JOINTCONF = 1;
-const unsigned ForwardKinematics::OUTPUT_IDX_FW_FRAME = 0;
+const unsigned INPUT_IDX_BASE_POSE = 0;
+const unsigned INPUT_IDX_JOINTCONF = 1;
+const unsigned OUTPUT_IDX_FW_FRAME = 0;
+
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+
+class ForwardKinematics::impl
+{
+public:
+    bool frameIsCoM = false;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
+};
 
 ForwardKinematics::ForwardKinematics()
-    : m_frameIsCoM(false)
-    , m_frameIndex(iDynTree::FRAME_INVALID_INDEX)
+    : pImpl{new impl()}
 {}
 
 unsigned ForwardKinematics::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;
+}
+
+bool ForwardKinematics::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
+
+    if (!blockInfo->addParameterMetadata(frameMetadata)) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
 }
 
 bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
@@ -45,22 +80,28 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of inputs
     if (!blockInfo->setNumberOfInputPorts(2)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Size and type
-    bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, 4, 4);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
+    bool ok = true;
+    ok = ok && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
+    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
 
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, PortDataTypeDouble);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, PortDataTypeDouble);
+    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
+    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
 
-    if (!success) {
-        Log::getSingleton().error("Failed to configure input ports.");
+    if (!ok) {
+        wbtError << "Failed to configure input ports.";
         return false;
     }
 
@@ -72,18 +113,18 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Number of outputs
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
     // Size and type
-    success = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, 4, 4);
-    blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, PortDataTypeDouble);
+    ok = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, {4, 4});
+    blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, DataType::DOUBLE);
 
-    return success;
+    return ok;
 }
 
-bool ForwardKinematics::initialize(const BlockInformation* blockInfo)
+bool ForwardKinematics::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
@@ -92,33 +133,36 @@ bool ForwardKinematics::initialize(const BlockInformation* blockInfo)
     // INPUT PARAMETERS
     // ================
 
-    std::string frame;
-    int parentParameters = WBBlock::numberOfParameters();
+    if (!ForwardKinematics::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
+        return false;
+    }
 
-    if (!blockInfo->getStringParameterAtIndex(parentParameters + 1, frame)) {
-        Log::getSingleton().error("Cannot retrieve string from frame parameter.");
+    std::string frame;
+    if (!m_parameters.getParameter("Frame", frame)) {
+        wbtError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
     // Check if the frame is valid
     // ---------------------------
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-    if (!model) {
-        Log::getSingleton().error("Cannot retrieve handle to WBI model.");
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
-        m_frameIndex = model->getFrameIndex(frame);
-        if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            Log::getSingleton().error("Cannot find " + frame + " in the frame list.");
+        pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+        if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+            wbtError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
     else {
-        m_frameIsCoM = true;
-        m_frameIndex = iDynTree::FRAME_INVALID_INDEX;
+        pImpl->frameIsCoM = true;
+        pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
     return true;
@@ -132,26 +176,31 @@ bool ForwardKinematics::terminate(const BlockInformation* blockInfo)
 bool ForwardKinematics::output(const BlockInformation* blockInfo)
 {
     using namespace Eigen;
-    typedef Matrix<double, 4, 4, ColMajor> Matrix4dSimulink;
-    typedef Matrix<double, 4, 4, Eigen::RowMajor> Matrix4diDynTree;
+    using Matrix4dSimulink = Matrix<double, 4, 4, Eigen::ColMajor>;
+    using Matrix4diDynTree = Matrix<double, 4, 4, Eigen::RowMajor>;
 
-    const auto& model = getRobotInterface()->getKinDynComputations();
-
-    if (!model) {
-        Log::getSingleton().error("Failed to retrieve the KinDynComputations object.");
+    // Get the KinDynComputations object
+    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    if (!kinDyn) {
+        wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr);
+    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+        wbtError << "Input signals not valid.";
+        return false;
+    }
+
+    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
-        Log::getSingleton().error("Failed to set the robot state.");
+        wbtError << "Failed to set the robot state.";
         return false;
     }
 
@@ -161,15 +210,19 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     iDynTree::Transform world_H_frame;
 
     // Compute the transform to the selected frame
-    if (!m_frameIsCoM) {
-        world_H_frame = model->getWorldTransform(m_frameIndex);
+    if (!pImpl->frameIsCoM) {
+        world_H_frame = kinDyn->getWorldTransform(pImpl->frameIndex);
     }
     else {
-        world_H_frame.setPosition(model->getCenterOfMassPosition());
+        world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());
     }
 
     // Get the output signal memory location
     Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
 
     // Allocate objects for row-major -> col-major conversion
     Map<const Matrix4diDynTree> world_H_frame_RowMajor =

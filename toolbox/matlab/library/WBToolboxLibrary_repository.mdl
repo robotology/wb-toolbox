@@ -48,11 +48,11 @@ Library {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"192"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1676.0, 847.0]
-	ZoomFactor		[2.4423076923076925]
-	Offset			[11.801292748854166, 8.2677165354330953]
+	ZoomFactor		[3.695067264573991]
+	Offset			[12.211165048543677, -3.1122572815533971]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -86,9 +86,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Feb 12 09:39:33 2018"
-  RTWModifiedTimeStamp	  440329126
-  ModelVersionFormat	  "1.%<AutoIncrement:496>"
+  LastModifiedDate	  "Thu May 03 10:09:44 2018"
+  RTWModifiedTimeStamp	  447242957
+  ModelVersionFormat	  "1.%<AutoIncrement:499>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -1072,7 +1072,7 @@ Library {
   System {
     Name		    "WBToolboxLibrary_repository"
     Location		    [1233, 702, 2947, 1715]
-    Open		    off
+    Open		    on
     PortBlocksUseCompactNotation off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1107,7 +1107,7 @@ Library {
       System {
 	Name			"Utilities"
 	Location		[1233, 702, 2947, 1715]
-	Open			on
+	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1119,7 +1119,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"244"
+	ZoomFactor		"263"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Configuration"
@@ -1186,7 +1186,7 @@ Library {
 		Type			"edit"
 		Name			"RobotName"
 		Prompt			"Robot Name"
-		Value			"'icub'"
+		Value			"'icubSim'"
 	      }
 	      Object {
 		$ObjectID		25
@@ -1815,8 +1815,8 @@ Library {
 	    Initialization	    "% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig"
 	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
 	    "   clear WBTConfig;\ncatch\nend\n\n% ModelPartitioner Initialization\n% ===============================\n\nswitch"
-	    " get_param(gcb, 'yarp2WBIOption')\n    case 'From YARP to WBI'\n        yarp2WBI = true;\n    case 'From WBI to Y"
-	    "ARP'\n        yarp2WBI = false;\n    otherwise\nend"
+	    " get_param(gcb, 'yarp2WBIOption')\n    case 'From YARP to WBI'\n        yarp2WBI = 1;\n    case 'From WBI to YARP"
+	    "'\n        yarp2WBI = 0;\n    otherwise\nend"
 	    Display		    "robotName = getenv('YARP_ROBOT_NAME');\n\ncurrentSelection = get_param(gcb,'yarp2WBIoption');\n\nif"
 	    " strcmp(currentSelection,'From YARP to WBI')\n    direction = 'YARP -> DoFs';\nelse\n    direction = 'DoFs -> YAR"
 	    "P';\nend\n\nfprintf('%s\\n\\n%s', robotName, direction);"
@@ -1956,6 +1956,7 @@ Library {
 		Name			"resetOnSettlingTime"
 		Prompt			"Reset on Settling Time Changes"
 		Value			"off"
+		Visible			"off"
 	      }
 	      Object {
 		$ObjectID		83
@@ -2954,7 +2955,7 @@ Library {
       }
       System {
 	Name			"wholeBodyActuators"
-	Location		[870, 609, 2584, 1622]
+	Location		[1233, 702, 2947, 1715]
 	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
@@ -3135,8 +3136,9 @@ Library {
 	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
 	    "as a parameter in the block.\n\nAssuming DoFs is the number of degrees of freedom configured in the Config block "
 	    "associated:\n\nInput:\n- References: Vector of size DoFs, representing the references to be sent to the robot con"
-	    "trolled joints.\n- Reference Speed (Position): Set the reference speed used by the trajectory generator of the IP"
-	    "ositionControl interface\n\nParameters:\n- Control Mode: The control mode. Choose one of the supplied mode."
+	    "trolled joints.\n- Reference Speed (Position): Set the reference speed in rad/s used by the trajectory generator "
+	    "of the IPositionControl interface\n\nParameters:\n- Control Mode: The control mode. Choose one of the supplied mo"
+	    "de."
 	    Initialization	    "% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig"
 	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
 	    "   clear WBTConfig;\ncatch\nend"
@@ -3182,7 +3184,7 @@ Library {
 		Type			"edit"
 		Name			"refSpeed"
 		Prompt			"Reference Speed"
-		Value			"50"
+		Value			"10*(pi/180)"
 	      }
 	      PropName		      "Parameters"
 	    }
@@ -5257,7 +5259,7 @@ Library {
       }
       System {
 	Name			"wholeBodyStates"
-	Location		[466, 443, 2180, 1456]
+	Location		[1233, 702, 2947, 1715]
 	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
@@ -5270,7 +5272,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"706"
+	ZoomFactor		"758"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Get Limits"
@@ -5319,6 +5321,7 @@ Library {
 		Name			"limitsSource"
 		Prompt			"Limits Source"
 		Value			"ControlBoard"
+		Evaluate		"off"
 		Callback		"sourceLimit = get_param(gcb,'limitsSource');\nblockParameters = Simulink.Mask.get(gcb).Parameters;\nlimit"
 		"sTypeBlockParam = blockParameters(2);\n\nswitch sourceLimit\n    case 'ControlBoard'\n        limitsTypeBlockParam.T"
 		"ypeOptions = {'Position','Velocity'};\n        %limitsTypeBlockParam.Value = limitsTypeBlockParam.TypeOptions{1};\n "

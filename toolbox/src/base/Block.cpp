@@ -1,12 +1,30 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "Block.h"
-#include "toolbox.h"
+#include "BlockInformation.h"
+#include "Log.h"
+#include "Parameter.h"
+
+#include <ostream>
 
 using namespace wbt;
 
-Block::~Block() {}
+const unsigned Block::NumberOfParameters = 1;
+
+unsigned Block::numberOfParameters()
+{
+    return Block::NumberOfParameters;
+}
+
 std::vector<std::string> Block::additionalBlockOptions()
 {
-    return std::vector<std::string>();
+    return {};
 }
 
 void Block::parameterAtIndexIsTunable(unsigned /*index*/, bool& tunable)
@@ -16,6 +34,33 @@ void Block::parameterAtIndexIsTunable(unsigned /*index*/, bool& tunable)
 
 bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
 {
+    return true;
+}
+
+bool Block::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_className(ParameterType::STRING, 0, 1, 1, "className");
+    blockInfo->addParameterMetadata(paramMD_className);
+    return blockInfo->parseParameters(m_parameters);
+}
+
+bool Block::configureSizeAndPorts(BlockInformation* blockInfo)
+{
+    if (!Block::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse Block parameters.";
+        return false;
+    }
+
+    return true;
+}
+
+bool Block::initialize(BlockInformation* blockInfo)
+{
+    if (!Block::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse Block parameters.";
+        return false;
+    }
+
     return true;
 }
 
@@ -41,5 +86,16 @@ bool Block::stateDerivative(const BlockInformation* /*blockInfo*/)
 
 bool Block::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
 {
+    return true;
+}
+
+bool Block::terminate(const BlockInformation* /*blockInfo*/)
+{
+    return true;
+}
+
+bool Block::getParameters(wbt::Parameters& params) const
+{
+    params = m_parameters;
     return true;
 }

@@ -1,3 +1,7 @@
+% Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+% This software may be modified and distributed under the terms of the
+% GNU Lesser General Public License v2.1 or any later version.
+
 addpath(genpath('../../images'));
 
 fprintf('\nWhole Body toolbox exporting library to multiple versions\n');
@@ -24,8 +28,8 @@ try
 
   % Export the library
   fprintf('\nExporting for 2014b\n');
-  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
-  movefile('WBToolboxLibrary.slx', 'library/exported/WBToolboxLibrary.slx');
+  save_system(libraryName, 'WBToolboxLibraryTmp', 'ExportToVersion', 'R2014B_SLX');
+  movefile('WBToolboxLibraryTmp.slx', 'library/exported/WBToolboxLibrary.slx');
   % TODO: Check if mdl support is still required
   % fprintf('\nExporting for 2012a\n');
   % save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2012A_MDL');

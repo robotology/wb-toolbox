@@ -1,30 +1,80 @@
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
+
 #include "GetMeasurement.h"
 #include "BlockInformation.h"
+#include "Configuration.h"
 #include "Log.h"
+#include "Parameter.h"
+#include "Parameters.h"
 #include "RobotInterface.h"
 #include "Signal.h"
 
 #include <yarp/dev/IEncoders.h>
 #include <yarp/dev/ITorqueControl.h>
 
-#define _USE_MATH_DEFINES
 #include <cmath>
+#include <ostream>
+#include <vector>
 
 using namespace wbt;
 
 const std::string GetMeasurement::ClassName = "GetMeasurement";
 
-void GetMeasurement::deg2rad(std::vector<double>& v)
+const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
+const unsigned PARAM_IDX_MEAS_TYPE = PARAM_IDX_BIAS + 1;
+
+class GetMeasurement::impl
 {
-    const double Deg2Rad = M_PI / 180.0;
-    for (auto& element : v) {
-        element *= Deg2Rad;
+public:
+    enum class MeasuredType
+    {
+        JOINT_POS,
+        JOINT_VEL,
+        JOINT_ACC,
+        JOINT_TORQUE
+    };
+
+    std::vector<double> measurement;
+    MeasuredType measuredType;
+
+    static void deg2rad(std::vector<double>& v)
+    {
+        const double Deg2Rad = M_PI / 180.0;
+        for (auto& element : v) {
+            element *= Deg2Rad;
+        }
     }
-}
+};
+
+GetMeasurement::GetMeasurement()
+    : pImpl{new impl()}
+{}
 
 unsigned GetMeasurement::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;
+}
+
+bool GetMeasurement::parseParameters(BlockInformation* blockInfo)
+{
+    ParameterMetadata paramMD_measType(
+        ParameterType::STRING, PARAM_IDX_MEAS_TYPE, 1, 1, "MeasuredType");
+
+    bool ok = true;
+    ok = ok && blockInfo->addParameterMetadata(paramMD_measType);
+
+    if (!ok) {
+        wbtError << "Failed to store parameters metadata.";
+        return false;
+    }
+
+    return blockInfo->parseParameters(m_parameters);
 }
 
 bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
@@ -40,7 +90,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfInputPorts(0)) {
-        Log::getSingleton().error("Failed to configure the number of input ports.");
+        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -51,59 +101,78 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     if (!blockInfo->setNumberOfOutputPorts(1)) {
-        Log::getSingleton().error("Failed to configure the number of output ports.");
+        wbtError << "Failed to configure the number of output ports.";
         return false;
     }
 
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     bool success = blockInfo->setOutputPortVectorSize(0, dofs);
-    blockInfo->setOutputPortType(0, PortDataTypeDouble);
+    blockInfo->setOutputPortType(0, DataType::DOUBLE);
     if (!success) {
-        Log::getSingleton().error("Failed to configure output ports.");
+        wbtError << "Failed to configure output ports.";
         return false;
     }
 
     return true;
 }
 
-bool GetMeasurement::initialize(const BlockInformation* blockInfo)
+bool GetMeasurement::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
         return false;
     }
 
-    // Reading the control type
-    std::string informationType;
-    if (!blockInfo->getStringParameterAtIndex(WBBlock::numberOfParameters() + 1, informationType)) {
-        Log::getSingleton().error("Could not read estimate type parameter.");
+    if (!GetMeasurement::parseParameters(blockInfo)) {
+        wbtError << "Failed to parse parameters.";
         return false;
     }
 
-    if (informationType == "Joints Position") {
-        m_measuredType = wbt::MEASUREMENT_JOINT_POS;
+    // Read the measured type
+    std::string measuredType;
+    if (!m_parameters.getParameter("MeasuredType", measuredType)) {
+        wbtError << "Could not read measured type parameter.";
+        return false;
     }
-    else if (informationType == "Joints Velocity") {
-        m_measuredType = wbt::MEASUREMENT_JOINT_VEL;
+
+    // Set the measured type
+    if (measuredType == "Joints Position") {
+        pImpl->measuredType = impl::MeasuredType::JOINT_POS;
     }
-    else if (informationType == "Joints Acceleration") {
-        m_measuredType = wbt::MEASUREMENT_JOINT_ACC;
+    else if (measuredType == "Joints Velocity") {
+        pImpl->measuredType = impl::MeasuredType::JOINT_VEL;
     }
-    else if (informationType == "Joints Torque") {
-        m_measuredType = wbt::ESTIMATE_JOINT_TORQUE;
+    else if (measuredType == "Joints Acceleration") {
+        pImpl->measuredType = impl::MeasuredType::JOINT_ACC;
+    }
+    else if (measuredType == "Joints Torque") {
+        pImpl->measuredType = impl::MeasuredType::JOINT_TORQUE;
     }
     else {
-        Log::getSingleton().error("Estimate not supported.");
+        wbtError << "Measurement not supported.";
         return false;
     }
 
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
     // Initialize the size of the output vector
-    const unsigned dofs = getConfiguration().getNumberOfDoFs();
-    m_measurement.resize(dofs);
+    pImpl->measurement.resize(dofs);
 
     // Retain the ControlBoardRemapper
-    if (!getRobotInterface()->retainRemoteControlBoardRemapper()) {
-        Log::getSingleton().error("Couldn't retain the RemoteControlBoardRemapper.");
+    if (!robotInterface->retainRemoteControlBoardRemapper()) {
+        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
         return false;
     }
 
@@ -112,11 +181,18 @@ bool GetMeasurement::initialize(const BlockInformation* blockInfo)
 
 bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 {
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+
     // Release the RemoteControlBoardRemapper
     bool ok = true;
-    ok = ok && getRobotInterface()->releaseRemoteControlBoardRemapper();
+    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
-        Log::getSingleton().error("Failed to release the RemoteControlBoardRemapper.");
+        wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
@@ -125,67 +201,80 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 
 bool GetMeasurement::output(const BlockInformation* blockInfo)
 {
-    bool ok;
-    switch (m_measuredType) {
-        case MEASUREMENT_JOINT_POS: {
-            // Get the interface
-            yarp::dev::IEncoders* iEncoders = nullptr;
-            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IPidControl interface.");
-                return false;
-            }
-            // Get the measurement
-            ok = iEncoders->getEncoders(m_measurement.data());
-            deg2rad(m_measurement);
-            break;
-        }
-        case MEASUREMENT_JOINT_VEL: {
-            // Get the interface
-            yarp::dev::IEncoders* iEncoders = nullptr;
-            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IEncoders interface.");
-                return false;
-            }
-            // Get the measurement
-            ok = iEncoders->getEncoderSpeeds(m_measurement.data());
-            deg2rad(m_measurement);
-            break;
-        }
-        case MEASUREMENT_JOINT_ACC: {
-            // Get the interface
-            yarp::dev::IEncoders* iEncoders = nullptr;
-            if (!getRobotInterface()->getInterface(iEncoders) || !iEncoders) {
-                Log::getSingleton().error("Failed to get IEncoders interface.");
-                return false;
-            }
-            // Get the measurement
-            ok = iEncoders->getEncoderAccelerations(m_measurement.data());
-            deg2rad(m_measurement);
-            break;
-        }
-        case ESTIMATE_JOINT_TORQUE: {
-            // Get the interface
-            yarp::dev::ITorqueControl* iTorqueControl = nullptr;
-            if (!getRobotInterface()->getInterface(iTorqueControl) || !iTorqueControl) {
-                Log::getSingleton().error("Failed to get ITorqueControl interface.");
-                return false;
-            }
-            // Get the measurement
-            ok = iTorqueControl->getTorques(m_measurement.data());
-            break;
-        }
-        default:
-            Log::getSingleton().error("Estimate type not recognized.");
-            return false;
-    }
-
-    if (!ok) {
-        Log::getSingleton().error("Failed to get estimate.");
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
 
-    Signal signal = blockInfo->getOutputPortSignal(0);
-    signal.setBuffer(m_measurement.data(), blockInfo->getOutputPortWidth(0));
+    bool ok;
+    switch (pImpl->measuredType) {
+        case impl::MeasuredType::JOINT_POS: {
+            // Get the interface
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
+                wbtError << "Failed to get IPidControl interface.";
+                return false;
+            }
+            // Get the measurement
+            ok = iEncoders->getEncoders(pImpl->measurement.data());
+            GetMeasurement::impl::deg2rad(pImpl->measurement);
+            break;
+        }
+        case impl::MeasuredType::JOINT_VEL: {
+            // Get the interface
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
+                wbtError << "Failed to get IEncoders interface.";
+                return false;
+            }
+            // Get the measurement
+            ok = iEncoders->getEncoderSpeeds(pImpl->measurement.data());
+            GetMeasurement::impl::deg2rad(pImpl->measurement);
+            break;
+        }
+        case impl::MeasuredType::JOINT_ACC: {
+            // Get the interface
+            yarp::dev::IEncoders* iEncoders = nullptr;
+            if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
+                wbtError << "Failed to get IEncoders interface.";
+                return false;
+            }
+            // Get the measurement
+            ok = iEncoders->getEncoderAccelerations(pImpl->measurement.data());
+            GetMeasurement::impl::deg2rad(pImpl->measurement);
+            break;
+        }
+        case impl::MeasuredType::JOINT_TORQUE: {
+            // Get the interface
+            yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+            if (!robotInterface->getInterface(iTorqueControl) || !iTorqueControl) {
+                wbtError << "Failed to get ITorqueControl interface.";
+                return false;
+            }
+            // Get the measurement
+            ok = iTorqueControl->getTorques(pImpl->measurement.data());
+            break;
+        }
+    }
+
+    if (!ok) {
+        wbtError << "Failed to get measurement.";
+        return false;
+    }
+
+    // Get the output signal
+    Signal output = blockInfo->getOutputPortSignal(0);
+    if (!output.isValid()) {
+        wbtError << "Output signal not valid.";
+        return false;
+    }
+
+    // Fill the output buffer
+    if (!output.setBuffer(pImpl->measurement.data(), output.getWidth())) {
+        wbtError << "Failed to set output buffer.";
+    }
 
     return true;
 }

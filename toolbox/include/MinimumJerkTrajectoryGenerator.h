@@ -1,28 +1,48 @@
-#include "Block.h"
-#include <memory>
+/*
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
+ *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
+ */
 
 #ifndef WBT_MINJERKTRAJGENERATOR_H
 #define WBT_MINJERKTRAJGENERATOR_H
 
+#include "Block.h"
+
+#include <memory>
+#include <string>
+
 namespace wbt {
-    class MinimumJerkTrajectoryGenerator;
     class BlockInformation;
+    class MinimumJerkTrajectoryGenerator;
 } // namespace wbt
 
-namespace iCub {
-    namespace ctrl {
-        class minJerkTrajGen;
-    }
-} // namespace iCub
-
-namespace yarp {
-    namespace sig {
-        class Vector;
-    }
-} // namespace yarp
-
-class wbt::MinimumJerkTrajectoryGenerator : public wbt::Block
+/**
+ * @brief The wbt::MinimumJerkTrajectoryGenerator class
+ *
+ * @section Parameters
+ *
+ * In addition to @ref block_parameters, wbt::MinimumJerkTrajectoryGenerator requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "SampleTime"                |
+ * | ::DOUBLE | 1 + Block::NumberOfParameters | 1 | 1 | "SettlingTime"              |
+ * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "ComputeFirstDerivative"    |
+ * | ::BOOL   | 3 + Block::NumberOfParameters | 1 | 1 | "ComputeSecondDerivative"   |
+ * | ::BOOL   | 4 + Block::NumberOfParameters | 1 | 1 | "ReadInitialValue"          |
+ * | ::BOOL   | 5 + Block::NumberOfParameters | 1 | 1 | "ReadExternalSettlingTime"  |
+ * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ResetOnSettlingTimeChange" |
+ *
+ */
+class wbt::MinimumJerkTrajectoryGenerator final : public wbt::Block
 {
+private:
+    class impl;
+    std::unique_ptr<impl> pImpl;
+
 public:
     static const std::string ClassName;
 
@@ -30,35 +50,10 @@ public:
     ~MinimumJerkTrajectoryGenerator() override = default;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(const BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
+    bool initialize(BlockInformation* blockInfo) override;
     bool output(const BlockInformation* blockInfo) override;
-
-private:
-    std::unique_ptr<iCub::ctrl::minJerkTrajGen> m_generator;
-
-    int m_outputFirstDerivativeIndex;
-    int m_outputSecondDerivativeIndex;
-
-    double m_previousSettlingTime;
-
-    bool m_firstRun;
-    bool m_explicitInitialValue;
-    bool m_externalSettlingTime;
-    bool m_resetOnSettlingTimeChange;
-    std::unique_ptr<yarp::sig::Vector> m_initialValues;
-    std::unique_ptr<yarp::sig::Vector> m_reference;
-
-    static const unsigned PARAM_IDX_SAMPLE_TIME; // Sample Time (double)
-    static const unsigned PARAM_IDX_SETTLING_TIME; // Settling Time (double)
-    static const unsigned PARAM_IDX_OUTPUT_1ST_DERIVATIVE; // Output first derivative (boolean)
-    static const unsigned PARAM_IDX_OUTPUT_2ND_DERIVATIVE; // Output second derivative (boolean)
-    static const unsigned PARAM_IDX_INITIAL_VALUE; // Initial signal value as input (boolean)
-    static const unsigned PARAM_IDX_EXT_SETTLINGTIME; // Control if the settling time comes from
-                                                      // external port or static parameter
-    static const unsigned PARAM_IDX_RESET_CHANGEST; // True if the block should reset the traj
-                                                    // generator in case settling time changes
 };
 
-#endif /* end of include guard: WBT_MINJERKTRAJGENERATOR_H */
+#endif // WBT_MINJERKTRAJGENERATOR_H
