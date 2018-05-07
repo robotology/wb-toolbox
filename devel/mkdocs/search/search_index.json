@@ -1,0 +1,319 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Whole Body Toolbox\n\n\nA Simulink Toolbox for Whole Body Control\n\n\n\n\nThis toolbox allows non-programming experts and researchers approaching \nWhole Body Control\n to more easily develop controllers on either simulated or real \nYARP\n-based robotic platforms.\n\nDevelop to deployment time is minimized by exploiting the rich variety of Simulink's toolboxes and its capabilities on rapid prototyping and visual debugging.\n\n\n\n\n\n\n\n\nWho use \nWB-Toolbox\n\n\nWB-Toolbox\n is used extensively in the controllers stored in \nrobotology-playground/whole-body-controllers\n.\n\n\nThis video shows the latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the \nrobotology/WB-Toolbox\n achieves a running \n100 Hz\n rate.\n\n\n\n\nCiting this work\n\n\n\n\nRomano F., Traversaro S., Pucci D., Nori F.\n\n\nA Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems\n\n\nJournal of Software Engineering for Robotics, 2017\n\n\n\n\nBibtex citation\n@ARTICLE{RomanoWBI17Journal,\nauthor={F. Romano and S. Traversaro and D. Pucci and F. Nori},\njournal={Journal of Software Engineering for Robotics},\ntitle={A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems},\nyear={2017},\n}",
+            "title": "Home"
+        },
+        {
+            "location": "/#whole-body-toolbox",
+            "text": "",
+            "title": "Whole Body Toolbox"
+        },
+        {
+            "location": "/#a-simulink-toolbox-for-whole-body-control",
+            "text": "This toolbox allows non-programming experts and researchers approaching  Whole Body Control  to more easily develop controllers on either simulated or real  YARP -based robotic platforms. \nDevelop to deployment time is minimized by exploiting the rich variety of Simulink's toolboxes and its capabilities on rapid prototyping and visual debugging.",
+            "title": "A Simulink Toolbox for Whole Body Control"
+        },
+        {
+            "location": "/#who-use-wb-toolbox",
+            "text": "WB-Toolbox  is used extensively in the controllers stored in  robotology-playground/whole-body-controllers .  This video shows the latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the  robotology/WB-Toolbox  achieves a running  100 Hz  rate.",
+            "title": "Who use WB-Toolbox"
+        },
+        {
+            "location": "/#citing-this-work",
+            "text": "Romano F., Traversaro S., Pucci D., Nori F.  A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems  Journal of Software Engineering for Robotics, 2017   Bibtex citation @ARTICLE{RomanoWBI17Journal,\nauthor={F. Romano and S. Traversaro and D. Pucci and F. Nori},\njournal={Journal of Software Engineering for Robotics},\ntitle={A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems},\nyear={2017},\n}",
+            "title": "Citing this work"
+        },
+        {
+            "location": "/install/",
+            "text": "Install\n\n\n\n\nDisclaimer\n\n\nWB-Toolbox\n has been widely tested on \nUbuntu 16:04\n and Matlab \nR2017b\n. If you face any issue either with your OS or Matlab version, please submit an \nIssue\n.\n\n\n\n\nRequirements\n\n\n\n\nMatlab 7.1+ and Simulink: tested with Matlab \nR2017b\n, \nR2016b\n\n\nYARP\n compiled as shared library (default behavior)\n\n\niDynTree\n\n\nYCM\n\n\nSupported Operating Systems: Linux, macOS,  Windows\n\n\n\n\nOptional requirements\n\n\n\n\niCub\n (needed for some blocks)\n\n\nGazebo Simulator\n\n\ngazebo_yarp_plugins\n.\n\n\n\n\nInstallation\n\n\nFor a simplified installation procedure, jump to \nInstall using the \nrobotology-superbuild\n.\n\n\n\n\nWarning\n\n\nThe following instructions are for Unix-like systems, but they work similarly on other operating systems.\n\n\n\n\nDependencies\n\n\nInstall the required and the optional dependencies by following their installation instructions. These instructions need that \nYARP\n and \niDynTree\n packages (and optionally \niCub\n) can be found by \nCMake\n using \nfind_package\n.\n\n\nSetup Matlab\n\n\nMake sure that you have MATLAB and Simulink are properly installed and running.\n\n\nCMake\n needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that \nCMake\n is able to \nfind your Matlab installation\n, and set the \nMatlab_ROOT_DIR\n environment variable if needed.\n\n\nAfter this, check that the MEX compiler for MATLAB is properly configured and working. You can try compiling some of the MATLAB C code examples as described in the \nmex official documentation\n.\n\n\nDownload, build and install\n\n\nIf all the dependencies are met, proceed with the following instructions:\n\n\ngit clone https://github.com/robotology/wb-toolbox.git\nmkdir -p wb-toolbox/build \n \ncd\n wb-toolbox/build\ncmake .. -DCMAKE_INSTALL_PREFIX\n=\ninstall-prefix\n\ncmake --build . --config Release\ncmake --build . --config Release --target install\ncmake --build . --config Release --target install\n\n\n\n\n\n\nNote\n\n\nFrom refer to your install directory with the variable \ninstall-prefix\n. Every time you see this variable, you should substitute the absolute install path.\n\n\n\n\nConfiguration\n\n\nMatlab\n\n\nIn order to use the \nWB-Toolbox\n in Matlab you have to add some folders to the Matlab path.\n\n\nIf you usually execute Matlab from the command line, exporting the following environment variable should be enough:\n\n\nexport\n \nMATLABPATH\n=\ninstall-prefix\n/mex:\ninstall-prefix\n/share/WB-Toolbox:\ninstall-prefix\n/share/WB-Toolbox/images\n\n\n\n\nIf, instead, you use the desktop launcher, a non-persistent Matlab configuration is the following:\n\n\naddpath\n([\ninstall-prefix\n \n/\nmex\n])\n\n\naddpath\n(\ngenpath\n([\ninstall-prefix\n \n/\nshare\n/\nWB\n-\nToolbox\n]))\n\n\n\n\n\nWe also provide for the latter scenario a persistent configuration of \nWB-Toolbox\n. After the installation, only once after the installation, run the \nstartup_wbitoolbox.m\n script that you can find in the \ninstall-prefix\n/share/WB-Toolbox\n directory. This usage assumes that Matlab is always launched from the \nuserpath\n folder\n.\n\n\nEnvironment\n\n\nEach robot that can be used through \nWB-Toolbox\n has its own configuration files. \nWB-Toolbox\n uses the \nYARP\n's \nResourceFinder\n for finding files in the file system. You should thus follow the related instructions to properly configure your installation (e.g. setting the \nYARP_DATA_DIRS\n and \nYARP_ROBOT_NAME\n variables).\n\n\nInstall using the \nrobotology-superbuild\n\n\nThe \nrobotology/robotology-superbuild\n provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.\n\n\nFollow the \nsuperbuild installation instructions\n and enable the \nROBOTOLOGY_ENABLE_DYNAMICS\n profile.\n\n\nThe configuration should be straightforward. Setup your \n$HOME\n/.bashrc\n file sourcing the \nsetup.sh\n script as described in \nConfigure your environment\n.",
+            "title": "Install"
+        },
+        {
+            "location": "/install/#install",
+            "text": "Disclaimer  WB-Toolbox  has been widely tested on  Ubuntu 16:04  and Matlab  R2017b . If you face any issue either with your OS or Matlab version, please submit an  Issue .",
+            "title": "Install"
+        },
+        {
+            "location": "/install/#requirements",
+            "text": "Matlab 7.1+ and Simulink: tested with Matlab  R2017b ,  R2016b  YARP  compiled as shared library (default behavior)  iDynTree  YCM  Supported Operating Systems: Linux, macOS,  Windows",
+            "title": "Requirements"
+        },
+        {
+            "location": "/install/#optional-requirements",
+            "text": "iCub  (needed for some blocks)  Gazebo Simulator  gazebo_yarp_plugins .",
+            "title": "Optional requirements"
+        },
+        {
+            "location": "/install/#installation",
+            "text": "For a simplified installation procedure, jump to  Install using the  robotology-superbuild .   Warning  The following instructions are for Unix-like systems, but they work similarly on other operating systems.",
+            "title": "Installation"
+        },
+        {
+            "location": "/install/#dependencies",
+            "text": "Install the required and the optional dependencies by following their installation instructions. These instructions need that  YARP  and  iDynTree  packages (and optionally  iCub ) can be found by  CMake  using  find_package .",
+            "title": "Dependencies"
+        },
+        {
+            "location": "/install/#setup-matlab",
+            "text": "Make sure that you have MATLAB and Simulink are properly installed and running.  CMake  needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that  CMake  is able to  find your Matlab installation , and set the  Matlab_ROOT_DIR  environment variable if needed.  After this, check that the MEX compiler for MATLAB is properly configured and working. You can try compiling some of the MATLAB C code examples as described in the  mex official documentation .",
+            "title": "Setup Matlab"
+        },
+        {
+            "location": "/install/#download-build-and-install",
+            "text": "If all the dependencies are met, proceed with the following instructions:  git clone https://github.com/robotology/wb-toolbox.git\nmkdir -p wb-toolbox/build    cd  wb-toolbox/build\ncmake .. -DCMAKE_INSTALL_PREFIX = install-prefix \ncmake --build . --config Release\ncmake --build . --config Release --target install\ncmake --build . --config Release --target install   Note  From refer to your install directory with the variable  install-prefix . Every time you see this variable, you should substitute the absolute install path.",
+            "title": "Download, build and install"
+        },
+        {
+            "location": "/install/#configuration",
+            "text": "",
+            "title": "Configuration"
+        },
+        {
+            "location": "/install/#matlab",
+            "text": "In order to use the  WB-Toolbox  in Matlab you have to add some folders to the Matlab path.  If you usually execute Matlab from the command line, exporting the following environment variable should be enough:  export   MATLABPATH = install-prefix /mex: install-prefix /share/WB-Toolbox: install-prefix /share/WB-Toolbox/images  If, instead, you use the desktop launcher, a non-persistent Matlab configuration is the following:  addpath ([ install-prefix   / mex ])  addpath ( genpath ([ install-prefix   / share / WB - Toolbox ]))   We also provide for the latter scenario a persistent configuration of  WB-Toolbox . After the installation, only once after the installation, run the  startup_wbitoolbox.m  script that you can find in the  install-prefix /share/WB-Toolbox  directory. This usage assumes that Matlab is always launched from the  userpath  folder .",
+            "title": "Matlab"
+        },
+        {
+            "location": "/install/#environment",
+            "text": "Each robot that can be used through  WB-Toolbox  has its own configuration files.  WB-Toolbox  uses the  YARP 's  ResourceFinder  for finding files in the file system. You should thus follow the related instructions to properly configure your installation (e.g. setting the  YARP_DATA_DIRS  and  YARP_ROBOT_NAME  variables).",
+            "title": "Environment"
+        },
+        {
+            "location": "/install/#install-using-the-robotology-superbuild",
+            "text": "The  robotology/robotology-superbuild  provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.  Follow the  superbuild installation instructions  and enable the  ROBOTOLOGY_ENABLE_DYNAMICS  profile.  The configuration should be straightforward. Setup your  $HOME /.bashrc  file sourcing the  setup.sh  script as described in  Configure your environment .",
+            "title": "Install using the robotology-superbuild"
+        },
+        {
+            "location": "/getting-started/",
+            "text": "Environment variables\n\n\nThe following environment variables must be specified:\n\n\n\n\nYARP_ROBOT_NAME\n\n\nYARP_DATA_DIRS\n\n\n\n\n\n\nTip: launch Matlab from the command line\n\n\nThe environment variables stored in the \n.bashrc\n or \n.bash_profile\n files are automatically loaded. Store here additional variables if needed.\n\n\n\n\n\n\nTip: launch Matlab from the desktop launcher\n\n\nYou can store environment variables from the Matlab command line using the \nsetenv\n function.\n\n\n\n\nCreating a model\n\n\nBefore using or creating a new model keep in mind that \nWB-Toolbox\n is discrete in principle and your simulation should be discrete as well. By going to \nSimulation \n Configuration Parameters \n Solver\n you should change the solver options to \nFixed Step\n and use a \ndiscrete (no continuous states)\n solver.\n\n\nIn order to start dragging and dropping blocks from the \nWB-Toolbox\n, open the \nSimulink Library Browser\n and search for \nWhole Body Toolbox\n in the tree view.",
+            "title": "Getting started"
+        },
+        {
+            "location": "/getting-started/#environment-variables",
+            "text": "The following environment variables must be specified:   YARP_ROBOT_NAME  YARP_DATA_DIRS    Tip: launch Matlab from the command line  The environment variables stored in the  .bashrc  or  .bash_profile  files are automatically loaded. Store here additional variables if needed.    Tip: launch Matlab from the desktop launcher  You can store environment variables from the Matlab command line using the  setenv  function.",
+            "title": "Environment variables"
+        },
+        {
+            "location": "/getting-started/#creating-a-model",
+            "text": "Before using or creating a new model keep in mind that  WB-Toolbox  is discrete in principle and your simulation should be discrete as well. By going to  Simulation   Configuration Parameters   Solver  you should change the solver options to  Fixed Step  and use a  discrete (no continuous states)  solver.  In order to start dragging and dropping blocks from the  WB-Toolbox , open the  Simulink Library Browser  and search for  Whole Body Toolbox  in the tree view.",
+            "title": "Creating a model"
+        },
+        {
+            "location": "/troubleshooting/",
+            "text": "Problems finding libraries and \nlibstdc++\n\n\nIn case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable \nLD_PRELOAD\n (or \nDYLD_INSERT_LIBRARIES\n on macOS) with the full path of the missing library.\n\n\nOn Linux you might have trouble with \nlibstdc++.so\n since Matlab comes with its own. To use your system's \nlibstdc++\n you would need to launch Matlab with:\n\n\nLD_PRELOAD\n=\n/usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab\n\n\n\n\nThe current version on Ubuntu 16:04 is \nlibstdc++.so.6\n, make sure this is the case also on your OS.\n\n\n\n\nTip\n\n\nYou could additionally create an alias to launch Matlab this way:\n\nalias matlab_wbt=\ncd ~/Documents/MATLAB \n LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab\n\n\n\n\n\n\nInfo\n\n\nAnother solution involving the \n.matlab7rc.sh\n file can be found in \ncodyco-superbuild#141\n.\n\n\n\n\nYARP\n not installed in the system default directory\n\n\nIn case you compiled \nYARP\n in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for \nYARP\n. If you launch MATLAB from command line, this task is already done for you by \nbash\n (if you edited \n.bashrc\n). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in \n${MATLAB_ROOT}/bin/.matlab7rc.sh\n by first doing\n\n\n    chmod +w .matlab7rc.sh\n\n\n\n\nThen looking for the variable \nLDPATH_SUFFIX\n and assign to every instance the contents of your \nDYLD_LIBRARY_PATH\n. Finally do:\n\n\n    chmod -w .matlab7rc.sh\n\n\n\n\nThe error message you get in this case might look something like:\n\n\nLibrary not loaded: libyarpwholeBodyinterface.0.0.1.dylib\nReferenced from:\n\n${\nCODYCO_SUPERBUILD_DIR\n}\n/install/mex/robotState.mexmaci64",
+            "title": "Troubleshooting"
+        },
+        {
+            "location": "/troubleshooting/#problems-finding-libraries-and-libstdc",
+            "text": "In case Matlab has trouble finding a specific library, a workaround is to launch it preloading the variable  LD_PRELOAD  (or  DYLD_INSERT_LIBRARIES  on macOS) with the full path of the missing library.  On Linux you might have trouble with  libstdc++.so  since Matlab comes with its own. To use your system's  libstdc++  you would need to launch Matlab with:  LD_PRELOAD = /usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab  The current version on Ubuntu 16:04 is  libstdc++.so.6 , make sure this is the case also on your OS.   Tip  You could additionally create an alias to launch Matlab this way: alias matlab_wbt= cd ~/Documents/MATLAB   LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab    Info  Another solution involving the  .matlab7rc.sh  file can be found in  codyco-superbuild#141 .",
+            "title": "Problems finding libraries and libstdc++"
+        },
+        {
+            "location": "/troubleshooting/#yarp-not-installed-in-the-system-default-directory",
+            "text": "In case you compiled  YARP  in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for  YARP . If you launch MATLAB from command line, this task is already done for you by  bash  (if you edited  .bashrc ). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in  ${MATLAB_ROOT}/bin/.matlab7rc.sh  by first doing      chmod +w .matlab7rc.sh  Then looking for the variable  LDPATH_SUFFIX  and assign to every instance the contents of your  DYLD_LIBRARY_PATH . Finally do:      chmod -w .matlab7rc.sh  The error message you get in this case might look something like:  Library not loaded: libyarpwholeBodyinterface.0.0.1.dylib\nReferenced from: ${ CODYCO_SUPERBUILD_DIR } /install/mex/robotState.mexmaci64",
+            "title": "YARP not installed in the system default directory"
+        },
+        {
+            "location": "/documentation/",
+            "text": "Browse the following links to the \nDoxygen\n documentation:\n\n\n\n\nmaster\n\n\ndevel",
+            "title": "Documentation"
+        },
+        {
+            "location": "/create_new_block/",
+            "text": "Warning\n\n\nThese information are outdated. The need to be ported to \nWB-Toolbox 3\n.\n\n\n\n\nThe following steps are necessary in order to add additional blocks to the Library.\n\n\nC++\n\n\nGeneric Block\n\n\n\n\nInherit from \nBlock\n class\n\n\nImplement the \nnumberOfParameters()\n function returning the number of parameters your block takes\n\n\nIf the parameter is tunable (i.e. it can be changed during the simulation) implement \nparameterAtIndexIsTunable\n: by default parameters are not tunable\n\n\nImplement the \nconfigureSizeAndPorts\n method to properly set the number and type of input and output ports\n\n\nImplement the \ninitialize\n method to perform any initialization your block requires\n\n\nImplement the \nfinilize\n method to cleanup any resources your block requested in the \ninitialize\n method\n\n\nImplement the \noutput\nmethod to perform the actual operations\n\n\n\n\nYou can access the block parameters by using the usual mex C functions. \nNOTE\n your parameters are 1-based numbered, \nNOT\n 0-based. So the first parameter is at index 1, etc...\n\n\nWBI-based Block\n\n\nIf you need to implement a WBI-based block it is highly advisable that you inherit from \nWBIBlock\n class.\nThis base class already implements a lot of functionalities and it is highly probable you need to just implement the \noutput\n function.\n\n\nThe \nWBIBlock\n base class already provide you the following features:\n\n\n\n\nThe number of parameters is already set to \n4\n (\nrobot name\n, \nmodel name\n, \nwbi filename\n, \nwbi joint list\n) and they are correctly parsed.\n\n\nAn instance of the \nYarp WholeBody interface\n is configured, initialized, and properly released in the \nfinilize\n method.\n\n\nThe Yarp network properly initialized and terminated.\n\n\nYou can obtain a reference to the singleton WB Interface wrapper by calling the static method \nWBInterface::sharedInstance\n.\n\n\n\n\nNote\n Additional parameters you specify starts from the index \n5\n.\n\n\nNotes on implementation\n\n\n\n\nDuring \nconfigureSizeAndPorts\n you should not allocate any memory or save any data because the object will not persist after the method call. The correct place is the \ninitialize\n method.\n\n\nEvery function takes as last parameter an \nError\n object. It can be \nNULL\n, so check before dereferencing the pointer.\n\n\n\n\nFinal steps\n\n\nIndependently of the type of block you implemented some more steps are required to properly add the block.\n\n\nCMake\n\n\nYou can use the macro provided by this project:\n\n\nconfigure_block\n(\nBLOCK_NAME\n \n${\nHUMAN_READABLE_DESCRIPTION\n}\n\n    \nLIST_PREFIX\n \nWBT\n\n    \nSOURCES\n \n${\nCPP_FILES\n}\n\n    \nHEADERS\n \n${\nHEADER_FILES\n}\n)\n\n\n\n\n\nwhere\n\n\n\n\n${HUMAN_READABLE_DESCRIPTION}\n is a string used in the group folder (for projects which support it),\n\n\n${CPP_FILES}\n is a list of \n.cpp\n files needed by your block\n\n\n${HEADER_FILES}\n is a list of \n.h\n files needed by your block\n\n\n\n\nBlock Factory\n\n\n\n\nAdd you main header to the \ntoolbox.h\n file\n\n\nAdd the code needed for the creation of your class in \nfactory.cpp\n, \nBlock::instantiateBlockWithClassName\n method. The string passed as argument is the one you specify in the S-Function block in Simulink (see next section)\n\n\n\n\nSimulink\n\n\n\n\nAdd an S-Function block\n\n\nSpecify as s-function name \nWB-Toolbox\n\n\nAdd the parameters:\n\n\nThe first parameter is the name of the class, e.g. \nYarpRead\n\n\nIf you are creating a WBI-based block you have to specify 4 additional parameters: \nrobot name\n, \nmodel name\n, \nYarpWBI configuration file\n, \nYarpWBI Joint list\n\n\nAdd any additional parameter required by your block\n\n\nCreate a Subsystem and add a Mask to it\n\n\n\n\nNote\n you should use variables for the S-Function parameters and you should specify them in the mask parameters.\n\nNote\n you can also supply default values for the variables by adding code in the \nBlock-\nProperties-\nCallbacks-\nInit\n\n\nYou can skip most of the aforementioned steps by duplicating an already existing block. Just be sure you are duplicating it and not creating an alias.",
+            "title": "Add a new block"
+        },
+        {
+            "location": "/create_new_block/#c",
+            "text": "",
+            "title": "C++"
+        },
+        {
+            "location": "/create_new_block/#generic-block",
+            "text": "Inherit from  Block  class  Implement the  numberOfParameters()  function returning the number of parameters your block takes  If the parameter is tunable (i.e. it can be changed during the simulation) implement  parameterAtIndexIsTunable : by default parameters are not tunable  Implement the  configureSizeAndPorts  method to properly set the number and type of input and output ports  Implement the  initialize  method to perform any initialization your block requires  Implement the  finilize  method to cleanup any resources your block requested in the  initialize  method  Implement the  output method to perform the actual operations   You can access the block parameters by using the usual mex C functions.  NOTE  your parameters are 1-based numbered,  NOT  0-based. So the first parameter is at index 1, etc...",
+            "title": "Generic Block"
+        },
+        {
+            "location": "/create_new_block/#wbi-based-block",
+            "text": "If you need to implement a WBI-based block it is highly advisable that you inherit from  WBIBlock  class.\nThis base class already implements a lot of functionalities and it is highly probable you need to just implement the  output  function.  The  WBIBlock  base class already provide you the following features:   The number of parameters is already set to  4  ( robot name ,  model name ,  wbi filename ,  wbi joint list ) and they are correctly parsed.  An instance of the  Yarp WholeBody interface  is configured, initialized, and properly released in the  finilize  method.  The Yarp network properly initialized and terminated.  You can obtain a reference to the singleton WB Interface wrapper by calling the static method  WBInterface::sharedInstance .   Note  Additional parameters you specify starts from the index  5 .",
+            "title": "WBI-based Block"
+        },
+        {
+            "location": "/create_new_block/#notes-on-implementation",
+            "text": "During  configureSizeAndPorts  you should not allocate any memory or save any data because the object will not persist after the method call. The correct place is the  initialize  method.  Every function takes as last parameter an  Error  object. It can be  NULL , so check before dereferencing the pointer.",
+            "title": "Notes on implementation"
+        },
+        {
+            "location": "/create_new_block/#final-steps",
+            "text": "Independently of the type of block you implemented some more steps are required to properly add the block.",
+            "title": "Final steps"
+        },
+        {
+            "location": "/create_new_block/#cmake",
+            "text": "You can use the macro provided by this project:  configure_block ( BLOCK_NAME   ${ HUMAN_READABLE_DESCRIPTION } \n     LIST_PREFIX   WBT \n     SOURCES   ${ CPP_FILES } \n     HEADERS   ${ HEADER_FILES } )   where   ${HUMAN_READABLE_DESCRIPTION}  is a string used in the group folder (for projects which support it),  ${CPP_FILES}  is a list of  .cpp  files needed by your block  ${HEADER_FILES}  is a list of  .h  files needed by your block",
+            "title": "CMake"
+        },
+        {
+            "location": "/create_new_block/#block-factory",
+            "text": "Add you main header to the  toolbox.h  file  Add the code needed for the creation of your class in  factory.cpp ,  Block::instantiateBlockWithClassName  method. The string passed as argument is the one you specify in the S-Function block in Simulink (see next section)",
+            "title": "Block Factory"
+        },
+        {
+            "location": "/create_new_block/#simulink",
+            "text": "Add an S-Function block  Specify as s-function name  WB-Toolbox  Add the parameters:  The first parameter is the name of the class, e.g.  YarpRead  If you are creating a WBI-based block you have to specify 4 additional parameters:  robot name ,  model name ,  YarpWBI configuration file ,  YarpWBI Joint list  Add any additional parameter required by your block  Create a Subsystem and add a Mask to it   Note  you should use variables for the S-Function parameters and you should specify them in the mask parameters. Note  you can also supply default values for the variables by adding code in the  Block- Properties- Callbacks- Init  You can skip most of the aforementioned steps by duplicating an already existing block. Just be sure you are duplicating it and not creating an alias.",
+            "title": "Simulink"
+        },
+        {
+            "location": "/sim_tricks/",
+            "text": "This page contains some tricks (or not so obvious features) needed for creating Blocks in simulink\n\n\nUse of popup mask parameters\n\n\nIf you need to use a popup mask parameter (i.e. a dropdown list) in you block you should notice the following thing:\n\n\n\n\nIf \nEVALUATE\n is set to \nTRUE\n then the variable associated with the parameter will contain the \nINDEX\n (1-based) of the selection.\n\n\nIf \nEVALUATE\n is set to \nFALSE\n then the variable associated with the parameter will contain the \nACTUAL VALUE\n of the selection.\n\n\n\n\nOriginal source\n\n\nSelf-modifiable blocks\n\n\nIf you block needs to modify its options (via matlab callbacks associated with a parameter), e.g. when changing the parameters mask depending on another parameter, or when changing the number of input/outputs, be sure to check (on) the \"Mask Editor -\n Initialization -\n Allow library block to modify its contents\"\n\n\n\n\nCreate a new block\n\n\nThis is more heuristic than the \"correct method\", but it has been proved to work.\n\n\nCreate a new Simulink Model and start creating the block. You can also duplicate an existing block from the Library. In this second case be sure to do the following steps:\n\n\n\n\nRight click on the block -\n Library Link -\n Disable Link\n\n\nRight click on the block -\n Library Link -\n Break Link\n\n\n\n\nAt this point finish your work, compile the model and only at this point add the block to the library, so that its aspect will reflect the real one.\n\n\nNote:\n\n\nThe step of creating the model separately is needed until we find out how to update the aspect of the block directly in the Library.\nFurther more, this process can hinder the already existing links to the block.",
+            "title": "Simulink Tricks"
+        },
+        {
+            "location": "/sim_tricks/#use-of-popup-mask-parameters",
+            "text": "If you need to use a popup mask parameter (i.e. a dropdown list) in you block you should notice the following thing:   If  EVALUATE  is set to  TRUE  then the variable associated with the parameter will contain the  INDEX  (1-based) of the selection.  If  EVALUATE  is set to  FALSE  then the variable associated with the parameter will contain the  ACTUAL VALUE  of the selection.   Original source",
+            "title": "Use of popup mask parameters"
+        },
+        {
+            "location": "/sim_tricks/#self-modifiable-blocks",
+            "text": "If you block needs to modify its options (via matlab callbacks associated with a parameter), e.g. when changing the parameters mask depending on another parameter, or when changing the number of input/outputs, be sure to check (on) the \"Mask Editor -  Initialization -  Allow library block to modify its contents\"",
+            "title": "Self-modifiable blocks"
+        },
+        {
+            "location": "/sim_tricks/#create-a-new-block",
+            "text": "This is more heuristic than the \"correct method\", but it has been proved to work.  Create a new Simulink Model and start creating the block. You can also duplicate an existing block from the Library. In this second case be sure to do the following steps:   Right click on the block -  Library Link -  Disable Link  Right click on the block -  Library Link -  Break Link   At this point finish your work, compile the model and only at this point add the block to the library, so that its aspect will reflect the real one.",
+            "title": "Create a new block"
+        },
+        {
+            "location": "/sim_tricks/#note",
+            "text": "The step of creating the model separately is needed until we find out how to update the aspect of the block directly in the Library.\nFurther more, this process can hinder the already existing links to the block.",
+            "title": "Note:"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/",
+            "text": "From WBI-Toolbox to WB-Toolbox 2.*\n\n\nGiven a simulink model with some WBI-Toolbox blocks inside, the general procedure is to \nsubstitute each block with the corresponding one from WB-Toolbox 2.0\n. However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolboxes. For more information about the WBI-Toolbox, please have a look at the \nWBI-Toolbox README\n.\n\n\nThis guide follows the WBI and WB Toolbox blocks partitioning in Simulink library. It is divided in the following sections:\n\n\n\n\nRequired variables\n\n\nUtilities\n\n\nwholeBodyActuators\n\n\nwholeBodyModel\n\n\nwholeBodyStates\n\n\n\n\nRequired variables\n\n\nAs explained in the \nWB-Toolbox README\n, first of all the user should define the following variables:\n- WBT_modelName\n- WBT_wbiList\n- WBT_wbiFilename\n- WBT_robotName\n\n\nThey have already meaningful default values. Nevertheless you should take a look at at least the following two variables:\n- \nWBT_modelname = 'matlabTorqueBalancing'\n or be careful that the default name does not conflicts with any other modules or YARP ports\n- \nWBT_wbiList   = 'ROBOT_TORQUE_CONTROL_JOINTS_WITHOUT_PRONOSUP'\n if you simulate a 23-DoFs iCub robot\n\n\nFloating base position estimate\n\n\nIn the WB-Toolbox the world-to-base homogeneous transformation matrix is not calculated inside each block, but it must be provided from the Simulink model as a block input.\n\n\nThe world-to-base homogeneous transformation matrix is a 4x4 matrix that maps position and orientation of a rigid body from an initial frame of reference to another.\n\n\nFor back-compatibility, the transformation happending under the hood in the WBI-Toolbox can be obtained using forward kinematics blocks as in the following example:\n\n\n\n\nwhere forward kinematics is used to compute the transformation matrices from world to the left foot and from world to the root link, while the desired transformation matrix is obtained as a matrices product, using the homogeneous transformation matrix properties.\n\n\nUtilities\n\n\nIn this section the user should note that:\n- the \nMinimum Jerk Trajectory Generator\n block has now only the reference trajectory as input. The initial value is automatically taken at startup.\n- \nYarp Read\n and some other blocks require now the \nWBT_modelName\n instead of the \nlocalName\n variable.\n\n\nwholeBodyActuators\n\n\nInstead of having different blocks for each kind of control mode, only one block is now present. The user can choose the control mode by double-clicking on it and selecting one of the possible modes (position, position direct, velocity and torques)\n\n\nwholeBodyModel\n\n\nIt is divided into three subsections. The \nJoint Limits\n block is now moved into \nwholeBodyStates\n section.\n\n\nDynamics\n\n\n\n\nthe \ndJdq\n blocks have been moved into \njacobians\n subsection;\n\n\nfor mass matrix, generalized bias forces and centroidal momentum computation is now required to calculate explicitly the world-to-base homogeneous transformation matrix and the base velocity. Furthermore, the base frame pose and velocity and the joint configuration are now separate inputs.\n\n\n\n\nJacobians\n\n\nThere is now only one generic block for jacobians and one for \ndJdq\n calculation. The link with respect to which the Jacobian is computed is determined by its frame name as specified in the \nURDF model\n. As for the dynamics, the base pose and velocity and the joint position and velocity are required as input.\n\n\nKinematics\n\n\nAs for the section \nJacobians\n, there is now only one generic block for forward kinematics computation. World-to-base homogeneous transformation matrix and joint position are the required input.\n\n\nwholeBodyStates\n\n\nAs in the previous section, one generic block is used, from which the user can estimate joint position, velocity and acceleration and joint torques. The \nJoint Limits\n block is moved into this section.",
+            "title": "From WBI-Toolbox"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#from-wbi-toolbox-to-wb-toolbox-2",
+            "text": "Given a simulink model with some WBI-Toolbox blocks inside, the general procedure is to  substitute each block with the corresponding one from WB-Toolbox 2.0 . However, there are some things the user should take care while doing this operation. This guide points out the main differences between the two toolboxes. For more information about the WBI-Toolbox, please have a look at the  WBI-Toolbox README .  This guide follows the WBI and WB Toolbox blocks partitioning in Simulink library. It is divided in the following sections:   Required variables  Utilities  wholeBodyActuators  wholeBodyModel  wholeBodyStates",
+            "title": "From WBI-Toolbox to WB-Toolbox 2.*"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#required-variables",
+            "text": "As explained in the  WB-Toolbox README , first of all the user should define the following variables:\n- WBT_modelName\n- WBT_wbiList\n- WBT_wbiFilename\n- WBT_robotName  They have already meaningful default values. Nevertheless you should take a look at at least the following two variables:\n-  WBT_modelname = 'matlabTorqueBalancing'  or be careful that the default name does not conflicts with any other modules or YARP ports\n-  WBT_wbiList   = 'ROBOT_TORQUE_CONTROL_JOINTS_WITHOUT_PRONOSUP'  if you simulate a 23-DoFs iCub robot",
+            "title": "Required variables"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#floating-base-position-estimate",
+            "text": "In the WB-Toolbox the world-to-base homogeneous transformation matrix is not calculated inside each block, but it must be provided from the Simulink model as a block input.  The world-to-base homogeneous transformation matrix is a 4x4 matrix that maps position and orientation of a rigid body from an initial frame of reference to another.  For back-compatibility, the transformation happending under the hood in the WBI-Toolbox can be obtained using forward kinematics blocks as in the following example:   where forward kinematics is used to compute the transformation matrices from world to the left foot and from world to the root link, while the desired transformation matrix is obtained as a matrices product, using the homogeneous transformation matrix properties.",
+            "title": "Floating base position estimate"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#utilities",
+            "text": "In this section the user should note that:\n- the  Minimum Jerk Trajectory Generator  block has now only the reference trajectory as input. The initial value is automatically taken at startup.\n-  Yarp Read  and some other blocks require now the  WBT_modelName  instead of the  localName  variable.",
+            "title": "Utilities"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#wholebodyactuators",
+            "text": "Instead of having different blocks for each kind of control mode, only one block is now present. The user can choose the control mode by double-clicking on it and selecting one of the possible modes (position, position direct, velocity and torques)",
+            "title": "wholeBodyActuators"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#wholebodymodel",
+            "text": "It is divided into three subsections. The  Joint Limits  block is now moved into  wholeBodyStates  section.",
+            "title": "wholeBodyModel"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#dynamics",
+            "text": "the  dJdq  blocks have been moved into  jacobians  subsection;  for mass matrix, generalized bias forces and centroidal momentum computation is now required to calculate explicitly the world-to-base homogeneous transformation matrix and the base velocity. Furthermore, the base frame pose and velocity and the joint configuration are now separate inputs.",
+            "title": "Dynamics"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#jacobians",
+            "text": "There is now only one generic block for jacobians and one for  dJdq  calculation. The link with respect to which the Jacobian is computed is determined by its frame name as specified in the  URDF model . As for the dynamics, the base pose and velocity and the joint position and velocity are required as input.",
+            "title": "Jacobians"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#kinematics",
+            "text": "As for the section  Jacobians , there is now only one generic block for forward kinematics computation. World-to-base homogeneous transformation matrix and joint position are the required input.",
+            "title": "Kinematics"
+        },
+        {
+            "location": "/Migration_from_WBI-Toolbox_1.0/#wholebodystates",
+            "text": "As in the previous section, one generic block is used, from which the user can estimate joint position, velocity and acceleration and joint torques. The  Joint Limits  block is moved into this section.",
+            "title": "wholeBodyStates"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/",
+            "text": "From WB-Toolbox 2.0 to WB-Toolbox 3.*\n\n\nMost of the major changes delivered with the \n3.0\n version of the \nWB-Toolbox\n don't affect directly the end-user. Under the hood the toolbox had an important polishing, and the small manual intervention required by this new release match the new features which have been developed.\n\n\nYou can read \nRelease Notes\n for a detailed overview. Below are described only the steps required to port Simulink models to this new release.\n\n\nNew toolbox configuration\n\n\nThe \nWB-Toolbox 2.0\n was based on top of \nyarpWholeBodyInterface\n, which configuration was stored in a \nyarpWholeBodyInterface.ini\n file. This file was retrieved by \nResourceFinder\n and its information was then loaded into the toolbox.\n\n\nStore the configuration in the Simulink model\n\n\nWB-Toolbox 3.0\n deprecated the support of \nyarpWholeBodyInterface\n, and for reducing the complexity and sparsity of the information storage it allows configuring a Simulink model from the model itself.\n\n\nThe new \nConfiguration\n block allows inserting information such as \nRobot Name\n, \nURDF Name\n, \nControlled Joints\n, ... directly from the block's mask.\n\n\nLoad the configuration from the Workspace\n\n\nSometimes it might be useful loading the model's configuration directly from the Workspace. For this purpose, a new \nWBToolbox.WBToolboxConfig\n class has been developed. The \nConfiguration\n block needs to know only the name of the variable which refers to the object. Its data is then read before the simulation runs.\n\n\nThis snippet of code shows an example of how to initialize a configuration object:\n\n\n# \nInitialize\n \na\n \nconfig\n \nobject\n\n\nWBTConfigRobot\n \n=\n \nWBToolbox\n.\nWBToolboxConfig\n;\n\n\n# \nInsert\n \nrobot\n \ndata\n\n\nWBTConfigRobot\n.\nRobotName\n \n=\n \nicubSim\n;\n\n\nWBTConfigRobot\n.\nUrdfFile\n \n=\n \nmodel.urdf\n;\n\n\nWBTConfigRobot\n.\nControlledJoints\n \n=\n \n{\n...\n\n    \ntorso_pitch\n,\ntorso_roll\n,\ntorso_yaw\n,\n...\n\n    \nr_shoulder_pitch\n,\nr_shoulder_roll\n,\nr_shoulder_yaw\n,\nr_elbow\n,\n...\n\n    \nl_shoulder_pitch\n,\nl_shoulder_roll\n,\nl_shoulder_yaw\n,\nl_elbow\n};\n\n\nWBTConfigRobot\n.\nControlBoardsNames\n \n=\n \n{\ntorso\n,\nleft_arm\n,\nright_arm\n};\n\n\nWBTConfigRobot\n.\nLocalName\n \n=\n \nWBT\n;\n\n\n\n\n\nTo check if the data has been read correctly, it is displayed as read-only in the block's mask.\n\n\nFurthermore, a good sign for a valid configuration is the \nWBTConfigRobot.ValidConfiguration\n property.\n\n\nMulti-robot support\n\n\nThe scope of the introduction of the \nConfiguration\n block goes beyond the need of a simpler toolbox configuration. One of the biggest limitation of the \n2.0\n version is the support of \ncontrolling only one robot per model\n.\n\n\nWB-Toolbox 3.0\n is now capable of reading / sending data from / to multiple robots. Multiple \nConfiguration\n blocks can be present in the same model attaining to the following rules:\n\n\n\n\nIn the same hierarchical level of a Simulink model, only one \nConfiguration\n\n block should be present. In other words, you should never see in the display more than one \nConfiguration\n block.\n\n\nConfiguration\n blocks put deeper in the hierarchy (e.g. in a Subsystem) override the previous ones.\n\n\n\n\nThere are a few pitfalls which are worth to be highlighted:\n\n\n\n\nIt is legit having two Subsystems with different \nConfiguration\n blocks which point to the same robot. They can have for instance a different joint list and use different control boards. Although, despite reading information never creates problems, sending data to the robot in such scenario can be disastrous. In fact, consider the case these two subsystems share one link, and configure it in two different control modes (e.g. Position and Torque). Sending references to this link causes unpredictable effects.\n\n\nIn line of theory it would be possible to have two subsystems in which the first one refers to a Gazebo model and the second one to a real robot. However, this case causes unpredictable behaviour for what concerns the synchronization. In fact, two different blocks for such aim are present in the toolbox: \nSimulator Synchronizer\n and \nReal Time Syncronizer\n. They should be always used exclusively.\n\n\n\n\nOther manual edits\n\n\n\n\nAll the \nGet Estimate\n blocks need to be replaced by the new \nGet Measurement\n block.\n\n\nAll the hardcoded digital filters (e.g. for the joints velocities) have been removed. A new \nDiscrete Filter\n block has been developed, and it should be manually added if the read raw signal (e.g. from the \nGet Measurement\n block) requires filtering.\n\n\nThe \nC++\n class used by the \nDoFs Converter\n changed. All the blocks in the \nYARP To WBI\n configuration need to be connected again.\n\n\nThe gravity vector is stored is the \nWBToolboxConfig\n class. If an alternative value is needed, set it globally directly in the configuration object or scope the block which needs it in a Subsystem with its own \nConfiguration\n block.\n\n\nIn order to set the low level PIDs, loading in the Workspace a \nWBToolbox.WBTPIDConfig\n object should be configured as follows:\n\n\n\n\n# \nInitialize\n \nan\n \nempty\n \nobject\n\n\npids\n \n=\n \nWBToolbox\n.\nWBTPIDConfig\n;\n\n\n# \nInsert\n \ndata\n\n\npids\n.\naddPID\n(\nWBToolbox\n.\nPID\n(\nl_elbow\n,\n \nWBToolbox\n.\nPID\n(\n1\n,\n \n1\n,\n \n0\n)));\n\n\npids\n.\naddPID\n(\nWBToolbox\n.\nPID\n(\nl_wrist_pitch\n,\n \nWBToolbox\n.\nPID\n(\n1.5\n,\n \n0\n,\n \n0.1\n)));\n\n\npids\n.\naddPID\n(\nWBToolbox\n.\nPID\n(\nr_shoulder_pitch\n,\n \nWBToolbox\n.\nPID\n(\n0.2\n,\n \n0\n,\n \n0\n)));\n\n\npids\n.\naddPID\n(\nWBToolbox\n.\nPID\n(\ntorso_roll\n,\n \nWBToolbox\n.\nPID\n(\n0.1\n,\n \n0.1\n,\n \n0\n)));\n\n\n\n\n\nIf some of the controlled joints are not specified, the PIDs are kept in their default values.\n\n\nDeprecations\n\n\n\n\nInverse Kinematics\n and \nRemote Inverse Kinematics\n have been temporary deprecated. They will see a major release in the coming months. If you need them please do not upgrade to the \n3.0\n version.\n\n\nSet Low Level PID\n block lost the capability of switching between multiple configurations. Since they were stored in an external file, this change is aligned to the simplification process chosen for for the configuration.",
+            "title": "From WB-Toolbox 2.0"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#from-wb-toolbox-20-to-wb-toolbox-3",
+            "text": "Most of the major changes delivered with the  3.0  version of the  WB-Toolbox  don't affect directly the end-user. Under the hood the toolbox had an important polishing, and the small manual intervention required by this new release match the new features which have been developed.  You can read  Release Notes  for a detailed overview. Below are described only the steps required to port Simulink models to this new release.",
+            "title": "From WB-Toolbox 2.0 to WB-Toolbox 3.*"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#new-toolbox-configuration",
+            "text": "The  WB-Toolbox 2.0  was based on top of  yarpWholeBodyInterface , which configuration was stored in a  yarpWholeBodyInterface.ini  file. This file was retrieved by  ResourceFinder  and its information was then loaded into the toolbox.",
+            "title": "New toolbox configuration"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#store-the-configuration-in-the-simulink-model",
+            "text": "WB-Toolbox 3.0  deprecated the support of  yarpWholeBodyInterface , and for reducing the complexity and sparsity of the information storage it allows configuring a Simulink model from the model itself.  The new  Configuration  block allows inserting information such as  Robot Name ,  URDF Name ,  Controlled Joints , ... directly from the block's mask.",
+            "title": "Store the configuration in the Simulink model"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#load-the-configuration-from-the-workspace",
+            "text": "Sometimes it might be useful loading the model's configuration directly from the Workspace. For this purpose, a new  WBToolbox.WBToolboxConfig  class has been developed. The  Configuration  block needs to know only the name of the variable which refers to the object. Its data is then read before the simulation runs.  This snippet of code shows an example of how to initialize a configuration object:  #  Initialize   a   config   object  WBTConfigRobot   =   WBToolbox . WBToolboxConfig ; \n\n#  Insert   robot   data  WBTConfigRobot . RobotName   =   icubSim ;  WBTConfigRobot . UrdfFile   =   model.urdf ;  WBTConfigRobot . ControlledJoints   =   { ... \n     torso_pitch , torso_roll , torso_yaw , ... \n     r_shoulder_pitch , r_shoulder_roll , r_shoulder_yaw , r_elbow , ... \n     l_shoulder_pitch , l_shoulder_roll , l_shoulder_yaw , l_elbow };  WBTConfigRobot . ControlBoardsNames   =   { torso , left_arm , right_arm };  WBTConfigRobot . LocalName   =   WBT ;   To check if the data has been read correctly, it is displayed as read-only in the block's mask.  Furthermore, a good sign for a valid configuration is the  WBTConfigRobot.ValidConfiguration  property.",
+            "title": "Load the configuration from the Workspace"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#multi-robot-support",
+            "text": "The scope of the introduction of the  Configuration  block goes beyond the need of a simpler toolbox configuration. One of the biggest limitation of the  2.0  version is the support of  controlling only one robot per model .  WB-Toolbox 3.0  is now capable of reading / sending data from / to multiple robots. Multiple  Configuration  blocks can be present in the same model attaining to the following rules:   In the same hierarchical level of a Simulink model, only one  Configuration \n block should be present. In other words, you should never see in the display more than one  Configuration  block.  Configuration  blocks put deeper in the hierarchy (e.g. in a Subsystem) override the previous ones.   There are a few pitfalls which are worth to be highlighted:   It is legit having two Subsystems with different  Configuration  blocks which point to the same robot. They can have for instance a different joint list and use different control boards. Although, despite reading information never creates problems, sending data to the robot in such scenario can be disastrous. In fact, consider the case these two subsystems share one link, and configure it in two different control modes (e.g. Position and Torque). Sending references to this link causes unpredictable effects.  In line of theory it would be possible to have two subsystems in which the first one refers to a Gazebo model and the second one to a real robot. However, this case causes unpredictable behaviour for what concerns the synchronization. In fact, two different blocks for such aim are present in the toolbox:  Simulator Synchronizer  and  Real Time Syncronizer . They should be always used exclusively.",
+            "title": "Multi-robot support"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#other-manual-edits",
+            "text": "All the  Get Estimate  blocks need to be replaced by the new  Get Measurement  block.  All the hardcoded digital filters (e.g. for the joints velocities) have been removed. A new  Discrete Filter  block has been developed, and it should be manually added if the read raw signal (e.g. from the  Get Measurement  block) requires filtering.  The  C++  class used by the  DoFs Converter  changed. All the blocks in the  YARP To WBI  configuration need to be connected again.  The gravity vector is stored is the  WBToolboxConfig  class. If an alternative value is needed, set it globally directly in the configuration object or scope the block which needs it in a Subsystem with its own  Configuration  block.  In order to set the low level PIDs, loading in the Workspace a  WBToolbox.WBTPIDConfig  object should be configured as follows:   #  Initialize   an   empty   object  pids   =   WBToolbox . WBTPIDConfig ; \n\n#  Insert   data  pids . addPID ( WBToolbox . PID ( l_elbow ,   WBToolbox . PID ( 1 ,   1 ,   0 )));  pids . addPID ( WBToolbox . PID ( l_wrist_pitch ,   WBToolbox . PID ( 1.5 ,   0 ,   0.1 )));  pids . addPID ( WBToolbox . PID ( r_shoulder_pitch ,   WBToolbox . PID ( 0.2 ,   0 ,   0 )));  pids . addPID ( WBToolbox . PID ( torso_roll ,   WBToolbox . PID ( 0.1 ,   0.1 ,   0 )));   If some of the controlled joints are not specified, the PIDs are kept in their default values.",
+            "title": "Other manual edits"
+        },
+        {
+            "location": "/Migration_from_WB-Toolbox_2.0/#deprecations",
+            "text": "Inverse Kinematics  and  Remote Inverse Kinematics  have been temporary deprecated. They will see a major release in the coming months. If you need them please do not upgrade to the  3.0  version.  Set Low Level PID  block lost the capability of switching between multiple configurations. Since they were stored in an external file, this change is aligned to the simplification process chosen for for the configuration.",
+            "title": "Deprecations"
+        },
+        {
+            "location": "/about/",
+            "text": "WB-Toolbox\n has been developed in the \nDynamic Interaction Control\n research line at the \nItalian Institute of Technology\n.\n\n\nIt was born from the ashes of \nrobotology-playground/WBI-Toolbox\n.\n\n\nIt is used extensively for controllers stored in \nrobotology-playground/whole-body-controllers\n.\n\n\nMaintainer\n\n\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\n\n\nContributors\n\n\nIn alphabetical order:\n\n\n\n\nEljaik Jorhabib (\n@jeljaik\n)\n\n\nFerigo Diego (\n@diegoferigo\n)\n\n\nNori Francesco (\n@iron76\n)\n\n\nPucci Daniele (\n@DanielePucci\n)\n\n\nRomano Francesco (\n@francesco-romano\n)\n\n\nTraversaro Silvio (\n@traversaro\n)\n\n\n\n\nAcknowledgments\n\n\nThe development of \nWB-Toolbox\n is supported by:\n\n\n\n\nFP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)\n\n\nH2020 EU projects AnDy (No. 731540 H2020-ICT-2016-1)",
+            "title": "About"
+        },
+        {
+            "location": "/about/#maintainer",
+            "text": "Ferigo Diego ( @diegoferigo )",
+            "title": "Maintainer"
+        },
+        {
+            "location": "/about/#contributors",
+            "text": "In alphabetical order:   Eljaik Jorhabib ( @jeljaik )  Ferigo Diego ( @diegoferigo )  Nori Francesco ( @iron76 )  Pucci Daniele ( @DanielePucci )  Romano Francesco ( @francesco-romano )  Traversaro Silvio ( @traversaro )",
+            "title": "Contributors"
+        },
+        {
+            "location": "/about/#acknowledgments",
+            "text": "The development of  WB-Toolbox  is supported by:   FP7 EU projects CoDyCo (No. 600716 ICT 2011.2.1 Cognitive Systems and Robotics)  H2020 EU projects AnDy (No. 731540 H2020-ICT-2016-1)",
+            "title": "Acknowledgments"
+        },
+        {
+            "location": "/license/",
+            "text": "LGPL v2.1 or any later version\n\n\nCopyright (C) 2018 Istituto Italiano di Tecnologia - iCub Facility\n\n\nThis library is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2.1 of the License, or (at your option) any later version.\n\n\nThis library is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\nLesser General Public License for more details.\n\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with this library; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA",
+            "title": "License"
+        },
+        {
+            "location": "/license/#lgpl-v21-or-any-later-version",
+            "text": "Copyright (C) 2018 Istituto Italiano di Tecnologia - iCub Facility  This library is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2.1 of the License, or (at your option) any later version.  This library is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\nLesser General Public License for more details.  You should have received a copy of the GNU Lesser General Public\nLicense along with this library; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA",
+            "title": "LGPL v2.1 or any later version"
+        }
+    ]
+}
