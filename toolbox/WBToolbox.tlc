@@ -75,6 +75,7 @@
   %<LibAddToCommonIncludes("<cstdio>")>
   %<LibAddToCommonIncludes("Block.h")>
   %<LibAddToCommonIncludes("Log.h")>
+  %<LibAddToCommonIncludes("Parameter.h")>
   %<LibAddToCommonIncludes("Parameters.h")>
   %<LibAddToCommonIncludes("CoderBlockInformation.h")>
 
@@ -196,23 +197,9 @@
     // Initialize the class
     // --------------------
 
-    // First, allocate the object, configure size and ports, and deallocate the object.
-    // This behaviour matches Simulink, and some functions called in this method assume
-    // that variables are not persistent at this stage.
-    bool ok;
+    // Allocate the object, store it in the PWork Vector, and run the initialization
     wbt::Block* blockPtr = static_cast<wbt::Block*>(new wbt::%<className>());
-    ok = blockPtr->configureSizeAndPorts(blockInfo);
-    delete blockPtr;
-
-    // Report errors
-    if (!ok) {
-        %assign variable = "[ConfigureSizeAndPorts]"
-        %assign dummy = NotifyErrors(variable)
-    }
-
-    // Reallocate the object, store it in the PWork Vector, and run the initialization
-    blockPtr = static_cast<wbt::Block*>(new wbt::%<className>());
-    ok = blockPtr->initialize(blockInfo);
+    bool ok = blockPtr->initialize(blockInfo);
 
     // Report errors
     if (!ok) {
