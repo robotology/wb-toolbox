@@ -24,6 +24,7 @@ namespace yarp {
         class IControlMode2;
         class ICurrentControl;
         class IEncoders;
+        class IMotorEncoders;
         class IControlLimits2;
         class IPidControl;
     } // namespace dev
@@ -198,6 +199,8 @@ namespace wbt {
     bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface);
     template <>
     bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface);
+    template <>
+    bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface);
     template <>
     bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface);
     template <>

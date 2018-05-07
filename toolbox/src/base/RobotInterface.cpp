@@ -45,6 +45,7 @@ struct YarpInterfaces
     yarp::dev::IPWMControl* iPWMControl = nullptr;
     yarp::dev::ICurrentControl* iCurrentControl = nullptr;
     yarp::dev::IEncoders* iEncoders = nullptr;
+    yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
     yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
     yarp::dev::IPidControl* iPidControl = nullptr;
 };
@@ -548,6 +549,7 @@ bool RobotInterface::releaseRemoteControlBoardRemapper()
         pImpl->yarpInterfaces.iPWMControl = nullptr;
         pImpl->yarpInterfaces.iCurrentControl = nullptr;
         pImpl->yarpInterfaces.iEncoders = nullptr;
+        pImpl->yarpInterfaces.iMotorEncoders = nullptr;
         pImpl->yarpInterfaces.iControlLimits2 = nullptr;
         pImpl->yarpInterfaces.iPidControl = nullptr;
         //  Close the device (which deletes the interfaces it allocated)
@@ -647,6 +649,14 @@ template <>
 bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface)
 {
     interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iEncoders, pImpl->robotDevice.get());
+    return interface;
+}
+
+template <>
+bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface)
+{
+    interface =
+        getInterfaceLazyEval(pImpl->yarpInterfaces.iMotorEncoders, pImpl->robotDevice.get());
     return interface;
 }
 
