@@ -33,6 +33,9 @@ Block* Block::instantiateBlockWithClassName(const std::string& blockClassName)
     else if (blockClassName == ForwardKinematics::ClassName) {
         block = new ForwardKinematics();
     }
+    else if (blockClassName == RelativeTransform::ClassName) {
+        block = new RelativeTransform();
+    }
     else if (blockClassName == SetReferences::ClassName) {
         block = new SetReferences();
     }

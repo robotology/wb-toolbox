@@ -26,6 +26,7 @@
 #include "InverseDynamics.h"
 #include "Jacobian.h"
 #include "MassMatrix.h"
+#include "RelativeTransform.h"
 
 // iCub-dependent blocks
 #ifdef WBT_USES_ICUB
