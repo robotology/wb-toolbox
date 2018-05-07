@@ -46,6 +46,8 @@ public:
     double refSpeed;
     std::vector<double> defaultRefSpeed;
 
+    std::vector<double> previousReferenceVocabCmPosition;
+
     static void rad2deg(double* buffer, const unsigned width)
     {
         const double Rad2Deg = 180.0 / M_PI;
@@ -180,7 +182,9 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // Initialize the size of std::vectors
     pImpl->controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
 
-    // IControlMode.h
+    // From IControlMode.h.
+    //
+    // Joint Control Modes:
     if (controlType == "Position") {
         pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
     }
@@ -193,6 +197,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     else if (controlType == "Torque") {
         pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
     }
+    // Motor Control Modes:
     else if (controlType == "PWM") {
         pImpl->controlModes.assign(dofs, VOCAB_CM_PWM);
     }
@@ -232,6 +237,10 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
             wbtError << "Failed to initialize reference speed.";
             return false;
         }
+
+        // In this control mode, the reference should be sent only when it changes.
+        // This vector caches the target joint positions.
+        pImpl->previousReferenceVocabCmPosition.resize(dofs);
     }
 
     pImpl->resetControlMode = true;
@@ -365,6 +374,15 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             wbtError << "Control mode has not been successfully set.";
             return false;
         case VOCAB_CM_POSITION: {
+            // Do not update the position reference if it didn't change.
+            // This would generate a warning.
+            const auto oldReference = pImpl->previousReferenceVocabCmPosition;
+            const auto& dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+            pImpl->previousReferenceVocabCmPosition.assign(bufferReferences,
+                                                           bufferReferences + dofs);
+            if (oldReference == pImpl->previousReferenceVocabCmPosition) {
+                break;
+            }
             // Get the interface
             IPositionControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
