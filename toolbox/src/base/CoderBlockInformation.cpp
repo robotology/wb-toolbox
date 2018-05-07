@@ -205,17 +205,31 @@ bool CoderBlockInformation::parseParameters(wbt::Parameters& parameters)
         return false;
     }
 
-    for (wbt::ParameterMetadata md : pImpl->paramsMetadata) {
+    for (wbt::ParameterMetadata& md : pImpl->paramsMetadata) {
         // Check that all the parameters that are parsed have already been stored from the coder
         if (!pImpl->parametersFromRTW.existName(md.name)) {
             wbtError << "Trying to get a parameter value for " << md.name
                      << ", but its value has never been stored.";
             return false;
         }
-        // Check if the parameters are not dynamically sized
-        if (!(md.rows == -1 || md.cols == -1)
-            && md != pImpl->parametersFromRTW.getParameterMetadata(md.name)) {
-            wbtError << "Dynamically sized parameters are not supported.";
+
+        // Handle the case of dynamically sized columns. In this case the metadata passed
+        // from the Block (containing DynamicSize) is modified with the length of the
+        // vector that is going to be stored.
+        if (md.cols == ParameterMetadata::DynamicSize) {
+            const auto colsFromRTW = pImpl->parametersFromRTW.getParameterMetadata(md.name).cols;
+            if (colsFromRTW == ParameterMetadata::DynamicSize) {
+                wbtError << "Trying to store the cols of a dynamically sized parameters, but the "
+                         << "metadata does not specify a valid size. Probably the block didn't "
+                         << "updat the size in its initialization phase.";
+                return false;
+            }
+            md.cols = colsFromRTW;
+        }
+
+        if (md != pImpl->parametersFromRTW.getParameterMetadata(md.name)) {
+            wbtError << "Trying to parse a parameter which metadata differs from the metadata "
+                     << "stored by Simulink Coder.";
             return false;
         }
     }

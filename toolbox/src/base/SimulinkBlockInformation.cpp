@@ -489,7 +489,19 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
         // Handle the case of dynamically sized columns. In this case the metadata passed
         // from the Block (containing DynamicSize) is modified with the length of the
         // vector that is going to be stored.
+        // This is necessary in the pipeline for storing the metadata in the RTW file, which should
+        // not have any dynamic size.
         const bool hasDynSizeColumns = (paramMD.cols == ParameterMetadata::DynamicSize);
+        auto handleDynSizeColumns = [](int& sizeToUpdate, const int& realSize) -> const bool {
+            if (realSize == ParameterMetadata::DynamicSize) {
+                wbtError << "Trying to store the cols of a dynamically sized parameters, but the "
+                         << "metadata does not specify a valid size. Probably the block didn't "
+                         << "updat the size in its initialization phase.";
+                return false;
+            }
+            sizeToUpdate = realSize;
+            return true;
+        };
 
         switch (paramMD.type) {
             // SCALAR / VECTOR PARAMETERS
@@ -523,7 +535,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                         return false;
                     }
                     if (hasDynSizeColumns) {
-                        paramMD.cols = paramVector.size();
+                        if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                            return false;
+                        }
                     }
                     ok = parameters.storeParameter<double>(paramVector, paramMD);
                 }
@@ -566,7 +580,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.cols = paramVector.size();
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
                 }
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
@@ -588,7 +604,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.cols = paramVector.size();
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
                 }
                 ok = parameters.storeParameter<std::string>(paramVector, paramMD);
                 break;
@@ -615,7 +633,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                         return false;
                     }
                     if (hasDynSizeColumns) {
-                        paramMD.cols = paramVector.size();
+                        if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                            return false;
+                        }
                     }
                     ok = parameters.storeParameter<double>(paramVector, paramMD);
                 }
@@ -658,7 +678,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.cols = paramVector.size();
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
                 }
                 ok = parameters.storeParameter<double>(paramVector, paramMD);
                 break;
@@ -682,7 +704,9 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     paramVector.push_back(value);
                 }
                 if (hasDynSizeColumns) {
-                    paramMD.cols = paramVector.size();
+                    if (!handleDynSizeColumns(paramMD.cols, paramVector.size())) {
+                        return false;
+                    }
                 }
                 ok = parameters.storeParameter<std::string>(paramVector, paramMD);
                 break;
