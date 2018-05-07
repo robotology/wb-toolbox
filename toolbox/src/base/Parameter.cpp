@@ -53,7 +53,7 @@ ParameterMetadata& ParameterMetadata::operator=(ParameterMetadata&& other)
     return *this;
 }
 
-bool ParameterMetadata::operator==(const ParameterMetadata& rhs)
+bool ParameterMetadata::operator==(const ParameterMetadata& rhs) const
 {
     bool ok = true;
     ok = ok && (this->index == rhs.index);

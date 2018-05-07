@@ -82,8 +82,8 @@ public:
 
     ParameterMetadata& operator=(const ParameterMetadata& paramMD);
     ParameterMetadata& operator=(ParameterMetadata&& paramMD);
-    bool operator==(const ParameterMetadata& rhs);
-    inline bool operator!=(const ParameterMetadata& rhs) { return !(*this == rhs); }
+    bool operator==(const ParameterMetadata& rhs) const;
+    inline bool operator!=(const ParameterMetadata& rhs) const { return !(*this == rhs); }
 };
 
 /**
