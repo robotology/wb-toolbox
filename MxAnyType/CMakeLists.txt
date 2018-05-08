@@ -52,6 +52,7 @@ set_target_properties(${VARS_PREFIX} PROPERTIES
 # Find Matlab resources
 find_package(Matlab REQUIRED MX_LIBRARY)
 target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}")
+target_link_libraries(${VARS_PREFIX} ${Matlab_MX_LIBRARY})
 
 # Setup the include directories
 target_include_directories(${VARS_PREFIX} PUBLIC
