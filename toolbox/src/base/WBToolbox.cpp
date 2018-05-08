@@ -15,7 +15,6 @@
 #include "Parameters.h"
 #include "SimulinkBlockInformation.h"
 
-#include <ext/alloc_traits.h>
 #include <matrix.h>
 #include <simstruc.h>
 #include <simstruc_types.h>
