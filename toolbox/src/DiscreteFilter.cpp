@@ -186,16 +186,18 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    // Check if numerator and denominator are not empty
-    if (num_coeff.empty() || den_coeff.empty()) {
-        wbtError << "Empty numerator or denominator not allowed.";
-        return false;
-    }
-    // Check if numerator or denominator are scalar and zero
-    if ((num_coeff.size() == 1 && num_coeff.front() == 0.0)
-        || (den_coeff.size() == 1 && den_coeff.front() == 0.0)) {
-        wbtError << "Passed numerator or denominator not valid.";
-        return false;
+    if (filter_type == "Generic") {
+        // Check if numerator and denominator are not empty
+        if (num_coeff.empty() || den_coeff.empty()) {
+            wbtError << "Empty numerator or denominator not allowed.";
+            return false;
+        }
+        // Check if numerator or denominator are scalar and zero
+        if ((num_coeff.size() == 1 && num_coeff.front() == 0.0)
+            || (den_coeff.size() == 1 && den_coeff.front() == 0.0)) {
+            wbtError << "Passed numerator or denominator not valid.";
+            return false;
+        }
     }
 
     // Convert the std::vector to yarp::sig::Vector
