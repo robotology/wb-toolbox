@@ -27,6 +27,7 @@ var namespacewbt =
     [ "MinimumJerkTrajectoryGenerator", "classwbt_1_1_minimum_jerk_trajectory_generator.html", "classwbt_1_1_minimum_jerk_trajectory_generator" ],
     [ "ModelPartitioner", "classwbt_1_1_model_partitioner.html", "classwbt_1_1_model_partitioner" ],
     [ "RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html", "classwbt_1_1_real_time_synchronizer" ],
+    [ "RelativeTransform", "classwbt_1_1_relative_transform.html", "classwbt_1_1_relative_transform" ],
     [ "RemoteInverseKinematics", "classwbt_1_1_remote_inverse_kinematics.html", "classwbt_1_1_remote_inverse_kinematics" ],
     [ "SetLowLevelPID", "classwbt_1_1_set_low_level_p_i_d.html", "classwbt_1_1_set_low_level_p_i_d" ],
     [ "SetReferences", "classwbt_1_1_set_references.html", "classwbt_1_1_set_references" ],

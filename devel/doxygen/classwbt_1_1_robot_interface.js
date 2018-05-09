@@ -16,6 +16,7 @@ var classwbt_1_1_robot_interface =
     [ "getInterface", "classwbt_1_1_robot_interface.html#a21dce1624f54a7e26517acb8b32e3005", null ],
     [ "getInterface", "classwbt_1_1_robot_interface.html#a3a8f9e5771e1f60b64a736f287891959", null ],
     [ "getInterface", "classwbt_1_1_robot_interface.html#a98f086c33cf25ba52a692a37af281806", null ],
+    [ "getInterface", "classwbt_1_1_robot_interface.html#a26c22910dc5519f54a416105f4d7bd44", null ],
     [ "getInterface", "classwbt_1_1_robot_interface.html#a94311a03b17931fc42f1034dc5b21fe7", null ],
     [ "getInterface", "classwbt_1_1_robot_interface.html#a79b82848ace7e30a40a27bcefcb0e2b3", null ],
     [ "getJointsMapIndex", "classwbt_1_1_robot_interface.html#a78500d5ddfbc72246fe9148a5790b13d", null ],

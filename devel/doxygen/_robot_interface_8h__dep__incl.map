@@ -11,6 +11,7 @@
 <area shape="rect" id="node11" href="$_jacobian_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/Jacobian.cpp" alt="" coords="2171,125,2341,181"/>
 <area shape="rect" id="node12" href="$_mass_matrix_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/MassMatrix.cpp" alt="" coords="2365,125,2552,181"/>
 <area shape="rect" id="node13" href="$_model_partitioner_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/ModelPartitioner.cpp" alt="" coords="2576,125,2789,181"/>
-<area shape="rect" id="node14" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="2814,125,3031,181"/>
-<area shape="rect" id="node15" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="3055,125,3261,181"/>
+<area shape="rect" id="node14" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp" alt="" coords="2813,125,3040,181"/>
+<area shape="rect" id="node15" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="3065,125,3281,181"/>
+<area shape="rect" id="node16" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="3306,125,3512,181"/>
 </map>
