@@ -619,8 +619,8 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                 if (metadataContainsScalarParam(paramMD)) {
                     double paramValue;
                     if (!getScalarFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
-                        wbtError << "Failed to get struct parameter at index " << paramMD.index
-                                 << ".";
+                        wbtError << "Failed to get scalar field " << paramMD.name
+                                 << " from the struct at index " << paramMD.index << ".";
                         return false;
                     }
                     ok = parameters.storeParameter<double>(paramValue, paramMD);
@@ -629,7 +629,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     std::vector<double> paramVector;
                     if (!getVectorDoubleFieldAtIndex(paramMD.index, paramMD.name, paramVector)) {
                         wbtError << "Failed to get vector field " << paramMD.name
-                                 << "from the struct at index " << paramMD.index << ".";
+                                 << " from the struct at index " << paramMD.index << ".";
                         return false;
                     }
                     if (hasDynSizeColumns) {
@@ -646,7 +646,7 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
                     std::string paramValue;
                     if (!getStringFieldAtIndex(paramMD.index, paramMD.name, paramValue)) {
                         wbtError << "Failed to get string field " << paramMD.name
-                                 << "from the struct at index " << paramMD.index << ".";
+                                 << " from the struct at index " << paramMD.index << ".";
                         return false;
                     }
                     ok = parameters.storeParameter<std::string>(paramValue, paramMD);
