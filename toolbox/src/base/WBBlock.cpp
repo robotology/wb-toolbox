@@ -13,6 +13,7 @@
 #include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
+#include "ToolboxSingleton.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/AngularMotionVector3.h>
@@ -61,28 +62,14 @@ WBBlock::iDynTreeRobotState::iDynTreeRobotState(const unsigned& dofs,
     jointsVelocity.zero();
 }
 
-std::weak_ptr<iDynTree::KinDynComputations>
-WBBlock::getKinDynComputations(const BlockInformation* blockInfo) const
+std::shared_ptr<iDynTree::KinDynComputations> WBBlock::getKinDynComputations() const
 {
-    auto robotInterface = getRobotInterface(blockInfo).lock();
-
-    if (!robotInterface) {
-        wbtError << "Failed to get the RobotInterface object.";
-        return {};
-    }
-
-    return robotInterface->getKinDynComputations();
+    return m_robotInterface->getKinDynComputations();
 }
 
-std::weak_ptr<wbt::RobotInterface>
-WBBlock::getRobotInterface(const BlockInformation* blockInfo) const
+const std::shared_ptr<wbt::RobotInterface> WBBlock::getRobotInterface() const
 {
-    auto robotInterface = blockInfo->getRobotInterface();
-    if (!robotInterface.lock()) {
-        return {};
-    }
-
-    return robotInterface;
+    return m_robotInterface;
 }
 
 bool WBBlock::setRobotState(const wbt::Signal* basePose,
@@ -231,15 +218,22 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the RobotInterface containing the Configuration object
-    auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
+    // Despite after this configureSizeAndPorts step this object will be deleted, in this step many
+    // blocks need to know configuration-dependent information such as the DoFs. We store now a
+    // RobotInterface object and then again in the initialize() method.
+
+    // Ask the ToolboxSingleton to create the RobotInterface object. It will hold a weak pointer,
+    // returning a shared pointer that is stored here in WBBlock. This WBBlock object and all other
+    // WBBlocks that share the same RobotInterface own its memory.
+    m_robotInterface = ToolboxSingleton::sharedInstance().storeConfiguration(m_parameters);
+
+    if (!m_robotInterface) {
+        wbtError << "Failed to get the RobotInterface object from the ToolboxSingleton.";
         return false;
     }
 
     // Check if the DoFs are positive
-    if (robotInterface->getConfiguration().getNumberOfDoFs() < 1) {
+    if (m_robotInterface->getConfiguration().getNumberOfDoFs() < 1) {
         wbtError << "Failed to configure WBBlock. Read 0 DoFs.";
         return false;
     }
@@ -259,17 +253,31 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the RobotInterface object
-    auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
+    // Ask the ToolboxSingleton to create the RobotInterface object. It will hold a weak pointer,
+    // returning a shared pointer that is stored here in WBBlock. This WBBlock object and all other
+    // WBBlocks that share the same RobotInterface own its memory.
+    m_robotInterface = ToolboxSingleton::sharedInstance().storeConfiguration(m_parameters);
+
+    if (!m_robotInterface) {
+        wbtError << "Failed to get the RobotInterface object from the ToolboxSingleton.";
+        return false;
+    }
+
+    // Check if the DoFs are positive
+    const auto dofs = m_robotInterface->getConfiguration().getNumberOfDoFs();
+    if (dofs < 1) {
+        wbtError << "Failed to configure WBBlock. Read 0 DoFs.";
         return false;
     }
 
     // Initialize the m_robotState member
-    const unsigned& dofs = robotInterface->getConfiguration().getNumberOfDoFs();
     m_robotState.reset(
-        new iDynTreeRobotState(dofs, robotInterface->getConfiguration().getGravityVector()));
+        new iDynTreeRobotState(dofs, m_robotInterface->getConfiguration().getGravityVector()));
 
-    return static_cast<bool>(m_robotState);
+    if (!m_robotState) {
+        wbtError << "Failed to initialize the iDynTreeRobotState object";
+        return false;
+    }
+
+    return true;
 }

@@ -42,7 +42,7 @@ private:
     /// Object that stores all the configurations labelled by the name of the Simulink Block's
     /// name.
     /// @see wbt::RobotInterface
-    std::unordered_map<std::string, std::shared_ptr<wbt::RobotInterface>> m_interfaces;
+    std::unordered_map<std::string, std::weak_ptr<wbt::RobotInterface>> m_interfaces;
 
 public:
     // CONSTRUCTOR / DESTRUCTOR
@@ -72,7 +72,7 @@ public:
      * @param  confKey The key describing the configuration (name of the Simulink block)
      * @return         The number of degrees of freedom. It returns -1 when failing.
      */
-    int numberOfDoFs(const std::string& confKey);
+    int numberOfDoFs(const std::string& confKey) const;
 
     // GET METHODS
     // ===========
@@ -121,7 +121,7 @@ public:
     // TOOLBOXSINGLETON CONFIGURATION
     // ==============================
 
-    /*! Saves in the singleton a new configuration \c config.
+    /** Stores in the singleton the new configuration into a RobotInterface object
      *
      * If the config is valid and hasn't been already stored, it creates a new entry
      * in ToolboxSingleton::m_interfaces. If a configuration with matching confKey is found,
@@ -132,24 +132,22 @@ public:
      *       changed.
      *
      * @param  config  The wbt::Configuration object parsed from Simulink's parameters
-     * @return         Returns \c true if configure is successful, \c false otherwise
+     * @return         Returns a shared pointer to the RobotInterface object created from
+     *                 the Configuration object.
      * @see            ToolboxSingleton::isKeyValid
      */
-    bool storeConfiguration(const Configuration& config);
+    std::shared_ptr<RobotInterface> createRobotInterface(const Configuration& config);
 
-    /*! Saves in the singleton a new configuration \c config.
+    /** Stores a new whole-body configuration and return a RobotInterface object
      *
-     * Same as ToolboxSingleton::storeConfiguration but taking a wbt::Parameters object
-     * as input.
-     *
-     * @param  parameters A wbt::Parameters object containing all the parameters to fill
-     *                    a wbt::Configuration object
-     * @return Returns \c true if configure is successful, \c false otherwise
-     * @see    ToolboxSingleton::storeConfiguration
-     * @see    wbt::Configuration
-     * @see    wbt::Parameters::containConfigurationData
+     * @param parameters A wbt::Parameters object containing all the parameters to fill
+     *                   a wbt::Configuration object
+     * @return Returns a shared pointer to the RobotInterface object created from
+     *         the Configuration object.
+     * @see    ToolboxSingleton::storeConfiguration, wbt::Configuration,
+     *         Parameters::containConfigurationData
      */
-    bool storeConfiguration(const wbt::Parameters& parameters);
+    std::shared_ptr<RobotInterface> storeConfiguration(const wbt::Parameters& parameters);
 
     /**
      * Delete the wbt::RobotInterface referred by confKey. No-op if it doesn't exist.

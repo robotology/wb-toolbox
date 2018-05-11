@@ -11,6 +11,7 @@
 
 #include "Block.h"
 #include <memory>
+#include <string>
 
 namespace wbt {
     class WBBlock;
@@ -51,25 +52,23 @@ namespace iDynTree {
 class wbt::WBBlock : public wbt::Block
 {
 protected:
+    // TODO: pImpl
     struct iDynTreeRobotState;
     std::unique_ptr<iDynTreeRobotState> m_robotState;
+    std::string m_confBlockName;
+    std::shared_ptr<wbt::RobotInterface> m_robotInterface;
 
     /**
-     * @brief Helper for retrieving the iDynTree::KinDynComputations object from
-     *        wbt::BlockInformation
-     * @param blockInfo A BlockInformation object.
+     * @brief Helper for retrieving the iDynTree::KinDynComputations object
      * @return A pointer to iDynTree::KinDynComputations.
      */
-    std::weak_ptr<iDynTree::KinDynComputations>
-    getKinDynComputations(const BlockInformation* blockInfo) const;
+    std::shared_ptr<iDynTree::KinDynComputations> getKinDynComputations() const;
 
     /**
-     * @brief Helper for retrieving the wbt::RobotInterface object from
-     *        wbt::BlockInformation
-     * @param blockInfo A BlockInformation object.
+     * @brief Helper for retrieving the wbt::RobotInterface object
      * @return A pointer to wbt::RobotInterface.
      */
-    std::weak_ptr<wbt::RobotInterface> getRobotInterface(const BlockInformation* blockInfo) const;
+    const std::shared_ptr<wbt::RobotInterface> getRobotInterface() const;
 
     /**
      * @brief Helper for setting the robot state inside the iDynTree::KinDynComputations object
