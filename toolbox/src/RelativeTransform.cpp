@@ -24,15 +24,23 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string RelativeTransform::ClassName = "RelativeTransform";
 
 const unsigned INPUT_IDX_JOINTCONF = 0;
 const unsigned OUTPUT_IDX_TRANSFORM = 0;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_FRAME1 = PARAM_IDX_BIAS + 1;
-const unsigned PARAM_IDX_FRAME2 = PARAM_IDX_BIAS + 2;
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    Frame1,
+    Frame2
+};
+
+
+// BLOCK PIMPL
+// ===========
 
 class RelativeTransform::impl
 {
@@ -40,6 +48,9 @@ public:
     iDynTree::FrameIndex frame1Index = iDynTree::FRAME_INVALID_INDEX;
     iDynTree::FrameIndex frame2Index = iDynTree::FRAME_INVALID_INDEX;
 };
+
+// BLOCK CLASS
+// ===========
 
 RelativeTransform::RelativeTransform()
     : pImpl{new impl()}
@@ -52,16 +63,15 @@ unsigned RelativeTransform::numberOfParameters()
 
 bool RelativeTransform::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frame1Metadata(ParameterType::STRING, PARAM_IDX_FRAME1, 1, 1, "Frame1");
-    ParameterMetadata frame2Metadata(ParameterType::STRING, PARAM_IDX_FRAME2, 1, 1, "Frame2");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRING, ParamIndex::Frame1, 1, 1, "Frame1"},
+        {ParameterType::STRING, ParamIndex::Frame2, 1, 1, "Frame2"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(frame1Metadata);
-    ok = ok && blockInfo->addParameterMetadata(frame2Metadata);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);
@@ -131,8 +141,8 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

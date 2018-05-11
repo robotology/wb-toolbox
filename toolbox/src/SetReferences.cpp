@@ -30,12 +30,20 @@
 #include <vector>
 
 using namespace wbt;
-
 const std::string SetReferences::ClassName = "SetReferences";
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 1;
-const unsigned PARAM_IDX_REF_SPEED = PARAM_IDX_BIAS + 2;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    CtrlType,
+    RefSpeed
+};
+
+// BLOCK PIMPL
+// ===========
 
 class SetReferences::impl
 {
@@ -58,6 +66,9 @@ public:
     }
 };
 
+// BLOCK CLASS
+// ===========
+
 SetReferences::SetReferences()
     : pImpl{new impl()}
 {}
@@ -69,18 +80,15 @@ unsigned SetReferences::numberOfParameters()
 
 bool SetReferences::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_ctrlType(
-        ParameterType::STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "CtrlType");
-    ParameterMetadata paramMD_refSpeed(
-        ParameterType::DOUBLE, PARAM_IDX_REF_SPEED, 1, 1, "RefSpeed");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRING, ParamIndex::CtrlType, 1, 1, "CtrlType"},
+        {ParameterType::DOUBLE, ParamIndex::RefSpeed, 1, 1, "RefSpeed"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_ctrlType);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_refSpeed);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);
@@ -143,8 +151,8 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!SetReferences::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

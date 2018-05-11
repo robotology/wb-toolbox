@@ -15,8 +15,6 @@
 
 using namespace wbt;
 
-const unsigned Block::NumberOfParameters = 1;
-
 unsigned Block::numberOfParameters()
 {
     return Block::NumberOfParameters;
@@ -39,8 +37,11 @@ bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
 
 bool Block::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_className(ParameterType::STRING, 0, 1, 1, "className");
-    blockInfo->addParameterMetadata(paramMD_className);
+    if (!blockInfo->addParameterMetadata({ParameterType::STRING, 0, 1, 1, "className"})) {
+        wbtError << "Failed to add className parameter metadata.";
+        return false;
+    }
+
     return blockInfo->parseParameters(m_parameters);
 }
 

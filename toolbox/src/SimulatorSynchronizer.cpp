@@ -20,13 +20,21 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
 
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
-const unsigned PARAM_IDX_GZCLK_PORT = PARAM_IDX_BIAS + 2;
-const unsigned PARAM_IDX_RPC_PORT = PARAM_IDX_BIAS + 3;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    Period,
+    GzClkPort,
+    RpcPort
+};
+
+// BLOCK PIMPL
+// ===========
 
 class SimulatorSynchronizer::impl
 {
@@ -49,6 +57,9 @@ public:
     } rpcData;
 };
 
+// BLOCK CLASS
+// ===========
+
 SimulatorSynchronizer::SimulatorSynchronizer()
     : pImpl{new impl()}
 {}
@@ -65,20 +76,16 @@ std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
 
 bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_period(ParameterType::DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
-    ParameterMetadata paramMD_rpcPort(ParameterType::STRING, PARAM_IDX_RPC_PORT, 1, 1, "RpcPort");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::DOUBLE, ParamIndex::Period, 1, 1, "Period"},
+        {ParameterType::STRING, ParamIndex::RpcPort, 1, 1, "RpcPort"},
+        {ParameterType::STRING, ParamIndex::GzClkPort, 1, 1, "GazeboClockPort"}};
 
-    ParameterMetadata paramMD_gzclkPort(
-        ParameterType::STRING, PARAM_IDX_GZCLK_PORT, 1, 1, "GazeboClockPort");
-
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_period);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_gzclkPort);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_rpcPort);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);
@@ -120,6 +127,9 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     if (!Block::initialize(blockInfo)) {
         return false;
     }
+
+    // PARAMETERS
+    // ==========
 
     if (!SimulatorSynchronizer::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

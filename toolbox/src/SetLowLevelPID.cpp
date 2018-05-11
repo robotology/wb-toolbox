@@ -25,12 +25,20 @@
 #include <vector>
 
 using namespace wbt;
-
 const std::string SetLowLevelPID::ClassName = "SetLowLevelPID";
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_PIDCONFIG = PARAM_IDX_BIAS + 1;
-const unsigned PARAM_IDX_CTRL_TYPE = PARAM_IDX_BIAS + 2;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    PidStruct,
+    CtrlType
+};
+
+// BLOCK PIMPL
+// ===========
 
 class SetLowLevelPID::impl
 {
@@ -50,6 +58,9 @@ public:
     yarp::dev::PidControlTypeEnum controlType;
 };
 
+// BLOCK CLASS
+// ===========
+
 SetLowLevelPID::SetLowLevelPID()
     : pImpl{new impl()}
 {}
@@ -61,27 +72,18 @@ unsigned SetLowLevelPID::numberOfParameters()
 
 bool SetLowLevelPID::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_P_cell(
-        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "P");
-    ParameterMetadata paramMD_I_cell(
-        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "I");
-    ParameterMetadata paramMD_D_cell(
-        ParameterType::STRUCT_CELL_DOUBLE, PARAM_IDX_PIDCONFIG, 1, 1, "D");
-    ParameterMetadata paramMD_ctrlType_cell(
-        ParameterType::STRING, PARAM_IDX_CTRL_TYPE, 1, 1, "ControlType");
-    ParameterMetadata paramMD_jointList_cell(
-        ParameterType::CELL_STRING, PARAM_IDX_PIDCONFIG, 1, 1, "jointList");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "P"},
+        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "I"},
+        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "D"},
+        {ParameterType::CELL_STRING, ParamIndex::PidStruct, 1, 1, "jointList"},
+        {ParameterType::STRING, ParamIndex::CtrlType, 1, 1, "ControlType"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_P_cell);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_I_cell);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_D_cell);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_jointList_cell);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_ctrlType_cell);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);

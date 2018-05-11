@@ -26,18 +26,25 @@
 #include <string>
 
 using namespace wbt;
-
 const std::string YarpRead::ClassName = "YarpRead";
 
-// Parameters
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // port name
-const unsigned PARAM_IDX_PORTSIZE = PARAM_IDX_BIAS + 2; // Size of the port you're reading
-const unsigned PARAM_IDX_WAITDATA = PARAM_IDX_BIAS + 3; // boolean for blocking reading
-const unsigned PARAM_IDX_READ_TS = PARAM_IDX_BIAS + 4; // boolean to stream timestamp
-const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 5; // Autoconnect boolean
-const unsigned PARAM_IDX_ERR_NO_PORT = PARAM_IDX_BIAS + 6; // Error on missing port if autoconnect
-const unsigned PARAM_IDX_TIMEOUT = PARAM_IDX_BIAS + 7; // Timeout if blocking read
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    PortName,
+    PortSize,
+    WaitData,
+    ReadTimestamp,
+    Autoconnect,
+    ErrMissingPort,
+    Timeout
+};
+
+// BLOCK PIMPL
+// ===========
 
 class YarpRead::impl
 {
@@ -53,6 +60,9 @@ public:
     yarp::os::BufferedPort<yarp::sig::Vector> port;
 };
 
+// BLOCK CLASS
+// ===========
+
 YarpRead::YarpRead()
     : pImpl{new impl()}
 {}
@@ -64,30 +74,20 @@ unsigned YarpRead::numberOfParameters()
 
 bool YarpRead::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_portName(ParameterType::STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
-    ParameterMetadata paramMD_signalSize(
-        ParameterType::INT, PARAM_IDX_PORTSIZE, 1, 1, "SignalSize");
-    ParameterMetadata paramMD_waitData(ParameterType::BOOL, PARAM_IDX_WAITDATA, 1, 1, "WaitData");
-    ParameterMetadata paramMD_readTimestamp(
-        ParameterType::BOOL, PARAM_IDX_READ_TS, 1, 1, "ReadTimestamp");
-    ParameterMetadata paramMD_autoconnect(
-        ParameterType::BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
-    ParameterMetadata paramMD_timeout(ParameterType::DOUBLE, PARAM_IDX_TIMEOUT, 1, 1, "Timeout");
-    ParameterMetadata paramMD_errMissingPort(
-        ParameterType::BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRING, ParamIndex::PortName, 1, 1, "PortName"},
+        {ParameterType::INT, ParamIndex::PortSize, 1, 1, "SignalSize"},
+        {ParameterType::BOOL, ParamIndex::WaitData, 1, 1, "WaitData"},
+        {ParameterType::BOOL, ParamIndex::ReadTimestamp, 1, 1, "ReadTimestamp"},
+        {ParameterType::BOOL, ParamIndex::Autoconnect, 1, 1, "Autoconnect"},
+        {ParameterType::DOUBLE, ParamIndex::Timeout, 1, 1, "Timeout"},
+        {ParameterType::BOOL, ParamIndex::ErrMissingPort, 1, 1, "ErrorOnMissingPort"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_portName);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_signalSize);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_waitData);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_readTimestamp);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_autoconnect);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_timeout);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_errMissingPort);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);

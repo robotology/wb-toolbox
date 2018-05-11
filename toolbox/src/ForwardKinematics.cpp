@@ -25,15 +25,22 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string ForwardKinematics::ClassName = "ForwardKinematics";
 
 const unsigned INPUT_IDX_BASE_POSE = 0;
 const unsigned INPUT_IDX_JOINTCONF = 1;
 const unsigned OUTPUT_IDX_FW_FRAME = 0;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    Frame
+};
+
+// BLOCK PIMPL
+// ===========
 
 class ForwardKinematics::impl
 {
@@ -41,6 +48,9 @@ public:
     bool frameIsCoM = false;
     iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
 };
+
+// BLOCK CLASS
+// ===========
 
 ForwardKinematics::ForwardKinematics()
     : pImpl{new impl()}
@@ -53,7 +63,7 @@ unsigned ForwardKinematics::numberOfParameters()
 
 bool ForwardKinematics::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
+    const ParameterMetadata frameMetadata(ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
         wbtError << "Failed to store parameters metadata.";
@@ -130,8 +140,8 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!ForwardKinematics::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

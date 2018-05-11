@@ -23,16 +23,22 @@
 using namespace wbt;
 using namespace iCub::ctrl;
 using namespace yarp::sig;
-
 const std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
-// Parameters
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_STRUCT = PARAM_IDX_BIAS + 1; // Struct containing filter parameters
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
 
 // Inputs / Outputs
 const unsigned INPUT_IDX_SIGNAL = 0;
 const unsigned OUTPUT_IDX_SIGNAL = 0;
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    FilterStruct,
+};
+
+// BLOCK PIMPL
+// ===========
 
 class DiscreteFilter::impl
 {
@@ -42,6 +48,9 @@ public:
     yarp::sig::Vector u0;
     yarp::sig::Vector inputSignalVector;
 };
+
+// BLOCK CLASS
+// ===========
 
 DiscreteFilter::DiscreteFilter()
     : pImpl{new impl()}
@@ -54,44 +63,22 @@ unsigned DiscreteFilter::numberOfParameters()
 
 bool DiscreteFilter::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_1lowp_fc(ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Fc");
-    ParameterMetadata paramMD_1lowp_ts(ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, 1, "Ts");
-    ParameterMetadata paramMD_md_order(
-        ParameterType::STRUCT_INT, PARAM_IDX_STRUCT, 1, 1, "MedianOrder");
-    ParameterMetadata paramMD_flt_type(
-        ParameterType::STRUCT_STRING, PARAM_IDX_STRUCT, 1, 1, "FilterType");
-    ParameterMetadata paramMD_numcoeff(ParameterType::STRUCT_DOUBLE,
-                                       PARAM_IDX_STRUCT,
-                                       1,
-                                       ParameterMetadata::DynamicSize,
-                                       "NumCoeffs");
-    ParameterMetadata paramMD_dencoeff(ParameterType::STRUCT_DOUBLE,
-                                       PARAM_IDX_STRUCT,
-                                       1,
-                                       ParameterMetadata::DynamicSize,
-                                       "DenCoeffs");
-    ParameterMetadata paramMD_init_status(
-        ParameterType::STRUCT_BOOL, PARAM_IDX_STRUCT, 1, 1, "InitStatus");
-    ParameterMetadata paramMD_init_y0(
-        ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "y0");
+    const auto& DynPar = ParameterMetadata::DynamicSize;
 
-    ParameterMetadata paramMD_init_u0(
-        ParameterType::STRUCT_DOUBLE, PARAM_IDX_STRUCT, 1, ParameterMetadata::DynamicSize, "u0");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, 1, "Fc"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, 1, "Ts"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "NumCoeffs"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "DenCoeffs"},
+        {ParameterType::STRUCT_BOOL, ParamIndex::FilterStruct, 1, 1, "InitStatus"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "y0"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "u0"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_1lowp_fc);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_1lowp_ts);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_md_order);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_flt_type);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_numcoeff);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_dencoeff);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_init_status);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_init_y0);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_init_u0);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);

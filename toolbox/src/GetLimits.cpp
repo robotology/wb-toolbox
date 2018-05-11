@@ -27,11 +27,19 @@
 #include <vector>
 
 using namespace wbt;
-
 const std::string GetLimits::ClassName = "GetLimits";
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_LIMIT_SRC = PARAM_IDX_BIAS + 1;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    LimitType
+};
+
+// BLOCK PIMPL
+// ===========
 
 class GetLimits::impl
 {
@@ -49,6 +57,9 @@ public:
     static double deg2rad(const double& v) { return v * M_PI / 180.0; }
 };
 
+// BLOCK CLASS
+// ===========
+
 wbt::GetLimits::GetLimits()
     : pImpl{new impl()}
 {}
@@ -60,10 +71,10 @@ unsigned GetLimits::numberOfParameters()
 
 bool GetLimits::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata limitType(ParameterType::STRING, PARAM_IDX_LIMIT_SRC, 1, 1, "LimitType");
-    bool ok = blockInfo->addParameterMetadata(limitType);
+    const ParameterMetadata limitTypeMetadata(
+        ParameterType::STRING, ParamIndex::LimitType, 1, 1, "LimitType");
 
-    if (!ok) {
+    if (!blockInfo->addParameterMetadata(limitTypeMetadata)) {
         wbtError << "Failed to store parameters metadata.";
         return false;
     }
@@ -130,8 +141,8 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!GetLimits::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
