@@ -109,7 +109,7 @@ public:
      *
      * @see WBBlock::NumberOfParameters
      */
-    static const unsigned NumberOfParameters;
+    static constexpr unsigned NumberOfParameters = 1;
 
     /**
      * @brief Returns the number of configuration parameters needed by this block

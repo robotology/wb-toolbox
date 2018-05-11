@@ -24,7 +24,6 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string DotJNu::ClassName = "DotJNu";
 
 const unsigned INPUT_IDX_BASE_POSE = 0;
@@ -32,9 +31,17 @@ const unsigned INPUT_IDX_JOINTCONF = 1;
 const unsigned INPUT_IDX_BASE_VEL = 2;
 const unsigned INPUT_IDX_JOINT_VEL = 3;
 const unsigned OUTPUT_IDX_DOTJ_NU = 0;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    Frame
+};
+
+// BLOCK PIMPL
+// ===========
 
 class DotJNu::impl
 {
@@ -43,6 +50,9 @@ public:
     bool frameIsCoM = false;
     iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
 };
+
+// BLOCK CLASS
+// ===========
 
 DotJNu::DotJNu()
     : pImpl{new impl()}
@@ -55,7 +65,7 @@ unsigned DotJNu::numberOfParameters()
 
 bool DotJNu::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
+    const ParameterMetadata frameMetadata(ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
         wbtError << "Failed to store parameters metadata.";
@@ -138,8 +148,8 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!DotJNu::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

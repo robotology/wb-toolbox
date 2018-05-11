@@ -91,7 +91,7 @@ protected:
 
 public:
     /// The number of parameters WBBlock requires
-    static const unsigned NumberOfParameters;
+    static constexpr unsigned NumberOfParameters = Block::NumberOfParameters + 2;
 
     WBBlock();
     ~WBBlock() override;

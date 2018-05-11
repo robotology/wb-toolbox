@@ -86,7 +86,7 @@ public:
      * @param[out] parameters A container filled with the parsed parameters.
      * @return True for success, false otherwise.
      */
-    virtual bool parseParameters(wbt::Parameters& parameters) { return true; }
+    virtual bool parseParameters(wbt::Parameters& parameters) = 0;
 
     /**
      * @brief Add a parameter metadata
@@ -97,7 +97,7 @@ public:
      * @param paramMD The metadata to add.
      * @return True for success, false otherwise.
      */
-    virtual bool addParameterMetadata(const wbt::ParameterMetadata& paramMD) { return true; }
+    virtual bool addParameterMetadata(const wbt::ParameterMetadata& paramMD) = 0;
 
     // ========================
     // PORT INFORMATION SETTERS

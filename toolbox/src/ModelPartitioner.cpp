@@ -21,11 +21,19 @@
 #include <vector>
 
 using namespace wbt;
-
 const std::string ModelPartitioner::ClassName = "ModelPartitioner";
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_DIRECTION = PARAM_IDX_BIAS + 1;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    Direction
+};
+
+// BLOCK PIMPL
+// ===========
 
 class ModelPartitioner::impl
 {
@@ -35,6 +43,9 @@ public:
     std::shared_ptr<JointNameToIndexInControlBoardMap> jointNameToIndexInControlBoardMap;
     std::shared_ptr<ControlBoardIndexLimit> controlBoardIndexLimit;
 };
+
+// BLOCK CLASS
+// ===========
 
 ModelPartitioner::ModelPartitioner()
     : pImpl{new impl()}
@@ -47,12 +58,10 @@ unsigned ModelPartitioner::numberOfParameters()
 
 bool ModelPartitioner::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata directionMetadata(
-        ParameterType::BOOL, PARAM_IDX_DIRECTION, 1, 1, "VectorToControlBoards");
+    const ParameterMetadata directionMetadata(
+        ParameterType::BOOL, ParamIndex::Direction, 1, 1, "VectorToControlBoards");
 
-    bool ok = blockInfo->addParameterMetadata(directionMetadata);
-
-    if (!ok) {
+    if (!blockInfo->addParameterMetadata(directionMetadata)) {
         wbtError << "Failed to store parameters metadata.";
         return false;
     }
@@ -198,6 +207,9 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
     if (!WBBlock::initialize(blockInfo)) {
         return false;
     }
+
+    // PARAMETERS
+    // ==========
 
     if (!ModelPartitioner::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

@@ -26,11 +26,19 @@
 #include <vector>
 
 using namespace wbt;
-
 const std::string GetMeasurement::ClassName = "GetMeasurement";
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_MEAS_TYPE = PARAM_IDX_BIAS + 1;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    MeasType
+};
+
+// BLOCK PIMPL
+// ===========
 
 class GetMeasurement::impl
 {
@@ -62,6 +70,9 @@ public:
     }
 };
 
+// BLOCK CLASS
+// ===========
+
 GetMeasurement::GetMeasurement()
     : pImpl{new impl()}
 {}
@@ -73,13 +84,10 @@ unsigned GetMeasurement::numberOfParameters()
 
 bool GetMeasurement::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_measType(
-        ParameterType::STRING, PARAM_IDX_MEAS_TYPE, 1, 1, "MeasuredType");
+    const ParameterMetadata measTypeMetadata(
+        ParameterType::STRING, ParamIndex::MeasType, 1, 1, "MeasuredType");
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_measType);
-
-    if (!ok) {
+    if (!blockInfo->addParameterMetadata(measTypeMetadata)) {
         wbtError << "Failed to store parameters metadata.";
         return false;
     }
@@ -138,6 +146,9 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
     if (!WBBlock::initialize(blockInfo)) {
         return false;
     }
+
+    // PARAMETERS
+    // ==========
 
     if (!GetMeasurement::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

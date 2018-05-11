@@ -26,15 +26,23 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string Jacobian::ClassName = "Jacobian";
 
 const unsigned INPUT_IDX_BASE_POSE = 0;
 const unsigned INPUT_IDX_JOINTCONF = 1;
 const unsigned OUTPUT_IDX_FW_FRAME = 0;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
 
-const unsigned PARAM_IDX_BIAS = WBBlock::NumberOfParameters - 1;
-const unsigned PARAM_IDX_FRAME = PARAM_IDX_BIAS + 1;
+enum ParamIndex
+{
+    Bias = WBBlock::NumberOfParameters - 1,
+    Frame
+};
+
+
+// BLOCK PIMPL
+// ===========
 
 class Jacobian::impl
 {
@@ -57,7 +65,7 @@ unsigned Jacobian::numberOfParameters()
 
 bool Jacobian::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata frameMetadata(ParameterType::STRING, PARAM_IDX_FRAME, 1, 1, "Frame");
+    const ParameterMetadata frameMetadata(ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame");
 
     bool ok = blockInfo->addParameterMetadata(frameMetadata);
 
@@ -135,8 +143,8 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUT PARAMETERS
-    // ================
+    // PARAMETERS
+    // ==========
 
     if (!Jacobian::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

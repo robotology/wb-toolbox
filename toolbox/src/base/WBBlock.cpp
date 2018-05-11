@@ -30,12 +30,12 @@
 
 using namespace wbt;
 
-const unsigned WBBlock::NumberOfParameters = Block::NumberOfParameters + 2;
-
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned ConfigurationParameterIndex = PARAM_IDX_BIAS + 1; // Struct from Simulink
-const unsigned ConfBlockNameParameterIndex =
-    PARAM_IDX_BIAS + 2; // Absolute name of the block containing the configuration
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    WBStruct,
+    ConfBlockName
+};
 
 /**
  * @brief Container for data structures used for using
@@ -198,41 +198,22 @@ unsigned WBBlock::numberOfParameters()
 
 bool WBBlock::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata fieldRobotNameMedatata(
-        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "RobotName");
-    ParameterMetadata fieldUrdfFileMedatata(
-        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "UrdfFile");
-    ParameterMetadata fieldControlledJointsMedatata(ParameterType::STRUCT_CELL_STRING,
-                                                    ConfigurationParameterIndex,
-                                                    1,
-                                                    ParameterMetadata::DynamicSize,
-                                                    "ControlledJoints");
-    ParameterMetadata fieldControlBoardsMedatata(ParameterType::STRUCT_CELL_STRING,
-                                                 ConfigurationParameterIndex,
-                                                 1,
-                                                 ParameterMetadata::DynamicSize,
-                                                 "ControlBoardsNames");
-    ParameterMetadata fieldLocalNameMedatata(
-        ParameterType::STRUCT_STRING, ConfigurationParameterIndex, 1, 1, "LocalName");
-    ParameterMetadata fieldGravityVectorMedatata(
-        ParameterType::STRUCT_DOUBLE, ConfigurationParameterIndex, 1, 3, "GravityVector");
-    ParameterMetadata confBlockNameMedatata(
-        ParameterType::STRING, ConfBlockNameParameterIndex, 1, 1, "ConfBlockName");
+    const auto DynPar = ParameterMetadata::DynamicSize;
 
-    // Add the struct into the block information
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(fieldRobotNameMedatata);
-    ok = ok && blockInfo->addParameterMetadata(fieldUrdfFileMedatata);
-    ok = ok && blockInfo->addParameterMetadata(fieldLocalNameMedatata);
-    ok = ok && blockInfo->addParameterMetadata(fieldControlledJointsMedatata);
-    ok = ok && blockInfo->addParameterMetadata(fieldControlBoardsMedatata);
-    ok = ok && blockInfo->addParameterMetadata(fieldGravityVectorMedatata);
-    //
-    ok = ok && blockInfo->addParameterMetadata(confBlockNameMedatata);
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRUCT_STRING, ParamIndex::WBStruct, 1, 1, "RobotName"},
+        {ParameterType::STRUCT_STRING, ParamIndex::WBStruct, 1, 1, "UrdfFile"},
+        {ParameterType::STRUCT_CELL_STRING, ParamIndex::WBStruct, 1, DynPar, "ControlledJoints"},
+        {ParameterType::STRUCT_CELL_STRING, ParamIndex::WBStruct, 1, DynPar, "ControlBoardsNames"},
+        {ParameterType::STRUCT_STRING, ParamIndex::WBStruct, 1, 1, "LocalName"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::WBStruct, 1, 3, "GravityVector"},
+        {ParameterType::STRING, ParamIndex::ConfBlockName, 1, 1, "ConfBlockName"}};
 
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);

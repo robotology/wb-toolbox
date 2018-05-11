@@ -21,13 +21,21 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string YarpWrite::ClassName = "YarpWrite";
 
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_PORTNAME = PARAM_IDX_BIAS + 1; // Port name
-const unsigned PARAM_IDX_AUTOCONNECT = PARAM_IDX_BIAS + 2; // Autoconnect boolean
-const unsigned PARAM_IDX_ERR_NO_PORT = PARAM_IDX_BIAS + 3; // Error on missing port if autoconnect
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    PortName,
+    Autoconnect,
+    ErrMissingPort,
+};
+
+// BLOCK PIMPL
+// ===========
 
 class YarpWrite::impl
 {
@@ -40,6 +48,9 @@ public:
     yarp::os::BufferedPort<yarp::sig::Vector> port;
 };
 
+// BLOCK CLASS
+// ===========
+
 YarpWrite::YarpWrite()
     : pImpl{new impl()}
 {}
@@ -51,20 +62,16 @@ unsigned YarpWrite::numberOfParameters()
 
 bool YarpWrite::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_portName(ParameterType::STRING, PARAM_IDX_PORTNAME, 1, 1, "PortName");
-    ParameterMetadata paramMD_autoconnect(
-        ParameterType::BOOL, PARAM_IDX_AUTOCONNECT, 1, 1, "Autoconnect");
-    ParameterMetadata paramMD_errMissingPort(
-        ParameterType::BOOL, PARAM_IDX_ERR_NO_PORT, 1, 1, "ErrorOnMissingPort");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::STRING, ParamIndex::PortName, 1, 1, "PortName"},
+        {ParameterType::BOOL, ParamIndex::Autoconnect, 1, 1, "Autoconnect"},
+        {ParameterType::BOOL, ParamIndex::ErrMissingPort, 1, 1, "ErrorOnMissingPort"}};
 
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_portName);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_autoconnect);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_errMissingPort);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);
@@ -107,6 +114,9 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
 {
     using namespace yarp::os;
     using namespace yarp::sig;
+
+    // PARAMETERS
+    // ==========
 
     if (!YarpWrite::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";

@@ -20,17 +20,26 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
 
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_SAMPLE_TIME = PARAM_IDX_BIAS + 1;
-const unsigned PARAM_IDX_SETTLING_TIME = PARAM_IDX_BIAS + 2;
-const unsigned PARAM_IDX_OUTPUT_1ST_DERIVATIVE = PARAM_IDX_BIAS + 3;
-const unsigned PARAM_IDX_OUTPUT_2ND_DERIVATIVE = PARAM_IDX_BIAS + 4;
-const unsigned PARAM_IDX_INITIAL_VALUE = PARAM_IDX_BIAS + 5;
-const unsigned PARAM_IDX_EXT_SETTLINGTIME = PARAM_IDX_BIAS + 6;
-const unsigned PARAM_IDX_RESET_CHANGEST = PARAM_IDX_BIAS + 7;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    SampleTime,
+    SettlingTime,
+    FirstDerivative,
+    SecondDerivative,
+    ReadInitialValue,
+    ExtSettlingTime,
+    ResetOnChange
+};
+};
+
+// BLOCK PIMPL
+// ===========
 
 class MinimumJerkTrajectoryGenerator::impl
 {
@@ -50,6 +59,9 @@ public:
     yarp::sig::Vector reference;
 };
 
+// BLOCK CLASS
+// ===========
+
 MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
     : pImpl{new impl()}
 {}
@@ -61,39 +73,20 @@ unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 
 bool MinimumJerkTrajectoryGenerator::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_sampleTime(
-        ParameterType::DOUBLE, PARAM_IDX_SAMPLE_TIME, 1, 1, "SampleTime");
+    const std::vector<ParameterMetadata> metadata{
+        {ParameterType::DOUBLE, ParamIndex::SampleTime, 1, 1, "SampleTime"},
+        {ParameterType::DOUBLE, ParamIndex::SettlingTime, 1, 1, "SettlingTime"},
+        {ParameterType::BOOL, ParamIndex::FirstDerivative, 1, 1, "ComputeFirstDerivative"},
+        {ParameterType::BOOL, ParamIndex::SecondDerivative, 1, 1, "ComputeSecondDerivative"},
+        {ParameterType::BOOL, ParamIndex::ReadInitialValue, 1, 1, "ReadInitialValue"},
+        {ParameterType::BOOL, ParamIndex::ExtSettlingTime, 1, 1, "ReadExternalSettlingTime"},
+        {ParameterType::BOOL, ParamIndex::ResetOnChange, 1, 1, "ResetOnSettlingTimeChange"}};
 
-    ParameterMetadata paramMD_settlingTime(
-        ParameterType::DOUBLE, PARAM_IDX_SETTLING_TIME, 1, 1, "SettlingTime");
-
-    ParameterMetadata paramMD_computeDot(
-        ParameterType::BOOL, PARAM_IDX_OUTPUT_1ST_DERIVATIVE, 1, 1, "ComputeFirstDerivative");
-
-    ParameterMetadata paramMD_computeDDot(
-        ParameterType::BOOL, PARAM_IDX_OUTPUT_2ND_DERIVATIVE, 1, 1, "ComputeSecondDerivative");
-
-    ParameterMetadata paramMD_initialValue(
-        ParameterType::BOOL, PARAM_IDX_INITIAL_VALUE, 1, 1, "ReadInitialValue");
-
-    ParameterMetadata paramMD_extSettlingTime(
-        ParameterType::BOOL, PARAM_IDX_EXT_SETTLINGTIME, 1, 1, "ReadExternalSettlingTime");
-
-    ParameterMetadata paramMD_resetOnExcSettlingTime(
-        ParameterType::BOOL, PARAM_IDX_RESET_CHANGEST, 1, 1, "ResetOnSettlingTimeChange");
-
-    bool ok = true;
-    ok = ok && blockInfo->addParameterMetadata(paramMD_sampleTime);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_settlingTime);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_computeDot);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_computeDDot);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_initialValue);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_extSettlingTime);
-    ok = ok && blockInfo->addParameterMetadata(paramMD_resetOnExcSettlingTime);
-
-    if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
-        return false;
+    for (const auto& md : metadata) {
+        if (!blockInfo->addParameterMetadata(md)) {
+            wbtError << "Failed to store parameter metadata";
+            return false;
+        }
     }
 
     return blockInfo->parseParameters(m_parameters);

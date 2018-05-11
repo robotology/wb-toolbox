@@ -18,11 +18,19 @@
 #include <ostream>
 
 using namespace wbt;
-
 const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 
-const unsigned PARAM_IDX_BIAS = Block::NumberOfParameters - 1;
-const unsigned PARAM_IDX_PERIOD = PARAM_IDX_BIAS + 1;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum ParamIndex
+{
+    Bias = Block::NumberOfParameters - 1,
+    Period
+};
+
+// BLOCK PIMPL
+// ===========
 
 class RealTimeSynchronizer::impl
 {
@@ -31,6 +39,9 @@ public:
     double initialTime;
     unsigned long counter = 0;
 };
+
+// BLOCK CLASS
+// ===========
 
 RealTimeSynchronizer::RealTimeSynchronizer()
     : pImpl{new impl()}
@@ -43,11 +54,10 @@ unsigned RealTimeSynchronizer::numberOfParameters()
 
 bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
 {
-    ParameterMetadata paramMD_period(ParameterType::DOUBLE, PARAM_IDX_PERIOD, 1, 1, "Period");
+    const ParameterMetadata periodMetadata(
+        ParameterType::DOUBLE, ParamIndex::Period, 1, 1, "Period");
 
-    bool ok = blockInfo->addParameterMetadata(paramMD_period);
-
-    if (!ok) {
+    if (!blockInfo->addParameterMetadata(periodMetadata)) {
         wbtError << "Failed to store parameters metadata.";
         return false;
     }
@@ -91,6 +101,9 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
     if (!Block::initialize(blockInfo)) {
         return false;
     }
+
+    // PARAMETERS
+    // ==========
 
     if (!RealTimeSynchronizer::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
