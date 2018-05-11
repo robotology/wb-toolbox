@@ -26,8 +26,8 @@ private:
     std::string m_confBlockName;
     std::vector<wbt::ParameterMetadata> m_paramsMetadata;
 
-    DataType mapSimulinkToPortType(const DTypeId& typeId) const;
-    DTypeId mapPortTypeToSimulink(const DataType& dataType) const;
+    wbt::DataType mapSimulinkToPortType(const DTypeId typeId) const;
+    DTypeId mapPortTypeToSimulink(const wbt::DataType dataType) const;
 
 public:
     using ParameterIndex = unsigned;
@@ -49,28 +49,29 @@ public:
     // PORT INFORMATION SETTERS
     // ========================
 
-    bool setNumberOfInputPorts(const unsigned& numberOfPorts) override;
-    bool setNumberOfOutputPorts(const unsigned& numberOfPorts) override;
-    bool setInputPortVectorSize(const PortIndex& idx, const VectorSize& size) override;
-    bool setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) override;
-    bool setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size) override;
-    bool setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) override;
-    bool setInputPortType(const PortIndex& idx, const DataType& portType) override;
-    bool setOutputPortType(const PortIndex& idx, const DataType& portType) override;
+    bool setIOPortsData(const IOData& ioData) override;
 
     // PORT INFORMATION GETTERS
     // ========================
 
-    unsigned getInputPortWidth(const PortIndex& idx) const override;
-    unsigned getOutputPortWidth(const PortIndex& idx) const override;
+    PortData getInputPortData(const PortIndex idx) const override;
+    PortData getOutputPortData(const PortIndex idx) const override;
+    VectorSize getInputPortWidth(const PortIndex idx) const override;
+    VectorSize getOutputPortWidth(const PortIndex idx) const override;
+    MatrixSize getInputPortMatrixSize(const PortIndex idx) const override;
+    MatrixSize getOutputPortMatrixSize(const PortIndex idx) const override;
+
+    // BLOCK SIGNALS
+    // =============
+
+    wbt::Signal getInputPortSignal(const PortIndex idx,
+                                   const VectorSize size = wbt::Signal::DynamicSize) const override;
     wbt::Signal
-    getInputPortSignal(const PortIndex& idx,
-                       const VectorSize& size = wbt::Signal::DynamicSize) const override;
-    wbt::Signal
-    getOutputPortSignal(const PortIndex& idx,
-                        const VectorSize& size = wbt::Signal::DynamicSize) const override;
-    MatrixSize getInputPortMatrixSize(const PortIndex& idx) const override;
-    MatrixSize getOutputPortMatrixSize(const PortIndex& idx) const override;
+    getOutputPortSignal(const PortIndex idx,
+                        const VectorSize size = wbt::Signal::DynamicSize) const override;
+
+    // EXTERNAL LIBRARIES METHODS
+    // ==========================
 
     std::weak_ptr<wbt::RobotInterface> getRobotInterface() const override;
     std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const override;
@@ -78,32 +79,44 @@ public:
     // METHODS OUTSIDE THE INTERFACE
     // =============================
 
+    // Ports methods
+    bool updateInputPortData(const PortData& portData);
+    bool updateOutputPortData(const PortData& portData);
+    bool setNumberOfInputPorts(const unsigned numberOfPorts);
+    bool setNumberOfOutputPorts(const unsigned numberOfPorts);
+    bool setInputPortType(const PortIndex idx, const wbt::DataType type);
+    bool setOutputPortType(const PortIndex idx, const wbt::DataType type);
+    bool setInputPortVectorSize(const PortIndex idx, const VectorSize& size);
+    bool setInputPortMatrixSize(const PortIndex idx, const MatrixSize& size);
+    bool setOutputPortVectorSize(const PortIndex idx, const VectorSize& size);
+    bool setOutputPortMatrixSize(const PortIndex idx, const MatrixSize& size);
+
     // Scalar parameters
-    bool getScalarParameterAtIndex(const ParameterIndex& idx, double& value) const;
-    bool getBooleanParameterAtIndex(const ParameterIndex& idx, bool& value) const;
-    bool getStringParameterAtIndex(const ParameterIndex& idx, std::string& value) const;
+    bool getScalarParameterAtIndex(const ParameterIndex idx, double& value) const;
+    bool getBooleanParameterAtIndex(const ParameterIndex idx, bool& value) const;
+    bool getStringParameterAtIndex(const ParameterIndex idx, std::string& value) const;
 
     // Struct parameters
-    bool getStringFieldAtIndex(const ParameterIndex& idx,
+    bool getStringFieldAtIndex(const ParameterIndex idx,
                                const std::string& fieldName,
                                std::string& value) const;
-    bool getScalarFieldAtIndex(const ParameterIndex& idx,
+    bool getScalarFieldAtIndex(const ParameterIndex idx,
                                const std::string& fieldName,
                                double& value) const;
-    bool getBooleanFieldAtIndex(const ParameterIndex& idx,
+    bool getBooleanFieldAtIndex(const ParameterIndex idx,
                                 const std::string& fieldName,
                                 bool& value) const;
-    bool getCellFieldAtIndex(const ParameterIndex& idx,
+    bool getCellFieldAtIndex(const ParameterIndex idx,
                              const std::string& fieldName,
                              AnyCell& value) const;
-    bool getVectorDoubleFieldAtIndex(const ParameterIndex& idx,
+    bool getVectorDoubleFieldAtIndex(const ParameterIndex idx,
                                      const std::string& fieldName,
                                      std::vector<double>& value) const;
 
     // Cell / Struct / Vector paramters
-    bool getCellAtIndex(const ParameterIndex& idx, AnyCell& value) const;
-    bool getStructAtIndex(const ParameterIndex& idx, AnyStruct& value) const;
-    bool getVectorAtIndex(const ParameterIndex& idx, std::vector<double>& value) const;
+    bool getCellAtIndex(const ParameterIndex idx, AnyCell& value) const;
+    bool getStructAtIndex(const ParameterIndex idx, AnyStruct& value) const;
+    bool getVectorAtIndex(const ParameterIndex idx, std::vector<double>& value) const;
 };
 
 #endif /* WBT_SIMULINKBLOCKINFORMATION_H */

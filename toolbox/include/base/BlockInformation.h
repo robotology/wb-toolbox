@@ -12,6 +12,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace wbt {
     class BlockInformation;
@@ -36,9 +37,9 @@ namespace iDynTree {
  * input / output number, size and type, number of parameters, ...
  *
  * A wbt::Block needs to know on what kind of data it operates, and retrieving this information is
- * often specific on the framework on top of which block runs. In order to allow using the same
+ * often specific on the framework on top of which blocks run. In order to allow using the same
  * Block class from different frameworks (e.g. Simulink, C++, etc), different implementation of this
- * interface can provide a transparent translation on functionalities.
+ * interface can be developed to provide a transparent translation of such functionalities.
  *
  * As an example, take the BlockInformation::parseParameters. In Simulink parameters are read from
  * block's masks and Matlab provides a library for reading them. The SimulinkBlockInformation
@@ -55,8 +56,21 @@ public:
     using Rows = int;
     using Cols = int;
     using PortIndex = int;
+
     using VectorSize = int;
     using MatrixSize = std::pair<Rows, Cols>;
+
+    struct Port
+    { // The struct provides an enum scope
+        enum
+        {
+            Index = 0,
+            Dimensions = 1,
+            DataType = 2,
+        };
+    };
+    using PortDimension = std::vector<int>;
+    using PortData = std::tuple<PortIndex, PortDimension, wbt::DataType>;
 
     BlockInformation() = default;
     virtual ~BlockInformation() = default;
@@ -103,79 +117,42 @@ public:
     // PORT INFORMATION SETTERS
     // ========================
 
-    /**
-     * @brief Set the number of block's inputs
-     *
-     * @param numberOfPorts Number of input ports.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setNumberOfInputPorts(const unsigned& numberOfPorts) = 0;
+    struct IOData;
 
     /**
-     * @brief Set the number of block's outputs
+     * @brief Set input / output ports data
      *
-     * @param numberOfPorts Number of output ports.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setNumberOfOutputPorts(const unsigned& numberOfPorts) = 0;
-
-    /**
-     * @brief Set the size of a 1D input port
+     * Specify I/O ports data such as BlockInformation::PortIndex, BlockInformation::PortDimension,
+     * and wbt::DataType storing the information in a BlockInformation::IOData structure.
      *
-     * @param idx The index of the port.
-     * @param size The size of the port.
+     * @param ioData The structure containing I/O ports data.
      * @return True for success, false otherwise.
-     */
-    virtual bool setInputPortVectorSize(const PortIndex& idx, const VectorSize& size) = 0;
-
-    /**
-     * @brief Set the size of a 1D output port
      *
-     * @param idx The index of the port.
-     * @param size The size of the port.
-     * @return True for success, false otherwise.
+     * @see setNumberOfInputPorts, setInputPortVectorSize, setInputPortMatrixSize,
+     *      setInputPortDataType
+     * @note This method automatically sets the number of inputs and outputs.
      */
-    virtual bool setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size) = 0;
-
-    /**
-     * @brief Set the size of a 2D input port
-     *
-     * @param idx The index of the port.
-     * @param size The size of the port.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) = 0;
-
-    /**
-     * @brief Set the size of a 2D output port
-     *
-     * @param idx The index of the port.
-     * @param size The size of the port.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size) = 0;
-
-    /**
-     * @brief Set the data type of an input port
-     *
-     * @param idx The index of the port.
-     * @param type The type of the port.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setInputPortType(const PortIndex& idx, const DataType& type) = 0;
-
-    /**
-     * @brief Set the data type of an output port
-     *
-     * @param idx The index of the port.
-     * @param type The type of the port.
-     * @return True for success, false otherwise.
-     */
-    virtual bool setOutputPortType(const PortIndex& idx, const DataType& type) = 0;
+    virtual bool setIOPortsData(const IOData& ioData) = 0;
 
     // ========================
     // PORT INFORMATION GETTERS
     // ========================
+
+    /**
+     * @brief Get data of an input port
+     *
+     * @param idx The index of the port.
+     * @return A PortData object containing the port's data.
+     */
+    virtual PortData getInputPortData(PortIndex idx) const = 0;
+
+    /**
+     * @brief Get data of an output port
+     *
+     * @param idx The index of the port.
+     * @return A PortData object containing the port's data.
+     */
+    virtual PortData getOutputPortData(PortIndex idx) const = 0;
 
     /**
      * @brief Get the size of a 1D input port
@@ -183,7 +160,7 @@ public:
      * @param idx The index of the port.
      * @return The size of the port.
      */
-    virtual unsigned getInputPortWidth(const PortIndex& idx) const = 0;
+    virtual VectorSize getInputPortWidth(const PortIndex idx) const = 0;
 
     /**
      * @brief Get the size of a 1D output port
@@ -191,7 +168,7 @@ public:
      * @param idx The index of the port.
      * @return The size of the port.
      */
-    virtual unsigned getOutputPortWidth(const PortIndex& idx) const = 0;
+    virtual VectorSize getOutputPortWidth(const PortIndex idx) const = 0;
 
     /**
      * @brief Get the size of a 2D input port
@@ -199,7 +176,7 @@ public:
      * @param idx The index of the port.
      * @return The size of the port.
      */
-    virtual MatrixSize getInputPortMatrixSize(const PortIndex& idx) const = 0;
+    virtual MatrixSize getInputPortMatrixSize(const PortIndex idx) const = 0;
 
     /**
      * @brief Get the size of a 2D output port
@@ -207,7 +184,7 @@ public:
      * @param idx The index of the port.
      * @return The size of the port.
      */
-    virtual MatrixSize getOutputPortMatrixSize(const PortIndex& idx) const = 0;
+    virtual MatrixSize getOutputPortMatrixSize(const PortIndex idx) const = 0;
 
     // =============
     // BLOCK SIGNALS
@@ -221,8 +198,8 @@ public:
      * @return The signal connected to the input port for success, an invalid signal otherwise.
      * @see Signal::isValid
      */
-    virtual wbt::Signal getInputPortSignal(const PortIndex& idx,
-                                           const VectorSize& size = -1) const = 0;
+    virtual wbt::Signal getInputPortSignal(const PortIndex idx,
+                                           const VectorSize size = -1) const = 0;
 
     /**
      * @brief Get the signal connected to a 1D output port
@@ -232,8 +209,8 @@ public:
      * @return The signal connected to the output port for success, an invalid signal otherwise.
      * @see Signal::isValid
      */
-    virtual wbt::Signal getOutputPortSignal(const PortIndex& idx,
-                                            const VectorSize& size = -1) const = 0;
+    virtual wbt::Signal getOutputPortSignal(const PortIndex idx,
+                                            const VectorSize size = -1) const = 0;
 
     // ==========================
     // EXTERNAL LIBRARIES METHODS
@@ -250,6 +227,12 @@ public:
      * @return The pointer to the iDynTree::KinDynComputations object
      */
     virtual std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const = 0;
+};
+
+struct wbt::BlockInformation::IOData
+{
+    std::vector<BlockInformation::PortData> input;
+    std::vector<BlockInformation::PortData> output;
 };
 
 #endif // WBT_BLOCKINFORMATION_H

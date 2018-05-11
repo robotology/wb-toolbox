@@ -13,6 +13,7 @@
 #include "ToolboxSingleton.h"
 
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -31,8 +32,10 @@ public:
     std::string confBlockName;
     Parameters parametersFromRTW;
 
-    std::unordered_map<BlockInformation::PortIndex, BlockInformation::MatrixSize> inputSignalSize;
-    std::unordered_map<BlockInformation::PortIndex, BlockInformation::MatrixSize> outputSignalSize;
+    std::unordered_map<BlockInformation::PortIndex, BlockInformation::PortDimension>
+        inputPortDimensions;
+    std::unordered_map<BlockInformation::PortIndex, BlockInformation::PortDimension>
+        outputPortDimensions;
 };
 
 CoderBlockInformation::CoderBlockInformation()
@@ -52,78 +55,38 @@ bool CoderBlockInformation::optionFromKey(const std::string& /*key*/, double& /*
 // PORT INFORMATION SETTERS
 // ========================
 
-bool CoderBlockInformation::setNumberOfInputPorts(const unsigned& numberOfPorts)
+bool CoderBlockInformation::setIOPortsData(const BlockInformation::IOData& /*ioData*/)
 {
-    pImpl->numberOfInputs = numberOfPorts;
-    return true;
-}
-
-bool CoderBlockInformation::setNumberOfOutputPorts(const unsigned& numberOfPorts)
-{
-    pImpl->numberOfInputs = numberOfPorts;
-    return true;
-}
-
-bool CoderBlockInformation::setInputPortVectorSize(const PortIndex& idx, const VectorSize& size)
-{
-    pImpl->inputSignalSize[idx] = {1, size};
-    return true;
-}
-
-bool CoderBlockInformation::setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
-{
-    pImpl->inputSignalSize[idx] = {size.first, size.second};
-    return true;
-}
-
-bool CoderBlockInformation::setOutputPortVectorSize(const PortIndex& idx,
-                                                    const VectorSize& portSize)
-{
-    pImpl->outputSignalSize[idx] = {1, portSize};
-    return true;
-}
-
-bool CoderBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
-{
-    pImpl->outputSignalSize[idx] = {size.first, size.second};
-    return true;
-}
-
-bool CoderBlockInformation::setInputPortType(const PortIndex& /*idx*/, const DataType& /*type*/)
-{
-    return true;
-}
-
-bool CoderBlockInformation::setOutputPortType(const PortIndex& /*idx*/, const DataType& /*type*/)
-{
-    return true;
+    // This method is called only in the Block::configureSizeAndPorts method, which is never called
+    // in the Simulink Coder pipeline.
+    return false;
 }
 
 // PORT INFORMATION GETTERS
 // ========================
 
-unsigned CoderBlockInformation::getInputPortWidth(const PortIndex& idx) const
+BlockInformation::VectorSize CoderBlockInformation::getInputPortWidth(const PortIndex idx) const
 {
-    if (pImpl->inputSignalSize.find(idx) == pImpl->inputSignalSize.end()) {
+    if (pImpl->inputPortDimensions.find(idx) == pImpl->inputPortDimensions.end()) {
         wbtError << "Failed to get width of signal at index " << idx << ".";
         return 0;
     }
 
-    return static_cast<unsigned>(pImpl->inputSignalSize.at(idx).second);
+    return static_cast<unsigned>(pImpl->inputPortDimensions.at(idx).front());
 }
 
-unsigned CoderBlockInformation::getOutputPortWidth(const PortIndex& idx) const
+BlockInformation::VectorSize CoderBlockInformation::getOutputPortWidth(const PortIndex idx) const
 {
-    if (pImpl->outputSignalSize.find(idx) == pImpl->outputSignalSize.end()) {
+    if (pImpl->outputPortDimensions.find(idx) == pImpl->outputPortDimensions.end()) {
         wbtError << "Failed to get width of signal at index " << idx << ".";
         return 0;
     }
 
-    return static_cast<unsigned>(pImpl->outputSignalSize.at(idx).second);
+    return static_cast<unsigned>(pImpl->outputPortDimensions.at(idx).front());
 }
 
-wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex& idx,
-                                                      const VectorSize& size) const
+wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                      const VectorSize size) const
 {
     if (pImpl->inputSignals.find(idx) == pImpl->inputSignals.end()) {
         wbtError << "Trying to get non-existing signal " << idx << ".";
@@ -143,8 +106,8 @@ wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex& idx,
     return pImpl->inputSignals.at(idx);
 }
 
-wbt::Signal CoderBlockInformation::getOutputPortSignal(const PortIndex& idx,
-                                                       const VectorSize& /*size*/) const
+wbt::Signal CoderBlockInformation::getOutputPortSignal(const PortIndex idx,
+                                                       const VectorSize /*size*/) const
 {
     if (pImpl->outputSignals.find(idx) == pImpl->outputSignals.end()) {
         wbtError << "Trying to get non-existing signal " << idx << ".";
@@ -161,25 +124,25 @@ wbt::Signal CoderBlockInformation::getOutputPortSignal(const PortIndex& idx,
 }
 
 BlockInformation::MatrixSize
-CoderBlockInformation::getInputPortMatrixSize(const BlockInformation::PortIndex& idx) const
+CoderBlockInformation::getInputPortMatrixSize(const BlockInformation::PortIndex idx) const
 {
-    if (pImpl->inputSignalSize.find(idx) == pImpl->inputSignalSize.end()) {
+    if (pImpl->inputPortDimensions.find(idx) == pImpl->inputPortDimensions.end()) {
         wbtError << "Trying to get the size of non-existing signal " << idx << ".";
         return {};
     }
 
-    return pImpl->inputSignalSize.at(idx);
+    return {pImpl->inputPortDimensions.at(idx)[0], pImpl->inputPortDimensions.at(idx)[1]};
 }
 
 BlockInformation::MatrixSize
-CoderBlockInformation::getOutputPortMatrixSize(const BlockInformation::PortIndex& idx) const
+CoderBlockInformation::getOutputPortMatrixSize(const BlockInformation::PortIndex idx) const
 {
-    if (pImpl->outputSignalSize.find(idx) == pImpl->outputSignalSize.end()) {
+    if (pImpl->outputPortDimensions.find(idx) == pImpl->outputPortDimensions.end()) {
         wbtError << "Trying to get the size of non-existing signal " << idx << ".";
         return {};
     }
 
-    return pImpl->outputSignalSize.at(idx);
+    return {pImpl->outputPortDimensions.at(idx)[0], pImpl->outputPortDimensions.at(idx)[1]};
 }
 
 bool CoderBlockInformation::addParameterMetadata(const wbt::ParameterMetadata& paramMD)
@@ -241,6 +204,20 @@ bool CoderBlockInformation::parseParameters(wbt::Parameters& parameters)
     return true;
 }
 
+BlockInformation::PortData
+CoderBlockInformation::getInputPortData(BlockInformation::PortIndex idx) const
+{
+    // TODO: hardcoded DataType::DOUBLE.
+    return std::make_tuple(idx, pImpl->inputPortDimensions.at(idx), DataType::DOUBLE);
+}
+
+BlockInformation::PortData
+CoderBlockInformation::getOutputPortData(BlockInformation::PortIndex idx) const
+{
+    // TODO: hardcoded DataType::DOUBLE.
+    return std::make_tuple(idx, pImpl->outputPortDimensions.at(idx), DataType::DOUBLE);
+}
+
 bool CoderBlockInformation::storeRTWParameters(const Parameters& parameters)
 {
     if (parameters.getNumberOfParameters() == 0) {
@@ -270,9 +247,9 @@ bool CoderBlockInformation::storeRTWParameters(const Parameters& parameters)
     return true;
 }
 
-bool CoderBlockInformation::setInputSignal(const PortIndex& portNumber,
+bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
                                            void* address,
-                                           const MatrixSize& portSize)
+                                           const PortDimension& dims)
 {
     if (pImpl->inputSignals.find(portNumber) != pImpl->inputSignals.end()) {
         wbtError << "The signal " << portNumber << "has already been previously stored.";
@@ -284,19 +261,30 @@ bool CoderBlockInformation::setInputSignal(const PortIndex& portNumber,
         return false;
     }
 
+    if (dims.size() > 2) {
+        wbtError << "Signal with more than 2 dimensions are not currently supported.";
+        return false;
+    }
+
+    // TODO: hardcoded DataType::DOUBLE
     bool isConst = true;
     pImpl->inputSignals.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(portNumber),
         std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
 
-    pImpl->inputSignals[portNumber].setWidth(portSize.first * portSize.second);
+    unsigned numElements = 1;
+    for (auto dimension : dims) {
+        numElements *= dimension;
+    }
+
+    pImpl->inputSignals[portNumber].setWidth(numElements);
     return pImpl->inputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
 }
 
-bool CoderBlockInformation::setOutputSignal(const PortIndex& portNumber,
+bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
                                             void* address,
-                                            const MatrixSize& portSize)
+                                            const PortDimension& dims)
 {
     if (pImpl->outputSignals.find(portNumber) != pImpl->outputSignals.end()) {
         wbtError << "The signal " << portNumber << "has already been previously stored.";
@@ -308,13 +296,24 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex& portNumber,
         return false;
     }
 
+    if (dims.size() > 2) {
+        wbtError << "Signal with more than 2 dimensions are not currently supported.";
+        return false;
+    }
+
+    // TODO: hardcoded DataType::DOUBLE.
     bool isConst = false;
     pImpl->outputSignals.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(portNumber),
         std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
 
-    pImpl->outputSignals[portNumber].setWidth(portSize.first * portSize.second);
+    unsigned numElements = 1;
+    for (auto dimension : dims) {
+        numElements *= dimension;
+    }
+
+    pImpl->outputSignals[portNumber].setWidth(numElements);
     return pImpl->outputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
 }
 
