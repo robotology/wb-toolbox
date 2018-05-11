@@ -236,30 +236,8 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    if (computeFirstDerivative) {
-        pImpl->outputFirstDerivativeIndex = 1;
-    }
-
-    if (computeSecondDerivative) {
-        pImpl->outputSecondDerivativeIndex = computeFirstDerivative ? 2 : 1;
-    }
-
-    // Since the signals sizes were set as dynamic in the configureSizeAndPorts,
-    // set here the right values into blockInfo
-    const unsigned signalSize = blockInfo->getInputPortWidth(0);
-    unsigned numberOfInputPorts = 1 + static_cast<unsigned>(pImpl->readInitialValue)
-                                  + static_cast<unsigned>(pImpl->readExternalSettlingTime);
-    unsigned numberOfOutputPorts = 1 + static_cast<unsigned>(computeFirstDerivative)
-                                   + static_cast<unsigned>(computeSecondDerivative);
     // Get the input port width
     const auto inputPortWidth = blockInfo->getInputPortWidth(InputIndex::InputSignal);
-
-    for (unsigned port = 0; port < numberOfInputPorts; ++port) {
-        blockInfo->setInputPortVectorSize(port, signalSize);
-    }
-    for (unsigned port = 0; port < numberOfOutputPorts; ++port) {
-        blockInfo->setOutputPortVectorSize(port, signalSize);
-    }
 
     pImpl->previousSettlingTime = settlingTime;
     pImpl->initialValues.resize(inputPortWidth);

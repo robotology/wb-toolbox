@@ -139,26 +139,6 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
         }
     }
     else {
-
-    // For some reason, the output ports widths in the yarp2WBI case are not detected
-    // properly by Simulink if set as DYNAMICALLY_SIZED (-1).
-    // Set them manually using the m_controlBoardIndexLimit map.
-    //
-    // Doing this now has the disadvantage of allocating the KinDynComputations and the
-    // RemoteControlBoardRemapper already at this early stage, but this happens only at the
-    // first execution of the model if the joint list doesn't change.
-    //
-    if (vectorToControlBoards) {
-        pImpl->controlBoardIndexLimit = robotInterface->getControlBoardIdxLimit();
-        if (!pImpl->controlBoardIndexLimit) {
-            wbtError << "Failed to get the map CBIdx <--> CBMaxIdx.";
-            return false;
-        }
-        for (const auto& cb : *pImpl->controlBoardIndexLimit) {
-            if (!blockInfo->setOutputPortVectorSize(cb.first, cb.second)) {
-                wbtError << "Failed to set ouput port size reading them from cb map.";
-                return false;
-            }
         // Inputs
         for (unsigned i = 0; i < controlBoardsNumber; ++i) {
             ioData.input.emplace_back(

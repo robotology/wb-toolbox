@@ -169,13 +169,6 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // DYNAMICALLY SIZED SIGNALS
-    // =========================
-
-    const unsigned inputSignalSize = blockInfo->getInputPortWidth(INPUT_IDX_SIGNAL);
-    blockInfo->setInputPortVectorSize(INPUT_IDX_SIGNAL, inputSignalSize);
-    blockInfo->setOutputPortVectorSize(OUTPUT_IDX_SIGNAL, inputSignalSize);
-
     // CLASS INITIALIZATION
     // ====================
 
