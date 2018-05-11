@@ -86,7 +86,7 @@ public:
      * @param[out] option Implementation-specific block option.
      * @return True if the option has been converted, false otherwise.
      */
-    virtual bool optionFromKey(const std::string& key, double& option) const;
+    virtual bool optionFromKey(const std::string& key, double& option) const = 0;
 
     // ==================
     // PARAMETERS METHODS
