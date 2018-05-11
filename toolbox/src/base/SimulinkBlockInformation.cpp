@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <string>
+#include <tuple>
 #include <vector>
 
 using namespace wbt;
@@ -41,21 +42,21 @@ bool SimulinkBlockInformation::optionFromKey(const std::string& key, double& opt
 // PARAMETERS METHODS
 // ==================
 
-bool SimulinkBlockInformation::getStringParameterAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getStringParameterAtIndex(const ParameterIndex idx,
                                                          std::string& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asString(value);
 }
 
-bool SimulinkBlockInformation::getScalarParameterAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getScalarParameterAtIndex(const ParameterIndex idx,
                                                          double& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asDouble(value);
 }
 
-bool SimulinkBlockInformation::getBooleanParameterAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getBooleanParameterAtIndex(const ParameterIndex idx,
                                                           bool& value) const
 {
     double tmpValue = 0;
@@ -75,26 +76,26 @@ bool SimulinkBlockInformation::getBooleanParameterAtIndex(const ParameterIndex& 
     return false;
 }
 
-bool SimulinkBlockInformation::getCellAtIndex(const ParameterIndex& idx, AnyCell& value) const
+bool SimulinkBlockInformation::getCellAtIndex(const ParameterIndex idx, AnyCell& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asAnyCell(value);
 }
 
-bool SimulinkBlockInformation::getStructAtIndex(const ParameterIndex& idx, AnyStruct& value) const
+bool SimulinkBlockInformation::getStructAtIndex(const ParameterIndex idx, AnyStruct& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asAnyStruct(value);
 }
 
-bool SimulinkBlockInformation::getVectorAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getVectorAtIndex(const ParameterIndex idx,
                                                 std::vector<double>& value) const
 {
     const mxArray* blockParam = ssGetSFcnParam(simstruct, idx);
     return MxAnyType(blockParam).asVectorDouble(value);
 }
 
-bool SimulinkBlockInformation::getStringFieldAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getStringFieldAtIndex(const ParameterIndex idx,
                                                      const std::string& fieldName,
                                                      std::string& value) const
 {
@@ -113,7 +114,7 @@ bool SimulinkBlockInformation::getStringFieldAtIndex(const ParameterIndex& idx,
     return s.at(fieldName)->asString(value);
 }
 
-bool SimulinkBlockInformation::getScalarFieldAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getScalarFieldAtIndex(const ParameterIndex idx,
                                                      const std::string& fieldName,
                                                      double& value) const
 {
@@ -132,7 +133,7 @@ bool SimulinkBlockInformation::getScalarFieldAtIndex(const ParameterIndex& idx,
     return s.at(fieldName)->asDouble(value);
 }
 
-bool SimulinkBlockInformation::getBooleanFieldAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getBooleanFieldAtIndex(const ParameterIndex idx,
                                                       const std::string& fieldName,
                                                       bool& value) const
 {
@@ -151,7 +152,7 @@ bool SimulinkBlockInformation::getBooleanFieldAtIndex(const ParameterIndex& idx,
     return s.at(fieldName)->asBool(value);
 }
 
-bool SimulinkBlockInformation::getCellFieldAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getCellFieldAtIndex(const ParameterIndex idx,
                                                    const std::string& fieldName,
                                                    AnyCell& value) const
 {
@@ -170,7 +171,7 @@ bool SimulinkBlockInformation::getCellFieldAtIndex(const ParameterIndex& idx,
     return s.at(fieldName)->asAnyCell(value);
 }
 
-bool SimulinkBlockInformation::getVectorDoubleFieldAtIndex(const ParameterIndex& idx,
+bool SimulinkBlockInformation::getVectorDoubleFieldAtIndex(const ParameterIndex idx,
                                                            const std::string& fieldName,
                                                            std::vector<double>& value) const
 {
@@ -192,17 +193,17 @@ bool SimulinkBlockInformation::getVectorDoubleFieldAtIndex(const ParameterIndex&
 // PORT INFORMATION SETTERS
 // ========================
 
-bool SimulinkBlockInformation::setNumberOfInputPorts(const unsigned& numberOfPorts)
+bool SimulinkBlockInformation::setNumberOfInputPorts(const unsigned numberOfPorts)
 {
     return ssSetNumInputPorts(simstruct, numberOfPorts);
 }
 
-bool SimulinkBlockInformation::setNumberOfOutputPorts(const unsigned& numberOfPorts)
+bool SimulinkBlockInformation::setNumberOfOutputPorts(const unsigned numberOfPorts)
 {
     return ssSetNumOutputPorts(simstruct, numberOfPorts);
 }
 
-bool SimulinkBlockInformation::setInputPortVectorSize(const PortIndex& idx, const VectorSize& size)
+bool SimulinkBlockInformation::setInputPortVectorSize(const PortIndex idx, const VectorSize& size)
 {
     if (size == Signal::DynamicSize) {
         // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
@@ -213,7 +214,7 @@ bool SimulinkBlockInformation::setInputPortVectorSize(const PortIndex& idx, cons
     return ssSetInputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setInputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
+bool SimulinkBlockInformation::setInputPortMatrixSize(const PortIndex idx, const MatrixSize& size)
 {
     // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetoutputportmatrixdimensions.html
     if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
@@ -225,7 +226,7 @@ bool SimulinkBlockInformation::setInputPortMatrixSize(const PortIndex& idx, cons
     return ssSetInputPortMatrixDimensions(simstruct, idx, size.first, size.first);
 }
 
-bool SimulinkBlockInformation::setOutputPortVectorSize(const PortIndex& idx, const VectorSize& size)
+bool SimulinkBlockInformation::setOutputPortVectorSize(const PortIndex idx, const VectorSize& size)
 {
     if (size == Signal::DynamicSize) {
         // TODO: in this case, explore how to use mdlSetOutputPortDimensionInfo and
@@ -236,7 +237,7 @@ bool SimulinkBlockInformation::setOutputPortVectorSize(const PortIndex& idx, con
     return ssSetOutputPortVectorDimension(simstruct, idx, size);
 }
 
-bool SimulinkBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, const MatrixSize& size)
+bool SimulinkBlockInformation::setOutputPortMatrixSize(const PortIndex idx, const MatrixSize& size)
 {
     // Refer to: https://it.mathworks.com/help/simulink/sfg/sssetinputportmatrixdimensions.html
     if (size.first == Signal::DynamicSize || size.second == Signal::DynamicSize) {
@@ -249,14 +250,14 @@ bool SimulinkBlockInformation::setOutputPortMatrixSize(const PortIndex& idx, con
     return ssSetOutputPortMatrixDimensions(simstruct, idx, size.first, size.second);
 }
 
-bool SimulinkBlockInformation::setInputPortType(const PortIndex& idx, const DataType& type)
+bool SimulinkBlockInformation::setInputPortType(const PortIndex idx, const wbt::DataType type)
 {
     ssSetInputPortDirectFeedThrough(simstruct, idx, 1);
     ssSetInputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
 }
 
-bool SimulinkBlockInformation::setOutputPortType(const PortIndex& idx, const DataType& type)
+bool SimulinkBlockInformation::setOutputPortType(const PortIndex idx, const wbt::DataType type)
 {
     ssSetOutputPortDataType(simstruct, idx, mapPortTypeToSimulink(type));
     return true;
@@ -265,18 +266,18 @@ bool SimulinkBlockInformation::setOutputPortType(const PortIndex& idx, const Dat
 // PORT INFORMATION GETTERS
 // ========================
 
-unsigned SimulinkBlockInformation::getInputPortWidth(const PortIndex& idx) const
+BlockInformation::VectorSize SimulinkBlockInformation::getInputPortWidth(const PortIndex idx) const
 {
     return ssGetInputPortWidth(simstruct, idx);
 }
 
-unsigned SimulinkBlockInformation::getOutputPortWidth(const PortIndex& idx) const
+BlockInformation::VectorSize SimulinkBlockInformation::getOutputPortWidth(const PortIndex idx) const
 {
     return ssGetOutputPortWidth(simstruct, idx);
 }
 
-Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex& idx,
-                                                    const VectorSize& size) const
+Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                    const VectorSize size) const
 {
     // Read if the signal is contiguous or non-contiguous
     boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, idx);
@@ -344,8 +345,8 @@ Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex& idx,
     }
 }
 
-wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex& idx,
-                                                          const VectorSize& size) const
+wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex idx,
+                                                          const VectorSize size) const
 {
     // Check if the signal is dynamically sized (which means that the dimension
     // cannot be read)
@@ -381,7 +382,7 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex& idx,
 }
 
 BlockInformation::MatrixSize
-SimulinkBlockInformation::getInputPortMatrixSize(const PortIndex& idx) const
+SimulinkBlockInformation::getInputPortMatrixSize(const PortIndex idx) const
 {
     if (ssGetInputPortNumDimensions(simstruct, idx) < 2) {
         wbtError << "Signal at index " << idx
@@ -394,7 +395,7 @@ SimulinkBlockInformation::getInputPortMatrixSize(const PortIndex& idx) const
 }
 
 BlockInformation::MatrixSize
-SimulinkBlockInformation::getOutputPortMatrixSize(const PortIndex& idx) const
+SimulinkBlockInformation::getOutputPortMatrixSize(const PortIndex idx) const
 {
     if (ssGetOutputPortNumDimensions(simstruct, idx) < 2) {
         wbtError << "Signal at index " << idx
@@ -406,7 +407,7 @@ SimulinkBlockInformation::getOutputPortMatrixSize(const PortIndex& idx) const
     return {sizes[0], sizes[1]};
 }
 
-DataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) const
+DataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId typeId) const
 {
     switch (typeId) {
         case SS_DOUBLE:
@@ -432,7 +433,7 @@ DataType SimulinkBlockInformation::mapSimulinkToPortType(const DTypeId& typeId) 
     }
 }
 
-DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const DataType& dataType) const
+DTypeId SimulinkBlockInformation::mapPortTypeToSimulink(const wbt::DataType dataType) const
 {
     switch (dataType) {
         case DataType::DOUBLE:
@@ -742,6 +743,159 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
     m_paramsMetadata.clear();
 
     return true;
+}
+
+bool SimulinkBlockInformation::setIOPortsData(const BlockInformation::IOData& ioData)
+{
+    // Set the number of input ports
+    if (!setNumberOfInputPorts(ioData.input.size())) {
+        wbtError << "Failed to set the number of input ports.";
+        return false;
+    }
+
+    // Set the number of output ports
+    if (!setNumberOfOutputPorts(ioData.output.size())) {
+        wbtError << "Failed to set the number of output ports.";
+        return false;
+    }
+
+    // Set the other input ports properties
+    for (const auto& portData : ioData.input) {
+        if (!updateInputPortData(portData)) {
+            return false;
+        }
+    }
+
+    // Set the other output ports properties
+    for (const auto& portData : ioData.output) {
+        if (!updateOutputPortData(portData)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool SimulinkBlockInformation::updateInputPortData(const BlockInformation::PortData& portData)
+{
+    // Get the port dimensions
+    const auto& portDimensions = std::get<BlockInformation::Port::Dimensions>(portData);
+    if (portDimensions.size() > 2) {
+        wbtError << "Only vector (1D) and matrix (2D) input ports are supported.";
+        return false;
+    }
+
+    // Get the port index and type
+    const auto& portIndex = std::get<BlockInformation::Port::Index>(portData);
+    const auto& portDataType = std::get<BlockInformation::Port::DataType>(portData);
+
+    bool ok = false;
+
+    switch (portDimensions.size()) {
+        // 1D Vector
+        case 1: {
+            const VectorSize width = portDimensions.at(0);
+            ok = setInputPortVectorSize(portIndex, width)
+                 && setInputPortType(portIndex, portDataType);
+            break;
+        }
+            // 2D Matrix
+        case 2: {
+            const Rows rows = portDimensions.at(0);
+            const Cols cols = portDimensions.at(1);
+            ok = setInputPortMatrixSize(portIndex, {rows, cols})
+                 && setInputPortType(portIndex, portDataType);
+            break;
+        }
+    }
+
+    if (!ok) {
+        wbtError << "Failed to configure input port with index " << portIndex << ".";
+        return false;
+    }
+
+    return true;
+}
+
+bool SimulinkBlockInformation::updateOutputPortData(const BlockInformation::PortData& portData)
+{
+    // Get the port dimensions
+    const auto portDimensions = std::get<BlockInformation::Port::Dimensions>(portData);
+    if (portDimensions.size() > 2) {
+        wbtError << "Only vector (1D) and matrix (2D) output ports are supported.";
+        return false;
+    }
+
+    // Get the port index and type
+    const auto portIndex = std::get<BlockInformation::Port::Index>(portData);
+    const auto portDataType = std::get<BlockInformation::Port::DataType>(portData);
+
+    bool ok = false;
+
+    switch (portDimensions.size()) {
+        // 1D Vector
+        case 1: {
+            const VectorSize width = portDimensions.at(0);
+            ok = setOutputPortVectorSize(portIndex, width)
+                 && setOutputPortType(portIndex, portDataType);
+            break;
+        }
+            // 2D Matrix
+        case 2: {
+            const Rows rows = portDimensions.at(0);
+            const Cols cols = portDimensions.at(1);
+            ok = setOutputPortMatrixSize(portIndex, {rows, cols})
+                 && setOutputPortType(portIndex, portDataType);
+            break;
+        }
+    }
+
+    if (!ok) {
+        wbtError << "Failed to configure output port with index " << portIndex << ".";
+        return false;
+    }
+
+    return true;
+}
+
+BlockInformation::PortData
+SimulinkBlockInformation::getInputPortData(const BlockInformation::PortIndex idx) const
+{
+    const wbt::DataType dt = mapSimulinkToPortType(ssGetInputPortDataType(simstruct, idx));
+    std::vector<int> portDimension;
+
+    switch (ssGetInputPortNumDimensions(simstruct, idx)) {
+        case 1:
+            portDimension = {ssGetInputPortWidth(simstruct, idx)};
+            break;
+        case 2: {
+            const auto dims = ssGetInputPortDimensions(simstruct, idx);
+            portDimension = {dims[0], dims[1]};
+            break;
+        }
+    }
+
+    return std::make_tuple(idx, portDimension, dt);
+}
+
+BlockInformation::PortData
+SimulinkBlockInformation::getOutputPortData(const BlockInformation::PortIndex idx) const
+{
+    const wbt::DataType dt = mapSimulinkToPortType(ssGetOutputPortDataType(simstruct, idx));
+    std::vector<int> portDimension;
+
+    switch (ssGetOutputPortNumDimensions(simstruct, idx)) {
+        case 1:
+            portDimension = {ssGetOutputPortWidth(simstruct, idx)};
+            break;
+        case 2: {
+            const auto dims = ssGetOutputPortDimensions(simstruct, idx);
+            portDimension = {dims[0], dims[1]};
+            break;
+        }
+    }
+
+    return std::make_tuple(idx, portDimension, dt);
 }
 
 std::weak_ptr<wbt::RobotInterface> SimulinkBlockInformation::getRobotInterface() const
