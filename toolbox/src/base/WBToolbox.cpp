@@ -97,17 +97,33 @@ static void mdlCheckParameters(SimStruct* S)
 #define MDL_SET_INPUT_PORT_DIMENSION_INFO
 static void mdlSetInputPortDimensionInfo(SimStruct* S, int_T port, const DimsInfo_T* dimsInfo)
 {
-    // TODO: for now accept the proposed size.
-    // If we want to change the behaviour we have to implement some callbacks
-    ssSetInputPortDimensionInfo(S, port, dimsInfo);
+    // If the port is set as dynamic and the proposed dimension is not dynamic (hence calculated by
+    // the signal propagation) accept it
+    if (ssGetInputPortWidth(S, port) == DYNAMICALLY_SIZED) {
+        if (dimsInfo->width != DYNAMICALLY_SIZED) {
+            if (!ssSetInputPortDimensionInfo(S, port, dimsInfo)) {
+                wbtError << "Failed to set proposed sizes.";
+                catchLogMessages(false, S);
+                return;
+            }
+        }
+    }
 }
 
 #define MDL_SET_OUTPUT_PORT_DIMENSION_INFO
 static void mdlSetOutputPortDimensionInfo(SimStruct* S, int_T port, const DimsInfo_T* dimsInfo)
 {
-    // TODO: for now accept the proposed size.
-    // If we want to change the behaviour we have to implement some callbacks
-    ssSetOutputPortDimensionInfo(S, port, dimsInfo);
+    // If the port is set as dynamic and the proposed dimension is not dynamic (hence calculated by
+    // the signal propagation) accept it
+    if (ssGetOutputPortWidth(S, port) == DYNAMICALLY_SIZED) {
+        if (dimsInfo->width != DYNAMICALLY_SIZED) {
+            if (!ssSetOutputPortDimensionInfo(S, port, dimsInfo)) {
+                wbtError << "Failed to set proposed sizes.";
+                catchLogMessages(false, S);
+                return;
+            }
+        }
+    }
 }
 
 // Function: mdlInitializeSizes ===============================================
