@@ -53,6 +53,7 @@ enum OutputIndex
 class RelativeTransform::impl
 {
 public:
+    iDynTree::VectorDynSize jointConfiguration;
     iDynTree::FrameIndex frame1Index = iDynTree::FRAME_INVALID_INDEX;
     iDynTree::FrameIndex frame2Index = iDynTree::FRAME_INVALID_INDEX;
 };
@@ -182,6 +183,10 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // Initialize the buffer
+    pImpl->jointConfiguration.resize(kinDyn->getNrOfDegreesOfFreedom());
+    pImpl->jointConfiguration.zero();
+
     return true;
 }
 
@@ -213,20 +218,11 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // Create a Signal with an identity base
-    auto fakeBase = Signal(Signal::DataFormat::CONTIGUOUS,
-                           DataType::DOUBLE,
-                           /*isConst=*/false);
-    fakeBase.setWidth(16);
-    fakeBase.initializeBufferFromContiguous(
-        iDynTree::Transform::Identity().asHomogeneousTransform().data());
-
-    bool ok = setRobotState(&fakeBase, &jointsPosSig, nullptr, nullptr, kinDyn.get());
-
-    if (!ok) {
-        wbtError << "Failed to set the robot state.";
-        return false;
+    for (unsigned i = 0; i < jointsPosSig.getWidth(); ++i) {
+        pImpl->jointConfiguration.setVal(i, jointsPosSig.get<double>(i));
     }
+
+    kinDyn->setJointPos(pImpl->jointConfiguration);
 
     // OUTPUT
     // ======
