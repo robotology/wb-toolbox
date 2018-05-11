@@ -12,7 +12,6 @@
 #include "Parameter.h"
 #include "Parameters.h"
 #include "Signal.h"
-#include "ToolboxSingleton.h"
 
 #include <algorithm>
 #include <string>
@@ -720,23 +719,6 @@ bool SimulinkBlockInformation::parseParameters(wbt::Parameters& parameters)
         }
     }
 
-    // This code is shared with the CoderBlockParameter
-    //
-    // Check if the parameters object contains all the information for creating a
-    // Configuration object.
-    if (Parameters::containConfigurationData(parameters)) {
-        if (!ToolboxSingleton::sharedInstance().storeConfiguration(parameters)) {
-            wbtError << "Failed to store a Configuration object in the ToolboxSigleton.";
-            return false;
-        }
-        // Save the name of the Configuration block which the processed WBBlock refers to
-        if (!parameters.getParameter("ConfBlockName", m_confBlockName)) {
-            wbtError << "Failed to read ConfBlockName parameter from the Parameters object "
-                     << "that should store Configuration data.";
-            return false;
-        }
-    }
-
     // Remove the metadata of the parameters already parsed.
     // This is necessary for adding later more metadata and calling again this method
     // (storing again an already stored parameter raises an error).
@@ -896,16 +878,4 @@ SimulinkBlockInformation::getOutputPortData(const BlockInformation::PortIndex id
     }
 
     return std::make_tuple(idx, portDimension, dt);
-}
-
-std::weak_ptr<wbt::RobotInterface> SimulinkBlockInformation::getRobotInterface() const
-{
-    // Returns a nullptr if it fails
-    return ToolboxSingleton::sharedInstance().getRobotInterface(m_confBlockName);
-}
-
-std::weak_ptr<iDynTree::KinDynComputations> SimulinkBlockInformation::getKinDynComputations() const
-{
-    // Returns a nullptr if it fails
-    return ToolboxSingleton::sharedInstance().getKinDynComputations(m_confBlockName);
 }

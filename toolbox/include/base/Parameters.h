@@ -171,19 +171,6 @@ public:
      *         `dummy` otherwise.
      */
     wbt::ParameterMetadata getParameterMetadata(const ParamName& name);
-
-    /**
-     * @brief Helper function for creating wbt::Configuration objects
-     *
-     * This helper method checks if the object has all the parameters for creating a
-     * wbt::Configuration object.
-     *
-     * @param parameters The parameters set where to look.
-     * @return True if the requirements are met, false otherwise.
-     *
-     * @see ToolboxSingleton::storeConfiguration
-     */
-    static bool containConfigurationData(const wbt::Parameters& parameters);
 };
 
 // ============

@@ -66,9 +66,6 @@ public:
     // Configuration from Simulink Block's parameters
     const wbt::Configuration config;
 
-    // Counters for resource allocation / deallocation
-    unsigned robotDeviceCounter = 0;
-
     // Pointer to the RobotInterface object
     wbt::RobotInterface* robotInterface = nullptr;
 
@@ -194,20 +191,6 @@ public:
         // Misc options
         yarp::os::Property& remoteCBOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
         remoteCBOpts.put("writeStrict", "on");
-
-        // If resources have been properly cleaned, there should be no allocated device.
-        // However, if blocks fail and they don't terminate, the state of the singleton
-        // could be not clean.
-        if (robotDevice) {
-            // Force the release
-            robotDeviceCounter = 1;
-            wbtWarning << "The RobotInterface state is dirty. "
-                       << "Trying to clean the state before proceeding.";
-            if (!robotInterface->releaseRemoteControlBoardRemapper()) {
-                wbtError << "Failed to force the release of the RemoteControlBoardRemapper.";
-                return false;
-            }
-        }
 
         // Allocate the interface driver
         robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
@@ -412,16 +395,12 @@ RobotInterface::RobotInterface(const wbt::Configuration& config)
 
 RobotInterface::~RobotInterface()
 {
-    // Asserts for debugging purpose.
-
-    // - 1 if at least one block asked the model. At this point only the shared_ptr
-    //     of pImpl->kinDynComp should be still alive (--> 1)
-    // - 0 if no block asked for the model. pImpl->kinDynComp was never allocated.
-    assert(pImpl->kinDynComp.use_count() <= 1);
-
-    // pImpl->robotDevice should be destroyed by the last releaseCB()
-    assert(!pImpl->robotDevice);
-    assert(pImpl->robotDeviceCounter == 0);
+    // Close the RemoteControlBoardRemapper
+    if (pImpl->robotDevice) {
+        pImpl->robotDevice->close();
+    }
+    // Finalize the network
+    yarp::os::Network::fini();
 }
 
 // GET METHODS
@@ -500,71 +479,6 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
     return pImpl->kinDynComp;
 }
 
-// LAZY EVALUATION
-// ===============
-
-bool RobotInterface::retainRemoteControlBoardRemapper()
-{
-    if (pImpl->robotDeviceCounter > 0) {
-        pImpl->robotDeviceCounter++;
-        return true;
-    }
-
-    assert(!pImpl->robotDevice);
-    if (pImpl->robotDevice) {
-        pImpl->robotDevice.reset();
-    }
-
-    if (!pImpl->initializeRemoteControlBoardRemapper()) {
-        wbtError << "First initialization of the RemoteControlBoardRemapper failed.";
-        return false;
-    }
-
-    pImpl->robotDeviceCounter++;
-    return true;
-}
-
-bool RobotInterface::releaseRemoteControlBoardRemapper()
-{
-    // The RemoteControlBoardRemapper has not been used
-    if (pImpl->robotDeviceCounter == 0) {
-        return true;
-    }
-
-    // If there are at most 2 blocks with th CB still used
-    if (pImpl->robotDeviceCounter > 1) {
-        pImpl->robotDeviceCounter--;
-        return true;
-    }
-
-    // This should be executed by the last block which uses CB (pImpl->robotDeviceCounter=1)
-    assert(pImpl->robotDevice);
-    if (pImpl->robotDevice) {
-        // Set to zero all the pointers to the interfaces
-        pImpl->yarpInterfaces.iControlMode2 = nullptr;
-        pImpl->yarpInterfaces.iPositionControl = nullptr;
-        pImpl->yarpInterfaces.iPositionDirect = nullptr;
-        pImpl->yarpInterfaces.iVelocityControl = nullptr;
-        pImpl->yarpInterfaces.iTorqueControl = nullptr;
-        pImpl->yarpInterfaces.iPWMControl = nullptr;
-        pImpl->yarpInterfaces.iCurrentControl = nullptr;
-        pImpl->yarpInterfaces.iEncoders = nullptr;
-        pImpl->yarpInterfaces.iMotorEncoders = nullptr;
-        pImpl->yarpInterfaces.iControlLimits2 = nullptr;
-        pImpl->yarpInterfaces.iPidControl = nullptr;
-        //  Close the device (which deletes the interfaces it allocated)
-        pImpl->robotDevice->close();
-        // Free the object
-        pImpl->robotDevice.reset();
-    }
-
-    // Initialize the network
-    yarp::os::Network::init();
-
-    pImpl->robotDeviceCounter = 0;
-    return true;
-}
-
 // TEMPLATED METHODS
 // =================
 
@@ -572,12 +486,12 @@ template <typename T>
 T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
 {
     if (!interface) {
-        // Blocks which require the RemoteControlBoardRemapper need to retain / release it
-        // in their initialization / terminate phase;
+        // Lazy-initialize the RemoteControlBoardRemapper device
         if (!cbRemapper) {
-            wbtError << "The RemoteControlBoardRemapper has not been initialized. " << std::endl
-                     << "You need to retain the CB device in the initialize() method.";
-            return nullptr;
+            if (!initializeRemoteControlBoardRemapper()) {
+                wbtError << "Failed to initialize the RemoteControlBoardRemapper.";
+                return nullptr;
+            }
         }
 
         // Ask the interface from the device
@@ -587,7 +501,7 @@ T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
         }
     }
 
-    // Return true if the raw pointer is not null
+    // Return the raw pointer
     return interface;
 }
 

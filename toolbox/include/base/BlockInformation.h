@@ -211,22 +211,6 @@ public:
      */
     virtual wbt::Signal getOutputPortSignal(const PortIndex idx,
                                             const VectorSize size = -1) const = 0;
-
-    // ==========================
-    // EXTERNAL LIBRARIES METHODS
-    // ==========================
-
-    /**
-     * @brief Get the wbt::RobotInterface object associated to the Block
-     * @return The pointer to the wbt::RobotInterface object
-     */
-    virtual std::weak_ptr<wbt::RobotInterface> getRobotInterface() const = 0;
-
-    /**
-     * @brief Get the iDynTree::KinDynComputations object associated to the Block
-     * @return The pointer to the iDynTree::KinDynComputations object
-     */
-    virtual std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const = 0;
 };
 
 struct wbt::BlockInformation::IOData

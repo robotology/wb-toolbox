@@ -243,14 +243,6 @@ wbt::ParameterMetadata Parameters::getParameterMetadata(const ParamName& name)
     }
 }
 
-bool Parameters::containConfigurationData(const wbt::Parameters& parameters)
-{
-    return parameters.existName("ConfBlockName") && parameters.existName("RobotName")
-           && parameters.existName("UrdfFile") && parameters.existName("LocalName")
-           && parameters.existName("ControlledJoints") && parameters.existName("ControlBoardsNames")
-           && parameters.existName("GravityVector");
-}
-
 // =========
 // TEMPLATES
 // =========

@@ -13,7 +13,6 @@
 #include "RobotInterface.h"
 
 #include <array>
-#include <cassert>
 #include <ostream>
 #include <stddef.h>
 #include <string>
@@ -27,31 +26,36 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
-ToolboxSingleton::ToolboxSingleton() {}
-ToolboxSingleton::~ToolboxSingleton() {}
+ToolboxSingleton::ToolboxSingleton() = default;
+ToolboxSingleton::~ToolboxSingleton() = default;
 
 // UTILITIES
 // =========
 
-int ToolboxSingleton::numberOfDoFs(const std::string& confKey)
+int ToolboxSingleton::numberOfDoFs(const std::string& confKey) const
 {
-    if (!isKeyValid(confKey))
+    if (!isKeyValid(confKey)) {
         return -1;
-    else
-        return m_interfaces[confKey]->getConfiguration().getNumberOfDoFs();
+    }
+
+    return m_interfaces.at(confKey).lock()->getConfiguration().getNumberOfDoFs();
 }
 
 bool ToolboxSingleton::isKeyValid(const std::string& confKey) const
 {
-    if (m_interfaces.find(confKey) != m_interfaces.end()) {
-        if (m_interfaces.at(confKey))
-            return true;
-        else
-            return false;
-    }
-    else {
+    if (m_interfaces.find(confKey) == m_interfaces.end()) {
+        wbtError << "Failed to find entry in the ToolboxSingleton related to " << confKey
+                 << " key.";
         return false;
     }
+
+    if (!m_interfaces.at(confKey).lock()) {
+        wbtError << "Failed to get the RobotInterface object from its weak pointer stored in "
+                 << "TolboxSingleton.";
+        return false;
+    }
+
+    return true;
 }
 
 // GET METHODS
@@ -75,7 +79,7 @@ ToolboxSingleton::getRobotInterface(const std::string& confKey) const
         return nullptr;
     }
 
-    return m_interfaces.at(confKey);
+    return m_interfaces.at(confKey).lock();
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations>
@@ -85,43 +89,51 @@ ToolboxSingleton::getKinDynComputations(const std::string& confKey) const
         return nullptr;
     }
 
-    return m_interfaces.at(confKey)->getKinDynComputations();
+    return m_interfaces.at(confKey).lock()->getKinDynComputations();
 }
 
 // TOOLBOXSINGLETON CONFIGURATION
 // ==============================
 
-bool ToolboxSingleton::storeConfiguration(const Configuration& config)
+std::shared_ptr<RobotInterface> ToolboxSingleton::createRobotInterface(const Configuration& config)
 {
     if (!config.isValid()) {
-        return false;
+        wbtError << "The passed configuration object does not contain valid data.";
+        return {};
     }
 
-    const std::string confKey = config.getConfKey();
+    const std::string& confKey = config.getConfKey();
 
-    // Add the new Configuration object and override an existing key if it already exist.
-    // Note: Simulink doesn't flush memory unless Matlab is closed, and static objects stay in
-    // memory.
-    //       This may cause problems if the config block's mask is changed after the first
-    //       compilation.
-    if (m_interfaces.find(confKey) == m_interfaces.end()) {
-        m_interfaces[confKey] = std::make_shared<RobotInterface>(config);
-        return static_cast<bool>(m_interfaces[confKey]);
-    }
-
-    if (!(m_interfaces[confKey]->getConfiguration() == config)) {
-        assert(m_interfaces[confKey]);
-
-        // Delete the old configuration (calling the destructor for cleaning garbage)
-        m_interfaces[confKey].reset();
+    // If there's already a key matching confKey, but the related smart pointer is expired, it means
+    // that it is a leftofer from a previous state. Clean the entry.
+    if (m_interfaces.find(confKey) != m_interfaces.end() && m_interfaces.at(confKey).expired()) {
         m_interfaces.erase(confKey);
-
-        // Allocate a new configuration
-        m_interfaces[confKey] = std::make_shared<RobotInterface>(config);
-        return static_cast<bool>(m_interfaces[confKey]);
     }
 
-    return true;
+    // If there is no key matching confKey, it means that a new RobotInterface object should be
+    // allocated
+    if (m_interfaces.find(confKey) == m_interfaces.end()) {
+        // Create a temporary shared pointer
+        auto sharedTmp = std::make_shared<RobotInterface>(config);
+        // Store a weak pointer
+        m_interfaces[confKey] = sharedTmp;
+        // Return the shared pointer
+        return sharedTmp;
+    }
+
+    // If, instead, the key exists and the pointer has not expired, probably it was created
+    // previously by another block that points to the same Configuration block. Just to be sure,
+    // check if the Configuration objects match:
+    if (!(m_interfaces[confKey].lock()->getConfiguration() == config)) {
+        wbtError << "A RobotInterface pointing to " << confKey
+                 << " Configuration block already exists, but contains a different "
+                 << "wbt::Configuration object.";
+        return {};
+    }
+
+    // At this point, it is safe to return the already stored RobotInterface object addressed by
+    // confKey
+    return m_interfaces[confKey].lock();
 }
 
 bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
@@ -145,6 +157,12 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
     ok = ok && parameters.getParameter("GravityVector", gravityVector);
     ok = ok && parameters.getParameter("ConfBlockName", confBlockName);
 
+    if (!ok) {
+        wbtError << "The parameters passed do not contain all the required information to create a "
+                 << "Configuration object.";
+        return false;
+    }
+
     // Populate the Configuration object
     // =================================
 
@@ -161,35 +179,36 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
     }
     configurationPtr->setGravityVector(gravityArray);
 
-    return ok;
+    return true;
 }
 
-bool ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
+std::shared_ptr<RobotInterface>
+ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
 {
-    if (!Parameters::containConfigurationData(parameters)) {
-        wbtError << "Passed Parameters object does not contain the right data for initializing a "
-                 << "Configuration object.";
-        return false;
-    }
-
     std::shared_ptr<Configuration> configurationPtr = nullptr;
+
+    // Create the Configuration object. This checks if parameters contain all the required
+    // parameters.
     if (!fillConfiguration(configurationPtr, parameters)) {
         wbtError << "Failed to fill the configuration with input parameters.";
-        return false;
+        return {};
     }
 
     if (!configurationPtr || !configurationPtr->isValid()) {
-        wbtError << "Parsed Configuration object is not valid.";
-        return false;
+        wbtError << "The parsed Configuration object is not valid.";
+        return {};
     }
 
-    // Insert the configuration into the Toolbox Singleton
-    if (!storeConfiguration(*configurationPtr)) {
-        wbtError << "Failed to store the given configuration in the ToolboxSingleton.";
-        return false;
+    // Create a RobotInterface from the Configuration block. A weak pointer is stored in the
+    // ToolboxSingleton and a shared pointer is returned to the caller (which owns the memory)
+    auto robotInterface = createRobotInterface(*configurationPtr);
+
+    if (!robotInterface) {
+        wbtError << "Failed to get the RobotInterface object.";
+        return {};
     }
 
-    return true;
+    return robotInterface;
 }
 
 void ToolboxSingleton::eraseConfiguration(const std::string& confKey)

@@ -143,7 +143,7 @@ public:
     /**
      * @brief Get a Yarp interface
      *
-     * The interface is lazy-evaluated. The handling of the memory is not responbility of the
+     * The interface is lazy-evaluated. The handling of the memory is not responsibility of the
      * caller. It is handled internally.
      *
      * @param[out] interface The object that will contain the pointer to the interface.
@@ -151,34 +151,6 @@ public:
      */
     template <typename T>
     bool getInterface(T*& interface);
-
-    // LAZY EVALUATION
-    // ===============
-
-    /**
-     * @brief Handle the internal counter for using the `RemoteControlBoardRemapper`.
-     *
-     * @attention All the blocks which need to use any of the interfaces provided by
-     *            wbt::YarpInterfaces must call this function in their Block::initialize method.
-     *
-     * @return True if success, false otherwise.
-     * @see RobotInterface::releaseRemoteControlBoardRemapper
-     */
-    bool retainRemoteControlBoardRemapper();
-
-    /**
-     * @brief Handle the internal counter for using the `RemoteControlBoardRemapper`.
-     *
-     * After the call from the last instance which retained the object, the
-     * `RemoteControlBoardRemapper` and all the allocated drivers get destroyed.
-     *
-     * @attention All the blocks which need to use any of the interfaces provided by
-     *            wbt::YarpInterfaces must call this function in their Block::terminate method.
-     *
-     * @return True if success, false otherwise.
-     * @see RobotInterface::retainRemoteControlBoardRemapper
-     */
-    bool releaseRemoteControlBoardRemapper();
 };
 
 // Specialize the getInterface template

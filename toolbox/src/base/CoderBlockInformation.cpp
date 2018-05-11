@@ -10,7 +10,6 @@
 #include "Log.h"
 #include "Parameter.h"
 #include "Parameters.h"
-#include "ToolboxSingleton.h"
 
 #include <string>
 #include <tuple>
@@ -226,24 +225,6 @@ bool CoderBlockInformation::storeRTWParameters(const Parameters& parameters)
     }
 
     pImpl->parametersFromRTW = parameters;
-
-    // This code is shared with SimulinkBlockInformation::parseParameters
-    //
-    // Check if the parameters object contains all the information for creating a
-    // Configuration object.
-    if (Parameters::containConfigurationData(parameters)) {
-        if (!ToolboxSingleton::sharedInstance().storeConfiguration(parameters)) {
-            wbtError << "Failed to store a Configuration object in the ToolboxSigleton.";
-            return false;
-        }
-        // Save the name of the Configuration block which the processed WBBlock refers to
-        if (!parameters.getParameter("ConfBlockName", pImpl->confBlockName)) {
-            wbtError << "Failed to read ConfBlockName parameter from the Parameters object "
-                     << "that should store Configuration data.";
-            return false;
-        }
-    }
-
     return true;
 }
 
@@ -315,28 +296,4 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
 
     pImpl->outputSignals[portNumber].setWidth(numElements);
     return pImpl->outputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
-}
-
-std::weak_ptr<wbt::RobotInterface> CoderBlockInformation::getRobotInterface() const
-{
-    if (pImpl->confBlockName.empty()) {
-        wbtError << "No ConfBlockName stored. Failed to get RobotInterface object.";
-        // Return an empty weak pointer
-        return std::weak_ptr<wbt::RobotInterface>();
-    }
-
-    ToolboxSingleton& interface = ToolboxSingleton::sharedInstance();
-    return interface.getRobotInterface(pImpl->confBlockName);
-}
-
-std::weak_ptr<iDynTree::KinDynComputations> CoderBlockInformation::getKinDynComputations() const
-{
-    if (pImpl->confBlockName.empty()) {
-        wbtError << "No ConfBlockName stored. Failed to get KinDynComputations object.";
-        // Return an empty weak pointer
-        return std::weak_ptr<iDynTree::KinDynComputations>();
-    }
-
-    ToolboxSingleton& interface = ToolboxSingleton::sharedInstance();
-    return interface.getKinDynComputations(pImpl->confBlockName);
 }

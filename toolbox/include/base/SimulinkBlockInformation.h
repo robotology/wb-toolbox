@@ -70,12 +70,6 @@ public:
     getOutputPortSignal(const PortIndex idx,
                         const VectorSize size = wbt::Signal::DynamicSize) const override;
 
-    // EXTERNAL LIBRARIES METHODS
-    // ==========================
-
-    std::weak_ptr<wbt::RobotInterface> getRobotInterface() const override;
-    std::weak_ptr<iDynTree::KinDynComputations> getKinDynComputations() const override;
-
     // METHODS OUTSIDE THE INTERFACE
     // =============================
 
