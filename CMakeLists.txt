@@ -13,6 +13,14 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Tweak linker flags in Linux
+if(UNIX AND NOT APPLE)
+    get_filename_component(LINKER_BIN ${CMAKE_LINKER} NAME)
+    if(${LINKER_BIN} STREQUAL "ld")
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--unresolved-symbols=report-all")
+    endif()
+endif()
+
 # Add custom functions / macros
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
