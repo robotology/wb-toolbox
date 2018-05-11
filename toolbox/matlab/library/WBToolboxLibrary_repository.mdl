@@ -47,11 +47,11 @@ Library {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"192"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[2236.0, 1362.0]
-	ZoomFactor		[4.2756410256410255]
-	Offset			[95.9633452655035, 10.725637181409297]
+	ZoomFactor		[4.95067264573991]
+	Offset			[13.172101449275374, -23.057065217391312]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -85,9 +85,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed May 09 11:46:42 2018"
-  RTWModifiedTimeStamp	  447767199
-  ModelVersionFormat	  "1.%<AutoIncrement:551>"
+  LastModifiedDate	  "Fri May 11 12:36:32 2018"
+  RTWModifiedTimeStamp	  447942985
+  ModelVersionFormat	  "1.%<AutoIncrement:554>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1071,7 +1071,7 @@ Library {
   System {
     Name		    "WBToolboxLibrary_repository"
     Location		    [645, 327, 2919, 1855]
-    Open		    off
+    Open		    on
     PortBlocksUseCompactNotation off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1106,7 +1106,7 @@ Library {
       System {
 	Name			"Utilities"
 	Location		[645, 327, 2919, 1855]
-	Open			on
+	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2425,7 +2425,7 @@ Library {
 	    "reate. No autoconnection is performed, and the output will be always zero until the user connects it to some othe"
 	    "r port from command line using 'yarp connect [from] [dest]'.\n\nWhen 'Autoconnect' is off, an additional output c"
 	    "alled 'signal' is added to the block. It outputs 1 if the port has received at least one sample, or 0 otherwise.\n"
-	    SelfModifiable	    "on"
+	    Initialization	    "% Solve error in string parsing. Force the type.\nportName = char(portName);"
 	    Display		    "port_label('output', 1, 'signal');\nportNumber = 1;\nif (timestamp)\n    portNumber = portNumber + "
 	    "1;\n    port_label('output', portNumber, 'timestamp');\nend\n\nif (~autoconnect)\n    portNumber = portNumber + 1"
 	    ";\n    port_label('output', portNumber, 'status');\nend\n\n"
@@ -4787,7 +4787,7 @@ Library {
 	      }
 	      System {
 		Name			"Forward Kinematics"
-		Location		[1277, 266, 3551, 1794]
+		Location		[645, 327, 2919, 1855]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -5261,7 +5261,7 @@ Library {
 	      }
 	      System {
 		Name			"Relative Transform"
-		Location		[1277, 266, 3551, 1794]
+		Location		[645, 327, 2919, 1855]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -5290,7 +5290,7 @@ Library {
 		  Ports			  [1, 1]
 		  Position		  [120, 40, 180, 70]
 		  ZOrder		  27
-		  FunctionName		  "WB-Toolbox"
+		  FunctionName		  "WBToolbox"
 		  Parameters		  "'RelativeTransform',WBTConfigParameters,configBlockAbsName,frame1, frame2"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
@@ -6063,7 +6063,7 @@ Library {
       "1) http://www.codyco.eu</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
       ":0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#636363;\">H2020 EU Project AnDy (No. 731540 H"
       "2020-ICT-2016-1) http://andy-project.eu</span></p></body></html>"
-      Position		      [157, 176, 159, 199]
+      Position		      [157, 176, 333, 213]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
