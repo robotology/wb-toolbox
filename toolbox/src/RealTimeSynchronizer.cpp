@@ -16,6 +16,7 @@
 #include <yarp/os/Time.h>
 
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
 const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
@@ -67,29 +68,21 @@ bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
 
 bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!Block::initialize(blockInfo)) {
-        return false;
-    }
-
     // INPUTS
     // ======
     //
     // No inputs
     //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to set input port number to 0.";
-        return false;
-    }
-
     // OUTPUTS
     // =======
     //
     // No outputs
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(0)) {
-        wbtError << "Failed to set output port number.";
+    const bool ok = blockInfo->setIOPortsData({{}, {}});
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -120,6 +113,9 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // CLASS INITIALIZATION
+    // ====================
+
     yarp::os::Network::init();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         wbtError << "YARP server wasn't found active!!";
@@ -129,13 +125,13 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
     return true;
 }
 
-bool RealTimeSynchronizer::terminate(const BlockInformation* blockInfo)
+bool RealTimeSynchronizer::terminate(const BlockInformation* /*blockInfo*/)
 {
     yarp::os::Network::fini();
     return true;
 }
 
-bool RealTimeSynchronizer::output(const BlockInformation* blockInfo)
+bool RealTimeSynchronizer::output(const BlockInformation* /*blockInfo*/)
 {
     if (pImpl->counter == 0) {
         pImpl->initialTime = yarp::os::Time::now();

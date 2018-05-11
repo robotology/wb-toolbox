@@ -93,29 +93,21 @@ bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
 
 bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!Block::initialize(blockInfo)) {
-        return false;
-    }
-
     // INPUTS
     // ======
     //
     // No inputs
     //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to set input port number to 0.";
-        return false;
-    }
-
-    // OUTPUT
-    // ======
+    // OUTPUTS
+    // =======
     //
     // No outputs
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(0)) {
-        wbtError << "Failed to set output port number.";
+    const bool ok = blockInfo->setIOPortsData({{}, {}});
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -148,6 +140,9 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
         wbtError << "Error reading RPC parameters.";
         return false;
     }
+
+    // CLASS INITIALIZATION
+    // ====================
 
     yarp::os::Network::init();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork()) {

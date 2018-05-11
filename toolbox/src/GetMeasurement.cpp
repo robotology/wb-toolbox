@@ -23,6 +23,7 @@
 
 #include <cmath>
 #include <ostream>
+#include <tuple>
 #include <vector>
 
 using namespace wbt;
@@ -35,6 +36,11 @@ enum ParamIndex
 {
     Bias = WBBlock::NumberOfParameters - 1,
     MeasType
+};
+
+enum OutputIndex
+{
+    Measurement = 0,
 };
 
 // BLOCK PIMPL
@@ -101,40 +107,37 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUTS
-    // ======
-    //
-    // No inputs
-    //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to configure the number of input ports.";
-        return false;
-    }
-
-    // OUTPUTS
-    // =======
-    //
-    // 1) Vector with the information asked (1xDoFs)
-    //
-
-    if (!blockInfo->setNumberOfOutputPorts(1)) {
-        wbtError << "Failed to configure the number of output ports.";
-        return false;
-    }
-
     // Get the DoFs
     const auto robotInterface = getRobotInterface(blockInfo).lock();
     if (!robotInterface) {
         wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    bool success = blockInfo->setOutputPortVectorSize(0, dofs);
-    blockInfo->setOutputPortType(0, DataType::DOUBLE);
-    if (!success) {
-        wbtError << "Failed to configure output ports.";
+    // INPUTS
+    // ======
+    //
+    // No inputs
+    //
+    // OUTPUTS
+    // =======
+    //
+    // 1) Vector with the information asked (1xDoFs)
+    //
+
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::Measurement, std::vector<int>{dofs}, DataType::DOUBLE),
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -195,6 +198,9 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // CLASS INITIALIZATION
+    // ====================
+
     // Get the DoFs
     const auto robotInterface = getRobotInterface(blockInfo).lock();
     if (!robotInterface) {
@@ -225,8 +231,7 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
     }
 
     // Release the RemoteControlBoardRemapper
-    bool ok = true;
-    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
+    bool ok = robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
         wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -367,7 +372,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal
-    Signal output = blockInfo->getOutputPortSignal(0);
+    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Measurement);
     if (!output.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
@@ -376,6 +381,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     // Fill the output buffer
     if (!output.setBuffer(pImpl->measurement.data(), output.getWidth())) {
         wbtError << "Failed to set output buffer.";
+        return false;
     }
 
     return true;

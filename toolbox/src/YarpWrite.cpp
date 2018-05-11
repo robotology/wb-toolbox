@@ -19,6 +19,7 @@
 #include <yarp/sig/Vector.h>
 
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
 const std::string YarpWrite::ClassName = "YarpWrite";
@@ -32,6 +33,11 @@ enum ParamIndex
     PortName,
     Autoconnect,
     ErrMissingPort,
+};
+
+enum InputIndex
+{
+    Signal = 0,
 };
 
 // BLOCK PIMPL
@@ -79,31 +85,30 @@ bool YarpWrite::parseParameters(BlockInformation* blockInfo)
 
 bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!Block::initialize(blockInfo)) {
-        return false;
-    }
-
     // INPUT
     // =====
     //
     // 1) The signal to stream to the specified yarp port
     //
-
-    if (!blockInfo->setNumberOfInputPorts(1)) {
-        wbtError << "Failed to set input port number to 0.";
-        return false;
-    }
-    blockInfo->setInputPortVectorSize(0, Signal::DynamicSize);
-    blockInfo->setInputPortType(0, DataType::DOUBLE);
-
     // OUTPUT
     // ======
     //
     // No outputs
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(0)) {
-        wbtError << "Failed to set output port number.";
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(
+                InputIndex::Signal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -123,13 +128,6 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    Network::init();
-
-    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
-        return false;
-    }
-
     std::string portName;
 
     bool ok = true;
@@ -139,6 +137,16 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
 
     if (!ok) {
         wbtError << "Failed to read input parameters.";
+        return false;
+    }
+
+    // CLASS INITIALIZATION
+    // ====================
+
+    Network::init();
+
+    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -172,12 +180,12 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         }
     }
 
-    // Update the size of the signals that were sized dynamically before.
-    // At this stage Simulink knows the size.
-    const unsigned inputPortWidth = blockInfo->getInputPortWidth(0);
-    blockInfo->setInputPortVectorSize(0, inputPortWidth);
+    // Get the input port width
+    int inputPortWidth = std::get<BlockInformation::Port::Dimensions>(
+                             blockInfo->getInputPortData(InputIndex::Signal))
+                             .front();
 
-    // Initialize the size of the internal buffer handled by m_port
+    // Initialize the buffer
     pImpl->outputVector = pImpl->port.prepare();
     pImpl->outputVector.resize(inputPortWidth);
     return true;
@@ -198,7 +206,7 @@ bool YarpWrite::terminate(const BlockInformation* /*blockInfo*/)
 
 bool YarpWrite::output(const BlockInformation* blockInfo)
 {
-    const Signal signal = blockInfo->getInputPortSignal(0);
+    const Signal signal = blockInfo->getInputPortSignal(InputIndex::Signal);
 
     if (!signal.isValid()) {
         wbtError << "Input signal not valid.";

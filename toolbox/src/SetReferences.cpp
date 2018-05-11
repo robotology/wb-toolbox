@@ -27,6 +27,7 @@
 
 #include <cmath>
 #include <ostream>
+#include <tuple>
 #include <vector>
 
 using namespace wbt;
@@ -40,6 +41,11 @@ enum ParamIndex
     Bias = WBBlock::NumberOfParameters - 1,
     CtrlType,
     RefSpeed
+};
+
+enum InputIndex
+{
+    References = 0,
 };
 
 // BLOCK PIMPL
@@ -96,21 +102,7 @@ bool SetReferences::parseParameters(BlockInformation* blockInfo)
 
 bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // Memory allocation / Saving data not allowed here
-
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
-        return false;
-    }
-
-    // INPUTS
-    // ======
-    //
-    // 1) Joint refereces (1xDoFs vector)
-    //
-
-    // Number of inputs
-    if (!blockInfo->setNumberOfInputPorts(1)) {
-        wbtError << "Failed to configure the number of input ports.";
         return false;
     }
 
@@ -120,25 +112,31 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
         wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    // Size and type
-    bool success = blockInfo->setInputPortVectorSize(0, dofs);
-    blockInfo->setInputPortType(0, DataType::DOUBLE);
-
-    if (!success) {
-        wbtError << "Failed to configure input ports.";
-        return false;
-    }
-
+    // INPUTS
+    // ======
+    //
+    // 1) Joint refereces (1xDoFs vector)
+    //
     // OUTPUTS
     // =======
     //
     // No outputs
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(0)) {
-        wbtError << "Failed to configure the number of output ports.";
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(InputIndex::References, std::vector<int>{dofs}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -150,6 +148,14 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     if (!WBBlock::initialize(blockInfo)) {
         return false;
     }
+
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // PARAMETERS
     // ==========
@@ -170,16 +176,8 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // PRIVATE MEMBERS
-    // ===============
-
-    // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    // CLASS INITIALIZATION
+    // ====================
 
     // Retain the ControlBoardRemapper
     if (!robotInterface->retainRemoteControlBoardRemapper()) {
@@ -272,7 +270,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
 
     // Get the IControlMode2 interface
     IControlMode2* icmd2 = nullptr;
-    ok = ok && robotInterface->getInterface(icmd2);
+    ok = robotInterface->getInterface(icmd2);
     if (!ok || !icmd2) {
         wbtError << "Failed to get the IControlMode2 interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -282,7 +280,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         // Set all the controlledJoints VOCAB_CM_POSITION
         pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
 
-        ok = ok && icmd2->setControlModes(pImpl->controlModes.data());
+        ok = icmd2->setControlModes(pImpl->controlModes.data());
         if (!ok) {
             wbtError << "Failed to set control mode.";
             // Don't return false here. WBBlock::terminate must be called in any case
@@ -291,14 +289,14 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     else { // In Position mode, restore the default reference speeds
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
-        ok = ok && robotInterface->getInterface(interface);
+        ok = robotInterface->getInterface(interface);
         if (!ok || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
             // Don't return false here. WBBlock::terminate must be called in any case
         }
         // Restore default reference speeds
         if (interface) {
-            ok = ok && interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
+            ok = interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
             if (!ok) {
                 wbtError << "Failed to restore default reference speed.";
                 // Don't return false here. WBBlock::terminate must be called in any case
@@ -307,7 +305,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     }
 
     // Release the RemoteControlBoardRemapper
-    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
+    ok = robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
         wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case
@@ -361,7 +359,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     // Get the signal
-    const Signal references = blockInfo->getInputPortSignal(0);
+    const Signal references = blockInfo->getInputPortSignal(InputIndex::References);
     const unsigned signalWidth = references.getWidth();
 
     if (!references.isValid()) {

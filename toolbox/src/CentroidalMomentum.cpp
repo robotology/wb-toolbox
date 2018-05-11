@@ -18,22 +18,38 @@
 #include <iDynTree/KinDynComputations.h>
 
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
-
 const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
 
-const unsigned INPUT_IDX_BASE_POSE = 0;
-const unsigned INPUT_IDX_JOINTCONF = 1;
-const unsigned INPUT_IDX_BASE_VEL = 2;
-const unsigned INPUT_IDX_JOINT_VEL = 3;
-const unsigned OUTPUT_IDX_CENTRMOM = 0;
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum InputIndex
+{
+    BasePose = 0,
+    JointConfiguration,
+    BaseVelocity,
+    JointVelocity,
+};
+
+enum OutputIndex
+{
+    CentroidalMomentum = 0,
+};
+
+// BLOCK PIMPL
+// ===========
 
 class CentroidalMomentum::impl
 {
 public:
     iDynTree::SpatialMomentum centroidalMomentum;
 };
+
+// BLOCK CLASS
+// ===========
 
 CentroidalMomentum::CentroidalMomentum()
     : pImpl{new impl()}
@@ -45,6 +61,14 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
     // INPUTS
     // ======
     //
@@ -53,64 +77,38 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
     // 3) Base frame velocity (1x6 vector)
     // 4) Joints velocity (1xDoFs vector)
     //
-
-    // Number of inputs
-    if (!blockInfo->setNumberOfInputPorts(4)) {
-        wbtError << "Failed to configure the number of input ports.";
-        return false;
-    }
-
-    // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
-
-    // Size and type
-    bool success = true;
-    success = success && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_BASE_VEL, 6);
-    success = success && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINT_VEL, dofs);
-
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
-    blockInfo->setInputPortType(INPUT_IDX_BASE_VEL, DataType::DOUBLE);
-    blockInfo->setInputPortType(INPUT_IDX_JOINT_VEL, DataType::DOUBLE);
-
-    if (!success) {
-        wbtError << "Failed to configure input ports.";
-        return false;
-    }
-
     // OUTPUTS
     // =======
     //
     // 1) Vector representing the centroidal momentum (1x6)
     //
 
-    // Number of outputs
-    if (!blockInfo->setNumberOfOutputPorts(1)) {
-        wbtError << "Failed to configure the number of output ports.";
-        return false;
-    }
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(InputIndex::BasePose, std::vector<int>{4, 4}, DataType::DOUBLE),
+            std::make_tuple(
+                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
+            std::make_tuple(InputIndex::BaseVelocity, std::vector<int>{6}, DataType::DOUBLE),
+            std::make_tuple(InputIndex::JointVelocity, std::vector<int>{dofs}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::CentroidalMomentum, std::vector<int>{6}, DataType::DOUBLE),
+        },
+    });
 
-    // Size and type
-    success = blockInfo->setOutputPortVectorSize(OUTPUT_IDX_CENTRMOM, 6);
-    blockInfo->setOutputPortType(OUTPUT_IDX_CENTRMOM, DataType::DOUBLE);
-
-    return success;
-}
-
-bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
-{
-    if (!WBBlock::initialize(blockInfo)) {
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
     return true;
+}
+
+bool CentroidalMomentum::initialize(BlockInformation* blockInfo)
+{
+    return WBBlock::initialize(blockInfo);
 }
 
 bool CentroidalMomentum::terminate(const BlockInformation* blockInfo)
@@ -130,10 +128,10 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
-    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_BASE_VEL);
-    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(INPUT_IDX_JOINT_VEL);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(InputIndex::BaseVelocity);
+    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
     if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
         || !jointsVelocitySignal.isValid()) {
@@ -156,7 +154,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     pImpl->centroidalMomentum = kinDyn->getCentroidalTotalMomentum();
 
     // Get the output signal
-    Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_CENTRMOM);
+    Signal output = blockInfo->getOutputPortSignal(OutputIndex::CentroidalMomentum);
     if (!output.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
@@ -165,6 +163,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // Fill the output buffer
     if (!output.setBuffer(toEigen(pImpl->centroidalMomentum).data(), output.getWidth())) {
         wbtError << "Failed to set output buffer.";
+        return false;
     }
 
     return true;
