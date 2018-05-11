@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <iterator>
 #include <ostream>
-#include <tuple>
 #include <unordered_map>
 #include <vector>
 
@@ -94,26 +93,21 @@ bool SetLowLevelPID::configureSizeAndPorts(BlockInformation* blockInfo)
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {
         return false;
     }
-
     // INPUTS
     // ======
     //
     // No inputs
     //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to configure the number of input ports.";
-        return false;
-    }
-
     // OUTPUTS
     // =======
     //
     // No outputs
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(0)) {
-        wbtError << "Failed to configure the number of output ports.";
+    const bool ok = blockInfo->setIOPortsData({{}, {}});
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -153,8 +147,11 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // CLASS INITIALIZATION
+    // ====================
+
     // Create a map {joint => PID} from the parameters
-    // ===============================================
+    // -----------------------------------------------
 
     // Get the DoFs
     const auto robotInterface = getRobotInterface(blockInfo).lock();
@@ -165,7 +162,7 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     const auto& configuration = robotInterface->getConfiguration();
     const auto& controlledJoints = configuration.getControlledJoints();
 
-    // Pupulate the map
+    // Populate the map
     for (unsigned i = 0; i < pidJointList.size(); ++i) {
         // Find if the joint of the processed PID is a controlled joint
         auto findElement = std::find(
@@ -182,7 +179,7 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     }
 
     // Configure the class
-    // ===================
+    // -------------------
 
     if (controlType == "Position") {
         pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
@@ -253,25 +250,25 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
         return false;
     }
 
-    bool ok = true;
+    bool ok;
 
     // Get the IPidControl interface
     yarp::dev::IPidControl* iPidControl = nullptr;
-    ok = ok && robotInterface->getInterface(iPidControl);
+    ok = robotInterface->getInterface(iPidControl);
     if (!ok || !iPidControl) {
         wbtError << "Failed to get IPidControl interface.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Reset default PID gains
-    ok = ok && iPidControl->setPids(pImpl->controlType, pImpl->defaultPidValues.data());
+    ok = iPidControl->setPids(pImpl->controlType, pImpl->defaultPidValues.data());
     if (!ok) {
         wbtError << "Failed to reset PIDs to the default values.";
         // Don't return false here. WBBlock::terminate must be called in any case
     }
 
     // Release the RemoteControlBoardRemapper
-    ok = ok && robotInterface->releaseRemoteControlBoardRemapper();
+    ok = robotInterface->releaseRemoteControlBoardRemapper();
     if (!ok) {
         wbtError << "Failed to release the RemoteControlBoardRemapper.";
         // Don't return false here. WBBlock::terminate must be called in any case

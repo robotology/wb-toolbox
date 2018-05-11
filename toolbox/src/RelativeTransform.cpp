@@ -22,12 +22,11 @@
 #include <iDynTree/Model/Indices.h>
 
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
 const std::string RelativeTransform::ClassName = "RelativeTransform";
 
-const unsigned INPUT_IDX_JOINTCONF = 0;
-const unsigned OUTPUT_IDX_TRANSFORM = 0;
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
@@ -38,6 +37,15 @@ enum ParamIndex
     Frame2
 };
 
+enum InputIndex
+{
+    JointConfiguration = 0,
+};
+
+enum OutputIndex
+{
+    Transform = 0,
+};
 
 // BLOCK PIMPL
 // ===========
@@ -83,52 +91,39 @@ bool RelativeTransform::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    // INPUTS
-    // ======
-    //
-    // 1) Joints position (1xDoFs vector)
-    //
-
-    // Number of inputs
-    if (!blockInfo->setNumberOfInputPorts(1)) {
-        wbtError << "Failed to configure the number of input ports.";
-        return false;
-    }
-
     // Get the DoFs
     const auto robotInterface = getRobotInterface(blockInfo).lock();
     if (!robotInterface) {
         wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    bool ok = blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-    ok = ok && blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
-
-    if (!ok) {
-        wbtError << "Failed to configure input ports.";
-        return false;
-    }
-
+    // INPUTS
+    // ======
+    //
+    // 1) Joints position (1xDoFs vector)
+    //
     // OUTPUTS
     // =======
     //
     // 1) Homogeneous transformation between frame1 and frame2 (4x4 matrix)
     //
 
-    // Number of outputs
-    if (!blockInfo->setNumberOfOutputPorts(1)) {
-        wbtError << "Failed to configure the number of output ports.";
-        return false;
-    }
-
-    // Size and type
-    ok = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_TRANSFORM, {4, 4});
-    ok = ok && blockInfo->setOutputPortType(OUTPUT_IDX_TRANSFORM, DataType::DOUBLE);
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(
+                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::Transform, std::vector<int>{4, 4}, DataType::DOUBLE),
+        },
+    });
 
     if (!ok) {
-        wbtError << "Failed to configure output ports.";
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -160,6 +155,9 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
         wbtError << "Failed to get parameters after their parsing.";
         return false;
     }
+
+    // CLASS INITIALIZATION
+    // ====================
 
     // Check if the frames are valid
     // -----------------------------
@@ -205,10 +203,10 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // GET THE SIGNALS POPULATE THE ROBOT STATE
-    // ========================================
+    // GET THE SIGNALS
+    // ===============
 
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
     if (!jointsPosSig.isValid()) {
         wbtError << "Input signals not valid.";
@@ -239,7 +237,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     frame1_H_frame2 = kinDyn->getRelativeTransform(pImpl->frame1Index, pImpl->frame2Index);
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_TRANSFORM);
+    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
     if (!output.isValid()) {
         wbtError << "Output signal not valid.";
         return false;

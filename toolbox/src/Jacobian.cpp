@@ -24,13 +24,11 @@
 
 #include <memory>
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
 const std::string Jacobian::ClassName = "Jacobian";
 
-const unsigned INPUT_IDX_BASE_POSE = 0;
-const unsigned INPUT_IDX_JOINTCONF = 1;
-const unsigned OUTPUT_IDX_FW_FRAME = 0;
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
@@ -40,6 +38,16 @@ enum ParamIndex
     Frame
 };
 
+enum InputIndex
+{
+    BasePose = 0,
+    JointConfiguration,
+};
+
+enum OutputIndex
+{
+    Jacobian = 0,
+};
 
 // BLOCK PIMPL
 // ===========
@@ -53,6 +61,9 @@ public:
     bool frameIsCoM = false;
     iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
 };
+
+// BLOCK CLASS
+// ===========
 
 Jacobian::Jacobian()
     : pImpl{new impl()}
@@ -83,6 +94,14 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the DoFs
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+
     // INPUTS
     // ======
     //
@@ -90,51 +109,31 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
     // 2) Joints position (1xDoFs vector)
     // 3) Base frame velocity (1x6 vector)
     //
-
-    // Number of inputs
-    if (!blockInfo->setNumberOfInputPorts(2)) {
-        wbtError << "Failed to configure the number of input ports.";
-        return false;
-    }
-
-    // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
-
-    // Size and type
-    bool ok = true;
-    ok = ok && blockInfo->setInputPortMatrixSize(INPUT_IDX_BASE_POSE, {4, 4});
-    ok = ok && blockInfo->setInputPortVectorSize(INPUT_IDX_JOINTCONF, dofs);
-
-    blockInfo->setInputPortType(INPUT_IDX_BASE_POSE, DataType::DOUBLE);
-    blockInfo->setInputPortType(INPUT_IDX_JOINTCONF, DataType::DOUBLE);
-
-    if (!ok) {
-        wbtError << "Failed to configure input ports.";
-        return false;
-    }
-
     // OUTPUTS
     // =======
     //
     // 1) Matrix representing the Jacobian (6x(DoFs+6))
     //
 
-    // Number of outputs
-    if (!blockInfo->setNumberOfOutputPorts(1)) {
-        wbtError << "Failed to configure the number of output ports.";
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(InputIndex::BasePose, std::vector<int>{4, 4}, DataType::DOUBLE),
+            std::make_tuple(
+                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::Jacobian, std::vector<int>{6, 6 + dofs}, DataType::DOUBLE),
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
-    // Size and type
-    ok = blockInfo->setOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME, {6, 6 + dofs});
-    blockInfo->setOutputPortType(OUTPUT_IDX_FW_FRAME, DataType::DOUBLE);
-
-    return ok;
+    return true;
 }
 
 bool Jacobian::initialize(BlockInformation* blockInfo)
@@ -157,6 +156,9 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
         return false;
     }
 
+    // CLASS INITIALIZATION
+    // ====================
+
     // Check if the frame is valid
     // ---------------------------
 
@@ -178,8 +180,8 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
         pImpl->frameIndex = iDynTree::FRAME_INVALID_INDEX;
     }
 
-    // OUTPUT / VARIABLES
-    // ==================
+    // Initialize buffers
+    // ------------------
 
     // Get the DoFs
     const auto robotInterface = getRobotInterface(blockInfo).lock();
@@ -220,8 +222,8 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(INPUT_IDX_BASE_POSE);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(INPUT_IDX_JOINTCONF);
+    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
     if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
         wbtError << "Input signals not valid.";
@@ -260,7 +262,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OUTPUT_IDX_FW_FRAME);
+    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Jacobian);
     if (!output.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
@@ -268,11 +270,10 @@ bool Jacobian::output(const BlockInformation* blockInfo)
 
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(pImpl->jacobian);
-
-    const BlockInformation::MatrixSize outputSize =
-        blockInfo->getOutputPortMatrixSize(OUTPUT_IDX_FW_FRAME);
     Map<MatrixXdSimulink> jacobianColMajor(
-        output.getBuffer<double>(), outputSize.first, outputSize.second);
+        output.getBuffer<double>(),
+        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).first,
+        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).second);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     jacobianColMajor = jacobianRowMajor;

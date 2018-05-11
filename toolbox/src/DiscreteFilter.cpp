@@ -18,6 +18,7 @@
 
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 using namespace wbt;
@@ -28,13 +29,20 @@ const std::string DiscreteFilter::ClassName = "DiscreteFilter";
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
-// Inputs / Outputs
-const unsigned INPUT_IDX_SIGNAL = 0;
-const unsigned OUTPUT_IDX_SIGNAL = 0;
 enum ParamIndex
 {
     Bias = Block::NumberOfParameters - 1,
     FilterStruct,
+};
+
+enum InputIndex
+{
+    InputSignal = 0,
+};
+
+enum OutputIndex
+{
+    FilteredSignal = 0,
 };
 
 // BLOCK PIMPL
@@ -68,6 +76,8 @@ bool DiscreteFilter::parseParameters(BlockInformation* blockInfo)
     const std::vector<ParameterMetadata> metadata{
         {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, 1, "Fc"},
         {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, 1, "Ts"},
+        {ParameterType::STRUCT_STRING, ParamIndex::FilterStruct, 1, 1, "FilterType"},
+        {ParameterType::STRUCT_INT, ParamIndex::FilterStruct, 1, 1, "MedianOrder"},
         {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "NumCoeffs"},
         {ParameterType::STRUCT_DOUBLE, ParamIndex::FilterStruct, 1, DynPar, "DenCoeffs"},
         {ParameterType::STRUCT_BOOL, ParamIndex::FilterStruct, 1, 1, "InitStatus"},
@@ -86,39 +96,35 @@ bool DiscreteFilter::parseParameters(BlockInformation* blockInfo)
 
 bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!Block::initialize(blockInfo)) {
-        return false;
-    }
-
     // INPUTS
     // ======
     //
     // 1) The input signal (1xn)
     //
-
-    int numberOfInputPorts = 1;
-    if (!blockInfo->setNumberOfInputPorts(numberOfInputPorts)) {
-        wbtError << "Failed to set input port number.";
-        return false;
-    }
-
-    blockInfo->setInputPortVectorSize(INPUT_IDX_SIGNAL, Signal::DynamicSize);
-    blockInfo->setInputPortType(INPUT_IDX_SIGNAL, DataType::DOUBLE);
-
     // OUTPUTS
     // =======
     //
     // 1) The output signal (1xn)
     //
 
-    int numberOfOutputPorts = 1;
-    if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
-        wbtError << "Failed to set output port number.";
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+            std::make_tuple(
+                InputIndex::InputSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE),
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::FilteredSignal,
+                            std::vector<int>{Signal::DynamicSize},
+                            DataType::DOUBLE),
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
-
-    blockInfo->setOutputPortVectorSize(OUTPUT_IDX_SIGNAL, Signal::DynamicSize);
-    blockInfo->setOutputPortType(OUTPUT_IDX_SIGNAL, DataType::DOUBLE);
 
     return true;
 }
@@ -187,22 +193,22 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
         }
     }
 
+    // Signal sizes
+    const auto inputPortWidth = blockInfo->getInputPortWidth(InputIndex::InputSignal);
+    const int outputSignalSize = inputPortWidth;
+
     // Convert the std::vector to yarp::sig::Vector
     yarp::sig::Vector num(num_coeff.size(), num_coeff.data());
     yarp::sig::Vector den(den_coeff.size(), den_coeff.data());
 
-    // Get the width of the input vector
-    const unsigned inputSignalWidth = blockInfo->getInputPortWidth(INPUT_IDX_SIGNAL);
-
     if (initStatus) {
         // y0 and output signal dimensions should match
-        unsigned outputSignalWidth = blockInfo->getOutputPortWidth(OUTPUT_IDX_SIGNAL);
-        if (y0.size() != outputSignalWidth) {
+        if (y0.size() != outputSignalSize) {
             wbtError << "y0 and output signal sizes don't match.";
             return false;
         }
         // u0 and input signal dimensions should match (used only for Generic)
-        if ((filter_type == "Generic") && (u0.size() != inputSignalWidth)) {
+        if ((filter_type == "Generic") && (u0.size() != inputPortWidth)) {
             wbtError << "(Generic) u0 and input signal sizes don't match.";
             return false;
         }
@@ -251,11 +257,10 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Initialize other data
-    // =====================
+    // Initialize buffers
+    // ==================
 
-    // Resize the input signal
-    pImpl->inputSignalVector.resize(inputSignalWidth);
+    pImpl->inputSignalVector.resize(inputPortWidth);
     pImpl->inputSignalVector.zero();
 
     return true;
@@ -293,12 +298,13 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*block
 bool DiscreteFilter::output(const BlockInformation* blockInfo)
 {
     if (!pImpl->filter) {
+        wbtError << "Failed to retrieve the filter object.";
         return false;
     }
 
     // Get the input and output signals
-    const Signal inputSignal = blockInfo->getInputPortSignal(INPUT_IDX_SIGNAL);
-    Signal outputSignal = blockInfo->getOutputPortSignal(OUTPUT_IDX_SIGNAL);
+    const Signal inputSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
+    Signal outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
 
     if (!inputSignal.isValid() || !outputSignal.isValid()) {
         wbtError << "Signals not valid.";
@@ -316,6 +322,7 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
     // Forward the filtered signals to the output port
     if (!outputSignal.setBuffer(outputVector.data(), outputVector.length())) {
         wbtError << "Failed to set output buffer.";
+        return false;
     }
 
     return true;

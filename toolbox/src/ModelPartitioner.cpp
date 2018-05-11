@@ -16,6 +16,7 @@
 #include "Signal.h"
 
 #include <ostream>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -75,16 +76,23 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
+    // Get the number of the control boards
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
+        return false;
+    }
+    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const auto controlBoardsNumber =
+        robotInterface->getConfiguration().getControlBoardsNames().size();
+
+    // PARAMETERS
+    // ==========
+
     if (!ModelPartitioner::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
         return false;
     }
-
-    // PARAMETERS
-    // ==========
-    //
-    // 1) Boolean specifying if VectorToControlBoards (true) or ControlBoardsToVector (false)
-    //
 
     bool vectorToControlBoards;
     if (!m_parameters.getParameter("VectorToControlBoards", vectorToControlBoards)) {
@@ -105,41 +113,6 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     //
     // n signals) The n ControlBoards configured from the config block
     //
-
-    // Get the number of the control boards
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
-    const auto controlBoardsNumber =
-        robotInterface->getConfiguration().getControlBoardsNames().size();
-
-    bool ok;
-    unsigned numberOfInputs;
-
-    if (vectorToControlBoards) {
-        numberOfInputs = 1;
-        ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
-        blockInfo->setInputPortVectorSize(0, dofs);
-        blockInfo->setInputPortType(0, DataType::DOUBLE);
-    }
-    else {
-        numberOfInputs = controlBoardsNumber;
-        ok = blockInfo->setNumberOfInputPorts(numberOfInputs);
-        // Set the sizes as dynamic, they will be filled in the initialize() method
-        for (unsigned i = 0; i < numberOfInputs; ++i) {
-            blockInfo->setInputPortVectorSize(i, Signal::DynamicSize);
-            blockInfo->setInputPortType(i, DataType::DOUBLE);
-        }
-    }
-
-    if (!ok) {
-        wbtError << "Failed to set input port number.";
-        return false;
-    }
-
     // OUTPUTS
     // =======
     //
@@ -154,23 +127,18 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Vector containing the data vector (1 x DoFs)
     //
 
-    unsigned numberOfOutputs;
+    BlockInformation::IOData ioData;
 
     if (vectorToControlBoards) {
-        numberOfOutputs = controlBoardsNumber;
-        ok = blockInfo->setNumberOfOutputPorts(numberOfOutputs);
-        // Set the sizes as dynamic, they will be filled in the initialize() method
-        for (unsigned i = 0; i < numberOfOutputs; ++i) {
-            blockInfo->setOutputPortVectorSize(i, Signal::DynamicSize);
-            blockInfo->setOutputPortType(i, DataType::DOUBLE);
+        // Input
+        ioData.input.emplace_back(0, std::vector<int>{dofs}, DataType::DOUBLE);
+        // Outputs
+        for (unsigned i = 0; i < controlBoardsNumber; ++i) {
+            ioData.output.emplace_back(
+                ioData.output.size(), std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
         }
     }
     else {
-        numberOfOutputs = 1;
-        ok = blockInfo->setNumberOfOutputPorts(numberOfOutputs);
-        blockInfo->setOutputPortVectorSize(0, dofs);
-        blockInfo->setOutputPortType(0, DataType::DOUBLE);
-    }
 
     // For some reason, the output ports widths in the yarp2WBI case are not detected
     // properly by Simulink if set as DYNAMICALLY_SIZED (-1).
@@ -191,11 +159,17 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
                 wbtError << "Failed to set ouput port size reading them from cb map.";
                 return false;
             }
+        // Inputs
+        for (unsigned i = 0; i < controlBoardsNumber; ++i) {
+            ioData.input.emplace_back(
+                ioData.input.size(), std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
         }
+        // Output
+        ioData.output.emplace_back(0, std::vector<int>{dofs}, DataType::DOUBLE);
     }
 
-    if (!ok) {
-        wbtError << "Failed to set output port number.";
+    if (!blockInfo->setIOPortsData(ioData)) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -205,6 +179,13 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
 bool ModelPartitioner::initialize(BlockInformation* blockInfo)
 {
     if (!WBBlock::initialize(blockInfo)) {
+        return false;
+    }
+
+    // Get the RobotInterface
+    const auto robotInterface = getRobotInterface(blockInfo).lock();
+    if (!robotInterface) {
+        wbtError << "RobotInterface has not been correctly initialized.";
         return false;
     }
 
@@ -221,12 +202,8 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
+    // CLASS INITIALIZATION
+    // ====================
 
     pImpl->jointNameToYarpMap = robotInterface->getJointsMapString();
     pImpl->jointNameToIndexInControlBoardMap = robotInterface->getControlledJointsMapCB();

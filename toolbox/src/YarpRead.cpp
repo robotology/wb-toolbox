@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <tuple>
 
 using namespace wbt;
 const std::string YarpRead::ClassName = "YarpRead";
@@ -42,6 +43,15 @@ enum ParamIndex
     ErrMissingPort,
     Timeout
 };
+
+enum OutputIndex
+{
+    Signal = 0,
+    // Other optional outputs
+};
+
+static int OutputIndex_Timestamp = OutputIndex::Signal;
+static int OutputIndex_IsConnected = OutputIndex::Signal;
 
 // BLOCK PIMPL
 // ===========
@@ -95,25 +105,8 @@ bool YarpRead::parseParameters(BlockInformation* blockInfo)
 
 bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // INPUTS
-    // ======
-    //
-    // No inputs
-    //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to set input port number to 0.";
-        return false;
-    }
-
-    // OUTPUTS
-    // =======
-    //
-    // 1) Vector with the data read from the port (1 x signalSize)
-    // 2) Optional: Timestamp read from the port
-    // 3) Optional: If autoconnect is disabled, this output becomes 1 when data starts arriving
-    //              (and hence it means that the user connected manually the port)
-    //
+    // PARAMETERS
+    // ==========
 
     if (!YarpRead::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
@@ -134,37 +127,49 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
         return false;
     }
 
-    if (signalSize < 0) {
+    if (signalSize <= 0) {
         wbtError << "Signal size must be non negative.";
         return false;
     }
 
-    int numberOfOutputPorts = 1;
-    numberOfOutputPorts += static_cast<unsigned>(readTimestamp); // timestamp is the second port
-    numberOfOutputPorts +=
-        static_cast<unsigned>(!autoconnect); // !autoconnect => additional port with 1/0
-                                             // depending on the connection status
+    // INPUTS
+    // ======
+    //
+    // No inputs
+    //
+    // OUTPUTS
+    // =======
+    //
+    // 1) Vector with the data read from the port (1 x signalSize)
+    // 2) Optional: Timestamp read from the port
+    // 3) Optional: If autoconnect is disabled, this output becomes 1 when data starts arriving
+    //              (and hence it means that the user connected manually the port)
+    //
 
-    if (!blockInfo->setNumberOfOutputPorts(numberOfOutputPorts)) {
-        wbtError << "Failed to set output port number.";
+    // Optional outputs
+    if (readTimestamp) {
+        OutputIndex_Timestamp = OutputIndex::Signal + 1;
+    }
+    if (!autoconnect) {
+        OutputIndex_IsConnected = OutputIndex_Timestamp + 1;
+    }
+
+    BlockInformation::IOData ioData;
+    ioData.output.emplace_back(OutputIndex::Signal, std::vector<int>{signalSize}, DataType::DOUBLE);
+
+    if (readTimestamp) {
+        ioData.output.emplace_back(OutputIndex_Timestamp, std::vector<int>{2}, DataType::DOUBLE);
+    }
+    if (!autoconnect) {
+        // Use double anyway even if it is a bool signal.
+        ioData.output.emplace_back(OutputIndex_IsConnected, std::vector<int>{1}, DataType::DOUBLE);
+    }
+
+    if (!blockInfo->setIOPortsData(ioData)) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
 
-    blockInfo->setOutputPortVectorSize(0, static_cast<int>(signalSize));
-    blockInfo->setOutputPortType(0, DataType::DOUBLE);
-
-    int portIndex = 1;
-    if (readTimestamp) {
-        blockInfo->setOutputPortVectorSize(portIndex, 2);
-        blockInfo->setOutputPortType(portIndex, DataType::DOUBLE);
-        portIndex++;
-    }
-    if (!autoconnect) {
-        blockInfo->setOutputPortVectorSize(portIndex, 1);
-        blockInfo->setOutputPortType(
-            portIndex, DataType::DOUBLE); // use double anyway. Simplifies simulink stuff
-        portIndex++;
-    }
     return true;
 }
 
@@ -173,15 +178,11 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     using namespace yarp::os;
     using namespace yarp::sig;
 
+    // PARAMETERS
+    // ==========
+
     if (!YarpRead::parseParameters(blockInfo)) {
         wbtError << "Failed to parse parameters.";
-        return false;
-    }
-
-    Network::init();
-
-    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -197,6 +198,16 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
 
     if (!ok) {
         wbtError << "Failed to read input parameters.";
+        return false;
+    }
+
+    // CLASS INITIALIZATION
+    // ====================
+
+    Network::init();
+
+    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+        wbtError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -247,17 +258,7 @@ bool YarpRead::terminate(const BlockInformation* /*blockInfo*/)
 
 bool YarpRead::output(const BlockInformation* blockInfo)
 {
-    int timeStampPortIndex = 0;
-    int connectionStatusPortIndex = 0;
-
-    if (pImpl->shouldReadTimestamp) {
-        timeStampPortIndex = 1;
-    }
-    if (!pImpl->autoconnect) {
-        connectionStatusPortIndex = timeStampPortIndex + 1;
-    }
-
-    yarp::sig::Vector* v = nullptr;
+    yarp::sig::Vector* vectorBuffer = nullptr;
 
     if (pImpl->blocking) {
         // Initialize the time counter for the timeout
@@ -269,7 +270,7 @@ bool YarpRead::output(const BlockInformation* blockInfo)
 
             if (new_bufferSize > pImpl->bufferSize) {
                 const bool shouldWait = false;
-                v = pImpl->port.read(shouldWait);
+                vectorBuffer = pImpl->port.read(shouldWait);
                 pImpl->bufferSize = pImpl->port.getPendingReads();
                 break;
             }
@@ -285,12 +286,11 @@ bool YarpRead::output(const BlockInformation* blockInfo)
     }
     else {
         bool shouldWait = false;
-        v = pImpl->port.read(shouldWait);
+        vectorBuffer = pImpl->port.read(shouldWait);
     }
 
-    if (v) {
+    if (vectorBuffer) {
         if (pImpl->shouldReadTimestamp) {
-            connectionStatusPortIndex++;
             yarp::os::Stamp timestamp;
             if (!pImpl->port.getEnvelope(timestamp)) {
                 wbtError << "Failed to read port envelope (timestamp). Be sure"
@@ -298,12 +298,12 @@ bool YarpRead::output(const BlockInformation* blockInfo)
                 return false;
             }
 
-            Signal pY1 = blockInfo->getOutputPortSignal(timeStampPortIndex);
-            pY1.set(0, timestamp.getCount());
-            pY1.set(1, timestamp.getTime());
+            Signal timestampSignal = blockInfo->getOutputPortSignal(OutputIndex_Timestamp);
+            timestampSignal.set(0, timestamp.getCount());
+            timestampSignal.set(1, timestamp.getTime());
         }
 
-        Signal signal = blockInfo->getOutputPortSignal(0);
+        Signal signal = blockInfo->getOutputPortSignal(OutputIndex::Signal);
 
         if (!signal.isValid()) {
             wbtError << "Output signal not valid.";
@@ -311,15 +311,16 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         }
 
         // Crop the buffer if it exceeds the OutputPortWidth.
-        if (!signal.setBuffer(v->data(),
-                              std::min(signal.getWidth(), static_cast<int>(v->size())))) {
+        if (!signal.setBuffer(
+                vectorBuffer->data(),
+                std::min(signal.getWidth(), static_cast<int>(vectorBuffer->size())))) {
             wbtError << "Failed to set the output buffer.";
             return false;
         }
 
         if (!pImpl->autoconnect) {
-            Signal statusPort = blockInfo->getOutputPortSignal(connectionStatusPortIndex);
-            if (!statusPort.set(0, 1.0)) {
+            Signal statusPort = blockInfo->getOutputPortSignal(OutputIndex_IsConnected);
+            if (!statusPort.set(0, 1)) {
                 wbtError << "Failed to write data to output buffer.";
                 return false;
             }

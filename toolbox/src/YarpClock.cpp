@@ -15,10 +15,21 @@
 #include <yarp/os/Time.h>
 
 #include <ostream>
+#include <tuple>
 
 using namespace wbt;
-
 const std::string YarpClock::ClassName = "YarpClock";
+
+// INDICES: PARAMETERS, INPUTS, OUTPUT
+// ===================================
+
+enum OutputIndex
+{
+    Clock = 0,
+};
+
+// BLOCK CLASS
+// ===========
 
 unsigned YarpClock::numberOfParameters()
 {
@@ -27,34 +38,32 @@ unsigned YarpClock::numberOfParameters()
 
 bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    if (!Block::initialize(blockInfo)) {
-        return false;
-    }
 
     // INPUTS
     // ======
     //
     // No inputs
     //
-
-    if (!blockInfo->setNumberOfInputPorts(0)) {
-        wbtError << "Failed to set input port number to 0.";
-        return false;
-    }
-
     // OUTPUT
     // ======
     //
     // 1) The yarp time. In short, it streams yarp::os::Time::now().
     //
 
-    if (!blockInfo->setNumberOfOutputPorts(1)) {
-        wbtError << "Failed to set output port number.";
+    const bool ok = blockInfo->setIOPortsData({
+        {
+            // Inputs
+        },
+        {
+            // Outputs
+            std::make_tuple(OutputIndex::Clock, std::vector<int>{1}, DataType::DOUBLE),
+        },
+    });
+
+    if (!ok) {
+        wbtError << "Failed to configure input / output ports.";
         return false;
     }
-
-    blockInfo->setOutputPortVectorSize(0, 1);
-    blockInfo->setOutputPortType(0, DataType::DOUBLE);
 
     return true;
 }
@@ -64,6 +73,9 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
     if (!Block::initialize(blockInfo)) {
         return false;
     }
+
+    // CLASS INITIALIZATION
+    // ====================
 
     yarp::os::Network::init();
 
@@ -75,7 +87,7 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
     return true;
 }
 
-bool YarpClock::terminate(const BlockInformation* /*S*/)
+bool YarpClock::terminate(const BlockInformation* /*blockInfo*/)
 {
     yarp::os::Network::fini();
     return true;
@@ -83,7 +95,7 @@ bool YarpClock::terminate(const BlockInformation* /*S*/)
 
 bool YarpClock::output(const BlockInformation* blockInfo)
 {
-    Signal outputSignal = blockInfo->getOutputPortSignal(0);
+    Signal outputSignal = blockInfo->getOutputPortSignal(OutputIndex::Clock);
     if (!outputSignal.isValid()) {
         wbtError << "Output signal not valid.";
         return false;
