@@ -179,12 +179,6 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    // Retain the ControlBoardRemapper
-    if (!robotInterface->retainRemoteControlBoardRemapper()) {
-        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
-        return false;
-    }
-
     // Initialize the size of std::vectors
     pImpl->controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
 
@@ -273,7 +267,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     ok = robotInterface->getInterface(icmd2);
     if (!ok || !icmd2) {
         wbtError << "Failed to get the IControlMode2 interface.";
-        // Don't return false here. WBBlock::terminate must be called in any case
+        return false;
     }
 
     if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
@@ -283,7 +277,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         ok = icmd2->setControlModes(pImpl->controlModes.data());
         if (!ok) {
             wbtError << "Failed to set control mode.";
-            // Don't return false here. WBBlock::terminate must be called in any case
+            return false;
         }
     }
     else { // In Position mode, restore the default reference speeds
@@ -292,26 +286,19 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         ok = robotInterface->getInterface(interface);
         if (!ok || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
-            // Don't return false here. WBBlock::terminate must be called in any case
+            return false;
         }
         // Restore default reference speeds
         if (interface) {
             ok = interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
             if (!ok) {
                 wbtError << "Failed to restore default reference speed.";
-                // Don't return false here. WBBlock::terminate must be called in any case
+                return false;
             }
         }
     }
 
-    // Release the RemoteControlBoardRemapper
-    ok = robotInterface->releaseRemoteControlBoardRemapper();
-    if (!ok) {
-        wbtError << "Failed to release the RemoteControlBoardRemapper.";
-        // Don't return false here. WBBlock::terminate must be called in any case
-    }
-
-    return ok && WBBlock::terminate(blockInfo);
+    return WBBlock::terminate(blockInfo);
 }
 
 bool SetReferences::initializeInitialConditions(const BlockInformation* /*blockInfo*/)

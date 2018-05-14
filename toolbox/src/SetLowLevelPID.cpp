@@ -192,12 +192,6 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Retain the RemoteControlBoardRemapper
-    if (!robotInterface->retainRemoteControlBoardRemapper()) {
-        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
-        return false;
-    }
-
     const auto dofs = configuration.getNumberOfDoFs();
 
     // Initialize the vector size to the number of dofs
@@ -257,24 +251,17 @@ bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
     ok = robotInterface->getInterface(iPidControl);
     if (!ok || !iPidControl) {
         wbtError << "Failed to get IPidControl interface.";
-        // Don't return false here. WBBlock::terminate must be called in any case
+        return false;
     }
 
     // Reset default PID gains
     ok = iPidControl->setPids(pImpl->controlType, pImpl->defaultPidValues.data());
     if (!ok) {
         wbtError << "Failed to reset PIDs to the default values.";
-        // Don't return false here. WBBlock::terminate must be called in any case
+        return false;
     }
 
-    // Release the RemoteControlBoardRemapper
-    ok = robotInterface->releaseRemoteControlBoardRemapper();
-    if (!ok) {
-        wbtError << "Failed to release the RemoteControlBoardRemapper.";
-        // Don't return false here. WBBlock::terminate must be called in any case
-    }
-
-    return ok && WBBlock::terminate(blockInfo);
+    return WBBlock::terminate(blockInfo);
 }
 
 bool SetLowLevelPID::output(const BlockInformation* /*blockInfo*/)

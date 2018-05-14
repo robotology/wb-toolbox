@@ -185,19 +185,7 @@ bool GetLimits::initializeInitialConditions(const BlockInformation* /*blockInfo*
 
 bool GetLimits::terminate(const BlockInformation* blockInfo)
 {
-    bool ok = true;
-
-    // Release the RemoteControlBoardRemapper
-    if (pImpl->limitType == "ControlBoardPosition" || pImpl->limitType == "ControlBoardVelocity") {
-        auto robotInterface = getRobotInterface(blockInfo).lock();
-        if (!robotInterface || !robotInterface->releaseRemoteControlBoardRemapper()) {
-            wbtError << "Failed to release the RemoteControlBoardRemapper.";
-            ok = false;
-            // Don't return false here. WBBlock::terminate must be called in any case
-        }
-    }
-
-    return ok && WBBlock::terminate(blockInfo);
+    return WBBlock::terminate(blockInfo);
 }
 
 bool GetLimits::output(const BlockInformation* blockInfo)
@@ -228,15 +216,10 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         // initialization. In this case, it matches 1:1 the controlled joint vector.
         // It is hence possible using i to point to the correct joint.
 
-        // Get the RemoteControlBoardRemapper and IControlLimits2 interface if needed
+        // Get the IControlLimits2 interface
         yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
         if (pImpl->limitType == "ControlBoardPosition"
             || pImpl->limitType == "ControlBoardVelocity") {
-            // Retain the control board remapper
-            if (!robotInterface->retainRemoteControlBoardRemapper()) {
-                wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
-                return false;
-            }
             // Get the interface
             if (!robotInterface->getInterface(iControlLimits2) || !iControlLimits2) {
                 wbtError << "Failed to get IControlLimits2 interface.";
