@@ -25,7 +25,10 @@
 #include <yarp/os/ResourceFinder.h>
 
 #include <cassert>
+#include <chrono>
+#include <functional>
 #include <sstream>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -75,10 +78,33 @@ public:
     {}
 
     void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
+    template <typename T>
+    T* getInterfaceLazyEval(T*& interface,
+                            const std::unique_ptr<yarp::dev::PolyDriver>& cbRemapper);
 
     // ======================
     // INITIALIZATION HELPERS
     // ======================
+    bool checkInterface(std::function<bool(double*)>& getMeasurement)
+    {
+        // This method is used only on interfaces which get measurements. There is an interval right
+        // after the allocation of the RemoteControlBoardRemapper when a get*() calls from a viewed
+        // interface will return false. This failure is not due to a wrong usage of the interface,
+        // but rather to a call before the interface actually receives data.
+        unsigned counter = 0;
+        constexpr unsigned maxIter = 100;
+        std::vector<double> buffer(config.getNumberOfDoFs(), 0);
+
+        while (!getMeasurement(buffer.data())) {
+            if (++counter == maxIter) {
+                wbtError << "Failed to get a measurement during the interface initialization.";
+                return false;
+            }
+            // Sleep for some while
+            std::this_thread::sleep_for(std::chrono::microseconds(500));
+        }
+        return true;
+    }
 
     /**
      *
@@ -483,7 +509,9 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
 // =================
 
 template <typename T>
-T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
+T* RobotInterface::impl::getInterfaceLazyEval(
+    T*& interface,
+    const std::unique_ptr<yarp::dev::PolyDriver>& cbRemapper)
 {
     if (!interface) {
         // Lazy-initialize the RemoteControlBoardRemapper device
@@ -493,9 +521,8 @@ T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
                 return nullptr;
             }
         }
-
         // Ask the interface from the device
-        if (!cbRemapper->view(interface)) {
+        if (!robotDevice->view(interface)) {
             wbtError << "Failed to view the interface.";
             return nullptr;
         }
@@ -508,15 +535,16 @@ T* getInterfaceLazyEval(T*& interface, yarp::dev::PolyDriver* cbRemapper)
 template <>
 bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface)
 {
-    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iControlMode2, pImpl->robotDevice.get());
-    return interface;
+    interface =
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlMode2, pImpl->robotDevice);
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface)
 {
     interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionControl, pImpl->robotDevice.get());
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionControl, pImpl->robotDevice);
     return interface;
 }
 
@@ -524,7 +552,7 @@ template <>
 bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface)
 {
     interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionDirect, pImpl->robotDevice.get());
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iPositionDirect, pImpl->robotDevice);
     return interface;
 }
 
@@ -532,59 +560,136 @@ template <>
 bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface)
 {
     interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iVelocityControl, pImpl->robotDevice.get());
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iVelocityControl, pImpl->robotDevice);
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface)
 {
-    interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iTorqueControl, pImpl->robotDevice.get());
-    return interface;
+    auto& storedInterface = pImpl->yarpInterfaces.iTorqueControl;
+
+    if (!storedInterface) {
+        // Get the interface
+        if (!pImpl->getInterfaceLazyEval(storedInterface, pImpl->robotDevice)) {
+            return false;
+        }
+        // Check if it works fine
+        std::function<bool(double*)> getMeas = std::bind(
+            &yarp::dev::ITorqueControl::getTorques, storedInterface, std::placeholders::_1);
+        if (!pImpl->checkInterface(getMeas)) {
+            return false;
+        }
+    }
+
+    // Return a pointer to the interface to the caller
+    interface = storedInterface;
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface)
 {
-    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iPWMControl, pImpl->robotDevice.get());
-    return interface;
+    auto& storedInterface = pImpl->yarpInterfaces.iPWMControl;
+
+    if (!storedInterface) {
+        // Get the interface
+        if (!pImpl->getInterfaceLazyEval(storedInterface, pImpl->robotDevice)) {
+            return false;
+        }
+        // Check if it works fine
+        std::function<bool(double*)> getMeas = std::bind(
+            &yarp::dev::IPWMControl::getDutyCycles, storedInterface, std::placeholders::_1);
+        if (!pImpl->checkInterface(getMeas)) {
+            return false;
+        }
+    }
+
+    // Return a pointer to the interface to the caller
+    interface = storedInterface;
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface)
 {
-    interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iCurrentControl, pImpl->robotDevice.get());
-    return interface;
+    auto& storedInterface = pImpl->yarpInterfaces.iCurrentControl;
+
+    if (!storedInterface) {
+        // Get the interface
+        if (!pImpl->getInterfaceLazyEval(storedInterface, pImpl->robotDevice)) {
+            return false;
+        }
+        // Check if it works fine
+        std::function<bool(double*)> getMeas = std::bind(
+            &yarp::dev::ICurrentControl::getCurrents, storedInterface, std::placeholders::_1);
+        if (!pImpl->checkInterface(getMeas)) {
+            return false;
+        }
+    }
+
+    // Return a pointer to the interface to the caller
+    interface = storedInterface;
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface)
 {
-    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iEncoders, pImpl->robotDevice.get());
-    return interface;
+    auto& storedInterface = pImpl->yarpInterfaces.iEncoders;
+
+    if (!storedInterface) {
+        // Get the interface
+        if (!pImpl->getInterfaceLazyEval(storedInterface, pImpl->robotDevice)) {
+            return false;
+        }
+        // Check if it works fine
+        std::function<bool(double*)> getMeas =
+            std::bind(&yarp::dev::IEncoders::getEncoders, storedInterface, std::placeholders::_1);
+        if (!pImpl->checkInterface(getMeas)) {
+            return false;
+        }
+    }
+
+    // Return a pointer to the interface to the caller
+    interface = storedInterface;
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface)
 {
-    interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iMotorEncoders, pImpl->robotDevice.get());
-    return interface;
+    auto& storedInterface = pImpl->yarpInterfaces.iMotorEncoders;
+
+    if (!storedInterface) {
+        // Get the interface
+        if (!pImpl->getInterfaceLazyEval(storedInterface, pImpl->robotDevice)) {
+            return false;
+        }
+        // Check if it works fine
+        std::function<bool(double*)> getMeas = std::bind(
+            &yarp::dev::IMotorEncoders::getMotorEncoders, storedInterface, std::placeholders::_1);
+        if (!pImpl->checkInterface(getMeas)) {
+            return false;
+        }
+    }
+
+    // Return a pointer to the interface to the caller
+    interface = storedInterface;
+    return static_cast<bool>(interface);
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface)
 {
     interface =
-        getInterfaceLazyEval(pImpl->yarpInterfaces.iControlLimits2, pImpl->robotDevice.get());
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlLimits2, pImpl->robotDevice);
     return interface;
 }
 
 template <>
 bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface)
 {
-    interface = getInterfaceLazyEval(pImpl->yarpInterfaces.iPidControl, pImpl->robotDevice.get());
+    interface = pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iPidControl, pImpl->robotDevice);
     return interface;
 }
