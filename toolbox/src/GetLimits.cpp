@@ -98,12 +98,7 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -162,13 +157,7 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     // ====================
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto& configuration = robotInterface->getConfiguration();
-    const auto dofs = configuration.getNumberOfDoFs();
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // Initialize the structure that stores the limits
     pImpl->limits.min.resize(dofs);
@@ -198,15 +187,9 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         double min = 0;
         double max = 0;
 
-        // Get the RobotInterface
-        const auto robotInterface = getRobotInterface(blockInfo).lock();
-        if (!robotInterface) {
-            wbtError << "RobotInterface has not been correctly initialized.";
-            return false;
-        }
-        // Get the DoFs
-        const auto& configuration = robotInterface->getConfiguration();
-        const auto dofs = configuration.getNumberOfDoFs();
+        // Get the RobotInterface and the DoFs
+        const auto robotInterface = getRobotInterface();
+        const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
         // From the RemoteControlBoardRemapper
         // ===================================
@@ -268,7 +251,8 @@ bool GetLimits::output(const BlockInformation* blockInfo)
 
             for (unsigned i = 0; i < dofs; ++i) {
                 // Get the joint name
-                const std::string joint = configuration.getControlledJoints()[i];
+                const std::string joint =
+                    robotInterface->getConfiguration().getControlledJoints()[i];
 
                 // Get its index
                 iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
@@ -316,13 +300,8 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // Get the Configuration
-    auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    // Get the DoFs
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     bool ok = true;
     ok = ok && minPort.setBuffer(pImpl->limits.min.data(), dofs);

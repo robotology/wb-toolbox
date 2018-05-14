@@ -153,14 +153,10 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
     // Create a map {joint => PID} from the parameters
     // -----------------------------------------------
 
-    // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto& configuration = robotInterface->getConfiguration();
-    const auto& controlledJoints = configuration.getControlledJoints();
+    // Get the RobotInterface, the Controlled Joints and the DoFs
+    const auto robotInterface = getRobotInterface();
+    const auto& controlledJoints = robotInterface->getConfiguration().getControlledJoints();
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // Populate the map
     for (unsigned i = 0; i < pidJointList.size(); ++i) {
@@ -191,8 +187,6 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
         wbtError << "Control type not recognized.";
         return false;
     }
-
-    const auto dofs = configuration.getNumberOfDoFs();
 
     // Initialize the vector size to the number of dofs
     pImpl->defaultPidValues.resize(dofs);
@@ -237,18 +231,11 @@ bool SetLowLevelPID::initialize(BlockInformation* blockInfo)
 
 bool SetLowLevelPID::terminate(const BlockInformation* blockInfo)
 {
-    // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "Failed to retrieve the RobotInterface.";
-        return false;
-    }
-
     bool ok;
 
     // Get the IPidControl interface
     yarp::dev::IPidControl* iPidControl = nullptr;
-    ok = robotInterface->getInterface(iPidControl);
+    ok = getRobotInterface()->getInterface(iPidControl);
     if (!ok || !iPidControl) {
         wbtError << "Failed to get IPidControl interface.";
         return false;

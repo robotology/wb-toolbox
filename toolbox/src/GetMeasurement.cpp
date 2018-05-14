@@ -108,12 +108,7 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -202,12 +197,7 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
     // ====================
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // Initialize the size of the output vector
     pImpl->measurement.resize(dofs);
@@ -223,11 +213,7 @@ bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 bool GetMeasurement::output(const BlockInformation* blockInfo)
 {
     // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
+    const auto robotInterface = getRobotInterface();
 
     bool ok;
     switch (pImpl->measuredType) {

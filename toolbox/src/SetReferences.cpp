@@ -107,12 +107,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -150,12 +145,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // PARAMETERS
     // ==========
@@ -219,7 +209,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
 
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
-        if (!robotInterface->getInterface(interface) || !interface) {
+        if (!getRobotInterface()->getInterface(interface) || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
@@ -252,14 +242,8 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     using namespace yarp::dev;
     bool ok = true;
 
-    // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "Couldn't get RobotInterface.";
-        return false;
-    }
-
-    // Get the DoFs
+    // Get the RobotInterface and the DoFs
+    const auto robotInterface = getRobotInterface();
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Get the IControlMode2 interface
@@ -323,11 +307,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     using namespace yarp::dev;
 
     // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "Couldn't get RobotInterface.";
-        return false;
-    }
+    const auto robotInterface = getRobotInterface();
 
     // Set the control mode at the first run
     if (pImpl->resetControlMode) {

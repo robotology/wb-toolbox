@@ -78,12 +78,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -139,12 +134,7 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     using namespace iDynTree;
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // Initialize sizes and value
     pImpl->baseAcceleration.zero();
@@ -152,7 +142,7 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     pImpl->jointsAcceleration.zero();
 
     // Get the KinDynComputations pointer
-    const auto& kindyn = robotInterface->getKinDynComputations();
+    const auto& kindyn = getRobotInterface()->getKinDynComputations();
     if (!kindyn) {
         wbtError << "Failed to get the KinDynComputations object";
         return false;
@@ -175,7 +165,7 @@ bool InverseDynamics::terminate(const BlockInformation* blockInfo)
 bool InverseDynamics::output(const BlockInformation* blockInfo)
 {
     // Get the KinDynComputations object
-    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;

@@ -77,14 +77,9 @@ bool ModelPartitioner::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the number of the control boards
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
-    const auto controlBoardsNumber =
-        robotInterface->getConfiguration().getControlBoardsNames().size();
+    const auto configuration = getRobotInterface()->getConfiguration();
+    const int dofs = configuration.getNumberOfDoFs();
+    const auto controlBoardsNumber = configuration.getControlBoardsNames().size();
 
     // PARAMETERS
     // ==========
@@ -163,11 +158,7 @@ bool ModelPartitioner::initialize(BlockInformation* blockInfo)
     }
 
     // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
+    const auto robotInterface = getRobotInterface();
 
     // PARAMETERS
     // ==========
@@ -208,14 +199,8 @@ bool ModelPartitioner::terminate(const BlockInformation* blockInfo)
 
 bool ModelPartitioner::output(const BlockInformation* blockInfo)
 {
-    // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-
-    // Get the Configuration
+    // Get the RobotInterface and the Configuration
+    const auto robotInterface = getRobotInterface();
     const auto& configuration = robotInterface->getConfiguration();
 
     if (pImpl->vectorToControlBoards) {
