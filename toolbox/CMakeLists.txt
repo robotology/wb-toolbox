@@ -76,7 +76,7 @@ configure_block(
             src/base/ConvertStdVector.cpp
             src/base/RobotInterface.cpp
             src/base/Signal.cpp
-            src/base/ToolboxSingleton.cpp
+            src/base/WholeBodySingleton.cpp
             src/base/WBBlock.cpp
     HEADERS include/base/Block.h
             include/base/BlockInformation.h
@@ -87,7 +87,7 @@ configure_block(
             include/base/ConvertStdVector.h
             include/base/RobotInterface.h
             include/base/Signal.h
-            include/base/ToolboxSingleton.h
+            include/base/WholeBodySingleton.h
             include/base/WBBlock.h
 )
 

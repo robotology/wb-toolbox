@@ -6,7 +6,7 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "ToolboxSingleton.h"
+#include "WholeBodySingleton.h"
 #include "Configuration.h"
 #include "Log.h"
 #include "Parameters.h"
@@ -26,13 +26,13 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
-ToolboxSingleton::ToolboxSingleton() = default;
-ToolboxSingleton::~ToolboxSingleton() = default;
+WholeBodySingleton::WholeBodySingleton() = default;
+WholeBodySingleton::~WholeBodySingleton() = default;
 
 // UTILITIES
 // =========
 
-int ToolboxSingleton::numberOfDoFs(const std::string& confKey) const
+int WholeBodySingleton::numberOfDoFs(const std::string& confKey) const
 {
     if (!isKeyValid(confKey)) {
         return -1;
@@ -41,7 +41,7 @@ int ToolboxSingleton::numberOfDoFs(const std::string& confKey) const
     return m_interfaces.at(confKey).lock()->getConfiguration().getNumberOfDoFs();
 }
 
-bool ToolboxSingleton::isKeyValid(const std::string& confKey) const
+bool WholeBodySingleton::isKeyValid(const std::string& confKey) const
 {
     if (m_interfaces.find(confKey) == m_interfaces.end()) {
         wbtError << "Failed to find entry in the ToolboxSingleton related to " << confKey
@@ -61,19 +61,19 @@ bool ToolboxSingleton::isKeyValid(const std::string& confKey) const
 // GET METHODS
 // ===========
 
-ToolboxSingleton& ToolboxSingleton::sharedInstance()
+WholeBodySingleton& WholeBodySingleton::sharedInstance()
 {
-    static ToolboxSingleton instance;
+    static WholeBodySingleton instance;
     return instance;
 }
 
-const Configuration& ToolboxSingleton::getConfiguration(const std::string& confKey) const
+const Configuration& WholeBodySingleton::getConfiguration(const std::string& confKey) const
 {
     return getRobotInterface(confKey)->getConfiguration();
 }
 
 const std::shared_ptr<RobotInterface>
-ToolboxSingleton::getRobotInterface(const std::string& confKey) const
+WholeBodySingleton::getRobotInterface(const std::string& confKey) const
 {
     if (!isKeyValid(confKey)) {
         return nullptr;
@@ -83,7 +83,7 @@ ToolboxSingleton::getRobotInterface(const std::string& confKey) const
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations>
-ToolboxSingleton::getKinDynComputations(const std::string& confKey) const
+WholeBodySingleton::getKinDynComputations(const std::string& confKey) const
 {
     if (!isKeyValid(confKey)) {
         return nullptr;
@@ -92,10 +92,11 @@ ToolboxSingleton::getKinDynComputations(const std::string& confKey) const
     return m_interfaces.at(confKey).lock()->getKinDynComputations();
 }
 
-// TOOLBOXSINGLETON CONFIGURATION
-// ==============================
+// WHOLEBODYSINGLETON CONFIGURATION
+// ================================
 
-std::shared_ptr<RobotInterface> ToolboxSingleton::createRobotInterface(const Configuration& config)
+std::shared_ptr<RobotInterface>
+WholeBodySingleton::createRobotInterface(const Configuration& config)
 {
     if (!config.isValid()) {
         wbtError << "The passed configuration object does not contain valid data.";
@@ -183,7 +184,7 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
 }
 
 std::shared_ptr<RobotInterface>
-ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
+WholeBodySingleton::storeConfiguration(const wbt::Parameters& parameters)
 {
     std::shared_ptr<Configuration> configurationPtr = nullptr;
 
@@ -200,7 +201,7 @@ ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
     }
 
     // Create a RobotInterface from the Configuration block. A weak pointer is stored in the
-    // ToolboxSingleton and a shared pointer is returned to the caller (which owns the memory)
+    // WholeBodySingleton and a shared pointer is returned to the caller (which owns the memory)
     auto robotInterface = createRobotInterface(*configurationPtr);
 
     if (!robotInterface) {
@@ -211,7 +212,7 @@ ToolboxSingleton::storeConfiguration(const wbt::Parameters& parameters)
     return robotInterface;
 }
 
-void ToolboxSingleton::eraseConfiguration(const std::string& confKey)
+void WholeBodySingleton::eraseConfiguration(const std::string& confKey)
 {
     m_interfaces.erase(confKey);
 }
