@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_TOOLBOXSINGLETON_H
-#define WBT_TOOLBOXSINGLETON_H
+#ifndef WBT_WHOLEBODYSINGLETON_H
+#define WBT_WHOLEBODYSINGLETON_H
 
 #include <memory>
 #include <string>
 #include <unordered_map>
 
 namespace wbt {
-    class ToolboxSingleton;
+    class WholeBodySingleton;
     class RobotInterface;
     class Parameters;
     class Configuration;
@@ -25,18 +25,16 @@ namespace iDynTree {
 }
 
 /**
- * \class ToolboxSingleton ToolboxSingleton.h
- *
  * This class handles and contains configuration and devices used by all the blocks
  * allocated by a running model. It is possible obtaining a singleton of this class
- * by calling WBToolbox::sharedInstance.
+ * by calling WholeBodySingleton::sharedInstance.
  *
  * @see wbt::RobotInterface
  * @see wbt::Configuration
  * @see wbt::yarpDevices
  *
  */
-class wbt::ToolboxSingleton
+class wbt::WholeBodySingleton
 {
 private:
     /// Object that stores all the configurations labelled by the name of the Simulink Block's
@@ -48,11 +46,11 @@ public:
     // CONSTRUCTOR / DESTRUCTOR
     // ========================
 
-    ToolboxSingleton();
-    ~ToolboxSingleton();
+    WholeBodySingleton();
+    ~WholeBodySingleton();
 
-    ToolboxSingleton(const ToolboxSingleton&) = delete;
-    ToolboxSingleton& operator=(const ToolboxSingleton&) = delete;
+    WholeBodySingleton(const WholeBodySingleton&) = delete;
+    WholeBodySingleton& operator=(const WholeBodySingleton&) = delete;
 
     // UTILITIES
     // =========
@@ -86,13 +84,13 @@ public:
      *
      * @return the singleton instance
      */
-    static wbt::ToolboxSingleton& sharedInstance();
+    static wbt::WholeBodySingleton& sharedInstance();
 
     /**
      * Returns the Configuration object labelled by confKey.
      * This object is contained into the wbt::RobotInterface object.
      *
-     * @see ToolboxSingleton::getRobotInterface
+     * @see WholeBodySingleton::getRobotInterface
      * @param  confKey The key describing the configuration (name of the Simulink block)
      * @return         A constant reference to the Configuration object
      */
@@ -118,13 +116,13 @@ public:
     const std::shared_ptr<iDynTree::KinDynComputations>
     getKinDynComputations(const std::string& confKey) const;
 
-    // TOOLBOXSINGLETON CONFIGURATION
-    // ==============================
+    // WHOLEBODYSINGLETON CONFIGURATION
+    // ================================
 
     /** Stores in the singleton the new configuration into a RobotInterface object
      *
      * If the config is valid and hasn't been already stored, it creates a new entry
-     * in ToolboxSingleton::m_interfaces. If a configuration with matching confKey is found,
+     * in WholeBodySingleton::m_interfaces. If a configuration with matching confKey is found,
      * if the Configuration object is the same it does nothing, otherwise it overrides it.
      *
      * @note Since confKey is the name of the block, the overriding can happen only after
@@ -134,7 +132,7 @@ public:
      * @param  config  The wbt::Configuration object parsed from Simulink's parameters
      * @return         Returns a shared pointer to the RobotInterface object created from
      *                 the Configuration object.
-     * @see            ToolboxSingleton::isKeyValid
+     * @see            WholeBodySingleton::isKeyValid
      */
     std::shared_ptr<RobotInterface> createRobotInterface(const Configuration& config);
 
@@ -144,7 +142,7 @@ public:
      *                   a wbt::Configuration object
      * @return Returns a shared pointer to the RobotInterface object created from
      *         the Configuration object.
-     * @see    ToolboxSingleton::storeConfiguration, wbt::Configuration,
+     * @see    WholeBodySingleton::storeConfiguration, wbt::Configuration,
      *         Parameters::containConfigurationData
      */
     std::shared_ptr<RobotInterface> storeConfiguration(const wbt::Parameters& parameters);
@@ -157,4 +155,4 @@ public:
     void eraseConfiguration(const std::string& confKey);
 };
 
-#endif // WBT_TOOLBOXSINGLETON_H
+#endif // WBT_WHOLEBODYSINGLETON_H

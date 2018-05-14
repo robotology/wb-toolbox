@@ -27,7 +27,7 @@ namespace wbt {
  * Its usage is specific for using yarp::dev::RemoteControlBoardRemapper and
  * iDynTree::KinDynComputations objects contained in the wbt::RobotInterface class.
  *
- * @see wbt::RobotInterface, wbt::WBBlock, wbt::ToolboxSingleton, WBToolbox.Configuration Matlab
+ * @see wbt::RobotInterface, wbt::WBBlock, wbt::WholeBodySingleton, WBToolbox.Configuration Matlab
  * Class
  */
 class wbt::Configuration

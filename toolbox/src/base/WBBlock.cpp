@@ -13,7 +13,7 @@
 #include "Parameter.h"
 #include "RobotInterface.h"
 #include "Signal.h"
-#include "ToolboxSingleton.h"
+#include "WholeBodySingleton.h"
 
 #include <Eigen/Core>
 #include <iDynTree/Core/AngularMotionVector3.h>
@@ -222,13 +222,13 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
     // blocks need to know configuration-dependent information such as the DoFs. We store now a
     // RobotInterface object and then again in the initialize() method.
 
-    // Ask the ToolboxSingleton to create the RobotInterface object. It will hold a weak pointer,
+    // Ask the WholeBodySingleton to create the RobotInterface object. It will hold a weak pointer,
     // returning a shared pointer that is stored here in WBBlock. This WBBlock object and all other
     // WBBlocks that share the same RobotInterface own its memory.
-    m_robotInterface = ToolboxSingleton::sharedInstance().storeConfiguration(m_parameters);
+    m_robotInterface = WholeBodySingleton::sharedInstance().storeConfiguration(m_parameters);
 
     if (!m_robotInterface) {
-        wbtError << "Failed to get the RobotInterface object from the ToolboxSingleton.";
+        wbtError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
         return false;
     }
 
@@ -253,13 +253,13 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Ask the ToolboxSingleton to create the RobotInterface object. It will hold a weak pointer,
+    // Ask the WholeBodySingleton to create the RobotInterface object. It will hold a weak pointer,
     // returning a shared pointer that is stored here in WBBlock. This WBBlock object and all other
     // WBBlocks that share the same RobotInterface own its memory.
-    m_robotInterface = ToolboxSingleton::sharedInstance().storeConfiguration(m_parameters);
+    m_robotInterface = WholeBodySingleton::sharedInstance().storeConfiguration(m_parameters);
 
     if (!m_robotInterface) {
-        wbtError << "Failed to get the RobotInterface object from the ToolboxSingleton.";
+        wbtError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
         return false;
     }
 
