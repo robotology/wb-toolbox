@@ -212,32 +212,12 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
     // Initialize the size of the output vector
     pImpl->measurement.resize(dofs);
 
-    // Retain the ControlBoardRemapper
-    if (!robotInterface->retainRemoteControlBoardRemapper()) {
-        wbtError << "Couldn't retain the RemoteControlBoardRemapper.";
-        return false;
-    }
-
     return true;
 }
 
 bool GetMeasurement::terminate(const BlockInformation* blockInfo)
 {
-    // Get the RobotInterface
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-
-    // Release the RemoteControlBoardRemapper
-    bool ok = robotInterface->releaseRemoteControlBoardRemapper();
-    if (!ok) {
-        wbtError << "Failed to release the RemoteControlBoardRemapper.";
-        // Don't return false here. WBBlock::terminate must be called in any case
-    }
-
-    return ok && WBBlock::terminate(blockInfo);
+    return WBBlock::terminate(blockInfo);
 }
 
 bool GetMeasurement::output(const BlockInformation* blockInfo)
