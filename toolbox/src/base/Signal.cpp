@@ -25,7 +25,7 @@ using namespace wbt;
 class Signal::impl
 {
 public:
-    int width = DynamicSize;
+    int width = Signal::DynamicSize;
     const bool isConst;
     const DataType portDataType;
     const DataFormat dataFormat;
