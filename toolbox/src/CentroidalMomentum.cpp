@@ -62,12 +62,7 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -119,7 +114,7 @@ bool CentroidalMomentum::terminate(const BlockInformation* blockInfo)
 bool CentroidalMomentum::output(const BlockInformation* blockInfo)
 {
     // Get the KinDynComputations object
-    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;

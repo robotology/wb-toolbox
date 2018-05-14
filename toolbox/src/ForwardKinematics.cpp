@@ -88,12 +88,7 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     // Get the DoFs
-    const auto robotInterface = getRobotInterface(blockInfo).lock();
-    if (!robotInterface) {
-        wbtError << "RobotInterface has not been correctly initialized.";
-        return false;
-    }
-    const int dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+    const int dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     // INPUTS
     // ======
@@ -154,7 +149,7 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     // Check if the frame is valid
     // ---------------------------
 
-    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
         wbtError << "Cannot retrieve handle to KinDynComputations.";
         return false;
@@ -187,7 +182,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     using Matrix4diDynTree = Matrix<double, 4, 4, Eigen::RowMajor>;
 
     // Get the KinDynComputations object
-    auto kinDyn = getKinDynComputations(blockInfo).lock();
+    auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
         wbtError << "Failed to retrieve the KinDynComputations object.";
         return false;
