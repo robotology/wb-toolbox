@@ -146,8 +146,7 @@ static void mdlInitializeSizes(SimStruct* S)
 
     // Allocate the block.
     // At this stage, the object is just temporary.
-    std::unique_ptr<wbt::Block> block =
-        std::unique_ptr<wbt::Block>(wbt::Block::instantiateBlockWithClassName(className));
+    auto block = std::unique_ptr<wbt::Block>(wbt::Block::instantiateBlockWithClassName(className));
 
     // Notify errors
     if (!block) {
@@ -375,9 +374,6 @@ static void mdlOutputs(SimStruct* S, int_T tid)
 
 static void mdlTerminate(SimStruct* S)
 {
-    // This function is called during the initialization phase, when the PWorks are not yet
-    // allocated. Only the number of elements is known at this stage.
-    // This check will pass if called after the initialize(), that stores data in the PWorks.
     if (!ssGetPWork(S)) {
         return;
     }

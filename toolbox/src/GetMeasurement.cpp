@@ -225,7 +225,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
-                wbtError << "Failed to get IPidControl interface.";
+                wbtError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -276,7 +276,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                wbtError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -288,7 +288,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                wbtError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -300,7 +300,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                wbtError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -312,7 +312,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::ICurrentControl* iCurrentControl = nullptr;
             if (!robotInterface->getInterface(iCurrentControl) || !iCurrentControl) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                wbtError << "Failed to get ICurrentControl interface.";
                 return false;
             }
             // Get the measurement
@@ -323,7 +323,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IPWMControl* iPWMControl = nullptr;
             if (!robotInterface->getInterface(iPWMControl) || !iPWMControl) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                wbtError << "Failed to get IPWMControl interface.";
                 return false;
             }
             // Get the measurement

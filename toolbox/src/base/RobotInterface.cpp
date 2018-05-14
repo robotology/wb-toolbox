@@ -66,25 +66,18 @@ public:
     std::shared_ptr<JointNameToIndexInControlBoardMap> jointNameToIndexInControlBoardMap;
     std::shared_ptr<ControlBoardIndexLimit> controlBoardIndexLimit;
 
-    // Configuration from Simulink Block's parameters
-    const wbt::Configuration config;
-
-    // Pointer to the RobotInterface object
-    wbt::RobotInterface* robotInterface = nullptr;
+    const wbt::Configuration config; // Configuration from Simulink Block's parameters
+    wbt::RobotInterface* robotInterface = nullptr; // Pointer to the RobotInterface object
 
     impl() = delete;
     explicit impl(const Configuration& configuration)
         : config(configuration)
     {}
 
-    void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
     template <typename T>
     T* getInterfaceLazyEval(T*& interface,
                             const std::unique_ptr<yarp::dev::PolyDriver>& cbRemapper);
 
-    // ======================
-    // INITIALIZATION HELPERS
-    // ======================
     bool checkInterface(std::function<bool(double*)>& getMeasurement)
     {
         // This method is used only on interfaces which get measurements. There is an interval right
@@ -106,17 +99,8 @@ public:
         return true;
     }
 
-    /**
-     *
-     * @brief Initialize the model
-     *
-     * Initialize the iDynTree::KinDynComputations with the information contained
-     * in wbt::Configuration. It finds from the file system the urdf file and stores the object to
-     * operate on it. If the joint list contained in RobotInterface::pImpl->config is not complete,
-     * it loads a reduced model of the robot.
-     *
-     * @return True if success, false otherwise.
-     */
+    void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
+
     bool initializeModel()
     {
         assert(!kinDynComp);
@@ -169,14 +153,6 @@ public:
         return kinDynComp->loadRobotModel(mdlLoader.model());
     }
 
-    /**
-     * @brief Initialize the remote controlboard remapper
-     *
-     * Configure a yarp::dev::RemoteControlBoardRemapper device in order to allow
-     * interfacing the toolbox with the robot (real or in Gazebo).
-     *
-     * @return True if success, false otherwise.
-     */
     bool initializeRemoteControlBoardRemapper()
     {
         // Initialize the network
@@ -236,10 +212,6 @@ public:
 
         return true;
     }
-
-    // =====================
-    // OTHER PRIVATE METHODS
-    // =====================
 
     /**
      * @brief Map joints between iDynTree and Yarp indices
