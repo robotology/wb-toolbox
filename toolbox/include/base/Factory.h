@@ -33,6 +33,11 @@
 #include "DiscreteFilter.h"
 #include "MinimumJerkTrajectoryGenerator.h"
 #endif
+
+// Other blocks
+#ifdef WBT_USES_QPOASES
+#include "QpOases.h"
+#endif
 #ifdef WBT_USES_IPOPT
 // #include "InverseKinematics.h"
 #endif

@@ -74,6 +74,11 @@ Block* Block::instantiateBlockWithClassName(const std::string& blockClassName)
         block = new wbt::DiscreteFilter();
     }
 #endif
+#ifdef WBT_USES_QPOASES
+    else if (blockClassName == QpOases::ClassName) {
+        block = new QpOases();
+    }
+#endif
 #ifdef WBT_USES_IPOPT
     // else if (blockClassName == InverseKinematics::ClassName) {
     //     block = new InverseKinematics();
