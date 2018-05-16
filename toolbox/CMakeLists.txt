@@ -127,6 +127,12 @@ if(WBT_USES_ICUB)
     # endif()
 endif()
 
+# Search qpOASES and enable block which depends on it
+find_package(qpOASES)
+if(NOT WBT_USES_QPOASES)
+    option(WBT_USES_QPOASES "Compile also qpOASES-related components" ${qpOASES_FOUND})
+endif()
+
 configure_block(BLOCK_NAME "Yarp Read"
     GROUP "Utilities"
     LIST_PREFIX WBT
@@ -156,6 +162,14 @@ configure_block(BLOCK_NAME "Yarp Clock"
     LIST_PREFIX WBT
     SOURCES src/YarpClock.cpp
     HEADERS include/YarpClock.h)
+
+if(WBT_USES_QPOASES)
+    configure_block(BLOCK_NAME "qpOASES"
+        GROUP "Utilities"
+        LIST_PREFIX WBT
+        SOURCES src/QpOases.cpp
+        HEADERS include/QpOases.h)
+endif()
 
 configure_block(BLOCK_NAME "Simulator Synchronizer"
     GROUP "Utilities"
@@ -287,6 +301,14 @@ if(WBT_USES_ICUB)
 #    endif()
 endif()
 
+if(WBT_USES_QPOASES)
+    target_compile_definitions(WBToolboxLibrary PUBLIC "WBT_USES_QPOASES")
+    target_link_libraries(WBToolboxLibrary PRIVATE ${qpOASES_LIBRARIES})
+
+    # Manually include qpOASES include folders. They are not exported by the linked library.
+    target_include_directories(WBToolboxLibrary PRIVATE ${qpOASES_INCLUDE_DIRS})
+endif()
+
 # Install the library
 install(
     TARGETS WBToolboxLibrary
@@ -299,6 +321,9 @@ install(
 
 include(InstallBasicPackageFiles)
 set(WBToolboxLibraryExport_DEPENDENCIES YARP iDynTree)
+if(WBT_USES_QPOASES)
+    list(APPEND WBToolboxLibraryExport_DEPENDENCIES qpOASES)
+endif()
 
 install_basic_package_files(WBToolboxLibrary
     VERSION ${PROJECT_VERSION}

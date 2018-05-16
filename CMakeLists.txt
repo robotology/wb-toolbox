@@ -27,7 +27,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(YCM REQUIRED)
 include(YCMDefaultDirs)
 
-find_package(Matlab QUIET COMPONENTS
+find_package(Matlab COMPONENTS
     MX_LIBRARY
     ENG_LIBRARY
     MAIN_PROGRAM
