@@ -1,7 +1,7 @@
 var classwbt_1_1_signal =
 [
     [ "impl", "class_signal_1_1impl.html", "class_signal_1_1impl" ],
-    [ "DynamicSize", "classwbt_1_1_signal.html#a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78", null ],
+    [ "DynamicSize", "classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78", null ],
     [ "DataFormat", "classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29", [
       [ "NONCONTIGUOUS", "classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29a2bb429991b8b6bd70f2e98a384d0b613", null ],
       [ "CONTIGUOUS", "classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29aaa2a4f4421c371b67e8cdbaa33b7d2fe", null ],

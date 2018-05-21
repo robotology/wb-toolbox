@@ -18,5 +18,5 @@ var classwbt_1_1_block =
     [ "terminate", "classwbt_1_1_block.html#a50be455caebe09f9d953c3230f6ccff8", null ],
     [ "updateDiscreteState", "classwbt_1_1_block.html#a669989a84a579e76ccf12123fdf48afd", null ],
     [ "m_parameters", "classwbt_1_1_block.html#adef383a603688d17a495fa37f5b36253", null ],
-    [ "NumberOfParameters", "classwbt_1_1_block.html#aaf36bac335290500133826ed80a56a1b", null ]
+    [ "NumberOfParameters", "classwbt_1_1_block.html#afef88236a55bc16b77107dd88ba0cc5e", null ]
 ];

@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('classwbt_1_1_block_information.html','
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classwbt_1_1_block_information-members.html">List of all members</a>  </div>
@@ -125,10 +126,17 @@ Inheritance diagram for wbt::BlockInformation:</div>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class for storing generic <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> properties. </p>
 <p><a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> provides an interface for handling implementation-specific properties such as input / output number, size and type, number of parameters, ...</p>
-<p>A <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a> needs to know on what kind of data it operates, and retrieving this information is often specific on the framework on top of which block runs. In order to allow using the same <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> class from different frameworks (e.g. Simulink, C++, etc), different implementation of this interface can provide a transparent translation on functionalities.</p>
-<p>As an example, take the <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>. In Simulink parameters are read from block's masks and Matlab provides a library for reading them. The <a class="el" href="classwbt_1_1_simulink_block_information.html">SimulinkBlockInformation</a> implementation will be linked against that library. However, if you want to call the same <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> class (which is just a wrapper of an algorithm) from a pure C++ main, parameters are read e.g. from an xml file. In this case, <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> will parse the xml and fill the <a class="el" href="classwbt_1_1_parameters.html" title="Class for storing block&#39;s parameters. ">wbt::Parameters</a> argument.</p>
+<p>A <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a> needs to know on what kind of data it operates, and retrieving this information is often specific on the framework on top of which blocks run. In order to allow using the same <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> class from different frameworks (e.g. Simulink, C++, etc), different implementation of this interface can be developed to provide a transparent translation of such functionalities.</p>
+<p>As an example, take the <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>. In Simulink parameters are read from block's masks and Matlab provides a library for reading them. The <a class="el" href="classwbt_1_1_simulink_block_information.html">SimulinkBlockInformation</a> implementation will be linked against that library. However, if you want to call the same <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> class (which is just a wrapper of an algorithm) from a pure C++ main, parameters are read e.g. from an xml file. In this case, <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> will parse the xml and fill the <a class="el" href="classwbt_1_1_parameters.html" title="Class for storing block&#39;s parameters. ">wbt::Parameters</a> argument.</p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a>, <a class="el" href="classwbt_1_1_parameters.html" title="Class for storing block&#39;s parameters. ">wbt::Parameters</a>, <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">wbt::Signal</a> </dd></dl>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwbt_1_1_block_information_1_1_i_o_data.html">IOData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwbt_1_1_block_information_1_1_port.html">Port</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:acf73157eca5ced24ca4ae5826ae70382"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#acf73157eca5ced24ca4ae5826ae70382">Rows</a> = int</td></tr>
@@ -141,6 +149,10 @@ Public Types</h2></td></tr>
 <tr class="separator:ada6c9ca0b9ee1053d448ac89c2f354fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ea6e56d884fb960f74b2b29c679f2e7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> = std::pair&lt; <a class="el" href="classwbt_1_1_block_information.html#acf73157eca5ced24ca4ae5826ae70382">Rows</a>, <a class="el" href="classwbt_1_1_block_information.html#a048ca36f8e6feffe4dbe5d74e62120b3">Cols</a> &gt;</td></tr>
 <tr class="separator:a3ea6e56d884fb960f74b2b29c679f2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb8879613df177bd536972bf8a9ad57a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">PortDimension</a> = std::vector&lt; int &gt;</td></tr>
+<tr class="separator:aeb8879613df177bd536972bf8a9ad57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6388f5ad07eb55af146b4e156b73e749"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">PortData</a> = std::tuple&lt; <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>, <a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">PortDimension</a>, <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">wbt::DataType</a> &gt;</td></tr>
+<tr class="separator:a6388f5ad07eb55af146b4e156b73e749"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -148,57 +160,42 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd4d61b7712c1f60f2b2db8fada66281"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a163cce46bffb57abd724fbfe82a16bef"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a163cce46bffb57abd724fbfe82a16bef">~BlockInformation</a> ()=default</td></tr>
 <tr class="separator:a163cce46bffb57abd724fbfe82a16bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaadb3f1d04151a82649de1058e03e7c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#abaadb3f1d04151a82649de1058e03e7c">optionFromKey</a> (const std::string &amp;key, double &amp;option) const </td></tr>
-<tr class="memdesc:abaadb3f1d04151a82649de1058e03e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a block option from its string identifier to a specific implementation.  <a href="#abaadb3f1d04151a82649de1058e03e7c">More...</a><br/></td></tr>
-<tr class="separator:abaadb3f1d04151a82649de1058e03e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64aab6d59240c6425ccb807a9a2805f4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4">parseParameters</a> (<a class="el" href="classwbt_1_1_parameters.html">wbt::Parameters</a> &amp;parameters)</td></tr>
-<tr class="memdesc:a64aab6d59240c6425ccb807a9a2805f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a>'s parameters.  <a href="#a64aab6d59240c6425ccb807a9a2805f4">More...</a><br/></td></tr>
-<tr class="separator:a64aab6d59240c6425ccb807a9a2805f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15b0eee923d3bd5f7793bdc4a2c6d0b2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a15b0eee923d3bd5f7793bdc4a2c6d0b2">addParameterMetadata</a> (const <a class="el" href="classwbt_1_1_parameter_metadata.html">wbt::ParameterMetadata</a> &amp;paramMD)</td></tr>
-<tr class="memdesc:a15b0eee923d3bd5f7793bdc4a2c6d0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter metadata.  <a href="#a15b0eee923d3bd5f7793bdc4a2c6d0b2">More...</a><br/></td></tr>
-<tr class="separator:a15b0eee923d3bd5f7793bdc4a2c6d0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65e921a4be9fdbeecc65f03ab82c2fab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a65e921a4be9fdbeecc65f03ab82c2fab">setNumberOfInputPorts</a> (const unsigned &amp;numberOfPorts)=0</td></tr>
-<tr class="memdesc:a65e921a4be9fdbeecc65f03ab82c2fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of block's inputs.  <a href="#a65e921a4be9fdbeecc65f03ab82c2fab">More...</a><br/></td></tr>
-<tr class="separator:a65e921a4be9fdbeecc65f03ab82c2fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b90f13c45a6859f8596ea73323aea48"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a1b90f13c45a6859f8596ea73323aea48">setNumberOfOutputPorts</a> (const unsigned &amp;numberOfPorts)=0</td></tr>
-<tr class="memdesc:a1b90f13c45a6859f8596ea73323aea48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of block's outputs.  <a href="#a1b90f13c45a6859f8596ea73323aea48">More...</a><br/></td></tr>
-<tr class="separator:a1b90f13c45a6859f8596ea73323aea48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f9eeab74e2e7a4ab5f0f49c315c8af9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a3f9eeab74e2e7a4ab5f0f49c315c8af9">setInputPortVectorSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;size)=0</td></tr>
-<tr class="memdesc:a3f9eeab74e2e7a4ab5f0f49c315c8af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the size of a 1D input port.  <a href="#a3f9eeab74e2e7a4ab5f0f49c315c8af9">More...</a><br/></td></tr>
-<tr class="separator:a3f9eeab74e2e7a4ab5f0f49c315c8af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9329f885917b3762608f5b87251365d2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a9329f885917b3762608f5b87251365d2">setOutputPortVectorSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;size)=0</td></tr>
-<tr class="memdesc:a9329f885917b3762608f5b87251365d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the size of a 1D output port.  <a href="#a9329f885917b3762608f5b87251365d2">More...</a><br/></td></tr>
-<tr class="separator:a9329f885917b3762608f5b87251365d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdc7f7bfdeb9f8ada2f60dc65a2f1aef"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#afdc7f7bfdeb9f8ada2f60dc65a2f1aef">setInputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> &amp;size)=0</td></tr>
-<tr class="memdesc:afdc7f7bfdeb9f8ada2f60dc65a2f1aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the size of a 2D input port.  <a href="#afdc7f7bfdeb9f8ada2f60dc65a2f1aef">More...</a><br/></td></tr>
-<tr class="separator:afdc7f7bfdeb9f8ada2f60dc65a2f1aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07b3e452c5f3ac902d7090d63b1cdc92"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a07b3e452c5f3ac902d7090d63b1cdc92">setOutputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> &amp;size)=0</td></tr>
-<tr class="memdesc:a07b3e452c5f3ac902d7090d63b1cdc92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the size of a 2D output port.  <a href="#a07b3e452c5f3ac902d7090d63b1cdc92">More...</a><br/></td></tr>
-<tr class="separator:a07b3e452c5f3ac902d7090d63b1cdc92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af30893cee99697b4ece0ce6c185ba387"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#af30893cee99697b4ece0ce6c185ba387">setInputPortType</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;type)=0</td></tr>
-<tr class="memdesc:af30893cee99697b4ece0ce6c185ba387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the data type of an input port.  <a href="#af30893cee99697b4ece0ce6c185ba387">More...</a><br/></td></tr>
-<tr class="separator:af30893cee99697b4ece0ce6c185ba387"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79e343ee9759d8fa84b6a6a526db96cf"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a79e343ee9759d8fa84b6a6a526db96cf">setOutputPortType</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;type)=0</td></tr>
-<tr class="memdesc:a79e343ee9759d8fa84b6a6a526db96cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the data type of an output port.  <a href="#a79e343ee9759d8fa84b6a6a526db96cf">More...</a><br/></td></tr>
-<tr class="separator:a79e343ee9759d8fa84b6a6a526db96cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7a57beb644f1a106213cb2cb2dcaecb"><td class="memItemLeft" align="right" valign="top">virtual unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#aa7a57beb644f1a106213cb2cb2dcaecb">getInputPortWidth</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx) const =0</td></tr>
-<tr class="memdesc:aa7a57beb644f1a106213cb2cb2dcaecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 1D input port.  <a href="#aa7a57beb644f1a106213cb2cb2dcaecb">More...</a><br/></td></tr>
-<tr class="separator:aa7a57beb644f1a106213cb2cb2dcaecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab80b80d2c6c4d16eec09ed8818e62f27"><td class="memItemLeft" align="right" valign="top">virtual unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ab80b80d2c6c4d16eec09ed8818e62f27">getOutputPortWidth</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx) const =0</td></tr>
-<tr class="memdesc:ab80b80d2c6c4d16eec09ed8818e62f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 1D output port.  <a href="#ab80b80d2c6c4d16eec09ed8818e62f27">More...</a><br/></td></tr>
-<tr class="separator:ab80b80d2c6c4d16eec09ed8818e62f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13dfa837bbefdda917da075d882ef131"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a13dfa837bbefdda917da075d882ef131">getInputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx) const =0</td></tr>
-<tr class="memdesc:a13dfa837bbefdda917da075d882ef131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 2D input port.  <a href="#a13dfa837bbefdda917da075d882ef131">More...</a><br/></td></tr>
-<tr class="separator:a13dfa837bbefdda917da075d882ef131"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d656865ee70ecc8c81d0bd63ddfa902"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a9d656865ee70ecc8c81d0bd63ddfa902">getOutputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx) const =0</td></tr>
-<tr class="memdesc:a9d656865ee70ecc8c81d0bd63ddfa902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 2D output port.  <a href="#a9d656865ee70ecc8c81d0bd63ddfa902">More...</a><br/></td></tr>
-<tr class="separator:a9d656865ee70ecc8c81d0bd63ddfa902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2688bd8b5834d4d0607eb4f7f6d8d05"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ab2688bd8b5834d4d0607eb4f7f6d8d05">getInputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;size=-1) const =0</td></tr>
-<tr class="memdesc:ab2688bd8b5834d4d0607eb4f7f6d8d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D input port.  <a href="#ab2688bd8b5834d4d0607eb4f7f6d8d05">More...</a><br/></td></tr>
-<tr class="separator:ab2688bd8b5834d4d0607eb4f7f6d8d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07f45f185de58ef66570f68f3ec71d1c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a07f45f185de58ef66570f68f3ec71d1c">getOutputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;size=-1) const =0</td></tr>
-<tr class="memdesc:a07f45f185de58ef66570f68f3ec71d1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D output port.  <a href="#a07f45f185de58ef66570f68f3ec71d1c">More...</a><br/></td></tr>
-<tr class="separator:a07f45f185de58ef66570f68f3ec71d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b5869100cba93c1af6548a901861a9f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a4b5869100cba93c1af6548a901861a9f">optionFromKey</a> (const std::string &amp;key, double &amp;option) const =0</td></tr>
+<tr class="memdesc:a4b5869100cba93c1af6548a901861a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a block option from its string identifier to a specific implementation.  <a href="#a4b5869100cba93c1af6548a901861a9f">More...</a><br/></td></tr>
+<tr class="separator:a4b5869100cba93c1af6548a901861a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd86c455c953137f9a74bb72da78f17"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17">parseParameters</a> (<a class="el" href="classwbt_1_1_parameters.html">wbt::Parameters</a> &amp;parameters)=0</td></tr>
+<tr class="memdesc:a1cd86c455c953137f9a74bb72da78f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a>'s parameters.  <a href="#a1cd86c455c953137f9a74bb72da78f17">More...</a><br/></td></tr>
+<tr class="separator:a1cd86c455c953137f9a74bb72da78f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f972fc8edae288b2ee32b08639d593"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ae2f972fc8edae288b2ee32b08639d593">addParameterMetadata</a> (const <a class="el" href="classwbt_1_1_parameter_metadata.html">wbt::ParameterMetadata</a> &amp;paramMD)=0</td></tr>
+<tr class="memdesc:ae2f972fc8edae288b2ee32b08639d593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter metadata.  <a href="#ae2f972fc8edae288b2ee32b08639d593">More...</a><br/></td></tr>
+<tr class="separator:ae2f972fc8edae288b2ee32b08639d593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e5100f762139d71fc80b3359e12f5d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a72e5100f762139d71fc80b3359e12f5d">setIOPortsData</a> (const <a class="el" href="structwbt_1_1_block_information_1_1_i_o_data.html">IOData</a> &amp;ioData)=0</td></tr>
+<tr class="memdesc:a72e5100f762139d71fc80b3359e12f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set input / output ports data.  <a href="#a72e5100f762139d71fc80b3359e12f5d">More...</a><br/></td></tr>
+<tr class="separator:a72e5100f762139d71fc80b3359e12f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd42010331b41fb7b8a117248608ba99"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">PortData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#abd42010331b41fb7b8a117248608ba99">getInputPortData</a> (<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:abd42010331b41fb7b8a117248608ba99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data of an input port.  <a href="#abd42010331b41fb7b8a117248608ba99">More...</a><br/></td></tr>
+<tr class="separator:abd42010331b41fb7b8a117248608ba99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0c002c25b695b04f3a3f8f2f6b86795"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">PortData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ab0c002c25b695b04f3a3f8f2f6b86795">getOutputPortData</a> (<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:ab0c002c25b695b04f3a3f8f2f6b86795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data of an output port.  <a href="#ab0c002c25b695b04f3a3f8f2f6b86795">More...</a><br/></td></tr>
+<tr class="separator:ab0c002c25b695b04f3a3f8f2f6b86795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a218d25286db0525990196e9b4947714c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a218d25286db0525990196e9b4947714c">getInputPortWidth</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:a218d25286db0525990196e9b4947714c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 1D input port.  <a href="#a218d25286db0525990196e9b4947714c">More...</a><br/></td></tr>
+<tr class="separator:a218d25286db0525990196e9b4947714c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0db6bcbed17291020a0b701e74d5e5c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ae0db6bcbed17291020a0b701e74d5e5c">getOutputPortWidth</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:ae0db6bcbed17291020a0b701e74d5e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 1D output port.  <a href="#ae0db6bcbed17291020a0b701e74d5e5c">More...</a><br/></td></tr>
+<tr class="separator:ae0db6bcbed17291020a0b701e74d5e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab44e89c6a3f6d6e571c64c8d6e44697a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#ab44e89c6a3f6d6e571c64c8d6e44697a">getInputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:ab44e89c6a3f6d6e571c64c8d6e44697a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 2D input port.  <a href="#ab44e89c6a3f6d6e571c64c8d6e44697a">More...</a><br/></td></tr>
+<tr class="separator:ab44e89c6a3f6d6e571c64c8d6e44697a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82b577f719625e6420e57d26fe6e1abc"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a82b577f719625e6420e57d26fe6e1abc">getOutputPortMatrixSize</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx) const =0</td></tr>
+<tr class="memdesc:a82b577f719625e6420e57d26fe6e1abc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of a 2D output port.  <a href="#a82b577f719625e6420e57d26fe6e1abc">More...</a><br/></td></tr>
+<tr class="separator:a82b577f719625e6420e57d26fe6e1abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93d1d36bcb82667b59562b6f13a2f768"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a93d1d36bcb82667b59562b6f13a2f768">getInputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> size=-1) const =0</td></tr>
+<tr class="memdesc:a93d1d36bcb82667b59562b6f13a2f768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D input port.  <a href="#a93d1d36bcb82667b59562b6f13a2f768">More...</a><br/></td></tr>
+<tr class="separator:a93d1d36bcb82667b59562b6f13a2f768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa420528d18d16347be964ea7360adad7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#aa420528d18d16347be964ea7360adad7">getOutputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> size=-1) const =0</td></tr>
+<tr class="memdesc:aa420528d18d16347be964ea7360adad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D output port.  <a href="#aa420528d18d16347be964ea7360adad7">More...</a><br/></td></tr>
+<tr class="separator:aa420528d18d16347be964ea7360adad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f76693a770868d0b7a9de872714aaf8"><td class="memItemLeft" align="right" valign="top">virtual std::weak_ptr<br class="typebreak"/>
 &lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a3f76693a770868d0b7a9de872714aaf8">getRobotInterface</a> () const =0</td></tr>
 <tr class="memdesc:a3f76693a770868d0b7a9de872714aaf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>.  <a href="#a3f76693a770868d0b7a9de872714aaf8">More...</a><br/></td></tr>
@@ -227,6 +224,30 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">wbt::BlockInformation::MatrixSize</a> =  std::pair&lt;<a class="el" href="classwbt_1_1_block_information.html#acf73157eca5ced24ca4ae5826ae70382">Rows</a>, <a class="el" href="classwbt_1_1_block_information.html#a048ca36f8e6feffe4dbe5d74e62120b3">Cols</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6388f5ad07eb55af146b4e156b73e749"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">wbt::BlockInformation::PortData</a> =  std::tuple&lt;<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>, <a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">PortDimension</a>, <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">wbt::DataType</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aeb8879613df177bd536972bf8a9ad57a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">wbt::BlockInformation::PortDimension</a> =  std::vector&lt;int&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -317,7 +338,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a15b0eee923d3bd5f7793bdc4a2c6d0b2"></a>
+<a class="anchor" id="ae2f972fc8edae288b2ee32b08639d593"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -334,13 +355,13 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Add a parameter metadata. </p>
-<p>In order to parse parameters with <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>, adding in advance their metadata can strongly simplify the entire process.</p>
+<p>In order to parse parameters with <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>, adding in advance their metadata can strongly simplify the entire process.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paramMD</td><td>The metadata to add. </td></tr>
@@ -349,11 +370,46 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a128fadce9237f2c560531382be48f596">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a222a77ff1368d2779fa5bed5c53a37d5">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a128fadce9237f2c560531382be48f596">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a222a77ff1368d2779fa5bed5c53a37d5">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a13dfa837bbefdda917da075d882ef131"></a>
+<a class="anchor" id="abd42010331b41fb7b8a117248608ba99"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">PortData</a> wbt::BlockInformation::getInputPortData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get data of an input port. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A PortData object containing the port's data. </dd></dl>
+
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#aa0c4e785651062660c7f9b87c4038621">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#aa6f1b253c9e754e22ed3bc9d249b9e21">wbt::CoderBlockInformation</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab44e89c6a3f6d6e571c64c8d6e44697a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -363,7 +419,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> wbt::BlockInformation::getInputPortMatrixSize </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -384,11 +440,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a907cbf1aaa296fb56f1363e6bad6305d">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#ac35f29be7fd04def01be1639689920fd">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a75076d77429c301dd6dfe85e26f477de">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a0e7365145bf07b1a7f304c3673ec78bb">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab2688bd8b5834d4d0607eb4f7f6d8d05"></a>
+<a class="anchor" id="a93d1d36bcb82667b59562b6f13a2f768"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -398,13 +454,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> wbt::BlockInformation::getInputPortSignal </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a>&#160;</td>
           <td class="paramname"><em>size</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
@@ -431,11 +487,11 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The signal connected to the input port for success, an invalid signal otherwise. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a" title="Check if the signal is valid. ">Signal::isValid</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#aa9e519304eb41f3a7dcd861a8eb6ff13">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#ac216632be11d7ae812f3b2ebd6f75e80">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a5371884004d86b97633f8b9f4480eb08">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a0474d6efffe29089dd84b2cc77a62051">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa7a57beb644f1a106213cb2cb2dcaecb"></a>
+<a class="anchor" id="a218d25286db0525990196e9b4947714c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -443,9 +499,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual unsigned wbt::BlockInformation::getInputPortWidth </td>
+          <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> wbt::BlockInformation::getInputPortWidth </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -466,7 +522,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a1fe427db567bb5a8d8f4b36592e5c062">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a7689a1db2f7c331539b9f8392a9ddca0">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#adf2a7ddea45a28d6a215dc85bc03e077">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a5249d67bcef008ccd3bf5437654bad77">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
@@ -498,7 +554,42 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9d656865ee70ecc8c81d0bd63ddfa902"></a>
+<a class="anchor" id="ab0c002c25b695b04f3a3f8f2f6b86795"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749">PortData</a> wbt::BlockInformation::getOutputPortData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get data of an output port. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A PortData object containing the port's data. </dd></dl>
+
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#aac1011affdbee3cba00af9e9655d3737">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a4e35b2156a03682d306821b6218b39ec">wbt::CoderBlockInformation</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a82b577f719625e6420e57d26fe6e1abc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -508,7 +599,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> wbt::BlockInformation::getOutputPortMatrixSize </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -529,11 +620,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#af83311adaddc14cca60b6735617feb58">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a4816b3c9cc0c2d8b9efd9086eebfa482">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a64cf1129904be0bc5187164ed77cdbda">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#aefd2f3f7656aa7eff36c9e36aef8f2cd">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a07f45f185de58ef66570f68f3ec71d1c"></a>
+<a class="anchor" id="aa420528d18d16347be964ea7360adad7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -543,13 +634,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> wbt::BlockInformation::getOutputPortSignal </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a>&#160;</td>
           <td class="paramname"><em>size</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
@@ -576,11 +667,11 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The signal connected to the output port for success, an invalid signal otherwise. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a" title="Check if the signal is valid. ">Signal::isValid</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a39b8a7de3c0937a15dba3a78eac8ed46">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a2b8c07822c11ded9eaba68068f6e7ac0">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a1cefbf717d478e59020519af1605608a">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a724871ee57ef6ceb8a5d2cff695bb748">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab80b80d2c6c4d16eec09ed8818e62f27"></a>
+<a class="anchor" id="ae0db6bcbed17291020a0b701e74d5e5c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -588,9 +679,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual unsigned wbt::BlockInformation::getOutputPortWidth </td>
+          <td class="memname">virtual <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> wbt::BlockInformation::getOutputPortWidth </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a>&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -611,7 +702,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#afc596f03858a51e82f0bc056a949112b">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a72057fb53a9aa5cfce2085b20c081ed3">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a95f5ae9f31c1857e3bcdc608e365aaa3">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a372a29a2ba22922fdb844e5aa22ee9ae">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
@@ -643,7 +734,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abaadb3f1d04151a82649de1058e03e7c"></a>
+<a class="anchor" id="a4b5869100cba93c1af6548a901861a9f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -651,7 +742,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool wbt::BlockInformation::optionFromKey </td>
+          <td class="memname">virtual bool wbt::BlockInformation::optionFromKey </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>key</em>, </td>
@@ -670,7 +761,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -685,11 +776,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the option has been converted, false otherwise. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a65c9aa1044eb3bddb28c0ab38d65f4e6">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#ad2a6ae620902cb5e3b59697b3d8847a0">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a65c9aa1044eb3bddb28c0ab38d65f4e6">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#ad2a6ae620902cb5e3b59697b3d8847a0">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a64aab6d59240c6425ccb807a9a2805f4"></a>
+<a class="anchor" id="a1cd86c455c953137f9a74bb72da78f17"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -706,7 +797,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -721,11 +812,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a6d0e10d44f84aeeba3c6a8936b9ceedb">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a217a96458e277e3c61e3c355aca57e46">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a6d0e10d44f84aeeba3c6a8936b9ceedb">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a217a96458e277e3c61e3c355aca57e46">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afdc7f7bfdeb9f8ada2f60dc65a2f1aef"></a>
+<a class="anchor" id="a72e5100f762139d71fc80b3359e12f5d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -733,148 +824,10 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setInputPortMatrixSize </td>
+          <td class="memname">virtual bool wbt::BlockInformation::setIOPortsData </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the size of a 2D input port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#abe2a7e8d7105696eb7f88b8a3f7dfc1e">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#ac82c8383897522ff6e347c2f5f855eef">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af30893cee99697b4ece0ce6c185ba387"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setInputPortType </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the data type of an input port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">type</td><td>The type of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a783652153d90a7212ba655a3d330fdf0">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#adcea642028109fff06a3694de1b9d2c4">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3f9eeab74e2e7a4ab5f0f49c315c8af9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setInputPortVectorSize </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the size of a 1D input port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#aa8a6a4b331937ba33afe92b8bf772abd">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a5892891504b8d9c26483261920e5d1a3">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a65e921a4be9fdbeecc65f03ab82c2fab"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setNumberOfInputPorts </td>
-          <td>(</td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
-          <td class="paramname"><em>numberOfPorts</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structwbt_1_1_block_information_1_1_i_o_data.html">IOData</a> &amp;&#160;</td>
+          <td class="paramname"><em>ioData</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -885,195 +838,24 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Set the number of block's inputs. </p>
+<p>Set input / output ports data. </p>
+<p>Specify I/O ports data such as <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, <a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">BlockInformation::PortDimension</a>, and <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8" title="Defines allowed signal data types. ">wbt::DataType</a> storing the information in a <a class="el" href="structwbt_1_1_block_information_1_1_i_o_data.html">BlockInformation::IOData</a> structure.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">numberOfPorts</td><td>Number of input ports. </td></tr>
+    <tr><td class="paramname">ioData</td><td>The structure containing I/O ports data. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>setNumberOfInputPorts, setInputPortVectorSize, setInputPortMatrixSize, setInputPortDataType </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method automatically sets the number of inputs and outputs. </dd></dl>
 
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#ac8132caefa83d3f9e556e2e5e461eca9">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a9215a1c4bb77bfe3600870356aa108a3">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1b90f13c45a6859f8596ea73323aea48"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setNumberOfOutputPorts </td>
-          <td>(</td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
-          <td class="paramname"><em>numberOfPorts</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the number of block's outputs. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">numberOfPorts</td><td>Number of output ports. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a75c3c20b83ff0228d1d20a12a5a78b99">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a8ba961aa447a58d3c0a7fc48bc625a98">wbt::CoderBlockInformation</a>.</p>
+<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a96f6eb8910801287778866fa71016ef2">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a14b634ec083cefaca25989f8a9998a1a">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a07b3e452c5f3ac902d7090d63b1cdc92"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setOutputPortMatrixSize </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7">MatrixSize</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the size of a 2D output port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a4eb166b54b6cd561d82d486cc97dd5be">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a0b07cc4f2d01704c32c0aa386c60727b">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a79e343ee9759d8fa84b6a6a526db96cf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setOutputPortType </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the data type of an output port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">type</td><td>The type of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a0b5ed61828410a1ae5ebe705c8070423">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a61d9df81323dea85c68e696f06c2524e">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9329f885917b3762608f5b87251365d2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool wbt::BlockInformation::setOutputPortVectorSize </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the size of a 1D output port. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the port. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the port. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#aef74e61d0f66aa4811f7373739f52114">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a1ef6e915f8d0da0362d38606a73c5cbe">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/travis/build/robotology/wb-toolbox/toolbox/include/base/<a class="el" href="_block_information_8h_source.html">BlockInformation.h</a></li>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_block_information_8cpp.html">BlockInformation.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

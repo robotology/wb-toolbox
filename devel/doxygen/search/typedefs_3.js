@@ -13,5 +13,7 @@ var searchData=
   ['paramvectorint',['ParamVectorInt',['../class_parameters_1_1impl.html#a7aef941a6f84a6328b0d09932f9fee9e',1,'Parameters::impl']]],
   ['paramvectorstring',['ParamVectorString',['../class_parameters_1_1impl.html#ab1e8b7b62b8e49a1fea32f2a8ef68048',1,'Parameters::impl']]],
   ['piddata',['PidData',['../class_set_low_level_p_i_d_1_1impl.html#a3b882af5bc737ec802128e250f542601',1,'SetLowLevelPID::impl']]],
+  ['portdata',['PortData',['../classwbt_1_1_block_information.html#a6388f5ad07eb55af146b4e156b73e749',1,'wbt::BlockInformation']]],
+  ['portdimension',['PortDimension',['../classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a',1,'wbt::BlockInformation']]],
   ['portindex',['PortIndex',['../classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238',1,'wbt::BlockInformation']]]
 ];

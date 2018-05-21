@@ -133,7 +133,7 @@ Parameters</h1>
 <tr>
 <th>Type </th><th align="center">Index </th><th align="center">Rows </th><th align="center">Cols </th><th>Name  </th></tr>
 <tr>
-<td><a class="el" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a63b588d5559f64f89a416e656880b949">STRING</a> </td><td align="center">0 + <a class="el" href="classwbt_1_1_w_b_block.html#a1337b6f888f3377e0e6fa5ee5a898773" title="The number of parameters WBBlock requires. ">WBBlock::NumberOfParameters</a> </td><td align="center">1 </td><td align="center">1 </td><td>"LimitType" </td></tr>
+<td><a class="el" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a63b588d5559f64f89a416e656880b949">STRING</a> </td><td align="center">0 + <a class="el" href="classwbt_1_1_w_b_block.html#a347102bbc3342bef44515f7343f62a4f" title="The number of parameters WBBlock requires. ">WBBlock::NumberOfParameters</a> </td><td align="center">1 </td><td align="center">1 </td><td>"LimitType" </td></tr>
 </table>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -159,6 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31c8eb67798d161ddd84c76de00daaca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca">initialize</a> (<a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo) override</td></tr>
 <tr class="memdesc:a31c8eb67798d161ddd84c76de00daaca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the block.  <a href="#a31c8eb67798d161ddd84c76de00daaca">More...</a><br/></td></tr>
 <tr class="separator:a31c8eb67798d161ddd84c76de00daaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbeeebef9513ac6b8fe17cac1c19944e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e">initializeInitialConditions</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo) override</td></tr>
+<tr class="memdesc:adbeeebef9513ac6b8fe17cac1c19944e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize block's initial conditions.  <a href="#adbeeebef9513ac6b8fe17cac1c19944e">More...</a><br/></td></tr>
+<tr class="separator:adbeeebef9513ac6b8fe17cac1c19944e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae13609781f88cfcb45dc5a7caf943053"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053">terminate</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo) override</td></tr>
 <tr class="memdesc:ae13609781f88cfcb45dc5a7caf943053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup block resources.  <a href="#ae13609781f88cfcb45dc5a7caf943053">More...</a><br/></td></tr>
 <tr class="separator:ae13609781f88cfcb45dc5a7caf943053"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,21 +200,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5b4c9f424bd665bd1012d0f546f0c53a inherit pub_methods_classwbt_1_1_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe279dda68abc5a155c01d26d690e6b7 inherit pub_methods_classwbt_1_1_block"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#abe279dda68abc5a155c01d26d690e6b7">checkParameters</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo)</td></tr>
 <tr class="separator:abe279dda68abc5a155c01d26d690e6b7 inherit pub_methods_classwbt_1_1_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa352e39dca6dba589b10e422e32661e5 inherit pub_methods_classwbt_1_1_block"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#aa352e39dca6dba589b10e422e32661e5">initializeInitialConditions</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo)</td></tr>
-<tr class="memdesc:aa352e39dca6dba589b10e422e32661e5 inherit pub_methods_classwbt_1_1_block"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize block's initial conditions.  <a href="#aa352e39dca6dba589b10e422e32661e5">More...</a><br/></td></tr>
-<tr class="separator:aa352e39dca6dba589b10e422e32661e5 inherit pub_methods_classwbt_1_1_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a1dddc33fe8a6e5c790cddfcd1309274c"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_get_limits.html#a1dddc33fe8a6e5c790cddfcd1309274c">ClassName</a> = &quot;GetLimits&quot;</td></tr>
 <tr class="separator:a1dddc33fe8a6e5c790cddfcd1309274c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classwbt_1_1_w_b_block"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classwbt_1_1_w_b_block')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></td></tr>
-<tr class="memitem:a1337b6f888f3377e0e6fa5ee5a898773 inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="memItemLeft" align="right" valign="top">static const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a1337b6f888f3377e0e6fa5ee5a898773">NumberOfParameters</a> = Block::NumberOfParameters + 2</td></tr>
-<tr class="memdesc:a1337b6f888f3377e0e6fa5ee5a898773 inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of parameters <a class="el" href="classwbt_1_1_w_b_block.html" title="Extension of wbt::Block for simplifying the development of whole-body blocks. ">WBBlock</a> requires.  <a href="#a1337b6f888f3377e0e6fa5ee5a898773">More...</a><br/></td></tr>
-<tr class="separator:a1337b6f888f3377e0e6fa5ee5a898773 inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a347102bbc3342bef44515f7343f62a4f inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a347102bbc3342bef44515f7343f62a4f">NumberOfParameters</a> = Block::NumberOfParameters + 2</td></tr>
+<tr class="memdesc:a347102bbc3342bef44515f7343f62a4f inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of parameters <a class="el" href="classwbt_1_1_w_b_block.html" title="Extension of wbt::Block for simplifying the development of whole-body blocks. ">WBBlock</a> requires.  <a href="#a347102bbc3342bef44515f7343f62a4f">More...</a><br/></td></tr>
+<tr class="separator:a347102bbc3342bef44515f7343f62a4f inherit pub_static_attribs_classwbt_1_1_w_b_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classwbt_1_1_block"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classwbt_1_1_block')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classwbt_1_1_block.html">wbt::Block</a></td></tr>
-<tr class="memitem:aaf36bac335290500133826ed80a56a1b inherit pub_static_attribs_classwbt_1_1_block"><td class="memItemLeft" align="right" valign="top">static const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#aaf36bac335290500133826ed80a56a1b">NumberOfParameters</a> = 1</td></tr>
-<tr class="separator:aaf36bac335290500133826ed80a56a1b inherit pub_static_attribs_classwbt_1_1_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afef88236a55bc16b77107dd88ba0cc5e inherit pub_static_attribs_classwbt_1_1_block"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#afef88236a55bc16b77107dd88ba0cc5e">NumberOfParameters</a> = 1</td></tr>
+<tr class="separator:afef88236a55bc16b77107dd88ba0cc5e inherit pub_static_attribs_classwbt_1_1_block"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -310,7 +310,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Configure the input and output ports. </p>
 <p>Implement this method to set information about number and size of input and output signals. The terminology <code>port</code> comes as Simulink inheritage, and it marks the connection of a signal (which resides in some buffer in the program memory) to the block's input or output.</p>
 <p>These information can be used later (e.g. in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> and <a class="el" href="classwbt_1_1_block.html#ae728bcfdeb5d419aee45d4aef8da55bd" title="Compute the output of the block. ">Block::output</a>) for preallocating resources and accessing data knowing its size in advance.</p>
-<dl class="section note"><dt>Note</dt><dd>If the size is not known at this stage (<a class="el" href="classwbt_1_1_signal.html#a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>), at latest it should be set in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the size is not known at this stage (<a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>), at latest it should be set in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Do not allocate any data in this stage! Object are destroyed afterwards and created again before the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step. Every allocated memory and stored values will be deleted. Only information stored in <code>blockInfo</code> will persist.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -319,7 +319,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the block was configured successfully, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#a65e921a4be9fdbeecc65f03ab82c2fab" title="Set the number of block&#39;s inputs. ">BlockInformation::setNumberOfInputPorts</a>, <a class="el" href="classwbt_1_1_block_information.html#a3f9eeab74e2e7a4ab5f0f49c315c8af9" title="Set the size of a 1D input port. ">BlockInformation::setInputPortVectorSize</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>BlockInformation::setNumberOfInputPorts, BlockInformation::setInputPortVectorSize </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classwbt_1_1_w_b_block.html#a3e2c8457dc4df042983e099fb622aec6">wbt::WBBlock</a>.</p>
 
@@ -358,6 +358,43 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classwbt_1_1_w_b_block.html#aee8fb77f0cdbd596030eb62c31b5cabb">wbt::WBBlock</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adbeeebef9513ac6b8fe17cac1c19944e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GetLimits::initializeInitialConditions </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *&#160;</td>
+          <td class="paramname"><em>blockInfo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialize block's initial conditions. </p>
+<p>Implement this method to specify block's initial conditions. Its execution will happen after <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> and before the first call of <a class="el" href="classwbt_1_1_block.html#ae728bcfdeb5d419aee45d4aef8da55bd" title="Compute the output of the block. ">Block::output</a>. The default is an empty implementation.</p>
+<dl class="section note"><dt>Note</dt><dd>this function is also called on a reset event. In Simulink, an example is when the block resides in an enabled subsystem.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blockInfo</td><td>The pointer to a <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classwbt_1_1_block.html#aa352e39dca6dba589b10e422e32661e5">wbt::Block</a>.</p>
 
 </div>
 </div>
@@ -448,7 +485,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parse the parameters stored into the <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> object. </p>
-<p>Implement this method to create the metadata of the parameters your block needs (using <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">wbt::ParameterMetadata</a>), store them into the blockInfo object with <a class="el" href="classwbt_1_1_block_information.html#a15b0eee923d3bd5f7793bdc4a2c6d0b2" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, and parse them using <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>.</p>
+<p>Implement this method to create the metadata of the parameters your block needs (using <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">wbt::ParameterMetadata</a>), store them into the blockInfo object with <a class="el" href="classwbt_1_1_block_information.html#ae2f972fc8edae288b2ee32b08639d593" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, and parse them using <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>.</p>
 <p>An example of the implementation is the following:</p>
 <p>```cpp bool <a class="el" href="classwbt_1_1_jacobian.html#adaa42f1aad51f7e9a0c55bb442b3ed51" title="Parse the parameters stored into the BlockInformation object. ">Jacobian::parseParameters(BlockInformation* blockInfo)</a> { <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">ParameterMetadata</a> frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame"); bool ok = blockInfo-&gt;addParameterMetadata(frameMetadata);</p>
 <p>if (!ok) { wbtError &lt;&lt; "Failed to store parameters metadata."; return false; }</p>
@@ -460,7 +497,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#a15b0eee923d3bd5f7793bdc4a2c6d0b2" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#ae2f972fc8edae288b2ee32b08639d593" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classwbt_1_1_w_b_block.html#adf075ab1530ec9b364320e3a926c61c5">wbt::WBBlock</a>.</p>
 

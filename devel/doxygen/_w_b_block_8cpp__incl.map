@@ -1,11 +1,11 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/WBBlock.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/WBBlock.cpp">
-<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="WBBlock.h" alt="" coords="423,117,511,144"/>
-<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="716,275,845,301"/>
+<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="WBBlock.h" alt="" coords="577,117,665,144"/>
+<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="484,275,613,301"/>
 <area shape="rect" id="node10" href="$_configuration_8h.html" title="Configuration.h" alt="" coords="174,275,284,301"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="637,275,691,301"/>
+<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="741,275,795,301"/>
 <area shape="rect" id="node13" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="5,275,99,301"/>
-<area shape="rect" id="node14" href="$_robot_interface_8h.html" title="RobotInterface.h" alt="" coords="870,275,988,301"/>
-<area shape="rect" id="node16" href="$_signal_8h.html" title="Signal.h" alt="" coords="585,200,655,227"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="359,200,425,227"/>
+<area shape="rect" id="node14" href="$_robot_interface_8h.html" title="RobotInterface.h" alt="" coords="871,275,989,301"/>
+<area shape="rect" id="node16" href="$_signal_8h.html" title="Signal.h" alt="" coords="791,200,860,227"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="369,200,436,227"/>
 <area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="309,275,408,301"/>
 </map>

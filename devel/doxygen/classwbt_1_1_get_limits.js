@@ -5,6 +5,7 @@ var classwbt_1_1_get_limits =
     [ "~GetLimits", "classwbt_1_1_get_limits.html#a3287c00cf648939edfe4cea92f57e2b4", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972", null ],
     [ "initialize", "classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca", null ],
+    [ "initializeInitialConditions", "classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e", null ],
     [ "numberOfParameters", "classwbt_1_1_get_limits.html#acb3e1c8313143e5b9fdb93a46ea09794", null ],
     [ "output", "classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c", null ],
     [ "parseParameters", "classwbt_1_1_get_limits.html#a238246e51db4cc8cf620d1bdd7a1eeb4", null ],

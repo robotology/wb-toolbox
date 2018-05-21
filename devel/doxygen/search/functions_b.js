@@ -1,8 +1,8 @@
 var searchData=
 [
   ['mapdofs',['mapDoFs',['../class_robot_interface_1_1impl.html#a1ad11d7575c45e7ceb4675df0cc1c221',1,'RobotInterface::impl']]],
-  ['mapporttypetosimulink',['mapPortTypeToSimulink',['../classwbt_1_1_simulink_block_information.html#a9fa2bba66e7030a1b78d0a4c1a57d4dc',1,'wbt::SimulinkBlockInformation']]],
-  ['mapsimulinktoporttype',['mapSimulinkToPortType',['../classwbt_1_1_simulink_block_information.html#aca9551e25405eca92ffeb4ecbb16209f',1,'wbt::SimulinkBlockInformation']]],
+  ['mapporttypetosimulink',['mapPortTypeToSimulink',['../classwbt_1_1_simulink_block_information.html#a270cfff3bdffc5dbde79cba1aebe8c4a',1,'wbt::SimulinkBlockInformation']]],
+  ['mapsimulinktoporttype',['mapSimulinkToPortType',['../classwbt_1_1_simulink_block_information.html#a118acae721ce2b6960499e86c6ef64a1',1,'wbt::SimulinkBlockInformation']]],
   ['massmatrix',['MassMatrix',['../classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1',1,'wbt::MassMatrix']]],
   ['mdlinitializesampletimes',['mdlInitializeSampleTimes',['../_w_b_toolbox_8cpp.html#a4308a5a20d9c7060391059b1dfce872e',1,'WBToolbox.cpp']]],
   ['mdlinitializesizes',['mdlInitializeSizes',['../_w_b_toolbox_8cpp.html#ab500fc17ae5e95797926ac770d903b84',1,'WBToolbox.cpp']]],

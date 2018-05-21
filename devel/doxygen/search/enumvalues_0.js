@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['bool',['BOOL',['../namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58aa97b2c144243b2b9d2c593ec268b62f5',1,'wbt']]],
-  ['boolean',['BOOLEAN',['../namespacewbt.html#add2c701b88d4e393385e3978306c81b8ac48d5da12d702e73d6966069f2687376',1,'wbt']]]
+  ['autoconnect',['Autoconnect',['../_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b',1,'Autoconnect():&#160;YarpRead.cpp'],['../_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b',1,'Autoconnect():&#160;YarpWrite.cpp']]]
 ];

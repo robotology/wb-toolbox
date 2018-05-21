@@ -116,10 +116,6 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad284997c6f0fa8eb521d3e4dc7cc5ea0"><td class="memItemLeft" align="right" valign="top">std::unique_ptr<br class="typebreak"/>
 &lt; iCub::ctrl::minJerkTrajGen &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#ad284997c6f0fa8eb521d3e4dc7cc5ea0">generator</a></td></tr>
 <tr class="separator:ad284997c6f0fa8eb521d3e4dc7cc5ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab104af7723cfed864d1b1708dae5b331"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#ab104af7723cfed864d1b1708dae5b331">outputFirstDerivativeIndex</a> = -1</td></tr>
-<tr class="separator:ab104af7723cfed864d1b1708dae5b331"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f68300fb6316dfe5be884d77775ba41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#a8f68300fb6316dfe5be884d77775ba41">outputSecondDerivativeIndex</a> = -1</td></tr>
-<tr class="separator:a8f68300fb6316dfe5be884d77775ba41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef5ffe2734019399c9b89951dd5d1a1a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#aef5ffe2734019399c9b89951dd5d1a1a">previousSettlingTime</a></td></tr>
 <tr class="separator:aef5ffe2734019399c9b89951dd5d1a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1c6456ad8d6ab549829784a9cc8c47f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#ac1c6456ad8d6ab549829784a9cc8c47f">firstRun</a> = true</td></tr>
@@ -130,12 +126,40 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a6fc7de062e7b7fb666663eaefe1b686e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f0b4c9b4d8ec5159e70c408375b870d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#a6f0b4c9b4d8ec5159e70c408375b870d">resetOnSettlingTimeChange</a> = false</td></tr>
 <tr class="separator:a6f0b4c9b4d8ec5159e70c408375b870d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797fe587ed79479a1e5a73bb283b7431"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#a797fe587ed79479a1e5a73bb283b7431">computeFirstDerivative</a> = false</td></tr>
+<tr class="separator:a797fe587ed79479a1e5a73bb283b7431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f8e28ea6a1634a6d03be4c507a1edc6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#a9f8e28ea6a1634a6d03be4c507a1edc6">computeSecondDerivative</a> = false</td></tr>
+<tr class="separator:a9f8e28ea6a1634a6d03be4c507a1edc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f63971caa732beafdbf32b745fb409f"><td class="memItemLeft" align="right" valign="top">yarp::sig::Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#a2f63971caa732beafdbf32b745fb409f">initialValues</a></td></tr>
 <tr class="separator:a2f63971caa732beafdbf32b745fb409f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae54cbe8e4c9dc8e594b9c1062573c5c2"><td class="memItemLeft" align="right" valign="top">yarp::sig::Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minimum_jerk_trajectory_generator_1_1impl.html#ae54cbe8e4c9dc8e594b9c1062573c5c2">reference</a></td></tr>
 <tr class="separator:ae54cbe8e4c9dc8e594b9c1062573c5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a797fe587ed79479a1e5a73bb283b7431"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool wbt::MinimumJerkTrajectoryGenerator::impl::computeFirstDerivative = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9f8e28ea6a1634a6d03be4c507a1edc6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool wbt::MinimumJerkTrajectoryGenerator::impl::computeSecondDerivative = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ac1c6456ad8d6ab549829784a9cc8c47f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -166,30 +190,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">yarp::sig::Vector wbt::MinimumJerkTrajectoryGenerator::impl::initialValues</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab104af7723cfed864d1b1708dae5b331"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int wbt::MinimumJerkTrajectoryGenerator::impl::outputFirstDerivativeIndex = -1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a8f68300fb6316dfe5be884d77775ba41"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int wbt::MinimumJerkTrajectoryGenerator::impl::outputSecondDerivativeIndex = -1</td>
         </tr>
       </table>
 </div><div class="memdoc">

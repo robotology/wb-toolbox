@@ -218,8 +218,8 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:aaf36bac335290500133826ed80a56a1b"><td class="memItemLeft" align="right" valign="top">static const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#aaf36bac335290500133826ed80a56a1b">NumberOfParameters</a> = 1</td></tr>
-<tr class="separator:aaf36bac335290500133826ed80a56a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afef88236a55bc16b77107dd88ba0cc5e"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#afef88236a55bc16b77107dd88ba0cc5e">NumberOfParameters</a> = 1</td></tr>
+<tr class="separator:afef88236a55bc16b77107dd88ba0cc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -276,7 +276,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the vector of additional block options. </p>
-<p>Implement this method if you want to store in the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> additional options that can be parsed later from <a class="el" href="classwbt_1_1_block_information.html#abaadb3f1d04151a82649de1058e03e7c" title="Convert a block option from its string identifier to a specific implementation. ">BlockInformation::optionFromKey</a>.</p>
+<p>Implement this method if you want to store in the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> additional options that can be parsed later from <a class="el" href="classwbt_1_1_block_information.html#a4b5869100cba93c1af6548a901861a9f" title="Convert a block option from its string identifier to a specific implementation. ">BlockInformation::optionFromKey</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>A vector containing a list of options. </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a0f63990e4da6e3f629a8cd462522291c">wbt::SimulatorSynchronizer</a>.</p>
@@ -340,7 +340,7 @@ Protected Attributes</h2></td></tr>
 <p>Configure the input and output ports. </p>
 <p>Implement this method to set information about number and size of input and output signals. The terminology <code>port</code> comes as Simulink inheritage, and it marks the connection of a signal (which resides in some buffer in the program memory) to the block's input or output.</p>
 <p>These information can be used later (e.g. in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> and <a class="el" href="classwbt_1_1_block.html#ae728bcfdeb5d419aee45d4aef8da55bd" title="Compute the output of the block. ">Block::output</a>) for preallocating resources and accessing data knowing its size in advance.</p>
-<dl class="section note"><dt>Note</dt><dd>If the size is not known at this stage (<a class="el" href="classwbt_1_1_signal.html#a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>), at latest it should be set in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the size is not known at this stage (<a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>), at latest it should be set in the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Do not allocate any data in this stage! Object are destroyed afterwards and created again before the <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> step. Every allocated memory and stored values will be deleted. Only information stored in <code>blockInfo</code> will persist.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -349,7 +349,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the block was configured successfully, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#a65e921a4be9fdbeecc65f03ab82c2fab" title="Set the number of block&#39;s inputs. ">BlockInformation::setNumberOfInputPorts</a>, <a class="el" href="classwbt_1_1_block_information.html#a3f9eeab74e2e7a4ab5f0f49c315c8af9" title="Set the size of a 1D input port. ">BlockInformation::setInputPortVectorSize</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>BlockInformation::setNumberOfInputPorts, BlockInformation::setInputPortVectorSize </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classwbt_1_1_w_b_block.html#a3e2c8457dc4df042983e099fb622aec6">wbt::WBBlock</a>, <a class="el" href="classwbt_1_1_discrete_filter.html#ad32998807ef45e7e092c60f6abbb593c">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#af6bf73c8f5f7a2970d56494133c1f5d6">wbt::MinimumJerkTrajectoryGenerator</a>, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a52a72d879df5330fd160ce89e1b39e1c">wbt::SimulatorSynchronizer</a>, <a class="el" href="classwbt_1_1_yarp_read.html#a3514b5fc100c66caf2ed8e4d67b4ae4b">wbt::YarpRead</a>, <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a7d8eaa6a7ab65c58367ccdca674a44ff">wbt::SetLowLevelPID</a>, <a class="el" href="classwbt_1_1_real_time_synchronizer.html#aa92510d9afd9dcdc83620592403b29e0">wbt::RealTimeSynchronizer</a>, <a class="el" href="classwbt_1_1_relative_transform.html#a49c904765f500dc03cbdf267dbf43a22">wbt::RelativeTransform</a>, <a class="el" href="classwbt_1_1_set_references.html#af4bdb37dacc4d0bce5e36182de0e8256">wbt::SetReferences</a>, <a class="el" href="classwbt_1_1_forward_kinematics.html#a2bdc3d6bcd02ae220be4b34f2ab86d87">wbt::ForwardKinematics</a>, <a class="el" href="classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972">wbt::GetLimits</a>, <a class="el" href="classwbt_1_1_get_measurement.html#a0dadad9e5435d93b77a697a9c332a02a">wbt::GetMeasurement</a>, <a class="el" href="classwbt_1_1_jacobian.html#a1cb8619b5f181ab465c67b083cd5c1c7">wbt::Jacobian</a>, <a class="el" href="classwbt_1_1_yarp_write.html#af4c1a12d060ed3f4dac753e5b76c8891">wbt::YarpWrite</a>, <a class="el" href="classwbt_1_1_dot_j_nu.html#aaa6293c8a26ec673bb2170395355af77">wbt::DotJNu</a>, <a class="el" href="classwbt_1_1_model_partitioner.html#a64f36e913ae984e44d7888a7a18a4ea9">wbt::ModelPartitioner</a>, <a class="el" href="classwbt_1_1_inverse_dynamics.html#a1686c8961a10f8ec1bbc64cfaed3c48c">wbt::InverseDynamics</a>, <a class="el" href="classwbt_1_1_centroidal_momentum.html#a878de8e7c2da09f05052fa6a52fd66b1">wbt::CentroidalMomentum</a>, <a class="el" href="classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319">wbt::MassMatrix</a>, and <a class="el" href="classwbt_1_1_yarp_clock.html#a901d1431203621c701df18625c32c0c6">wbt::YarpClock</a>.</p>
 
@@ -413,7 +413,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwbt_1_1_w_b_block.html#aee8fb77f0cdbd596030eb62c31b5cabb">wbt::WBBlock</a>, <a class="el" href="classwbt_1_1_discrete_filter.html#a07a19d95e2188a3cc4c3e6e67f193d36">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#a8d583fc4f6dedc1d684fc3485b148640">wbt::MinimumJerkTrajectoryGenerator</a>, <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a5a5d62b34c0fc504efe1da3da90667be">wbt::SetLowLevelPID</a>, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a04a05e434bfee95f31bf008012ef9e1e">wbt::SimulatorSynchronizer</a>, <a class="el" href="classwbt_1_1_yarp_read.html#aaedf74d867a418cb36c0fb36d6ea8c93">wbt::YarpRead</a>, <a class="el" href="classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca">wbt::GetLimits</a>, <a class="el" href="classwbt_1_1_real_time_synchronizer.html#a2c9ba7f217fcfba886cc63a91ea25dc1">wbt::RealTimeSynchronizer</a>, <a class="el" href="classwbt_1_1_relative_transform.html#aafbe560b352ec9ffe0c15606907f479f">wbt::RelativeTransform</a>, <a class="el" href="classwbt_1_1_set_references.html#a785a77106907dc3c74db07d38a3f7c2c">wbt::SetReferences</a>, <a class="el" href="classwbt_1_1_dot_j_nu.html#a6e1b34d44e7b5810fbd7fa4fb16f9256">wbt::DotJNu</a>, <a class="el" href="classwbt_1_1_forward_kinematics.html#a460bda88860d2fc323a2205d1666df1d">wbt::ForwardKinematics</a>, <a class="el" href="classwbt_1_1_get_measurement.html#a7c1d4fb1a66f6dae3654f91238d3f986">wbt::GetMeasurement</a>, <a class="el" href="classwbt_1_1_jacobian.html#afe44ac2b54876d6e1cd10c904dcab3eb">wbt::Jacobian</a>, <a class="el" href="classwbt_1_1_yarp_write.html#a1994765024c29be50873566cbd0b35b4">wbt::YarpWrite</a>, <a class="el" href="classwbt_1_1_model_partitioner.html#acdbe914786f2e71be39eeb6efb6e97cc">wbt::ModelPartitioner</a>, <a class="el" href="classwbt_1_1_inverse_dynamics.html#a57fd418517877ad0c6ed05e7c253fb83">wbt::InverseDynamics</a>, <a class="el" href="classwbt_1_1_centroidal_momentum.html#a53ca2556b486b4c32b84f62c98bfbe1e">wbt::CentroidalMomentum</a>, <a class="el" href="classwbt_1_1_mass_matrix.html#a1a675f73b27bb09877dea4a487e07a36">wbt::MassMatrix</a>, and <a class="el" href="classwbt_1_1_yarp_clock.html#a1a3262c4e5830131746399922c661d09">wbt::YarpClock</a>.</p>
+<p>Reimplemented in <a class="el" href="classwbt_1_1_w_b_block.html#aee8fb77f0cdbd596030eb62c31b5cabb">wbt::WBBlock</a>, <a class="el" href="classwbt_1_1_discrete_filter.html#a07a19d95e2188a3cc4c3e6e67f193d36">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#a8d583fc4f6dedc1d684fc3485b148640">wbt::MinimumJerkTrajectoryGenerator</a>, <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a5a5d62b34c0fc504efe1da3da90667be">wbt::SetLowLevelPID</a>, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a04a05e434bfee95f31bf008012ef9e1e">wbt::SimulatorSynchronizer</a>, <a class="el" href="classwbt_1_1_yarp_read.html#aaedf74d867a418cb36c0fb36d6ea8c93">wbt::YarpRead</a>, <a class="el" href="classwbt_1_1_real_time_synchronizer.html#a2c9ba7f217fcfba886cc63a91ea25dc1">wbt::RealTimeSynchronizer</a>, <a class="el" href="classwbt_1_1_relative_transform.html#aafbe560b352ec9ffe0c15606907f479f">wbt::RelativeTransform</a>, <a class="el" href="classwbt_1_1_set_references.html#a785a77106907dc3c74db07d38a3f7c2c">wbt::SetReferences</a>, <a class="el" href="classwbt_1_1_dot_j_nu.html#a6e1b34d44e7b5810fbd7fa4fb16f9256">wbt::DotJNu</a>, <a class="el" href="classwbt_1_1_forward_kinematics.html#a460bda88860d2fc323a2205d1666df1d">wbt::ForwardKinematics</a>, <a class="el" href="classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca">wbt::GetLimits</a>, <a class="el" href="classwbt_1_1_get_measurement.html#a7c1d4fb1a66f6dae3654f91238d3f986">wbt::GetMeasurement</a>, <a class="el" href="classwbt_1_1_jacobian.html#afe44ac2b54876d6e1cd10c904dcab3eb">wbt::Jacobian</a>, <a class="el" href="classwbt_1_1_yarp_write.html#a1994765024c29be50873566cbd0b35b4">wbt::YarpWrite</a>, <a class="el" href="classwbt_1_1_model_partitioner.html#acdbe914786f2e71be39eeb6efb6e97cc">wbt::ModelPartitioner</a>, <a class="el" href="classwbt_1_1_inverse_dynamics.html#a57fd418517877ad0c6ed05e7c253fb83">wbt::InverseDynamics</a>, <a class="el" href="classwbt_1_1_centroidal_momentum.html#a53ca2556b486b4c32b84f62c98bfbe1e">wbt::CentroidalMomentum</a>, <a class="el" href="classwbt_1_1_mass_matrix.html#a1a675f73b27bb09877dea4a487e07a36">wbt::MassMatrix</a>, and <a class="el" href="classwbt_1_1_yarp_clock.html#a1a3262c4e5830131746399922c661d09">wbt::YarpClock</a>.</p>
 
 </div>
 </div>
@@ -450,7 +450,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwbt_1_1_discrete_filter.html#ae3e2621d62686015ed0eb36eb965091f">wbt::DiscreteFilter</a>, and <a class="el" href="classwbt_1_1_set_references.html#af3fe782efb50ae8f90173f4ecc8c7db8">wbt::SetReferences</a>.</p>
+<p>Reimplemented in <a class="el" href="classwbt_1_1_discrete_filter.html#ae3e2621d62686015ed0eb36eb965091f">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_set_references.html#af3fe782efb50ae8f90173f4ecc8c7db8">wbt::SetReferences</a>, and <a class="el" href="classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e">wbt::GetLimits</a>.</p>
 
 </div>
 </div>
@@ -678,7 +678,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parse the parameters stored into the <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> object. </p>
-<p>Implement this method to create the metadata of the parameters your block needs (using <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">wbt::ParameterMetadata</a>), store them into the blockInfo object with <a class="el" href="classwbt_1_1_block_information.html#a15b0eee923d3bd5f7793bdc4a2c6d0b2" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, and parse them using <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>.</p>
+<p>Implement this method to create the metadata of the parameters your block needs (using <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">wbt::ParameterMetadata</a>), store them into the blockInfo object with <a class="el" href="classwbt_1_1_block_information.html#ae2f972fc8edae288b2ee32b08639d593" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, and parse them using <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a>.</p>
 <p>An example of the implementation is the following:</p>
 <p>```cpp bool <a class="el" href="classwbt_1_1_jacobian.html#adaa42f1aad51f7e9a0c55bb442b3ed51" title="Parse the parameters stored into the BlockInformation object. ">Jacobian::parseParameters(BlockInformation* blockInfo)</a> { <a class="el" href="classwbt_1_1_parameter_metadata.html" title="Class for storing parameter metadata. ">ParameterMetadata</a> frameMetadata(PARAM_STRING, PARAM_IDX_FRAME, 1, 1, "frame"); bool ok = blockInfo-&gt;addParameterMetadata(frameMetadata);</p>
 <p>if (!ok) { wbtError &lt;&lt; "Failed to store parameters metadata."; return false; }</p>
@@ -690,7 +690,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#a15b0eee923d3bd5f7793bdc4a2c6d0b2" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, <a class="el" href="classwbt_1_1_block_information.html#a64aab6d59240c6425ccb807a9a2805f4" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block_information.html#ae2f972fc8edae288b2ee32b08639d593" title="Add a parameter metadata. ">BlockInformation::addParameterMetadata</a>, <a class="el" href="classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17" title="Parse the wbt::Block&#39;s parameters. ">BlockInformation::parseParameters</a> </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classwbt_1_1_w_b_block.html#adf075ab1530ec9b364320e3a926c61c5">wbt::WBBlock</a>, <a class="el" href="classwbt_1_1_discrete_filter.html#a78e794296b86f6378b297bd32c6ced95">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#adfde96ffc1ad7ddb129a331388f68101">wbt::MinimumJerkTrajectoryGenerator</a>, <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a1e2592ab08474bdf9239b22c351de8b8">wbt::SetLowLevelPID</a>, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a1b6488bd3cacad47080af155a2989182">wbt::SimulatorSynchronizer</a>, <a class="el" href="classwbt_1_1_yarp_read.html#aa09f5d55196e5e692a8438f474b47e60">wbt::YarpRead</a>, <a class="el" href="classwbt_1_1_dot_j_nu.html#a112eeda016cc76f05894e7d17aca17df">wbt::DotJNu</a>, <a class="el" href="classwbt_1_1_real_time_synchronizer.html#aff655c8bd5862f891ccf357980fc5da7">wbt::RealTimeSynchronizer</a>, <a class="el" href="classwbt_1_1_relative_transform.html#a683650262b907f308569367a223b2b97">wbt::RelativeTransform</a>, <a class="el" href="classwbt_1_1_set_references.html#aea8dec46daceef9ff56ffe8900027a07">wbt::SetReferences</a>, <a class="el" href="classwbt_1_1_forward_kinematics.html#a766390c1ea49528f9946f3bfe51f65d9">wbt::ForwardKinematics</a>, <a class="el" href="classwbt_1_1_get_limits.html#a238246e51db4cc8cf620d1bdd7a1eeb4">wbt::GetLimits</a>, <a class="el" href="classwbt_1_1_get_measurement.html#aba9ab57f9a69f24d2d8001aae6fd23ba">wbt::GetMeasurement</a>, <a class="el" href="classwbt_1_1_jacobian.html#adaa42f1aad51f7e9a0c55bb442b3ed51">wbt::Jacobian</a>, <a class="el" href="classwbt_1_1_yarp_write.html#a943a2a15b344aab244dca672d109c74b">wbt::YarpWrite</a>, and <a class="el" href="classwbt_1_1_model_partitioner.html#a7b747c98d63bf4c268f824ca7ad161af">wbt::ModelPartitioner</a>.</p>
 
@@ -822,7 +822,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aaf36bac335290500133826ed80a56a1b"></a>
+<a class="anchor" id="afef88236a55bc16b77107dd88ba0cc5e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -830,7 +830,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const unsigned Block::NumberOfParameters = 1</td>
+          <td class="memname">constexpr unsigned wbt::Block::NumberOfParameters = 1</td>
         </tr>
       </table>
   </td>
@@ -840,7 +840,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Static variable matching <a class="el" href="classwbt_1_1_block.html#abc02441fdaadd1de8e6ea6659fba72ed" title="Returns the number of configuration parameters needed by this block. ">Block::numberOfParameters</a>. It might be useful to define parametric constants for parameter indices in child blocks.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_w_b_block.html#a1337b6f888f3377e0e6fa5ee5a898773" title="The number of parameters WBBlock requires. ">WBBlock::NumberOfParameters</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_w_b_block.html#a347102bbc3342bef44515f7343f62a4f" title="The number of parameters WBBlock requires. ">WBBlock::NumberOfParameters</a> </dd></dl>
 
 </div>
 </div>

@@ -2,6 +2,7 @@ var searchData=
 [
   ['jacobian',['jacobian',['../class_jacobian_1_1impl.html#a554283afc34b47ee32c95a56114010c3',1,'Jacobian::impl']]],
   ['jacobiancom',['jacobianCOM',['../class_jacobian_1_1impl.html#ad6866b34133021ade7c898ce2b70b1d2',1,'Jacobian::impl']]],
+  ['jointconfiguration',['jointConfiguration',['../class_relative_transform_1_1impl.html#a305ae937d1109ce9326ea5a05d404ced',1,'RelativeTransform::impl']]],
   ['jointindextoyarpmap',['jointIndexToYarpMap',['../class_robot_interface_1_1impl.html#a9fb4eb5fced3aa1e6ea7a24c3d5edb91',1,'RobotInterface::impl']]],
   ['jointnametoindexincontrolboardmap',['jointNameToIndexInControlBoardMap',['../class_robot_interface_1_1impl.html#a9cf7bc3f813a292cbed0cf40e5948b14',1,'wbt::RobotInterface::impl::jointNameToIndexInControlBoardMap()'],['../class_model_partitioner_1_1impl.html#af137a93d652dab8c8186ee13b296395f',1,'wbt::ModelPartitioner::impl::jointNameToIndexInControlBoardMap()']]],
   ['jointnametoyarpmap',['jointNameToYarpMap',['../class_robot_interface_1_1impl.html#aecb8ce427ffa5ab98eb9506d1a98cb16',1,'wbt::RobotInterface::impl::jointNameToYarpMap()'],['../class_model_partitioner_1_1impl.html#a533d05cc68bb50e8bdfe8991dcb9adbc',1,'wbt::ModelPartitioner::impl::jointNameToYarpMap()']]],

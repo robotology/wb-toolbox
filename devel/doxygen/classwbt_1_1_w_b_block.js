@@ -11,5 +11,5 @@ var classwbt_1_1_w_b_block =
     [ "parseParameters", "classwbt_1_1_w_b_block.html#adf075ab1530ec9b364320e3a926c61c5", null ],
     [ "setRobotState", "classwbt_1_1_w_b_block.html#a990354bac76a31d3baba9cf92c4b96cd", null ],
     [ "m_robotState", "classwbt_1_1_w_b_block.html#a479cfd2df4420307441faccf0b3f6366", null ],
-    [ "NumberOfParameters", "classwbt_1_1_w_b_block.html#a1337b6f888f3377e0e6fa5ee5a898773", null ]
+    [ "NumberOfParameters", "classwbt_1_1_w_b_block.html#a347102bbc3342bef44515f7343f62a4f", null ]
 ];

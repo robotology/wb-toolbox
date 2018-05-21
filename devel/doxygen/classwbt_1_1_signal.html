@@ -137,9 +137,9 @@ Public Types</h2></td></tr>
 <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a> = 2
  }</td></tr>
 <tr class="separator:ab87e5a1587adc330adb27f453c771d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4869bcac7f08f65e2845743b657709ad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classwbt_1_1_signal.html#a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78">DynamicSize</a> = -1
+<tr class="memitem:abd725ba5ed98300701bdfd029ebde36d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">DynamicSize</a> = -1
  }</td></tr>
-<tr class="separator:a4869bcac7f08f65e2845743b657709ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:abd725ba5ed98300701bdfd029ebde36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -204,7 +204,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a07d701ded16cae3667695c526f93b11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a4869bcac7f08f65e2845743b657709ad"></a>
+<a class="anchor" id="abd725ba5ed98300701bdfd029ebde36d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -214,7 +214,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78"></a>DynamicSize</em>&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78"></a>DynamicSize</em>&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
@@ -246,7 +246,7 @@ Private Attributes</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd><code>CONTIGUOUS_ZEROCOPY</code> is the only format that doesn't copy data from the original buffer address. Instead, both <code>CONTIGUOUS</code> and <code>NONCONTIGUOUS</code> data formats copy the content of the buffer inside the <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> object. For performance reason, prefer using <code>CONTIGUOUS_ZEROCOPY</code>. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a449a416d420fed17324e8c224fdbc994" title="Initialize the signal from a contiguous buffer. ">initializeBufferFromContiguous</a>, <a class="el" href="classwbt_1_1_signal.html#a03346e32deaf6b322dad17c992dea427" title="Initialize the signal from a contiguous buffer without copying data. ">initializeBufferFromContiguousZeroCopy</a>, <a class="el" href="classwbt_1_1_signal.html#aea8aa99904c67ff981403ac3978fc1c4" title="Initialize the signal from a non-contiguous buffer. ">initializeBufferFromNonContiguous</a> </dd>
 <dd>
-<a class="el" href="classwbt_1_1_block_information.html#ab2688bd8b5834d4d0607eb4f7f6d8d05" title="Get the signal connected to a 1D input port. ">BlockInformation::getInputPortSignal</a>, <a class="el" href="classwbt_1_1_block_information.html#a07f45f185de58ef66570f68f3ec71d1c" title="Get the signal connected to a 1D output port. ">BlockInformation::getOutputPortSignal</a> </dd></dl>
+<a class="el" href="classwbt_1_1_block_information.html#a93d1d36bcb82667b59562b6f13a2f768" title="Get the signal connected to a 1D input port. ">BlockInformation::getInputPortSignal</a>, <a class="el" href="classwbt_1_1_block_information.html#aa420528d18d16347be964ea7360adad7" title="Get the signal connected to a 1D output port. ">BlockInformation::getOutputPortSignal</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ab87e5a1587adc330adb27f453c771d29a2bb429991b8b6bd70f2e98a384d0b613"></a>NONCONTIGUOUS</em>&#160;</td><td class="fielddoc">
 </td></tr>
@@ -456,7 +456,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Read the width of the signal. </p>
-<p>By default the width of <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> is <a class="el" href="classwbt_1_1_signal.html#a4869bcac7f08f65e2845743b657709ada4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>. However, for being a valid signal, an object must have a specified width.</p>
+<p>By default the width of <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> is <a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>. However, for being a valid signal, an object must have a specified width.</p>
 <dl class="section return"><dt>Returns</dt><dd>The signal width. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a7ca17f6b35c577a0917d90c9b3960395" title="Set the width of the signal. ">Signal::setWidth</a>, <a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a" title="Check if the signal is valid. ">Signal::isValid</a> </dd></dl>
 
