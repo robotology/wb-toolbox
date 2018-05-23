@@ -12,7 +12,6 @@
 #include "BlockInformation.h"
 #include "Signal.h"
 
-#include <unordered_map>
 #include <vector>
 
 namespace wbt {
