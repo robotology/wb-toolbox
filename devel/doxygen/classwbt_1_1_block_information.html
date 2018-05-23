@@ -196,14 +196,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa420528d18d16347be964ea7360adad7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#aa420528d18d16347be964ea7360adad7">getOutputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> size=-1) const =0</td></tr>
 <tr class="memdesc:aa420528d18d16347be964ea7360adad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D output port.  <a href="#aa420528d18d16347be964ea7360adad7">More...</a><br/></td></tr>
 <tr class="separator:aa420528d18d16347be964ea7360adad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f76693a770868d0b7a9de872714aaf8"><td class="memItemLeft" align="right" valign="top">virtual std::weak_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#a3f76693a770868d0b7a9de872714aaf8">getRobotInterface</a> () const =0</td></tr>
-<tr class="memdesc:a3f76693a770868d0b7a9de872714aaf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>.  <a href="#a3f76693a770868d0b7a9de872714aaf8">More...</a><br/></td></tr>
-<tr class="separator:a3f76693a770868d0b7a9de872714aaf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc51fda027ddd41af48892d5cb02fffc"><td class="memItemLeft" align="right" valign="top">virtual std::weak_ptr<br class="typebreak"/>
-&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html#abc51fda027ddd41af48892d5cb02fffc">getKinDynComputations</a> () const =0</td></tr>
-<tr class="memdesc:abc51fda027ddd41af48892d5cb02fffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the iDynTree::KinDynComputations object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>.  <a href="#abc51fda027ddd41af48892d5cb02fffc">More...</a><br/></td></tr>
-<tr class="separator:abc51fda027ddd41af48892d5cb02fffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a048ca36f8e6feffe4dbe5d74e62120b3"></a>
@@ -526,34 +518,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abc51fda027ddd41af48892d5cb02fffc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::weak_ptr&lt;iDynTree::KinDynComputations&gt; wbt::BlockInformation::getKinDynComputations </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the iDynTree::KinDynComputations object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the iDynTree::KinDynComputations object </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a6a7fbf9f7f1a17d2f45f1661b981484d">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a26baa2b7e3b9c583a922f9b03f282513">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="ab0c002c25b695b04f3a3f8f2f6b86795"></a>
 <div class="memitem">
 <div class="memproto">
@@ -703,34 +667,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
 <p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#a95f5ae9f31c1857e3bcdc608e365aaa3">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a372a29a2ba22922fdb844e5aa22ee9ae">wbt::CoderBlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3f76693a770868d0b7a9de872714aaf8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::weak_ptr&lt;<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a>&gt; wbt::BlockInformation::getRobotInterface </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object </dd></dl>
-
-<p>Implemented in <a class="el" href="classwbt_1_1_simulink_block_information.html#af0f274d16af7c4ea5fa89cfc68d0ad2b">wbt::SimulinkBlockInformation</a>, and <a class="el" href="classwbt_1_1_coder_block_information.html#a59954d271bbbb418b55af2b39f7b12f0">wbt::CoderBlockInformation</a>.</p>
 
 </div>
 </div>

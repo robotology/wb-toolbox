@@ -118,13 +118,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a78fbad0c53075e73a1e706b34a1a15f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf07bfd73d028002d20832d138131d98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#adf07bfd73d028002d20832d138131d98">impl</a> (const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;configuration)</td></tr>
 <tr class="separator:adf07bfd73d028002d20832d138131d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5659a6d497adb014697f94a88e89ee7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa5659a6d497adb014697f94a88e89ee7"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#aa5659a6d497adb014697f94a88e89ee7">getInterfaceLazyEval</a> (T *&amp;interface, const std::unique_ptr&lt; yarp::dev::PolyDriver &gt; &amp;cbRemapper)</td></tr>
+<tr class="separator:aa5659a6d497adb014697f94a88e89ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af98b5032edd60cd8df332e4ff05c04c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#af98b5032edd60cd8df332e4ff05c04c6">checkInterface</a> (std::function&lt; bool(double *)&gt; &amp;getMeasurement)</td></tr>
+<tr class="separator:af98b5032edd60cd8df332e4ff05c04c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a001b8f3a1f68c9c07841af03e3521dd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a001b8f3a1f68c9c07841af03e3521dd0">setOwner</a> (<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> *r)</td></tr>
 <tr class="separator:a001b8f3a1f68c9c07841af03e3521dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05773ae4c4ab294f0aed1befaf47bc75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a05773ae4c4ab294f0aed1befaf47bc75">initializeModel</a> ()</td></tr>
-<tr class="memdesc:a05773ae4c4ab294f0aed1befaf47bc75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the model.  <a href="#a05773ae4c4ab294f0aed1befaf47bc75">More...</a><br/></td></tr>
 <tr class="separator:a05773ae4c4ab294f0aed1befaf47bc75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba63312f96e3fb175a179e97073da473"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#aba63312f96e3fb175a179e97073da473">initializeRemoteControlBoardRemapper</a> ()</td></tr>
-<tr class="memdesc:aba63312f96e3fb175a179e97073da473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the remote controlboard remapper.  <a href="#aba63312f96e3fb175a179e97073da473">More...</a><br/></td></tr>
 <tr class="separator:aba63312f96e3fb175a179e97073da473"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad11d7575c45e7ceb4675df0cc1c221"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a1ad11d7575c45e7ceb4675df0cc1c221">mapDoFs</a> ()</td></tr>
 <tr class="memdesc:a1ad11d7575c45e7ceb4675df0cc1c221"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map joints between <a class="el" href="namespacei_dyn_tree.html">iDynTree</a> and Yarp indices.  <a href="#a1ad11d7575c45e7ceb4675df0cc1c221">More...</a><br/></td></tr>
@@ -157,8 +160,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a4c52a637aaacef868c877515c4460094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08a822c9a95aaea95a76376c8ed26039"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classwbt_1_1_configuration.html">wbt::Configuration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a08a822c9a95aaea95a76376c8ed26039">config</a></td></tr>
 <tr class="separator:a08a822c9a95aaea95a76376c8ed26039"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2103b6ba76847ce09194cc3ec149db80"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a2103b6ba76847ce09194cc3ec149db80">robotDeviceCounter</a> = 0</td></tr>
-<tr class="separator:a2103b6ba76847ce09194cc3ec149db80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9152b9b8fc83bb355be8c14e638fd6ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a9152b9b8fc83bb355be8c14e638fd6ca">robotInterface</a> = nullptr</td></tr>
 <tr class="separator:a9152b9b8fc83bb355be8c14e638fd6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -211,6 +212,58 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af98b5032edd60cd8df332e4ff05c04c6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool wbt::RobotInterface::impl::checkInterface </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; bool(double *)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>getMeasurement</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa5659a6d497adb014697f94a88e89ee7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * wbt::RobotInterface::impl::getInterfaceLazyEval </td>
+          <td>(</td>
+          <td class="paramtype">T *&amp;&#160;</td>
+          <td class="paramname"><em>interface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unique_ptr&lt; yarp::dev::PolyDriver &gt; &amp;&#160;</td>
+          <td class="paramname"><em>cbRemapper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a916cebf24683cd6cc86394d3a865180f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -277,10 +330,6 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize the model. </p>
-<p>Initialize the iDynTree::KinDynComputations with the information contained in <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a>. It finds from the file system the urdf file and stores the object to operate on it. If the joint list contained in RobotInterface::pImpl-&gt;config is not complete, it loads a reduced model of the robot.</p>
-<dl class="section return"><dt>Returns</dt><dd>True if success, false otherwise. </dd></dl>
-
 </div>
 </div>
 <a class="anchor" id="aba63312f96e3fb175a179e97073da473"></a>
@@ -303,10 +352,6 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the remote controlboard remapper. </p>
-<p>Configure a yarp::dev::RemoteControlBoardRemapper device in order to allow interfacing the toolbox with the robot (real or in Gazebo).</p>
-<dl class="section return"><dt>Returns</dt><dd>True if success, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -441,18 +486,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;yarp::dev::PolyDriver&gt; wbt::RobotInterface::impl::robotDevice</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a2103b6ba76847ce09194cc3ec149db80"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned wbt::RobotInterface::impl::robotDeviceCounter = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -162,12 +162,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a64fb67aa7f70ea986bae4351ff5e5b65"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_robot_interface.html#a64fb67aa7f70ea986bae4351ff5e5b65">getInterface</a> (T *&amp;interface)</td></tr>
 <tr class="memdesc:a64fb67aa7f70ea986bae4351ff5e5b65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Yarp interface.  <a href="#a64fb67aa7f70ea986bae4351ff5e5b65">More...</a><br/></td></tr>
 <tr class="separator:a64fb67aa7f70ea986bae4351ff5e5b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85cf1db95d5ee52a8da293b0773e4194"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_robot_interface.html#a85cf1db95d5ee52a8da293b0773e4194">retainRemoteControlBoardRemapper</a> ()</td></tr>
-<tr class="memdesc:a85cf1db95d5ee52a8da293b0773e4194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle the internal counter for using the <code>RemoteControlBoardRemapper</code>.  <a href="#a85cf1db95d5ee52a8da293b0773e4194">More...</a><br/></td></tr>
-<tr class="separator:a85cf1db95d5ee52a8da293b0773e4194"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a605eb65d72dcc9462479f128bf05b851"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_robot_interface.html#a605eb65d72dcc9462479f128bf05b851">releaseRemoteControlBoardRemapper</a> ()</td></tr>
-<tr class="memdesc:a605eb65d72dcc9462479f128bf05b851"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle the internal counter for using the <code>RemoteControlBoardRemapper</code>.  <a href="#a605eb65d72dcc9462479f128bf05b851">More...</a><br/></td></tr>
-<tr class="separator:a605eb65d72dcc9462479f128bf05b851"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a221f3fc85e561fb038be5e490ddb4530"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a221f3fc85e561fb038be5e490ddb4530"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_robot_interface.html#a221f3fc85e561fb038be5e490ddb4530">getInterface</a> (yarp::dev::IControlMode2 *&amp;interface)</td></tr>
 <tr class="separator:a221f3fc85e561fb038be5e490ddb4530"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -336,7 +330,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Get a Yarp interface. </p>
-<p>The interface is lazy-evaluated. The handling of the memory is not responbility of the caller. It is handled internally.</p>
+<p>The interface is lazy-evaluated. The handling of the memory is not responsibility of the caller. It is handled internally.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">interface</td><td>The object that will contain the pointer to the interface. </td></tr>
@@ -574,47 +568,6 @@ template&lt;typename T &gt; </div>
 
 <p>Get the object to operate on the configured model. </p>
 <dl class="section return"><dt>Returns</dt><dd>A <code>shared_ptr</code> to the KinDynComputations object. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a605eb65d72dcc9462479f128bf05b851"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool RobotInterface::releaseRemoteControlBoardRemapper </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Handle the internal counter for using the <code>RemoteControlBoardRemapper</code>. </p>
-<p>After the call from the last instance which retained the object, the <code>RemoteControlBoardRemapper</code> and all the allocated drivers get destroyed.</p>
-<dl class="section attention"><dt>Attention</dt><dd>All the blocks which need to use any of the interfaces provided by wbt::YarpInterfaces must call this function in their <a class="el" href="classwbt_1_1_block.html#a50be455caebe09f9d953c3230f6ccff8" title="Cleanup block resources. ">Block::terminate</a> method.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>True if success, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_robot_interface.html#a85cf1db95d5ee52a8da293b0773e4194" title="Handle the internal counter for using the RemoteControlBoardRemapper. ">RobotInterface::retainRemoteControlBoardRemapper</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a85cf1db95d5ee52a8da293b0773e4194"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool RobotInterface::retainRemoteControlBoardRemapper </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Handle the internal counter for using the <code>RemoteControlBoardRemapper</code>. </p>
-<dl class="section attention"><dt>Attention</dt><dd>All the blocks which need to use any of the interfaces provided by wbt::YarpInterfaces must call this function in their <a class="el" href="classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549" title="Initialize the block. ">Block::initialize</a> method.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>True if success, false otherwise. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_robot_interface.html#a605eb65d72dcc9462479f128bf05b851" title="Handle the internal counter for using the RemoteControlBoardRemapper. ">RobotInterface::releaseRemoteControlBoardRemapper</a> </dd></dl>
 
 </div>
 </div>

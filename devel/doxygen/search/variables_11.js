@@ -11,7 +11,6 @@ var searchData=
   ['resetonsettlingtimechange',['resetOnSettlingTimeChange',['../class_minimum_jerk_trajectory_generator_1_1impl.html#a6f0b4c9b4d8ec5159e70c408375b870d',1,'MinimumJerkTrajectoryGenerator::impl']]],
   ['response',['response',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#a3954cc91a89a968143cb1a71c5493b36',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]],
   ['robotdevice',['robotDevice',['../class_robot_interface_1_1impl.html#a1da5ecc2aba9e967f657abfab108d6be',1,'RobotInterface::impl']]],
-  ['robotdevicecounter',['robotDeviceCounter',['../class_robot_interface_1_1impl.html#a2103b6ba76847ce09194cc3ec149db80',1,'RobotInterface::impl']]],
   ['robotinterface',['robotInterface',['../class_robot_interface_1_1impl.html#a9152b9b8fc83bb355be8c14e638fd6ca',1,'RobotInterface::impl']]],
   ['robotname',['robotName',['../class_configuration_1_1impl.html#acdabb54e8f2ea08b6080fc65469ce1d1',1,'Configuration::impl']]],
   ['rows',['rows',['../classwbt_1_1_parameter_metadata.html#a9d46a51d881da187617220f1b97e0fc7',1,'wbt::ParameterMetadata']]],

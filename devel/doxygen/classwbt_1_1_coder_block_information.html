@@ -168,14 +168,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a724871ee57ef6ceb8a5d2cff695bb748"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_coder_block_information.html#a724871ee57ef6ceb8a5d2cff695bb748">getOutputPortSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx, const <a class="el" href="classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe">VectorSize</a> size=<a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">wbt::Signal::DynamicSize</a>) const override</td></tr>
 <tr class="memdesc:a724871ee57ef6ceb8a5d2cff695bb748"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the signal connected to a 1D output port.  <a href="#a724871ee57ef6ceb8a5d2cff695bb748">More...</a><br/></td></tr>
 <tr class="separator:a724871ee57ef6ceb8a5d2cff695bb748"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59954d271bbbb418b55af2b39f7b12f0"><td class="memItemLeft" align="right" valign="top">std::weak_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_coder_block_information.html#a59954d271bbbb418b55af2b39f7b12f0">getRobotInterface</a> () const override</td></tr>
-<tr class="memdesc:a59954d271bbbb418b55af2b39f7b12f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>.  <a href="#a59954d271bbbb418b55af2b39f7b12f0">More...</a><br/></td></tr>
-<tr class="separator:a59954d271bbbb418b55af2b39f7b12f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26baa2b7e3b9c583a922f9b03f282513"><td class="memItemLeft" align="right" valign="top">std::weak_ptr<br class="typebreak"/>
-&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_coder_block_information.html#a26baa2b7e3b9c583a922f9b03f282513">getKinDynComputations</a> () const override</td></tr>
-<tr class="memdesc:a26baa2b7e3b9c583a922f9b03f282513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the iDynTree::KinDynComputations object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>.  <a href="#a26baa2b7e3b9c583a922f9b03f282513">More...</a><br/></td></tr>
-<tr class="separator:a26baa2b7e3b9c583a922f9b03f282513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ebc56db2ee4ecddc6e75ac0396d506f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_coder_block_information.html#a0ebc56db2ee4ecddc6e75ac0396d506f">storeRTWParameters</a> (const <a class="el" href="classwbt_1_1_parameters.html">Parameters</a> &amp;parameters)</td></tr>
 <tr class="separator:a0ebc56db2ee4ecddc6e75ac0396d506f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97eb9f73b99cf554163bbcf8390d2747"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_coder_block_information.html#a97eb9f73b99cf554163bbcf8390d2747">setInputSignal</a> (const <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">PortIndex</a> idx, void *address, const <a class="el" href="classwbt_1_1_block_information.html#aeb8879613df177bd536972bf8a9ad57a">PortDimension</a> &amp;dims)</td></tr>
@@ -439,34 +431,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a26baa2b7e3b9c583a922f9b03f282513"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::weak_ptr&lt; iDynTree::KinDynComputations &gt; CoderBlockInformation::getKinDynComputations </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the iDynTree::KinDynComputations object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the iDynTree::KinDynComputations object </dd></dl>
-
-<p>Implements <a class="el" href="classwbt_1_1_block_information.html#abc51fda027ddd41af48892d5cb02fffc">wbt::BlockInformation</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a4e35b2156a03682d306821b6218b39ec"></a>
 <div class="memitem">
 <div class="memproto">
@@ -616,34 +580,6 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The size of the port. </dd></dl>
 
 <p>Implements <a class="el" href="classwbt_1_1_block_information.html#ae0db6bcbed17291020a0b701e74d5e5c">wbt::BlockInformation</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a59954d271bbbb418b55af2b39f7b12f0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::weak_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt; CoderBlockInformation::getRobotInterface </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object associated to the <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object </dd></dl>
-
-<p>Implements <a class="el" href="classwbt_1_1_block_information.html#a3f76693a770868d0b7a9de872714aaf8">wbt::BlockInformation</a>.</p>
 
 </div>
 </div>

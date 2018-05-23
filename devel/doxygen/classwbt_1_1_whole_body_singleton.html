@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: wbt::ToolboxSingleton Class Reference</title>
+<title>WB-Toolbox: wbt::WholeBodySingleton Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classwbt_1_1_toolbox_singleton.html','');});
+$(document).ready(function(){initNavTree('classwbt_1_1_whole_body_singleton.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -107,87 +107,64 @@ $(document).ready(function(){initNavTree('classwbt_1_1_toolbox_singleton.html','
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
-<a href="classwbt_1_1_toolbox_singleton-members.html">List of all members</a>  </div>
+<a href="classwbt_1_1_whole_body_singleton-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">wbt::ToolboxSingleton Class Reference</div>  </div>
+<div class="title">wbt::WholeBodySingleton Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_toolbox_singleton_8h_source.html">ToolboxSingleton.h</a>&gt;</code></p>
-<table class="memberdecls">
+<p><code>#include &lt;<a class="el" href="_whole_body_singleton_8h_source.html">WholeBodySingleton.h</a>&gt;</code></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class handles and contains configuration and devices used by all the blocks allocated by a running model. It is possible obtaining a singleton of this class by calling <a class="el" href="classwbt_1_1_whole_body_singleton.html#a8f88dbcbedc2fef02a5889295783e48a">WholeBodySingleton::sharedInstance</a>.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> </dd>
+<dd>
+<a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a> </dd>
+<dd>
+wbt::yarpDevices </dd></dl>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a437c427f9baeba9ab12e4e95dadc1666"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a437c427f9baeba9ab12e4e95dadc1666">ToolboxSingleton</a> ()</td></tr>
-<tr class="separator:a437c427f9baeba9ab12e4e95dadc1666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af63d1383abb29fdde08dcce5021b2a14"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#af63d1383abb29fdde08dcce5021b2a14">~ToolboxSingleton</a> ()</td></tr>
-<tr class="separator:af63d1383abb29fdde08dcce5021b2a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae878013799b6db30d278f153f0b6ddbc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#ae878013799b6db30d278f153f0b6ddbc">ToolboxSingleton</a> (const <a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp;)=delete</td></tr>
-<tr class="separator:ae878013799b6db30d278f153f0b6ddbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bbedf40771ddd6b6b0d4aa52aa32343"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a5bbedf40771ddd6b6b0d4aa52aa32343">operator=</a> (const <a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp;)=delete</td></tr>
-<tr class="separator:a5bbedf40771ddd6b6b0d4aa52aa32343"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438c6f9bb92ce72b40af9bb9fe60c5fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a438c6f9bb92ce72b40af9bb9fe60c5fc">isKeyValid</a> (const std::string &amp;confKey) const </td></tr>
-<tr class="separator:a438c6f9bb92ce72b40af9bb9fe60c5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47173706a920a495703a73d5d1d5a2b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a47173706a920a495703a73d5d1d5a2b3">numberOfDoFs</a> (const std::string &amp;confKey)</td></tr>
-<tr class="separator:a47173706a920a495703a73d5d1d5a2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4c6bab7c3a2f7b9ad9fada94c3f6a65"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#aa4c6bab7c3a2f7b9ad9fada94c3f6a65">getConfiguration</a> (const std::string &amp;confKey) const </td></tr>
-<tr class="separator:aa4c6bab7c3a2f7b9ad9fada94c3f6a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af06f2ac2713bba7e3463464b4dbea8af"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#af06f2ac2713bba7e3463464b4dbea8af">getRobotInterface</a> (const std::string &amp;confKey) const </td></tr>
-<tr class="separator:af06f2ac2713bba7e3463464b4dbea8af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad50a845110e48bce895983d54b526213"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
-&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#ad50a845110e48bce895983d54b526213">getKinDynComputations</a> (const std::string &amp;confKey) const </td></tr>
-<tr class="separator:ad50a845110e48bce895983d54b526213"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a046aadb441b823ef046256900cb8c7f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a046aadb441b823ef046256900cb8c7f2">storeConfiguration</a> (const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;config)</td></tr>
-<tr class="separator:a046aadb441b823ef046256900cb8c7f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad10ba90aea95749d065de0f5bbd6981"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#aad10ba90aea95749d065de0f5bbd6981">storeConfiguration</a> (const <a class="el" href="classwbt_1_1_parameters.html">wbt::Parameters</a> &amp;parameters)</td></tr>
-<tr class="separator:aad10ba90aea95749d065de0f5bbd6981"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6e0cb06f1dae669d8f7e8468a344e1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#ab6e0cb06f1dae669d8f7e8468a344e1c">eraseConfiguration</a> (const std::string &amp;confKey)</td></tr>
-<tr class="separator:ab6e0cb06f1dae669d8f7e8468a344e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe927e210b44f3db3dd0f878b0c54b3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#abe927e210b44f3db3dd0f878b0c54b3b">WholeBodySingleton</a> ()</td></tr>
+<tr class="separator:abe927e210b44f3db3dd0f878b0c54b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47a8daa2ad1970a42ba876c42a5f3dde"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a47a8daa2ad1970a42ba876c42a5f3dde">~WholeBodySingleton</a> ()</td></tr>
+<tr class="separator:a47a8daa2ad1970a42ba876c42a5f3dde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab536e15191453eab8692f53281e5368a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#ab536e15191453eab8692f53281e5368a">WholeBodySingleton</a> (const <a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp;)=delete</td></tr>
+<tr class="separator:ab536e15191453eab8692f53281e5368a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa168f1dde6461899c423af2772b29efc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#aa168f1dde6461899c423af2772b29efc">operator=</a> (const <a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp;)=delete</td></tr>
+<tr class="separator:aa168f1dde6461899c423af2772b29efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e12a0c1f9e485d6e4592096b95177d9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a0e12a0c1f9e485d6e4592096b95177d9">isKeyValid</a> (const std::string &amp;confKey) const </td></tr>
+<tr class="separator:a0e12a0c1f9e485d6e4592096b95177d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44089979048854cf67df347f85fe12e9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a44089979048854cf67df347f85fe12e9">numberOfDoFs</a> (const std::string &amp;confKey) const </td></tr>
+<tr class="separator:a44089979048854cf67df347f85fe12e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab45a310adc27eecb4efa34f4b95591c0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#ab45a310adc27eecb4efa34f4b95591c0">getConfiguration</a> (const std::string &amp;confKey) const </td></tr>
+<tr class="separator:ab45a310adc27eecb4efa34f4b95591c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68f3a373c33eb2e8d107c9238c5f9914"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
+&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a68f3a373c33eb2e8d107c9238c5f9914">getRobotInterface</a> (const std::string &amp;confKey) const </td></tr>
+<tr class="separator:a68f3a373c33eb2e8d107c9238c5f9914"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a29cf6deb944b2d805d5afe0f918770"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
+&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a3a29cf6deb944b2d805d5afe0f918770">getKinDynComputations</a> (const std::string &amp;confKey) const </td></tr>
+<tr class="separator:a3a29cf6deb944b2d805d5afe0f918770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affcb7d526387045ac807b5d33af08a36"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#affcb7d526387045ac807b5d33af08a36">createRobotInterface</a> (const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;config)</td></tr>
+<tr class="separator:affcb7d526387045ac807b5d33af08a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a927d4ec8a976dec3ace94cbad328f1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a3a927d4ec8a976dec3ace94cbad328f1">storeConfiguration</a> (const <a class="el" href="classwbt_1_1_parameters.html">wbt::Parameters</a> &amp;parameters)</td></tr>
+<tr class="separator:a3a927d4ec8a976dec3ace94cbad328f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c392934db457b4b1f1c39d785ac9639"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a2c392934db457b4b1f1c39d785ac9639">eraseConfiguration</a> (const std::string &amp;confKey)</td></tr>
+<tr class="separator:a2c392934db457b4b1f1c39d785ac9639"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a14b4d293957503120b80a7c38fe8da69"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwbt_1_1_toolbox_singleton.html">wbt::ToolboxSingleton</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a14b4d293957503120b80a7c38fe8da69">sharedInstance</a> ()</td></tr>
-<tr class="separator:a14b4d293957503120b80a7c38fe8da69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f88dbcbedc2fef02a5889295783e48a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwbt_1_1_whole_body_singleton.html">wbt::WholeBodySingleton</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a8f88dbcbedc2fef02a5889295783e48a">sharedInstance</a> ()</td></tr>
+<tr class="separator:a8f88dbcbedc2fef02a5889295783e48a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a00c2cd145692c1b56981c54f38be1d06"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
-&lt; std::string, std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_toolbox_singleton.html#a00c2cd145692c1b56981c54f38be1d06">m_interfaces</a></td></tr>
-<tr class="separator:a00c2cd145692c1b56981c54f38be1d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6da1af23ba04c818a0660f0f15e8ac61"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
+&lt; std::string, std::weak_ptr<br class="typebreak"/>
+&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_whole_body_singleton.html#a6da1af23ba04c818a0660f0f15e8ac61">m_interfaces</a></td></tr>
+<tr class="separator:a6da1af23ba04c818a0660f0f15e8ac61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a437c427f9baeba9ab12e4e95dadc1666"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ToolboxSingleton::ToolboxSingleton </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af63d1383abb29fdde08dcce5021b2a14"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ToolboxSingleton::~ToolboxSingleton </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae878013799b6db30d278f153f0b6ddbc"></a>
+<a class="anchor" id="abe927e210b44f3db3dd0f878b0c54b3b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -195,9 +172,55 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wbt::ToolboxSingleton::ToolboxSingleton </td>
+          <td class="memname">WholeBodySingleton::WholeBodySingleton </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a47a8daa2ad1970a42ba876c42a5f3dde"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">WholeBodySingleton::~WholeBodySingleton </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab536e15191453eab8692f53281e5368a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">wbt::WholeBodySingleton::WholeBodySingleton </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -212,12 +235,39 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab6e0cb06f1dae669d8f7e8468a344e1c"></a>
+<a class="anchor" id="affcb7d526387045ac807b5d33af08a36"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ToolboxSingleton::eraseConfiguration </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt; WholeBodySingleton::createRobotInterface </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Stores in the singleton the new configuration into a <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">RobotInterface</a> object</p>
+<p>If the config is valid and hasn't been already stored, it creates a new entry in <a class="el" href="classwbt_1_1_whole_body_singleton.html#a6da1af23ba04c818a0660f0f15e8ac61">WholeBodySingleton::m_interfaces</a>. If a configuration with matching confKey is found, if the <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">Configuration</a> object is the same it does nothing, otherwise it overrides it.</p>
+<dl class="section note"><dt>Note</dt><dd>Since confKey is the name of the block, the overriding can happen only after subsequent compilation in Simulink, when the block's parameters have been changed.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>The <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a> object parsed from Simulink's parameters </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a shared pointer to the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">RobotInterface</a> object created from the <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">Configuration</a> object. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_whole_body_singleton.html#a0e12a0c1f9e485d6e4592096b95177d9">WholeBodySingleton::isKeyValid</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2c392934db457b4b1f1c39d785ac9639"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WholeBodySingleton::eraseConfiguration </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
@@ -235,12 +285,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa4c6bab7c3a2f7b9ad9fada94c3f6a65"></a>
+<a class="anchor" id="ab45a310adc27eecb4efa34f4b95591c0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp; ToolboxSingleton::getConfiguration </td>
+          <td class="memname">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp; WholeBodySingleton::getConfiguration </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
@@ -249,7 +299,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Returns the <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">Configuration</a> object labelled by confKey. This object is contained into the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_toolbox_singleton.html#af06f2ac2713bba7e3463464b4dbea8af">ToolboxSingleton::getRobotInterface</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_whole_body_singleton.html#a68f3a373c33eb2e8d107c9238c5f9914">WholeBodySingleton::getRobotInterface</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">confKey</td><td>The key describing the configuration (name of the Simulink block) </td></tr>
@@ -260,12 +310,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad50a845110e48bce895983d54b526213"></a>
+<a class="anchor" id="a3a29cf6deb944b2d805d5afe0f918770"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::shared_ptr&lt; iDynTree::KinDynComputations &gt; ToolboxSingleton::getKinDynComputations </td>
+          <td class="memname">const std::shared_ptr&lt; iDynTree::KinDynComputations &gt; WholeBodySingleton::getKinDynComputations </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
@@ -284,12 +334,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af06f2ac2713bba7e3463464b4dbea8af"></a>
+<a class="anchor" id="a68f3a373c33eb2e8d107c9238c5f9914"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt; ToolboxSingleton::getRobotInterface </td>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt; WholeBodySingleton::getRobotInterface </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
@@ -308,12 +358,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a438c6f9bb92ce72b40af9bb9fe60c5fc"></a>
+<a class="anchor" id="a0e12a0c1f9e485d6e4592096b95177d9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool ToolboxSingleton::isKeyValid </td>
+          <td class="memname">bool WholeBodySingleton::isKeyValid </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
@@ -332,16 +382,16 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a47173706a920a495703a73d5d1d5a2b3"></a>
+<a class="anchor" id="a44089979048854cf67df347f85fe12e9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ToolboxSingleton::numberOfDoFs </td>
+          <td class="memname">int WholeBodySingleton::numberOfDoFs </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>confKey</em></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -356,7 +406,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5bbedf40771ddd6b6b0d4aa52aa32343"></a>
+<a class="anchor" id="aa168f1dde6461899c423af2772b29efc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -364,9 +414,9 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a>&amp; wbt::ToolboxSingleton::operator= </td>
+          <td class="memname"><a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a>&amp; wbt::WholeBodySingleton::operator= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -380,7 +430,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a14b4d293957503120b80a7c38fe8da69"></a>
+<a class="anchor" id="a8f88dbcbedc2fef02a5889295783e48a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -388,7 +438,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a> &amp; ToolboxSingleton::sharedInstance </td>
+          <td class="memname"><a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a> &amp; WholeBodySingleton::sharedInstance </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -406,39 +456,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a046aadb441b823ef046256900cb8c7f2"></a>
+<a class="anchor" id="a3a927d4ec8a976dec3ace94cbad328f1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool ToolboxSingleton::storeConfiguration </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_configuration.html">Configuration</a> &amp;&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Saves in the singleton a new configuration <code>config</code>.</p>
-<p>If the config is valid and hasn't been already stored, it creates a new entry in <a class="el" href="classwbt_1_1_toolbox_singleton.html#a00c2cd145692c1b56981c54f38be1d06">ToolboxSingleton::m_interfaces</a>. If a configuration with matching confKey is found, if the <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">Configuration</a> object is the same it does nothing, otherwise it overrides it.</p>
-<dl class="section note"><dt>Note</dt><dd>Since confKey is the name of the block, the overriding can happen only after subsequent compilation in Simulink, when the block's parameters have been changed.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>The <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a> object parsed from Simulink's parameters </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns <code>true</code> if configure is successful, <code>false</code> otherwise </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_toolbox_singleton.html#a438c6f9bb92ce72b40af9bb9fe60c5fc">ToolboxSingleton::isKeyValid</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aad10ba90aea95749d065de0f5bbd6981"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ToolboxSingleton::storeConfiguration </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">RobotInterface</a> &gt; WholeBodySingleton::storeConfiguration </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classwbt_1_1_parameters.html">wbt::Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em></td><td>)</td>
@@ -446,25 +469,20 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Saves in the singleton a new configuration <code>config</code>.</p>
-<p>Same as <a class="el" href="classwbt_1_1_toolbox_singleton.html#a046aadb441b823ef046256900cb8c7f2">ToolboxSingleton::storeConfiguration</a> but taking a <a class="el" href="classwbt_1_1_parameters.html" title="Class for storing block&#39;s parameters. ">wbt::Parameters</a> object as input.</p>
+<p>Stores a new whole-body configuration and return a <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">RobotInterface</a> object</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parameters</td><td>A <a class="el" href="classwbt_1_1_parameters.html" title="Class for storing block&#39;s parameters. ">wbt::Parameters</a> object containing all the parameters to fill a <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a> object </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns <code>true</code> if configure is successful, <code>false</code> otherwise </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_toolbox_singleton.html#a046aadb441b823ef046256900cb8c7f2">ToolboxSingleton::storeConfiguration</a> </dd>
-<dd>
-<a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a> </dd>
-<dd>
-<a class="el" href="classwbt_1_1_parameters.html#a9bd064bd024b0ce12af55ef62bdc594b" title="Helper function for creating wbt::Configuration objects. ">wbt::Parameters::containConfigurationData</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a shared pointer to the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">RobotInterface</a> object created from the <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">Configuration</a> object. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_whole_body_singleton.html#a3a927d4ec8a976dec3ace94cbad328f1">WholeBodySingleton::storeConfiguration</a>, <a class="el" href="classwbt_1_1_configuration.html" title="Store the configuration for whole-body blocks. ">wbt::Configuration</a>, Parameters::containConfigurationData </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a00c2cd145692c1b56981c54f38be1d06"></a>
+<a class="anchor" id="a6da1af23ba04c818a0660f0f15e8ac61"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -472,7 +490,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;std::string, std::shared_ptr&lt;<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a>&gt; &gt; wbt::ToolboxSingleton::m_interfaces</td>
+          <td class="memname">std::unordered_map&lt;std::string, std::weak_ptr&lt;<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a>&gt; &gt; wbt::WholeBodySingleton::m_interfaces</td>
         </tr>
       </table>
   </td>
@@ -487,15 +505,15 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/include/base/<a class="el" href="_toolbox_singleton_8h_source.html">ToolboxSingleton.h</a></li>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_toolbox_singleton_8cpp.html">ToolboxSingleton.cpp</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/include/base/<a class="el" href="_whole_body_singleton_8h_source.html">WholeBodySingleton.h</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_whole_body_singleton_8cpp.html">WholeBodySingleton.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacewbt.html">wbt</a></li><li class="navelem"><a class="el" href="classwbt_1_1_toolbox_singleton.html">ToolboxSingleton</a></li>
+    <li class="navelem"><a class="el" href="namespacewbt.html">wbt</a></li><li class="navelem"><a class="el" href="classwbt_1_1_whole_body_singleton.html">WholeBodySingleton</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

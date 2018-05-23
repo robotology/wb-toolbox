@@ -19,7 +19,7 @@
 <area shape="rect" id="node47" href="$_coder_block_information_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/CoderBlock\lInformation.cpp" alt="" coords="5465,126,5659,197"/>
 <area shape="rect" id="node48" href="$_parameters_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/Parameters.cpp" alt="" coords="5683,133,5902,189"/>
 <area shape="rect" id="node49" href="$_simulink_block_information_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/SimulinkBlock\lInformation.cpp" alt="" coords="5927,126,6135,197"/>
-<area shape="rect" id="node50" href="$_toolbox_singleton_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/ToolboxSingleton.cpp" alt="" coords="6161,133,6411,189"/>
+<area shape="rect" id="node50" href="$_whole_body_singleton_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WholeBodySingleton.cpp" alt="" coords="6161,133,6431,189"/>
 <area shape="rect" id="node3" href="$_w_b_block_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/include/base\l/WBBlock.h" alt="" coords="2388,246,2541,317"/>
 <area shape="rect" id="node31" href="$_discrete_filter_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/include/DiscreteFilter.h" alt="" coords="4351,253,4557,309"/>
 <area shape="rect" id="node33" href="$_minimum_jerk_trajectory_generator_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/include/MinimumJerk\lTrajectoryGenerator.h" alt="" coords="4582,246,4777,317"/>

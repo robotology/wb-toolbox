@@ -22,7 +22,5 @@ var classwbt_1_1_robot_interface =
     [ "getJointsMapIndex", "classwbt_1_1_robot_interface.html#a78500d5ddfbc72246fe9148a5790b13d", null ],
     [ "getJointsMapString", "classwbt_1_1_robot_interface.html#a8812c9e66e41ca910a51a1cebde85b21", null ],
     [ "getKinDynComputations", "classwbt_1_1_robot_interface.html#a7efb52977e25c72646a89be241087fa1", null ],
-    [ "releaseRemoteControlBoardRemapper", "classwbt_1_1_robot_interface.html#a605eb65d72dcc9462479f128bf05b851", null ],
-    [ "retainRemoteControlBoardRemapper", "classwbt_1_1_robot_interface.html#a85cf1db95d5ee52a8da293b0773e4194", null ],
     [ "pImpl", "classwbt_1_1_robot_interface.html#aad71881c8334127f5aa40a7e0fbf97cc", null ]
 ];

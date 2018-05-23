@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['m_5fconfblockname',['m_confBlockName',['../classwbt_1_1_simulink_block_information.html#a83269a0e84765984a64cd4965a9627b5',1,'wbt::SimulinkBlockInformation']]],
+  ['m_5fconfblockname',['m_confBlockName',['../classwbt_1_1_simulink_block_information.html#a83269a0e84765984a64cd4965a9627b5',1,'wbt::SimulinkBlockInformation::m_confBlockName()'],['../classwbt_1_1_w_b_block.html#afc523e57f87b9c1fb6f79122c62cbb81',1,'wbt::WBBlock::m_confBlockName()']]],
   ['m_5fconfiguration',['m_configuration',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#ac85fd726276a84932d6e4fdc39f375a1',1,'wbt::InverseKinematics::InverseKinematicsPimpl::m_configuration()'],['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#ac6caa2e3cb99bb3e016789acc42ff253',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::m_configuration()']]],
   ['m_5fcurrentbasepose',['m_currentBasePose',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#adefc53910d82773e5c2dc92ebc4db120',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
   ['m_5fcurrentbaseposeraw',['m_currentBasePoseRaw',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#ae27c6057a33c324f2a4eb0b87ea5af99',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
@@ -9,7 +9,7 @@ var searchData=
   ['m_5fdesiredposeasmatrix',['m_desiredPoseAsMatrix',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a2931d1667f101249e786d1eb0aa6fdc0',1,'wbt::InverseKinematics::InverseKinematicsPimpl::m_desiredPoseAsMatrix()'],['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a534b87839621555988883b8f454ebc8d',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::m_desiredPoseAsMatrix()']]],
   ['m_5fdesiredposeraw',['m_desiredPoseRaw',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a2b03a95a93ba3e03ce0eecf33e336875',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
   ['m_5ffirsttime',['m_firstTime',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#ac02a2db585c70c0b50bd6201c57fecd4',1,'wbt::InverseKinematics::InverseKinematicsPimpl::m_firstTime()'],['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a56b96a8f26286cb55f5f8a02f88eb50e',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::m_firstTime()']]],
-  ['m_5finterfaces',['m_interfaces',['../classwbt_1_1_toolbox_singleton.html#a00c2cd145692c1b56981c54f38be1d06',1,'wbt::ToolboxSingleton']]],
+  ['m_5finterfaces',['m_interfaces',['../classwbt_1_1_whole_body_singleton.html#a6da1af23ba04c818a0660f0f15e8ac61',1,'wbt::WholeBodySingleton']]],
   ['m_5fisscalar',['m_isScalar',['../classwbt_1_1_parameter.html#a9f48c61caa6d3100e594fcc49ee9a816',1,'wbt::Parameter']]],
   ['m_5fjointindexes',['m_jointIndexes',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a3b8c77510452f5bb8c90cf10ba47d97e',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
   ['m_5fleg',['m_leg',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a4151bcfe7d47675e73855d7370a99603',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
@@ -21,6 +21,7 @@ var searchData=
   ['m_5fparameters',['m_parameters',['../classwbt_1_1_block.html#adef383a603688d17a495fa37f5b36253',1,'wbt::Block']]],
   ['m_5fparamsmetadata',['m_paramsMetadata',['../classwbt_1_1_simulink_block_information.html#a10ef2b1acc023da1fe2554a12bd93107',1,'wbt::SimulinkBlockInformation']]],
   ['m_5fpiml',['m_piml',['../classwbt_1_1_inverse_kinematics.html#a3d731bdcbd0e1b36160ff15ebb4d3569',1,'wbt::InverseKinematics::m_piml()'],['../classwbt_1_1_remote_inverse_kinematics.html#a03633d67f40ae0604a8a28c054a9a655',1,'wbt::RemoteInverseKinematics::m_piml()']]],
+  ['m_5frobotinterface',['m_robotInterface',['../classwbt_1_1_w_b_block.html#a423847f1b8e12e3a5c5b432d909de0c7',1,'wbt::WBBlock']]],
   ['m_5frobotstate',['m_robotState',['../classwbt_1_1_w_b_block.html#a479cfd2df4420307441faccf0b3f6366',1,'wbt::WBBlock']]],
   ['m_5frootframeindex',['m_rootFrameIndex',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a0ede0f92732efcddf5fb630521770663',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
   ['m_5frpc',['m_rpc',['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a85c7f4f0a7d83fb4e92499879e9ee77d',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl']]],
@@ -64,8 +65,8 @@ var searchData=
   ['minimumjerktrajectorygenerator_2eh',['MinimumJerkTrajectoryGenerator.h',['../_minimum_jerk_trajectory_generator_8h.html',1,'']]],
   ['minlimit',['MinLimit',['../_get_limits_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95aac33164e2faf39c9f0b05c7789ae4834',1,'GetLimits.cpp']]],
   ['modelfailed',['modelFailed',['../classwbt_1_1_generated_code_wrapper.html#a707ed244ff0879486ec655180d1ce269',1,'wbt::GeneratedCodeWrapper']]],
-  ['modelpartitioner',['ModelPartitioner',['../classwbt_1_1_model_partitioner.html#a0e2aa9b860af586239391862b6b9776b',1,'wbt::ModelPartitioner']]],
   ['modelpartitioner',['ModelPartitioner',['../classwbt_1_1_model_partitioner.html',1,'wbt']]],
+  ['modelpartitioner',['ModelPartitioner',['../classwbt_1_1_model_partitioner.html#a0e2aa9b860af586239391862b6b9776b',1,'wbt::ModelPartitioner']]],
   ['modelpartitioner_2ecpp',['ModelPartitioner.cpp',['../_model_partitioner_8cpp.html',1,'']]],
   ['modelpartitioner_2eh',['ModelPartitioner.h',['../_model_partitioner_8h.html',1,'']]],
   ['mutex',['mutex',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#a0fdb825ea613bd9b8fbe474e320b7da9',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]]

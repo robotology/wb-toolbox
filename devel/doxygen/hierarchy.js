@@ -37,8 +37,8 @@ var hierarchy =
     [ "wbt::RealTimeSynchronizer::impl", "class_real_time_synchronizer_1_1impl.html", null ],
     [ "wbt::RelativeTransform::impl", "class_relative_transform_1_1impl.html", null ],
     [ "wbt::SetLowLevelPID::impl", "class_set_low_level_p_i_d_1_1impl.html", null ],
-    [ "SimulatorSynchronizer::impl", "class_simulator_synchronizer_1_1impl.html", null ],
     [ "wbt::DiscreteFilter::impl", "class_discrete_filter_1_1impl.html", null ],
+    [ "SimulatorSynchronizer::impl", "class_simulator_synchronizer_1_1impl.html", null ],
     [ "wbt::SetReferences::impl", "class_set_references_1_1impl.html", null ],
     [ "wbt::YarpRead::impl", "class_yarp_read_1_1impl.html", null ],
     [ "wbt::YarpWrite::impl", "class_yarp_write_1_1impl.html", null ],
@@ -79,11 +79,10 @@ var hierarchy =
     [ "Thread", null, [
       [ "wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader", "classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html", null ]
     ] ],
-    [ "wbt::ToolboxSingleton", "classwbt_1_1_toolbox_singleton.html", null ],
-    [ "ToolboxSingleton", "class_toolbox_singleton.html", null ],
     [ "WBIModelBlock", null, [
       [ "wbt::InverseKinematics", "classwbt_1_1_inverse_kinematics.html", null ]
     ] ],
+    [ "wbt::WholeBodySingleton", "classwbt_1_1_whole_body_singleton.html", null ],
     [ "Wire", null, [
       [ "gazebo::ClockServer", "classgazebo_1_1_clock_server.html", null ]
     ] ],

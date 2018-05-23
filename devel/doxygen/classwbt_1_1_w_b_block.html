@@ -224,14 +224,14 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a90b7c8d4ae4ddd7042dfaef6df02eeab"><td class="memItemLeft" align="right" valign="top">std::weak_ptr<br class="typebreak"/>
-&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a90b7c8d4ae4ddd7042dfaef6df02eeab">getKinDynComputations</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo) const </td></tr>
-<tr class="memdesc:a90b7c8d4ae4ddd7042dfaef6df02eeab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for retrieving the iDynTree::KinDynComputations object from <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">wbt::BlockInformation</a>.  <a href="#a90b7c8d4ae4ddd7042dfaef6df02eeab">More...</a><br/></td></tr>
-<tr class="separator:a90b7c8d4ae4ddd7042dfaef6df02eeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2694b8c76c314b7090cb5f4c8a5d71c7"><td class="memItemLeft" align="right" valign="top">std::weak_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a2694b8c76c314b7090cb5f4c8a5d71c7">getRobotInterface</a> (const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *blockInfo) const </td></tr>
-<tr class="memdesc:a2694b8c76c314b7090cb5f4c8a5d71c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for retrieving the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object from <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">wbt::BlockInformation</a>.  <a href="#a2694b8c76c314b7090cb5f4c8a5d71c7">More...</a><br/></td></tr>
-<tr class="separator:a2694b8c76c314b7090cb5f4c8a5d71c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af52531d9afe40dbe32930cb9def84f05"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
+&lt; iDynTree::KinDynComputations &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#af52531d9afe40dbe32930cb9def84f05">getKinDynComputations</a> () const </td></tr>
+<tr class="memdesc:af52531d9afe40dbe32930cb9def84f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for retrieving the iDynTree::KinDynComputations object.  <a href="#af52531d9afe40dbe32930cb9def84f05">More...</a><br/></td></tr>
+<tr class="separator:af52531d9afe40dbe32930cb9def84f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5227eeb6e229969a1e57d15b5c9d2cd"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
+&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#ab5227eeb6e229969a1e57d15b5c9d2cd">getRobotInterface</a> () const </td></tr>
+<tr class="memdesc:ab5227eeb6e229969a1e57d15b5c9d2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for retrieving the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object.  <a href="#ab5227eeb6e229969a1e57d15b5c9d2cd">More...</a><br/></td></tr>
+<tr class="separator:ab5227eeb6e229969a1e57d15b5c9d2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a990354bac76a31d3baba9cf92c4b96cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a990354bac76a31d3baba9cf92c4b96cd">setRobotState</a> (const <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> *basePose, const <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> *jointsPos, const <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> *baseVelocity, const <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> *jointsVelocity, iDynTree::KinDynComputations *kinDyn)</td></tr>
 <tr class="memdesc:a990354bac76a31d3baba9cf92c4b96cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for setting the robot state inside the iDynTree::KinDynComputations object.  <a href="#a990354bac76a31d3baba9cf92c4b96cd">More...</a><br/></td></tr>
 <tr class="separator:a990354bac76a31d3baba9cf92c4b96cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -241,6 +241,11 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a479cfd2df4420307441faccf0b3f6366"><td class="memItemLeft" align="right" valign="top">std::unique_ptr<br class="typebreak"/>
 &lt; <a class="el" href="struct_w_b_block_1_1i_dyn_tree_robot_state.html">iDynTreeRobotState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a479cfd2df4420307441faccf0b3f6366">m_robotState</a></td></tr>
 <tr class="separator:a479cfd2df4420307441faccf0b3f6366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc523e57f87b9c1fb6f79122c62cbb81"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#afc523e57f87b9c1fb6f79122c62cbb81">m_confBlockName</a></td></tr>
+<tr class="separator:afc523e57f87b9c1fb6f79122c62cbb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a423847f1b8e12e3a5c5b432d909de0c7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
+&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_w_b_block.html#a423847f1b8e12e3a5c5b432d909de0c7">m_robotInterface</a></td></tr>
+<tr class="separator:a423847f1b8e12e3a5c5b432d909de0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classwbt_1_1_block"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classwbt_1_1_block')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classwbt_1_1_block.html">wbt::Block</a></td></tr>
 <tr class="memitem:adef383a603688d17a495fa37f5b36253 inherit pro_attribs_classwbt_1_1_block"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#adef383a603688d17a495fa37f5b36253">m_parameters</a></td></tr>
 <tr class="memdesc:adef383a603688d17a495fa37f5b36253 inherit pro_attribs_classwbt_1_1_block"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container for block's parameter. You can get this member using <a class="el" href="classwbt_1_1_block.html#a5b4c9f424bd665bd1012d0f546f0c53a" title="Gather all the stored parameters. ">Block::getParameters</a>.  <a href="#adef383a603688d17a495fa37f5b36253">More...</a><br/></td></tr>
@@ -335,7 +340,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a90b7c8d4ae4ddd7042dfaef6df02eeab"></a>
+<a class="anchor" id="af52531d9afe40dbe32930cb9def84f05"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -343,10 +348,9 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::weak_ptr&lt; iDynTree::KinDynComputations &gt; WBBlock::getKinDynComputations </td>
+          <td class="memname">std::shared_ptr&lt; iDynTree::KinDynComputations &gt; WBBlock::getKinDynComputations </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *&#160;</td>
-          <td class="paramname"><em>blockInfo</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -357,18 +361,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Helper for retrieving the iDynTree::KinDynComputations object from <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">wbt::BlockInformation</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">blockInfo</td><td>A <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Helper for retrieving the iDynTree::KinDynComputations object. </p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to iDynTree::KinDynComputations. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a2694b8c76c314b7090cb5f4c8a5d71c7"></a>
+<a class="anchor" id="ab5227eeb6e229969a1e57d15b5c9d2cd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -376,10 +374,9 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::weak_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt; WBBlock::getRobotInterface </td>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> &gt; WBBlock::getRobotInterface </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classwbt_1_1_block_information.html">BlockInformation</a> *&#160;</td>
-          <td class="paramname"><em>blockInfo</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -390,13 +387,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Helper for retrieving the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object from <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">wbt::BlockInformation</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">blockInfo</td><td>A <a class="el" href="classwbt_1_1_block_information.html" title="Abstract class for storing generic Block properties. ">BlockInformation</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Helper for retrieving the <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a> object. </p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to <a class="el" href="classwbt_1_1_robot_interface.html" title="Class for handling model and robot resources. ">wbt::RobotInterface</a>. </dd></dl>
 
 </div>
@@ -579,6 +570,46 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="afc523e57f87b9c1fb6f79122c62cbb81"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string wbt::WBBlock::m_confBlockName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a423847f1b8e12e3a5c5b432d909de0c7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a>&gt; wbt::WBBlock::m_robotInterface</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a479cfd2df4420307441faccf0b3f6366"></a>
 <div class="memitem">
 <div class="memproto">

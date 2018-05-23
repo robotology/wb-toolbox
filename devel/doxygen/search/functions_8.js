@@ -14,7 +14,7 @@ var searchData=
   ['inversekinematics',['InverseKinematics',['../classwbt_1_1_inverse_kinematics.html#a6ed523591a9c756f388859fd12c36737',1,'wbt::InverseKinematics']]],
   ['inversekinematicspimpl',['InverseKinematicsPimpl',['../structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html#a843d9ae3ce17ff0f0ed5858b763a27a5',1,'wbt::InverseKinematics::InverseKinematicsPimpl']]],
   ['isconst',['isConst',['../classwbt_1_1_signal.html#ab7086c311e64e9f947a297ded97135fb',1,'wbt::Signal']]],
-  ['iskeyvalid',['isKeyValid',['../classwbt_1_1_toolbox_singleton.html#a438c6f9bb92ce72b40af9bb9fe60c5fc',1,'wbt::ToolboxSingleton']]],
+  ['iskeyvalid',['isKeyValid',['../classwbt_1_1_whole_body_singleton.html#a0e12a0c1f9e485d6e4592096b95177d9',1,'wbt::WholeBodySingleton']]],
   ['isscalar',['isScalar',['../classwbt_1_1_parameter.html#aaaf38336351386133731d7dbe78f9aa7',1,'wbt::Parameter']]],
   ['isvalid',['isValid',['../classwbt_1_1_configuration.html#a783f7f214313a95a06fbf2f96cb623c8',1,'wbt::Configuration::isValid()'],['../classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a',1,'wbt::Signal::isValid()']]]
 ];

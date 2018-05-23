@@ -16,12 +16,10 @@ var classwbt_1_1_block_information =
     [ "getInputPortMatrixSize", "classwbt_1_1_block_information.html#ab44e89c6a3f6d6e571c64c8d6e44697a", null ],
     [ "getInputPortSignal", "classwbt_1_1_block_information.html#a93d1d36bcb82667b59562b6f13a2f768", null ],
     [ "getInputPortWidth", "classwbt_1_1_block_information.html#a218d25286db0525990196e9b4947714c", null ],
-    [ "getKinDynComputations", "classwbt_1_1_block_information.html#abc51fda027ddd41af48892d5cb02fffc", null ],
     [ "getOutputPortData", "classwbt_1_1_block_information.html#ab0c002c25b695b04f3a3f8f2f6b86795", null ],
     [ "getOutputPortMatrixSize", "classwbt_1_1_block_information.html#a82b577f719625e6420e57d26fe6e1abc", null ],
     [ "getOutputPortSignal", "classwbt_1_1_block_information.html#aa420528d18d16347be964ea7360adad7", null ],
     [ "getOutputPortWidth", "classwbt_1_1_block_information.html#ae0db6bcbed17291020a0b701e74d5e5c", null ],
-    [ "getRobotInterface", "classwbt_1_1_block_information.html#a3f76693a770868d0b7a9de872714aaf8", null ],
     [ "optionFromKey", "classwbt_1_1_block_information.html#a4b5869100cba93c1af6548a901861a9f", null ],
     [ "parseParameters", "classwbt_1_1_block_information.html#a1cd86c455c953137f9a74bb72da78f17", null ],
     [ "setIOPortsData", "classwbt_1_1_block_information.html#a72e5100f762139d71fc80b3359e12f5d", null ]

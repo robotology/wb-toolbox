@@ -30,8 +30,8 @@ var searchData=
   ['_7esignal',['~Signal',['../classwbt_1_1_signal.html#ae7a1d116cda63e790bf9aab549d57d3a',1,'wbt::Signal']]],
   ['_7esimulatorsynchronizer',['~SimulatorSynchronizer',['../classwbt_1_1_simulator_synchronizer.html#a02e705765462be1eaa11ff07d82bb756',1,'wbt::SimulatorSynchronizer']]],
   ['_7esimulinkblockinformation',['~SimulinkBlockInformation',['../classwbt_1_1_simulink_block_information.html#a9a16b32b171a8d744b794e118bed9985',1,'wbt::SimulinkBlockInformation']]],
-  ['_7etoolboxsingleton',['~ToolboxSingleton',['../classwbt_1_1_toolbox_singleton.html#af63d1383abb29fdde08dcce5021b2a14',1,'wbt::ToolboxSingleton']]],
   ['_7ewbblock',['~WBBlock',['../classwbt_1_1_w_b_block.html#a10d3f46b6c1bef2a390ee5a36c180c93',1,'wbt::WBBlock']]],
+  ['_7ewholebodysingleton',['~WholeBodySingleton',['../classwbt_1_1_whole_body_singleton.html#a47a8daa2ad1970a42ba876c42a5f3dde',1,'wbt::WholeBodySingleton']]],
   ['_7eyarpclock',['~YarpClock',['../classwbt_1_1_yarp_clock.html#a9f17ea1bf436dfeb243ab7bcae02d865',1,'wbt::YarpClock']]],
   ['_7eyarpread',['~YarpRead',['../classwbt_1_1_yarp_read.html#a4712ae38197a6490c88093d1fbe74128',1,'wbt::YarpRead']]],
   ['_7eyarpwrite',['~YarpWrite',['../classwbt_1_1_yarp_write.html#a556bc926542f4a9c20490c8eaeac25f6',1,'wbt::YarpWrite']]]

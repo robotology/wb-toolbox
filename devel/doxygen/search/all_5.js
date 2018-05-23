@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['eraseconfiguration',['eraseConfiguration',['../classwbt_1_1_toolbox_singleton.html#ab6e0cb06f1dae669d8f7e8468a344e1c',1,'wbt::ToolboxSingleton']]],
+  ['eraseconfiguration',['eraseConfiguration',['../classwbt_1_1_whole_body_singleton.html#a2c392934db457b4b1f1c39d785ac9639',1,'wbt::WholeBodySingleton']]],
   ['errmissingport',['ErrMissingPort',['../_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9',1,'ErrMissingPort():&#160;YarpRead.cpp'],['../_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9',1,'ErrMissingPort():&#160;YarpWrite.cpp']]],
   ['error',['ERROR',['../classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bdabb1ca97ec761fc37101737ba0aa2e7c5',1,'wbt::Log']]],
   ['erroronmissingport',['errorOnMissingPort',['../class_yarp_read_1_1impl.html#af3523a86841ea07600b73187f5ec2184',1,'wbt::YarpRead::impl::errorOnMissingPort()'],['../class_yarp_write_1_1impl.html#aa58f68cc797f09e887790461a5dbc240',1,'wbt::YarpWrite::impl::errorOnMissingPort()']]],

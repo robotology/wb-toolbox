@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 5030;
+var viewWidth = 5045;
 var viewHeight = 140;
 var sectionId = 'dynsection-1';
 </script>
@@ -56,10 +56,10 @@ var sectionId = 'dynsection-1';
 <title>/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/base/Log.h</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<polygon fill="#bfbfbf" stroke="black" points="2438,-90.5 2438,-131.5 2574,-131.5 2574,-90.5 2438,-90.5"/>
-<text text-anchor="start" x="2446" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2446" y="-108.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2506" y="-97.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/include/base/Log.h</text>
+<polygon fill="#bfbfbf" stroke="black" points="2453,-90.5 2453,-131.5 2589,-131.5 2589,-90.5 2453,-90.5"/>
+<text text-anchor="start" x="2461" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2461" y="-108.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2521" y="-97.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/include/base/Log.h</text>
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
@@ -73,8 +73,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M2427.71,-109.525C2044.46,-107.012 375.393,-93.8503 147,-54 138.282,-52.4788 129.211,-50.1694 120.471,-47.5429"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.84,-113.026 2437.87,-109.591 2427.89,-106.026 2427.84,-113.026"/>
+<path fill="none" stroke="midnightblue" d="M2442.53,-109.536C2057.44,-107.074 376.91,-94.0973 147,-54 138.282,-52.4795 129.211,-50.1704 120.47,-47.544"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.71,-113.037 2452.73,-109.601 2442.76,-106.038 2442.71,-113.037"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
@@ -89,8 +89,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M2427.57,-109.306C2060.67,-105.884 522.665,-89.5229 311,-54 308.054,-53.5056 305.068,-52.9298 302.066,-52.2883"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.79,-112.808 2437.82,-109.401 2427.85,-105.809 2427.79,-112.808"/>
+<path fill="none" stroke="midnightblue" d="M2442.91,-109.324C2075.09,-105.964 524.284,-89.7755 311,-54 308.054,-53.5059 305.068,-52.9303 302.066,-52.2889"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.9,-112.824 2452.93,-109.415 2442.96,-105.824 2442.9,-112.824"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
@@ -104,8 +104,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node4 -->
 <g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M2427.7,-109.293C2076.48,-105.928 654.867,-90.1712 459,-54 450.698,-52.4668 442.076,-50.1512 433.778,-47.5222"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.75,-112.794 2437.78,-109.389 2427.81,-105.794 2427.75,-112.794"/>
+<path fill="none" stroke="midnightblue" d="M2442.71,-109.31C2089.91,-106.006 656.414,-90.4365 459,-54 450.698,-52.4676 442.076,-50.1525 433.777,-47.5236"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.8,-112.811 2452.83,-109.404 2442.87,-105.811 2442.8,-112.811"/>
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
@@ -119,8 +119,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node5 -->
 <g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M2427.66,-110.233C2119.92,-110.75 993.496,-108.775 641,-54 631.096,-52.461 620.745,-50.1792 610.723,-47.596"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.84,-113.733 2437.83,-110.215 2427.82,-106.733 2427.84,-113.733"/>
+<path fill="none" stroke="midnightblue" d="M2442.55,-110.256C2133.09,-110.863 996.534,-109.203 641,-54 631.096,-52.4622 620.745,-50.181 610.722,-47.5981"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.78,-113.755 2452.78,-110.234 2442.77,-106.755 2442.78,-113.755"/>
 </g>
 <!-- Node6 -->
 <g id="node6" class="node"><title>Node6</title>
@@ -134,8 +134,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node6 -->
 <g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M2427.48,-109.714C2140.6,-108.302 1149.71,-100.122 837,-54 826.377,-52.4333 815.253,-50.1369 804.469,-47.5477"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.77,-113.215 2437.79,-109.763 2427.81,-106.215 2427.77,-113.215"/>
+<path fill="none" stroke="midnightblue" d="M2442.26,-109.74C2153.45,-108.42 1152.7,-100.515 837,-54 826.377,-52.4348 815.253,-50.1393 804.468,-47.5504"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.63,-113.242 2452.64,-109.786 2442.66,-106.242 2442.63,-113.242"/>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
@@ -149,8 +149,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node7 -->
 <g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M2427.66,-109.993C2158.69,-109.515 1274.18,-104.08 995,-54 986.331,-52.4448 977.307,-50.1546 968.591,-47.5679"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.72,-113.493 2437.73,-110.009 2427.73,-106.493 2427.72,-113.493"/>
+<path fill="none" stroke="midnightblue" d="M2442.81,-110.026C2172.29,-109.666 1277.28,-104.583 995,-54 986.33,-52.4464 977.307,-50.157 968.59,-47.5706"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.93,-113.526 2452.93,-110.038 2442.94,-106.526 2442.93,-113.526"/>
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
@@ -165,339 +165,339 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node1&#45;&gt;Node8 -->
 <g id="edge7" class="edge"><title>Node1&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M2427.74,-109.234C2180.05,-106.413 1415.19,-94.5613 1171,-54 1168.01,-53.504 1164.99,-52.9385 1161.94,-52.3163"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.7,-112.734 2437.74,-109.346 2427.78,-105.734 2427.7,-112.734"/>
+<path fill="none" stroke="midnightblue" d="M2442.67,-109.31C2192.91,-106.709 1417.34,-95.4186 1170,-54 1167.2,-53.5314 1164.37,-53.0001 1161.51,-52.4173"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.71,-112.811 2452.75,-109.413 2442.78,-105.811 2442.71,-112.811"/>
 </g>
 <!-- Node9 -->
 <g id="node9" class="node"><title>Node9</title>
-<g id="a_node9"><a xlink:href="_toolbox_singleton_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/ToolboxSingleton.cpp">
-<polygon fill="none" stroke="black" points="1180,-6.5 1180,-47.5 1368,-47.5 1368,-6.5 1180,-6.5"/>
-<text text-anchor="start" x="1188" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="1188" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="1274" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/ToolboxSingleton.cpp</text>
+<g id="a_node9"><a xlink:href="_w_b_block_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WBBlock.cpp">
+<polygon fill="none" stroke="black" points="1179.5,-6.5 1179.5,-47.5 1334.5,-47.5 1334.5,-6.5 1179.5,-6.5"/>
+<text text-anchor="start" x="1187.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="1187.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="1257" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/WBBlock.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node9 -->
 <g id="edge8" class="edge"><title>Node1&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M2427.67,-108.131C2206.52,-102.534 1580.24,-84.3862 1377,-54 1366.06,-52.3637 1354.58,-50.0663 1343.43,-47.5074"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.81,-111.636 2437.89,-108.388 2427.99,-104.638 2427.81,-111.636"/>
+<path fill="none" stroke="midnightblue" d="M2442.44,-108.747C2214.56,-104.719 1556.14,-90.1901 1344,-54 1334.68,-52.4094 1324.94,-50.1361 1315.51,-47.5876"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.57,-112.25 2452.63,-108.925 2442.7,-105.251 2442.57,-112.25"/>
 </g>
 <!-- Node10 -->
 <g id="node10" class="node"><title>Node10</title>
-<g id="a_node10"><a xlink:href="_w_b_block_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WBBlock.cpp">
-<polygon fill="none" stroke="black" points="1386.5,-6.5 1386.5,-47.5 1541.5,-47.5 1541.5,-6.5 1386.5,-6.5"/>
-<text text-anchor="start" x="1394.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="1394.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="1464" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/WBBlock.cpp</text>
+<g id="a_node10"><a xlink:href="_w_b_toolbox_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WBToolbox.cpp">
+<polygon fill="none" stroke="black" points="1353,-6.5 1353,-47.5 1517,-47.5 1517,-6.5 1353,-6.5"/>
+<text text-anchor="start" x="1361" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="1361" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="1435" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/WBToolbox.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node10 -->
 <g id="edge9" class="edge"><title>Node1&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M2427.59,-107.744C2230.59,-101.699 1718.72,-83.565 1551,-54 1541.84,-52.3853 1532.28,-50.1339 1522.99,-47.625"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.75,-111.25 2437.86,-108.057 2427.97,-104.254 2427.75,-111.25"/>
+<path fill="none" stroke="midnightblue" d="M2442.56,-107.835C2239.79,-101.88 1701.86,-83.6921 1526,-54 1516.44,-52.3861 1506.45,-50.1351 1496.75,-47.6264"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.73,-111.342 2452.83,-108.135 2442.93,-104.345 2442.73,-111.342"/>
 </g>
 <!-- Node11 -->
 <g id="node11" class="node"><title>Node11</title>
-<g id="a_node11"><a xlink:href="_w_b_toolbox_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WBToolbox.cpp">
-<polygon fill="none" stroke="black" points="1560,-6.5 1560,-47.5 1724,-47.5 1724,-6.5 1560,-6.5"/>
-<text text-anchor="start" x="1568" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="1568" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="1642" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/WBToolbox.cpp</text>
+<g id="a_node11"><a xlink:href="_whole_body_singleton_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/WholeBodySingleton.cpp">
+<polygon fill="none" stroke="black" points="1535,-6.5 1535,-47.5 1739,-47.5 1739,-6.5 1535,-6.5"/>
+<text text-anchor="start" x="1543" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="1543" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="1637" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/base/WholeBodySingleton.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node11 -->
 <g id="edge10" class="edge"><title>Node1&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M2427.73,-109.633C2287.42,-107.802 1984.24,-98.5018 1733,-54 1723.62,-52.3379 1713.81,-50.0943 1704.26,-47.6181"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.91,-113.136 2437.95,-109.757 2428,-106.136 2427.91,-113.136"/>
+<path fill="none" stroke="midnightblue" d="M2442.66,-108.402C2302.54,-104.639 2000.08,-92.4081 1748,-54 1736.75,-52.2858 1724.95,-50.0299 1713.42,-47.5622"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.78,-111.906 2452.87,-108.669 2442.97,-104.909 2442.78,-111.906"/>
 </g>
 <!-- Node12 -->
 <g id="node12" class="node"><title>Node12</title>
 <g id="a_node12"><a xlink:href="_centroidal_momentum_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/CentroidalMomentum.cpp">
-<polygon fill="none" stroke="black" points="1742,-6.5 1742,-47.5 1924,-47.5 1924,-6.5 1742,-6.5"/>
-<text text-anchor="start" x="1750" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="1750" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="1833" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/CentroidalMomentum.cpp</text>
+<polygon fill="none" stroke="black" points="1757,-6.5 1757,-47.5 1939,-47.5 1939,-6.5 1757,-6.5"/>
+<text text-anchor="start" x="1765" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="1765" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="1848" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/CentroidalMomentum.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node12 -->
 <g id="edge11" class="edge"><title>Node1&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M2427.52,-106.237C2316.64,-100.036 2108.12,-85.1239 1933,-54 1923.02,-52.2265 1912.58,-49.9693 1902.36,-47.5284"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.43,-109.737 2437.61,-106.792 2427.82,-102.748 2427.43,-109.737"/>
+<path fill="none" stroke="midnightblue" d="M2442.52,-106.237C2331.64,-100.036 2123.12,-85.1239 1948,-54 1938.02,-52.2265 1927.58,-49.9693 1917.36,-47.5284"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.43,-109.737 2452.61,-106.792 2442.82,-102.748 2442.43,-109.737"/>
 </g>
 <!-- Node13 -->
 <g id="node13" class="node"><title>Node13</title>
 <g id="a_node13"><a xlink:href="_discrete_filter_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/DiscreteFilter.cpp">
-<polygon fill="none" stroke="black" points="1942,-6.5 1942,-47.5 2090,-47.5 2090,-6.5 1942,-6.5"/>
-<text text-anchor="start" x="1950" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="1950" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2016" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/DiscreteFilter.cpp</text>
+<polygon fill="none" stroke="black" points="1957,-6.5 1957,-47.5 2105,-47.5 2105,-6.5 1957,-6.5"/>
+<text text-anchor="start" x="1965" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="1965" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2031" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/DiscreteFilter.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node13 -->
 <g id="edge12" class="edge"><title>Node1&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M2427.64,-103.135C2345.17,-95.001 2211.92,-79.2693 2099,-54 2090.9,-52.1863 2082.44,-49.9519 2074.16,-47.5612"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.4,-106.628 2437.69,-104.114 2428.07,-99.6609 2427.4,-106.628"/>
+<path fill="none" stroke="midnightblue" d="M2442.64,-103.135C2360.17,-95.001 2226.92,-79.2693 2114,-54 2105.9,-52.1863 2097.44,-49.9519 2089.16,-47.5612"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.4,-106.628 2452.69,-104.114 2443.07,-99.6609 2442.4,-106.628"/>
 </g>
 <!-- Node14 -->
 <g id="node14" class="node"><title>Node14</title>
 <g id="a_node14"><a xlink:href="_dot_j_nu_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/DotJNu.cpp">
-<polygon fill="none" stroke="black" points="2108.5,-6.5 2108.5,-47.5 2231.5,-47.5 2231.5,-6.5 2108.5,-6.5"/>
-<text text-anchor="start" x="2116.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2116.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2170" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/DotJNu.cpp</text>
+<polygon fill="none" stroke="black" points="2123.5,-6.5 2123.5,-47.5 2246.5,-47.5 2246.5,-6.5 2123.5,-6.5"/>
+<text text-anchor="start" x="2131.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2131.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2185" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/DotJNu.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node14 -->
 <g id="edge13" class="edge"><title>Node1&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M2427.73,-96.6789C2374.34,-86.8248 2302.29,-72.0166 2240,-54 2233.4,-52.0908 2226.53,-49.8578 2219.79,-47.5168"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2427.34,-100.167 2437.81,-98.5219 2428.6,-93.2808 2427.34,-100.167"/>
+<path fill="none" stroke="midnightblue" d="M2442.73,-96.6789C2389.34,-86.8248 2317.29,-72.0166 2255,-54 2248.4,-52.0908 2241.53,-49.8578 2234.79,-47.5168"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2442.34,-100.167 2452.81,-98.5219 2443.6,-93.2808 2442.34,-100.167"/>
 </g>
 <!-- Node15 -->
 <g id="node15" class="node"><title>Node15</title>
 <g id="a_node15"><a xlink:href="_forward_kinematics_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/ForwardKinematics.cpp">
-<polygon fill="none" stroke="black" points="2249.5,-6.5 2249.5,-47.5 2422.5,-47.5 2422.5,-6.5 2249.5,-6.5"/>
-<text text-anchor="start" x="2257.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2257.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2336" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/ForwardKinematics.cpp</text>
+<polygon fill="none" stroke="black" points="2264.5,-6.5 2264.5,-47.5 2437.5,-47.5 2437.5,-6.5 2264.5,-6.5"/>
+<text text-anchor="start" x="2272.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2272.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2351" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/ForwardKinematics.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node15 -->
 <g id="edge14" class="edge"><title>Node1&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M2456.21,-85.9838C2430.91,-73.7808 2400.56,-59.1396 2376.68,-47.6227"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2454.75,-89.1668 2465.28,-90.359 2457.79,-82.8619 2454.75,-89.1668"/>
+<path fill="none" stroke="midnightblue" d="M2471.21,-85.9838C2445.91,-73.7808 2415.56,-59.1396 2391.68,-47.6227"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2469.75,-89.1668 2480.28,-90.359 2472.79,-82.8619 2469.75,-89.1668"/>
 </g>
 <!-- Node16 -->
 <g id="node16" class="node"><title>Node16</title>
 <g id="a_node16"><a xlink:href="_get_limits_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/GetLimits.cpp">
-<polygon fill="none" stroke="black" points="2440.5,-6.5 2440.5,-47.5 2571.5,-47.5 2571.5,-6.5 2440.5,-6.5"/>
-<text text-anchor="start" x="2448.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2448.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2506" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/GetLimits.cpp</text>
+<polygon fill="none" stroke="black" points="2455.5,-6.5 2455.5,-47.5 2586.5,-47.5 2586.5,-6.5 2455.5,-6.5"/>
+<text text-anchor="start" x="2463.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2463.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2521" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/GetLimits.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node16 -->
 <g id="edge15" class="edge"><title>Node1&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M2506,-79.881C2506,-69.1328 2506,-57.309 2506,-47.6671"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2502.5,-80.1501 2506,-90.1501 2509.5,-80.1501 2502.5,-80.1501"/>
+<path fill="none" stroke="midnightblue" d="M2521,-79.881C2521,-69.1328 2521,-57.309 2521,-47.6671"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2517.5,-80.1501 2521,-90.1501 2524.5,-80.1501 2517.5,-80.1501"/>
 </g>
 <!-- Node17 -->
 <g id="node17" class="node"><title>Node17</title>
 <g id="a_node17"><a xlink:href="_get_measurement_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/GetMeasurement.cpp">
-<polygon fill="none" stroke="black" points="2590,-6.5 2590,-47.5 2754,-47.5 2754,-6.5 2590,-6.5"/>
-<text text-anchor="start" x="2598" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2598" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2672" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/GetMeasurement.cpp</text>
+<polygon fill="none" stroke="black" points="2605,-6.5 2605,-47.5 2769,-47.5 2769,-6.5 2605,-6.5"/>
+<text text-anchor="start" x="2613" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2613" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2687" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/GetMeasurement.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node17 -->
 <g id="edge16" class="edge"><title>Node1&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M2554.94,-85.823C2579.58,-73.6524 2609.06,-59.0891 2632.28,-47.6227"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2553.18,-82.792 2545.76,-90.359 2556.28,-89.0681 2553.18,-82.792"/>
+<path fill="none" stroke="midnightblue" d="M2569.94,-85.823C2594.58,-73.6524 2624.06,-59.0891 2647.28,-47.6227"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2568.18,-82.792 2560.76,-90.359 2571.28,-89.0681 2568.18,-82.792"/>
 </g>
 <!-- Node18 -->
 <g id="node18" class="node"><title>Node18</title>
 <g id="a_node18"><a xlink:href="_inverse_dynamics_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/InverseDynamics.cpp">
-<polygon fill="none" stroke="black" points="2772,-6.5 2772,-47.5 2938,-47.5 2938,-6.5 2772,-6.5"/>
-<text text-anchor="start" x="2780" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2780" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2855" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/InverseDynamics.cpp</text>
+<polygon fill="none" stroke="black" points="2787,-6.5 2787,-47.5 2953,-47.5 2953,-6.5 2787,-6.5"/>
+<text text-anchor="start" x="2795" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2795" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2870" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/InverseDynamics.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node18 -->
 <g id="edge17" class="edge"><title>Node1&#45;&gt;Node18</title>
-<path fill="none" stroke="midnightblue" d="M2584.15,-94.2604C2635.23,-83.6564 2703.3,-68.9262 2763,-54 2771.05,-51.9872 2779.47,-49.7688 2787.8,-47.5019"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2583.25,-90.872 2574.17,-96.3251 2584.67,-97.7269 2583.25,-90.872"/>
+<path fill="none" stroke="midnightblue" d="M2599.15,-94.2604C2650.23,-83.6564 2718.3,-68.9262 2778,-54 2786.05,-51.9872 2794.47,-49.7688 2802.8,-47.5019"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2598.25,-90.872 2589.17,-96.3251 2599.67,-97.7269 2598.25,-90.872"/>
 </g>
 <!-- Node19 -->
 <g id="node19" class="node"><title>Node19</title>
 <g id="a_node19"><a xlink:href="_jacobian_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/Jacobian.cpp">
-<polygon fill="none" stroke="black" points="2956,-6.5 2956,-47.5 3084,-47.5 3084,-6.5 2956,-6.5"/>
-<text text-anchor="start" x="2964" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2964" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="3020" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/Jacobian.cpp</text>
+<polygon fill="none" stroke="black" points="2971,-6.5 2971,-47.5 3099,-47.5 3099,-6.5 2971,-6.5"/>
+<text text-anchor="start" x="2979" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2979" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="3035" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/Jacobian.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node19 -->
 <g id="edge18" class="edge"><title>Node1&#45;&gt;Node19</title>
-<path fill="none" stroke="midnightblue" d="M2584.06,-105.197C2672.91,-98.5564 2821.95,-83.8387 2947,-54 2954.33,-52.2514 2961.94,-50.0237 2969.37,-47.6101"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2583.77,-101.709 2574.06,-105.93 2584.28,-108.69 2583.77,-101.709"/>
+<path fill="none" stroke="midnightblue" d="M2599.06,-105.197C2687.91,-98.5564 2836.95,-83.8387 2962,-54 2969.33,-52.2514 2976.94,-50.0237 2984.37,-47.6101"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2598.77,-101.709 2589.06,-105.93 2599.28,-108.69 2598.77,-101.709"/>
 </g>
 <!-- Node20 -->
 <g id="node20" class="node"><title>Node20</title>
 <g id="a_node20"><a xlink:href="_mass_matrix_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/MassMatrix.cpp">
-<polygon fill="none" stroke="black" points="3102,-6.5 3102,-47.5 3242,-47.5 3242,-6.5 3102,-6.5"/>
-<text text-anchor="start" x="3110" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="3110" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="3172" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/MassMatrix.cpp</text>
+<polygon fill="none" stroke="black" points="3117,-6.5 3117,-47.5 3257,-47.5 3257,-6.5 3117,-6.5"/>
+<text text-anchor="start" x="3125" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="3125" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="3187" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/MassMatrix.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node20 -->
 <g id="edge19" class="edge"><title>Node1&#45;&gt;Node20</title>
-<path fill="none" stroke="midnightblue" d="M2584.39,-108.058C2697.74,-104.006 2913.49,-91.6105 3093,-54 3101.2,-52.2827 3109.73,-50.0089 3118.04,-47.519"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2583.96,-104.571 2574.08,-108.414 2584.2,-111.567 2583.96,-104.571"/>
+<path fill="none" stroke="midnightblue" d="M2599.39,-108.058C2712.74,-104.006 2928.49,-91.6105 3108,-54 3116.2,-52.2827 3124.73,-50.0089 3133.04,-47.519"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2598.96,-104.571 2589.08,-108.414 2599.2,-111.567 2598.96,-104.571"/>
 </g>
 <!-- Node21 -->
 <g id="node21" class="node"><title>Node21</title>
 <g id="a_node21"><a xlink:href="_minimum_jerk_trajectory_generator_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/MinimumJerkTrajectory\lGenerator.cpp">
-<polygon fill="none" stroke="black" points="3260.5,-1 3260.5,-53 3433.5,-53 3433.5,-1 3260.5,-1"/>
-<text text-anchor="start" x="3268.5" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="3268.5" y="-30" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="start" x="3268.5" y="-19" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/MinimumJerkTrajectory</text>
-<text text-anchor="middle" x="3347" y="-8" font-family="Helvetica,sans-Serif" font-size="10.00">Generator.cpp</text>
+<polygon fill="none" stroke="black" points="3275.5,-1 3275.5,-53 3448.5,-53 3448.5,-1 3275.5,-1"/>
+<text text-anchor="start" x="3283.5" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="3283.5" y="-30" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="start" x="3283.5" y="-19" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/MinimumJerkTrajectory</text>
+<text text-anchor="middle" x="3362" y="-8" font-family="Helvetica,sans-Serif" font-size="10.00">Generator.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node21 -->
 <g id="edge20" class="edge"><title>Node1&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M2584.41,-108.976C2720.85,-106.112 3010.38,-95.2446 3251,-54 3254.06,-53.4749 3257.17,-52.8951 3260.3,-52.2709"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2583.99,-105.483 2574.07,-109.184 2584.13,-112.482 2583.99,-105.483"/>
+<path fill="none" stroke="midnightblue" d="M2599.41,-108.976C2735.85,-106.112 3025.38,-95.2446 3266,-54 3269.06,-53.4749 3272.17,-52.8951 3275.3,-52.2709"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2598.99,-105.483 2589.07,-109.184 2599.13,-112.482 2598.99,-105.483"/>
 </g>
 <!-- Node22 -->
 <g id="node22" class="node"><title>Node22</title>
 <g id="a_node22"><a xlink:href="_model_partitioner_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/ModelPartitioner.cpp">
-<polygon fill="none" stroke="black" points="3452,-6.5 3452,-47.5 3612,-47.5 3612,-6.5 3452,-6.5"/>
-<text text-anchor="start" x="3460" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="3460" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="3532" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/ModelPartitioner.cpp</text>
+<polygon fill="none" stroke="black" points="3467,-6.5 3467,-47.5 3627,-47.5 3627,-6.5 3467,-6.5"/>
+<text text-anchor="start" x="3475" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="3475" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="3547" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/ModelPartitioner.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node22 -->
 <g id="edge21" class="edge"><title>Node1&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M2584.23,-107.55C2778.28,-101.115 3277.89,-82.2545 3442,-54 3451.46,-52.3719 3461.33,-50.1132 3470.94,-47.6011"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2583.99,-104.056 2574.11,-107.884 2584.22,-111.052 2583.99,-104.056"/>
+<path fill="none" stroke="midnightblue" d="M2599.23,-107.55C2793.28,-101.115 3292.89,-82.2545 3457,-54 3466.46,-52.3719 3476.33,-50.1132 3485.94,-47.6011"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2598.99,-104.056 2589.11,-107.884 2599.22,-111.052 2598.99,-104.056"/>
 </g>
 <!-- Node23 -->
 <g id="node23" class="node"><title>Node23</title>
 <g id="a_node23"><a xlink:href="_real_time_synchronizer_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RealTimeSynchronizer.cpp">
-<polygon fill="none" stroke="black" points="3630,-6.5 3630,-47.5 3818,-47.5 3818,-6.5 3630,-6.5"/>
-<text text-anchor="start" x="3638" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="3638" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="3724" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/RealTimeSynchronizer.cpp</text>
+<polygon fill="none" stroke="black" points="3645,-6.5 3645,-47.5 3833,-47.5 3833,-6.5 3645,-6.5"/>
+<text text-anchor="start" x="3653" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="3653" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="3739" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/RealTimeSynchronizer.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node23 -->
 <g id="edge22" class="edge"><title>Node1&#45;&gt;Node23</title>
-<path fill="none" stroke="midnightblue" d="M2584.52,-108.07C2803.95,-102.355 3420.64,-84.0197 3621,-54 3631.94,-52.3603 3643.42,-50.0611 3654.57,-47.5014"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.28,-104.575 2574.37,-108.332 2584.46,-111.572 2584.28,-104.575"/>
+<path fill="none" stroke="midnightblue" d="M2599.52,-108.07C2818.95,-102.355 3435.64,-84.0197 3636,-54 3646.94,-52.3603 3658.42,-50.0611 3669.57,-47.5014"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.28,-104.575 2589.37,-108.332 2599.46,-111.572 2599.28,-104.575"/>
 </g>
 <!-- Node24 -->
 <g id="node24" class="node"><title>Node24</title>
 <g id="a_node24"><a xlink:href="_relative_transform_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp">
-<polygon fill="none" stroke="black" points="3836,-6.5 3836,-47.5 4006,-47.5 4006,-6.5 3836,-6.5"/>
-<text text-anchor="start" x="3844" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="3844" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="3921" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/RelativeTransform.cpp</text>
+<polygon fill="none" stroke="black" points="3851,-6.5 3851,-47.5 4021,-47.5 4021,-6.5 3851,-6.5"/>
+<text text-anchor="start" x="3859" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="3859" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="3936" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/RelativeTransform.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node24 -->
 <g id="edge23" class="edge"><title>Node1&#45;&gt;Node24</title>
-<path fill="none" stroke="midnightblue" d="M2584.63,-109.011C2830.92,-105.544 3585.43,-92.0199 3827,-54 3837.12,-52.4073 3847.71,-50.1153 3857.97,-47.5435"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.28,-105.515 2574.33,-109.154 2584.38,-112.515 2584.28,-105.515"/>
+<path fill="none" stroke="midnightblue" d="M2599.63,-109.011C2845.92,-105.544 3600.43,-92.0199 3842,-54 3852.12,-52.4073 3862.71,-50.1153 3872.97,-47.5435"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.28,-105.515 2589.33,-109.154 2599.38,-112.515 2599.28,-105.515"/>
 </g>
 <!-- Node25 -->
 <g id="node25" class="node"><title>Node25</title>
 <g id="a_node25"><a xlink:href="_set_low_level_p_i_d_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp">
-<polygon fill="none" stroke="black" points="4024.5,-6.5 4024.5,-47.5 4187.5,-47.5 4187.5,-6.5 4024.5,-6.5"/>
-<text text-anchor="start" x="4032.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4032.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4106" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetLowLevelPID.cpp</text>
+<polygon fill="none" stroke="black" points="4039.5,-6.5 4039.5,-47.5 4202.5,-47.5 4202.5,-6.5 4039.5,-6.5"/>
+<text text-anchor="start" x="4047.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4047.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4121" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetLowLevelPID.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node25 -->
 <g id="edge24" class="edge"><title>Node1&#45;&gt;Node25</title>
-<path fill="none" stroke="midnightblue" d="M2584.17,-109.585C2852.55,-107.771 3735.26,-98.484 4015,-54 4024.9,-52.426 4035.25,-50.1259 4045.27,-47.535"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.1,-106.085 2574.12,-109.651 2584.15,-113.085 2584.1,-106.085"/>
+<path fill="none" stroke="midnightblue" d="M2599.17,-109.585C2867.55,-107.771 3750.26,-98.484 4030,-54 4039.9,-52.426 4050.25,-50.1259 4060.27,-47.535"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.1,-106.085 2589.12,-109.651 2599.15,-113.085 2599.1,-106.085"/>
 </g>
 <!-- Node26 -->
 <g id="node26" class="node"><title>Node26</title>
 <g id="a_node26"><a xlink:href="_set_references_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp">
-<polygon fill="none" stroke="black" points="4205.5,-6.5 4205.5,-47.5 4360.5,-47.5 4360.5,-6.5 4205.5,-6.5"/>
-<text text-anchor="start" x="4213.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4213.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4283" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetReferences.cpp</text>
+<polygon fill="none" stroke="black" points="4220.5,-6.5 4220.5,-47.5 4375.5,-47.5 4375.5,-6.5 4220.5,-6.5"/>
+<text text-anchor="start" x="4228.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4228.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4298" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetReferences.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node26 -->
 <g id="edge25" class="edge"><title>Node1&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M2584.57,-110.072C2873.94,-109.921 3879.76,-105.608 4196,-54 4205.49,-52.4512 4215.4,-50.1643 4224.98,-47.579"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.18,-106.572 2574.18,-110.076 2584.18,-113.572 2584.18,-106.572"/>
+<path fill="none" stroke="midnightblue" d="M2599.57,-110.072C2888.94,-109.921 3894.76,-105.608 4211,-54 4220.49,-52.4512 4230.4,-50.1643 4239.98,-47.579"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.18,-106.572 2589.18,-110.076 2599.18,-113.572 2599.18,-106.572"/>
 </g>
 <!-- Node27 -->
 <g id="node27" class="node"><title>Node27</title>
 <g id="a_node27"><a xlink:href="_simulator_synchronizer_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp">
-<polygon fill="none" stroke="black" points="4379,-6.5 4379,-47.5 4567,-47.5 4567,-6.5 4379,-6.5"/>
-<text text-anchor="start" x="4387" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4387" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4473" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SimulatorSynchronizer.cpp</text>
+<polygon fill="none" stroke="black" points="4394,-6.5 4394,-47.5 4582,-47.5 4582,-6.5 4394,-6.5"/>
+<text text-anchor="start" x="4402" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4402" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4488" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SimulatorSynchronizer.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node27 -->
 <g id="edge26" class="edge"><title>Node1&#45;&gt;Node27</title>
-<path fill="none" stroke="midnightblue" d="M2584.2,-109.887C2891.43,-109.095 4016.02,-102.848 4369,-54 4380.34,-52.431 4392.23,-50.1153 4403.76,-47.5023"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.04,-106.387 2574.05,-109.912 2584.06,-113.387 2584.04,-106.387"/>
+<path fill="none" stroke="midnightblue" d="M2599.2,-109.887C2906.43,-109.095 4031.02,-102.848 4384,-54 4395.34,-52.431 4407.23,-50.1153 4418.76,-47.5023"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.04,-106.387 2589.05,-109.912 2599.06,-113.387 2599.04,-106.387"/>
 </g>
 <!-- Node28 -->
 <g id="node28" class="node"><title>Node28</title>
 <g id="a_node28"><a xlink:href="_yarp_clock_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpClock.cpp">
-<polygon fill="none" stroke="black" points="4585.5,-6.5 4585.5,-47.5 4720.5,-47.5 4720.5,-6.5 4585.5,-6.5"/>
-<text text-anchor="start" x="4593.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4593.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4653" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpClock.cpp</text>
+<polygon fill="none" stroke="black" points="4600.5,-6.5 4600.5,-47.5 4735.5,-47.5 4735.5,-6.5 4600.5,-6.5"/>
+<text text-anchor="start" x="4608.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4608.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4668" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpClock.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node28 -->
 <g id="edge27" class="edge"><title>Node1&#45;&gt;Node28</title>
-<path fill="none" stroke="midnightblue" d="M2584.29,-109.263C2937.91,-105.747 4377.54,-89.3639 4576,-54 4584.61,-52.4653 4593.57,-50.149 4602.2,-47.5196"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.11,-105.764 2574.14,-109.363 2584.18,-112.764 2584.11,-105.764"/>
+<path fill="none" stroke="midnightblue" d="M2599.29,-109.263C2952.91,-105.747 4392.54,-89.3639 4591,-54 4599.61,-52.4653 4608.57,-50.149 4617.2,-47.5196"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.11,-105.764 2589.14,-109.363 2599.18,-112.764 2599.11,-105.764"/>
 </g>
 <!-- Node29 -->
 <g id="node29" class="node"><title>Node29</title>
 <g id="a_node29"><a xlink:href="_yarp_read_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpRead.cpp">
-<polygon fill="none" stroke="black" points="4738.5,-6.5 4738.5,-47.5 4871.5,-47.5 4871.5,-6.5 4738.5,-6.5"/>
-<text text-anchor="start" x="4746.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4746.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4805" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpRead.cpp</text>
+<polygon fill="none" stroke="black" points="4753.5,-6.5 4753.5,-47.5 4886.5,-47.5 4886.5,-6.5 4753.5,-6.5"/>
+<text text-anchor="start" x="4761.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4761.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4820" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpRead.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node29 -->
 <g id="edge28" class="edge"><title>Node1&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M2584.26,-109.438C2953.77,-106.597 4514.82,-92.4002 4729,-54 4737.51,-52.4742 4746.36,-50.1624 4754.88,-47.5349"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.17,-105.939 2574.2,-109.515 2584.22,-112.939 2584.17,-105.939"/>
+<path fill="none" stroke="midnightblue" d="M2599.26,-109.438C2968.77,-106.597 4529.82,-92.4002 4744,-54 4752.51,-52.4742 4761.36,-50.1624 4769.88,-47.5349"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.17,-105.939 2589.2,-109.515 2599.22,-112.939 2599.17,-105.939"/>
 </g>
 <!-- Node30 -->
 <g id="node30" class="node"><title>Node30</title>
 <g id="a_node30"><a xlink:href="_yarp_write_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpWrite.cpp">
-<polygon fill="none" stroke="black" points="4889.5,-6.5 4889.5,-47.5 5022.5,-47.5 5022.5,-6.5 4889.5,-6.5"/>
-<text text-anchor="start" x="4897.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="4897.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="4956" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpWrite.cpp</text>
+<polygon fill="none" stroke="black" points="4904.5,-6.5 4904.5,-47.5 5037.5,-47.5 5037.5,-6.5 4904.5,-6.5"/>
+<text text-anchor="start" x="4912.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="4912.5" y="-24.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="4971" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/YarpWrite.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node30 -->
 <g id="edge29" class="edge"><title>Node1&#45;&gt;Node30</title>
-<path fill="none" stroke="midnightblue" d="M2584.48,-109.572C2969.59,-107.283 4650.25,-95.0021 4880,-54 4888.51,-52.481 4897.36,-50.1727 4905.88,-47.5466"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2584.25,-106.074 2574.27,-109.633 2584.29,-113.073 2584.25,-106.074"/>
+<path fill="none" stroke="midnightblue" d="M2599.48,-109.572C2984.59,-107.283 4665.25,-95.0021 4895,-54 4903.51,-52.481 4912.36,-50.1727 4920.88,-47.5466"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2599.25,-106.074 2589.27,-109.633 2599.29,-113.073 2599.25,-106.074"/>
 </g>
 </g>
 </svg>

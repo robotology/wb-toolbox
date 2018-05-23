@@ -26,7 +26,7 @@ var searchData=
   ['setrobotstate',['setRobotState',['../classwbt_1_1_w_b_block.html#a990354bac76a31d3baba9cf92c4b96cd',1,'wbt::WBBlock']]],
   ['seturdffile',['setUrdfFile',['../classwbt_1_1_configuration.html#a1634d748f7f15001a79b0cda45104f01',1,'wbt::Configuration']]],
   ['setwidth',['setWidth',['../classwbt_1_1_signal.html#a7ca17f6b35c577a0917d90c9b3960395',1,'wbt::Signal']]],
-  ['sharedinstance',['sharedInstance',['../classwbt_1_1_toolbox_singleton.html#a14b4d293957503120b80a7c38fe8da69',1,'wbt::ToolboxSingleton']]],
+  ['sharedinstance',['sharedInstance',['../classwbt_1_1_whole_body_singleton.html#a8f88dbcbedc2fef02a5889295783e48a',1,'wbt::WholeBodySingleton']]],
   ['signal',['Signal',['../classwbt_1_1_signal.html#ae57bc502c9c46793abd971f543b10cdf',1,'wbt::Signal::Signal(const DataFormat &amp;dataFormat=DataFormat::CONTIGUOUS_ZEROCOPY, const DataType &amp;dataType=DataType::DOUBLE, const bool &amp;isConst=true)'],['../classwbt_1_1_signal.html#a62e5d960ad4d79ac886cb33b05203d4f',1,'wbt::Signal::Signal(const Signal &amp;other)'],['../classwbt_1_1_signal.html#af0a491b2c5bf4625e9291e70f6e6717b',1,'wbt::Signal::Signal(Signal &amp;&amp;other)']]],
   ['simulatorsynchronizer',['SimulatorSynchronizer',['../classwbt_1_1_simulator_synchronizer.html#a28980ceb4dfffd09a21db99fee805491',1,'wbt::SimulatorSynchronizer']]],
   ['simulinkblockinformation',['SimulinkBlockInformation',['../classwbt_1_1_simulink_block_information.html#a2f9505a502d19fa69f8667ffe619cd4d',1,'wbt::SimulinkBlockInformation']]],
@@ -35,7 +35,7 @@ var searchData=
   ['step',['step',['../classwbt_1_1_generated_code_wrapper.html#a47723663fafcbb806c84ccc40597f812',1,'wbt::GeneratedCodeWrapper']]],
   ['stepsimulation',['stepSimulation',['../classgazebo_1_1_clock_server.html#aa1c6c2b8cc7e815704356def819dbaf1',1,'gazebo::ClockServer']]],
   ['stepsimulationandwait',['stepSimulationAndWait',['../classgazebo_1_1_clock_server.html#ae560b016e3e9af296c34a9f73d7b7e2d',1,'gazebo::ClockServer']]],
-  ['storeconfiguration',['storeConfiguration',['../classwbt_1_1_toolbox_singleton.html#a046aadb441b823ef046256900cb8c7f2',1,'wbt::ToolboxSingleton::storeConfiguration(const Configuration &amp;config)'],['../classwbt_1_1_toolbox_singleton.html#aad10ba90aea95749d065de0f5bbd6981',1,'wbt::ToolboxSingleton::storeConfiguration(const wbt::Parameters &amp;parameters)']]],
+  ['storeconfiguration',['storeConfiguration',['../classwbt_1_1_whole_body_singleton.html#a3a927d4ec8a976dec3ace94cbad328f1',1,'wbt::WholeBodySingleton']]],
   ['storeparameter',['storeParameter',['../classwbt_1_1_parameters.html#a9d325cb423d21dc47fe5c5c56ca33e16',1,'wbt::Parameters::storeParameter(const T &amp;param, const wbt::ParameterMetadata &amp;paramMetadata)'],['../classwbt_1_1_parameters.html#ad58d462513bdc95f65be6c281d4e43e1',1,'wbt::Parameters::storeParameter(const std::vector&lt; T &gt; &amp;param, const wbt::ParameterMetadata &amp;paramMetadata)'],['../classwbt_1_1_parameters.html#a9723e495f5eaa7d8a86d16862f76d6fa',1,'wbt::Parameters::storeParameter(const Parameter&lt; T &gt; &amp;parameter)']]],
   ['storertwparameters',['storeRTWParameters',['../classwbt_1_1_coder_block_information.html#a0ebc56db2ee4ecddc6e75ac0396d506f',1,'wbt::CoderBlockInformation']]]
 ];
