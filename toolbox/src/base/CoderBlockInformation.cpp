@@ -13,6 +13,7 @@
 
 #include <string>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -71,7 +72,9 @@ BlockInformation::VectorSize CoderBlockInformation::getInputPortWidth(const Port
         return 0;
     }
 
-    return static_cast<unsigned>(pImpl->inputPortDimensions.at(idx).front());
+    // mdlRTW writes always a {rows, cols} structure, and vectors are row vectors.
+    // This means that their dimension is the cols entry.
+    return pImpl->inputPortDimensions.at(idx).at(1);
 }
 
 BlockInformation::VectorSize CoderBlockInformation::getOutputPortWidth(const PortIndex idx) const
@@ -81,7 +84,9 @@ BlockInformation::VectorSize CoderBlockInformation::getOutputPortWidth(const Por
         return 0;
     }
 
-    return static_cast<unsigned>(pImpl->outputPortDimensions.at(idx).front());
+    // mdlRTW writes always a {rows, cols} structure, and vectors are row vectors.
+    // This means that their dimension is the cols entry.
+    return pImpl->outputPortDimensions.at(idx).at(1);
 }
 
 wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
@@ -232,7 +237,8 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
                                            void* address,
                                            const PortDimension& dims)
 {
-    if (pImpl->inputSignals.find(portNumber) != pImpl->inputSignals.end()) {
+    if ((pImpl->inputSignals.find(portNumber) != pImpl->inputSignals.end())
+        || (pImpl->inputPortDimensions.find(portNumber) != pImpl->inputPortDimensions.end())) {
         wbtError << "The signal " << portNumber << "has already been previously stored.";
         return false;
     }
@@ -247,6 +253,7 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
         return false;
     }
 
+    // Store the input signal
     // TODO: hardcoded DataType::DOUBLE
     bool isConst = true;
     pImpl->inputSignals.emplace(
@@ -254,20 +261,32 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
         std::forward_as_tuple(portNumber),
         std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
 
+    // Compute the width of the signal
     unsigned numElements = 1;
     for (auto dimension : dims) {
         numElements *= dimension;
     }
 
+    // Configure the signal
     pImpl->inputSignals[portNumber].setWidth(numElements);
-    return pImpl->inputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
+    if (!pImpl->inputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address)) {
+        wbtError << "Failed to configure buffer for input signal connected to the port with index "
+                 << portNumber << ".";
+        return false;
+    }
+
+    // Store the dimensions in the map
+    pImpl->inputPortDimensions.emplace(portNumber, dims);
+
+    return true;
 }
 
 bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
                                             void* address,
                                             const PortDimension& dims)
 {
-    if (pImpl->outputSignals.find(portNumber) != pImpl->outputSignals.end()) {
+    if ((pImpl->outputSignals.find(portNumber) != pImpl->outputSignals.end())
+        || (pImpl->outputPortDimensions.find(portNumber) != pImpl->outputPortDimensions.end())) {
         wbtError << "The signal " << portNumber << "has already been previously stored.";
         return false;
     }
@@ -282,18 +301,30 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
         return false;
     }
 
-    // TODO: hardcoded DataType::DOUBLE.
+    // Store the output signal
+    // TODO: hardcoded DataType::DOUBLE
     bool isConst = false;
     pImpl->outputSignals.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(portNumber),
         std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
 
+    // Compute the width of the signal
     unsigned numElements = 1;
     for (auto dimension : dims) {
         numElements *= dimension;
     }
 
+    // Configure the signal
     pImpl->outputSignals[portNumber].setWidth(numElements);
-    return pImpl->outputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address);
+    if (!pImpl->outputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address)) {
+        wbtError << "Failed to configure buffer for output signal connected to the port with index "
+                 << portNumber << ".";
+        return false;
+    }
+
+    // Store the dimensions in the map
+    pImpl->outputPortDimensions.emplace(portNumber, dims);
+
+    return true;
 }
