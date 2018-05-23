@@ -117,6 +117,10 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool YarpWrite::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     using namespace yarp::os;
     using namespace yarp::sig;
 
