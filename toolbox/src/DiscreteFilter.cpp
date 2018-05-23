@@ -211,9 +211,9 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     }
     else {
         // Initialize zero initial conditions
-        pImpl->y0.resize(y0.size());
+        pImpl->y0.resize(outputSignalSize);
         pImpl->y0.zero();
-        pImpl->u0.resize(u0.size());
+        pImpl->u0.resize(inputPortWidth);
         pImpl->u0.zero();
     }
 
