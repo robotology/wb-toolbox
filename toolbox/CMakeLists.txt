@@ -323,8 +323,15 @@ install(
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/WB-Toolbox
 )
 
+set_property(GLOBAL APPEND
+             PROPERTY WBToolboxLibraryExport_TARGETS
+             WBToolboxLibrary)
+
 include(InstallBasicPackageFiles)
 set(WBToolboxLibraryExport_DEPENDENCIES YARP iDynTree)
+if(WBT_USES_ICUB)
+    list(APPEND WBToolboxLibraryExport_DEPENDENCIES iCub)
+endif()
 if(WBT_USES_QPOASES)
     list(APPEND WBToolboxLibraryExport_DEPENDENCIES qpOASES)
 endif()
@@ -333,8 +340,9 @@ install_basic_package_files(WBToolboxLibrary
     VERSION ${PROJECT_VERSION}
     DEPENDENCIES ${WBToolboxLibraryExport_DEPENDENCIES}
     COMPATIBILITY AnyNewerVersion
-    TARGETS_PROPERTY WBToolboxLibrary
+    TARGETS_PROPERTY WBToolboxLibraryExport_TARGETS
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    INCLUDE_FILE ${CMAKE_SOURCE_DIR}/cmake/ExtraPackageConfigVars.cmake.in
 )
 
 ## TOOLBOX S-FUNCTION MEX LIBRARY
@@ -467,6 +475,15 @@ target_link_libraries(WBToolboxCoder PUBLIC WBToolboxLibrary)
 target_include_directories(WBToolboxCoder INTERFACE
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WB-Toolbox>)
 
+# INSTALL OTHER FILES
+# ===================
+
+# CMake macro and functions
+install(
+    FILES "${CMAKE_SOURCE_DIR}/cmake/AddGeneratedCodeLib.cmake"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/share/WB-Toolbox/cmake"
+)
+
 # INSTALL THE WBToolboxCoder TARGET
 # =================================
 #
@@ -486,15 +503,10 @@ set_property(GLOBAL APPEND
              PROPERTY WBToolboxSimulinkCoderExport_TARGETS
              WBToolboxCoder WBToolboxLibrary)
 
-set(WBToolboxSimulinkCoderExport_DEPENDENCIES YARP iDynTree)
-if(WBT_USES_ICUB)
-    list(APPEND WBToolboxSimulinkCoderExport_DEPENDENCIES iCub)
-endif()
-
 include(InstallBasicPackageFiles)
 install_basic_package_files(WBToolboxSimulinkCoder
     VERSION ${PROJECT_VERSION}
-    DEPENDENCIES ${WBToolboxSimulinkCoderExport_DEPENDENCIES}
+    DEPENDENCIES "WBToolboxLibrary"
     COMPATIBILITY AnyNewerVersion
     TARGETS_PROPERTY WBToolboxSimulinkCoderExport_TARGETS
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
