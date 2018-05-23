@@ -197,8 +197,20 @@
     // Initialize the class
     // --------------------
 
-    // Allocate the object, store it in the PWork Vector, and run the initialization
+    // Allocate the block object
     wbt::Block* blockPtr = static_cast<wbt::Block*>(new wbt::%<className>());
+
+    // Run a dummy configureSizeAndPorts step. This is currently required for properly
+    // handling optional input / outputs static variables.
+    // TODO: find a better way to handle them.
+    {
+        auto tmpCoderBlockInfo = std::unique_ptr<wbt::CoderBlockInformation>(
+            new wbt::CoderBlockInformation);
+        tmpCoderBlockInfo->storeRTWParameters(params);
+        blockPtr->configureSizeAndPorts(tmpCoderBlockInfo.get());
+    }
+
+    // Initialize the block
     bool ok = blockPtr->initialize(blockInfo);
 
     // Report errors
