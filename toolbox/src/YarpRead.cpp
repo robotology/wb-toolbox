@@ -175,6 +175,10 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
 
 bool YarpRead::initialize(BlockInformation* blockInfo)
 {
+    if (!Block::initialize(blockInfo)) {
+        return false;
+    }
+
     using namespace yarp::os;
     using namespace yarp::sig;
 
