@@ -75,6 +75,7 @@ var searchData=
   ['getvectorparameter',['getVectorParameter',['../classwbt_1_1_parameter.html#a95aab9b245e56966aa82b356398935df',1,'wbt::Parameter']]],
   ['getwarnings',['getWarnings',['../classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79',1,'wbt::Log']]],
   ['getwidth',['getWidth',['../classwbt_1_1_signal.html#abc3dc7dd9aea1269c35ae4819ac44f64',1,'wbt::Signal']]],
+  ['gradient',['Gradient',['../_qp_oases_8cpp.html#a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d',1,'QpOases.cpp']]],
   ['gravity',['gravity',['../struct_w_b_block_1_1i_dyn_tree_robot_state.html#a76d9da379220df61d82187869728cf77',1,'WBBlock::iDynTreeRobotState']]],
   ['gravityvector',['gravityVector',['../class_configuration_1_1impl.html#a6b19956a6c5b4f4e0bedd8d533171264',1,'Configuration::impl']]],
   ['gzclkport',['GzClkPort',['../_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575',1,'SimulatorSynchronizer.cpp']]]

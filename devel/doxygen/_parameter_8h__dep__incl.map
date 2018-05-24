@@ -14,11 +14,12 @@
 <area shape="rect" id="node14" href="$_jacobian_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/Jacobian.cpp" alt="" coords="2724,133,2895,189"/>
 <area shape="rect" id="node15" href="$_minimum_jerk_trajectory_generator_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/MinimumJerkTrajectory\lGenerator.cpp" alt="" coords="2919,126,3149,197"/>
 <area shape="rect" id="node16" href="$_model_partitioner_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/ModelPartitioner.cpp" alt="" coords="3175,133,3388,189"/>
-<area shape="rect" id="node17" href="$_real_time_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RealTimeSynchronizer.cpp" alt="" coords="3412,133,3663,189"/>
-<area shape="rect" id="node18" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp" alt="" coords="3687,133,3913,189"/>
-<area shape="rect" id="node19" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="3938,133,4155,189"/>
-<area shape="rect" id="node20" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="4179,133,4385,189"/>
-<area shape="rect" id="node21" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp" alt="" coords="4411,133,4661,189"/>
-<area shape="rect" id="node22" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpRead.cpp" alt="" coords="4686,133,4863,189"/>
-<area shape="rect" id="node23" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpWrite.cpp" alt="" coords="4887,133,5064,189"/>
+<area shape="rect" id="node17" href="$_qp_oases_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/QpOases.cpp" alt="" coords="3413,133,3587,189"/>
+<area shape="rect" id="node18" href="$_real_time_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RealTimeSynchronizer.cpp" alt="" coords="3612,133,3863,189"/>
+<area shape="rect" id="node19" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp" alt="" coords="3887,133,4113,189"/>
+<area shape="rect" id="node20" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="4138,133,4355,189"/>
+<area shape="rect" id="node21" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="4379,133,4585,189"/>
+<area shape="rect" id="node22" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp" alt="" coords="4611,133,4861,189"/>
+<area shape="rect" id="node23" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpRead.cpp" alt="" coords="4886,133,5063,189"/>
+<area shape="rect" id="node24" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpWrite.cpp" alt="" coords="5087,133,5264,189"/>
 </map>

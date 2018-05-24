@@ -33,6 +33,7 @@ var searchData=
   ['m_5fvaluevector',['m_valueVector',['../classwbt_1_1_parameter.html#a70dae8bbfca39a273fb65a4d885a974f',1,'wbt::Parameter']]],
   ['massmatrix',['massMatrix',['../class_mass_matrix_1_1impl.html#a80bdfa931bb3b0db7935133dcb826162',1,'MassMatrix::impl']]],
   ['max',['max',['../struct_get_limits_1_1impl_1_1_limit.html#a3a971122189caad28a301d0ab908aef1',1,'GetLimits::impl::Limit']]],
+  ['maxiterations',['MaxIterations',['../_qp_oases_8cpp.html#ae1917d490729f0fb5d349526aeb2df4b',1,'QpOases.cpp']]],
   ['measuredtype',['measuredType',['../class_get_measurement_1_1impl.html#a2e47805c0c4141f0cf08348ad12642d4',1,'GetMeasurement::impl']]],
   ['measurement',['measurement',['../class_get_measurement_1_1impl.html#a4632d810a8f89c197d816d912ac32a67',1,'GetMeasurement::impl']]],
   ['min',['min',['../struct_get_limits_1_1impl_1_1_limit.html#adad65112b2b5e3ab379ad96dd5084f7b',1,'GetLimits::impl::Limit']]],

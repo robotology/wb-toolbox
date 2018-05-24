@@ -6,6 +6,7 @@ var searchData=
   ['cell_5fstring',['CELL_STRING',['../namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a3d455a3fa1fa3774aa2065ed598f76fb',1,'wbt']]],
   ['centroidalmomentum',['CentroidalMomentum',['../_centroidal_momentum_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a3305de4b1f87e38fe6d6ecc28cb87363',1,'CentroidalMomentum.cpp']]],
   ['clock',['Clock',['../_yarp_clock_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a4b52d61cc39d9427f91d3b8606319e2c',1,'YarpClock.cpp']]],
+  ['computeobjval',['ComputeObjVal',['../_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a49705f9a866ecbfa649dea1685bc1c9c',1,'QpOases.cpp']]],
   ['confblockname',['ConfBlockName',['../_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac',1,'WBBlock.cpp']]],
   ['contiguous',['CONTIGUOUS',['../classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29aaa2a4f4421c371b67e8cdbaa33b7d2fe',1,'wbt::Signal']]],
   ['contiguous_5fzerocopy',['CONTIGUOUS_ZEROCOPY',['../classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4',1,'wbt::Signal']]],

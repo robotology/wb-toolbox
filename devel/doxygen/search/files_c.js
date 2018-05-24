@@ -1,8 +1,13 @@
 var searchData=
 [
-  ['wbblock_2ecpp',['WBBlock.cpp',['../_w_b_block_8cpp.html',1,'']]],
-  ['wbblock_2eh',['WBBlock.h',['../_w_b_block_8h.html',1,'']]],
-  ['wbtoolbox_2ecpp',['WBToolbox.cpp',['../_w_b_toolbox_8cpp.html',1,'']]],
-  ['wholebodysingleton_2ecpp',['WholeBodySingleton.cpp',['../_whole_body_singleton_8cpp.html',1,'']]],
-  ['wholebodysingleton_2eh',['WholeBodySingleton.h',['../_whole_body_singleton_8h.html',1,'']]]
+  ['setlowlevelpid_2ecpp',['SetLowLevelPID.cpp',['../_set_low_level_p_i_d_8cpp.html',1,'']]],
+  ['setlowlevelpid_2eh',['SetLowLevelPID.h',['../_set_low_level_p_i_d_8h.html',1,'']]],
+  ['setreferences_2ecpp',['SetReferences.cpp',['../_set_references_8cpp.html',1,'']]],
+  ['setreferences_2eh',['SetReferences.h',['../_set_references_8h.html',1,'']]],
+  ['signal_2ecpp',['Signal.cpp',['../_signal_8cpp.html',1,'']]],
+  ['signal_2eh',['Signal.h',['../_signal_8h.html',1,'']]],
+  ['simulatorsynchronizer_2ecpp',['SimulatorSynchronizer.cpp',['../_simulator_synchronizer_8cpp.html',1,'']]],
+  ['simulatorsynchronizer_2eh',['SimulatorSynchronizer.h',['../_simulator_synchronizer_8h.html',1,'']]],
+  ['simulinkblockinformation_2ecpp',['SimulinkBlockInformation.cpp',['../_simulink_block_information_8cpp.html',1,'']]],
+  ['simulinkblockinformation_2eh',['SimulinkBlockInformation.h',['../_simulink_block_information_8h.html',1,'']]]
 ];
