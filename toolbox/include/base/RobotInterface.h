@@ -21,11 +21,11 @@ namespace yarp {
         class IVelocityControl;
         class ITorqueControl;
         class IPWMControl;
-        class IControlMode2;
+        class IControlMode;
         class ICurrentControl;
         class IEncoders;
         class IMotorEncoders;
-        class IControlLimits2;
+        class IControlLimits;
         class IPidControl;
     } // namespace dev
 } // namespace yarp
@@ -156,7 +156,7 @@ public:
 // Specialize the getInterface template
 namespace wbt {
     template <>
-    bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface);
+    bool RobotInterface::getInterface(yarp::dev::IControlMode*& interface);
     template <>
     bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface);
     template <>
@@ -174,7 +174,7 @@ namespace wbt {
     template <>
     bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface);
     template <>
-    bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface);
+    bool RobotInterface::getInterface(yarp::dev::IControlLimits*& interface);
     template <>
     bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface);
 } // namespace wbt

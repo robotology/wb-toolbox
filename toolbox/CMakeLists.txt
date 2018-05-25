@@ -5,7 +5,11 @@
 # FIND DEPENDENCIES
 # =================
 
-find_package(YARP REQUIRED)
+if(MSVC)
+    find_package(YARP REQUIRED)
+else()
+    find_package(YARP 2.3.73.3 REQUIRED)
+endif()
 
 # Fail if YARP is not compiled as shared library
 # see https://github.com/robotology/codyco-modules/issues/44

@@ -19,7 +19,7 @@
 #include <iDynTree/Model/IJoint.h>
 #include <iDynTree/Model/Indices.h>
 #include <iDynTree/Model/Model.h>
-#include <yarp/dev/IControlLimits2.h>
+#include <yarp/dev/ControlBoardInterfaces.h>
 
 #include <cmath>
 #include <limits>
@@ -200,7 +200,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         // It is hence possible using i to point to the correct joint.
 
         // Get the IControlLimits2 interface
-        yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
+        yarp::dev::IControlLimits* iControlLimits2 = nullptr;
         if (pImpl->limitType == "ControlBoardPosition"
             || pImpl->limitType == "ControlBoardVelocity") {
             // Get the interface

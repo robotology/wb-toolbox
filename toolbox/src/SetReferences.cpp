@@ -15,15 +15,14 @@
 #include "RobotInterface.h"
 #include "Signal.h"
 
+#include <yarp/dev/ControlBoardInterfaces.h>
+#include <yarp/dev/IControlMode.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IPWMControl.h>
 #include <yarp/dev/IPositionControl.h>
 #include <yarp/dev/IPositionDirect.h>
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/IVelocityControl.h>
-
-#include <yarp/dev/IControlMode.h>
-#include <yarp/dev/IControlMode2.h>
 
 #include <cmath>
 #include <ostream>
@@ -247,7 +246,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
     // Get the IControlMode2 interface
-    IControlMode2* icmd2 = nullptr;
+    IControlMode* icmd2 = nullptr;
     ok = robotInterface->getInterface(icmd2);
     if (!ok || !icmd2) {
         wbtError << "Failed to get the IControlMode2 interface.";
@@ -313,7 +312,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     if (pImpl->resetControlMode) {
         pImpl->resetControlMode = false;
         // Get the interface
-        IControlMode2* icmd2 = nullptr;
+        IControlMode* icmd2 = nullptr;
         if (!robotInterface->getInterface(icmd2) || !icmd2) {
             wbtError << "Failed to get the IControlMode2 interface.";
             return false;
