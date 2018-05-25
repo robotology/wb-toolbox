@@ -126,7 +126,7 @@ before_install: &before_install
   - ln -s $(which ccache) $HOME/.local/bin/$CC
   - ln -s $(which ccache) $HOME/.local/bin/$CXX
   - export PATH=/$HOME/.local/bin:$PATH
-  - echo "max_size = 1.0G" > $HOME/.ccache/ccache.conf
+  - echo "max_size = 2.0G" > $HOME/.ccache/ccache.conf
   # Setup the dependencies cache
   - export DEPS_CACHE=$HOME/cache/$TRAVIS_OS_NAME/$TRAVIS_BUILD_TYPE
   - export PATH=$PATH:$DEPS_CACHE/bin
