@@ -53,9 +53,9 @@ stage_prepare:
     - mkdir -p $DEPS_CACHE
 
     # Select the branch for the dependencies. The default is master.
-    - if [[ "$TRAVIS_PULL_REQUEST" = "true" && "$TRAVIS_BRANCH" != "master" ]] ; then export DEPS_BRANCH="devel" ; fi
-    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[ci devel]" ; then export DEPS_BRANCH="devel" ; fi
-    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[devel ci]" ; then export DEPS_BRANCH="devel" ; fi
+    - if [ "$TRAVIS_BRANCH" != "master" ] ; then export DEPS_BRANCH="devel" ; fi
+    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[ci master]" ; then export DEPS_BRANCH="master" ; fi
+    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[master ci]" ; then export DEPS_BRANCH="master" ; fi
     - echo "Using $DEPS_BRANCH for dependencies"
 
     # Install dependencies
@@ -70,9 +70,8 @@ stage_prepare:
 
     # Install YCM
     - cd $HOME/git
-    - git clone --depth 1 https://github.com/robotology/ycm.git
+    - git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/ycm.git
     - cd ycm
-    - git checkout ${DEPS_BRANCH}
     - mkdir build && cd build
     - >-
       cmake .. \
@@ -82,7 +81,7 @@ stage_prepare:
 
     # Install Yarp
     - cd $HOME/git
-    - git clone --depth 1 https://github.com/robotology/yarp.git
+    - git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/yarp.git
     - cd yarp
     - mkdir build && cd build
     - >-
@@ -95,7 +94,7 @@ stage_prepare:
 
     # Install icub-main
     - cd $HOME/git
-    - git clone --depth 1 https://github.com/robotology/icub-main.git
+    - git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/icub-main.git
     - cd icub-main
     - mkdir build && cd build
     - >-
@@ -107,7 +106,7 @@ stage_prepare:
 
     # Install iDynTree
     - cd $HOME/git
-    - git clone --depth 1 https://github.com/robotology/idyntree.git
+    - git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/idyntree.git
     - cd idyntree
     - mkdir build && cd build
     - >-
@@ -257,7 +256,7 @@ jobs:
       stage: deploy
       compiler:
       cache:
-      if: ((branch = master) AND (type != pull_request))
+      if: ((repo = robotology/wb-toolbox) AND (branch = master) AND (type != pull_request))
       before_install: skip
       install: *deploy_install
       before_script: skip
@@ -278,7 +277,7 @@ jobs:
             - graphviz
             - python3-pip
     - <<: *deploy_template
-      if: ((branch = devel) AND (type != pull_request))
+      if: ((repo = robotology/wb-toolbox) AND (branch = devel) AND (type != pull_request))
 
 # notifications:
 #  email:
