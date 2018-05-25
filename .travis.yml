@@ -35,7 +35,9 @@ compiler:
   - clang
 
 env:
-  global: TRAVIS_CMAKE_GENERATOR="Ninja"
+  global:
+    - TRAVIS_CMAKE_GENERATOR="Ninja"
+    - DEPS_BRANCH="master"
   matrix:
     - TRAVIS_BUILD_TYPE="Release"
     - TRAVIS_BUILD_TYPE="Debug"
@@ -49,6 +51,12 @@ stage_prepare:
     # Clean the dependencies cache from previous builds (ccache is instead kept)
     - rm -rf $DEPS_CACHE
     - mkdir -p $DEPS_CACHE
+
+    # Select the branch for the dependencies. The default is master.
+    - if [[ "$TRAVIS_PULL_REQUEST" = "true" && "$TRAVIS_BRANCH" != "master" ]] ; then export DEPS_BRANCH="devel" ; fi
+    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[ci devel]" ; then export DEPS_BRANCH="devel" ; fi
+    - if echo $TRAVIS_COMMIT_MESSAGE | grep -F -q "[devel ci]" ; then export DEPS_BRANCH="devel" ; fi
+    - echo "Using $DEPS_BRANCH for dependencies"
 
     # Install dependencies
     # --------------------
@@ -64,6 +72,7 @@ stage_prepare:
     - cd $HOME/git
     - git clone --depth 1 https://github.com/robotology/ycm.git
     - cd ycm
+    - git checkout ${DEPS_BRANCH}
     - mkdir build && cd build
     - >-
       cmake .. \
