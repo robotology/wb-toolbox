@@ -9,6 +9,7 @@
 #ifndef WBT_TOOLBOXCONFIG_H
 #define WBT_TOOLBOXCONFIG_H
 
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>

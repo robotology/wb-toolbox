@@ -12,7 +12,8 @@
 #include "BlockInformation.h"
 #include "Signal.h"
 
-#include <vector>
+#include <memory>
+#include <string>
 
 namespace wbt {
     class CoderBlockInformation;

@@ -11,6 +11,7 @@
 #include "Parameter.h"
 #include "Parameters.h"
 
+#include <ostream>
 #include <string>
 #include <tuple>
 #include <unordered_map>
