@@ -16,8 +16,6 @@
 #include <iDynTree/Model/Model.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
-#include <yarp/dev/IControlLimits2.h>
-#include <yarp/dev/IEncoders.h>
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Network.h>
@@ -40,7 +38,7 @@ using namespace wbt;
 
 struct YarpInterfaces
 {
-    yarp::dev::IControlMode2* iControlMode2 = nullptr;
+    yarp::dev::IControlMode* iControlMode = nullptr;
     yarp::dev::IPositionControl* iPositionControl = nullptr;
     yarp::dev::IPositionDirect* iPositionDirect = nullptr;
     yarp::dev::IVelocityControl* iVelocityControl = nullptr;
@@ -49,7 +47,7 @@ struct YarpInterfaces
     yarp::dev::ICurrentControl* iCurrentControl = nullptr;
     yarp::dev::IEncoders* iEncoders = nullptr;
     yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
-    yarp::dev::IControlLimits2* iControlLimits2 = nullptr;
+    yarp::dev::IControlLimits* iControlLimits = nullptr;
     yarp::dev::IPidControl* iPidControl = nullptr;
 };
 
@@ -122,7 +120,7 @@ public:
         using namespace yarp::os;
         Network network;
         ResourceFinder& rf = ResourceFinder::getResourceFinderSingleton();
-        rf.configure(0, 0);
+        rf.configure(0, nullptr);
 
         // Get the absolute path of the urdf file
         std::string urdf_file = config.getUrdfFile();
@@ -268,9 +266,7 @@ public:
             int found = -1;
             // Iterate all the joints in the selected Control Board
             for (unsigned axis = 0; axis < numAxes; ++axis) {
-                // TODO: when also in Windows ConstString will not wrap anymore std::string, use
-                // std::string
-                yarp::os::ConstString axisName;
+                std::string axisName;
                 if (!iAxisInfoPtr->getAxisName(axis, axisName)) {
                     wbtError << "Unable to get AxisName from " << remoteName << ".";
                     return false;
@@ -505,10 +501,9 @@ T* RobotInterface::impl::getInterfaceLazyEval(
 }
 
 template <>
-bool RobotInterface::getInterface(yarp::dev::IControlMode2*& interface)
+bool RobotInterface::getInterface(yarp::dev::IControlMode*& interface)
 {
-    interface =
-        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlMode2, pImpl->robotDevice);
+    interface = pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlMode, pImpl->robotDevice);
     return static_cast<bool>(interface);
 }
 
@@ -652,10 +647,10 @@ bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface)
 }
 
 template <>
-bool RobotInterface::getInterface(yarp::dev::IControlLimits2*& interface)
+bool RobotInterface::getInterface(yarp::dev::IControlLimits*& interface)
 {
     interface =
-        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlLimits2, pImpl->robotDevice);
+        pImpl->getInterfaceLazyEval(pImpl->yarpInterfaces.iControlLimits, pImpl->robotDevice);
     return interface;
 }
 
