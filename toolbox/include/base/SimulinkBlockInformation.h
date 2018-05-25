@@ -11,8 +11,11 @@
 
 #include "AnyType.h"
 #include "BlockInformation.h"
+#include "Parameter.h"
 #include "Signal.h"
+
 #include <simstruc.h>
+#include <string>
 #include <vector>
 
 namespace wbt {

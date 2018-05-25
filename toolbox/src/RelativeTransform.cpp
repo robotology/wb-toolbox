@@ -22,7 +22,6 @@
 #include <iDynTree/Model/Indices.h>
 
 #include <ostream>
-#include <tuple>
 
 using namespace wbt;
 const std::string RelativeTransform::ClassName = "RelativeTransform";

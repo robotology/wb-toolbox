@@ -9,7 +9,6 @@
 #include "Configuration.h"
 
 #include <algorithm>
-#include <array>
 
 using namespace wbt;
 

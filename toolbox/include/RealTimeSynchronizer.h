@@ -10,7 +10,6 @@
 #define WBT_REALTIMESYNCHRONIZER_H
 
 #include "Block.h"
-#include <memory>
 
 #include <memory>
 #include <string>

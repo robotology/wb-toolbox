@@ -354,7 +354,6 @@ if(WBTOOLBOX_USES_MATLAB)
         OUTPUT_NAME WBToolbox
         SRC include/base/SimulinkBlockInformation.h
         src/base/SimulinkBlockInformation.cpp
-        include/base/Factory.h
         src/base/Factory.cpp
         src/base/WBToolbox.cpp
         LINK_TO MxAnyType WBToolboxLibrary

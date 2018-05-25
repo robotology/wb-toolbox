@@ -16,9 +16,7 @@
 #include "Signal.h"
 
 #include <ostream>
-#include <tuple>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
 using namespace wbt;

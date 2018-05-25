@@ -13,9 +13,11 @@
 #include "Parameters.h"
 #include "Signal.h"
 
-#include <algorithm>
+#include <memory>
+#include <ostream>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 #include <vector>
 
 using namespace wbt;

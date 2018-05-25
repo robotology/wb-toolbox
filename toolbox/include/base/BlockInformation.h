@@ -9,8 +9,8 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
-#include <memory>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
