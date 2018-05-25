@@ -60,6 +60,15 @@ add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
                           DEPENDS WB-TOOLBOX_ENABLE_RPATH
                           USE_LINK_PATH)
 
+# Get include-what-you-see information when compiling
+option(WBT_USE_IWYU "Get the output of include-what-you-use" OFF)
+if(WBT_USE_IWYU)
+    find_program(IWYU_PATH NAMES include-what-you-use iwyu)
+    if(IWYU_PATH)
+        set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${IWYU_PATH})
+    endif()
+endif()
+
 # TOOLBOX SHARED LIBRARY
 # ======================
 #
