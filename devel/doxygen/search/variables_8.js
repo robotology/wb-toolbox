@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['icontrollimits2',['iControlLimits2',['../struct_yarp_interfaces.html#a98854c7c3c858dc6f6c1e48bbebbae7d',1,'YarpInterfaces']]],
-  ['icontrolmode2',['iControlMode2',['../struct_yarp_interfaces.html#a8ac8c64177dfb0b404d95f66eb0b7e00',1,'YarpInterfaces']]],
+  ['icontrollimits',['iControlLimits',['../struct_yarp_interfaces.html#a6f14b7e745dd36c3212f61a508b4e040',1,'YarpInterfaces']]],
+  ['icontrolmode',['iControlMode',['../struct_yarp_interfaces.html#aafc5b12e40a869a8acf57b4c4763c1ee',1,'YarpInterfaces']]],
   ['icurrentcontrol',['iCurrentControl',['../struct_yarp_interfaces.html#a68e8f1877889a151c60fd0285f711cf2',1,'YarpInterfaces']]],
   ['iencoders',['iEncoders',['../struct_yarp_interfaces.html#a66c992cdb08c8a85127dd6b7688db98f',1,'YarpInterfaces']]],
   ['imotorencoders',['iMotorEncoders',['../struct_yarp_interfaces.html#aba2b8077542427abcdd4584d9e00fa08',1,'YarpInterfaces']]],
