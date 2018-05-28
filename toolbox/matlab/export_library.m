@@ -11,7 +11,8 @@ if (verLessThan('matlab', '8.4'))
     quit;
 end
 
-addpath(genpath('library'));
+addpath('library');
+addpath('../images');
 libraryName = 'WBToolboxLibrary_repository';
 
 try
