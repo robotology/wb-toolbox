@@ -95,7 +95,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     if (basePose) {
         // Get the buffer
-        double* buffer = basePose->getBuffer<double>();
+        const double* buffer = basePose->getBuffer<double>();
         if (!buffer) {
             wbtError << "Failed to read the base pose from input port.";
             return false;
@@ -109,7 +109,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     if (jointsPos) {
         // Get the buffer
-        double* buffer = jointsPos->getBuffer<double>();
+        const double* buffer = jointsPos->getBuffer<double>();
         if (!buffer) {
             wbtError << "Failed to read joints positions from input port.";
             return false;
@@ -125,7 +125,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     if (baseVelocity) {
         // Get the buffer
-        double* buffer = baseVelocity->getBuffer<double>();
+        const double* buffer = baseVelocity->getBuffer<double>();
         if (!buffer) {
             wbtError << "Failed to read the base velocity from input port.";
             return false;
@@ -139,7 +139,7 @@ bool WBBlock::setRobotState(const wbt::Signal* basePose,
 
     if (jointsVelocity) {
         // Get the buffer
-        double* buffer = jointsVelocity->getBuffer<double>();
+        const double* buffer = jointsVelocity->getBuffer<double>();
         if (!buffer) {
             wbtError << "Failed to read joints velocities from input port.";
             return false;
