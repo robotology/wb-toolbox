@@ -202,7 +202,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
         wbtError << "Base Acceleration signal not valid.";
         return false;
     }
-    double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
+    const double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
 
     for (unsigned i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
         if (!pImpl->baseAcceleration.setVal(i, bufBaseAcc[i])) {
@@ -220,7 +220,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
         wbtError << "Joints Acceleration signal not valid.";
         return false;
     }
-    double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
+    const double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
 
     for (unsigned i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
         if (!pImpl->jointsAcceleration.setVal(i, bufJointsAcc[i])) {

@@ -59,14 +59,16 @@ public:
     double refSpeed;
     std::vector<double> defaultRefSpeed;
 
+    std::vector<double> degBufferReferences;
     std::vector<double> previousReferenceVocabCmPosition;
 
-    static void rad2deg(double* buffer, const unsigned width)
+    static void rad2deg(const double* buffer, const unsigned width, std::vector<double>& bufferDeg)
     {
-        const double Rad2Deg = 180.0 / M_PI;
+        bufferDeg.resize(width);
+        constexpr double Rad2Deg = 180.0 / M_PI;
 
         for (unsigned i = 0; i < width; ++i) {
-            buffer[i] *= Rad2Deg;
+            bufferDeg[i] = buffer[i] * Rad2Deg;
         }
     }
 };
@@ -333,7 +335,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    double* bufferReferences = references.getBuffer<double>();
+    const double* bufferReferences = references.getBuffer<double>();
     if (!bufferReferences) {
         wbtError << "Failed to get the buffer containing references.";
         return false;
@@ -362,9 +364,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->positionMove(bufferReferences);
+            ok = interface->positionMove(pImpl->degBufferReferences.data());
             break;
         }
         case VOCAB_CM_POSITION_DIRECT: {
@@ -375,9 +377,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->setPositions(bufferReferences);
+            ok = interface->setPositions(pImpl->degBufferReferences.data());
             break;
         }
         case VOCAB_CM_VELOCITY: {
@@ -388,9 +390,9 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->velocityMove(bufferReferences);
+            ok = interface->velocityMove(pImpl->degBufferReferences.data());
             break;
         }
         case VOCAB_CM_TORQUE: {
