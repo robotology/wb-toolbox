@@ -87,8 +87,7 @@ public:
     };
 
     Signal(const DataFormat& dataFormat = DataFormat::CONTIGUOUS_ZEROCOPY,
-           const DataType& dataType = DataType::DOUBLE,
-           const bool& isConst = true);
+           const DataType& dataType = DataType::DOUBLE);
     ~Signal();
 
     Signal(const Signal& other);
@@ -148,16 +147,6 @@ public:
     bool isValid() const;
 
     /**
-     * @brief Check if the object a constant signal
-     *
-     * A constant Signal object can only read data from its buffer. It is widely used for input
-     * signals.
-     *
-     * @return True if the signal is constant, false otherwise.
-     */
-    bool isConst() const;
-
-    /**
      * @brief Read the width of the signal
      *
      * By default the width of Signal is Signal::DynamicSize. However, for being a valid signal, an
@@ -201,7 +190,16 @@ public:
      * @see Signal::setBuffer
      */
     template <typename T>
-    T* getBuffer() const;
+    T* getBuffer();
+
+    /**
+     * @brief Get the pointer to the buffer storing signal's data
+     *
+     * Documented in Signal::getBuffer
+     *
+     */
+    template <typename T>
+    const T* getBuffer() const;
 
     /**
      * @brief Get a single element of the signal
@@ -261,7 +259,8 @@ public:
 
 namespace wbt {
     // DataType::DOUBLE
-    extern template double* Signal::getBuffer<double>() const;
+    extern template double* Signal::getBuffer<double>();
+    extern template const double* Signal::getBuffer<double>() const;
     extern template double Signal::get<double>(const unsigned& i) const;
     extern template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
 } // namespace wbt
