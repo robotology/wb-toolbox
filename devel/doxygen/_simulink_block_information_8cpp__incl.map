@@ -1,8 +1,8 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/SimulinkBlockInformation.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/SimulinkBlockInformation.cpp">
-<area shape="rect" id="node2" href="$_simulink_block_information_8h.html" title="SimulinkBlockInformation.h" alt="" coords="323,125,504,152"/>
-<area shape="rect" id="node9" href="$_signal_8h.html" title="Signal.h" alt="" coords="92,200,161,227"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="13,200,67,227"/>
-<area shape="rect" id="node14" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="783,200,876,227"/>
-<area shape="rect" id="node15" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="607,200,707,227"/>
-<area shape="rect" id="node4" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="401,200,531,227"/>
+<area shape="rect" id="node2" href="$_simulink_block_information_8h.html" title="SimulinkBlockInformation.h" alt="" coords="388,125,569,152"/>
+<area shape="rect" id="node9" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="527,200,620,227"/>
+<area shape="rect" id="node10" href="$_signal_8h.html" title="Signal.h" alt="" coords="871,200,940,227"/>
+<area shape="rect" id="node13" href="$_log_8h.html" title="Log.h" alt="" coords="1015,200,1069,227"/>
+<area shape="rect" id="node16" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="746,200,845,227"/>
+<area shape="rect" id="node4" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="55,200,184,227"/>
 </map>
