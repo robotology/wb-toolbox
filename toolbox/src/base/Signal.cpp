@@ -194,7 +194,7 @@ bool Signal::isValid() const
     return pImpl->bufferPtr && (pImpl->width > 0);
 }
 
-void Signal::setWidth(const unsigned& width)
+void Signal::setWidth(const unsigned width)
 {
     pImpl->width = width;
 }
@@ -214,7 +214,7 @@ Signal::DataFormat Signal::getDataFormat() const
     return pImpl->dataFormat;
 }
 
-bool Signal::set(const unsigned& index, const double& data)
+bool Signal::set(const unsigned index, const double data)
 {
     if (pImpl->width <= index) {
         wbtError << "The signal index exceeds its width.";
@@ -250,14 +250,14 @@ bool Signal::set(const unsigned& index, const double& data)
 // ================================
 template double* Signal::getBuffer<double>();
 template const double* Signal::getBuffer<double>() const;
-template double Signal::get<double>(const unsigned& i) const;
-template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+template double Signal::get<double>(const unsigned i) const;
+template bool Signal::setBuffer<double>(const double* data, const unsigned length);
 
 // Template definitions
 // ===================
 
 template <typename T>
-T Signal::get(const unsigned& i) const
+T Signal::get(const unsigned i) const
 {
     const T* buffer = getBuffer<T>();
 
@@ -318,7 +318,7 @@ const T* Signal::getBuffer() const
 }
 
 template <typename T>
-bool Signal::setBuffer(const T* data, const unsigned& length)
+bool Signal::setBuffer(const T* data, const unsigned length)
 {
     // Non contiguous signals follow the Simulink convention of being read-only.
     // They are used only for input signals.

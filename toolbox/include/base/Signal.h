@@ -213,14 +213,14 @@ public:
      *         type otherwise.
      */
     template <typename T>
-    T get(const unsigned& i) const;
+    T get(const unsigned i) const;
 
     /**
      * @brief Set the width of the signal
      *
      * @param width The width to set.
      */
-    void setWidth(const unsigned& width);
+    void setWidth(const unsigned width);
 
     /**
      * @brief Set the value of a sigle element of the buffer
@@ -231,7 +231,7 @@ public:
      *
      * @todo Port this to a template
      */
-    bool set(const unsigned& index, const double& data);
+    bool set(const unsigned index, const double data);
 
     /**
      * @brief Set the pointer to the buffer storing signal's data
@@ -248,7 +248,7 @@ public:
      * @return True if the buffer was set sucessfully, false otherwise.
      */
     template <typename T>
-    bool setBuffer(const T* data, const unsigned& length);
+    bool setBuffer(const T* data, const unsigned length);
 };
 
 // Explicit declaration of templates for all the supported types
@@ -261,8 +261,8 @@ namespace wbt {
     // DataType::DOUBLE
     extern template double* Signal::getBuffer<double>();
     extern template const double* Signal::getBuffer<double>() const;
-    extern template double Signal::get<double>(const unsigned& i) const;
-    extern template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+    extern template double Signal::get<double>(const unsigned i) const;
+    extern template bool Signal::setBuffer<double>(const double* data, const unsigned length);
 } // namespace wbt
 
 #endif // WBT_SIGNAL_H
