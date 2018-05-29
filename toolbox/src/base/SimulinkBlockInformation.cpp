@@ -277,8 +277,8 @@ BlockInformation::VectorSize SimulinkBlockInformation::getOutputPortWidth(const 
     return ssGetOutputPortWidth(simstruct, idx);
 }
 
-Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
-                                                    const VectorSize size) const
+const Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                          const VectorSize size) const
 {
     // Read if the signal is contiguous or non-contiguous
     boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, idx);
@@ -308,10 +308,7 @@ Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
     switch (sigDataFormat) {
         case Signal::DataFormat::CONTIGUOUS_ZEROCOPY: {
             // Initialize the signal
-            bool isConstPort = true;
-            Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY,
-                          mapSimulinkToPortType(dataType),
-                          isConstPort);
+            Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType));
             signal.setWidth(signalSize);
             // Initialize signal's data
             if (!signal.initializeBufferFromContiguousZeroCopy(
@@ -324,9 +321,7 @@ Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
         }
         case Signal::DataFormat::NONCONTIGUOUS: {
             // Initialize the signal
-            bool isConstPort = true;
-            Signal signal(
-                Signal::DataFormat::NONCONTIGUOUS, mapSimulinkToPortType(dataType), isConstPort);
+            Signal signal(Signal::DataFormat::NONCONTIGUOUS, mapSimulinkToPortType(dataType));
             signal.setWidth(signalSize);
             // Initialize signal's data
             InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, idx);
@@ -369,9 +364,7 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex idx,
     // Get the data type of the Signal if set (default: double)
     DTypeId dataType = ssGetOutputPortDataType(simstruct, idx);
 
-    bool isConstPort = false;
-    Signal signal(
-        Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType), isConstPort);
+    Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType));
     signal.setWidth(signalSize);
 
     if (!signal.initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, idx))) {
