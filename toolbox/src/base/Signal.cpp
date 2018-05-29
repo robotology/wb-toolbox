@@ -26,18 +26,19 @@ class Signal::impl
 {
 public:
     int width = Signal::DynamicSize;
-    const bool isConst;
     const DataType portDataType;
     const DataFormat dataFormat;
 
     void* bufferPtr = nullptr;
 
+    template <typename T>
+    T* getBufferImpl();
+
     void deleteBuffer();
     void allocateBuffer(const void* const bufferInput, void*& bufferOutput, const unsigned& length);
 
-    impl(const DataFormat& dFormat, const DataType& dType, const bool& c)
-        : isConst(c)
-        , portDataType(dType)
+    impl(const DataFormat& dFormat, const DataType& dType)
+        : portDataType(dType)
         , dataFormat(dFormat)
     {}
 
@@ -117,8 +118,8 @@ Signal::Signal(const Signal& other)
     }
 }
 
-Signal::Signal(const DataFormat& dataFormat, const DataType& dataType, const bool& isConst)
-    : pImpl{new impl(dataFormat, dataType, isConst)}
+Signal::Signal(const DataFormat& dataFormat, const DataType& dataType)
+    : pImpl{new impl(dataFormat, dataType)}
 {}
 
 Signal::Signal(Signal&& other)
@@ -208,11 +209,6 @@ DataType Signal::getPortDataType() const
     return pImpl->portDataType;
 }
 
-bool Signal::isConst() const
-{
-    return pImpl->isConst;
-}
-
 Signal::DataFormat Signal::getDataFormat() const
 {
     return pImpl->dataFormat;
@@ -220,8 +216,8 @@ Signal::DataFormat Signal::getDataFormat() const
 
 bool Signal::set(const unsigned& index, const double& data)
 {
-    if (pImpl->isConst || pImpl->width <= index) {
-        wbtError << "The signal is either const or the index exceeds its width.";
+    if (pImpl->width <= index) {
+        wbtError << "The signal index exceeds its width.";
         return false;
     }
 
@@ -252,7 +248,8 @@ bool Signal::set(const unsigned& index, const double& data)
 
 // Explicit template instantiations
 // ================================
-template double* Signal::getBuffer<double>() const;
+template double* Signal::getBuffer<double>();
+template const double* Signal::getBuffer<double>() const;
 template double Signal::get<double>(const unsigned& i) const;
 template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
 
@@ -262,7 +259,7 @@ template bool Signal::setBuffer<double>(const double* data, const unsigned& leng
 template <typename T>
 T Signal::get(const unsigned& i) const
 {
-    T* buffer = getBuffer<T>();
+    const T* buffer = getBuffer<T>();
 
     if (!buffer) {
         wbtError << "The buffer inside the signal has not been initialized properly.";
@@ -278,7 +275,7 @@ T Signal::get(const unsigned& i) const
 }
 
 template <typename T>
-T* Signal::getBuffer() const
+T* Signal::impl::getBufferImpl()
 {
     const std::map<DataType, size_t> mapDataTypeToHash = {
         {DataType::DOUBLE, typeid(double).hash_code()},
@@ -291,7 +288,7 @@ T* Signal::getBuffer() const
         {DataType::UINT32, typeid(uint32_t).hash_code()},
         {DataType::BOOLEAN, typeid(bool).hash_code()}};
 
-    if (!pImpl->bufferPtr) {
+    if (!bufferPtr) {
         wbtError << "The pointer to data is null. The signal was not configured properly.";
         return nullptr;
     }
@@ -299,13 +296,25 @@ T* Signal::getBuffer() const
     // Check the returned matches the same type of the portType.
     // If this is not met, applying pointer arithmetics on the returned
     // pointer would show unknown behaviour.
-    if (typeid(T).hash_code() != mapDataTypeToHash.at(pImpl->portDataType)) {
-        wbtError << "Trying to get the buffer using a type different that its DataType";
+    if (typeid(T).hash_code() != mapDataTypeToHash.at(portDataType)) {
+        wbtError << "Trying to get the buffer using a type different than its DataType";
         return nullptr;
     }
 
-    // Return the correct pointer
-    return static_cast<T*>(pImpl->bufferPtr);
+    // Cast pointer and return it
+    return static_cast<T*>(bufferPtr);
+}
+
+template <typename T>
+T* Signal::getBuffer()
+{
+    return pImpl->getBufferImpl<T>();
+}
+
+template <typename T>
+const T* Signal::getBuffer() const
+{
+    return pImpl->getBufferImpl<T>();
 }
 
 template <typename T>
@@ -313,8 +322,8 @@ bool Signal::setBuffer(const T* data, const unsigned& length)
 {
     // Non contiguous signals follow the Simulink convention of being read-only.
     // They are used only for input signals.
-    if (pImpl->dataFormat == DataFormat::NONCONTIGUOUS || pImpl->isConst) {
-        wbtError << "Changing buffer address to NONCONTIGUOUS and const signals is not allowed.";
+    if (pImpl->dataFormat == DataFormat::NONCONTIGUOUS) {
+        wbtError << "Changing buffer address to NONCONTIGUOUS is not allowed.";
         return false;
     }
 
