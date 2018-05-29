@@ -198,8 +198,8 @@ public:
      * @return The signal connected to the input port for success, an invalid signal otherwise.
      * @see Signal::isValid
      */
-    virtual wbt::Signal getInputPortSignal(const PortIndex idx,
-                                           const VectorSize size = -1) const = 0;
+    virtual const wbt::Signal getInputPortSignal(const PortIndex idx,
+                                                 const VectorSize size = -1) const = 0;
 
     /**
      * @brief Get the signal connected to a 1D output port

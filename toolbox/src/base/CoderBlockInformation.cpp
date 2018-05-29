@@ -90,8 +90,8 @@ BlockInformation::VectorSize CoderBlockInformation::getOutputPortWidth(const Por
     return pImpl->outputPortDimensions.at(idx).at(1);
 }
 
-wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
-                                                      const VectorSize size) const
+const wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                            const VectorSize size) const
 {
     if (pImpl->inputSignals.find(idx) == pImpl->inputSignals.end()) {
         wbtError << "Trying to get non-existing signal " << idx << ".";
@@ -256,11 +256,10 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
 
     // Store the input signal
     // TODO: hardcoded DataType::DOUBLE
-    bool isConst = true;
     pImpl->inputSignals.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(portNumber),
-        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
+        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE));
 
     // Compute the width of the signal
     unsigned numElements = 1;
@@ -304,11 +303,10 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
 
     // Store the output signal
     // TODO: hardcoded DataType::DOUBLE
-    bool isConst = false;
     pImpl->outputSignals.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(portNumber),
-        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE, isConst));
+        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE));
 
     // Compute the width of the signal
     unsigned numElements = 1;
