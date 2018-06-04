@@ -29,9 +29,11 @@ set_target_properties(ClockServer PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # YARP
 find_package(YARP REQUIRED)
 
+# Link the dependencies libraries
+target_link_libraries(ClockServer YARP::YARP_OS)
+
 # Setup the include directories
 target_include_directories(ClockServer PUBLIC
-                           ${YARP_INCLUDE_DIRS}
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
 install(TARGETS ClockServer
