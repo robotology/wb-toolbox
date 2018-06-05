@@ -245,11 +245,11 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     const auto robotInterface = getRobotInterface();
     const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
 
-    // Get the IControlMode2 interface
-    IControlMode* icmd2 = nullptr;
-    ok = robotInterface->getInterface(icmd2);
-    if (!ok || !icmd2) {
-        wbtError << "Failed to get the IControlMode2 interface.";
+    // Get the IControlMode interface
+    IControlMode* icmd = nullptr;
+    ok = robotInterface->getInterface(icmd);
+    if (!ok || !icmd) {
+        wbtError << "Failed to get the IControlMode interface.";
         return false;
     }
 
@@ -257,7 +257,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         // Set all the controlledJoints VOCAB_CM_POSITION
         pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
 
-        ok = icmd2->setControlModes(pImpl->controlModes.data());
+        ok = icmd->setControlModes(pImpl->controlModes.data());
         if (!ok) {
             wbtError << "Failed to set control mode.";
             return false;
@@ -312,13 +312,13 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     if (pImpl->resetControlMode) {
         pImpl->resetControlMode = false;
         // Get the interface
-        IControlMode* icmd2 = nullptr;
-        if (!robotInterface->getInterface(icmd2) || !icmd2) {
+        IControlMode* icmd = nullptr;
+        if (!robotInterface->getInterface(icmd) || !icmd) {
             wbtError << "Failed to get the IControlMode2 interface.";
             return false;
         }
         // Set the control mode to all the controlledJoints
-        if (!icmd2->setControlModes(pImpl->controlModes.data())) {
+        if (!icmd->setControlModes(pImpl->controlModes.data())) {
             wbtError << "Failed to set control mode.";
             return false;
         }
