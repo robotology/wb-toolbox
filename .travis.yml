@@ -106,7 +106,7 @@ stage_prepare:
 
     # Install iDynTree
     - cd $HOME/git
-    - git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/idyntree.git
+    - git clone --depth 1 -b master https://github.com/robotology/idyntree.git
     - cd idyntree
     - mkdir build && cd build
     - >-
