@@ -53,20 +53,41 @@ enum InputIndex
 class SetReferences::impl
 {
 public:
+    enum class ReferenceType
+    {
+        // Joint Measurements
+        JOINT_POSITION,
+        JOINT_POSITION_DIRECT,
+        JOINT_VELOCITY,
+        JOINT_TORQUE,
+        // Motor measurements
+        MOTOR_CURRENT,
+        MOTOR_PWM,
+        MOTOR_BEMF,
+        MOTOR_KTAU,
+    };
+
     std::vector<int> controlModes;
     bool resetControlMode = true;
 
     double refSpeed;
     std::vector<double> defaultRefSpeed;
 
+    std::vector<yarp::dev::MotorTorqueParameters> motorParams;
+    std::vector<yarp::dev::MotorTorqueParameters> defaultMotorParams;
+
+    ReferenceType referenceType;
+
+    std::vector<double> degBufferReferences;
     std::vector<double> previousReferenceVocabCmPosition;
 
-    static void rad2deg(double* buffer, const unsigned width)
+    static void rad2deg(const double* buffer, const unsigned width, std::vector<double>& bufferDeg)
     {
-        const double Rad2Deg = 180.0 / M_PI;
+        bufferDeg.resize(width);
+        constexpr double Rad2Deg = 180.0 / M_PI;
 
         for (unsigned i = 0; i < width; ++i) {
-            buffer[i] *= Rad2Deg;
+            bufferDeg[i] = buffer[i] * Rad2Deg;
         }
     }
 };
@@ -175,23 +196,37 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     //
     // Joint Control Modes:
     if (controlType == "Position") {
+        pImpl->referenceType = impl::ReferenceType::JOINT_POSITION;
         pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
     }
     else if (controlType == "Position Direct") {
+        pImpl->referenceType = impl::ReferenceType::JOINT_POSITION_DIRECT;
         pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION_DIRECT);
     }
     else if (controlType == "Velocity") {
+        pImpl->referenceType = impl::ReferenceType::JOINT_VELOCITY;
         pImpl->controlModes.assign(dofs, VOCAB_CM_VELOCITY);
     }
     else if (controlType == "Torque") {
+        pImpl->referenceType = impl::ReferenceType::JOINT_TORQUE;
         pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
     }
     // Motor Control Modes:
     else if (controlType == "PWM") {
+        pImpl->referenceType = impl::ReferenceType::MOTOR_PWM;
         pImpl->controlModes.assign(dofs, VOCAB_CM_PWM);
     }
     else if (controlType == "Current") {
+        pImpl->referenceType = impl::ReferenceType::MOTOR_CURRENT;
         pImpl->controlModes.assign(dofs, VOCAB_CM_CURRENT);
+    }
+    else if (controlType == "Back EMF") {
+        pImpl->referenceType = impl::ReferenceType::MOTOR_BEMF;
+        pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
+    }
+    else if (controlType == "Torque Constant") {
+        pImpl->referenceType = impl::ReferenceType::MOTOR_KTAU;
+        pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
     }
     else {
         wbtError << "Control Mode not supported.";
@@ -202,7 +237,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // is responsible to generate a trajectory to reach this setpoint.
     // The generated trajectory takes an additional parameter: the speed.
     // If not properly initialized, this contol mode does not work as expected.
-    if (controlType == "Position") {
+    if (pImpl->referenceType == impl::ReferenceType::JOINT_POSITION) {
         // Convert the reference speed from radians to degrees
         pImpl->refSpeed *= 180.0 / M_PI;
 
@@ -229,7 +264,27 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
 
         // In this control mode, the reference should be sent only when it changes.
         // This vector caches the target joint positions.
-        pImpl->previousReferenceVocabCmPosition.resize(dofs);
+        pImpl->previousReferenceVocabCmPosition.resize(dofs, 0);
+    }
+    else if (pImpl->referenceType == impl::ReferenceType::MOTOR_BEMF
+             || pImpl->referenceType == impl::ReferenceType::MOTOR_KTAU) {
+        // Get the interface
+        yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+        if (!getRobotInterface()->getInterface(iTorqueControl) || !iTorqueControl) {
+            wbtError << "Failed to get ITorqueControl interface.";
+            return false;
+        }
+        // Resize the vectors
+        pImpl->motorParams.resize(dofs);
+        pImpl->defaultMotorParams.resize(dofs);
+        // Get the default values
+        for (unsigned m = 0; m < dofs; ++m) {
+            if (!iTorqueControl->getMotorTorqueParams(m, &pImpl->defaultMotorParams[m])) {
+                wbtError << "Failed to get motor torque parameters.";
+                return false;
+            }
+        }
+        pImpl->motorParams = pImpl->defaultMotorParams;
     }
 
     pImpl->resetControlMode = true;
@@ -239,7 +294,6 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
 bool SetReferences::terminate(const BlockInformation* blockInfo)
 {
     using namespace yarp::dev;
-    bool ok = true;
 
     // Get the RobotInterface and the DoFs
     const auto robotInterface = getRobotInterface();
@@ -247,37 +301,48 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
 
     // Get the IControlMode interface
     IControlMode* icmd = nullptr;
-    ok = robotInterface->getInterface(icmd);
-    if (!ok || !icmd) {
+    if (!robotInterface->getInterface(icmd) || !icmd) {
         wbtError << "Failed to get the IControlMode interface.";
         return false;
     }
 
-    if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
-        // Set all the controlledJoints VOCAB_CM_POSITION
-        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
-
-        ok = icmd->setControlModes(pImpl->controlModes.data());
-        if (!ok) {
-            wbtError << "Failed to set control mode.";
-            return false;
-        }
-    }
-    else { // In Position mode, restore the default reference speeds
+    // In Position mode restore the default reference speeds
+    if (pImpl->referenceType == impl::ReferenceType::JOINT_POSITION) {
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
-        ok = robotInterface->getInterface(interface);
-        if (!ok || !interface) {
+        if (!robotInterface->getInterface(interface) || !interface) {
             wbtError << "Failed to get IPositionControl interface.";
             return false;
         }
         // Restore default reference speeds
-        if (interface) {
-            ok = interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
-            if (!ok) {
-                wbtError << "Failed to restore default reference speed.";
+        if (!interface->setRefSpeeds(pImpl->defaultRefSpeed.data())) {
+            wbtError << "Failed to restore default reference speed.";
+            return false;
+        }
+    }
+    // In MOTOR_BEMF or MOTOR_KTAU restore the default values
+    else if (pImpl->referenceType == impl::ReferenceType::MOTOR_BEMF
+             || pImpl->referenceType == impl::ReferenceType::MOTOR_KTAU) {
+        // Get the interface
+        ITorqueControl* interface = nullptr;
+        if (!robotInterface->getInterface(interface) || !interface) {
+            wbtError << "Failed to get ICurrentControl interface.";
+            return false;
+        }
+        for (unsigned m = 0; m < dofs; ++m) {
+            if (!interface->setMotorTorqueParams(m, pImpl->defaultMotorParams[m])) {
+                wbtError << "Failed to restore default motor parameters.";
                 return false;
             }
+        }
+    }
+    else {
+        // Set all the controlledJoints VOCAB_CM_POSITION
+        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
+
+        if (!icmd->setControlModes(pImpl->controlModes.data())) {
+            wbtError << "Failed to restore default position control mode.";
+            return false;
         }
     }
 
@@ -314,7 +379,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         // Get the interface
         IControlMode* icmd = nullptr;
         if (!robotInterface->getInterface(icmd) || !icmd) {
-            wbtError << "Failed to get the IControlMode2 interface.";
+            wbtError << "Failed to get the IControlMode interface.";
             return false;
         }
         // Set the control mode to all the controlledJoints
@@ -333,19 +398,20 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    double* bufferReferences = references.getBuffer<double>();
+    const double* bufferReferences = references.getBuffer<double>();
     if (!bufferReferences) {
         wbtError << "Failed to get the buffer containing references.";
         return false;
     }
 
+    if (pImpl->controlModes.front() == VOCAB_CM_UNKNOWN) {
+        wbtError << "Control mode has not been successfully set.";
+        return false;
+    }
+
     bool ok = false;
-    // TODO: here only the first element is checked
-    switch (pImpl->controlModes.front()) {
-        case VOCAB_CM_UNKNOWN:
-            wbtError << "Control mode has not been successfully set.";
-            return false;
-        case VOCAB_CM_POSITION: {
+    switch (pImpl->referenceType) {
+        case impl::ReferenceType::JOINT_POSITION: {
             // Do not update the position reference if it didn't change.
             // This would generate a warning.
             const auto oldReference = pImpl->previousReferenceVocabCmPosition;
@@ -353,6 +419,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             pImpl->previousReferenceVocabCmPosition.assign(bufferReferences,
                                                            bufferReferences + dofs);
             if (oldReference == pImpl->previousReferenceVocabCmPosition) {
+                ok = true;
                 break;
             }
             // Get the interface
@@ -362,12 +429,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->positionMove(bufferReferences);
+            ok = interface->positionMove(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_POSITION_DIRECT: {
+        case impl::ReferenceType::JOINT_POSITION_DIRECT: {
             // Get the interface
             IPositionDirect* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -375,12 +442,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->setPositions(bufferReferences);
+            ok = interface->setPositions(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_VELOCITY: {
+        case impl::ReferenceType::JOINT_VELOCITY: {
             // Get the interface
             IVelocityControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -388,12 +455,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
                 return false;
             }
             // Convert from rad to deg
-            SetReferences::impl::rad2deg(bufferReferences, signalWidth);
+            SetReferences::impl::rad2deg(bufferReferences, signalWidth, pImpl->degBufferReferences);
             // Set the references
-            ok = interface->velocityMove(bufferReferences);
+            ok = interface->velocityMove(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_TORQUE: {
+        case impl::ReferenceType::JOINT_TORQUE: {
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -404,7 +471,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->setRefTorques(bufferReferences);
             break;
         }
-        case VOCAB_CM_PWM: {
+        case impl::ReferenceType::MOTOR_PWM: {
             // Get the interface
             IPWMControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -415,7 +482,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->setRefDutyCycles(bufferReferences);
             break;
         }
-        case VOCAB_CM_CURRENT: {
+        case impl::ReferenceType::MOTOR_CURRENT: {
             // Get the interface
             ICurrentControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -424,6 +491,42 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             }
             // Set the references
             ok = interface->setRefCurrents(bufferReferences);
+            break;
+        }
+        case impl::ReferenceType::MOTOR_BEMF: {
+            // Get the interface
+            ITorqueControl* interface = nullptr;
+            if (!robotInterface->getInterface(interface) || !interface) {
+                wbtError << "Failed to get ITorqueControl interface.";
+                return false;
+            }
+            // Get the DoFs
+            const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+            for (unsigned m = 0; m < dofs; ++m) {
+                pImpl->motorParams[m].bemf = bufferReferences[m];
+                ok = interface->setMotorTorqueParams(m, pImpl->motorParams[m]);
+                if (!ok) {
+                    break;
+                }
+            }
+            break;
+        }
+        case impl::ReferenceType::MOTOR_KTAU: {
+            // Get the interface
+            ITorqueControl* interface = nullptr;
+            if (!robotInterface->getInterface(interface) || !interface) {
+                wbtError << "Failed to get ITorqueControl interface.";
+                return false;
+            }
+            // Get the DoFs
+            const auto dofs = robotInterface->getConfiguration().getNumberOfDoFs();
+            for (unsigned m = 0; m < dofs; ++m) {
+                pImpl->motorParams[m].ktau = bufferReferences[m];
+                ok = interface->setMotorTorqueParams(m, pImpl->motorParams[m]);
+                if (!ok) {
+                    break;
+                }
+            }
             break;
         }
     }

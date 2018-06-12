@@ -71,11 +71,12 @@ unsigned SetLowLevelPID::numberOfParameters()
 
 bool SetLowLevelPID::parseParameters(BlockInformation* blockInfo)
 {
+    constexpr auto DynSize = ParameterMetadata::DynamicSize;
     const std::vector<ParameterMetadata> metadata{
-        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "P"},
-        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "I"},
-        {ParameterType::STRUCT_CELL_DOUBLE, ParamIndex::PidStruct, 1, 1, "D"},
-        {ParameterType::CELL_STRING, ParamIndex::PidStruct, 1, 1, "jointList"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::PidStruct, 1, DynSize, "P"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::PidStruct, 1, DynSize, "I"},
+        {ParameterType::STRUCT_DOUBLE, ParamIndex::PidStruct, 1, DynSize, "D"},
+        {ParameterType::STRUCT_CELL_STRING, ParamIndex::PidStruct, 1, 1, "jointList"},
         {ParameterType::STRING, ParamIndex::CtrlType, 1, 1, "ControlType"}};
 
     for (const auto& md : metadata) {

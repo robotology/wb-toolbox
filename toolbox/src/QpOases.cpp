@@ -350,11 +350,11 @@ bool QpOases::output(const BlockInformation* blockInfo)
     // OPTIONAL INPUTS
     // ===============
 
-    double* constraints = nullptr;
-    double* lbA = nullptr;
-    double* ubA = nullptr;
-    double* lb = nullptr;
-    double* ub = nullptr;
+    const double* constraints = nullptr;
+    const double* lbA = nullptr;
+    const double* ubA = nullptr;
+    const double* lb = nullptr;
+    const double* ub = nullptr;
 
     if (pImpl->useLbA || pImpl->useUbA) {
         const Signal constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
@@ -368,7 +368,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         using MatrixXdSimulink = Matrix<double, Dynamic, Dynamic, Eigen::ColMajor>;
 
         Map<MatrixXdSimulink> constraints_colMajor(
-            constraintsSignal.getBuffer<double>(),
+            const_cast<double*>(constraintsSignal.getBuffer<double>()),
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).first,
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).second);
         pImpl->constraints_rowMajor = constraints_colMajor;

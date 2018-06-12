@@ -47,11 +47,11 @@ Library {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[2830.0, 1523.0]
-	ZoomFactor		[6.2825112107623315]
-	Offset			[13.771591720199837, -10.2094932191292]
+	ViewObjType		"SimulinkSubsys"
+	LoadSaveID		"224"
+	Extents			[2830.0, 1466.0]
+	ZoomFactor		[10.0]
+	Offset			[557.009676184771, 207.7]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -71,7 +71,7 @@ Library {
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAACNAP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAAMwD///8AAAs0AAAGPgAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAAMwD///8AAAs0AAAGBQAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAACO/////wAAAAAAAAAA/////wEAAAD4/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFT/////wAAAAAAAAAA/"
@@ -85,9 +85,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri May 18 08:17:59 2018"
-  RTWModifiedTimeStamp	  448532271
-  ModelVersionFormat	  "1.%<AutoIncrement:591>"
+  LastModifiedDate	  "Tue May 29 08:27:04 2018"
+  RTWModifiedTimeStamp	  449483221
+  ModelVersionFormat	  "1.%<AutoIncrement:601>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1082,7 +1082,7 @@ Library {
   System {
     Name		    "WBToolboxLibrary_repository"
     Location		    [548, 183, 3416, 1872]
-    Open		    on
+    Open		    off
     PortBlocksUseCompactNotation off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -2706,6 +2706,7 @@ Library {
 	    "r port from command line using 'yarp connect [from] [dest]'.\n\nWhen 'Autoconnect' is off, an additional output c"
 	    "alled 'signal' is added to the block. It outputs 1 if the port has received at least one sample, or 0 otherwise.\n"
 	    Initialization	    "% Solve error in string parsing. Force the type.\nportName = char(portName);"
+	    SelfModifiable	    "on"
 	    Display		    "port_label('output', 1, 'signal');\nportNumber = 1;\nif (timestamp)\n    portNumber = portNumber + "
 	    "1;\n    port_label('output', portNumber, 'timestamp');\nend\n\nif (~autoconnect)\n    portNumber = portNumber + 1"
 	    ";\n    port_label('output', portNumber, 'status');\nend\n\n"
@@ -3236,8 +3237,8 @@ Library {
       }
       System {
 	Name			"wholeBodyActuators"
-	Location		[645, 327, 2919, 1855]
-	Open			off
+	Location		[548, 183, 3416, 1872]
+	Open			on
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3249,7 +3250,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"939"
+	ZoomFactor		"1000"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Set LowLevel PIDs"
@@ -3273,10 +3274,10 @@ Library {
 	    Initialization	    "% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig"
 	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
 	    "   clear WBTConfig;\ncatch\nend\n\n% SetLowLevelPIDs Initialization\n% ==============================\n\ntry\n   "
-	    " PIDObjectName = WBTPIDConfigObjectName;\n   \n    % Remove the apices if present\n    if (PIDObjectName(1) == \""
-	    "'\" && ...\n        PIDObjectName(end) == \"'\")\n        PIDObjectName = PIDObjectName(2:end-1);\n    end\n\n   "
-	    " % Get the struct from the class\n    PIDs = evalin('base', PIDObjectName);\n    if (isa(PIDs,'WBToolbox.PIDConfi"
-	    "guration'))\n        WBTPIDConfigStruct = PIDs.getSimulinkParameters;\n    end\nend\n"
+	    " PIDObjectName = WBTPIDConfigObjectName;\n   \n    % Remove the apices if present\n    if (PIDObjectName(1) == ''"
+	    "'' && ...\n        PIDObjectName(end) == '''')\n        PIDObjectName = PIDObjectName(2:end-1);\n    end\n\n    %"
+	    " Get the struct from the class\n    PIDs = evalin('base', PIDObjectName);\n    if (isa(PIDs,'WBToolbox.PIDConfigu"
+	    "ration'))\n        WBTPIDConfigStruct = PIDs.getSimulinkParameters;\n    end\nend\n"
 	    Display		    "pidType = get_param(gcb,'pidType');\ndescription = sprintf('Set Low Level\\n%s PIDs', pidType);\ndi"
 	    "sp(description);\n"
 	    RunInitForIconRedraw    "off"
@@ -3406,6 +3407,7 @@ Library {
 	  Ports			  [1]
 	  Position		  [710, 210, 785, 260]
 	  ZOrder		  44
+	  BackgroundColor	  "[0.960000, 0.770000, 0.460000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
@@ -3417,10 +3419,10 @@ Library {
 	    "lock.\n\nAssuming N as the number of motors (usually equal to internal DoFs):\n\nInput:\n  - References: Vector o"
 	    "f size N, representing the references to be sent to the robot controlled motors.\n\nParameters:\n  - Control Mode"
 	    ": The control mode. Choose one of the supplied mode.\n\nUnit of measurement:\n  - PWM  [-100, 100]% Duty cycle\n "
-	    " - Current [A]"
-	    Initialization	    "% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig"
-	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
-	    "   clear WBTConfig;\ncatch\nend"
+	    " - Current [A]\n  - Back EMF\n  - Torque Constant"
+	    Initialization	    "refSpeed = 0;\n\n% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockA"
+	    "bsName, WBTConfig] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimul"
+	    "inkParameters;\n    clear WBTConfig;\ncatch\nend"
 	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
 	    RunInitForIconRedraw    "off"
 	    Object {
@@ -3430,19 +3432,23 @@ Library {
 	      Type		      "popup"
 	      Array {
 		Type			"Cell"
-		Dimension		2
+		Dimension		4
 		Cell			"PWM"
 		Cell			"Current"
+		Cell			"Back EMF"
+		Cell			"Torque Constant"
 		PropName		"TypeOptions"
 	      }
 	      Name		      "controlType"
 	      Prompt		      "Control Mode"
-	      Value		      "PWM"
+	      Value		      "Current"
 	      Evaluate		      "off"
 	      Callback		      "% Get the mask parameter values. This is a cell\n%   array of strings.\n\nmaskStr = get_param("
 	      "gcb,'controlType');\n\nswitch maskStr\n    case 'PWM'\n        set_param(gcb,'BackgroundColor', '[1, 1, 1, 1.0]"
-	      "');\n    case 'Current'\n        set_param(gcb,'BackgroundColor', '[0.96, 0.77, 0.46, 1.0]');\n    otherwise\n "
-	      "       error('Control Type not recognized.')\nend\n\nclear  maskStr"
+	      "');\n    case 'Current'\n        set_param(gcb,'BackgroundColor', '[0.96, 0.77, 0.46, 1.0]');\n    case 'Back E"
+	      "MF'\n        set_param(gcb,'BackgroundColor', '[0.8, 0.4, 1.0, 1.0]');\n    case 'Torque Constant'\n        set"
+	      "_param(gcb,'BackgroundColor', '[0.8, 1.0, 0.4, 1.0]');\n    otherwise\n        error('Control Type not recogniz"
+	      "ed.')\nend\n\nclear  maskStr"
 	    }
 	    Array {
 	      Type		      "Simulink.dialog.Group"
@@ -5830,7 +5836,7 @@ Library {
       }
       System {
 	Name			"wholeBodyStates"
-	Location		[645, 327, 2919, 1855]
+	Location		[548, 183, 3416, 1872]
 	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
@@ -5843,7 +5849,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"992"
+	ZoomFactor		"1000"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Get Limits"
@@ -6182,7 +6188,7 @@ Library {
 	  Ports			  [0, 1]
 	  Position		  [410, 158, 505, 192]
 	  ZOrder		  69
-	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
+	  BackgroundColor	  "[0.960000, 0.770000, 0.460000]"
 	  RequestExecContextInheritance	off
 	  Variant		  off
 	  Object {
@@ -6206,24 +6212,28 @@ Library {
 	      Type		      "popup"
 	      Array {
 		Type			"Cell"
-		Dimension		5
+		Dimension		7
 		Cell			"Motor Position"
 		Cell			"Motor Velocity"
 		Cell			"Motor Acceleration"
 		Cell			"Motor PWM"
 		Cell			"Motor Current"
+		Cell			"Motor Back EMF"
+		Cell			"Motor Torque Constant"
 		PropName		"TypeOptions"
 	      }
 	      Name		      "measuredType"
 	      Prompt		      "Estimate Type"
-	      Value		      "Motor Position"
+	      Value		      "Motor Current"
 	      Evaluate		      "off"
-	      Callback		      "maskStr = get_param(gcb,'measuredType');\n\nif strcmp(maskStr, 'Motor Position')\n    set_para"
-	      "m(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\nelseif strcmp(maskStr, 'Motor Velocity')\n    set_p"
-	      "aram(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\nelseif strcmp(maskStr, 'Motor Acceleration')\n  "
-	      "  set_param(gcb,'BackgroundColor', '[0.9255, 0.8706, 0.1333, 1.0]');\nelseif strcmp(maskStr, 'Motor PWM')\n    "
-	      "set_param(gcb,'BackgroundColor', '[1, 1, 1, 1.0]');\nelseif strcmp(maskStr, 'Motor Current')\n    set_param(gcb"
-	      ",'BackgroundColor', '[0.96, 0.77, 0.46, 1.0]');\nend\nclear maskStr"
+	      Callback		      "maskStr = get_param(gcb,'measuredType');\n\nswitch maskStr\n    case 'Motor Position'\n       "
+	      " set_param(gcb,'BackgroundColor', '[0.5137, 0.8510, 0.6706, 1.0]');\n    case 'Motor Velocity'\n        set_par"
+	      "am(gcb,'BackgroundColor', '[0.5137, 0.6745, 1.0000, 1.0]');\n    case 'Motor Acceleration'\n        set_param(g"
+	      "cb,'BackgroundColor', '[0.9255, 0.8706, 0.1333, 1.0]');\n    case 'Motor PWM'\n        set_param(gcb,'Backgroun"
+	      "dColor', '[1, 1, 1, 1.0]');\n    case 'Motor Current'\n        set_param(gcb,'BackgroundColor', '[0.96, 0.77, 0"
+	      ".46, 1.0]');\n    case 'Motor Back EMF'\n        set_param(gcb,'BackgroundColor', '[0.8, 0.4, 1.0, 1.0]');\n   "
+	      " case 'Motor Torque Constant'\n        set_param(gcb,'BackgroundColor', '[0.8, 1.0, 0.4, 1.0]');\n    otherwise"
+	      "\n        error('Control Type not recognized.')\nend\n\nclear maskStr"
 	    }
 	    Array {
 	      Type		      "Simulink.dialog.Group"

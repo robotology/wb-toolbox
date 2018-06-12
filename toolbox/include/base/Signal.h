@@ -87,8 +87,7 @@ public:
     };
 
     Signal(const DataFormat& dataFormat = DataFormat::CONTIGUOUS_ZEROCOPY,
-           const DataType& dataType = DataType::DOUBLE,
-           const bool& isConst = true);
+           const DataType& dataType = DataType::DOUBLE);
     ~Signal();
 
     Signal(const Signal& other);
@@ -148,16 +147,6 @@ public:
     bool isValid() const;
 
     /**
-     * @brief Check if the object a constant signal
-     *
-     * A constant Signal object can only read data from its buffer. It is widely used for input
-     * signals.
-     *
-     * @return True if the signal is constant, false otherwise.
-     */
-    bool isConst() const;
-
-    /**
      * @brief Read the width of the signal
      *
      * By default the width of Signal is Signal::DynamicSize. However, for being a valid signal, an
@@ -201,7 +190,16 @@ public:
      * @see Signal::setBuffer
      */
     template <typename T>
-    T* getBuffer() const;
+    T* getBuffer();
+
+    /**
+     * @brief Get the pointer to the buffer storing signal's data
+     *
+     * Documented in Signal::getBuffer
+     *
+     */
+    template <typename T>
+    const T* getBuffer() const;
 
     /**
      * @brief Get a single element of the signal
@@ -215,14 +213,14 @@ public:
      *         type otherwise.
      */
     template <typename T>
-    T get(const unsigned& i) const;
+    T get(const unsigned i) const;
 
     /**
      * @brief Set the width of the signal
      *
      * @param width The width to set.
      */
-    void setWidth(const unsigned& width);
+    void setWidth(const unsigned width);
 
     /**
      * @brief Set the value of a sigle element of the buffer
@@ -233,7 +231,7 @@ public:
      *
      * @todo Port this to a template
      */
-    bool set(const unsigned& index, const double& data);
+    bool set(const unsigned index, const double data);
 
     /**
      * @brief Set the pointer to the buffer storing signal's data
@@ -250,7 +248,7 @@ public:
      * @return True if the buffer was set sucessfully, false otherwise.
      */
     template <typename T>
-    bool setBuffer(const T* data, const unsigned& length);
+    bool setBuffer(const T* data, const unsigned length);
 };
 
 // Explicit declaration of templates for all the supported types
@@ -261,9 +259,10 @@ public:
 
 namespace wbt {
     // DataType::DOUBLE
-    extern template double* Signal::getBuffer<double>() const;
-    extern template double Signal::get<double>(const unsigned& i) const;
-    extern template bool Signal::setBuffer<double>(const double* data, const unsigned& length);
+    extern template double* Signal::getBuffer<double>();
+    extern template const double* Signal::getBuffer<double>() const;
+    extern template double Signal::get<double>(const unsigned i) const;
+    extern template bool Signal::setBuffer<double>(const double* data, const unsigned length);
 } // namespace wbt
 
 #endif // WBT_SIGNAL_H

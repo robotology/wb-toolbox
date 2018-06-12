@@ -61,7 +61,9 @@ public:
         MOTOR_VEL,
         MOTOR_ACC,
         MOTOR_CURRENT,
-        MOTOR_PWM
+        MOTOR_PWM,
+        MOTOR_BEMF,
+        MOTOR_KTAU,
     };
 
     std::vector<double> measurement;
@@ -188,6 +190,12 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
     else if (measuredType == "Motor PWM") {
         pImpl->measuredType = impl::MeasuredType::MOTOR_PWM;
     }
+    else if (measuredType == "Motor Back EMF") {
+        pImpl->measuredType = impl::MeasuredType::MOTOR_BEMF;
+    }
+    else if (measuredType == "Motor Torque Constant") {
+        pImpl->measuredType = impl::MeasuredType::MOTOR_KTAU;
+    }
     else {
         wbtError << "Measurement not supported.";
         return false;
@@ -215,7 +223,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     // Get the RobotInterface
     const auto robotInterface = getRobotInterface();
 
-    bool ok;
+    bool ok = false;
     switch (pImpl->measuredType) {
             //
             // JOINT MEASUREMENTS
@@ -328,6 +336,46 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             }
             // Get the measurement
             ok = iPWMControl->getDutyCycles(pImpl->measurement.data());
+            break;
+        }
+        case impl::MeasuredType::MOTOR_BEMF: {
+            // Get the interface
+            yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+            if (!robotInterface->getInterface(iTorqueControl) || !iTorqueControl) {
+                wbtError << "Failed to get ITorqueControl interface.";
+                return false;
+            }
+            // Get the DoFs
+            const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
+            // Get the measurement
+            for (unsigned m = 0; m < dofs; ++m) {
+                yarp::dev::MotorTorqueParameters motorParams;
+                ok = iTorqueControl->getMotorTorqueParams(m, &motorParams);
+                if (!ok) {
+                    break;
+                }
+                pImpl->measurement[m] = motorParams.bemf;
+            }
+            break;
+        }
+        case impl::MeasuredType::MOTOR_KTAU: {
+            // Get the interface
+            yarp::dev::ITorqueControl* iTorqueControl = nullptr;
+            if (!robotInterface->getInterface(iTorqueControl) || !iTorqueControl) {
+                wbtError << "Failed to get ITorqueControl interface.";
+                return false;
+            }
+            // Get the DoFs
+            const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
+            // Get the measurement
+            for (unsigned m = 0; m < dofs; ++m) {
+                yarp::dev::MotorTorqueParameters motorParams;
+                ok = iTorqueControl->getMotorTorqueParams(m, &motorParams);
+                if (!ok) {
+                    break;
+                }
+                pImpl->measurement[m] = motorParams.ktau;
+            }
             break;
         }
     }
