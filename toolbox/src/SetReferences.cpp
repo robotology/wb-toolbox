@@ -497,7 +497,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get ICurrentControl interface.";
+                wbtError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Get the DoFs
@@ -515,7 +515,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get ICurrentControl interface.";
+                wbtError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Get the DoFs
