@@ -8,10 +8,10 @@
 
 #include "SimulatorSynchronizer.h"
 #include "BlockInformation.h"
+#include "ClockServer.h"
 #include "Log.h"
 #include "Parameter.h"
 #include "Parameters.h"
-#include "thrift/ClockServer.h"
 
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
@@ -53,7 +53,7 @@ public:
         } configuration;
 
         yarp::os::Port clientPort;
-        gazebo::ClockServer clockServer;
+        GazeboYarpPlugins::ClockServer clockServer;
     } rpcData;
 };
 
