@@ -58,10 +58,10 @@ public:
     // BLOCK SIGNALS
     // =============
 
-    const wbt::Signal
+    wbt::InputSignalPtr
     getInputPortSignal(const PortIndex idx,
                        const VectorSize size = wbt::Signal::DynamicSize) const override;
-    wbt::Signal
+    wbt::OutputSignalPtr
     getOutputPortSignal(const PortIndex idx,
                         const VectorSize size = wbt::Signal::DynamicSize) const override;
 
