@@ -27,8 +27,8 @@ public:
     unsigned numberOfOutputs;
 
     std::vector<wbt::ParameterMetadata> paramsMetadata;
-    std::unordered_map<BlockInformation::PortIndex, wbt::Signal> inputSignals;
-    std::unordered_map<BlockInformation::PortIndex, wbt::Signal> outputSignals;
+    std::unordered_map<BlockInformation::PortIndex, std::shared_ptr<wbt::Signal>> inputSignals;
+    std::unordered_map<BlockInformation::PortIndex, std::shared_ptr<wbt::Signal>> outputSignals;
 
     std::string confBlockName;
     Parameters parametersFromRTW;
@@ -90,8 +90,8 @@ BlockInformation::VectorSize CoderBlockInformation::getOutputPortWidth(const Por
     return pImpl->outputPortDimensions.at(idx).at(1);
 }
 
-const wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
-                                                            const VectorSize size) const
+wbt::InputSignalPtr CoderBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                              const VectorSize size) const
 {
     if (pImpl->inputSignals.find(idx) == pImpl->inputSignals.end()) {
         wbtError << "Trying to get non-existing signal " << idx << ".";
@@ -102,26 +102,36 @@ const wbt::Signal CoderBlockInformation::getInputPortSignal(const PortIndex idx,
     // the size is gathered from the SimStruct. From the coder instead? Is it possible having
     // a signal with dynamic size in the rtw file??
     // TODO: is it better this check or the one implemented in getOutputPortSignal?
-    if (size != Signal::DynamicSize && pImpl->inputSignals.at(idx).getWidth() != size) {
+    if (size != Signal::DynamicSize && pImpl->inputSignals.at(idx)->getWidth() != size) {
         wbtError << "Signals with dynamic sizes (index " << idx
                  << ") are not supported by the CoderBlockInformation.";
+        return {};
+    }
+
+    if (!pImpl->inputSignals.at(idx)->isValid()) {
+        wbtError << "Input signal at index " << idx << " is not valid.";
         return {};
     }
 
     return pImpl->inputSignals.at(idx);
 }
 
-wbt::Signal CoderBlockInformation::getOutputPortSignal(const PortIndex idx,
-                                                       const VectorSize /*size*/) const
+wbt::OutputSignalPtr CoderBlockInformation::getOutputPortSignal(const PortIndex idx,
+                                                                const VectorSize /*size*/) const
 {
     if (pImpl->outputSignals.find(idx) == pImpl->outputSignals.end()) {
         wbtError << "Trying to get non-existing signal " << idx << ".";
         return {};
     }
 
-    if (pImpl->outputSignals.at(idx).getWidth() == Signal::DynamicSize) {
+    if (pImpl->outputSignals.at(idx)->getWidth() == Signal::DynamicSize) {
         wbtError << "Signals with dynamic sizes (index " << idx
                  << ") are not supported by the CoderBlockInformation.";
+        return {};
+    }
+
+    if (!pImpl->outputSignals.at(idx)->isValid()) {
+        wbtError << "Output signal at index " << idx << " is not valid.";
         return {};
     }
 
@@ -256,10 +266,9 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
 
     // Store the input signal
     // TODO: hardcoded DataType::DOUBLE
-    pImpl->inputSignals.emplace(
-        std::piecewise_construct,
-        std::forward_as_tuple(portNumber),
-        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE));
+    pImpl->inputSignals.insert(
+        {portNumber,
+         std::make_shared<wbt::Signal>(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE)});
 
     // Compute the width of the signal
     unsigned numElements = 1;
@@ -268,8 +277,8 @@ bool CoderBlockInformation::setInputSignal(const PortIndex portNumber,
     }
 
     // Configure the signal
-    pImpl->inputSignals[portNumber].setWidth(numElements);
-    if (!pImpl->inputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address)) {
+    pImpl->inputSignals[portNumber]->setWidth(numElements);
+    if (!pImpl->inputSignals[portNumber]->initializeBufferFromContiguousZeroCopy(address)) {
         wbtError << "Failed to configure buffer for input signal connected to the port with index "
                  << portNumber << ".";
         return false;
@@ -303,10 +312,9 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
 
     // Store the output signal
     // TODO: hardcoded DataType::DOUBLE
-    pImpl->outputSignals.emplace(
-        std::piecewise_construct,
-        std::forward_as_tuple(portNumber),
-        std::forward_as_tuple(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE));
+    pImpl->outputSignals.insert(
+        {portNumber,
+         std::make_shared<wbt::Signal>(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, DataType::DOUBLE)});
 
     // Compute the width of the signal
     unsigned numElements = 1;
@@ -315,8 +323,8 @@ bool CoderBlockInformation::setOutputSignal(const PortIndex portNumber,
     }
 
     // Configure the signal
-    pImpl->outputSignals[portNumber].setWidth(numElements);
-    if (!pImpl->outputSignals[portNumber].initializeBufferFromContiguousZeroCopy(address)) {
+    pImpl->outputSignals[portNumber]->setWidth(numElements);
+    if (!pImpl->outputSignals[portNumber]->initializeBufferFromContiguousZeroCopy(address)) {
         wbtError << "Failed to configure buffer for output signal connected to the port with index "
                  << portNumber << ".";
         return false;
