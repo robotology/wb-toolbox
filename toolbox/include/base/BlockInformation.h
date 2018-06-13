@@ -9,6 +9,7 @@
 #ifndef WBT_BLOCKINFORMATION_H
 #define WBT_BLOCKINFORMATION_H
 
+#include <memory>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -16,11 +17,13 @@
 
 namespace wbt {
     class BlockInformation;
-    class Signal;
     class ParameterMetadata;
     class Parameters;
     class Configuration;
     class RobotInterface;
+    class Signal;
+    using InputSignalPtr = std::shared_ptr<const wbt::Signal>;
+    using OutputSignalPtr = std::shared_ptr<wbt::Signal>;
     enum class DataType;
     // List of possible key for defining block options:
     extern const std::string BlockOptionPrioritizeOrder;
@@ -195,22 +198,22 @@ public:
      *
      * @param idx The index of the port.
      * @param size The size of the signal.
-     * @return The signal connected to the input port for success, an invalid signal otherwise.
-     * @see Signal::isValid
+     * @return The pointer to the signal connected to the input port for success, a `nullptr`
+     *         otherwise.
      */
-    virtual const wbt::Signal getInputPortSignal(const PortIndex idx,
-                                                 const VectorSize size = -1) const = 0;
+    virtual wbt::InputSignalPtr getInputPortSignal(const PortIndex idx,
+                                                   const VectorSize size = -1) const = 0;
 
     /**
      * @brief Get the signal connected to a 1D output port
      *
      * @param idx The index of the port.
      * @param size The size of the signal.
-     * @return The signal connected to the output port for success, an invalid signal otherwise.
-     * @see Signal::isValid
+     *@return The pointer to the signal connected to the output port for success, a `nullptr`
+     *         otherwise.
      */
-    virtual wbt::Signal getOutputPortSignal(const PortIndex idx,
-                                            const VectorSize size = -1) const = 0;
+    virtual wbt::OutputSignalPtr getOutputPortSignal(const PortIndex idx,
+                                                     const VectorSize size = -1) const = 0;
 };
 
 struct wbt::BlockInformation::IOData
