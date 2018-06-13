@@ -18,6 +18,7 @@ namespace wbt {
     class Signal;
     class BlockInformation;
     class RobotInterface;
+    using InputSignalPtr = std::shared_ptr<const Signal>;
 } // namespace wbt
 
 namespace iDynTree {
@@ -82,10 +83,10 @@ protected:
      *
      * @see iDynTree::KinDynComputations::setRobotState, wbt::iDynTreeRobotState
      */
-    bool setRobotState(const wbt::Signal* basePose,
-                       const wbt::Signal* jointsPos,
-                       const wbt::Signal* baseVelocity,
-                       const wbt::Signal* jointsVelocity,
+    bool setRobotState(wbt::InputSignalPtr basePose,
+                       wbt::InputSignalPtr jointsPos,
+                       wbt::InputSignalPtr baseVelocity,
+                       wbt::InputSignalPtr jointsVelocity,
                        iDynTree::KinDynComputations* kinDyn);
 
 public:

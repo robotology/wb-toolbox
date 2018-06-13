@@ -72,10 +72,10 @@ const std::shared_ptr<wbt::RobotInterface> WBBlock::getRobotInterface() const
     return m_robotInterface;
 }
 
-bool WBBlock::setRobotState(const wbt::Signal* basePose,
-                            const wbt::Signal* jointsPos,
-                            const wbt::Signal* baseVelocity,
-                            const wbt::Signal* jointsVelocity,
+bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
+                            wbt::InputSignalPtr jointsPos,
+                            wbt::InputSignalPtr baseVelocity,
+                            wbt::InputSignalPtr jointsVelocity,
                             iDynTree::KinDynComputations* kinDyn)
 {
     // SAVE THE ROBOT STATE
