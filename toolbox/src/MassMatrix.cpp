@@ -145,15 +145,15 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+    if (!basePoseSig || !jointsPosSig) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
+    bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -167,8 +167,8 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     kinDyn->getFreeFloatingMassMatrix(pImpl->massMatrix);
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::MassMatrix);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::MassMatrix);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
@@ -176,7 +176,7 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(pImpl->massMatrix);
     Map<MatrixXdSimulink> massMatrixColMajor(
-        output.getBuffer<double>(),
+        output->getBuffer<double>(),
         blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).first,
         blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).second);
 

@@ -205,15 +205,15 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS
     // ===============
 
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
-    if (!jointsPosSig.isValid()) {
+    if (!jointsPosSig) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
-    for (unsigned i = 0; i < jointsPosSig.getWidth(); ++i) {
-        pImpl->jointConfiguration.setVal(i, jointsPosSig.get<double>(i));
+    for (unsigned i = 0; i < jointsPosSig->getWidth(); ++i) {
+        pImpl->jointConfiguration.setVal(i, jointsPosSig->get<double>(i));
     }
 
     kinDyn->setJointPos(pImpl->jointConfiguration);
@@ -227,8 +227,8 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     frame1_H_frame2 = kinDyn->getRelativeTransform(pImpl->frame1Index, pImpl->frame2Index);
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
@@ -236,7 +236,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     // Allocate objects for row-major -> col-major conversion
     Map<const Matrix4diDynTree> frame1_H_frame2_RowMajor =
         toEigen(frame1_H_frame2.asHomogeneousTransform());
-    Map<Matrix4dSimulink> frame1_H_frame2_ColMajor(output.getBuffer<double>(), 4, 4);
+    Map<Matrix4dSimulink> frame1_H_frame2_ColMajor(output->getBuffer<double>(), 4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     frame1_H_frame2_ColMajor = frame1_H_frame2_RowMajor;

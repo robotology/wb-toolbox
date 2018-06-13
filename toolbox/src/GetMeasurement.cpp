@@ -338,14 +338,14 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Measurement);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Measurement);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
 
     // Fill the output buffer
-    if (!output.setBuffer(pImpl->measurement.data(), output.getWidth())) {
+    if (!output->setBuffer(pImpl->measurement.data(), output->getWidth())) {
         wbtError << "Failed to set output buffer.";
         return false;
     }

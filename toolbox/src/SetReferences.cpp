@@ -327,15 +327,15 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     // Get the signal
-    const Signal references = blockInfo->getInputPortSignal(InputIndex::References);
-    const unsigned signalWidth = references.getWidth();
-
-    if (!references.isValid()) {
+    InputSignalPtr references = blockInfo->getInputPortSignal(InputIndex::References);
+    if (!references) {
         wbtError << "Input signal not valid.";
         return false;
     }
 
-    const double* bufferReferences = references.getBuffer<double>();
+    const unsigned signalWidth = references->getWidth();
+    const double* bufferReferences = references->getBuffer<double>();
+
     if (!bufferReferences) {
         wbtError << "Failed to get the buffer containing references.";
         return false;

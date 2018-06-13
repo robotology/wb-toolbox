@@ -252,13 +252,14 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
 bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 {
     if (pImpl->readExternalSettlingTime) {
-        const Signal externalTimeSignal = blockInfo->getInputPortSignal(InputIndex_ExtSettlingTime);
-        if (!externalTimeSignal.isValid()) {
+        InputSignalPtr externalTimeSignal =
+            blockInfo->getInputPortSignal(InputIndex_ExtSettlingTime);
+        if (!externalTimeSignal) {
             wbtError << "Input signal not valid.";
             return false;
         }
 
-        const double externalTime = externalTimeSignal.get<double>(0);
+        const double externalTime = externalTimeSignal->get<double>(0);
 
         if (std::abs(pImpl->previousSettlingTime - externalTime) > 1e-5) {
             pImpl->previousSettlingTime = externalTime;
@@ -273,14 +274,14 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
     if (pImpl->firstRun) {
         pImpl->firstRun = false;
 
-        const Signal initialValuesSignal = blockInfo->getInputPortSignal(InputIndex_InitialValue);
-        if (!initialValuesSignal.isValid()) {
+        InputSignalPtr initialValuesSignal = blockInfo->getInputPortSignal(InputIndex_InitialValue);
+        if (!initialValuesSignal) {
             wbtError << "Input signal not valid.";
             return false;
         }
 
-        for (unsigned i = 0; i < initialValuesSignal.getWidth(); ++i) {
-            pImpl->initialValues[i] = initialValuesSignal.get<double>(i);
+        for (unsigned i = 0; i < initialValuesSignal->getWidth(); ++i) {
+            pImpl->initialValues[i] = initialValuesSignal->get<double>(i);
         }
         pImpl->generator->init(pImpl->initialValues);
     }
@@ -288,14 +289,14 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
     // Input signal
     // ------------
 
-    const Signal referencesSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
-    if (!referencesSignal.isValid()) {
+    InputSignalPtr referencesSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
+    if (!referencesSignal) {
         wbtError << "Input signal not valid.";
         return false;
     }
 
-    for (unsigned i = 0; i < referencesSignal.getWidth(); ++i) {
-        pImpl->reference[i] = referencesSignal.get<double>(i);
+    for (unsigned i = 0; i < referencesSignal->getWidth(); ++i) {
+        pImpl->reference[i] = referencesSignal->get<double>(i);
     }
 
     pImpl->generator->computeNextValues(pImpl->reference);
@@ -305,13 +306,13 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
     // Output signal
     // -------------
 
-    Signal outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
-    if (!outputSignal.isValid()) {
+    OutputSignalPtr outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
+    if (!outputSignal) {
         wbtError << "Output signal not valid.";
         return false;
     }
 
-    if (!outputSignal.setBuffer(signal.data(), signal.size())) {
+    if (!outputSignal->setBuffer(signal.data(), signal.size())) {
         wbtError << "Failed to set output buffer.";
         return false;
     }
@@ -321,13 +322,15 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     if (pImpl->computeFirstDerivative) {
         const yarp::sig::Vector& derivative = pImpl->generator->getVel();
-        Signal firstDerivativeSignal = blockInfo->getOutputPortSignal(OutputIndex_FirstDer);
-        if (!firstDerivativeSignal.isValid()) {
+        OutputSignalPtr firstDerivativeSignal =
+            blockInfo->getOutputPortSignal(OutputIndex_FirstDer);
+        if (!firstDerivativeSignal) {
             wbtError << "Output signal not valid.";
             return false;
         }
 
-        if (!firstDerivativeSignal.setBuffer(derivative.data(), firstDerivativeSignal.getWidth())) {
+        if (!firstDerivativeSignal->setBuffer(derivative.data(),
+                                              firstDerivativeSignal->getWidth())) {
             wbtError << "Failed to set output buffer.";
             return false;
         }
@@ -338,14 +341,15 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     if (pImpl->computeSecondDerivative) {
         const yarp::sig::Vector& derivative = pImpl->generator->getAcc();
-        Signal secondDerivativeSignal = blockInfo->getOutputPortSignal(OutputIndex_SecondDer);
-        if (!secondDerivativeSignal.isValid()) {
+        OutputSignalPtr secondDerivativeSignal =
+            blockInfo->getOutputPortSignal(OutputIndex_SecondDer);
+        if (!secondDerivativeSignal) {
             wbtError << "Output signal not valid.";
             return false;
         }
 
-        if (!secondDerivativeSignal.setBuffer(derivative.data(),
-                                              secondDerivativeSignal.getWidth())) {
+        if (!secondDerivativeSignal->setBuffer(derivative.data(),
+                                               secondDerivativeSignal->getWidth())) {
             wbtError << "Failed to set output buffer.";
             return false;
         }

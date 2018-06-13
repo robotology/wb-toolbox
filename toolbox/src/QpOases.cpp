@@ -339,10 +339,10 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
     // Get the Signals.
     // Note: the Hessian is symmetric, no need for conversion from column to row major.
-    const Signal hessianSignal = blockInfo->getInputPortSignal(InputIndex::Hessian);
-    const Signal gradientSignal = blockInfo->getInputPortSignal(InputIndex::Gradient);
+    InputSignalPtr hessianSignal = blockInfo->getInputPortSignal(InputIndex::Hessian);
+    InputSignalPtr gradientSignal = blockInfo->getInputPortSignal(InputIndex::Gradient);
 
-    if (!hessianSignal.isValid() || !gradientSignal.isValid()) {
+    if (!hessianSignal || !gradientSignal) {
         wbtError << "Input signals not valid.";
         return false;
     }
@@ -357,8 +357,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
     const double* ub = nullptr;
 
     if (pImpl->useLbA || pImpl->useUbA) {
-        const Signal constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
-        if (!constraintsSignal.isValid()) {
+        InputSignalPtr constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
+        if (!constraintsSignal) {
             wbtError << "Signal for lbA is not valid.";
             return false;
         }
@@ -368,7 +368,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         using MatrixXdSimulink = Matrix<double, Dynamic, Dynamic, Eigen::ColMajor>;
 
         Map<MatrixXdSimulink> constraints_colMajor(
-            const_cast<double*>(constraintsSignal.getBuffer<double>()),
+            const_cast<double*>(constraintsSignal->getBuffer<double>()),
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).first,
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).second);
         pImpl->constraints_rowMajor = constraints_colMajor;
@@ -377,18 +377,18 @@ bool QpOases::output(const BlockInformation* blockInfo)
         constraints = pImpl->constraints_rowMajor.data();
 
         if (pImpl->useLbA) {
-            const Signal lbASignal = blockInfo->getInputPortSignal(InputIndex_lbA);
-            lbA = lbASignal.getBuffer<double>();
-            if (!lbASignal.isValid()) {
+            InputSignalPtr lbASignal = blockInfo->getInputPortSignal(InputIndex_lbA);
+            lbA = lbASignal->getBuffer<double>();
+            if (!lbASignal) {
                 wbtError << "Signal for lbA is not valid.";
                 return false;
             }
         }
 
         if (pImpl->useUbA) {
-            const Signal ubASignal = blockInfo->getInputPortSignal(InputIndex_ubA);
-            ubA = ubASignal.getBuffer<double>();
-            if (!ubASignal.isValid()) {
+            InputSignalPtr ubASignal = blockInfo->getInputPortSignal(InputIndex_ubA);
+            ubA = ubASignal->getBuffer<double>();
+            if (!ubASignal) {
                 wbtError << "Signal for ubA is not valid.";
                 return false;
             }
@@ -396,18 +396,18 @@ bool QpOases::output(const BlockInformation* blockInfo)
     }
 
     if (pImpl->useLb) {
-        const Signal lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
-        lb = lbSignal.getBuffer<double>();
-        if (!lbSignal.isValid()) {
+        InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
+        lb = lbSignal->getBuffer<double>();
+        if (!lbSignal) {
             wbtError << "Signal for lbA is not valid.";
             return false;
         }
     }
 
     if (pImpl->useUb) {
-        const Signal ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
-        ub = ubSignal.getBuffer<double>();
-        if (!ubSignal.isValid()) {
+        InputSignalPtr ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
+        ub = ubSignal->getBuffer<double>();
+        if (!ubSignal) {
             wbtError << "Signal for ub is not valid.";
             return false;
         }
@@ -416,14 +416,14 @@ bool QpOases::output(const BlockInformation* blockInfo)
     // OUTPUTS
     // =======
 
-    Signal solutionSignal = blockInfo->getOutputPortSignal(OutputIndex::PrimalSolution);
-    if (!solutionSignal.isValid()) {
+    OutputSignalPtr solutionSignal = blockInfo->getOutputPortSignal(OutputIndex::PrimalSolution);
+    if (!solutionSignal) {
         wbtError << "Output signal not valid.";
         return false;
     }
 
-    Signal statusSignal = blockInfo->getOutputPortSignal(OutputIndex::Status);
-    if (!statusSignal.isValid()) {
+    OutputSignalPtr statusSignal = blockInfo->getOutputPortSignal(OutputIndex::Status);
+    if (!statusSignal) {
         wbtError << "Status signal not valid.";
         return false;
     }
@@ -433,8 +433,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
     if (pImpl->sqProblem->getCount() == 0) {
         // Initialize and solve first QP
-        status = pImpl->sqProblem->init(hessianSignal.getBuffer<double>(),
-                                        gradientSignal.getBuffer<double>(),
+        status = pImpl->sqProblem->init(hessianSignal->getBuffer<double>(),
+                                        gradientSignal->getBuffer<double>(),
                                         constraints,
                                         lb,
                                         ub,
@@ -449,8 +449,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
     }
     else {
         // Solve the QP using hotstart technique
-        status = pImpl->sqProblem->hotstart(hessianSignal.getBuffer<double>(),
-                                            gradientSignal.getBuffer<double>(),
+        status = pImpl->sqProblem->hotstart(hessianSignal->getBuffer<double>(),
+                                            gradientSignal->getBuffer<double>(),
                                             constraints,
                                             lb,
                                             ub,
@@ -466,8 +466,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
             pImpl->sqProblem->reset();
 
             nWSR = MaxIterations - nWSR;
-            status = pImpl->sqProblem->init(hessianSignal.getBuffer<double>(),
-                                            gradientSignal.getBuffer<double>(),
+            status = pImpl->sqProblem->init(hessianSignal->getBuffer<double>(),
+                                            gradientSignal->getBuffer<double>(),
                                             constraints,
                                             lb,
                                             ub,
@@ -484,14 +484,14 @@ bool QpOases::output(const BlockInformation* blockInfo)
     }
 
     const qpOASES::returnValue statusSol =
-        pImpl->sqProblem->getPrimalSolution(solutionSignal.getBuffer<double>());
+        pImpl->sqProblem->getPrimalSolution(solutionSignal->getBuffer<double>());
 
     if (statusSol != qpOASES::SUCCESSFUL_RETURN) {
         wbtError << "qpOASES: getPrimalSolution() failed.";
         return false;
     }
 
-    if (!statusSignal.set(0, qpOASES::getSimpleStatus(status))) {
+    if (!statusSignal->set(0, qpOASES::getSimpleStatus(status))) {
         wbtError << "Failed to set status signal.";
         return false;
     }
@@ -502,13 +502,13 @@ bool QpOases::output(const BlockInformation* blockInfo)
     if (pImpl->computeObjVal) {
         const auto objVal = pImpl->sqProblem->getObjVal();
 
-        Signal objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
-        if (!objValSignal.isValid()) {
+        OutputSignalPtr objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
+        if (!objValSignal) {
             wbtError << "Object Value signal not valid.";
             return false;
         }
 
-        if (!objValSignal.set(0, objVal)) {
+        if (!objValSignal->set(0, objVal)) {
             wbtError << "Failed to set object value signal.";
             return false;
         }
