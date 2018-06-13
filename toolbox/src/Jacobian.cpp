@@ -212,15 +212,15 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+    if (!basePoseSig || !jointsPosSig) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
+    bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -252,8 +252,8 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Jacobian);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Jacobian);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
@@ -261,7 +261,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     // Allocate objects for row-major -> col-major conversion
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(pImpl->jacobian);
     Map<MatrixXdSimulink> jacobianColMajor(
-        output.getBuffer<double>(),
+        output->getBuffer<double>(),
         blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).first,
         blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).second);
 

@@ -296,24 +296,24 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
     }
 
     // Get the input and output signals
-    const Signal inputSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
-    Signal outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
+    InputSignalPtr inputSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
+    OutputSignalPtr outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
 
-    if (!inputSignal.isValid() || !outputSignal.isValid()) {
+    if (!inputSignal || !outputSignal) {
         wbtError << "Signals not valid.";
         return false;
     }
 
     // Copy the Signal to the data structure that the filter wants
-    for (unsigned i = 0; i < inputSignal.getWidth(); ++i) {
-        pImpl->inputSignalVector[i] = inputSignal.get<double>(i);
+    for (unsigned i = 0; i < inputSignal->getWidth(); ++i) {
+        pImpl->inputSignalVector[i] = inputSignal->get<double>(i);
     }
 
     // Filter the current component of the input signal
     const Vector& outputVector = pImpl->filter->filt(pImpl->inputSignalVector);
 
     // Forward the filtered signals to the output port
-    if (!outputSignal.setBuffer(outputVector.data(), outputVector.length())) {
+    if (!outputSignal->setBuffer(outputVector.data(), outputVector.length())) {
         wbtError << "Failed to set output buffer.";
         return false;
     }

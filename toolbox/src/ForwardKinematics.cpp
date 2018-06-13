@@ -191,15 +191,15 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid()) {
+    if (!basePoseSig || !jointsPosSig) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
-    bool ok = setRobotState(&basePoseSig, &jointsPosSig, nullptr, nullptr, kinDyn.get());
+    bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -220,8 +220,8 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal memory location
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
@@ -229,7 +229,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     // Allocate objects for row-major -> col-major conversion
     Map<const Matrix4diDynTree> world_H_frame_RowMajor =
         toEigen(world_H_frame.asHomogeneousTransform());
-    Map<Matrix4dSimulink> world_H_frame_ColMajor(output.getBuffer<double>(), 4, 4);
+    Map<Matrix4dSimulink> world_H_frame_ColMajor(output->getBuffer<double>(), 4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     world_H_frame_ColMajor = world_H_frame_RowMajor;

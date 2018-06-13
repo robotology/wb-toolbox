@@ -292,10 +292,10 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         }
     }
 
-    Signal minPort = blockInfo->getOutputPortSignal(OutputIndex::MinLimit);
-    Signal maxPort = blockInfo->getOutputPortSignal(OutputIndex::MaxLimit);
+    OutputSignalPtr minPort = blockInfo->getOutputPortSignal(OutputIndex::MinLimit);
+    OutputSignalPtr maxPort = blockInfo->getOutputPortSignal(OutputIndex::MaxLimit);
 
-    if (!minPort.isValid() || !maxPort.isValid()) {
+    if (!minPort || !maxPort) {
         wbtError << "Output signals not valid.";
         return false;
     }
@@ -304,8 +304,8 @@ bool GetLimits::output(const BlockInformation* blockInfo)
     const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     bool ok = true;
-    ok = ok && minPort.setBuffer(pImpl->limits.min.data(), dofs);
-    ok = ok && maxPort.setBuffer(pImpl->limits.max.data(), dofs);
+    ok = ok && minPort->setBuffer(pImpl->limits.min.data(), dofs);
+    ok = ok && maxPort->setBuffer(pImpl->limits.max.data(), dofs);
 
     if (!ok) {
         wbtError << "Failed to set output buffers.";

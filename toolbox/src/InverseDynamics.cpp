@@ -174,19 +174,18 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
-    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(InputIndex::BaseVelocity);
-    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
+    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr baseVelocitySignal = blockInfo->getInputPortSignal(InputIndex::BaseVelocity);
+    InputSignalPtr jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
-        || !jointsVelocitySignal.isValid()) {
+    if (!basePoseSig || !jointsPosSig || !baseVelocitySignal || !jointsVelocitySignal) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
     bool ok = setRobotState(
-        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
+        basePoseSig, jointsPosSig, baseVelocitySignal, jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -196,15 +195,15 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Base acceleration
     // -----------------
 
-    const Signal baseAccelerationSignal =
+    InputSignalPtr baseAccelerationSignal =
         blockInfo->getInputPortSignal(InputIndex::BaseAcceleration);
-    if (!baseAccelerationSignal.isValid()) {
+    if (!baseAccelerationSignal) {
         wbtError << "Base Acceleration signal not valid.";
         return false;
     }
-    const double* bufBaseAcc = baseAccelerationSignal.getBuffer<double>();
+    const double* bufBaseAcc = baseAccelerationSignal->getBuffer<double>();
 
-    for (unsigned i = 0; i < baseAccelerationSignal.getWidth(); ++i) {
+    for (unsigned i = 0; i < baseAccelerationSignal->getWidth(); ++i) {
         if (!pImpl->baseAcceleration.setVal(i, bufBaseAcc[i])) {
             wbtError << "Failed to fill base accelerations class member.";
             return false;
@@ -214,15 +213,15 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Joints acceleration
     // -------------------
 
-    const Signal jointsAccelerationSignal =
+    InputSignalPtr jointsAccelerationSignal =
         blockInfo->getInputPortSignal(InputIndex::JointAcceleration);
-    if (!jointsAccelerationSignal.isValid()) {
+    if (!jointsAccelerationSignal) {
         wbtError << "Joints Acceleration signal not valid.";
         return false;
     }
-    const double* bufJointsAcc = jointsAccelerationSignal.getBuffer<double>();
+    const double* bufJointsAcc = jointsAccelerationSignal->getBuffer<double>();
 
-    for (unsigned i = 0; i < jointsAccelerationSignal.getWidth(); ++i) {
+    for (unsigned i = 0; i < jointsAccelerationSignal->getWidth(); ++i) {
         if (!pImpl->jointsAcceleration.setVal(i, bufJointsAcc[i])) {
             wbtError << "Failed to fill joint accelerations class member.";
             return false;
@@ -244,12 +243,12 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     }
 
     // Get the output signal
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::Torques);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Torques);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
-    double* outputBuffer = output.getBuffer<double>();
+    double* outputBuffer = output->getBuffer<double>();
 
     // Convert generalized torques and forward the directly to Simulink
     // mapping the memory through Eigen::Map

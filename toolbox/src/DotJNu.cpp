@@ -198,19 +198,18 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // GET THE SIGNALS POPULATE THE ROBOT STATE
     // ========================================
 
-    const Signal basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
-    const Signal jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
-    const Signal baseVelocitySignal = blockInfo->getInputPortSignal(InputIndex::BaseVelocity);
-    const Signal jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
+    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
+    InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
+    InputSignalPtr baseVelocitySignal = blockInfo->getInputPortSignal(InputIndex::BaseVelocity);
+    InputSignalPtr jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
-    if (!basePoseSig.isValid() || !jointsPosSig.isValid() || !baseVelocitySignal.isValid()
-        || !jointsVelocitySignal.isValid()) {
+    if (!basePoseSig || !jointsPosSig || !baseVelocitySignal || !jointsVelocitySignal) {
         wbtError << "Input signals not valid.";
         return false;
     }
 
     bool ok = setRobotState(
-        &basePoseSig, &jointsPosSig, &baseVelocitySignal, &jointsVelocitySignal, kinDyn.get());
+        basePoseSig, jointsPosSig, baseVelocitySignal, jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
         wbtError << "Failed to set the robot state.";
@@ -230,13 +229,13 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     }
 
     // Forward the output to Simulink
-    Signal output = blockInfo->getOutputPortSignal(OutputIndex::DotJNu);
-    if (!output.isValid()) {
+    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::DotJNu);
+    if (!output) {
         wbtError << "Output signal not valid.";
         return false;
     }
 
-    if (!output.setBuffer(pImpl->dotJNu.data(), output.getWidth())) {
+    if (!output->setBuffer(pImpl->dotJNu.data(), output->getWidth())) {
         wbtError << "Failed to set output buffer.";
     }
 

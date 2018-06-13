@@ -202,8 +202,8 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
     const auto& configuration = robotInterface->getConfiguration();
 
     if (pImpl->vectorToControlBoards) {
-        const Signal dofsSignal = blockInfo->getInputPortSignal(0);
-        if (!dofsSignal.isValid()) {
+        InputSignalPtr dofsSignal = blockInfo->getInputPortSignal(0);
+        if (!dofsSignal) {
             wbtError << "Failed to get the input signal buffer.";
             return false;
         }
@@ -219,16 +219,16 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
                 pImpl->jointNameToIndexInControlBoardMap->at(ithJointName);
 
             // Get the data to forward
-            Signal ithOutput = blockInfo->getOutputPortSignal(controlBoardOfJoint);
-            if (!ithOutput.set(jointIdxInCB, dofsSignal.get<double>(ithJoint))) {
+            OutputSignalPtr ithOutput = blockInfo->getOutputPortSignal(controlBoardOfJoint);
+            if (!ithOutput->set(jointIdxInCB, dofsSignal->get<double>(ithJoint))) {
                 wbtError << "Failed to set the output signal.";
                 return false;
             }
         }
     }
     else {
-        Signal dofsSignal = blockInfo->getOutputPortSignal(0);
-        if (!dofsSignal.isValid()) {
+        OutputSignalPtr dofsSignal = blockInfo->getOutputPortSignal(0);
+        if (!dofsSignal) {
             wbtError << "Failed to get the input signal buffer.";
             return false;
         }
@@ -244,8 +244,8 @@ bool ModelPartitioner::output(const BlockInformation* blockInfo)
                 pImpl->jointNameToIndexInControlBoardMap->at(ithJointName);
 
             // Get the data to forward
-            const Signal ithInput = blockInfo->getInputPortSignal(controlBoardOfJoint);
-            if (!dofsSignal.set(ithJoint, ithInput.get<double>(jointIdxInCB))) {
+            InputSignalPtr ithInput = blockInfo->getInputPortSignal(controlBoardOfJoint);
+            if (!dofsSignal->set(ithJoint, ithInput->get<double>(jointIdxInCB))) {
                 wbtError << "Failed to set the output signal.";
                 return false;
             }

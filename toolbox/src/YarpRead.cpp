@@ -302,29 +302,39 @@ bool YarpRead::output(const BlockInformation* blockInfo)
                 return false;
             }
 
-            Signal timestampSignal = blockInfo->getOutputPortSignal(OutputIndex_Timestamp);
-            timestampSignal.set(0, timestamp.getCount());
-            timestampSignal.set(1, timestamp.getTime());
+            OutputSignalPtr timestampSignal = blockInfo->getOutputPortSignal(OutputIndex_Timestamp);
+            if (!timestampSignal) {
+                wbtError << "Output signal not valid.";
+                return false;
+            }
+
+            timestampSignal->set(0, timestamp.getCount());
+            timestampSignal->set(1, timestamp.getTime());
         }
 
-        Signal signal = blockInfo->getOutputPortSignal(OutputIndex::Signal);
+        OutputSignalPtr signal = blockInfo->getOutputPortSignal(OutputIndex::Signal);
 
-        if (!signal.isValid()) {
+        if (!signal) {
             wbtError << "Output signal not valid.";
             return false;
         }
 
         // Crop the buffer if it exceeds the OutputPortWidth.
-        if (!signal.setBuffer(
+        if (!signal->setBuffer(
                 vectorBuffer->data(),
-                std::min(signal.getWidth(), static_cast<int>(vectorBuffer->size())))) {
+                std::min(signal->getWidth(), static_cast<int>(vectorBuffer->size())))) {
             wbtError << "Failed to set the output buffer.";
             return false;
         }
 
         if (!pImpl->autoconnect) {
-            Signal statusPort = blockInfo->getOutputPortSignal(OutputIndex_IsConnected);
-            if (!statusPort.set(0, 1)) {
+            OutputSignalPtr statusPort = blockInfo->getOutputPortSignal(OutputIndex_IsConnected);
+            if (!statusPort) {
+                wbtError << "Output signal not valid.";
+                return false;
+            }
+
+            if (!statusPort->set(0, 1)) {
                 wbtError << "Failed to write data to output buffer.";
                 return false;
             }
