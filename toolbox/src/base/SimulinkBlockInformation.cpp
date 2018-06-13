@@ -277,8 +277,8 @@ BlockInformation::VectorSize SimulinkBlockInformation::getOutputPortWidth(const 
     return ssGetOutputPortWidth(simstruct, idx);
 }
 
-const Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
-                                                          const VectorSize size) const
+wbt::InputSignalPtr SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
+                                                                 const VectorSize size) const
 {
     // Read if the signal is contiguous or non-contiguous
     boolean_T isContiguous = ssGetInputPortRequiredContiguous(simstruct, idx);
@@ -308,41 +308,59 @@ const Signal SimulinkBlockInformation::getInputPortSignal(const PortIndex idx,
     switch (sigDataFormat) {
         case Signal::DataFormat::CONTIGUOUS_ZEROCOPY: {
             // Initialize the signal
-            Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType));
-            signal.setWidth(signalSize);
+            auto signal = std::make_shared<Signal>(Signal::DataFormat::CONTIGUOUS_ZEROCOPY,
+                                                   mapSimulinkToPortType(dataType));
+            signal->setWidth(signalSize);
+
             // Initialize signal's data
-            if (!signal.initializeBufferFromContiguousZeroCopy(
+            if (!signal->initializeBufferFromContiguousZeroCopy(
                     ssGetInputPortSignal(simstruct, idx))) {
                 wbtError << "Failed to inititialize CONTIGUOUS_ZEROCOPY signal at index " << idx
                          << ".";
                 return {};
             }
+
+            // Check signal validity
+            if (!signal->isValid()) {
+                wbtError << "Input signal at index " << idx << " is not valid.";
+                return {};
+            }
+
             return signal;
         }
         case Signal::DataFormat::NONCONTIGUOUS: {
             // Initialize the signal
-            Signal signal(Signal::DataFormat::NONCONTIGUOUS, mapSimulinkToPortType(dataType));
-            signal.setWidth(signalSize);
+            auto signal = std::make_shared<Signal>(Signal::DataFormat::NONCONTIGUOUS,
+                                                   mapSimulinkToPortType(dataType));
+            signal->setWidth(signalSize);
+
             // Initialize signal's data
             InputPtrsType port = ssGetInputPortSignalPtrs(simstruct, idx);
-            if (!signal.initializeBufferFromNonContiguous(static_cast<const void* const*>(port))) {
+            if (!signal->initializeBufferFromNonContiguous(static_cast<const void* const*>(port))) {
                 wbtError << "Failed to inititialize NONCONTIGUOUS signal at index " << idx << ".";
                 return {};
             }
+
+            // Check signal validity
+            if (!signal->isValid()) {
+                wbtError << "Input signal at index " << idx << " is not valid.";
+                return {};
+            }
+
             return signal;
         }
         case Signal::DataFormat::CONTIGUOUS: {
             wbtError << "Failed to inititialize CONTIGUOUS signal at index " << idx << "."
                      << std::endl
-                     << "CONTIGUOUS input signals are not yet supported."
+                     << "CONTIGUOUS input signals are not yet supported. "
                      << "Use CONTIGUOUS_ZEROCOPY instead.";
             return {};
         }
     }
 }
 
-wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex idx,
-                                                          const VectorSize size) const
+wbt::OutputSignalPtr SimulinkBlockInformation::getOutputPortSignal(const PortIndex idx,
+                                                                   const VectorSize size) const
 {
     // Check if the signal is dynamically sized (which means that the dimension
     // cannot be read)
@@ -364,11 +382,17 @@ wbt::Signal SimulinkBlockInformation::getOutputPortSignal(const PortIndex idx,
     // Get the data type of the Signal if set (default: double)
     DTypeId dataType = ssGetOutputPortDataType(simstruct, idx);
 
-    Signal signal(Signal::DataFormat::CONTIGUOUS_ZEROCOPY, mapSimulinkToPortType(dataType));
-    signal.setWidth(signalSize);
+    auto signal = std::make_shared<Signal>(Signal::DataFormat::CONTIGUOUS_ZEROCOPY,
+                                           mapSimulinkToPortType(dataType));
+    signal->setWidth(signalSize);
 
-    if (!signal.initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, idx))) {
+    if (!signal->initializeBufferFromContiguousZeroCopy(ssGetOutputPortSignal(simstruct, idx))) {
         wbtError << "Failed to inititialize CONTIGUOUS_ZEROCOPY signal at index " << idx << ".";
+        return {};
+    }
+
+    if (!signal->isValid()) {
+        wbtError << "Output signal at index " << idx << " is not valid.";
         return {};
     }
 
