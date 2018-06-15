@@ -236,11 +236,14 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
 
     if (pImpl->autoconnect) {
         if (!Network::connect(pImpl->sourcePortName, pImpl->port.getName())) {
-            wbtWarning << "Failed to connect " + pImpl->sourcePortName + " to "
-                              + pImpl->port.getName() + ".";
             if (pImpl->errorOnMissingPort) {
-                wbtError << "Failed connecting ports.";
+                wbtError << "Failed to connect " + pImpl->sourcePortName + " to "
+                                + pImpl->port.getName() + ".";
                 return false;
+            }
+            else {
+                wbtWarning << "Failed to connect " + pImpl->sourcePortName + " to "
+                                  + pImpl->port.getName() + ".";
             }
         }
     }
