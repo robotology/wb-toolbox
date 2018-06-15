@@ -333,7 +333,7 @@ set_property(GLOBAL APPEND
              WBToolboxLibrary)
 
 include(InstallBasicPackageFiles)
-set(WBToolboxLibraryExport_DEPENDENCIES YARP iDynTree)
+set(WBToolboxLibraryExport_DEPENDENCIES YARP iDynTree YCM)
 if(WBT_USES_ICUB)
     list(APPEND WBToolboxLibraryExport_DEPENDENCIES iCub)
 endif()
