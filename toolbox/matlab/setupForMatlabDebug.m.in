@@ -6,15 +6,16 @@ fprintf('\nSetup for Debug\n');
 
 installDir = '@CMAKE_INSTALL_PREFIX@';
 mexDir     = [installDir, filesep, 'mex'];
-shareDir   = '@WB-TOOLBOX_SHARE_DIR@';
+shareDir   = '@CMAKE_INSTALL_PREFIX@/@WBTOOLBOX_SHARE_DIR@';
 
 rmpath(mexDir)
 rmpath(shareDir)
 
+buildLibDir = '@CMAKE_BINARY_DIR@/lib';
+addpath(buildLibDir)
 
-buildDir = '@CMAKE_CURRENT_BINARY_DIR@/Debug';
+buildSimulinkLibDir = '@CMAKE_SOURCE_DIR@/toolbox/matlab/library';
+addpath(buildSimulinkLibDir)
 
-addpath(buildDir)
-
-toolboxSourceDir = '@CMAKE_CURRENT_SOURCE_DIR@';
-cd(toolboxSourceDir);
+%toolboxSourceDir = '@CMAKE_CURRENT_SOURCE_DIR@';
+%cd(toolboxSourceDir);

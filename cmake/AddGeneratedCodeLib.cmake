@@ -62,8 +62,13 @@ endif()
 # CHECK THAT THE WBToolboxSimulinkCoder HAS BEEN FOUND
 # ====================================================
 
-if(NOT WBToolboxSimulinkCoder_FOUND)
-    message(FATAL_ERROR "WBToolboxSimulinkCoder has not been found.\
+if(NOT WBToolbox_Coder_FOUND)
+    message(FATAL_ERROR "WBToolbox::Coder has not been found.\
+    Use find_package before calling this macro.")
+endif()
+
+if(NOT WBToolbox_Library_FOUND)
+    message(FATAL_ERROR "WBToolbox::Library has not been found.\
     Use find_package before calling this macro.")
 endif()
 
@@ -119,6 +124,6 @@ add_library(${AUTOGEN_LIB} SHARED ${CODER_HEADERS} ${CODER_SOURCES})
 target_compile_definitions(${AUTOGEN_LIB} PUBLIC ${CODER_DEFINES})
 target_include_directories(${AUTOGEN_LIB} PUBLIC ${CODER_INCLUDES})
 target_include_directories(${AUTOGEN_LIB} SYSTEM PUBLIC ${CODER_INCLUDES_SYSTEM})
-target_link_libraries(${AUTOGEN_LIB} PUBLIC ${WBToolboxSimulinkCoder_LIBRARIES})
+target_link_libraries(${AUTOGEN_LIB} PUBLIC WBToolbox::Coder WBToolbox::Library)
 
 endmacro()
