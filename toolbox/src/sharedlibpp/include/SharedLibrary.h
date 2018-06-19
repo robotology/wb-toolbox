@@ -1,10 +1,9 @@
-// -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
-
 /*
- * Copyright (C) 2011 Department of Robotics Brain and Cognitive Sciences - Istituto Italiano di Tecnologia
- * Authors: Paul Fitzpatrick
- * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
  *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
  */
 
 #ifndef _SHLIBPP_SHAREDLIBRARY_
@@ -20,7 +19,8 @@ namespace shlibpp {
  * Low-level wrapper for loading shared libraries (DLLs) and accessing
  * symbols within it.
  */
-class shlibpp::SharedLibrary {
+class shlibpp::SharedLibrary
+{
 public:
     /**
      * Initialize, without opening a shared library yet.
@@ -32,7 +32,7 @@ public:
      *
      * @param filename name of file (see open method)
      */
-    SharedLibrary(const char *filename);
+    SharedLibrary(const char* filename);
 
     /**
      * Destructor.  Will close() if needed.
@@ -48,7 +48,7 @@ public:
      * @param filename name of file.
      * @return true on success
      */
-    bool open(const char *filename);
+    bool open(const char* filename);
 
     /**
      * Shared library no longer needed, unload if not in use elsewhere.
@@ -59,7 +59,7 @@ public:
     /**
      * Look up a symbol in the shared library.
      */
-    void *getSymbol(const char *symbolName);
+    void* getSymbol(const char* symbolName);
 
     /**
      * Check if the shared library is valid
@@ -75,7 +75,7 @@ public:
     std::string getLastNativeError() const;
 
 private:
-    void *implementation;
+    void* implementation;
     std::string err_message;
     SharedLibrary(const SharedLibrary&); // Not implemented
     SharedLibrary& operator=(const SharedLibrary&); // Not implemented

@@ -1,10 +1,9 @@
-// -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
-
 /*
- * Copyright (C) 2013 iCub Facility
- * Authors: Paul Fitzpatrick
- * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
  *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
  */
 
 #ifndef _SHLIBPP_YARPSHAREDLIBRARYCLASSFACTORY_
@@ -17,31 +16,35 @@ namespace shlibpp {
     class SharedLibraryClassFactory;
 }
 
-
 /**
  *
  * A type-safe wrapper for SharedLibraryFactory, committing to
  * creation/destruction of instances of a particular super-class.
- * Note that we take on faith that the named factory method in the 
+ * Note that we take on faith that the named factory method in the
  * named shared library does in fact create the named type.
  *
  */
 template <class T>
-class shlibpp::SharedLibraryClassFactory : public SharedLibraryFactory {
+class shlibpp::SharedLibraryClassFactory : public SharedLibraryFactory
+{
 public:
-    SharedLibraryClassFactory() {
+    SharedLibraryClassFactory() {}
+
+    SharedLibraryClassFactory(const char* dll_name, const char* fn_name = 0 /*NULL*/)
+        : SharedLibraryFactory(dll_name, fn_name)
+    {}
+
+    T* create()
+    {
+        if (!isValid())
+            return 0 /*NULL*/;
+        return (T*) getApi().create();
     }
 
-    SharedLibraryClassFactory(const char *dll_name, const char *fn_name = 0/*NULL*/) : SharedLibraryFactory(dll_name,fn_name) {
-    }
-
-    T *create() {
-        if (!isValid()) return 0/*NULL*/;
-        return (T *)getApi().create();
-    }
-
-    void destroy(T *obj) {
-        if (!isValid()) return;
+    void destroy(T* obj)
+    {
+        if (!isValid())
+            return;
         getApi().destroy(obj);
     }
 };

@@ -1,20 +1,18 @@
-// -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
-
 /*
- * Copyright (C) 2013 iCub Facility
- * Authors: Paul Fitzpatrick
- * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+ * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * All rights reserved.
  *
+ * This software may be modified and distributed under the terms of the
+ * GNU Lesser General Public License v2.1 or any later version.
  */
 
 #ifndef _SHLIBPP_YARPSHAREDLIBRARYFACTORY_
 #define _SHLIBPP_YARPSHAREDLIBRARYFACTORY_
 
-#include <string>
-#include <Vocab.h>
 #include <SharedLibrary.h>
 #include <SharedLibraryClassApi.h>
-
+#include <Vocab.h>
+#include <string>
 
 namespace shlibpp {
     class SharedLibraryFactory;
@@ -26,7 +24,8 @@ namespace shlibpp {
  * indeed behave like a YARP plugin hook before offering access to it.
  * This is to avoid accidents, it is not a security mechanism.
  */
-class shlibpp::SharedLibraryFactory {
+class shlibpp::SharedLibraryFactory
+{
 public:
     /**
      * The status of a factory can be:
@@ -36,12 +35,16 @@ public:
      *  - STATUS_FACTORY_NOT_FOUND: Named method wasn't present in library
      *  - STATUS_FACTORY_NOT_FUNCTIONAL: Named method is not working right
      */
-    enum {
-        STATUS_NONE,                                         //!< Not configured yet.
-        STATUS_OK = VOCAB2('o','k'),                         //!< Present and sane.
-        STATUS_LIBRARY_NOT_LOADED = VOCAB4('l','o','a','d'), //!< Named shared library failed to load.
-        STATUS_FACTORY_NOT_FOUND = VOCAB4('f','a','c','t'),  //!< Named method wasn't present in library.
-        STATUS_FACTORY_NOT_FUNCTIONAL = VOCAB3('r','u','n') //!< Named method is not working right.
+    enum
+    {
+        STATUS_NONE, //!< Not configured yet.
+        STATUS_OK = VOCAB2('o', 'k'), //!< Present and sane.
+        STATUS_LIBRARY_NOT_LOADED =
+            VOCAB4('l', 'o', 'a', 'd'), //!< Named shared library failed to load.
+        STATUS_FACTORY_NOT_FOUND =
+            VOCAB4('f', 'a', 'c', 't'), //!< Named method wasn't present in library.
+        STATUS_FACTORY_NOT_FUNCTIONAL =
+            VOCAB3('r', 'u', 'n') //!< Named method is not working right.
     };
 
     /**
@@ -55,8 +58,7 @@ public:
      * @param dll_name name/path of shared library.
      * @param fn_name name of factory method, a symbol within the shared library.
      */
-    SharedLibraryFactory(const char *dll_name,
-                         const char *fn_name = NULL);
+    SharedLibraryFactory(const char* dll_name, const char* fn_name = NULL);
 
     /**
      * Destructor
@@ -70,7 +72,7 @@ public:
      * @param fn_name name of factory method, a symbol within the shared library.
      * @return true on success.
      */
-    bool open(const char *dll_name, const char *fn_name = NULL);
+    bool open(const char* dll_name, const char* fn_name = NULL);
 
     /**
      * Check if factory is configured and present.
@@ -130,7 +132,7 @@ public:
      * @result true on success.
      *
      */
-    bool useFactoryFunction(void *factory);
+    bool useFactoryFunction(void* factory);
 
     /**
      * Get Last error message reported by the Os (if presented)
@@ -147,6 +149,5 @@ private:
     std::string name;
     std::string err_message;
 };
-
 
 #endif
