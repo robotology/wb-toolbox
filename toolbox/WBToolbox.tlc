@@ -73,11 +73,11 @@
 %function BlockTypeSetup(block, system) void
   
   %<LibAddToCommonIncludes("<cstdio>")>
-  %<LibAddToCommonIncludes("Block.h")>
-  %<LibAddToCommonIncludes("Log.h")>
-  %<LibAddToCommonIncludes("Parameter.h")>
-  %<LibAddToCommonIncludes("Parameters.h")>
-  %<LibAddToCommonIncludes("CoderBlockInformation.h")>
+  %<LibAddToCommonIncludes("<Core/Block.h>")>
+  %<LibAddToCommonIncludes("<Core/Log.h>")>
+  %<LibAddToCommonIncludes("<Core/Parameter.h>")>
+  %<LibAddToCommonIncludes("<Core/Parameters.h>")>
+  %<LibAddToCommonIncludes("<Core/CoderBlockInformation.h>")>
 
 %endfunction
 
@@ -86,7 +86,7 @@
 
 %function BlockInstanceSetup(block, system) void
 
-  %<LibAddToCommonIncludes("%<SFcnParamSettings[0].className>.h")>
+  %<LibAddToCommonIncludes("<Block/%<SFcnParamSettings[0].className>.h>")>
 
 %endfunction
 
