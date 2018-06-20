@@ -51,7 +51,7 @@ Library {
 	LoadSaveID		"224"
 	Extents			[2830.0, 1523.0]
 	ZoomFactor		[10.0]
-	Offset			[557.001734616274, 207.35]
+	Offset			[557.015625, 207.35]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -85,9 +85,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 13 13:07:45 2018"
-  RTWModifiedTimeStamp	  450796064
-  ModelVersionFormat	  "1.%<AutoIncrement:624>"
+  LastModifiedDate	  "Wed Jun 20 13:48:46 2018"
+  RTWModifiedTimeStamp	  451403325
+  ModelVersionFormat	  "1.%<AutoIncrement:642>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1135,7 +1135,7 @@ Library {
 	  Name			  "Configuration"
 	  SID			  "1774"
 	  Ports			  []
-	  Position		  [555, 320, 630, 350]
+	  Position		  [515, 320, 590, 350]
 	  ZOrder		  95
 	  InitFcn		  "source = get_param(gcb,'ConfigSource');\n\nif strcmp(source, 'Workspace')\n    object = get_param(gcb,'"
 	  "ConfigObject');\n    WBToolbox.ConfigurationToMask(gcb, object);\nend\n\nWBToolbox.MaskToConfiguration(gcb);\n\ncle"
@@ -1595,11 +1595,11 @@ Library {
 	  Name			  "DiscreteFilter"
 	  SID			  "1790"
 	  Ports			  [1, 1]
-	  Position		  [140, 320, 210, 350]
+	  Position		  [135, 320, 205, 350]
 	  ZOrder		  103
 	  BackgroundColor	  "yellow"
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'DiscreteFilter',filterDataStruct"
+	  Parameters		  "'DiscreteFilter','WBToolboxLibrary',filterDataStruct"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -1812,7 +1812,7 @@ Library {
 	  Position		  [295, 301, 440, 369]
 	  ZOrder		  81
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'ModelPartitioner',WBTConfigParameters,configBlockAbsName,yarp2WBI"
+	  Parameters		  "'ModelPartitioner','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,yarp2WBI"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -2019,8 +2019,8 @@ Library {
 	  Position		  [470, 93, 625, 147]
 	  ZOrder		  78
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'MinimumJerkTrajectoryGenerator',sampleTime, settlingTime, firstDerivatives, secondDerivatives, expl"
-	  "icitInitialValue, externalSettlingTime,resetOnSettlingTime"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolboxLibrary',sampleTime,settlingTime,firstDerivatives,secondD"
+	  "erivatives,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -2195,54 +2195,19 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
-	  Name			  "Real Time Synchronizer"
-	  SID			  "1657"
-	  Ports			  []
-	  Position		  [70, 4, 195, 41]
-	  ZOrder		  23
-	  ForegroundColor	  "[0.917647, 0.917647, 0.917647]"
-	  BackgroundColor	  "gray"
-	  ShowName		  off
+	  Name			  "QP"
+	  SID			  "1807"
+	  Ports			  [4, 2]
+	  Position		  [405, -6, 595, 66]
+	  ZOrder		  104
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'RealTimeSynchronizer',period"
+	  Parameters		  "'QpOases','WBToolboxLibrary',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    100
-	    $ClassName		    "Simulink.Mask"
-	    Type		    "Real Time Synchronizer"
-	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
-	    "conds).\nThe bigger the period the more probable \nis that Simulink can remain synched with it.\n"
-	    Display		    "disp('Real Time Synchronizer')"
-	    RunInitForIconRedraw    "off"
-	    Object {
-	      $PropName		      "Parameters"
-	      $ObjectID		      101
-	      $ClassName	      "Simulink.MaskParameter"
-	      Type		      "edit"
-	      Name		      "period"
-	      Prompt		      "Controller Period (in seconds)"
-	      Value		      "0.01"
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  S-Function
-	  Name			  "S-Function"
-	  SID			  "1807"
-	  Ports			  [4, 2]
-	  Position		  [405, -6, 595, 66]
-	  ZOrder		  104
-	  FunctionName		  "WBToolbox"
-	  Parameters		  "'QpOases',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
-	  SFunctionDeploymentMode off
-	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
-	  Object {
-	    $PropName		    "MaskObject"
-	    $ObjectID		    102
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "QP"
 	    Description		    "This block solves a QP problem using the qpOASES library:\n\nx = argmin 0.5 * x' * H * x + c' *"
@@ -2259,42 +2224,42 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		103
+		$ObjectID		101
 		Type			"checkbox"
 		Name			"lbA"
 		Prompt			"Accept constraints lower bound input (lbA)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		104
+		$ObjectID		102
 		Type			"checkbox"
 		Name			"ubA"
 		Prompt			"Accept constraints upper bound input (ubA)"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		105
+		$ObjectID		103
 		Type			"checkbox"
 		Name			"lb"
 		Prompt			"Accept lower bound input (lb)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		106
+		$ObjectID		104
 		Type			"checkbox"
 		Name			"ub"
 		Prompt			"Accept upper bound input (ub)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		107
+		$ObjectID		105
 		Type			"checkbox"
 		Name			"computeObjVal"
 		Prompt			"Output the value of the objective function"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		108
+		$ObjectID		106
 		Type			"checkbox"
 		Name			"stopIfFails"
 		Prompt			"Stop the simulation if the solver fails"
@@ -2306,11 +2271,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		109
+		$ObjectID		107
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  110
+		  $ObjectID		  108
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -2318,23 +2283,23 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		111
+		$ObjectID		109
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    112
+		    $ObjectID		    110
 		    Prompt		    "Constraints bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    113
+		    $ObjectID		    111
 		    Name		    "lbA"
 		    }
 		    Object {
-		    $ObjectID		    114
+		    $ObjectID		    112
 		    Name		    "ubA"
 		    }
 		    PropName		    "DialogControls"
@@ -2342,17 +2307,17 @@ Library {
 		    Name		    "constraintsBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    115
+		    $ObjectID		    113
 		    Prompt		    "Simple bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    116
+		    $ObjectID		    114
 		    Name		    "lb"
 		    }
 		    Object {
-		    $ObjectID		    117
+		    $ObjectID		    115
 		    Name		    "ub"
 		    }
 		    PropName		    "DialogControls"
@@ -2360,17 +2325,17 @@ Library {
 		    Name		    "simpleBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    118
+		    $ObjectID		    116
 		    Prompt		    "Other"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    119
+		    $ObjectID		    117
 		    Name		    "computeObjVal"
 		    }
 		    Object {
-		    $ObjectID		    120
+		    $ObjectID		    118
 		    Name		    "stopIfFails"
 		    }
 		    PropName		    "DialogControls"
@@ -2387,6 +2352,41 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
+	  Name			  "Real Time Synchronizer"
+	  SID			  "1657"
+	  Ports			  []
+	  Position		  [70, 4, 195, 41]
+	  ZOrder		  23
+	  ForegroundColor	  "[0.917647, 0.917647, 0.917647]"
+	  BackgroundColor	  "gray"
+	  ShowName		  off
+	  FunctionName		  "WBToolbox"
+	  Parameters		  "'RealTimeSynchronizer','WBToolboxLibrary',period"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  SFcnIsStateOwnerBlock	  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    119
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "Real Time Synchronizer"
+	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
+	    "conds).\nThe bigger the period the more probable \nis that Simulink can remain synched with it.\n"
+	    Display		    "disp('Real Time Synchronizer')"
+	    RunInitForIconRedraw    "off"
+	    Object {
+	      $PropName		      "Parameters"
+	      $ObjectID		      120
+	      $ClassName	      "Simulink.MaskParameter"
+	      Type		      "edit"
+	      Name		      "period"
+	      Prompt		      "Controller Period (in seconds)"
+	      Value		      "0.01"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  S-Function
 	  Name			  "Simulator Synchronizer"
 	  SID			  "1658"
 	  Ports			  []
@@ -2395,7 +2395,7 @@ Library {
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  ShowName		  off
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'SimulatorSynchronizer',period, serverPortName, clientPortName"
+	  Parameters		  "'SimulatorSynchronizer','WBToolboxLibrary',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -2664,7 +2664,7 @@ Library {
 	  ZOrder		  85
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'YarpClock'"
+	  Parameters		  "'YarpClock','WBToolboxLibrary'"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -2689,7 +2689,8 @@ Library {
 	  ZOrder		  22
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'YarpRead',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,timeout"
+	  Parameters		  "'YarpRead','WBToolboxLibrary',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
+	  "imeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -2787,7 +2788,7 @@ Library {
 	  ZOrder		  27
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'YarpWrite',portName,autoconnect,errorOnConnection"
+	  Parameters		  "'YarpWrite','WBToolboxLibrary',portName,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -3260,8 +3261,8 @@ Library {
 	  ZOrder		  106
 	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
 	  FunctionName		  "WBToolbox"
-	  Parameters		  "'SetMotorParameters',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pidType,setKTau,kTau,s"
-	  "etBemf,bemf"
+	  Parameters		  "'SetMotorParameters','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
+	  "Type,setKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -3566,7 +3567,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Set Motor References"
-	    Location		    [2245, 90, 3840, 956]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -3579,7 +3580,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "521"
+	    ZoomFactor		    "1000"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "References"
@@ -3596,7 +3597,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'SetReferences',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
+	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -3743,7 +3744,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "521"
+	    ZoomFactor		    "1000"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "References"
@@ -3760,7 +3761,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'SetReferences',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
+	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -3795,7 +3796,7 @@ Library {
       }
       System {
 	Name			"wholeBodyModel"
-	Location		[645, 327, 2919, 1855]
+	Location		[832, 225, 3700, 1914]
 	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
@@ -3827,7 +3828,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Dynamics"
-	    Location		    [645, 327, 2919, 1855]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -3840,7 +3841,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "394"
+	    ZoomFactor		    "500"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Centroidal Momentum"
@@ -3904,7 +3905,7 @@ Library {
 	      }
 	      System {
 		Name			"Centroidal Momentum"
-		Location		[300, 122, 1706, 880]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -3917,7 +3918,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"347"
+		ZoomFactor		"725"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -3961,7 +3962,7 @@ Library {
 		  Position		  [180, 11, 255, 144]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'CentroidalMomentum',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'CentroidalMomentum','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4072,7 +4073,7 @@ Library {
 	      }
 	      System {
 		Name			"Get Bias Forces"
-		Location		[215, 73, 1810, 939]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -4085,7 +4086,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"318"
+		ZoomFactor		"715"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -4150,7 +4151,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'InverseDynamics',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4283,7 +4284,7 @@ Library {
 	      }
 	      System {
 		Name			"Get Gravity Forces"
-		Location		[300, 122, 1706, 880]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -4296,7 +4297,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"285"
+		ZoomFactor		"715"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -4343,7 +4344,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'InverseDynamics',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4431,7 +4432,7 @@ Library {
 	      Position		      [190, 199, 355, 331]
 	      ZOrder		      75
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'InverseDynamics',WBTConfigParameters,configBlockAbsName"
+	      Parameters	      "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4550,7 +4551,7 @@ Library {
 	      }
 	      System {
 		Name			"Mass Matrix"
-		Location		[300, 122, 1706, 880]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -4563,7 +4564,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"455"
+		ZoomFactor		"952"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -4589,7 +4590,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'MassMatrix',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'MassMatrix','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4647,7 +4648,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Jacobians"
-	    Location		    [645, 327, 2919, 1855]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -4660,7 +4661,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "573"
+	    ZoomFactor		    "728"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "DotJ Nu"
@@ -4751,7 +4752,7 @@ Library {
 	      }
 	      System {
 		Name			"DotJ Nu"
-		Location		[300, 122, 1706, 880]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -4764,7 +4765,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"428"
+		ZoomFactor		"964"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -4808,7 +4809,7 @@ Library {
 		  Position		  [125, 4, 190, 126]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'DotJNu',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'DotJNu','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4945,7 +4946,7 @@ Library {
 	      }
 	      System {
 		Name			"Jacobian"
-		Location		[300, 122, 1706, 880]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -4958,7 +4959,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"430"
+		ZoomFactor		"899"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
@@ -4984,7 +4985,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'Jacobian',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'Jacobian','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -5042,7 +5043,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Kinematics"
-	    Location		    [645, 327, 2919, 1855]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -5055,7 +5056,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "581"
+	    ZoomFactor		    "600"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Forward Kinematics"
@@ -5143,7 +5144,7 @@ Library {
 	      }
 	      System {
 		Name			"Forward Kinematics"
-		Location		[645, 327, 2919, 1855]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -5182,7 +5183,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'ForwardKinematics',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'ForwardKinematics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -5617,7 +5618,7 @@ Library {
 	      }
 	      System {
 		Name			"Relative Transform"
-		Location		[645, 327, 2919, 1855]
+		Location		[832, 225, 3700, 1914]
 		Open			off
 		PortBlocksUseCompactNotation off
 		ModelBrowserVisibility	off
@@ -5647,7 +5648,7 @@ Library {
 		  Position		  [120, 40, 180, 70]
 		  ZOrder		  27
 		  FunctionName		  "WBToolbox"
-		  Parameters		  "'RelativeTransform',WBTConfigParameters,configBlockAbsName,frame1, frame2"
+		  Parameters		  "'RelativeTransform','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frame1, frame2"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -6051,7 +6052,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Get Limits"
-	    Location		    [300, 122, 1706, 880]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -6064,7 +6065,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "692"
+	    ZoomFactor		    "1000"
 	    SIDHighWatermark	    "1773"
 	    Block {
 	      BlockType		      S-Function
@@ -6074,7 +6075,7 @@ Library {
 	      Position		      [115, 33, 175, 102]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'GetLimits',WBTConfigParameters,configBlockAbsName,limitsType"
+	      Parameters	      "'GetLimits','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,limitsType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -6207,7 +6208,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Get Measurement"
-	    Location		    [109, 127, 1339, 823]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -6220,7 +6221,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "600"
+	    ZoomFactor		    "1000"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "S-Function"
@@ -6229,7 +6230,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'GetMeasurement',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -6351,7 +6352,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Get Motor Measurement"
-	    Location		    [109, 127, 1339, 823]
+	    Location		    [832, 225, 3700, 1914]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    ModelBrowserVisibility  off
@@ -6364,7 +6365,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "600"
+	    ZoomFactor		    "1000"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "S-Function"
@@ -6373,7 +6374,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "WBToolbox"
-	      Parameters	      "'GetMeasurement',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
