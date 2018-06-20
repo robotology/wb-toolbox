@@ -77,6 +77,8 @@ YarpRead::YarpRead()
     : pImpl{new impl()}
 {}
 
+YarpRead::~YarpRead() = default;
+
 unsigned YarpRead::numberOfParameters()
 {
     return Block::numberOfParameters() + 7;

@@ -54,6 +54,8 @@ MassMatrix::MassMatrix()
     : pImpl{new impl()}
 {}
 
+MassMatrix::~MassMatrix() = default;
+
 bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {

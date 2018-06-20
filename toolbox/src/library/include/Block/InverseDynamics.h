@@ -32,7 +32,7 @@ public:
     static const std::string ClassName;
 
     InverseDynamics();
-    ~InverseDynamics() override = default;
+    ~InverseDynamics() override;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

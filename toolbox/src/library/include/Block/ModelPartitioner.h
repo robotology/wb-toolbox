@@ -40,7 +40,7 @@ public:
     static const std::string ClassName;
 
     ModelPartitioner();
-    ~ModelPartitioner() override = default;
+    ~ModelPartitioner() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

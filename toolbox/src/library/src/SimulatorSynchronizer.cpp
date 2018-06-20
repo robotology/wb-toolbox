@@ -64,6 +64,8 @@ SimulatorSynchronizer::SimulatorSynchronizer()
     : pImpl{new impl()}
 {}
 
+SimulatorSynchronizer::~SimulatorSynchronizer() = default;
+
 unsigned SimulatorSynchronizer::numberOfParameters()
 {
     return Block::numberOfParameters() + 3;

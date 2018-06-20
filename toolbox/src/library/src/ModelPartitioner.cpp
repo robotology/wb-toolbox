@@ -50,6 +50,8 @@ ModelPartitioner::ModelPartitioner()
     : pImpl{new impl()}
 {}
 
+ModelPartitioner::~ModelPartitioner() = default;
+
 unsigned ModelPartitioner::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

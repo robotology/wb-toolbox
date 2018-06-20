@@ -46,7 +46,7 @@ public:
     static const std::string ClassName;
 
     QpOases();
-    ~QpOases() override = default;
+    ~QpOases() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

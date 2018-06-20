@@ -51,7 +51,7 @@ public:
     static const std::string ClassName;
 
     DiscreteFilter();
-    ~DiscreteFilter() override = default;
+    ~DiscreteFilter() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

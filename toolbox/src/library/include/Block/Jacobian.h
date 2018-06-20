@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     Jacobian();
-    ~Jacobian() override = default;
+    ~Jacobian() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

@@ -83,6 +83,8 @@ GetMeasurement::GetMeasurement()
     : pImpl{new impl()}
 {}
 
+GetMeasurement::~GetMeasurement() = default;
+
 unsigned GetMeasurement::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

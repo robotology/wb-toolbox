@@ -66,6 +66,8 @@ InverseDynamics::InverseDynamics()
     : pImpl{new impl()}
 {}
 
+InverseDynamics::~InverseDynamics() = default;
+
 unsigned InverseDynamics::numberOfParameters()
 {
     return WBBlock::numberOfParameters();

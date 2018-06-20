@@ -44,7 +44,7 @@ public:
     static const std::string ClassName;
 
     SimulatorSynchronizer();
-    ~SimulatorSynchronizer() override = default;
+    ~SimulatorSynchronizer() override;
 
     unsigned numberOfParameters() override;
     std::vector<std::string> additionalBlockOptions() override;

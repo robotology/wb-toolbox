@@ -42,7 +42,7 @@ public:
     static const std::string ClassName;
 
     SetReferences();
-    ~SetReferences() override = default;
+    ~SetReferences() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

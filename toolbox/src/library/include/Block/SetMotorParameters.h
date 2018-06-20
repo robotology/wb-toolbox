@@ -49,7 +49,7 @@ public:
     static const std::string ClassName;
 
     SetMotorParameters();
-    ~SetMotorParameters() override = default;
+    ~SetMotorParameters() override;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

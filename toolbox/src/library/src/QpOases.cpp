@@ -86,6 +86,8 @@ QpOases::QpOases()
     : pImpl{new impl()}
 {}
 
+QpOases::~QpOases() = default;
+
 unsigned QpOases::numberOfParameters()
 {
     return Block::numberOfParameters() + 6;

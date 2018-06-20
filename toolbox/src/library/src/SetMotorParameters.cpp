@@ -79,6 +79,8 @@ SetMotorParameters::SetMotorParameters()
     : pImpl{new impl()}
 {}
 
+SetMotorParameters::~SetMotorParameters() = default;
+
 unsigned SetMotorParameters::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 8;

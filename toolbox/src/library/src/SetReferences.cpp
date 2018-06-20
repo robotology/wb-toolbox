@@ -80,6 +80,8 @@ SetReferences::SetReferences()
     : pImpl{new impl()}
 {}
 
+SetReferences::~SetReferences() = default;
+
 unsigned SetReferences::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 2;

@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     GetLimits();
-    ~GetLimits() override = default;
+    ~GetLimits() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

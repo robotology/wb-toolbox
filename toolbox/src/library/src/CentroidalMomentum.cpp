@@ -55,6 +55,8 @@ CentroidalMomentum::CentroidalMomentum()
     : pImpl{new impl()}
 {}
 
+CentroidalMomentum::~CentroidalMomentum() = default;
+
 bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
 {
     if (!WBBlock::configureSizeAndPorts(blockInfo)) {

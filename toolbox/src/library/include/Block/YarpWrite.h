@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     YarpWrite();
-    ~YarpWrite() override = default;
+    ~YarpWrite() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

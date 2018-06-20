@@ -48,6 +48,8 @@ RealTimeSynchronizer::RealTimeSynchronizer()
     : pImpl{new impl()}
 {}
 
+RealTimeSynchronizer::~RealTimeSynchronizer() = default;
+
 unsigned RealTimeSynchronizer::numberOfParameters()
 {
     return Block::numberOfParameters() + 1;

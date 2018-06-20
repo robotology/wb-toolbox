@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     RealTimeSynchronizer();
-    ~RealTimeSynchronizer() override = default;
+    ~RealTimeSynchronizer() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

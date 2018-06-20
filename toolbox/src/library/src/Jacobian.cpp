@@ -69,6 +69,8 @@ Jacobian::Jacobian()
     : pImpl{new impl()}
 {}
 
+Jacobian::~Jacobian() = default;
+
 unsigned Jacobian::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

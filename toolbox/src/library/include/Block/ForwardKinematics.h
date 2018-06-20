@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     ForwardKinematics();
-    ~ForwardKinematics() override = default;
+    ~ForwardKinematics() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

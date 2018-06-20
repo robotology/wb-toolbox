@@ -67,6 +67,8 @@ DotJNu::DotJNu()
     : pImpl{new impl()}
 {}
 
+DotJNu::~DotJNu() = default;
+
 unsigned DotJNu::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

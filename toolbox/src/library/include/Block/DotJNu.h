@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     DotJNu();
-    ~DotJNu() override = default;
+    ~DotJNu() override;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;

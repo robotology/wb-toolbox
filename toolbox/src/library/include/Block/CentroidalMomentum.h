@@ -32,7 +32,7 @@ public:
     static const std::string ClassName;
 
     CentroidalMomentum();
-    ~CentroidalMomentum() override = default;
+    ~CentroidalMomentum() override;
 
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;

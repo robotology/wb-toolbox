@@ -64,6 +64,8 @@ DiscreteFilter::DiscreteFilter()
     : pImpl{new impl()}
 {}
 
+DiscreteFilter::~DiscreteFilter() = default;
+
 unsigned DiscreteFilter::numberOfParameters()
 {
     return Block::numberOfParameters() + 1;

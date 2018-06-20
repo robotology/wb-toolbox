@@ -64,6 +64,8 @@ RelativeTransform::RelativeTransform()
     : pImpl{new impl()}
 {}
 
+RelativeTransform::~RelativeTransform() = default;
+
 unsigned RelativeTransform::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 2;

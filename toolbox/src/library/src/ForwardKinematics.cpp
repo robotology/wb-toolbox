@@ -64,6 +64,8 @@ ForwardKinematics::ForwardKinematics()
     : pImpl{new impl()}
 {}
 
+ForwardKinematics::~ForwardKinematics() = default;
+
 unsigned ForwardKinematics::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

@@ -61,6 +61,8 @@ YarpWrite::YarpWrite()
     : pImpl{new impl()}
 {}
 
+YarpWrite::~YarpWrite() = default;
+
 unsigned YarpWrite::numberOfParameters()
 {
     return Block::numberOfParameters() + 3;

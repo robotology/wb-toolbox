@@ -73,6 +73,8 @@ wbt::GetLimits::GetLimits()
     : pImpl{new impl()}
 {}
 
+GetLimits::~GetLimits() = default;
+
 unsigned GetLimits::numberOfParameters()
 {
     return WBBlock::numberOfParameters() + 1;

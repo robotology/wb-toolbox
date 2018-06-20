@@ -42,7 +42,7 @@ public:
     static const std::string ClassName;
 
     RelativeTransform();
-    ~RelativeTransform() override = default;
+    ~RelativeTransform() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

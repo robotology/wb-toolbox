@@ -41,7 +41,7 @@ public:
     static const std::string ClassName;
 
     GetMeasurement();
-    ~GetMeasurement() override = default;
+    ~GetMeasurement() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

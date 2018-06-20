@@ -47,7 +47,7 @@ public:
     static const std::string ClassName;
 
     MinimumJerkTrajectoryGenerator();
-    ~MinimumJerkTrajectoryGenerator() override = default;
+    ~MinimumJerkTrajectoryGenerator() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(BlockInformation* blockInfo) override;

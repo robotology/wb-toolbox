@@ -83,6 +83,8 @@ MinimumJerkTrajectoryGenerator::MinimumJerkTrajectoryGenerator()
     : pImpl{new impl()}
 {}
 
+MinimumJerkTrajectoryGenerator::~MinimumJerkTrajectoryGenerator() = default;
+
 unsigned MinimumJerkTrajectoryGenerator::numberOfParameters()
 {
     return Block::numberOfParameters() + 7;

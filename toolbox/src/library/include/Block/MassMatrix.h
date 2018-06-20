@@ -32,7 +32,7 @@ public:
     static const std::string ClassName;
 
     MassMatrix();
-    ~MassMatrix() override = default;
+    ~MassMatrix() override;
 
     bool configureSizeAndPorts(BlockInformation* blockInfo) override;
     bool initialize(BlockInformation* blockInfo) override;
