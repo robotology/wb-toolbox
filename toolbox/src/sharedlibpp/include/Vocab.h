@@ -6,8 +6,8 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef _SHLIBPP_VOCAB_
-#define _SHLIBPP_VOCAB_
+#ifndef SHLIBPP_VOCAB
+#define SHLIBPP_VOCAB
 
 #include <string>
 
@@ -15,8 +15,9 @@ namespace shlibpp {
     class Vocab;
 
 // We need a macro for efficient switching.
-#define VOCAB(a, b, c, d) \
-    ((((int) (d)) << 24) + (((int) (c)) << 16) + (((int) (b)) << 8) + ((int) (a)))
+#define VOCAB(a, b, c, d)                                                                   \
+    ((static_cast<int>(d) << 24) + (static_cast<int>(c) << 16) + (static_cast<int>(b) << 8) \
+     + static_cast<int>(a))
 #define VOCAB4(a, b, c, d) VOCAB((a), (b), (c), (d))
 #define VOCAB3(a, b, c) VOCAB((a), (b), (c), (0))
 #define VOCAB2(a, b) VOCAB((a), (b), (0), (0))
@@ -52,7 +53,7 @@ public:
         for (int i = 0; i < 4; i++) {
             int ch = code % 256;
             if (ch > 0) {
-                s += ((char) ch);
+                s += static_cast<char>(ch);
             }
             code /= 256;
         }
@@ -60,4 +61,4 @@ public:
     }
 };
 
-#endif // VOCAB_H
+#endif // SHLIBPP_VOCAB

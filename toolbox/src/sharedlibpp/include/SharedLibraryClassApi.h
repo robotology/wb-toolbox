@@ -12,6 +12,7 @@
 #include <string.h>
 #include <string>
 
+#include "Vocab.h"
 #include "config.h"
 
 namespace shlibpp {
@@ -70,43 +71,50 @@ public:
  * working with.
  *
  */
-#define SHLIBPP_DEFINE_SHARED_SUBCLASS(factoryname, classname, basename)                       \
-    SHLIBPP_SHARED_CLASS_FN void* factoryname##_create() { return (basename*) new classname; } \
-    SHLIBPP_SHARED_CLASS_FN void factoryname##_destroy(void* obj) { delete (classname*) obj; } \
-    SHLIBPP_SHARED_CLASS_FN int factoryname##_getVersion(char* ver, int len) { return 0; }     \
-    SHLIBPP_SHARED_CLASS_FN int factoryname##_getAbi(char* abi, int len) { return 0; }         \
-    SHLIBPP_SHARED_CLASS_FN int factoryname##_getClassName(char* name, int len)                \
-    {                                                                                          \
-        char cname[] = #classname;                                                             \
-        strncpy(name, cname, len);                                                             \
-        return strlen(cname) + 1;                                                              \
-    }                                                                                          \
-    SHLIBPP_SHARED_CLASS_FN int factoryname##_getBaseClassName(char* name, int len)            \
-    {                                                                                          \
-        char cname[] = #basename;                                                              \
-        strncpy(name, cname, len);                                                             \
-        return strlen(cname) + 1;                                                              \
-    }                                                                                          \
-    SHLIBPP_SHARED_CLASS_FN int factoryname(void* api, int len)                                \
-    {                                                                                          \
-        struct shlibpp::SharedLibraryClassApi* sapi =                                          \
-            (struct shlibpp::SharedLibraryClassApi*) api;                                      \
-        if (len < (int) sizeof(shlibpp::SharedLibraryClassApi))                                \
-            return -1;                                                                         \
-        sapi->startCheck = VOCAB4('S', 'H', 'P', 'P');                                         \
-        sapi->structureSize = sizeof(shlibpp::SharedLibraryClassApi);                          \
-        sapi->systemVersion = 3;                                                               \
-        sapi->create = factoryname##_create;                                                   \
-        sapi->destroy = factoryname##_destroy;                                                 \
-        sapi->getVersion = factoryname##_getVersion;                                           \
-        sapi->getAbi = factoryname##_getAbi;                                                   \
-        sapi->getClassName = factoryname##_getClassName;                                       \
-        sapi->getBaseClassName = factoryname##_getBaseClassName;                               \
-        for (int i = 0; i < SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING; i++) {                      \
-            sapi->roomToGrow[i] = 0;                                                           \
-        }                                                                                      \
-        sapi->endCheck = VOCAB4('P', 'L', 'U', 'G');                                           \
-        return sapi->startCheck;                                                               \
+#define SHLIBPP_DEFINE_SHARED_SUBCLASS(factoryname, classname, basename)                           \
+    SHLIBPP_SHARED_CLASS_FN void* factoryname##_create()                                           \
+    {                                                                                              \
+        return static_cast<basename*>(new classname);                                              \
+    }                                                                                              \
+    SHLIBPP_SHARED_CLASS_FN void factoryname##_destroy(void* obj)                                  \
+    {                                                                                              \
+        delete static_cast<classname*>(obj);                                                       \
+    }                                                                                              \
+    SHLIBPP_SHARED_CLASS_FN int factoryname##_getVersion(char* /*ver*/, int /*len*/) { return 0; } \
+    SHLIBPP_SHARED_CLASS_FN int factoryname##_getAbi(char* /*abi*/, int /*len*/) { return 0; }     \
+    SHLIBPP_SHARED_CLASS_FN int factoryname##_getClassName(char* name, int len)                    \
+    {                                                                                              \
+        char cname[] = #classname;                                                                 \
+        strncpy(name, cname, len);                                                                 \
+        return strlen(cname) + 1;                                                                  \
+    }                                                                                              \
+    SHLIBPP_SHARED_CLASS_FN int factoryname##_getBaseClassName(char* name, int len)                \
+    {                                                                                              \
+        char cname[] = #basename;                                                                  \
+        strncpy(name, cname, len);                                                                 \
+        return strlen(cname) + 1;                                                                  \
+    }                                                                                              \
+    SHLIBPP_SHARED_CLASS_FN int factoryname(void* api, int len)                                    \
+    {                                                                                              \
+        struct shlibpp::SharedLibraryClassApi* sapi =                                              \
+            static_cast<struct shlibpp::SharedLibraryClassApi*>(api);                              \
+        if (len < static_cast<int>(sizeof(shlibpp::SharedLibraryClassApi))) {                      \
+            return -1;                                                                             \
+        }                                                                                          \
+        sapi->startCheck = VOCAB4('S', 'H', 'P', 'P');                                             \
+        sapi->structureSize = sizeof(shlibpp::SharedLibraryClassApi);                              \
+        sapi->systemVersion = 3;                                                                   \
+        sapi->create = factoryname##_create;                                                       \
+        sapi->destroy = factoryname##_destroy;                                                     \
+        sapi->getVersion = factoryname##_getVersion;                                               \
+        sapi->getAbi = factoryname##_getAbi;                                                       \
+        sapi->getClassName = factoryname##_getClassName;                                           \
+        sapi->getBaseClassName = factoryname##_getBaseClassName;                                   \
+        for (int i = 0; i < SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING; i++) {                          \
+            sapi->roomToGrow[i] = 0;                                                               \
+        }                                                                                          \
+        sapi->endCheck = VOCAB4('P', 'L', 'U', 'G');                                               \
+        return sapi->startCheck;                                                                   \
     }
 
 #define SHLIBPP_DEFAULT_FACTORY_NAME "shlibpp_default_factory"

@@ -9,9 +9,9 @@
 #ifndef _SHLIBPP_YARPSHAREDLIBRARYFACTORY_
 #define _SHLIBPP_YARPSHAREDLIBRARYFACTORY_
 
-#include <SharedLibrary.h>
-#include <SharedLibraryClassApi.h>
-#include <Vocab.h>
+#include "SharedLibrary.h"
+#include "SharedLibraryClassApi.h"
+#include "Vocab.h"
 #include <string>
 
 namespace shlibpp {
@@ -58,7 +58,7 @@ public:
      * @param dll_name name/path of shared library.
      * @param fn_name name of factory method, a symbol within the shared library.
      */
-    SharedLibraryFactory(const char* dll_name, const char* fn_name = NULL);
+    SharedLibraryFactory(const char* dll_name, const char* fn_name = nullptr);
 
     /**
      * Destructor
@@ -72,7 +72,7 @@ public:
      * @param fn_name name of factory method, a symbol within the shared library.
      * @return true on success.
      */
-    bool open(const char* dll_name, const char* fn_name = NULL);
+    bool open(const char* dll_name, const char* fn_name = nullptr);
 
     /**
      * Check if factory is configured and present.

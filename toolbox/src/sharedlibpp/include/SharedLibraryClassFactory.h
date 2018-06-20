@@ -9,7 +9,7 @@
 #ifndef _SHLIBPP_YARPSHAREDLIBRARYCLASSFACTORY_
 #define _SHLIBPP_YARPSHAREDLIBRARYCLASSFACTORY_
 
-#include <SharedLibraryFactory.h>
+#include "SharedLibraryFactory.h"
 
 namespace shlibpp {
     template <class T>
@@ -30,21 +30,23 @@ class shlibpp::SharedLibraryClassFactory : public SharedLibraryFactory
 public:
     SharedLibraryClassFactory() {}
 
-    SharedLibraryClassFactory(const char* dll_name, const char* fn_name = 0 /*NULL*/)
+    SharedLibraryClassFactory(const char* dll_name, const char* fn_name = nullptr)
         : SharedLibraryFactory(dll_name, fn_name)
     {}
 
     T* create()
     {
-        if (!isValid())
-            return 0 /*NULL*/;
-        return (T*) getApi().create();
+        if (!isValid()) {
+            return nullptr;
+        }
+        return static_cast<T*>(getApi().create());
     }
 
     void destroy(T* obj)
     {
-        if (!isValid())
+        if (!isValid()) {
             return;
+        }
         getApi().destroy(obj);
     }
 };

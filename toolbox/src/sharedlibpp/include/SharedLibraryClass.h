@@ -9,7 +9,7 @@
 #ifndef _SHLIBPP_SHAREDLIBRARYCLASS_
 #define _SHLIBPP_SHAREDLIBRARYCLASS_
 
-#include <SharedLibraryClassFactory.h>
+#include "SharedLibraryClassFactory.h"
 
 namespace shlibpp {
     template <class T>
@@ -33,8 +33,8 @@ public:
      * Constructor for empty instance.
      */
     SharedLibraryClass()
-        : content(NULL)
-        , pfactory(NULL)
+        : content(nullptr)
+        , pfactory(nullptr)
     {}
 
     /**
@@ -44,8 +44,8 @@ public:
      * destroy) the instance.
      */
     SharedLibraryClass(SharedLibraryClassFactory<T>& factory)
-        : content(NULL)
-        , pfactory(NULL)
+        : content(nullptr)
+        , pfactory(nullptr)
     {
         open(factory);
     }
@@ -65,7 +65,7 @@ public:
         pfactory = &factory;
         factory.addRef();
 
-        return content != NULL;
+        return content != nullptr;
     }
 
     /**
@@ -75,7 +75,7 @@ public:
      */
     virtual bool close()
     {
-        if (content != NULL) {
+        if (content != nullptr) {
             pfactory->destroy(content);
             // NetworkBase::lock();
             if (pfactory->removeRef() == 0) {
@@ -84,8 +84,8 @@ public:
             // NetworkBase::unlock();
         }
 
-        content = NULL;
-        pfactory = NULL;
+        content = nullptr;
+        pfactory = nullptr;
 
         return true;
     }
@@ -109,7 +109,7 @@ public:
      *
      * @return true iff a valid instance has been created
      */
-    bool isValid() const { return content != 0 /*NULL*/; }
+    bool isValid() const { return content != nullptr; }
 
     /**
      * Shorthand for SharedLibraryClass::getContent
