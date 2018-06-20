@@ -44,83 +44,42 @@
 
 #include <string>
 
-using namespace wbt;
+// Class factory API
+#include "SharedLibraryClassApi.h"
 
-Block* instantiateBlockWithClassName(const std::string& blockClassName)
-{
-    Block* block = nullptr;
+// YARP-dependent blocks
+SHLIBPP_DEFINE_SHARED_SUBCLASS(GetLimits, wbt::GetLimits, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(GetMeasurement, wbt::GetMeasurement, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(ModelPartitioner, wbt::ModelPartitioner, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(RealTimeSynchronizer, wbt::RealTimeSynchronizer, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SetMotorParameters, wbt::SetMotorParameters, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SetReferences, wbt::SetReferences, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SimulatorSynchronizer, wbt::SimulatorSynchronizer, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpClock, wbt::YarpClock, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpRead, wbt::YarpRead, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpWrite, wbt::YarpWrite, wbt::Block)
 
-    if (blockClassName == YarpRead::ClassName) {
-        block = new YarpRead();
-    }
-    else if (blockClassName == YarpWrite::ClassName) {
-        block = new YarpWrite();
-    }
-    else if (blockClassName == ModelPartitioner::ClassName) {
-        block = new ModelPartitioner();
-    }
-    else if (blockClassName == YarpClock::ClassName) {
-        block = new YarpClock();
-    }
-    else if (blockClassName == MassMatrix::ClassName) {
-        block = new MassMatrix();
-    }
-    else if (blockClassName == ForwardKinematics::ClassName) {
-        block = new ForwardKinematics();
-    }
-    else if (blockClassName == RelativeTransform::ClassName) {
-        block = new RelativeTransform();
-    }
-    else if (blockClassName == SetReferences::ClassName) {
-        block = new SetReferences();
-    }
-    else if (blockClassName == RealTimeSynchronizer::ClassName) {
-        block = new RealTimeSynchronizer();
-    }
-    else if (blockClassName == SimulatorSynchronizer::ClassName) {
-        block = new SimulatorSynchronizer();
-    }
-    else if (blockClassName == Jacobian::ClassName) {
-        block = new Jacobian();
-    }
-    else if (blockClassName == GetMeasurement::ClassName) {
-        block = new GetMeasurement();
-    }
-    else if (blockClassName == InverseDynamics::ClassName) {
-        block = new InverseDynamics();
-    }
-    else if (blockClassName == DotJNu::ClassName) {
-        block = new DotJNu();
-    }
-    else if (blockClassName == GetLimits::ClassName) {
-        block = new GetLimits();
-    }
-    else if (blockClassName == CentroidalMomentum::ClassName) {
-        block = new CentroidalMomentum();
-    }
-    else if (blockClassName == SetLowLevelPID::ClassName) {
-        block = new SetLowLevelPID();
-    }
+// iDyntree-dependent blocks
+SHLIBPP_DEFINE_SHARED_SUBCLASS(CentroidalMomentum, wbt::CentroidalMomentum, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(DotJNu, wbt::DotJNu, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(ForwardKinematics, wbt::ForwardKinematics, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseDynamics, wbt::InverseDynamics, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::Jacobian, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::MassMatrix, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform, wbt::RelativeTransform, wbt::Block)
+
+// iCub-dependent blocks
 #ifdef WBT_USES_ICUB
-    else if (blockClassName == MinimumJerkTrajectoryGenerator::ClassName) {
-        block = new MinimumJerkTrajectoryGenerator();
-    }
-    else if (blockClassName == DiscreteFilter::ClassName) {
-        block = new wbt::DiscreteFilter();
-    }
+SHLIBPP_DEFINE_SHARED_SUBCLASS(DiscreteFilter, wbt::DiscreteFilter, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(MinimumJerkTrajectoryGenerator,
+                               wbt::MinimumJerkTrajectoryGenerator,
+                               wbt::Block)
 #endif
+
+// Other blocks
 #ifdef WBT_USES_QPOASES
-    else if (blockClassName == QpOases::ClassName) {
-        block = new QpOases();
-    }
+SHLIBPP_DEFINE_SHARED_SUBCLASS(QpOases, wbt::QpOases, wbt::Block)
 #endif
 #ifdef WBT_USES_IPOPT
-    // else if (blockClassName == InverseKinematics::ClassName) {
-    //     block = new InverseKinematics();
-    // }
+SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseKinematics, wbt::InverseKinematics, wbt::Block)
 #endif
-    // else if (blockClassName == RemoteInverseKinematics::ClassName) {
-    //     block = new RemoteInverseKinematics();
-    // }
-    return block;
-}

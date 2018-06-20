@@ -14,6 +14,8 @@
 #include "Core/Parameter.h"
 #include "Core/Parameters.h"
 #include "Core/SimulinkBlockInformation.h"
+#include "SharedLibrary.h"
+#include "SharedLibraryClass.h"
 
 #include <matrix.h>
 #include <simstruc.h>
@@ -29,23 +31,16 @@
 #include <utility>
 #include <vector>
 
-//#ifdef COMPILING_SFUNCTION_LIBRARY
-////#define INSTANTIATE_BLOCK_WITH_CLASSNAME
-//#define CALL_FACTORY
-//#else
-//#define CALL_FACTORY instantiateBlockWithClassName
-//#endif
-
-//#ifndef INSTANTIATE_BLOCK_WITH_CLASSNAME
-//#error "Block factory function instantiateBlockWithClassName not found."
-//#endif
-
-extern wbt::Block* (*instantiateBlockWithClassName)(const std::string& blockClassName);
-//#ifndef INSTANTIATE_BLOCK_WITH_CLASSNAME
-//#error "Block factory function instantiateBlockWithClassName not found."
-//#endif
-
-// extern wbt::Block* instantiateBlockWithClassName(const std::string& blockClassName);
+std::string platformSpecificLibName(const std::string& library)
+{
+#if defined(_WIN32)
+    return library + "dll";
+#elif defined(__linux__)
+    return "lib" + library + ".so";
+#elif defined(__APPLE__)
+    return "lib" + library + ".dylib";
+#endif
+}
 
 const bool ForwardLogsToStdErr = true;
 
@@ -158,14 +153,30 @@ static void mdlInitializeSizes(SimStruct* S)
         catchLogMessages(false, S);
         return;
     }
-    char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
-    std::string className(classNameStr);
-    mxFree(classNameStr);
 
-    // Allocate the block.
+    // Get the class name
+    const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
+
+    // Get the library name
+    const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
+
+    // Allocate the block from the Factory.
     // At this stage, the object is just temporary.
-    auto block = std::unique_ptr<wbt::Block>(instantiateBlockWithClassName(className));
-    //    auto block = std::unique_ptr<wbt::Block>(CALL_FACTORY(className));
+    wbt::Block* block;
+    {
+        // Allocate the factory
+        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
+            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
+        if (!factory.isValid()) {
+            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
+                     << factory.getLastNativeError();
+            catchLogMessages(false, S);
+            return;
+        }
+
+        // Allocate the block from the factory
+        block = factory.create();
+    }
 
     // Notify errors
     if (!block) {
@@ -271,14 +282,28 @@ static void mdlInitializeSampleTimes(SimStruct* S)
 #define MDL_START
 static void mdlStart(SimStruct* S)
 {
-    // Get the class name for allocating the object
-    char* classNameStr = mxArrayToString(ssGetSFcnParam(S, 0));
-    std::string className(classNameStr);
-    mxFree(classNameStr);
+    // Get the class name
+    const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
 
-    // Allocate the object and store its pointer in the PWork
-    //    wbt::Block* block = CALL_FACTORY(className);
-    wbt::Block* block = instantiateBlockWithClassName(className);
+    // Get the library name
+    const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
+
+    // Allocate the block from the Factory and store its pointer in the PWork
+    wbt::Block* block;
+    {
+        // Allocate the factory
+        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
+            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
+        if (!factory.isValid()) {
+            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
+                     << factory.getLastNativeError();
+            catchLogMessages(false, S);
+            return;
+        }
+
+        // Allocate the block from the factory
+        block = factory.create();
+    }
 
     ssSetPWorkValue(S, 0, block);
 

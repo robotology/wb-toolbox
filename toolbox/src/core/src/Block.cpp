@@ -37,8 +37,9 @@ bool Block::checkParameters(const BlockInformation* /*blockInfo*/)
 
 bool Block::parseParameters(BlockInformation* blockInfo)
 {
-    if (!blockInfo->addParameterMetadata({ParameterType::STRING, 0, 1, 1, "className"})) {
-        wbtError << "Failed to add className parameter metadata.";
+    if (!blockInfo->addParameterMetadata({ParameterType::STRING, 0, 1, 1, "className"})
+        || !blockInfo->addParameterMetadata({ParameterType::STRING, 1, 1, 1, "libName"})) {
+        wbtError << "Failed to add parameters metadata.";
         return false;
     }
 
