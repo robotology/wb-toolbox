@@ -172,7 +172,7 @@ jobs:
       stage: deploy
       compiler:
       cache:
-      if: ((repo = robotology/wb-toolbox) AND (branch = master) AND (type != pull_request))
+      if: fork = false AND branch = "master" AND type != pull_request
       before_install: skip
       install: *deploy_install
       before_script: skip
@@ -195,7 +195,7 @@ jobs:
             - graphviz
             - python3-pip
     - <<: *deploy_template
-      if: ((repo = robotology/wb-toolbox) AND (branch = devel) AND (type != pull_request))
+      if: fork = false AND branch = "devel" AND type != pull_request
 
 # notifications:
 #  email:
