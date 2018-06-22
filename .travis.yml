@@ -22,10 +22,11 @@ env:
   global:
     - TRAVIS_CMAKE_GENERATOR="Ninja"
     - DEPS_BRANCH="master"
-    - GAZEBO_VER=9
   matrix:
-    - TRAVIS_BUILD_TYPE="Release"
-    - TRAVIS_BUILD_TYPE="Debug"
+    - TRAVIS_BUILD_TYPE="Release" UBUNTU="xenial"
+    - TRAVIS_BUILD_TYPE="Debug" UBUNTU="xenial"
+    - TRAVIS_BUILD_TYPE="Release" UBUNTU="bionic"
+    - TRAVIS_BUILD_TYPE="Debug" UBUNTU="bionic"
 
 # ===================
 # STAGE: test (linux)
@@ -39,7 +40,14 @@ before_install:
 
 before_script:
   - echo "Using $DEPS_BRANCH for dependencies"
-  - export DOCKER_IMAGE_NAME=robotology/robotology-tdd:gazebo${GAZEBO_VER}${DEPS_BRANCH}
+  - >-
+    if [ "$UBUNTU" = "xenial" ] ; then
+      export DOCKER_IMAGE_NAME=robotology/robotology-tdd:gazebo8${DEPS_BRANCH}
+    elif [ "$UBUNTU" = "bionic" ] ; then
+      export DOCKER_IMAGE_NAME=robotology/robotology-tdd:gazebo9${DEPS_BRANCH}
+    else
+      travis_terminate 1
+    fi
   - docker pull $DOCKER_IMAGE_NAME
 
 script:
