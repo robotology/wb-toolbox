@@ -26,7 +26,7 @@ var searchData=
   ['_7erelativetransform',['~RelativeTransform',['../classwbt_1_1_relative_transform.html#ad590138dd5e4718b80753035131966d1',1,'wbt::RelativeTransform']]],
   ['_7eremoteinversekinematicspimpl',['~RemoteInverseKinematicsPimpl',['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a9c83e371540ce6111d821e15dde7b1a4',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl']]],
   ['_7erobotinterface',['~RobotInterface',['../classwbt_1_1_robot_interface.html#a66b502300e773278b531ad74b83fd78d',1,'wbt::RobotInterface']]],
-  ['_7esetlowlevelpid',['~SetLowLevelPID',['../classwbt_1_1_set_low_level_p_i_d.html#a56e3c4f043e05cf0fe9fd6f8e5c6fa35',1,'wbt::SetLowLevelPID']]],
+  ['_7esetmotorparameters',['~SetMotorParameters',['../classwbt_1_1_set_motor_parameters.html#abe595245d1d1a83ff4b6ed5dad0f5b01',1,'wbt::SetMotorParameters']]],
   ['_7esetreferences',['~SetReferences',['../classwbt_1_1_set_references.html#ac7395f8d47feacbc2fe5ce1f76ead290',1,'wbt::SetReferences']]],
   ['_7esignal',['~Signal',['../classwbt_1_1_signal.html#ae7a1d116cda63e790bf9aab549d57d3a',1,'wbt::Signal']]],
   ['_7esimulatorsynchronizer',['~SimulatorSynchronizer',['../classwbt_1_1_simulator_synchronizer.html#a02e705765462be1eaa11ff07d82bb756',1,'wbt::SimulatorSynchronizer']]],

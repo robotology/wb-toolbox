@@ -322,9 +322,9 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node19 -->
 <g id="node19" class="node"><title>Node19</title>
-<g id="a_node19"><a xlink:href="classwbt_1_1_set_low_level_p_i_d.html" target="_top" xlink:title="The wbt::SetLowLevelPID class. ">
-<polygon fill="none" stroke="black" points="300,-38.5 300,-57.5 412,-57.5 412,-38.5 300,-38.5"/>
-<text text-anchor="middle" x="356" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetLowLevelPID</text>
+<g id="a_node19"><a xlink:href="classwbt_1_1_set_motor_parameters.html" target="_top" xlink:title="The wbt::SetMotorParameters class. ">
+<polygon fill="none" stroke="black" points="292,-38.5 292,-57.5 420,-57.5 420,-38.5 292,-38.5"/>
+<text text-anchor="middle" x="356" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetMotorParameters</text>
 </a>
 </g>
 </g>

@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 2654;
+var viewWidth = 2670;
 var viewHeight = 140;
 var sectionId = 'dynsection-1';
 </script>
@@ -259,33 +259,33 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node15 -->
 <g id="node15" class="node"><title>Node15</title>
-<g id="a_node15"><a xlink:href="_set_low_level_p_i_d_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp">
-<polygon fill="none" stroke="black" points="2310.5,-0.5 2310.5,-41.5 2473.5,-41.5 2473.5,-0.5 2310.5,-0.5"/>
+<g id="a_node15"><a xlink:href="_set_motor_parameters_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetMotorParameters.cpp">
+<polygon fill="none" stroke="black" points="2310.5,-0.5 2310.5,-41.5 2489.5,-41.5 2489.5,-0.5 2310.5,-0.5"/>
 <text text-anchor="start" x="2318.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
 <text text-anchor="start" x="2318.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2392" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetLowLevelPID.cpp</text>
+<text text-anchor="middle" x="2400" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetMotorParameters.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node15 -->
 <g id="edge14" class="edge"><title>Node1&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M1423.93,-103.051C1579.74,-100.11 1974.59,-88.3076 2301,-42 2304.04,-41.5683 2307.14,-41.0905 2310.25,-40.5759"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1423.5,-99.5581 1413.57,-103.24 1423.63,-106.557 1423.5,-99.5581"/>
+<path fill="none" stroke="midnightblue" d="M1423.87,-102.66C1579.58,-98.9067 1974.2,-85.5309 2301,-42 2304.04,-41.5948 2307.13,-41.1516 2310.24,-40.6774"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1423.44,-99.169 1413.52,-102.903 1423.6,-106.167 1423.44,-99.169"/>
 </g>
 <!-- Node16 -->
 <g id="node16" class="node"><title>Node16</title>
 <g id="a_node16"><a xlink:href="_set_references_8cpp.html" target="_top" xlink:title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp">
-<polygon fill="none" stroke="black" points="2491.5,-0.5 2491.5,-41.5 2646.5,-41.5 2646.5,-0.5 2491.5,-0.5"/>
-<text text-anchor="start" x="2499.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
-<text text-anchor="start" x="2499.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
-<text text-anchor="middle" x="2569" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetReferences.cpp</text>
+<polygon fill="none" stroke="black" points="2507.5,-0.5 2507.5,-41.5 2662.5,-41.5 2662.5,-0.5 2507.5,-0.5"/>
+<text text-anchor="start" x="2515.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/travis/build</text>
+<text text-anchor="start" x="2515.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/robotology/wb&#45;toolbox</text>
+<text text-anchor="middle" x="2585" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/toolbox/src/SetReferences.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node16 -->
 <g id="edge15" class="edge"><title>Node1&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M1423.89,-104.29C1599.69,-104.172 2083.81,-98.3099 2482,-42 2485.07,-41.566 2488.19,-41.0777 2491.33,-40.5463"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1423.76,-100.79 1413.76,-104.291 1423.76,-107.79 1423.76,-100.79"/>
+<path fill="none" stroke="midnightblue" d="M1423.9,-104.365C1601.39,-104.446 2093.42,-99.0543 2498,-42 2501.07,-41.5672 2504.19,-41.0799 2507.34,-40.5493"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1423.68,-100.865 1413.67,-104.354 1423.67,-107.865 1423.68,-100.865"/>
 </g>
 </g>
 </svg>

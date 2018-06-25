@@ -23,10 +23,10 @@
 <area shape="rect" id="node23" href="$_qp_oases_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/QpOases.cpp" alt="" coords="4866,117,5040,173"/>
 <area shape="rect" id="node24" href="$_real_time_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RealTimeSynchronizer.cpp" alt="" coords="5065,117,5316,173"/>
 <area shape="rect" id="node25" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp" alt="" coords="5340,117,5567,173"/>
-<area shape="rect" id="node26" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="5591,117,5808,173"/>
-<area shape="rect" id="node27" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="5833,117,6039,173"/>
-<area shape="rect" id="node28" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp" alt="" coords="6064,117,6315,173"/>
-<area shape="rect" id="node29" href="$_yarp_clock_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpClock.cpp" alt="" coords="6339,117,6519,173"/>
-<area shape="rect" id="node30" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpRead.cpp" alt="" coords="6543,117,6720,173"/>
-<area shape="rect" id="node31" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpWrite.cpp" alt="" coords="6745,117,6921,173"/>
+<area shape="rect" id="node26" href="$_set_motor_parameters_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetMotorParameters.cpp" alt="" coords="5591,117,5829,173"/>
+<area shape="rect" id="node27" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="5854,117,6060,173"/>
+<area shape="rect" id="node28" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp" alt="" coords="6085,117,6336,173"/>
+<area shape="rect" id="node29" href="$_yarp_clock_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpClock.cpp" alt="" coords="6361,117,6540,173"/>
+<area shape="rect" id="node30" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpRead.cpp" alt="" coords="6565,117,6741,173"/>
+<area shape="rect" id="node31" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/YarpWrite.cpp" alt="" coords="6766,117,6943,173"/>
 </map>

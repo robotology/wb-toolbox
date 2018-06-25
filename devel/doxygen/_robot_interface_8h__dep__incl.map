@@ -12,6 +12,6 @@
 <area shape="rect" id="node12" href="$_mass_matrix_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/MassMatrix.cpp" alt="" coords="2387,125,2573,181"/>
 <area shape="rect" id="node13" href="$_model_partitioner_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/ModelPartitioner.cpp" alt="" coords="2597,125,2811,181"/>
 <area shape="rect" id="node14" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/RelativeTransform.cpp" alt="" coords="2835,125,3061,181"/>
-<area shape="rect" id="node15" href="$_set_low_level_p_i_d_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetLowLevelPID.cpp" alt="" coords="3086,125,3303,181"/>
-<area shape="rect" id="node16" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="3327,125,3533,181"/>
+<area shape="rect" id="node15" href="$_set_motor_parameters_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetMotorParameters.cpp" alt="" coords="3086,125,3324,181"/>
+<area shape="rect" id="node16" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="3349,125,3555,181"/>
 </map>

@@ -145,9 +145,9 @@
 </g>
 <!-- Node13 -->
 <g id="node13" class="node"><title>Node13</title>
-<g id="a_node13"><a xlink:href="classwbt_1_1_set_low_level_p_i_d.html" target="_top" xlink:title="The wbt::SetLowLevelPID class. ">
-<polygon fill="none" stroke="black" points="226,-38.5 226,-57.5 338,-57.5 338,-38.5 226,-38.5"/>
-<text text-anchor="middle" x="282" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetLowLevelPID</text>
+<g id="a_node13"><a xlink:href="classwbt_1_1_set_motor_parameters.html" target="_top" xlink:title="The wbt::SetMotorParameters class. ">
+<polygon fill="none" stroke="black" points="218,-38.5 218,-57.5 346,-57.5 346,-38.5 218,-38.5"/>
+<text text-anchor="middle" x="282" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetMotorParameters</text>
 </a>
 </g>
 </g>

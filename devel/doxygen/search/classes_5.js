@@ -21,7 +21,7 @@ var searchData=
   ['impl',['impl',['../class_signal_1_1impl.html',1,'wbt::Signal']]],
   ['impl',['impl',['../class_robot_interface_1_1impl.html',1,'wbt::RobotInterface']]],
   ['impl',['impl',['../class_parameters_1_1impl.html',1,'wbt::Parameters']]],
-  ['impl',['impl',['../class_set_low_level_p_i_d_1_1impl.html',1,'wbt::SetLowLevelPID']]],
+  ['impl',['impl',['../class_set_motor_parameters_1_1impl.html',1,'wbt::SetMotorParameters']]],
   ['impl',['impl',['../class_yarp_write_1_1impl.html',1,'wbt::YarpWrite']]],
   ['impl',['impl',['../class_simulator_synchronizer_1_1impl.html',1,'SimulatorSynchronizer']]],
   ['impl',['impl',['../class_coder_block_information_1_1impl.html',1,'wbt::CoderBlockInformation']]],

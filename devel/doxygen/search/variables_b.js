@@ -37,5 +37,7 @@ var searchData=
   ['measuredtype',['measuredType',['../class_get_measurement_1_1impl.html#a2e47805c0c4141f0cf08348ad12642d4',1,'GetMeasurement::impl']]],
   ['measurement',['measurement',['../class_get_measurement_1_1impl.html#a4632d810a8f89c197d816d912ac32a67',1,'GetMeasurement::impl']]],
   ['min',['min',['../struct_get_limits_1_1impl_1_1_limit.html#adad65112b2b5e3ab379ad96dd5084f7b',1,'GetLimits::impl::Limit']]],
+  ['motorparamsapplied',['motorParamsApplied',['../class_set_motor_parameters_1_1impl.html#a0e5b6e740a42cae308bf891860e5bf56',1,'SetMotorParameters::impl']]],
+  ['motorparamsdefault',['motorParamsDefault',['../class_set_motor_parameters_1_1impl.html#af4527363c5d88edd0aaf990035b01427',1,'SetMotorParameters::impl']]],
   ['mutex',['mutex',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#a0fdb825ea613bd9b8fbe474e320b7da9',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]]
 ];

@@ -12,7 +12,7 @@ var searchData=
   ['setinputsignal',['setInputSignal',['../classwbt_1_1_coder_block_information.html#a97eb9f73b99cf554163bbcf8390d2747',1,'wbt::CoderBlockInformation']]],
   ['setioportsdata',['setIOPortsData',['../classwbt_1_1_block_information.html#a72e5100f762139d71fc80b3359e12f5d',1,'wbt::BlockInformation::setIOPortsData()'],['../classwbt_1_1_coder_block_information.html#a14b634ec083cefaca25989f8a9998a1a',1,'wbt::CoderBlockInformation::setIOPortsData()'],['../classwbt_1_1_simulink_block_information.html#a96f6eb8910801287778866fa71016ef2',1,'wbt::SimulinkBlockInformation::setIOPortsData()']]],
   ['setlocalname',['setLocalName',['../classwbt_1_1_configuration.html#a1ceb4b1f8e603d4fb798d6209a66aa46',1,'wbt::Configuration']]],
-  ['setlowlevelpid',['SetLowLevelPID',['../classwbt_1_1_set_low_level_p_i_d.html#a802a34c5df6f33084fa186e7c0c6a6d7',1,'wbt::SetLowLevelPID']]],
+  ['setmotorparameters',['SetMotorParameters',['../classwbt_1_1_set_motor_parameters.html#a8654e3a48f103f9fd91bffaf9aca2074',1,'wbt::SetMotorParameters']]],
   ['setnumberofinputports',['setNumberOfInputPorts',['../classwbt_1_1_simulink_block_information.html#ad7007e910f224ee69eba0199b0371ff8',1,'wbt::SimulinkBlockInformation']]],
   ['setnumberofoutputports',['setNumberOfOutputPorts',['../classwbt_1_1_simulink_block_information.html#a09f0096b4d02a7820a3306387eaf320e',1,'wbt::SimulinkBlockInformation']]],
   ['setoutputportmatrixsize',['setOutputPortMatrixSize',['../classwbt_1_1_simulink_block_information.html#aecbe097e934c43181818a596f8333873',1,'wbt::SimulinkBlockInformation']]],

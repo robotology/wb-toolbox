@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setlowlevelpid',['SetLowLevelPID',['../classwbt_1_1_set_low_level_p_i_d.html',1,'wbt']]],
+  ['setmotorparameters',['SetMotorParameters',['../classwbt_1_1_set_motor_parameters.html',1,'wbt']]],
   ['setreferences',['SetReferences',['../classwbt_1_1_set_references.html',1,'wbt']]],
   ['signal',['Signal',['../classwbt_1_1_signal.html',1,'wbt']]],
   ['simulatorsynchronizer',['SimulatorSynchronizer',['../classwbt_1_1_simulator_synchronizer.html',1,'wbt']]],

@@ -30,7 +30,7 @@ var namespacewbt =
     [ "RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html", "classwbt_1_1_real_time_synchronizer" ],
     [ "RelativeTransform", "classwbt_1_1_relative_transform.html", "classwbt_1_1_relative_transform" ],
     [ "RemoteInverseKinematics", "classwbt_1_1_remote_inverse_kinematics.html", "classwbt_1_1_remote_inverse_kinematics" ],
-    [ "SetLowLevelPID", "classwbt_1_1_set_low_level_p_i_d.html", "classwbt_1_1_set_low_level_p_i_d" ],
+    [ "SetMotorParameters", "classwbt_1_1_set_motor_parameters.html", "classwbt_1_1_set_motor_parameters" ],
     [ "SetReferences", "classwbt_1_1_set_references.html", "classwbt_1_1_set_references" ],
     [ "SimulatorSynchronizer", "classwbt_1_1_simulator_synchronizer.html", "classwbt_1_1_simulator_synchronizer" ],
     [ "impl", "class_simulator_synchronizer_1_1impl.html", "class_simulator_synchronizer_1_1impl" ],

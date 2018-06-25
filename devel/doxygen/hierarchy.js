@@ -18,7 +18,7 @@ var hierarchy =
         [ "wbt::MassMatrix", "classwbt_1_1_mass_matrix.html", null ],
         [ "wbt::ModelPartitioner", "classwbt_1_1_model_partitioner.html", null ],
         [ "wbt::RelativeTransform", "classwbt_1_1_relative_transform.html", null ],
-        [ "wbt::SetLowLevelPID", "classwbt_1_1_set_low_level_p_i_d.html", null ],
+        [ "wbt::SetMotorParameters", "classwbt_1_1_set_motor_parameters.html", null ],
         [ "wbt::SetReferences", "classwbt_1_1_set_references.html", null ]
       ] ],
       [ "wbt::YarpClock", "classwbt_1_1_yarp_clock.html", null ],
@@ -35,7 +35,7 @@ var hierarchy =
     [ "wbt::SetReferences::impl", "class_set_references_1_1impl.html", null ],
     [ "SimulatorSynchronizer::impl", "class_simulator_synchronizer_1_1impl.html", null ],
     [ "wbt::ModelPartitioner::impl", "class_model_partitioner_1_1impl.html", null ],
-    [ "wbt::SetLowLevelPID::impl", "class_set_low_level_p_i_d_1_1impl.html", null ],
+    [ "wbt::SetMotorParameters::impl", "class_set_motor_parameters_1_1impl.html", null ],
     [ "wbt::YarpRead::impl", "class_yarp_read_1_1impl.html", null ],
     [ "wbt::CoderBlockInformation::impl", "class_coder_block_information_1_1impl.html", null ],
     [ "wbt::Configuration::impl", "class_configuration_1_1impl.html", null ],

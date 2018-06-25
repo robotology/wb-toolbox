@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['setlowlevelpid_2ecpp',['SetLowLevelPID.cpp',['../_set_low_level_p_i_d_8cpp.html',1,'']]],
-  ['setlowlevelpid_2eh',['SetLowLevelPID.h',['../_set_low_level_p_i_d_8h.html',1,'']]],
+  ['setmotorparameters_2ecpp',['SetMotorParameters.cpp',['../_set_motor_parameters_8cpp.html',1,'']]],
+  ['setmotorparameters_2eh',['SetMotorParameters.h',['../_set_motor_parameters_8h.html',1,'']]],
   ['setreferences_2ecpp',['SetReferences.cpp',['../_set_references_8cpp.html',1,'']]],
   ['setreferences_2eh',['SetReferences.h',['../_set_references_8h.html',1,'']]],
   ['signal_2ecpp',['Signal.cpp',['../_signal_8cpp.html',1,'']]],
