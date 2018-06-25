@@ -1,9 +1,9 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/MinimumJerkTrajectoryGenerator.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/MinimumJerkTrajectoryGenerator.cpp">
-<area shape="rect" id="node2" href="$_minimum_jerk_trajectory_generator_8h.html" title="MinimumJerkTrajectoryGenerator.h" alt="" coords="71,125,297,152"/>
-<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="298,275,397,301"/>
-<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="471,125,600,152"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="525,275,579,301"/>
-<area shape="rect" id="node13" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="28,275,121,301"/>
-<area shape="rect" id="node14" href="$_signal_8h.html" title="Signal.h" alt="" coords="727,200,796,227"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="163,200,229,227"/>
+<area shape="rect" id="node2" href="$_minimum_jerk_trajectory_generator_8h.html" title="MinimumJerkTrajectoryGenerator.h" alt="" coords="312,125,539,152"/>
+<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="225,275,324,301"/>
+<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="400,275,529,301"/>
+<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="606,275,660,301"/>
+<area shape="rect" id="node13" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="5,275,99,301"/>
+<area shape="rect" id="node14" href="$_signal_8h.html" title="Signal.h" alt="" coords="664,200,733,227"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="161,200,228,227"/>
 </map>

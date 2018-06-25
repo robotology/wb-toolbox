@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_5freturn',['_return',['../classgazebo_1_1_clock_server__get_simulation_time.html#a328aece1d3214ad280a52ca7f3ba5e31',1,'gazebo::ClockServer_getSimulationTime::_return()'],['../classgazebo_1_1_clock_server__get_step_size.html#ad2043536eb4892ab86383b6f034912fe',1,'gazebo::ClockServer_getStepSize::_return()']]]
+  ['appliedpidvalues',['appliedPidValues',['../class_set_low_level_p_i_d_1_1impl.html#a02b3c8080ecee9096039f876831f3c2c',1,'SetLowLevelPID::impl']]],
+  ['autoconnect',['autoconnect',['../class_yarp_read_1_1impl.html#a2a3051b9e6e3775328c471b33ec3a36a',1,'wbt::YarpRead::impl::autoconnect()'],['../class_yarp_write_1_1impl.html#ad646c8f915eb4aa8fc9598dc368b39c2',1,'wbt::YarpWrite::impl::autoconnect()']]]
 ];

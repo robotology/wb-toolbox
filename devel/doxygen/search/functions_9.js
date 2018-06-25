@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jacobian',['Jacobian',['../classwbt_1_1_jacobian.html#a4029468989d081a7d6606677d4f779cd',1,'wbt::Jacobian']]]
+  ['log',['Log',['../classwbt_1_1_log.html#af6071a60aa52b6c1b511f99b4bc1b8fe',1,'wbt::Log']]]
 ];

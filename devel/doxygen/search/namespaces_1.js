@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['idyntree',['iDynTree',['../namespacei_dyn_tree.html',1,'']]]
+  ['simulatorsynchronizer',['SimulatorSynchronizer',['../namespace_simulator_synchronizer.html',1,'']]]
 ];

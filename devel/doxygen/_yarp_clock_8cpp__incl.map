@@ -1,8 +1,8 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/YarpClock.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/YarpClock.cpp">
-<area shape="rect" id="node2" href="$_yarp_clock_8h.html" title="YarpClock.h" alt="" coords="99,109,193,136"/>
-<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="219,109,348,136"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="357,259,411,285"/>
-<area shape="rect" id="node13" href="$_signal_8h.html" title="Signal.h" alt="" coords="441,259,511,285"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="65,184,132,211"/>
-<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="123,259,223,285"/>
+<area shape="rect" id="node2" href="$_yarp_clock_8h.html" title="YarpClock.h" alt="" coords="32,109,126,136"/>
+<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="204,259,334,285"/>
+<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="360,259,414,285"/>
+<area shape="rect" id="node13" href="$_signal_8h.html" title="Signal.h" alt="" coords="399,184,468,211"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="46,184,112,211"/>
+<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="29,259,128,285"/>
 </map>

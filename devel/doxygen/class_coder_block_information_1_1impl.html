@@ -120,14 +120,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa639bae18d9cd98afa85027394c48158"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
 &lt; <a class="el" href="classwbt_1_1_parameter_metadata.html">wbt::ParameterMetadata</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#aa639bae18d9cd98afa85027394c48158">paramsMetadata</a></td></tr>
 <tr class="separator:aa639bae18d9cd98afa85027394c48158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59f1db4d35aa0d383930aa2a0581f9e3"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
+<tr class="memitem:a6822695cf88dcdcb258c3577014e0f6c"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
 &lt; <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, <br class="typebreak"/>
-<a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#a59f1db4d35aa0d383930aa2a0581f9e3">inputSignals</a></td></tr>
-<tr class="separator:a59f1db4d35aa0d383930aa2a0581f9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a007c2ecaacf9b48fcad6b3a672c9f42b"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
+std::shared_ptr&lt; <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#a6822695cf88dcdcb258c3577014e0f6c">inputSignals</a></td></tr>
+<tr class="separator:a6822695cf88dcdcb258c3577014e0f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2a54bebc49194ca6d21bf3893a36ebf"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
 &lt; <a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, <br class="typebreak"/>
-<a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#a007c2ecaacf9b48fcad6b3a672c9f42b">outputSignals</a></td></tr>
-<tr class="separator:a007c2ecaacf9b48fcad6b3a672c9f42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+std::shared_ptr&lt; <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#ac2a54bebc49194ca6d21bf3893a36ebf">outputSignals</a></td></tr>
+<tr class="separator:ac2a54bebc49194ca6d21bf3893a36ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6d0998598674c46b7561e3d8f0d91ac"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#ae6d0998598674c46b7561e3d8f0d91ac">confBlockName</a></td></tr>
 <tr class="separator:ae6d0998598674c46b7561e3d8f0d91ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d28d97008aac65b2c79e285d644d4e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_coder_block_information_1_1impl.html#a4d28d97008aac65b2c79e285d644d4e3">parametersFromRTW</a></td></tr>
@@ -166,12 +166,12 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a59f1db4d35aa0d383930aa2a0581f9e3"></a>
+<a class="anchor" id="a6822695cf88dcdcb258c3577014e0f6c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&gt; wbt::CoderBlockInformation::impl::inputSignals</td>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, std::shared_ptr&lt;<a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&gt; &gt; wbt::CoderBlockInformation::impl::inputSignals</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -214,12 +214,12 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a007c2ecaacf9b48fcad6b3a672c9f42b"></a>
+<a class="anchor" id="ac2a54bebc49194ca6d21bf3893a36ebf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&gt; wbt::CoderBlockInformation::impl::outputSignals</td>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classwbt_1_1_block_information.html#ad0d918b93a4d4f6c547e928794a8c238">BlockInformation::PortIndex</a>, std::shared_ptr&lt;<a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a>&gt; &gt; wbt::CoderBlockInformation::impl::outputSignals</td>
         </tr>
       </table>
 </div><div class="memdoc">

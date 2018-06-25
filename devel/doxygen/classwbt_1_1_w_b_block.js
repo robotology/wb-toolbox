@@ -9,7 +9,7 @@ var classwbt_1_1_w_b_block =
     [ "initialize", "classwbt_1_1_w_b_block.html#aee8fb77f0cdbd596030eb62c31b5cabb", null ],
     [ "numberOfParameters", "classwbt_1_1_w_b_block.html#a1a1f5268bb6f037400557845803cdd50", null ],
     [ "parseParameters", "classwbt_1_1_w_b_block.html#adf075ab1530ec9b364320e3a926c61c5", null ],
-    [ "setRobotState", "classwbt_1_1_w_b_block.html#a990354bac76a31d3baba9cf92c4b96cd", null ],
+    [ "setRobotState", "classwbt_1_1_w_b_block.html#aa448f95799155d70a9e0baeb28be17d8", null ],
     [ "m_confBlockName", "classwbt_1_1_w_b_block.html#afc523e57f87b9c1fb6f79122c62cbb81", null ],
     [ "m_robotInterface", "classwbt_1_1_w_b_block.html#a423847f1b8e12e3a5c5b432d909de0c7", null ],
     [ "m_robotState", "classwbt_1_1_w_b_block.html#a479cfd2df4420307441faccf0b3f6366", null ],
