@@ -11,7 +11,7 @@
 #include "GetMeasurement.h"
 #include "ModelPartitioner.h"
 #include "RealTimeSynchronizer.h"
-#include "SetLowLevelPID.h"
+#include "SetMotorParameters.h"
 #include "SetReferences.h"
 #include "SimulatorSynchronizer.h"
 #include "YarpClock.h"
@@ -98,8 +98,8 @@ Block* Block::instantiateBlockWithClassName(const std::string& blockClassName)
     else if (blockClassName == CentroidalMomentum::ClassName) {
         block = new CentroidalMomentum();
     }
-    else if (blockClassName == SetLowLevelPID::ClassName) {
-        block = new SetLowLevelPID();
+    else if (blockClassName == SetMotorParameters::ClassName) {
+        block = new SetMotorParameters();
     }
 #ifdef WBT_USES_ICUB
     else if (blockClassName == MinimumJerkTrajectoryGenerator::ClassName) {

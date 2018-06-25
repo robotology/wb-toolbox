@@ -236,11 +236,11 @@ configure_block(BLOCK_NAME "Set References"
     SOURCES src/SetReferences.cpp
     HEADERS include/SetReferences.h)
 
-configure_block(BLOCK_NAME "Set Low-Level PIDs"
+configure_block(BLOCK_NAME "Set Motor Parameters"
     GROUP "Actuators"
     LIST_PREFIX WBT
-    SOURCES src/SetLowLevelPID.cpp
-    HEADERS include/SetLowLevelPID.h)
+    SOURCES src/SetMotorParameters.cpp
+    HEADERS include/SetMotorParameters.h)
 
 configure_block(BLOCK_NAME "Get Measurement"
     GROUP "State"
