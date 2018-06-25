@@ -3,7 +3,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 cmake_minimum_required(VERSION 3.5)
-project(sharedlibpp LANGUAGES CXX VERSION 20150207)
+project(sharedlibpp LANGUAGES CXX VERSION 2015.02.07)
 
 include(GNUInstallDirs)
 
