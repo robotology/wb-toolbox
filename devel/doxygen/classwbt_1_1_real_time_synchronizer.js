@@ -2,7 +2,7 @@ var classwbt_1_1_real_time_synchronizer =
 [
     [ "impl", "class_real_time_synchronizer_1_1impl.html", "class_real_time_synchronizer_1_1impl" ],
     [ "RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html#ae51ca42abaf7ca03f7bf6d63e224d811", null ],
-    [ "~RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html#a6f648a30f82fa1026a15bf0be569e613", null ],
+    [ "~RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html#aba5ec131d2d3b50f163c494ac863c436", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_real_time_synchronizer.html#aa92510d9afd9dcdc83620592403b29e0", null ],
     [ "initialize", "classwbt_1_1_real_time_synchronizer.html#a2c9ba7f217fcfba886cc63a91ea25dc1", null ],
     [ "numberOfParameters", "classwbt_1_1_real_time_synchronizer.html#a67ab443066ab38fd3c62cbd6861da256", null ],

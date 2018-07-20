@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/base/WBToolbox.cpp File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/core/src/WBToolbox.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -105,11 +105,13 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 <div class="title">WBToolbox.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_block_8h_source.html">Block.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_log_8h_source.html">Log.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_parameter_8h_source.html">Parameter.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_parameters_8h_source.html">Parameters.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_simulink_block_information_8h_source.html">SimulinkBlockInformation.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="_block_8h_source.html">Core/Block.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_log_8h_source.html">Core/Log.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_parameter_8h_source.html">Core/Parameter.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_parameters_8h_source.html">Core/Parameters.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_simulink_block_information_8h_source.html">Core/SimulinkBlockInformation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_shared_library_8h_source.html">SharedLibrary.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_shared_library_class_8h_source.html">SharedLibraryClass.h</a>&quot;</code><br/>
 <code>#include &lt;matrix.h&gt;</code><br/>
 <code>#include &lt;simstruc.h&gt;</code><br/>
 <code>#include &lt;simstruc_types.h&gt;</code><br/>
@@ -126,7 +128,7 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for WBToolbox.cpp:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_toolbox_8cpp__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_toolbox_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -153,6 +155,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a0346df64000922337e045d687056c12a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a0346df64000922337e045d687056c12a">platformSpecificLibName</a> (const std::string &amp;library)</td></tr>
+<tr class="separator:a0346df64000922337e045d687056c12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a373a3e9fd0b1f97429178fa717a94251"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a373a3e9fd0b1f97429178fa717a94251">catchLogMessages</a> (bool status, SimStruct *S)</td></tr>
 <tr class="separator:a373a3e9fd0b1f97429178fa717a94251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb2c7d4daf1bd2628c38fd39c350b394"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#afb2c7d4daf1bd2628c38fd39c350b394">mdlSetInputPortDimensionInfo</a> (SimStruct *S, int_T port, const DimsInfo_T *dimsInfo)</td></tr>
@@ -529,6 +533,22 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0346df64000922337e045d687056c12a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string platformSpecificLibName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>library</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="a41697a67681f56372c67e99bb96115aa"></a>
 <div class="memitem">
@@ -547,7 +567,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_3d1e163e09722254d3354c6214d2151b.html">base</a></li><li class="navelem"><a class="el" href="_w_b_toolbox_8cpp.html">WBToolbox.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_0d5ab87910e966a23f738f4cfd1bf596.html">core</a></li><li class="navelem"><a class="el" href="dir_a686001e0d5211c69df6508c135dda06.html">src</a></li><li class="navelem"><a class="el" href="_w_b_toolbox_8cpp.html">WBToolbox.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

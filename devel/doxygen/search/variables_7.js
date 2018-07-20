@@ -5,6 +5,7 @@ var searchData=
   ['icurrentcontrol',['iCurrentControl',['../struct_yarp_interfaces.html#a68e8f1877889a151c60fd0285f711cf2',1,'YarpInterfaces']]],
   ['iencoders',['iEncoders',['../struct_yarp_interfaces.html#a66c992cdb08c8a85127dd6b7688db98f',1,'YarpInterfaces']]],
   ['imotorencoders',['iMotorEncoders',['../struct_yarp_interfaces.html#aba2b8077542427abcdd4584d9e00fa08',1,'YarpInterfaces']]],
+  ['implementation',['implementation',['../classshlibpp_1_1_shared_library.html#a0cd8f56bd132977d6f5c4d5f622ef7d4',1,'shlibpp::SharedLibrary']]],
   ['index',['index',['../classwbt_1_1_parameter_metadata.html#a04b014348e263a65e7f4d582bba05131',1,'wbt::ParameterMetadata']]],
   ['indextoname',['indexToName',['../class_parameters_1_1impl.html#a313ffb5bdf9bb03a4750d61483c3c421',1,'Parameters::impl']]],
   ['initialtime',['initialTime',['../class_real_time_synchronizer_1_1impl.html#a619929af7961b7e1c0da157087add0b2',1,'RealTimeSynchronizer::impl']]],

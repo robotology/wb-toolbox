@@ -1,9 +1,9 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/QpOases.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/QpOases.cpp">
-<area shape="rect" id="node2" href="$_qp_oases_8h.html" title="QpOases.h" alt="" coords="400,109,488,136"/>
-<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="225,259,324,285"/>
-<area shape="rect" id="node8" href="$_block_information_8h.html" title="BlockInformation.h" alt="" coords="400,259,529,285"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="606,259,660,285"/>
-<area shape="rect" id="node13" href="$_parameter_8h.html" title="Parameter.h" alt="" coords="5,259,99,285"/>
-<area shape="rect" id="node14" href="$_signal_8h.html" title="Signal.h" alt="" coords="653,184,723,211"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="168,184,235,211"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/src/QpOases.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/src/QpOases.cpp">
+<area shape="rect" id="node2" href="$_qp_oases_8h.html" title="QpOases.h" alt="" coords="488,125,576,152"/>
+<area shape="rect" id="node4" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="257,275,388,301"/>
+<area shape="rect" id="node8" href="$_block_information_8h.html" title="Core/BlockInformation.h" alt="" coords="464,275,627,301"/>
+<area shape="rect" id="node11" href="$_log_8h.html" title="Core/Log.h" alt="" coords="702,275,788,301"/>
+<area shape="rect" id="node13" href="$_parameter_8h.html" title="Core/Parameter.h" alt="" coords="5,275,131,301"/>
+<area shape="rect" id="node14" href="$_signal_8h.html" title="Core/Signal.h" alt="" coords="757,200,859,227"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Core/Block.h" alt="" coords="189,200,288,227"/>
 </map>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name',['name',['../classwbt_1_1_parameter_metadata.html#aa3f29e1263b17e77864c863d4320c9b6',1,'wbt::ParameterMetadata']]],
+  ['name',['name',['../classwbt_1_1_parameter_metadata.html#aa3f29e1263b17e77864c863d4320c9b6',1,'wbt::ParameterMetadata::name()'],['../classshlibpp_1_1_shared_library_factory.html#af0ee16bf5ea5b0c5c2022a34a6b071ec',1,'shlibpp::SharedLibraryFactory::name()']]],
   ['nametoindex',['nameToIndex',['../class_parameters_1_1impl.html#af673b5c3960c738a03caab1effeae3f3',1,'Parameters::impl']]],
   ['nametotype',['nameToType',['../class_parameters_1_1impl.html#a930197262d108266e0dd3daa76197885',1,'Parameters::impl']]],
   ['newrequest',['newRequest',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#a8043279f06a6381dab305b110d2e1bea',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]],

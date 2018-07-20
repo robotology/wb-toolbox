@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/base/WBBlock.cpp File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/library/src/WBBlock.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,14 +104,14 @@ $(document).ready(function(){initNavTree('_w_b_block_8cpp.html','');});
 <div class="title">WBBlock.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_w_b_block_8h_source.html">WBBlock.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_block_information_8h_source.html">BlockInformation.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_configuration_8h_source.html">Configuration.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_log_8h_source.html">Log.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_parameter_8h_source.html">Parameter.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_robot_interface_8h_source.html">RobotInterface.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_signal_8h_source.html">Signal.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_whole_body_singleton_8h_source.html">WholeBodySingleton.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="_w_b_block_8h_source.html">Base/WBBlock.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_configuration_8h_source.html">Base/Configuration.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_robot_interface_8h_source.html">Base/RobotInterface.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_whole_body_singleton_8h_source.html">Base/WholeBodySingleton.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_block_information_8h_source.html">Core/BlockInformation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_log_8h_source.html">Core/Log.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_parameter_8h_source.html">Core/Parameter.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_signal_8h_source.html">Core/Signal.h</a>&quot;</code><br/>
 <code>#include &lt;Eigen/Core&gt;</code><br/>
 <code>#include &lt;iDynTree/Core/AngularMotionVector3.h&gt;</code><br/>
 <code>#include &lt;iDynTree/Core/EigenHelpers.h&gt;</code><br/>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('_w_b_block_8cpp.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for WBBlock.cpp:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_block_8cpp__incl.svg" width="100%" height="586"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_block_8cpp__incl.svg" width="100%" height="598"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -140,72 +140,72 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:af89f32402083cdbd7f66ce3f92580c89"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a> { <br/>
-&#160;&#160;<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
-<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff">WBStruct</a>, 
-<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac">ConfBlockName</a>, 
-<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
-<br/>
-&#160;&#160;<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a35db430bbeecd827809f838c28d6127e">FilterStruct</a>, 
+&#160;&#160;<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a35db430bbeecd827809f838c28d6127e">FilterStruct</a>, 
 <a class="el" href="_dot_j_nu_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <a class="el" href="_dot_j_nu_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
-<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <br/>
-&#160;&#160;<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
+&#160;&#160;<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
 <a class="el" href="_get_limits_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <a class="el" href="_get_limits_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a45474da3ac1b3ff6bf435e7698210ee1">LimitType</a>, 
-<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <br/>
-&#160;&#160;<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a280ebb2b130aee63aa382a6fa3d100a4">MeasType</a>, 
+&#160;&#160;<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a280ebb2b130aee63aa382a6fa3d100a4">MeasType</a>, 
 <a class="el" href="_jacobian_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <a class="el" href="_jacobian_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
-<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
 <br/>
-&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a13018612ce336584ac5c7f414afafafe">SampleTime</a>, 
+&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a13018612ce336584ac5c7f414afafafe">SampleTime</a>, 
 <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a16802932fcf0486330e591c580f364a1">SettlingTime</a>, 
 <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89aaf8392865aea8f24355012391183d9e9">FirstDerivative</a>, 
-<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a23de8c854eb282410ba10963837c94b5">SecondDerivative</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1755a07fb7d6a246c5180090c7595774">ReadInitialValue</a>, 
+&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a23de8c854eb282410ba10963837c94b5">SecondDerivative</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1755a07fb7d6a246c5180090c7595774">ReadInitialValue</a>, 
 <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a6c20206b723e4cd27615f1e13a9f4301">ExtSettlingTime</a>, 
 <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a6933cacbab39d6f612ea612016f07964">ResetOnChange</a>, 
-<a class="el" href="_model_partitioner_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <br/>
-&#160;&#160;<a class="el" href="_model_partitioner_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab84655226f98204d9d67ebb405d610b2">Direction</a>, 
+&#160;&#160;<a class="el" href="_model_partitioner_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_model_partitioner_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab84655226f98204d9d67ebb405d610b2">Direction</a>, 
 <a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
 <a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a94d533ed1daba226e1c0c252f1f119d8">UseLbA</a>, 
-<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a8b6a97477597cd9e24c184d9032f23eb">UseUbA</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89abf2ad17c69143d3078456d98939eb19e">UseLb</a>, 
+&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a8b6a97477597cd9e24c184d9032f23eb">UseUbA</a>, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89abf2ad17c69143d3078456d98939eb19e">UseLb</a>, 
 <a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a4972f28122788ce3f9e195a147e9cf53">UseUb</a>, 
 <a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a49705f9a866ecbfa649dea1685bc1c9c">ComputeObjVal</a>, 
-<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89adf2e0b6c0866a075e9313e1ee6493a6b">StopWhenFails</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_real_time_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89adf2e0b6c0866a075e9313e1ee6493a6b">StopWhenFails</a>, 
+<a class="el" href="_real_time_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
 <a class="el" href="_real_time_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049">Period</a>, 
 <a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
-<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add68a6ad8ca9a858663dd6114db3f07d">Frame1</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a59905975c9008a290de2df74599d1499">Frame2</a>, 
+&#160;&#160;<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add68a6ad8ca9a858663dd6114db3f07d">Frame1</a>, 
+<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a59905975c9008a290de2df74599d1499">Frame2</a>, 
 <a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
 <a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a9b1c9cac57b7f0d7e25f5bed06f9741b">SetP</a>, 
-<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add28f26bf4c0e5a1efef601e3adffe8f">SetI</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a98fe28bb2acd28f890f8aea6a2918c78">SetD</a>, 
+&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add28f26bf4c0e5a1efef601e3adffe8f">SetI</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a98fe28bb2acd28f890f8aea6a2918c78">SetD</a>, 
 <a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af2c5a751d2cdf517d997ced6406e5738">PidCtrlType</a>, 
 <a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af8749a1d5047ec56649b17c6edc97e8f">SetKTau</a>, 
-<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a61baf70148ade91d6631e90ce0b53841">KTau</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ad7cf7245a42dea0062c950b17ec1b42e">SetBemf</a>, 
+&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a61baf70148ade91d6631e90ce0b53841">KTau</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ad7cf7245a42dea0062c950b17ec1b42e">SetBemf</a>, 
 <a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a21d77ed9e3f28d08995222a7a989f5d5">Bemf</a>, 
 <a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
-<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a74869a16f6903165df61a1ddbd4240d7">CtrlType</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a7d176e372910414f1924470aa247cb74">RefSpeed</a>, 
+&#160;&#160;<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a74869a16f6903165df61a1ddbd4240d7">CtrlType</a>, 
+<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a7d176e372910414f1924470aa247cb74">RefSpeed</a>, 
 <a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
 <a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049">Period</a>, 
-<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575">GzClkPort</a>, 
 <br/>
-&#160;&#160;<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ac1ec4fa45b781dda3cff3c31dd258007">RpcPort</a>, 
+&#160;&#160;<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575">GzClkPort</a>, 
+<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ac1ec4fa45b781dda3cff3c31dd258007">RpcPort</a>, 
+<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff">WBStruct</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac">ConfBlockName</a>, 
 <a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
 <a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727">PortName</a>, 
 <a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1137eef0d80d338a53273219a8d5cd2e">PortSize</a>, 
@@ -231,18 +231,12 @@ Enumerations</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a></td>
+          <td class="memname">enum <a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff"></a>WBStruct</em>&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac"></a>ConfBlockName</em>&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a35db430bbeecd827809f838c28d6127e"></a>FilterStruct</em>&#160;</td><td class="fielddoc">
 </td></tr>
@@ -344,6 +338,12 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
 </td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff"></a>WBStruct</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac"></a>ConfBlockName</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727"></a>PortName</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a1137eef0d80d338a53273219a8d5cd2e"></a>PortSize</em>&#160;</td><td class="fielddoc">
@@ -375,7 +375,7 @@ Enumerations</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_3d1e163e09722254d3354c6214d2151b.html">base</a></li><li class="navelem"><a class="el" href="_w_b_block_8cpp.html">WBBlock.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_64380bcb215016201461a3db30e287e6.html">library</a></li><li class="navelem"><a class="el" href="dir_0163352f8d67e136b6f0c10b53bf0f02.html">src</a></li><li class="navelem"><a class="el" href="_w_b_block_8cpp.html">WBBlock.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

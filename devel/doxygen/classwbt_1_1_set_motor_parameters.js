@@ -2,7 +2,7 @@ var classwbt_1_1_set_motor_parameters =
 [
     [ "impl", "class_set_motor_parameters_1_1impl.html", "class_set_motor_parameters_1_1impl" ],
     [ "SetMotorParameters", "classwbt_1_1_set_motor_parameters.html#a8654e3a48f103f9fd91bffaf9aca2074", null ],
-    [ "~SetMotorParameters", "classwbt_1_1_set_motor_parameters.html#abe595245d1d1a83ff4b6ed5dad0f5b01", null ],
+    [ "~SetMotorParameters", "classwbt_1_1_set_motor_parameters.html#a743a23ff6d3836b1dd142e0f49dd003e", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_set_motor_parameters.html#a54913d5b4de66a30dad590c4988395f5", null ],
     [ "initialize", "classwbt_1_1_set_motor_parameters.html#ad5a3bc849d0efdf2d48c37b9c1ea0d1f", null ],
     [ "numberOfParameters", "classwbt_1_1_set_motor_parameters.html#ad90eb32170a6c1f90fae2ca2655d81c4", null ],

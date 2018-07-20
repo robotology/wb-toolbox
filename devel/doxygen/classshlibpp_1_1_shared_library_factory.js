@@ -1,0 +1,28 @@
+var classshlibpp_1_1_shared_library_factory =
+[
+    [ "STATUS_NONE", "classshlibpp_1_1_shared_library_factory.html#a14177b0fd0bc96b33524238b5937aaefa95596cdbd5a5b8f5e68f0b8c43547ea0", null ],
+    [ "STATUS_OK", "classshlibpp_1_1_shared_library_factory.html#a14177b0fd0bc96b33524238b5937aaefaf6f89d6a297c06f74dfa2feefdffd831", null ],
+    [ "STATUS_LIBRARY_NOT_LOADED", "classshlibpp_1_1_shared_library_factory.html#a14177b0fd0bc96b33524238b5937aaefa07949aa827be869326410bad4e26d7c4", null ],
+    [ "STATUS_FACTORY_NOT_FOUND", "classshlibpp_1_1_shared_library_factory.html#a14177b0fd0bc96b33524238b5937aaefa226e77fbe74619306fa90a86b7208fa4", null ],
+    [ "STATUS_FACTORY_NOT_FUNCTIONAL", "classshlibpp_1_1_shared_library_factory.html#a14177b0fd0bc96b33524238b5937aaefacfb8f171ffb2bee9da09ee836c163e93", null ],
+    [ "SharedLibraryFactory", "classshlibpp_1_1_shared_library_factory.html#aad86aefeab6d18771e2b324c22903edf", null ],
+    [ "SharedLibraryFactory", "classshlibpp_1_1_shared_library_factory.html#a518dd64296a41a1af84af05bcfa262dd", null ],
+    [ "~SharedLibraryFactory", "classshlibpp_1_1_shared_library_factory.html#a61924b4140f3c765d5bcbdd9620d569c", null ],
+    [ "addRef", "classshlibpp_1_1_shared_library_factory.html#a2c2842af1daebddfa5c8aaf74c582474", null ],
+    [ "getApi", "classshlibpp_1_1_shared_library_factory.html#a402b6ff31120227c8e3933e8715a84b6", null ],
+    [ "getLastNativeError", "classshlibpp_1_1_shared_library_factory.html#a201fd96ba0b4cb706b4f186826d7f2cd", null ],
+    [ "getName", "classshlibpp_1_1_shared_library_factory.html#a01d24f701dfa18b56e8e4171ac079fde", null ],
+    [ "getReferenceCount", "classshlibpp_1_1_shared_library_factory.html#aa7b8da65ce5c1aee94731f6824ad8597", null ],
+    [ "getStatus", "classshlibpp_1_1_shared_library_factory.html#a16e5c3523012c8277f7c9bce5cc0321b", null ],
+    [ "isValid", "classshlibpp_1_1_shared_library_factory.html#a2ceaa278727c8572120ffa61691b18a6", null ],
+    [ "open", "classshlibpp_1_1_shared_library_factory.html#a23758abf16eef2e1a2db1bba28a42673", null ],
+    [ "removeRef", "classshlibpp_1_1_shared_library_factory.html#a8b12f09464c2a910640d22ab68bc4d7d", null ],
+    [ "useFactoryFunction", "classshlibpp_1_1_shared_library_factory.html#a23c126510876fec088551a39657aab5c", null ],
+    [ "api", "classshlibpp_1_1_shared_library_factory.html#a3b1260c70e8362f37faa3917188dc313", null ],
+    [ "err_message", "classshlibpp_1_1_shared_library_factory.html#af755dea109483766a04aaf0701a1ac34", null ],
+    [ "lib", "classshlibpp_1_1_shared_library_factory.html#ae1d6a1bfdd94face31b60c4c43d1d297", null ],
+    [ "name", "classshlibpp_1_1_shared_library_factory.html#af0ee16bf5ea5b0c5c2022a34a6b071ec", null ],
+    [ "rct", "classshlibpp_1_1_shared_library_factory.html#a62041a3d9adb50c12121e9b052a4b1c1", null ],
+    [ "returnValue", "classshlibpp_1_1_shared_library_factory.html#a47285fb2da7a88539cce10fd4861890b", null ],
+    [ "status", "classshlibpp_1_1_shared_library_factory.html#abfa351a9a9a0bd803c79e83bf5225eda", null ]
+];

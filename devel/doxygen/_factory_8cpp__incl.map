@@ -1,22 +1,25 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/Factory.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/Factory.cpp">
-<area shape="rect" id="node2" href="$_get_limits_8h.html" title="GetLimits.h" alt="" coords="5,109,93,136"/>
-<area shape="rect" id="node9" href="$_get_measurement_8h.html" title="GetMeasurement.h" alt="" coords="1019,109,1152,136"/>
-<area shape="rect" id="node10" href="$_model_partitioner_8h.html" title="ModelPartitioner.h" alt="" coords="1610,109,1736,136"/>
-<area shape="rect" id="node11" href="$_real_time_synchronizer_8h.html" title="RealTimeSynchronizer.h" alt="" coords="1909,184,2073,211"/>
-<area shape="rect" id="node12" href="$_set_motor_parameters_8h.html" title="SetMotorParameters.h" alt="" coords="301,109,453,136"/>
-<area shape="rect" id="node13" href="$_set_references_8h.html" title="SetReferences.h" alt="" coords="1176,109,1296,136"/>
-<area shape="rect" id="node14" href="$_simulator_synchronizer_8h.html" title="SimulatorSynchronizer.h" alt="" coords="1606,184,1769,211"/>
-<area shape="rect" id="node15" href="$_yarp_clock_8h.html" title="YarpClock.h" alt="" coords="2099,184,2193,211"/>
-<area shape="rect" id="node16" href="$_yarp_read_8h.html" title="YarpRead.h" alt="" coords="1491,184,1581,211"/>
-<area shape="rect" id="node17" href="$_yarp_write_8h.html" title="YarpWrite.h" alt="" coords="1795,184,1885,211"/>
-<area shape="rect" id="node18" href="$_centroidal_momentum_8h.html" title="CentroidalMomentum.h" alt="" coords="119,109,276,136"/>
-<area shape="rect" id="node19" href="$_dot_j_nu_8h.html" title="DotJNu.h" alt="" coords="478,109,556,136"/>
-<area shape="rect" id="node20" href="$_forward_kinematics_8h.html" title="ForwardKinematics.h" alt="" coords="581,109,725,136"/>
-<area shape="rect" id="node21" href="$_inverse_dynamics_8h.html" title="InverseDynamics.h" alt="" coords="750,109,884,136"/>
-<area shape="rect" id="node22" href="$_jacobian_8h.html" title="Jacobian.h" alt="" coords="909,109,995,136"/>
-<area shape="rect" id="node23" href="$_mass_matrix_8h.html" title="MassMatrix.h" alt="" coords="1320,109,1421,136"/>
-<area shape="rect" id="node24" href="$_relative_transform_8h.html" title="RelativeTransform.h" alt="" coords="1446,109,1585,136"/>
-<area shape="rect" id="node3" href="$_w_b_block_8h.html" title="WBBlock.h" alt="" coords="872,184,960,211"/>
-<area shape="rect" id="node4" href="$_block_8h.html" title="Block.h" alt="" coords="1896,259,1963,285"/>
-<area shape="rect" id="node5" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1846,333,1945,360"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/src/Factory.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/src/Factory.cpp">
+<area shape="rect" id="node2" href="$_get_limits_8h.html" title="Block/GetLimits.h" alt="" coords="1633,125,1759,152"/>
+<area shape="rect" id="node9" href="$_get_measurement_8h.html" title="Block/GetMeasurement.h" alt="" coords="2407,125,2577,152"/>
+<area shape="rect" id="node10" href="$_model_partitioner_8h.html" title="Block/ModelPartitioner.h" alt="" coords="846,125,1009,152"/>
+<area shape="rect" id="node11" href="$_real_time_synchronizer_8h.html" title="Block/RealTimeSynchronizer.h" alt="" coords="689,200,892,227"/>
+<area shape="rect" id="node12" href="$_set_motor_parameters_8h.html" title="Block/SetMotorParameters.h" alt="" coords="1034,125,1224,152"/>
+<area shape="rect" id="node13" href="$_set_references_8h.html" title="Block/SetReferences.h" alt="" coords="1249,125,1407,152"/>
+<area shape="rect" id="node14" href="$_simulator_synchronizer_8h.html" title="Block/SimulatorSynchronizer.h" alt="" coords="5,200,205,227"/>
+<area shape="rect" id="node15" href="$_yarp_clock_8h.html" title="Block/YarpClock.h" alt="" coords="535,200,664,227"/>
+<area shape="rect" id="node16" href="$_yarp_read_8h.html" title="Block/YarpRead.h" alt="" coords="231,200,359,227"/>
+<area shape="rect" id="node17" href="$_yarp_write_8h.html" title="Block/YarpWrite.h" alt="" coords="383,200,511,227"/>
+<area shape="rect" id="node18" href="$_centroidal_momentum_8h.html" title="Block/CentroidalMomentum.h" alt="" coords="1784,125,1979,152"/>
+<area shape="rect" id="node19" href="$_dot_j_nu_8h.html" title="Block/DotJNu.h" alt="" coords="2601,125,2716,152"/>
+<area shape="rect" id="node20" href="$_forward_kinematics_8h.html" title="Block/ForwardKinematics.h" alt="" coords="2003,125,2185,152"/>
+<area shape="rect" id="node21" href="$_inverse_dynamics_8h.html" title="Block/InverseDynamics.h" alt="" coords="2210,125,2381,152"/>
+<area shape="rect" id="node22" href="$_jacobian_8h.html" title="Block/Jacobian.h" alt="" coords="536,125,659,152"/>
+<area shape="rect" id="node23" href="$_mass_matrix_8h.html" title="Block/MassMatrix.h" alt="" coords="683,125,821,152"/>
+<area shape="rect" id="node24" href="$_relative_transform_8h.html" title="Block/RelativeTransform.h" alt="" coords="1431,125,1608,152"/>
+<area shape="rect" id="node25" href="$_shared_library_class_api_8h.html" title="SharedLibraryClassApi.h" alt="" coords="2749,275,2915,301"/>
+<area shape="rect" id="node3" href="$_w_b_block_8h.html" title="Base/WBBlock.h" alt="" coords="1473,200,1596,227"/>
+<area shape="rect" id="node4" href="$_block_8h.html" title="Core/Block.h" alt="" coords="551,275,649,301"/>
+<area shape="rect" id="node5" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="526,349,657,376"/>
+<area shape="rect" id="node27" href="$_vocab_8h.html" title="Vocab.h" alt="" coords="2797,349,2867,376"/>
+<area shape="rect" id="node28" href="$config_8h.html" title="config.h" alt="" coords="2981,349,3048,376"/>
 </map>

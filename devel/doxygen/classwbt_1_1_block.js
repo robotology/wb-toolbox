@@ -7,7 +7,6 @@ var classwbt_1_1_block =
     [ "getParameters", "classwbt_1_1_block.html#a5b4c9f424bd665bd1012d0f546f0c53a", null ],
     [ "initialize", "classwbt_1_1_block.html#a4a545a699d57e34d8b329145fb9ea549", null ],
     [ "initializeInitialConditions", "classwbt_1_1_block.html#aa352e39dca6dba589b10e422e32661e5", null ],
-    [ "instantiateBlockWithClassName", "classwbt_1_1_block.html#a2b130f5f5a3860b05ff5690c908e9f14", null ],
     [ "numberOfContinuousStates", "classwbt_1_1_block.html#ad9ed0043fc3fe9b617eae1ecf21deffd", null ],
     [ "numberOfDiscreteStates", "classwbt_1_1_block.html#a80c8f64cca389216d92b22c26a80b771", null ],
     [ "numberOfParameters", "classwbt_1_1_block.html#abc02441fdaadd1de8e6ea6659fba72ed", null ],

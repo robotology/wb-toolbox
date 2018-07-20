@@ -2,7 +2,7 @@ var classwbt_1_1_yarp_read =
 [
     [ "impl", "class_yarp_read_1_1impl.html", "class_yarp_read_1_1impl" ],
     [ "YarpRead", "classwbt_1_1_yarp_read.html#a20e0d3e7517ac3fa301e75d4b325b641", null ],
-    [ "~YarpRead", "classwbt_1_1_yarp_read.html#a4712ae38197a6490c88093d1fbe74128", null ],
+    [ "~YarpRead", "classwbt_1_1_yarp_read.html#a8bb8e9ce021942f2b449ab4cfa90f4a2", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_yarp_read.html#a3514b5fc100c66caf2ed8e4d67b4ae4b", null ],
     [ "initialize", "classwbt_1_1_yarp_read.html#aaedf74d867a418cb36c0fb36d6ea8c93", null ],
     [ "numberOfParameters", "classwbt_1_1_yarp_read.html#a43c7c9970ea2e68d059706256a5520c6", null ],

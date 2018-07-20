@@ -2,7 +2,7 @@ var classwbt_1_1_get_measurement =
 [
     [ "impl", "class_get_measurement_1_1impl.html", "class_get_measurement_1_1impl" ],
     [ "GetMeasurement", "classwbt_1_1_get_measurement.html#aa676490387e465a72d50efd5e916e7d4", null ],
-    [ "~GetMeasurement", "classwbt_1_1_get_measurement.html#a72f0a109b3382df1e7a44dfc6b5829bd", null ],
+    [ "~GetMeasurement", "classwbt_1_1_get_measurement.html#a910c7d4672d91e40118792e76beadaef", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_get_measurement.html#a0dadad9e5435d93b77a697a9c332a02a", null ],
     [ "initialize", "classwbt_1_1_get_measurement.html#a7c1d4fb1a66f6dae3654f91238d3f986", null ],
     [ "numberOfParameters", "classwbt_1_1_get_measurement.html#ac6c26d971e72ab4f2e07b0025b2a2ef0", null ],

@@ -105,7 +105,6 @@ $(document).ready(function(){initNavTree('classwbt_1_1_block.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classwbt_1_1_block-members.html">List of all members</a>  </div>
@@ -163,7 +162,7 @@ Block Parameters</h1>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a29027864c5c72ad2d7aaccaa12c07ef9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#a29027864c5c72ad2d7aaccaa12c07ef9">~Block</a> ()=default</td></tr>
-<tr class="memdesc:a29027864c5c72ad2d7aaccaa12c07ef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a29027864c5c72ad2d7aaccaa12c07ef9">More...</a><br/></td></tr>
+<tr class="memdesc:a29027864c5c72ad2d7aaccaa12c07ef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and returns a new <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object of the specified class.  <a href="#a29027864c5c72ad2d7aaccaa12c07ef9">More...</a><br/></td></tr>
 <tr class="separator:a29027864c5c72ad2d7aaccaa12c07ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc02441fdaadd1de8e6ea6659fba72ed"><td class="memItemLeft" align="right" valign="top">virtual unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#abc02441fdaadd1de8e6ea6659fba72ed">numberOfParameters</a> ()</td></tr>
 <tr class="memdesc:abc02441fdaadd1de8e6ea6659fba72ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of configuration parameters needed by this block.  <a href="#abc02441fdaadd1de8e6ea6659fba72ed">More...</a><br/></td></tr>
@@ -210,15 +209,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae728bcfdeb5d419aee45d4aef8da55bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the output of the block.  <a href="#ae728bcfdeb5d419aee45d4aef8da55bd">More...</a><br/></td></tr>
 <tr class="separator:ae728bcfdeb5d419aee45d4aef8da55bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b130f5f5a3860b05ff5690c908e9f14"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwbt_1_1_block.html">wbt::Block</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#a2b130f5f5a3860b05ff5690c908e9f14">instantiateBlockWithClassName</a> (const std::string &amp;blockClassName)</td></tr>
-<tr class="memdesc:a2b130f5f5a3860b05ff5690c908e9f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and returns a new <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object of the specified class.  <a href="#a2b130f5f5a3860b05ff5690c908e9f14">More...</a><br/></td></tr>
-<tr class="separator:a2b130f5f5a3860b05ff5690c908e9f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:afef88236a55bc16b77107dd88ba0cc5e"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#afef88236a55bc16b77107dd88ba0cc5e">NumberOfParameters</a> = 1</td></tr>
+<tr class="memitem:afef88236a55bc16b77107dd88ba0cc5e"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block.html#afef88236a55bc16b77107dd88ba0cc5e">NumberOfParameters</a> = 2</td></tr>
 <tr class="separator:afef88236a55bc16b77107dd88ba0cc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -249,7 +242,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Destructor. </p>
+<p>Create and returns a new <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object of the specified class. </p>
+<p>If the class does not exist returns <code>nullptr</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blockClassName</td><td>The derived class name to be instantiated. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The newly created <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object or <code>nullptr</code>. Destructor </dd></dl>
 
 </div>
 </div>
@@ -451,40 +452,6 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classwbt_1_1_discrete_filter.html#ae3e2621d62686015ed0eb36eb965091f">wbt::DiscreteFilter</a>, <a class="el" href="classwbt_1_1_qp_oases.html#abdea590f1d418cd529dba85dce1e435d">wbt::QpOases</a>, <a class="el" href="classwbt_1_1_set_references.html#af3fe782efb50ae8f90173f4ecc8c7db8">wbt::SetReferences</a>, and <a class="el" href="classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e">wbt::GetLimits</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2b130f5f5a3860b05ff5690c908e9f14"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classwbt_1_1_block.html">Block</a> * Block::instantiateBlockWithClassName </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>blockClassName</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create and returns a new <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object of the specified class. </p>
-<p>If the class does not exist returns <code>nullptr</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">blockClassName</td><td>The derived class name to be instantiated. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The newly created <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> object or <code>nullptr</code>. </dd></dl>
 
 </div>
 </div>
@@ -830,7 +797,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr unsigned wbt::Block::NumberOfParameters = 1</td>
+          <td class="memname">constexpr unsigned wbt::Block::NumberOfParameters = 2</td>
         </tr>
       </table>
   </td>
@@ -845,9 +812,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/include/base/<a class="el" href="_block_8h_source.html">Block.h</a></li>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_block_8cpp.html">Block.cpp</a></li>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_factory_8cpp.html">Factory.cpp</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/core/include/Core/<a class="el" href="_block_8h_source.html">Block.h</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/core/src/<a class="el" href="_block_8cpp.html">Block.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

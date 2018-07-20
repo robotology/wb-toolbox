@@ -2,7 +2,7 @@ var classwbt_1_1_mass_matrix =
 [
     [ "impl", "class_mass_matrix_1_1impl.html", "class_mass_matrix_1_1impl" ],
     [ "MassMatrix", "classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1", null ],
-    [ "~MassMatrix", "classwbt_1_1_mass_matrix.html#afe2e9b292b17ab3cb56cd8e2928a7cbd", null ],
+    [ "~MassMatrix", "classwbt_1_1_mass_matrix.html#a65eddacbad413fd54a8ae839dfd65291", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319", null ],
     [ "initialize", "classwbt_1_1_mass_matrix.html#a1a675f73b27bb09877dea4a487e07a36", null ],
     [ "output", "classwbt_1_1_mass_matrix.html#abb6d937ff309a4576c29f9423db0998e", null ],

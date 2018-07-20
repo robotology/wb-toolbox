@@ -2,7 +2,7 @@ var classwbt_1_1_yarp_write =
 [
     [ "impl", "class_yarp_write_1_1impl.html", "class_yarp_write_1_1impl" ],
     [ "YarpWrite", "classwbt_1_1_yarp_write.html#a98e5f635d3cf7caaf0674e98209661e4", null ],
-    [ "~YarpWrite", "classwbt_1_1_yarp_write.html#a556bc926542f4a9c20490c8eaeac25f6", null ],
+    [ "~YarpWrite", "classwbt_1_1_yarp_write.html#a8abfc08df48a53be0df73d1ec7fba94f", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_yarp_write.html#af4c1a12d060ed3f4dac753e5b76c8891", null ],
     [ "initialize", "classwbt_1_1_yarp_write.html#a1994765024c29be50873566cbd0b35b4", null ],
     [ "numberOfParameters", "classwbt_1_1_yarp_write.html#aef15e116adc558e2ee890226c00f31cd", null ],

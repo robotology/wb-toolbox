@@ -2,7 +2,7 @@ var classwbt_1_1_set_references =
 [
     [ "impl", "class_set_references_1_1impl.html", "class_set_references_1_1impl" ],
     [ "SetReferences", "classwbt_1_1_set_references.html#ad4897a1085f572375cbad41c041534ce", null ],
-    [ "~SetReferences", "classwbt_1_1_set_references.html#ac7395f8d47feacbc2fe5ce1f76ead290", null ],
+    [ "~SetReferences", "classwbt_1_1_set_references.html#a78b7e6a5cb519fe5c8ca6512fc8b1217", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_set_references.html#af4bdb37dacc4d0bce5e36182de0e8256", null ],
     [ "initialize", "classwbt_1_1_set_references.html#a785a77106907dc3c74db07d38a3f7c2c", null ],
     [ "initializeInitialConditions", "classwbt_1_1_set_references.html#af3fe782efb50ae8f90173f4ecc8c7db8", null ],

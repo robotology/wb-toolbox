@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/base/Factory.cpp File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/library/src/Factory.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,24 +101,25 @@ $(document).ready(function(){initNavTree('_factory_8cpp.html','');});
 <div class="title">Factory.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_get_limits_8h_source.html">GetLimits.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_get_measurement_8h_source.html">GetMeasurement.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_model_partitioner_8h_source.html">ModelPartitioner.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_real_time_synchronizer_8h_source.html">RealTimeSynchronizer.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_set_motor_parameters_8h_source.html">SetMotorParameters.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_set_references_8h_source.html">SetReferences.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_simulator_synchronizer_8h_source.html">SimulatorSynchronizer.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_yarp_clock_8h_source.html">YarpClock.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_yarp_read_8h_source.html">YarpRead.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_yarp_write_8h_source.html">YarpWrite.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_centroidal_momentum_8h_source.html">CentroidalMomentum.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_dot_j_nu_8h_source.html">DotJNu.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_forward_kinematics_8h_source.html">ForwardKinematics.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_inverse_dynamics_8h_source.html">InverseDynamics.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_jacobian_8h_source.html">Jacobian.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_mass_matrix_8h_source.html">MassMatrix.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_relative_transform_8h_source.html">RelativeTransform.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="_get_limits_8h_source.html">Block/GetLimits.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_get_measurement_8h_source.html">Block/GetMeasurement.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_model_partitioner_8h_source.html">Block/ModelPartitioner.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_real_time_synchronizer_8h_source.html">Block/RealTimeSynchronizer.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_set_motor_parameters_8h_source.html">Block/SetMotorParameters.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_set_references_8h_source.html">Block/SetReferences.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_simulator_synchronizer_8h_source.html">Block/SimulatorSynchronizer.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_yarp_clock_8h_source.html">Block/YarpClock.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_yarp_read_8h_source.html">Block/YarpRead.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_yarp_write_8h_source.html">Block/YarpWrite.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_centroidal_momentum_8h_source.html">Block/CentroidalMomentum.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_dot_j_nu_8h_source.html">Block/DotJNu.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_forward_kinematics_8h_source.html">Block/ForwardKinematics.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_inverse_dynamics_8h_source.html">Block/InverseDynamics.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_jacobian_8h_source.html">Block/Jacobian.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_mass_matrix_8h_source.html">Block/MassMatrix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_relative_transform_8h_source.html">Block/RelativeTransform.h</a>&quot;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
+<code>#include &quot;<a class="el" href="_shared_library_class_api_8h_source.html">SharedLibraryClassApi.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Factory.cpp:</div>
 <div class="dyncontent">
@@ -130,7 +131,7 @@ Include dependency graph for Factory.cpp:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_3d1e163e09722254d3354c6214d2151b.html">base</a></li><li class="navelem"><a class="el" href="_factory_8cpp.html">Factory.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_64380bcb215016201461a3db30e287e6.html">library</a></li><li class="navelem"><a class="el" href="dir_0163352f8d67e136b6f0c10b53bf0f02.html">src</a></li><li class="navelem"><a class="el" href="_factory_8cpp.html">Factory.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

@@ -1,5 +1,5 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/RelativeTransform.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/RelativeTransform.h">
-<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="WBBlock.h" alt="" coords="79,109,167,136"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="89,184,156,211"/>
-<area shape="rect" id="node4" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="161,259,260,285"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/include/Block/RelativeTransform.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/library/include/Block/RelativeTransform.h">
+<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="Base/WBBlock.h" alt="" coords="47,125,169,152"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Core/Block.h" alt="" coords="59,200,157,227"/>
+<area shape="rect" id="node4" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="146,275,277,301"/>
 </map>

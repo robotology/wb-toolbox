@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/SimulatorSynchronizer.h Source File</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/library/include/Block/SimulatorSynchronizer.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,7 +112,7 @@ $(document).ready(function(){initNavTree('_simulator_synchronizer_8h_source.html
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef WBT_SIMULATORSYNCHRONIZER_H</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_SIMULATORSYNCHRONIZER_H</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_block_8h.html">Block.h</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_block_8h.html">Core/Block.h</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('_simulator_synchronizer_8h_source.html
 <div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classwbt_1_1_simulator_synchronizer.html#ac69d6802af98e07ef2f2d2673070e575">   44</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code" href="classwbt_1_1_simulator_synchronizer.html#ac69d6802af98e07ef2f2d2673070e575">ClassName</a>;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classwbt_1_1_simulator_synchronizer.html#a28980ceb4dfffd09a21db99fee805491">SimulatorSynchronizer</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classwbt_1_1_simulator_synchronizer.html#a02e705765462be1eaa11ff07d82bb756">~SimulatorSynchronizer</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classwbt_1_1_simulator_synchronizer.html#addccd0c1ff308030c86206a4f065938d">~SimulatorSynchronizer</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_simulator_synchronizer.html#a66d6726207fda61fc6280de81be9848a">numberOfParameters</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::vector&lt;std::string&gt; <a class="code" href="classwbt_1_1_simulator_synchronizer.html#a0f63990e4da6e3f629a8cd462522291c">additionalBlockOptions</a>() <span class="keyword">override</span>;</div>
@@ -152,9 +152,9 @@ $(document).ready(function(){initNavTree('_simulator_synchronizer_8h_source.html
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a0f63990e4da6e3f629a8cd462522291c"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a0f63990e4da6e3f629a8cd462522291c">wbt::SimulatorSynchronizer::additionalBlockOptions</a></div><div class="ttdeci">std::vector&lt; std::string &gt; additionalBlockOptions() override</div><div class="ttdoc">Returns the vector of additional block options. </div></div>
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a04a05e434bfee95f31bf008012ef9e1e"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a04a05e434bfee95f31bf008012ef9e1e">wbt::SimulatorSynchronizer::initialize</a></div><div class="ttdeci">bool initialize(BlockInformation *blockInfo) override</div><div class="ttdoc">Initialize the block. </div></div>
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a66d6726207fda61fc6280de81be9848a"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a66d6726207fda61fc6280de81be9848a">wbt::SimulatorSynchronizer::numberOfParameters</a></div><div class="ttdeci">unsigned numberOfParameters() override</div><div class="ttdoc">Returns the number of configuration parameters needed by this block. </div></div>
-<div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a02e705765462be1eaa11ff07d82bb756"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a02e705765462be1eaa11ff07d82bb756">wbt::SimulatorSynchronizer::~SimulatorSynchronizer</a></div><div class="ttdeci">~SimulatorSynchronizer() override=default</div></div>
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_abc69140dde121f53dc8f7733a6deaf49"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#abc69140dde121f53dc8f7733a6deaf49">wbt::SimulatorSynchronizer::pImpl</a></div><div class="ttdeci">std::unique_ptr&lt; impl &gt; pImpl</div><div class="ttdef"><b>Definition:</b> SimulatorSynchronizer.h:40</div></div>
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a1dbd24b44e9019693189945746a4a0af"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a1dbd24b44e9019693189945746a4a0af">wbt::SimulatorSynchronizer::terminate</a></div><div class="ttdeci">bool terminate(const BlockInformation *blockInfo) override</div><div class="ttdoc">Cleanup block resources. </div></div>
+<div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_addccd0c1ff308030c86206a4f065938d"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#addccd0c1ff308030c86206a4f065938d">wbt::SimulatorSynchronizer::~SimulatorSynchronizer</a></div><div class="ttdeci">~SimulatorSynchronizer() override</div></div>
 <div class="ttc" id="classwbt_1_1_simulator_synchronizer_html_a52a72d879df5330fd160ce89e1b39e1c"><div class="ttname"><a href="classwbt_1_1_simulator_synchronizer.html#a52a72d879df5330fd160ce89e1b39e1c">wbt::SimulatorSynchronizer::configureSizeAndPorts</a></div><div class="ttdeci">bool configureSizeAndPorts(BlockInformation *blockInfo) override</div><div class="ttdoc">Configure the input and output ports. </div></div>
 <div class="ttc" id="classwbt_1_1_block_information_html"><div class="ttname"><a href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></div><div class="ttdoc">Abstract class for storing generic Block properties. </div><div class="ttdef"><b>Definition:</b> BlockInformation.h:56</div></div>
 <div class="ttc" id="classwbt_1_1_block_html"><div class="ttname"><a href="classwbt_1_1_block.html">wbt::Block</a></div><div class="ttdoc">Basic abstract class for wrapping generic algorithms. </div><div class="ttdef"><b>Definition:</b> Block.h:84</div></div>
@@ -165,7 +165,7 @@ $(document).ready(function(){initNavTree('_simulator_synchronizer_8h_source.html
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="_simulator_synchronizer_8h.html">SimulatorSynchronizer.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_64380bcb215016201461a3db30e287e6.html">library</a></li><li class="navelem"><a class="el" href="dir_4f376f5fe6360b64f51b0ba34f613f53.html">include</a></li><li class="navelem"><a class="el" href="dir_2bd3b3d0649f5e07fa6fd3bf496701de.html">Block</a></li><li class="navelem"><a class="el" href="_simulator_synchronizer_8h.html">SimulatorSynchronizer.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

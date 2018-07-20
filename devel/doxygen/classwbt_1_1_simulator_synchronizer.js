@@ -2,7 +2,7 @@ var classwbt_1_1_simulator_synchronizer =
 [
     [ "impl", "class_simulator_synchronizer_1_1impl.html", "class_simulator_synchronizer_1_1impl" ],
     [ "SimulatorSynchronizer", "classwbt_1_1_simulator_synchronizer.html#a28980ceb4dfffd09a21db99fee805491", null ],
-    [ "~SimulatorSynchronizer", "classwbt_1_1_simulator_synchronizer.html#a02e705765462be1eaa11ff07d82bb756", null ],
+    [ "~SimulatorSynchronizer", "classwbt_1_1_simulator_synchronizer.html#addccd0c1ff308030c86206a4f065938d", null ],
     [ "additionalBlockOptions", "classwbt_1_1_simulator_synchronizer.html#a0f63990e4da6e3f629a8cd462522291c", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_simulator_synchronizer.html#a52a72d879df5330fd160ce89e1b39e1c", null ],
     [ "initialize", "classwbt_1_1_simulator_synchronizer.html#a04a05e434bfee95f31bf008012ef9e1e", null ],

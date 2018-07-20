@@ -2,7 +2,7 @@ var classwbt_1_1_dot_j_nu =
 [
     [ "impl", "class_dot_j_nu_1_1impl.html", "class_dot_j_nu_1_1impl" ],
     [ "DotJNu", "classwbt_1_1_dot_j_nu.html#af809f7f223995926e7251901c0e03baa", null ],
-    [ "~DotJNu", "classwbt_1_1_dot_j_nu.html#a3184ad1b5b56e04c4c8d342f6faedb6d", null ],
+    [ "~DotJNu", "classwbt_1_1_dot_j_nu.html#a9af270da234a61ec81695549d4caf39c", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_dot_j_nu.html#aaa6293c8a26ec673bb2170395355af77", null ],
     [ "initialize", "classwbt_1_1_dot_j_nu.html#a6e1b34d44e7b5810fbd7fa4fb16f9256", null ],
     [ "numberOfParameters", "classwbt_1_1_dot_j_nu.html#a76be7d1ac2753f38a814b5002e134105", null ],

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/base/Parameter.h Source File</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/core/include/Core/Parameter.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -164,7 +164,7 @@ $(document).ready(function(){initNavTree('_parameter_8h_source.html','');});
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classwbt_1_1_parameter_metadata.html#ab3bee4c713a15c50b9c982b4d46dfb84">~ParameterMetadata</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="classwbt_1_1_parameter_metadata.html#a0d10cfbaf312aba8bfd5277b68272597">ParameterMetadata</a>(<span class="keyword">const</span> <a class="code" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58">ParameterType</a>&amp; t,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">unsigned</span>&amp; <a class="code" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a>,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">unsigned</span>&amp; <a class="code" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a>,</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; paramRows,</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; paramCols,</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                      <span class="keyword">const</span> std::string&amp; ParamName = {});</div>
@@ -238,7 +238,6 @@ $(document).ready(function(){initNavTree('_parameter_8h_source.html','');});
 <div class="ttc" id="classwbt_1_1_parameter_metadata_html_a0d10cfbaf312aba8bfd5277b68272597"><div class="ttname"><a href="classwbt_1_1_parameter_metadata.html#a0d10cfbaf312aba8bfd5277b68272597">wbt::ParameterMetadata::ParameterMetadata</a></div><div class="ttdeci">ParameterMetadata()=delete</div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58ac7124ccfee004668887732d17978a4c6"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58ac7124ccfee004668887732d17978a4c6">wbt::ParameterType::STRUCT_CELL_INT</a></div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58a170b86bcd85add2875b50d3441ca9ee2"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a170b86bcd85add2875b50d3441ca9ee2">wbt::ParameterType::CELL_BOOL</a></div></div>
-<div class="ttc" id="_w_b_block_8cpp_html_af89f32402083cdbd7f66ce3f92580c89"><div class="ttname"><a href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a></div><div class="ttdeci">ParamIndex</div><div class="ttdef"><b>Definition:</b> WBBlock.cpp:34</div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58a74e154be05ea73e10e986b21f8df5067"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a74e154be05ea73e10e986b21f8df5067">wbt::ParameterType::CELL_INT</a></div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58afd3e4ece78a7d422280d5ed379482229"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58afd3e4ece78a7d422280d5ed379482229">wbt::ParameterType::DOUBLE</a></div></div>
 <div class="ttc" id="classwbt_1_1_parameter_html_a28d51037b71f546af8ee8edba894636b"><div class="ttname"><a href="classwbt_1_1_parameter.html#a28d51037b71f546af8ee8edba894636b">wbt::Parameter::getMetadata</a></div><div class="ttdeci">wbt::ParameterMetadata getMetadata() const </div><div class="ttdef"><b>Definition:</b> Parameter.h:129</div></div>
@@ -249,6 +248,7 @@ $(document).ready(function(){initNavTree('_parameter_8h_source.html','');});
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58a88a51fb27094ed206454933caa60f062"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58a88a51fb27094ed206454933caa60f062">wbt::ParameterType::STRUCT_INT</a></div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58ac2255d4a9713e20bda4d216e8e2044c3"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58ac2255d4a9713e20bda4d216e8e2044c3">wbt::ParameterType::STRUCT_CELL_BOOL</a></div></div>
 <div class="ttc" id="classwbt_1_1_parameter_html_a3a039b5aa72eb03e098b6f5f1e810743"><div class="ttname"><a href="classwbt_1_1_parameter.html#a3a039b5aa72eb03e098b6f5f1e810743">wbt::Parameter::~Parameter</a></div><div class="ttdeci">~Parameter()=default</div></div>
+<div class="ttc" id="_discrete_filter_8cpp_html_af89f32402083cdbd7f66ce3f92580c89"><div class="ttname"><a href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a></div><div class="ttdeci">ParamIndex</div><div class="ttdef"><b>Definition:</b> DiscreteFilter.cpp:32</div></div>
 <div class="ttc" id="namespacewbt_html_a3974a30479347f9c0594dedc6c59fe58"><div class="ttname"><a href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58">wbt::ParameterType</a></div><div class="ttdeci">ParameterType</div><div class="ttdoc">Defines the types of parameters supported by wbt::Parameter. </div><div class="ttdef"><b>Definition:</b> Parameter.h:26</div></div>
 <div class="ttc" id="classwbt_1_1_parameter_metadata_html_ab3bee4c713a15c50b9c982b4d46dfb84"><div class="ttname"><a href="classwbt_1_1_parameter_metadata.html#ab3bee4c713a15c50b9c982b4d46dfb84">wbt::ParameterMetadata::~ParameterMetadata</a></div><div class="ttdeci">~ParameterMetadata()=default</div></div>
 <div class="ttc" id="classwbt_1_1_parameter_metadata_html_a04b014348e263a65e7f4d582bba05131"><div class="ttname"><a href="classwbt_1_1_parameter_metadata.html#a04b014348e263a65e7f4d582bba05131">wbt::ParameterMetadata::index</a></div><div class="ttdeci">const unsigned index</div><div class="ttdef"><b>Definition:</b> Parameter.h:65</div></div>
@@ -260,7 +260,7 @@ $(document).ready(function(){initNavTree('_parameter_8h_source.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="dir_c7d47b7840f5aae905346ded0e46253e.html">base</a></li><li class="navelem"><a class="el" href="_parameter_8h.html">Parameter.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_0d5ab87910e966a23f738f4cfd1bf596.html">core</a></li><li class="navelem"><a class="el" href="dir_45a05d1ba0698c39b4733f45e68f9a61.html">include</a></li><li class="navelem"><a class="el" href="dir_9e262fbaa4a2495f8398cc1c2bbf1ce8.html">Core</a></li><li class="navelem"><a class="el" href="_parameter_8h.html">Parameter.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

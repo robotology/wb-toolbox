@@ -2,7 +2,7 @@ var classwbt_1_1_get_limits =
 [
     [ "impl", "class_get_limits_1_1impl.html", "class_get_limits_1_1impl" ],
     [ "GetLimits", "classwbt_1_1_get_limits.html#a524b9fd02f2a4936a489e567723e6fb3", null ],
-    [ "~GetLimits", "classwbt_1_1_get_limits.html#a3287c00cf648939edfe4cea92f57e2b4", null ],
+    [ "~GetLimits", "classwbt_1_1_get_limits.html#a22af302a2c47491dc7986cf282e21480", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972", null ],
     [ "initialize", "classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca", null ],
     [ "initializeInitialConditions", "classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e", null ],

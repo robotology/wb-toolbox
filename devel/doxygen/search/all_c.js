@@ -35,7 +35,7 @@ var searchData=
   ['mapporttypetosimulink',['mapPortTypeToSimulink',['../classwbt_1_1_simulink_block_information.html#a270cfff3bdffc5dbde79cba1aebe8c4a',1,'wbt::SimulinkBlockInformation']]],
   ['mapsimulinktoporttype',['mapSimulinkToPortType',['../classwbt_1_1_simulink_block_information.html#a118acae721ce2b6960499e86c6ef64a1',1,'wbt::SimulinkBlockInformation']]],
   ['massmatrix',['MassMatrix',['../classwbt_1_1_mass_matrix.html',1,'wbt']]],
-  ['massmatrix',['massMatrix',['../class_mass_matrix_1_1impl.html#a80bdfa931bb3b0db7935133dcb826162',1,'wbt::MassMatrix::impl::massMatrix()'],['../classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1',1,'wbt::MassMatrix::MassMatrix()'],['../_mass_matrix_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369',1,'MassMatrix():&#160;MassMatrix.cpp']]],
+  ['massmatrix',['MassMatrix',['../classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1',1,'wbt::MassMatrix::MassMatrix()'],['../class_mass_matrix_1_1impl.html#a80bdfa931bb3b0db7935133dcb826162',1,'wbt::MassMatrix::impl::massMatrix()'],['../_mass_matrix_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369',1,'MassMatrix():&#160;MassMatrix.cpp']]],
   ['massmatrix_2ecpp',['MassMatrix.cpp',['../_mass_matrix_8cpp.html',1,'']]],
   ['massmatrix_2eh',['MassMatrix.h',['../_mass_matrix_8h.html',1,'']]],
   ['matrixsize',['MatrixSize',['../classwbt_1_1_block_information.html#a3ea6e56d884fb960f74b2b29c679f2e7',1,'wbt::BlockInformation']]],
