@@ -2,10 +2,8 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-cmake_policy(SET CMP0048 NEW)
-project(MxAnyType LANGUAGES CXX VERSION 0.1)
-# set (PROJECT_VERSION 0.1) # TODO
 cmake_minimum_required(VERSION 3.5)
+project(MxAnyType LANGUAGES CXX VERSION 0.1)
 
 # Configure the project
 # =====================
@@ -28,36 +26,29 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}"
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
 
-# Use a general prefix for the project
-# set(VARS_PREFIX ${PROJECT_NAME})
-set(VARS_PREFIX "MxAnyType")
-
-# TODO: when exporting this folder to a new repository, this will become
-#       a new project. Uncomment the project line and the alternative
-#       VARS_PREFIX.
-
 # Build the library
 # =================
 
 # Add the target
-add_library(${VARS_PREFIX} SHARED "${CMAKE_CURRENT_SOURCE_DIR}/include/AnyType.h"
-                                  "${CMAKE_CURRENT_SOURCE_DIR}/include/MxAnyType.h"
-                                  "${CMAKE_CURRENT_SOURCE_DIR}/src/MxAnyType.cpp")
+add_library(MxAnyType
+    include/AnyType.h
+    include/MxAnyType.h
+    src/MxAnyType.cpp)
 
-set_target_properties(${VARS_PREFIX} PROPERTIES
-        VERSION ${PROJECT_VERSION} # This is for the symlink of the .so
-        PUBLIC_HEADER "include/AnyType.h;include/MxAnyType.h"
+set_target_properties(MxAnyType PROPERTIES
+        VERSION ${PROJECT_VERSION}
+        PUBLIC_HEADER include/AnyType.h
 )
 
 # Find Matlab resources
 find_package(Matlab REQUIRED MX_LIBRARY)
-target_include_directories(${VARS_PREFIX} SYSTEM PUBLIC "${Matlab_INCLUDE_DIRS}")
-target_link_libraries(${VARS_PREFIX} ${Matlab_MX_LIBRARY})
+target_include_directories(MxAnyType SYSTEM PRIVATE "${Matlab_INCLUDE_DIRS}")
+target_link_libraries(MxAnyType ${Matlab_MX_LIBRARY})
 
 # Setup the include directories
-target_include_directories(${VARS_PREFIX} PUBLIC
-                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${VARS_PREFIX}>)
+target_include_directories(MxAnyType PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/MxAnyType>)
 
 # Build tests
 # ===========
@@ -68,18 +59,16 @@ target_include_directories(${VARS_PREFIX} PUBLIC
 # =======
 
 install(TARGETS MxAnyType
-        #EXPORT WBToolboxSimulinkCoder
+        EXPORT MxAnyType
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${VARS_PREFIX}"
+        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MxAnyType"
 )
 
-# TODO: when splitting this library from the toolbox, this will provide find_package support
-# include(InstallBasicPackageFiles)
-# install_basic_package_files(WBToolboxSimulinkCoder
-#     VERSION ${PROJECT_VERSION}
-#     COMPATIBILITY AnyNewerVersion
-#     TARGETS_PROPERTY MxAnyType
-#     NO_CHECK_REQUIRED_COMPONENTS_MACRO
-# )
+include(InstallBasicPackageFiles)
+install_basic_package_files(MxAnyType
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+    TARGETS MxAnyType
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO)

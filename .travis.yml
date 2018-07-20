@@ -117,7 +117,7 @@ stage_deploy:
     - cd $TRAVIS_BUILD_DIR
     - mkdir build
     - cd build
-    - cmake .. -DWBTOOLBOX_BUILD_DOCS:BOOL=TRUE
+    - cmake .. -DWBT_BUILD_DOCS:BOOL=TRUE
     - make dox || travis_terminate 1
     - make mkdocs || travis_terminate 1
     # Move the new doxygen documentation to the deploy folder
