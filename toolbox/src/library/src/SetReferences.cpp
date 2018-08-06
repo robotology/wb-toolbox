@@ -53,7 +53,7 @@ enum InputIndex
 class SetReferences::impl
 {
 public:
-    std::vector<int> controlModes;
+    std::vector<yarp::conf::vocab32_t> controlModes;
     bool resetControlMode = true;
 
     double refSpeed;
@@ -357,6 +357,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             pImpl->previousReferenceVocabCmPosition.assign(bufferReferences,
                                                            bufferReferences + dofs);
             if (oldReference == pImpl->previousReferenceVocabCmPosition) {
+                ok = true;
                 break;
             }
             // Get the interface
