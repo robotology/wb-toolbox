@@ -162,7 +162,7 @@ static void mdlInitializeSizes(SimStruct* S)
 
     // Allocate the block from the Factory.
     // At this stage, the object is just temporary.
-    wbt::Block* block;
+    std::unique_ptr<wbt::Block> block;
     {
         // Allocate the factory
         shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
@@ -175,7 +175,7 @@ static void mdlInitializeSizes(SimStruct* S)
         }
 
         // Allocate the block from the factory
-        block = factory.create();
+        block.reset(factory.create());
     }
 
     // Notify errors
