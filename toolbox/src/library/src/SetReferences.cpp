@@ -53,7 +53,7 @@ enum InputIndex
 class SetReferences::impl
 {
 public:
-    std::vector<int> controlModes;
+    std::vector<yarp::conf::vocab32_t> controlModes;
     bool resetControlMode = true;
 
     double refSpeed;
