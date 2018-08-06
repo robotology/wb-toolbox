@@ -357,6 +357,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             pImpl->previousReferenceVocabCmPosition.assign(bufferReferences,
                                                            bufferReferences + dofs);
             if (oldReference == pImpl->previousReferenceVocabCmPosition) {
+                ok = true;
                 break;
             }
             // Get the interface
