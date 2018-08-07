@@ -106,7 +106,7 @@ WholeBodySingleton::createRobotInterface(const Configuration& config)
     const std::string& confKey = config.getConfKey();
 
     // If there's already a key matching confKey, but the related smart pointer is expired, it means
-    // that it is a leftofer from a previous state. Clean the entry.
+    // that it is a leftover from a previous state. Clean the entry.
     if (m_interfaces.find(confKey) != m_interfaces.end() && m_interfaces.at(confKey).expired()) {
         m_interfaces.erase(confKey);
     }
