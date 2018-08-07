@@ -41,18 +41,6 @@ namespace wbt {
     using JointIndex_Yarp = int;
     using JointIndex_iDynTree = int;
     using JointName = std::string;
-    using ControlBoardIndex = unsigned;
-    using JointIndexInControlBoard = unsigned;
-
-    using JointIndexToYarpMap =
-        std::unordered_map<JointIndex_iDynTree, std::pair<ControlBoardIndex, JointIndex_Yarp>>;
-    using JointNameToYarpMap =
-        std::unordered_map<JointName, std::pair<ControlBoardIndex, JointIndex_Yarp>>;
-    using JointNameToIndexInControlBoardMap =
-        std::unordered_map<JointName, JointIndexInControlBoard>;
-
-    using ControlBoardMaxIndex = unsigned;
-    using ControlBoardIndexLimit = std::unordered_map<ControlBoardIndex, ControlBoardMaxIndex>;
 } // namespace wbt
 
 /**
@@ -87,51 +75,6 @@ public:
      * @return A reference of the configuration this object refers to.
      */
     const wbt::Configuration& getConfiguration() const;
-
-    /**
-     * @brief Get the map between model joint names and the YARP representation (Control Board and
-     * joint index)
-     *
-     * @return The joint map.
-     */
-    const std::shared_ptr<JointNameToYarpMap> getJointsMapString();
-
-    /**
-     * @brief Get the map between model joint indices and the YARP representation (Control Board and
-     * joint index)
-     *
-     * @return The joint map.
-     */
-    const std::shared_ptr<JointIndexToYarpMap> getJointsMapIndex();
-
-    /**
-     * @brief Get the map between model joint names and the index representing their relative
-     * ordering inside the controlledJoints vector relative to their ControlBoard
-     *
-     * @remark For example, if the joints are `j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3`, the map
-     * links them to `0 1 2 0 1 0`. Note that joints are 0-indexed.
-     *
-     * @return The joint map.
-     */
-    const std::shared_ptr<JointNameToIndexInControlBoardMap> getControlledJointsMapCB();
-
-    /**
-     * @brief Get the map between the ControlBoard index inside the RemoteControlBoardRemapper
-     * and the number of the controlled joints belonging to it
-     *
-     * @remark For example, if the joints are
-     * ```
-     * j1_cb1 j2_cb1 j3_cb1 j1_cb2 j2_cb2 j1_cb3
-     * ```
-     * the generated map is
-     * ```
-     * {{0,3}{1,2}{2,1}}
-     * ```
-     * Note that the map key is 0-indexed.
-     *
-     * @return The control board limit map.
-     */
-    const std::shared_ptr<ControlBoardIndexLimit> getControlBoardIdxLimit();
 
     /**
      * @brief Get the object to operate on the configured model

@@ -100,12 +100,6 @@ configure_block(BLOCK_NAME "Real Time Synchronizer"
     SOURCES src/RealTimeSynchronizer.cpp
     HEADERS include/Block/RealTimeSynchronizer.h)
 
-configure_block(BLOCK_NAME "Model Partitioner"
-    GROUP "Utilities"
-    LIST_PREFIX WBT
-    SOURCES src/ModelPartitioner.cpp
-    HEADERS include/Block/ModelPartitioner.h)
-
 configure_block(BLOCK_NAME "Yarp Clock"
     GROUP "Utilities"
     LIST_PREFIX WBT

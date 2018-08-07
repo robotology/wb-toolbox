@@ -9,7 +9,6 @@
 // YARP-dependent blocks
 #include "Block/GetLimits.h"
 #include "Block/GetMeasurement.h"
-#include "Block/ModelPartitioner.h"
 #include "Block/RealTimeSynchronizer.h"
 #include "Block/SetMotorParameters.h"
 #include "Block/SetReferences.h"
@@ -50,7 +49,6 @@
 // YARP-dependent blocks
 SHLIBPP_DEFINE_SHARED_SUBCLASS(GetLimits, wbt::GetLimits, wbt::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(GetMeasurement, wbt::GetMeasurement, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(ModelPartitioner, wbt::ModelPartitioner, wbt::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(RealTimeSynchronizer, wbt::RealTimeSynchronizer, wbt::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(SetMotorParameters, wbt::SetMotorParameters, wbt::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(SetReferences, wbt::SetReferences, wbt::Block)

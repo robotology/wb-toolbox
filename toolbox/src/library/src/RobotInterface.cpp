@@ -58,14 +58,7 @@ public:
     std::shared_ptr<iDynTree::KinDynComputations> kinDynComp;
     YarpInterfaces yarpInterfaces;
 
-    // Maps used to store infos about yarp's and idyntree's internal joint indexing
-    std::shared_ptr<JointIndexToYarpMap> jointIndexToYarpMap;
-    std::shared_ptr<JointNameToYarpMap> jointNameToYarpMap;
-    std::shared_ptr<JointNameToIndexInControlBoardMap> jointNameToIndexInControlBoardMap;
-    std::shared_ptr<ControlBoardIndexLimit> controlBoardIndexLimit;
-
     const wbt::Configuration config; // Configuration from Simulink Block's parameters
-    wbt::RobotInterface* robotInterface = nullptr; // Pointer to the RobotInterface object
 
     impl() = delete;
     explicit impl(const Configuration& configuration)
@@ -96,8 +89,6 @@ public:
         }
         return true;
     }
-
-    void setOwner(wbt::RobotInterface* r) { robotInterface = r; }
 
     bool initializeModel()
     {
@@ -210,168 +201,6 @@ public:
 
         return true;
     }
-
-    /**
-     * @brief Map joints between iDynTree and Yarp indices
-     *
-     * Creates the map between joints (specified as either names or idyntree indices) and
-     * their YARP representation, which consist in a pair: Control Board index and joint index
-     * inside the its Control Board.
-     *
-     * @see RobotInterface::getJointsMapString, RobotInterface::getJointsMapIndex
-     *
-     * @return True if the map has been created successfully, false otherwise.
-     */
-    bool mapDoFs()
-    {
-        // Initialize the network
-        yarp::os::Network::init();
-        if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-            wbtError << "YARP server wasn't found active.";
-            return false;
-        }
-
-        std::vector<std::unique_ptr<yarp::dev::IAxisInfo>> iAxisInfos;
-
-        for (unsigned cbNum = 0; cbNum < config.getControlBoardsNames().size(); ++cbNum) {
-
-            std::unique_ptr<yarp::dev::PolyDriver> controlBoard;
-            const std::string prefix = "/" + config.getRobotName() + "/";
-            const std::string remoteName = prefix + config.getControlBoardsNames().at(cbNum);
-
-            if (!getSingleControlBoard(remoteName, controlBoard)) {
-                return false;
-            }
-
-            // Get an IAxisInfo object from the interface
-            std::unique_ptr<yarp::dev::IAxisInfo> iAxisInfo;
-            yarp::dev::IAxisInfo* iAxisInfoPtr = iAxisInfo.get();
-            controlBoard->view(iAxisInfoPtr);
-            if (!iAxisInfoPtr) {
-                wbtError << "Unable to open IAxisInfo from " << remoteName << ".";
-                return false;
-            }
-
-            // Get an IEncoders object from the interface
-            // This is used to get how many joints the control board contains
-            std::unique_ptr<yarp::dev::IEncoders> iEnc;
-            yarp::dev::IEncoders* iEncPtr = iEnc.get();
-            controlBoard->view(iEncPtr);
-            int numAxes;
-            if (!iEncPtr || !iEncPtr->getAxes(&numAxes)) {
-                wbtError << "Unable to open IEncoders from " << remoteName << ".";
-                return false;
-            }
-
-            int found = -1;
-            // Iterate all the joints in the selected Control Board
-            for (unsigned axis = 0; axis < numAxes; ++axis) {
-                std::string axisName;
-                if (!iAxisInfoPtr->getAxisName(axis, axisName)) {
-                    wbtError << "Unable to get AxisName from " << remoteName << ".";
-                    return false;
-                }
-                // Look if axisName is a controlledJoint
-                for (const auto& controlledJoint : config.getControlledJoints()) {
-                    if (controlledJoint == axisName) {
-                        found++;
-                        // Get the iDynTree index from the model
-                        const auto& kinDynComp = robotInterface->getKinDynComputations();
-                        if (!kinDynComp) {
-                            wbtError << "Failed to get KinDynComputations.";
-                            return false;
-                        }
-                        const auto& model = kinDynComp->model();
-                        iDynTree::JointIndex iDynJointIdx = model.getJointIndex(axisName);
-                        if (iDynJointIdx == iDynTree::JOINT_INVALID_INDEX) {
-                            wbtError << "Joint " << axisName << " exists in the " << remoteName
-                                     << " control board but not in the model.";
-                            return false;
-                        }
-                        // If this is the first entry to add, allocate the objects
-                        if (!jointIndexToYarpMap) {
-                            jointIndexToYarpMap = std::make_shared<JointIndexToYarpMap>();
-                        }
-                        if (!jointNameToYarpMap) {
-                            jointNameToYarpMap = std::make_shared<JointNameToYarpMap>();
-                        }
-                        if (!jointNameToIndexInControlBoardMap) {
-                            jointNameToIndexInControlBoardMap =
-                                std::make_shared<JointNameToIndexInControlBoardMap>();
-                        }
-                        if (!controlBoardIndexLimit) {
-                            controlBoardIndexLimit = std::make_shared<ControlBoardIndexLimit>();
-                        }
-                        // Create a new entry in the map objects
-                        jointNameToYarpMap->insert(
-                            std::make_pair(controlledJoint, std::make_pair(cbNum, axis)));
-                        jointIndexToYarpMap->insert(std::make_pair(static_cast<int>(iDynJointIdx),
-                                                                   std::make_pair(cbNum, axis)));
-                        jointNameToIndexInControlBoardMap->insert(
-                            std::make_pair(controlledJoint, found));
-                        (*controlBoardIndexLimit)[cbNum] = found + 1;
-                        break;
-                    }
-                }
-            }
-
-            // Notify that the control board just checked is not used by any joint
-            // of the controlledJoints list
-            if (found < 0) {
-                wbtWarning << "No controlled joints found in "
-                                  + config.getControlBoardsNames().at(cbNum)
-                                  + " control board. It might be unused.";
-            }
-
-            // Close the ControlBoard device
-            if (!controlBoard->close()) {
-                wbtError << "Unable to close the interface of the Control Board.";
-                return false;
-            }
-        }
-
-        // Initialize the network
-        yarp::os::Network::fini();
-
-        return true;
-    }
-
-    /**
-     * @brief Create a RemoteControlBoard object for a given remoteName
-     *
-     * @see mapDoFs
-     *
-     * @param remoteName Name of the remote from which the remote control board is be initialized
-     * @param[out] controlBoard Smart pointer to the allocated remote control board
-     * @return True if success, false otherwise.
-     */
-    bool getSingleControlBoard(const std::string& remoteName,
-                               std::unique_ptr<yarp::dev::PolyDriver>& controlBoard)
-    {
-        // Configure the single control board
-        yarp::os::Property options;
-        options.clear();
-        options.put("device", "remote_controlboard");
-        options.put("remote", remoteName);
-        options.put("local", config.getLocalName() + "/CBtmp");
-        options.put("writeStrict", "on");
-
-        // Initialize the device
-        controlBoard = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
-        if (!controlBoard) {
-            wbtError << "Failed to retain the RemoteControlBoard "
-                     << "used for mapping iDynTree - YARP DoFs.";
-            return false;
-        }
-
-        // Try to open the control board
-        if (!controlBoard->open(options) || !controlBoard->isValid()) {
-            wbtError << "Unable to open RemoteControlBoard " << remoteName << ".";
-            return false;
-        }
-
-        return true;
-    }
 };
 
 // ==============
@@ -383,9 +212,7 @@ public:
 
 RobotInterface::RobotInterface(const wbt::Configuration& config)
     : pImpl{new impl(config)}
-{
-    pImpl->setOwner(this);
-}
+{}
 
 RobotInterface::~RobotInterface()
 {
@@ -403,58 +230,6 @@ RobotInterface::~RobotInterface()
 const wbt::Configuration& RobotInterface::getConfiguration() const
 {
     return pImpl->config;
-}
-
-const std::shared_ptr<JointNameToYarpMap> RobotInterface::getJointsMapString()
-{
-    if (!pImpl->jointNameToYarpMap || pImpl->jointNameToYarpMap->empty()) {
-        if (!pImpl->mapDoFs()) {
-            wbtError << "Failed to create the joint maps.";
-            return nullptr;
-        }
-    }
-
-    return pImpl->jointNameToYarpMap;
-}
-
-const std::shared_ptr<JointIndexToYarpMap> RobotInterface::getJointsMapIndex()
-{
-    if (!pImpl->jointIndexToYarpMap || pImpl->jointIndexToYarpMap->empty()) {
-        if (!pImpl->mapDoFs()) {
-            wbtError << "Failed to create the joint maps.";
-            return nullptr;
-        }
-    }
-
-    assert(pImpl->jointIndexToYarpMap);
-    return pImpl->jointIndexToYarpMap;
-}
-
-const std::shared_ptr<JointNameToIndexInControlBoardMap> RobotInterface::getControlledJointsMapCB()
-{
-    if (!pImpl->jointNameToIndexInControlBoardMap
-        || pImpl->jointNameToIndexInControlBoardMap->empty()) {
-        if (!pImpl->mapDoFs()) {
-            wbtError << "Failed to create joint maps.";
-            return nullptr;
-        }
-    }
-
-    assert(pImpl->jointNameToIndexInControlBoardMap);
-    return pImpl->jointNameToIndexInControlBoardMap;
-}
-
-const std::shared_ptr<ControlBoardIndexLimit> RobotInterface::getControlBoardIdxLimit()
-{
-    if (!pImpl->controlBoardIndexLimit || pImpl->controlBoardIndexLimit->empty()) {
-        if (!pImpl->mapDoFs()) {
-            wbtError << "Failed to create joint maps.";
-            return nullptr;
-        }
-    }
-
-    assert(pImpl->controlBoardIndexLimit);
-    return pImpl->controlBoardIndexLimit;
 }
 
 const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynComputations()
