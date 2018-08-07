@@ -6,7 +6,7 @@ fprintf('\nWhole Body Toolbox\n');
 
 installDir = '@CMAKE_INSTALL_PREFIX@';
 mexDir     = [installDir, filesep, 'mex'];
-shareDir   = '@WB-TOOLBOX_SHARE_DIR@';
+shareDir   = '@CMAKE_INSTALL_PREFIX@/@WBTOOLBOX_SHARE_DIR@';
 imgDir     = [shareDir, filesep, 'images'];
 
 if exist(mexDir, 'dir')
