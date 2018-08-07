@@ -14,16 +14,15 @@
 <area shape="rect" id="node16" href="$_jacobian_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/Jacobian.cpp" alt="" coords="2206,126,2359,197"/>
 <area shape="rect" id="node17" href="$_mass_matrix_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/MassMatrix.cpp" alt="" coords="2383,126,2536,197"/>
 <area shape="rect" id="node18" href="$_minimum_jerk_trajectory_generator_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/MinimumJerkTrajectoryGenerator.cpp" alt="" coords="2561,126,2804,197"/>
-<area shape="rect" id="node19" href="$_model_partitioner_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/ModelPartitioner.cpp" alt="" coords="2829,126,2981,197"/>
-<area shape="rect" id="node20" href="$_qp_oases_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/QpOases.cpp" alt="" coords="3006,126,3159,197"/>
-<area shape="rect" id="node21" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/RelativeTransform.cpp" alt="" coords="3183,126,3341,197"/>
-<area shape="rect" id="node22" href="$_remote_inverse_kinematics_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/RemoteInverseKinematics.cpp" alt="" coords="3367,126,3572,197"/>
-<area shape="rect" id="node23" href="$_set_motor_parameters_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/SetMotorParameters.cpp" alt="" coords="3596,126,3767,197"/>
-<area shape="rect" id="node24" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/SetReferences.cpp" alt="" coords="3791,126,3944,197"/>
-<area shape="rect" id="node25" href="$_w_b_block_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/WBBlock.cpp" alt="" coords="3969,126,4121,197"/>
-<area shape="rect" id="node26" href="$_yarp_clock_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpClock.cpp" alt="" coords="4146,126,4299,197"/>
-<area shape="rect" id="node27" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpRead.cpp" alt="" coords="4323,126,4476,197"/>
-<area shape="rect" id="node28" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpWrite.cpp" alt="" coords="4501,126,4653,197"/>
+<area shape="rect" id="node19" href="$_qp_oases_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/QpOases.cpp" alt="" coords="2829,126,2981,197"/>
+<area shape="rect" id="node20" href="$_relative_transform_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/RelativeTransform.cpp" alt="" coords="3006,126,3164,197"/>
+<area shape="rect" id="node21" href="$_remote_inverse_kinematics_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/RemoteInverseKinematics.cpp" alt="" coords="3189,126,3395,197"/>
+<area shape="rect" id="node22" href="$_set_motor_parameters_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/SetMotorParameters.cpp" alt="" coords="3419,126,3589,197"/>
+<area shape="rect" id="node23" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/SetReferences.cpp" alt="" coords="3614,126,3767,197"/>
+<area shape="rect" id="node24" href="$_w_b_block_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/WBBlock.cpp" alt="" coords="3791,126,3944,197"/>
+<area shape="rect" id="node25" href="$_yarp_clock_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpClock.cpp" alt="" coords="3969,126,4121,197"/>
+<area shape="rect" id="node26" href="$_yarp_read_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpRead.cpp" alt="" coords="4146,126,4299,197"/>
+<area shape="rect" id="node27" href="$_yarp_write_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/YarpWrite.cpp" alt="" coords="4323,126,4476,197"/>
 <area shape="rect" id="node3" href="$_coder_block_information_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/core/src\l/CoderBlockInformation.cpp" alt="" coords="5,246,189,317"/>
 <area shape="rect" id="node6" href="$_w_b_toolbox_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/core/src\l/WBToolbox.cpp" alt="" coords="437,246,589,317"/>
 </map>

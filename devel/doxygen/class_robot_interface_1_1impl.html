@@ -123,18 +123,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa5659a6d497adb014697f94a88e89ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af98b5032edd60cd8df332e4ff05c04c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#af98b5032edd60cd8df332e4ff05c04c6">checkInterface</a> (std::function&lt; bool(double *)&gt; &amp;getMeasurement)</td></tr>
 <tr class="separator:af98b5032edd60cd8df332e4ff05c04c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a001b8f3a1f68c9c07841af03e3521dd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a001b8f3a1f68c9c07841af03e3521dd0">setOwner</a> (<a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> *r)</td></tr>
-<tr class="separator:a001b8f3a1f68c9c07841af03e3521dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05773ae4c4ab294f0aed1befaf47bc75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a05773ae4c4ab294f0aed1befaf47bc75">initializeModel</a> ()</td></tr>
 <tr class="separator:a05773ae4c4ab294f0aed1befaf47bc75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba63312f96e3fb175a179e97073da473"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#aba63312f96e3fb175a179e97073da473">initializeRemoteControlBoardRemapper</a> ()</td></tr>
 <tr class="separator:aba63312f96e3fb175a179e97073da473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ad11d7575c45e7ceb4675df0cc1c221"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a1ad11d7575c45e7ceb4675df0cc1c221">mapDoFs</a> ()</td></tr>
-<tr class="memdesc:a1ad11d7575c45e7ceb4675df0cc1c221"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map joints between <a class="el" href="namespacei_dyn_tree.html">iDynTree</a> and Yarp indices.  <a href="#a1ad11d7575c45e7ceb4675df0cc1c221">More...</a><br/></td></tr>
-<tr class="separator:a1ad11d7575c45e7ceb4675df0cc1c221"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a916cebf24683cd6cc86394d3a865180f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a916cebf24683cd6cc86394d3a865180f">getSingleControlBoard</a> (const std::string &amp;remoteName, std::unique_ptr&lt; yarp::dev::PolyDriver &gt; &amp;controlBoard)</td></tr>
-<tr class="memdesc:a916cebf24683cd6cc86394d3a865180f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a RemoteControlBoard object for a given remoteName.  <a href="#a916cebf24683cd6cc86394d3a865180f">More...</a><br/></td></tr>
-<tr class="separator:a916cebf24683cd6cc86394d3a865180f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -146,22 +138,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aa20509eaeb627c1ff8a828a1c6626cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c642c1cc94480e8ccbf61ac76f98cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_yarp_interfaces.html">YarpInterfaces</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#ad3c642c1cc94480e8ccbf61ac76f98cc">yarpInterfaces</a></td></tr>
 <tr class="separator:ad3c642c1cc94480e8ccbf61ac76f98cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fb4eb5fced3aa1e6ea7a24c3d5edb91"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="namespacewbt.html#a5a6cffad2ae378eae4433948d6690701">JointIndexToYarpMap</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a9fb4eb5fced3aa1e6ea7a24c3d5edb91">jointIndexToYarpMap</a></td></tr>
-<tr class="separator:a9fb4eb5fced3aa1e6ea7a24c3d5edb91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecb8ce427ffa5ab98eb9506d1a98cb16"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="namespacewbt.html#ac9c675d0cfc527e1759ab53ec62cfda9">JointNameToYarpMap</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#aecb8ce427ffa5ab98eb9506d1a98cb16">jointNameToYarpMap</a></td></tr>
-<tr class="separator:aecb8ce427ffa5ab98eb9506d1a98cb16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cf7bc3f813a292cbed0cf40e5948b14"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="namespacewbt.html#a39fcb7b080b8c40f07acae8bbcf0acbe">JointNameToIndexInControlBoardMap</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a9cf7bc3f813a292cbed0cf40e5948b14">jointNameToIndexInControlBoardMap</a></td></tr>
-<tr class="separator:a9cf7bc3f813a292cbed0cf40e5948b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c52a637aaacef868c877515c4460094"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="namespacewbt.html#afa7b1f0ca9cc31efc26e5129c5e7b60e">ControlBoardIndexLimit</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a4c52a637aaacef868c877515c4460094">controlBoardIndexLimit</a></td></tr>
-<tr class="separator:a4c52a637aaacef868c877515c4460094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08a822c9a95aaea95a76376c8ed26039"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classwbt_1_1_configuration.html">wbt::Configuration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a08a822c9a95aaea95a76376c8ed26039">config</a></td></tr>
 <tr class="separator:a08a822c9a95aaea95a76376c8ed26039"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9152b9b8fc83bb355be8c14e638fd6ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_robot_interface_1_1impl.html#a9152b9b8fc83bb355be8c14e638fd6ca">robotInterface</a> = nullptr</td></tr>
-<tr class="separator:a9152b9b8fc83bb355be8c14e638fd6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a78fbad0c53075e73a1e706b34a1a15f3"></a>
@@ -264,51 +242,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a916cebf24683cd6cc86394d3a865180f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool wbt::RobotInterface::impl::getSingleControlBoard </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>remoteName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::unique_ptr&lt; yarp::dev::PolyDriver &gt; &amp;&#160;</td>
-          <td class="paramname"><em>controlBoard</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a RemoteControlBoard object for a given remoteName. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_robot_interface_1_1impl.html#a1ad11d7575c45e7ceb4675df0cc1c221" title="Map joints between iDynTree and Yarp indices. ">mapDoFs</a></dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">remoteName</td><td>Name of the remote from which the remote control board is be initialized </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">controlBoard</td><td>Smart pointer to the allocated remote control board </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if success, false otherwise. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a05773ae4c4ab294f0aed1befaf47bc75"></a>
 <div class="memitem">
 <div class="memproto">
@@ -355,58 +288,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1ad11d7575c45e7ceb4675df0cc1c221"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool wbt::RobotInterface::impl::mapDoFs </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Map joints between <a class="el" href="namespacei_dyn_tree.html">iDynTree</a> and Yarp indices. </p>
-<p>Creates the map between joints (specified as either names or idyntree indices) and their YARP representation, which consist in a pair: Control Board index and joint index inside the its Control Board.</p>
-<dl class="section see"><dt>See Also</dt><dd>RobotInterface::getJointsMapString, RobotInterface::getJointsMapIndex</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the map has been created successfully, false otherwise. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a001b8f3a1f68c9c07841af03e3521dd0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void wbt::RobotInterface::impl::setOwner </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a> *&#160;</td>
-          <td class="paramname"><em>r</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a08a822c9a95aaea95a76376c8ed26039"></a>
 <div class="memitem">
@@ -414,54 +295,6 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">const <a class="el" href="classwbt_1_1_configuration.html">wbt::Configuration</a> wbt::RobotInterface::impl::config</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4c52a637aaacef868c877515c4460094"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="namespacewbt.html#afa7b1f0ca9cc31efc26e5129c5e7b60e">ControlBoardIndexLimit</a>&gt; wbt::RobotInterface::impl::controlBoardIndexLimit</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9fb4eb5fced3aa1e6ea7a24c3d5edb91"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="namespacewbt.html#a5a6cffad2ae378eae4433948d6690701">JointIndexToYarpMap</a>&gt; wbt::RobotInterface::impl::jointIndexToYarpMap</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9cf7bc3f813a292cbed0cf40e5948b14"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="namespacewbt.html#a39fcb7b080b8c40f07acae8bbcf0acbe">JointNameToIndexInControlBoardMap</a>&gt; wbt::RobotInterface::impl::jointNameToIndexInControlBoardMap</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aecb8ce427ffa5ab98eb9506d1a98cb16"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="namespacewbt.html#ac9c675d0cfc527e1759ab53ec62cfda9">JointNameToYarpMap</a>&gt; wbt::RobotInterface::impl::jointNameToYarpMap</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -486,18 +319,6 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;yarp::dev::PolyDriver&gt; wbt::RobotInterface::impl::robotDevice</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9152b9b8fc83bb355be8c14e638fd6ca"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classwbt_1_1_robot_interface.html">wbt::RobotInterface</a>* wbt::RobotInterface::impl::robotInterface = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">

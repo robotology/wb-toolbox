@@ -17,7 +17,6 @@ var searchData=
   ['_7elog',['~Log',['../classwbt_1_1_log.html#a2463f53df1303b4a7706b1d46bea4565',1,'wbt::Log']]],
   ['_7emassmatrix',['~MassMatrix',['../classwbt_1_1_mass_matrix.html#a65eddacbad413fd54a8ae839dfd65291',1,'wbt::MassMatrix']]],
   ['_7eminimumjerktrajectorygenerator',['~MinimumJerkTrajectoryGenerator',['../classwbt_1_1_minimum_jerk_trajectory_generator.html#af7c678be82d01706e33d842a9cda7f7d',1,'wbt::MinimumJerkTrajectoryGenerator']]],
-  ['_7emodelpartitioner',['~ModelPartitioner',['../classwbt_1_1_model_partitioner.html#a925ba618cc9257b061c04542fe6269c8',1,'wbt::ModelPartitioner']]],
   ['_7eparameter',['~Parameter',['../classwbt_1_1_parameter.html#a3a039b5aa72eb03e098b6f5f1e810743',1,'wbt::Parameter']]],
   ['_7eparametermetadata',['~ParameterMetadata',['../classwbt_1_1_parameter_metadata.html#ab3bee4c713a15c50b9c982b4d46dfb84',1,'wbt::ParameterMetadata']]],
   ['_7eparameters',['~Parameters',['../classwbt_1_1_parameters.html#a640a1a349975a8cb023696f25e563a5c',1,'wbt::Parameters']]],

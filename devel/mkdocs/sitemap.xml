@@ -1,58 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/install/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/getting-started/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/troubleshooting/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/documentation/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc></loc>
+     
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/create_new_block/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc></loc>
+     
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/sim_tricks/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/Migration_from_WBI-Toolbox_1.0/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/Migration_from_WB-Toolbox_2.0/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/about/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>/license/</loc>
-     <lastmod>2018-07-20</lastmod>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>None</loc>
+     <lastmod>2018-08-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

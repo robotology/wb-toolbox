@@ -19,7 +19,6 @@ var searchData=
   ['setoutputporttype',['setOutputPortType',['../classwbt_1_1_simulink_block_information.html#afb82290ad6ca51ab23a616dcf8689847',1,'wbt::SimulinkBlockInformation']]],
   ['setoutputportvectorsize',['setOutputPortVectorSize',['../classwbt_1_1_simulink_block_information.html#aee5b333decbdf8d9eebd0c3a5198b9f9',1,'wbt::SimulinkBlockInformation']]],
   ['setoutputsignal',['setOutputSignal',['../classwbt_1_1_coder_block_information.html#a78d6fc9b1645f7ee5eb42059cf436377',1,'wbt::CoderBlockInformation']]],
-  ['setowner',['setOwner',['../class_robot_interface_1_1impl.html#a001b8f3a1f68c9c07841af03e3521dd0',1,'RobotInterface::impl']]],
   ['setparameters',['setParameters',['../classwbt_1_1_configuration.html#ac6267d44a51a3db0729114a8fa6f11e7',1,'wbt::Configuration']]],
   ['setreferences',['SetReferences',['../classwbt_1_1_set_references.html#ad4897a1085f572375cbad41c041534ce',1,'wbt::SetReferences']]],
   ['setrobotname',['setRobotName',['../classwbt_1_1_configuration.html#ac6a2a282fc6eeb1a285d7ab4baf67fbb',1,'wbt::Configuration']]],

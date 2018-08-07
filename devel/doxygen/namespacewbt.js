@@ -25,7 +25,6 @@ var namespacewbt =
     [ "Jacobian", "classwbt_1_1_jacobian.html", "classwbt_1_1_jacobian" ],
     [ "MassMatrix", "classwbt_1_1_mass_matrix.html", "classwbt_1_1_mass_matrix" ],
     [ "MinimumJerkTrajectoryGenerator", "classwbt_1_1_minimum_jerk_trajectory_generator.html", "classwbt_1_1_minimum_jerk_trajectory_generator" ],
-    [ "ModelPartitioner", "classwbt_1_1_model_partitioner.html", "classwbt_1_1_model_partitioner" ],
     [ "QpOases", "classwbt_1_1_qp_oases.html", "classwbt_1_1_qp_oases" ],
     [ "RealTimeSynchronizer", "classwbt_1_1_real_time_synchronizer.html", "classwbt_1_1_real_time_synchronizer" ],
     [ "RelativeTransform", "classwbt_1_1_relative_transform.html", "classwbt_1_1_relative_transform" ],

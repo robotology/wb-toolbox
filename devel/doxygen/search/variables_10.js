@@ -13,7 +13,6 @@ var searchData=
   ['response',['response',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#a3954cc91a89a968143cb1a71c5493b36',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]],
   ['returnvalue',['returnValue',['../classshlibpp_1_1_shared_library_factory.html#a47285fb2da7a88539cce10fd4861890b',1,'shlibpp::SharedLibraryFactory']]],
   ['robotdevice',['robotDevice',['../class_robot_interface_1_1impl.html#a1da5ecc2aba9e967f657abfab108d6be',1,'RobotInterface::impl']]],
-  ['robotinterface',['robotInterface',['../class_robot_interface_1_1impl.html#a9152b9b8fc83bb355be8c14e638fd6ca',1,'RobotInterface::impl']]],
   ['robotname',['robotName',['../class_configuration_1_1impl.html#acdabb54e8f2ea08b6080fc65469ce1d1',1,'Configuration::impl']]],
   ['roomtogrow',['roomToGrow',['../structshlibpp_1_1_shared_library_class_api.html#a7d1be3687b240943035057be7ac798f1',1,'shlibpp::SharedLibraryClassApi']]],
   ['rows',['rows',['../classwbt_1_1_parameter_metadata.html#a9d46a51d881da187617220f1b97e0fc7',1,'wbt::ParameterMetadata']]],

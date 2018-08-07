@@ -12,7 +12,6 @@ var searchData=
   ['destinationportname',['destinationPortName',['../class_yarp_write_1_1impl.html#aa471c8255662f0a59cb184f3fad2c77f',1,'YarpWrite::impl']]],
   ['destroy',['destroy',['../structshlibpp_1_1_shared_library_class_api.html#affde46b9cb4d3989727ae9e6d825dcc7',1,'shlibpp::SharedLibraryClassApi::destroy()'],['../classshlibpp_1_1_shared_library_class_factory.html#aeb543c4123b1f6b1056bb9204d6ae78d',1,'shlibpp::SharedLibraryClassFactory::destroy()']]],
   ['dimensions',['Dimensions',['../structwbt_1_1_block_information_1_1_port.html#a6b6cb31497f9b38a7706ddc8604a2266a38edf62fc01eb80b47ea6d950046bcad',1,'wbt::BlockInformation::Port']]],
-  ['direction',['Direction',['../_model_partitioner_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab84655226f98204d9d67ebb405d610b2',1,'ModelPartitioner.cpp']]],
   ['discretefilter',['DiscreteFilter',['../classwbt_1_1_discrete_filter.html#af27ae51026ab6a80091943117ad1cf30',1,'wbt::DiscreteFilter']]],
   ['discretefilter',['DiscreteFilter',['../classwbt_1_1_discrete_filter.html',1,'wbt']]],
   ['discretefilter_2ecpp',['DiscreteFilter.cpp',['../_discrete_filter_8cpp.html',1,'']]],
