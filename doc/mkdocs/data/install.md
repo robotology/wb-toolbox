@@ -63,17 +63,17 @@ In order to use the `WB-Toolbox` in Matlab you have to add some folders to the M
 If you usually execute Matlab from the command line, exporting the following environment variable should be enough:
 
 ```bash
-export MATLABPATH=<install-prefix>/mex:<install-prefix>/share/WB-Toolbox:<install-prefix>/share/WB-Toolbox/images
+export MATLABPATH=<install-prefix>/mex:<install-prefix>/share/WBToolbox:<install-prefix>/share/WBToolbox/images
 ```
 
 If, instead, you use the desktop launcher, a non-persistent Matlab configuration is the following:
 
 ```matlab
 addpath(['<install-prefix>' /mex])
-addpath(genpath(['<install-prefix>' /share/WB-Toolbox]))
+addpath(genpath(['<install-prefix>' /share/WBToolbox]))
 ```
 
-We also provide for the latter scenario a persistent configuration of `WB-Toolbox`. After the installation, only once after the installation, run the `startup_wbitoolbox.m` script that you can find in the `<install-prefix>/share/WB-Toolbox` directory. This usage assumes that Matlab is always launched from the [`userpath` folder](https://it.mathworks.com/help/matlab/matlab_env/assign-userpath-as-the-startup-folder-on-unix-or-macintosh.html).
+We also provide for the latter scenario a persistent configuration of `WB-Toolbox`. After the installation run once the `startup_wbitoolbox.m` script that you can find in the `<install-prefix>/share/WBToolbox` directory. It will place a file `pathdef.m` in your `userpath`  that loads the right variables to Matlab's environment. Note that this usage assumes that Matlab is always launched from the [`userpath` folder](https://it.mathworks.com/help/matlab/matlab_env/assign-userpath-as-the-startup-folder-on-unix-or-macintosh.html).
 
 ### Environment
 
