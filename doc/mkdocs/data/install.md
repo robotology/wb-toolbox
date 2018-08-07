@@ -16,7 +16,7 @@
 
 - [`iCub`](https://github.com/robotology/icub-main) (needed for some blocks)
 - [Gazebo Simulator](http://gazebosim.org/)
-- [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins).
+- [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins)
 
 ## Installation
 
@@ -28,13 +28,13 @@ For a simplified installation procedure, jump to [Install using the `robotology-
 
 ### Dependencies
 
-Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP` and `iDynTree` packages (and optionally `iCub`) can be found by `CMake` using `find_package`.
+Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP` , `iDynTree` and `YCM` packages (and optionally `iCub`) can be found by `CMake` using `find_package`.
 
 ### Setup Matlab
 
-Make sure that you have MATLAB and Simulink are properly installed and running.
+Make sure that you have MATLAB and Simulink properly installed and running.
 
-`CMake` needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that `CMake` is able to [find your Matlab installation](https://cmake.org/cmake/help/v3.3/module/FindMatlab.html), and set the `Matlab_ROOT_DIR` environment variable if needed.
+`CMake` needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that `CMake` is able to [find your Matlab installation](https://cmake.org/cmake/help/v3.3/module/FindMatlab.html), or manually set the `Matlab_ROOT_DIR` environment variable if needed.
 
 After this, check that the MEX compiler for MATLAB is properly configured and working. You can try compiling some of the MATLAB C code examples as described in the [mex official documentation](https://www.mathworks.com/help/matlab/ref/mex.html).
 
@@ -48,11 +48,10 @@ mkdir -p wb-toolbox/build && cd wb-toolbox/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<install-prefix>
 cmake --build . --config Release
 cmake --build . --config Release --target install
-cmake --build . --config Release --target install
 ```
 
 !!! note
-    From refer to your install directory with the variable `<install-prefix>`. Every time you see this variable, you should substitute the absolute install path.
+    From now on, this guide refers to your install directory with the variable `<install-prefix>`. Every time you see this variable, you should substitute the absolute install path.
 
 ## Configuration
 
@@ -60,7 +59,7 @@ cmake --build . --config Release --target install
 
 In order to use the `WB-Toolbox` in Matlab you have to add some folders to the Matlab path.
 
-If you usually execute Matlab from the command line, exporting the following environment variable should be enough:
+If you usually launch Matlab from the command line, exporting the following environment variable should be enough:
 
 ```bash
 export MATLABPATH=<install-prefix>/mex:<install-prefix>/share/WBToolbox:<install-prefix>/share/WBToolbox/images
@@ -83,6 +82,6 @@ Each robot that can be used through `WB-Toolbox` has its own configuration files
 
 The @robotology/robotology-superbuild provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.
 
-Follow the [superbuild installation instructions](https://github.com/robotology/robotology-superbuild/#installation) and enable the `ROBOTOLOGY_ENABLE_DYNAMICS` profile.
+Follow the [superbuild installation instructions](https://github.com/robotology/robotology-superbuild/#installation) and enable the `ROBOTOLOGY_ENABLE_DYNAMICS` profile. If `WB-Toolbox` is not downloaded and built, check that the `ROBOTOLOGY_USES_MATLAB` is `ON` and the `ROBOTOLOGY_NOT_USE_SIMULINK` is `OFF`.
 
-The configuration should be straightforward. Setup your `#!sh $HOME/.bashrc` file sourcing the `setup.sh` script as described in [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment).
+The configuration should be straightforward following the [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment) and [Matlab](https://github.com/robotology/robotology-superbuild#matlab) sections.
