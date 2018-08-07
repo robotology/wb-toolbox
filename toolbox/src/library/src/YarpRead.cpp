@@ -59,11 +59,12 @@ static int OutputIndex_IsConnected = OutputIndex::Signal;
 class YarpRead::impl
 {
 public:
+    int bufferSize;
     bool autoconnect = false;
     bool blocking = false;
     bool shouldReadTimestamp = false;
     bool errorOnMissingPort = true;
-    int bufferSize;
+    bool firstDataReception = true;
     double timeout = 1.0;
     std::string sourcePortName;
 
@@ -274,28 +275,23 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         const double t0 = yarp::os::SystemClock::nowSystem();
 
         // Loop until something has been read or timeout is reached
-        while (true) {
-            const int new_bufferSize = pImpl->port.getPendingReads();
+        while (!vectorBuffer) {
+            // This reads always the newest message even if other have been buffered
+            vectorBuffer = pImpl->port.read(/*shouldWait=*/false);
 
-            if (new_bufferSize > pImpl->bufferSize) {
-                const bool shouldWait = false;
-                vectorBuffer = pImpl->port.read(shouldWait);
-                pImpl->bufferSize = pImpl->port.getPendingReads();
-                break;
-            }
-
-            yarp::os::Time::delay(0.0005);
-            const double now = yarp::os::Time::now();
-            if ((now - t0) > pImpl->timeout) {
-                wbtError << "The port didn't receive any data for longer "
-                         << "than the configured timeout.";
-                return false;
+            if (!vectorBuffer) {
+                yarp::os::Time::delay(0.0005);
+                const double now = yarp::os::SystemClock::nowSystem();
+                if ((now - t0) > pImpl->timeout) {
+                    wbtError << "The port didn't receive any data for longer "
+                             << "than the configured timeout.";
+                    return false;
+                }
             }
         }
     }
     else {
-        bool shouldWait = false;
-        vectorBuffer = pImpl->port.read(shouldWait);
+        vectorBuffer = pImpl->port.read(/*shouldWait=*/false);
     }
 
     if (vectorBuffer) {
@@ -324,15 +320,24 @@ bool YarpRead::output(const BlockInformation* blockInfo)
             return false;
         }
 
-        // Crop the buffer if it exceeds the OutputPortWidth.
-        if (!signal->setBuffer(
-                vectorBuffer->data(),
-                std::min(signal->getWidth(), static_cast<int>(vectorBuffer->size())))) {
+        if (vectorBuffer->size() != signal->getWidth()) {
+            wbtError << "Size of received data from " << pImpl->port.getName() << " ("
+                     << vectorBuffer->size() << ")"
+                     << " does not match with output signal width (" << signal->getWidth() << ").";
+            return false;
+        }
+
+        if (!signal->setBuffer(vectorBuffer->data(), vectorBuffer->size())) {
             wbtError << "Failed to set the output buffer.";
             return false;
         }
 
-        if (!pImpl->autoconnect) {
+        // Raise trigger for notifying data reception
+        // TODO: add the initializeInitialConditions method?
+        if (!pImpl->autoconnect && pImpl->firstDataReception) {
+
+            pImpl->firstDataReception = false;
+
             OutputSignalPtr statusPort = blockInfo->getOutputPortSignal(OutputIndex_IsConnected);
             if (!statusPort) {
                 wbtError << "Output signal not valid.";
