@@ -50,7 +50,6 @@ public:
     bool errorOnMissingPort = true;
 
     std::string destinationPortName;
-    yarp::sig::Vector outputVector;
     yarp::os::BufferedPort<yarp::sig::Vector> port;
 };
 
@@ -189,14 +188,6 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
         }
     }
 
-    // Get the input port width
-    int inputPortWidth = std::get<BlockInformation::Port::Dimensions>(
-                             blockInfo->getInputPortData(InputIndex::Signal))
-                             .front();
-
-    // Initialize the buffer
-    pImpl->outputVector = pImpl->port.prepare();
-    pImpl->outputVector.resize(inputPortWidth);
     return true;
 }
 
@@ -208,8 +199,6 @@ bool YarpWrite::terminate(const BlockInformation* /*blockInfo*/)
 
     // Close the port
     pImpl->port.close();
-
-    fprintf(stdout, "Test2\n");
 
     yarp::os::Network::fini();
     return true;
@@ -224,14 +213,14 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    pImpl->outputVector = pImpl->port.prepare();
-    pImpl->outputVector.resize(signal->getWidth()); // this should be a no-op
+    yarp::sig::Vector& vectorBuffer = pImpl->port.prepare();
+    vectorBuffer.resize(signal->getWidth()); // This should be no-op
 
     for (unsigned i = 0; i < signal->getWidth(); ++i) {
-        pImpl->outputVector[i] = signal->get<double>(i);
+        vectorBuffer[i] = signal->get<double>(i);
     }
 
-    pImpl->port.write();
+    pImpl->port.write(/*forceStrict=*/true);
 
     return true;
 }
