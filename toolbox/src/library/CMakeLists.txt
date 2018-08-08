@@ -17,7 +17,7 @@ add_library(LibraryBase
     include/Base/WBBlock.h)
 
 target_link_libraries(LibraryBase
-    Toolbox::Core
+    WBToolbox::Core
     YARP::YARP_OS
     YARP::YARP_init
     YARP::YARP_dev
@@ -223,7 +223,7 @@ list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
     iDynTree::idyntree-high-level)
 
 target_link_libraries(Library PUBLIC LibraryBase)
-target_link_libraries(Library PRIVATE Toolbox::Core sharedlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
+target_link_libraries(Library PRIVATE WBToolbox::Core sharedlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
 
 if(WBT_USES_ICUB)
     target_compile_definitions(Library PRIVATE "WBT_USES_ICUB")
@@ -261,10 +261,6 @@ if(WBT_USES_QPOASES)
     list(APPEND WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS qpOASES)
 endif()
 
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Library.cmake
-"set(WBToolbox_WBToolboxLibrary_FOUND TRUE)
-set(WBToolbox_Library_FOUND TRUE)")
-
 install_basic_package_files(WBToolboxLibrary
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
@@ -272,5 +268,4 @@ install_basic_package_files(WBToolboxLibrary
     FIRST_TARGET LibraryBase
     DEPENDENCIES YARP iDynTree ${WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS} ToolboxCore # TODO: Eigen3
     NAMESPACE WBToolbox::
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
-    INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Library.cmake)
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO)
