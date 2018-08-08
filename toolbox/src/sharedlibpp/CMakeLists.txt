@@ -43,5 +43,5 @@ include(InstallBasicPackageFiles)
 install_basic_package_files(sharedlibpp
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS sharedlibpp
+    EXPORT sharedlibpp
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)

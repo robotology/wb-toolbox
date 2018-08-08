@@ -38,7 +38,7 @@ set_target_properties(Core PROPERTIES
 
 install(
     TARGETS Core
-    EXPORT ToolboxCore
+    EXPORT ToolboxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -50,7 +50,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Core.cmake
 install_basic_package_files(ToolboxCore
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS Core
+    EXPORT ToolboxCoreExport
+    FIRST_TARGET Core
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
     INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Core.cmake)
@@ -84,7 +85,7 @@ if(WBT_USES_MATLAB)
     # Install S-Function
     install(
         TARGETS Mex
-        EXPORT ToolboxMex
+        EXPORT ToolboxMexExport
         DESTINATION mex)
 
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Mex.cmake
@@ -93,7 +94,8 @@ if(WBT_USES_MATLAB)
     install_basic_package_files(ToolboxMex
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion
-        TARGETS Mex
+        EXPORT ToolboxMexExport
+        FIRST_TARGET Mex
         DEPENDENCIES ToolboxCore MxAnyType sharedlibpp
         NAMESPACE WBToolbox::
         NO_CHECK_REQUIRED_COMPONENTS_MACRO
@@ -133,8 +135,7 @@ install(
 
 install(
     TARGETS Coder
-    EXPORT ToolboxCoder
-#    COMPONENT Coder
+    EXPORT ToolboxCoderExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -150,7 +151,8 @@ list(APPEND CMAKE_MODULE_PATH @CMAKE_INSTALL_PREFIX@/share/WBToolbox/cmake)
 install_basic_package_files(ToolboxCoder
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS Coder
+    EXPORT ToolboxCoderExport
+    FIRST_TARGET Coder
     DEPENDENCIES ToolboxCore
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO

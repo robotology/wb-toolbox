@@ -91,7 +91,7 @@ install(
 install_basic_package_files(WBToolbox
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS WBToolbox
+    EXPORT WBToolbox
     DEPENDENCIES ${WBTOOLBOX_DEPENDENCIES}
     NAMESPACE WBToolbox::
     INCLUDE_FILE ${CMAKE_SOURCE_DIR}/cmake/ExtraPackageConfigVars.cmake.in)

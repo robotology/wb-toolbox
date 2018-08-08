@@ -248,7 +248,7 @@ endif()
 
 install(
     TARGETS LibraryBase Library
-    EXPORT WBToolboxLibrary
+    EXPORT WBToolboxLibraryExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -268,7 +268,8 @@ set(WBToolbox_Library_FOUND TRUE)")
 install_basic_package_files(WBToolboxLibrary
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS LibraryBase Library ClockRpc
+    EXPORT WBToolboxLibraryExport
+    FIRST_TARGET LibraryBase
     DEPENDENCIES YARP iDynTree ${WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS} ToolboxCore # TODO: Eigen3
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
