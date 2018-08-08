@@ -25,10 +25,6 @@ find_package(Eigen3 REQUIRED)
 # OPTIONS AND INCLUDES
 # ====================
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH})
-include(YarpInstallationHelpers)
-yarp_configure_external_installation(codyco)
-
 # Add configure_block macro
 include(Utilities)
 
