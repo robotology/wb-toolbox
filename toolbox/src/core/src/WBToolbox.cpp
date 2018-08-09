@@ -156,30 +156,26 @@ static void mdlInitializeSizes(SimStruct* S)
 
     // Get the class name
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-
     // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    // Allocate the block from the Factory.
-    // At this stage, the object is just temporary.
-    std::unique_ptr<wbt::Block> block;
-    {
-        // Allocate the factory
-        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
-            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
-        if (!factory.isValid()) {
-            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
-                     << factory.getLastNativeError();
-            catchLogMessages(false, S);
-            return;
-        }
+    shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
+        platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
 
-        // Allocate the block from the factory
-        block.reset(factory.create());
+    if (!factory.isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory.getStatus())
+                 << "): " << factory.getError().c_str();
+        catchLogMessages(false, S);
+        return;
     }
 
+    // Allocate the block from the factory. Since this object is supposed to be deleted
+    // by the end of this function scope, SharedLibraryClass can be used and provides RAII.
+    shlibpp::SharedLibraryClass<wbt::Block> block(factory);
+
     // Notify errors
-    if (!block) {
+    if (!block.isValid()) {
+        const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
         wbtError << "Could not create an object of type " + className;
         catchLogMessages(false, S);
         return;
@@ -190,7 +186,8 @@ static void mdlInitializeSizes(SimStruct* S)
     // Two PWorks:
     // 0: pointer to a Block implementation
     // 1: pointer to a BlockInformation implementation
-    ssSetNumPWork(S, 2);
+    // 2: pointer to the factory
+    ssSetNumPWork(S, 3);
 
     // Setup the block parameters' properties
     ssSetNumSFcnParams(S, block->numberOfParameters());
@@ -209,7 +206,10 @@ static void mdlInitializeSizes(SimStruct* S)
         }
     }
     else {
-        wbtError << "Number of parameters different from those defined";
+        int_T numOfExpectedParams = ssGetNumSFcnParams(S);
+        int_T numOfBlockParams = ssGetSFcnParamsCount(S);
+        wbtError << "Number of parameters (" << numOfBlockParams
+                 << ") different from those expected (" << numOfExpectedParams << ")";
         catchLogMessages(false, S);
         return;
     }
@@ -284,27 +284,26 @@ static void mdlStart(SimStruct* S)
 {
     // Get the class name
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-
     // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    // Allocate the block from the Factory and store its pointer in the PWork
-    wbt::Block* block;
-    {
-        // Allocate the factory
-        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
-            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
-        if (!factory.isValid()) {
-            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
-                     << factory.getLastNativeError();
-            catchLogMessages(false, S);
-            return;
-        }
+    // Allocate the factory and store in the PWork.
+    // This is necessary because the factory should stay alive as long as object created
+    // from it are deleted. In our case, this happens in the mdlTerminate step.
+    auto* factory = new shlibpp::SharedLibraryClassFactory<wbt::Block>(
+        platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
+    ssSetPWorkValue(S, 2, factory);
 
-        // Allocate the block from the factory
-        block = factory.create();
+    // Check if the factory is valid
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
+        catchLogMessages(false, S);
+        return;
     }
 
+    // Allocate the block from the factory and store its pointer in the PWork
+    wbt::Block* block = factory->create();
     ssSetPWorkValue(S, 0, block);
 
     // Allocate the BlockInformation object and store its pointer in the PWork
@@ -327,8 +326,8 @@ static void mdlStart(SimStruct* S)
 static void mdlUpdate(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) != 2) {
-        wbtError << "PWork should contain two elements.";
+    if (ssGetNumPWork(S) != 3) {
+        wbtError << "PWork should contain three elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -356,8 +355,8 @@ static void mdlUpdate(SimStruct* S, int_T tid)
 #if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
 static void mdlInitializeConditions(SimStruct* S)
 {
-    if (ssGetNumPWork(S) != 2) {
-        wbtError << "PWork should contain two elements.";
+    if (ssGetNumPWork(S) != 3) {
+        wbtError << "PWork should contain three elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -395,8 +394,8 @@ static void mdlDerivatives(SimStruct* /*S*/)
 static void mdlOutputs(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) != 2) {
-        wbtError << "PWork should contain two elements.";
+    if (ssGetNumPWork(S) != 3) {
+        wbtError << "PWork should contain three elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -424,8 +423,8 @@ static void mdlTerminate(SimStruct* S)
         return;
     }
 
-    if (ssGetNumPWork(S) != 2) {
-        wbtError << "PWork should contain two elements.";
+    if (ssGetNumPWork(S) != 3) {
+        wbtError << "PWork should contain three elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -447,13 +446,24 @@ static void mdlTerminate(SimStruct* S)
                    << "Could't terminate block";
     }
 
-    // Delete the resources allocated in the PWork vector;
-    delete block;
+    // Get the factory object
+    auto* factory =
+        static_cast<shlibpp::SharedLibraryClassFactory<wbt::Block>*>(ssGetPWorkValue(S, 2));
+
+    if (!factory) {
+        wbtError << "Failed to get the factory and delete the block";
+        return;
+    }
+
+    // Delete the resources allocated in the PWork vector
     delete blockInfo;
+    factory->destroy(block);
+    delete factory;
 
     // Clean the PWork vector
     ssSetPWorkValue(S, 0, nullptr);
     ssSetPWorkValue(S, 1, nullptr);
+    ssSetPWorkValue(S, 2, nullptr);
 }
 
 #if defined(MATLAB_MEX_FILE)
