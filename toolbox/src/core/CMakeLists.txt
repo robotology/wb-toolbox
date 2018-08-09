@@ -25,7 +25,7 @@ set(TOOLBOX_CORE_HDR
     include/Core/Signal.h)
 
 add_library(Core ${TOOLBOX_CORE_SRC} ${TOOLBOX_CORE_HDR})
-add_library(Toolbox::Core ALIAS Core)
+add_library(WBToolbox::Core ALIAS Core)
 
 target_include_directories(Core PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -38,22 +38,19 @@ set_target_properties(Core PROPERTIES
 
 install(
     TARGETS Core
-    EXPORT ToolboxCore
+    EXPORT ToolboxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox/Core)
 
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Core.cmake
-    "set(WBToolbox_ToolboxCore_FOUND TRUE)\nset(WBToolbox_Core_FOUND TRUE)")
-
 install_basic_package_files(ToolboxCore
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS Core
+    EXPORT ToolboxCoreExport
+    FIRST_TARGET Core
     NAMESPACE WBToolbox::
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
-    INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Core.cmake)
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
 # =====================
 # CORE SIMULINK LIBRARY
@@ -61,55 +58,10 @@ install_basic_package_files(ToolboxCore
 
 if(WBT_USES_MATLAB)
 
-#    add_library(Simulink
-##        src/WBToolbox.cpp
-#        src/SimulinkBlockInformation.cpp
-#        include/Core/SimulinkBlockInformation.h)
-#    add_library(Toolbox::Simulink ALIAS Simulink)
-
-#    target_link_libraries(Simulink
-#        MxAnyType Toolbox::Core sharedlibpp ${Matlab_MEX_LIBRARY} ${Matlab_LIBRARIES})
-
-#    message(${Matlab_ENG_LIBRARY})
-
-#    target_compile_definitions(Simulink PUBLIC "MATLAB_MEX_FILE")
-
-#    target_include_directories(Simulink PUBLIC
-#        ${Matlab_INCLUDE_DIRS}
-#        ${Matlab_ROOT_DIR}/simulink/include
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
-
-#    # Ignore the existence of the factory function. The library that implements block should define it.
-#    #    target_compile_definitions(Simulink PRIVATE INSTANTIATE_BLOCK_WITH_CLASSNAME)
-#    #    target_compile_definitions(WBToolboxSimulink PRIVATE COMPILING_SFUNCTION_LIBRARY)
-
-#    set_target_properties(Simulink PROPERTIES
-#        OUTPUT_NAME "ToolboxSimulink")
-
     # Install TLC file
     install(
         FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../WBToolbox.tlc
         DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
-
-#    install(
-#        TARGETS Simulink
-#        EXPORT ToolboxSimulink
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-#    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Simulink.cmake
-#        "set(WBToolbox_ToolboxSimulink_FOUND TRUE)\nset(WBToolbox_Simulink_FOUND TRUE)")
-
-#    install_basic_package_files(ToolboxSimulink
-#        VERSION ${PROJECT_VERSION}
-#        COMPATIBILITY AnyNewerVersion
-#        TARGETS Simulink
-#        DEPENDENCIES ToolboxCore MxAnyType sharedlibpp
-#        NAMESPACE WBToolbox::
-#        NO_CHECK_REQUIRED_COMPONENTS_MACRO
-#        INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Simulink.cmake)
 
     # Compile S-Function
     matlab_add_mex(
@@ -118,7 +70,8 @@ if(WBT_USES_MATLAB)
         SRC src/SimulinkBlockInformation.cpp
             include/Core/SimulinkBlockInformation.h
             src/WBToolbox.cpp
-        LINK_TO Core MxAnyType sharedlibpp)
+        LINK_TO WBToolbox::Core MxAnyType sharedlibpp)
+    add_library(WBToolbox::Mex ALIAS Mex)
 
     target_compile_definitions(Mex PUBLIC "MATLAB_MEX_FILE")
 
@@ -129,20 +82,17 @@ if(WBT_USES_MATLAB)
     # Install S-Function
     install(
         TARGETS Mex
-        EXPORT ToolboxMex
+        EXPORT ToolboxMexExport
         DESTINATION mex)
-
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Mex.cmake
-        "set(WBToolbox_ToolboxMex_FOUND TRUE)\nset(WBToolbox_Mex_FOUND TRUE)")
 
     install_basic_package_files(ToolboxMex
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion
-        TARGETS Mex
+        EXPORT ToolboxMexExport
+        FIRST_TARGET Mex
         DEPENDENCIES ToolboxCore MxAnyType sharedlibpp
         NAMESPACE WBToolbox::
-        NO_CHECK_REQUIRED_COMPONENTS_MACRO
-        INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Mex.cmake)
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 endif()
 
 # ==================
@@ -157,7 +107,7 @@ set(CODER_SRC
     src/CoderBlockInformation.cpp)
 
 add_library(Coder ${CODER_HDR} ${CODER_SRC})
-add_library(Toolbox::Coder ALIAS Coder)
+add_library(WBToolbox::Coder ALIAS Coder)
 
 set_target_properties(Coder PROPERTIES
     # VERSION ${PROJECT_VERSION}
@@ -165,7 +115,7 @@ set_target_properties(Coder PROPERTIES
     OUTPUT_NAME "ToolboxCoder"
 )
 
-target_link_libraries(Coder PUBLIC Toolbox::Core)
+target_link_libraries(Coder PUBLIC WBToolbox::Core)
 target_include_directories(Coder INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
@@ -178,25 +128,22 @@ install(
 
 install(
     TARGETS Coder
-    EXPORT ToolboxCoder
-#    COMPONENT Coder
+    EXPORT ToolboxCoderExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox/Core
 )
 
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Coder.cmake.in
-"set(WBToolbox_ToolboxCoder_FOUND TRUE)
-set(WBToolbox_Coder_FOUND TRUE)
-list(APPEND CMAKE_MODULE_PATH @CMAKE_INSTALL_PREFIX@/share/WBToolbox/cmake)
-")
+set(EXTRA_CONTENT
+    "list(APPEND CMAKE_MODULE_PATH @CMAKE_INSTALL_PREFIX@/share/WBToolbox/cmake)")
 
 install_basic_package_files(ToolboxCoder
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS Coder
+    EXPORT ToolboxCoderExport
+    FIRST_TARGET Coder
     DEPENDENCIES ToolboxCore
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
-    INCLUDE_FILE ${CMAKE_CURRENT_BINARY_DIR}/ExtraPackageConfigVars_Coder.cmake.in)
+    INCLUDE_CONTENT ${EXTRA_CONTENT})

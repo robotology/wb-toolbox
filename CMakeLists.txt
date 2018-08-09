@@ -46,7 +46,7 @@ endif()
 # Add custom functions / macros
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(YCM REQUIRED)
+find_package(YCM 0.9 REQUIRED)
 include(YCMDefaultDirs)
 
 find_package(Matlab COMPONENTS

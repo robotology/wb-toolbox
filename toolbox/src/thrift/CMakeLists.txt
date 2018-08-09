@@ -36,7 +36,7 @@ target_include_directories(ClockRpc PUBLIC
 
 install(
     TARGETS ClockRpc
-    EXPORT WBToolboxLibrary
+    EXPORT WBToolboxLibraryExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

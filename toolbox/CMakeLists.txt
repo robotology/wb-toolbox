@@ -25,10 +25,6 @@ find_package(Eigen3 REQUIRED)
 # OPTIONS AND INCLUDES
 # ====================
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH})
-include(YarpInstallationHelpers)
-yarp_configure_external_installation(codyco)
-
 # Add configure_block macro
 include(Utilities)
 
@@ -95,7 +91,7 @@ install(
 install_basic_package_files(WBToolbox
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS WBToolbox
+    EXPORT WBToolbox
     DEPENDENCIES ${WBTOOLBOX_DEPENDENCIES}
     NAMESPACE WBToolbox::
     INCLUDE_FILE ${CMAKE_SOURCE_DIR}/cmake/ExtraPackageConfigVars.cmake.in)

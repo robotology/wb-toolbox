@@ -59,7 +59,7 @@ target_include_directories(MxAnyType PUBLIC
 # =======
 
 install(TARGETS MxAnyType
-        EXPORT MxAnyType
+        EXPORT MxAnyTypeExport
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
@@ -70,5 +70,5 @@ include(InstallBasicPackageFiles)
 install_basic_package_files(MxAnyType
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    TARGETS MxAnyType
+    EXPORT MxAnyTypeExport
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)

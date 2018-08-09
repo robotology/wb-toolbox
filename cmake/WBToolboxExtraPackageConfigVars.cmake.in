@@ -1,9 +1,0 @@
-check_required_components(WBToolbox)
-
-if(NOT WBToolbox_FOUND)
-    foreach(comp ${WBToolbox_FIND_COMPONENTS})
-        if(${WBToolbox_FIND_REQUIRED_${comp}} AND (NOT ${comp}_FOUND))
-            message(FATAL_ERROR "Couldn't find WBToolbox::${comp}")
-        endif()
-    endforeach()
-endif()
