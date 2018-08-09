@@ -29,7 +29,7 @@ add_library(WBToolbox::Core ALIAS Core)
 
 target_include_directories(Core PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox/Core>)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
 
 set_target_properties(Core PROPERTIES
     # VERSION ${PROJECT_VERSION}
