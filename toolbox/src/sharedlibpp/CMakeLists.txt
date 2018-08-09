@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(shlibpp
         VERSION 0.0.1
-        DESCRIPTION "Tiny cross-platform plug-in system (dll, so, dylib)"
         LANGUAGES CXX)
+set(PROJECT_DESCRIPTION "Tiny cross-platform plug-in system (dll, so, dylib)")
 
 # For now keep YCM as a soft dependency
 find_package(YCM 0.8.1 QUIET)
