@@ -6,13 +6,13 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
+#ifndef WBT_FILTER_H
+#define WBT_FILTER_H
+
 #include "Core/Block.h"
 
 #include <memory>
 #include <string>
-
-#ifndef WBT_FILTER_H
-#define WBT_FILTER_H
 
 namespace wbt {
     class BlockInformation;
