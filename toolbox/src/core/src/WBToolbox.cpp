@@ -14,8 +14,8 @@
 #include "Core/Parameter.h"
 #include "Core/Parameters.h"
 #include "Core/SimulinkBlockInformation.h"
-#include "SharedLibrary.h"
-#include "SharedLibraryClass.h"
+#include "shlibpp/SharedLibrary.h"
+#include "shlibpp/SharedLibraryClass.h"
 
 #include <matrix.h>
 #include <simstruc.h>

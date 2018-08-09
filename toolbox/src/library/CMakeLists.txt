@@ -192,7 +192,7 @@ configure_block(BLOCK_NAME "Get Limits"
 get_property(ALL_LIBRARY_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_LIBRARY_SOURCES GLOBAL PROPERTY WBT_SOURCES)
 
-add_library(Library
+add_library(Library SHARED
     src/Factory.cpp
     ${ALL_LIBRARY_HEADERS}
     ${ALL_LIBRARY_SOURCES})
@@ -223,7 +223,7 @@ list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
     iDynTree::idyntree-high-level)
 
 target_link_libraries(Library PUBLIC LibraryBase)
-target_link_libraries(Library PRIVATE WBToolbox::Core sharedlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
+target_link_libraries(Library PRIVATE WBToolbox::Core shlibpp::shlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
 
 if(WBT_USES_ICUB)
     target_compile_definitions(Library PRIVATE "WBT_USES_ICUB")
