@@ -542,7 +542,7 @@ static void mdlTerminate(SimStruct* S)
 #define MDL_RTW
 
 template <typename T>
-static std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
+std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
 {
     std::vector<real_T> output;
     output.reserve(vectorInput.size());
@@ -551,7 +551,7 @@ static std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
     return output;
 }
 
-static std::string toRTWStringVector(const std::vector<std::string>& stringInput)
+std::string toRTWStringVector(const std::vector<std::string>& stringInput)
 {
     std::string output;
 
@@ -606,7 +606,7 @@ const std::pair<std::string, std::string> parameterTypeToString(const wbt::Param
 }
 
 template <typename T>
-static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
+bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
 {
     if (param.getMetadata().cols == wbt::ParameterMetadata::DynamicSize
         || param.getMetadata().rows == wbt::ParameterMetadata::DynamicSize) {
@@ -748,7 +748,7 @@ bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
     }
 }
 
-static bool writeRTW(SimStruct* S, const wbt::Parameters& params)
+bool writeRTW(SimStruct* S, const wbt::Parameters& params)
 {
     // RTW Parameters record metadata
     // ==============================
@@ -822,20 +822,29 @@ static void mdlRTW(SimStruct* S)
         // Get the parameters from the block
         ok = block->getParameters(params);
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to get parameters from the block during the code "
+                     << "generation process";
             return;
+        }
 
         // Use parameters metadata to populate the rtw file used by the coder
         ok = writeRTW(S, params);
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to write parameters to the RTW file during the code "
+                     << "generation process";
             return;
+        }
 
-        // Store the PWork vector in the rtw file.
+        // Store the PWork vector in the rtw file
         ok = ssWriteRTWWorkVect(S, "PWork", 1, "blockPWork", ssGetNumPWork(S));
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to store the PWork vector during the code "
+                     << "generation process";
             return;
+        }
     }
 }
 #endif
