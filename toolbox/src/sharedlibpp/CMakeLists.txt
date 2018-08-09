@@ -69,7 +69,7 @@ install_basic_package_files(shlibpp
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
 # Add uninstall target
-include(AddUninstallTarget)
+# include(AddUninstallTarget)
 
 # Do not put tests and examples in the same output directories as the main
 # targets
@@ -79,7 +79,7 @@ unset(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
 
 
 # Create examples
-option(BUILD_EXAMPLES "Build examples" ON)
+option(BUILD_EXAMPLES "Build examples" OFF)
 if(BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
