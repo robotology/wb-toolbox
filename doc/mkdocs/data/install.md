@@ -1,8 +1,7 @@
 # Install
 
 !!! info "Disclaimer"
-
-    `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
+    `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and `Ubuntu 18.04` with Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
 
 ## Requirements
 
@@ -14,9 +13,10 @@
 
 ## Optional requirements
 
-- [`iCub`](https://github.com/robotology/icub-main) (needed for some blocks)
+- [`iCub`](https://github.com/robotology/icub-main)
 - [Gazebo Simulator](http://gazebosim.org/)
 - [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins)
+- [`qpOASES`](https://github.com/robotology-dependencies/qpOASES/)
 
 ## Installation
 
@@ -28,7 +28,10 @@ For a simplified installation procedure, jump to [Install using the `robotology-
 
 ### Dependencies
 
-Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP` , `iDynTree` and `YCM` packages (and optionally `iCub`) can be found by `CMake` using `find_package`.
+Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP`, `iDynTree` and `YCM` packages can be found by `CMake` using `find_package`.
+
+!!! warning
+    If an optional dependency is not found, the classes depending on it are not compiled. However, in the Simulink Library the block does not disappear. It will just not work, raising an appropriate error.  
 
 ### Setup Matlab
 

@@ -37,6 +37,7 @@ markdown_extensions:
     - pymdownx.details
     - pymdownx.inlinehilite
     - pymdownx.highlight
+    - pymdownx.keys
     - pymdownx.magiclink:
         user: robotology
         repo: wb-toolbox
@@ -58,8 +59,8 @@ nav:
     - Troubleshooting: 'troubleshooting.md'
     - Documentation [master]: https://robotology.github.io/wb-toolbox/doxygen/
     - Documentation [devel]: https://robotology.github.io/wb-toolbox/devel/doxygen/
-    # - Docs: 'doxygen.html'
     - Developer area:
+        - "Tutorial: create a new library": 'create_new_library.md'
         - Add a new block: 'create_new_block.md'
         - Simulink Tricks: 'sim_tricks.md'
     - Migration:
