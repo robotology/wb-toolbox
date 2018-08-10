@@ -24,6 +24,7 @@
 #include <tmwtypes.h>
 
 #include <iostream>
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <stdio.h>
@@ -31,16 +32,70 @@
 #include <utility>
 #include <vector>
 
-std::string platformSpecificLibName(const std::string& library)
+// =========
+// UTILITIES
+// =========
+
+using BlockFactory = shlibpp::SharedLibraryClassFactory<wbt::Block>;
+using BlockFactoryPtr = std::shared_ptr<BlockFactory>;
+
+class BlockFactorySingleton
 {
+    using ClassFactoryName = std::string;
+    using ClassFactoryLibrary = std::string;
+    using BlockFactoryData = std::pair<ClassFactoryLibrary, ClassFactoryName>;
+
+public:
+    static std::string platformSpecificLibName(const std::string& library)
+    {
 #if defined(_WIN32)
-    return library + "dll";
+        return library + "dll";
 #elif defined(__linux__)
-    return "lib" + library + ".so";
+        return "lib" + library + ".so";
 #elif defined(__APPLE__)
-    return "lib" + library + ".dylib";
+        return "lib" + library + ".dylib";
 #endif
-}
+    }
+
+    static BlockFactoryPtr getInstance(BlockFactoryData data)
+    {
+        static std::map<BlockFactoryData, BlockFactoryPtr> factoryMap;
+
+        ClassFactoryLibrary classFactoryLibrary = platformSpecificLibName(data.first);
+        ClassFactoryName& classFactoryName = data.second;
+        BlockFactoryData blockFactoryData = {classFactoryLibrary, classFactoryName};
+
+        // Clean possible leftovers
+        if (factoryMap.find(blockFactoryData) != factoryMap.end()
+            && !factoryMap[blockFactoryData]) {
+            factoryMap.erase(blockFactoryData);
+        }
+
+        // Allocate the factory that loads the dll the first time
+        if (factoryMap.find(blockFactoryData) == factoryMap.end()) {
+
+            // Allocate the factory
+            auto factory = std::make_shared<BlockFactory>(classFactoryLibrary.c_str(),
+                                                          classFactoryName.c_str());
+            if (!factory || !factory->isValid()) {
+                wbtError << "Failed to create factory";
+                return {};
+            }
+
+            // Store it in the map
+            factoryMap.emplace(std::make_pair<BlockFactoryData, BlockFactoryPtr>(
+                {classFactoryLibrary, classFactoryName}, std::move(factory)));
+        }
+
+        if (!factoryMap[blockFactoryData] || !factoryMap[blockFactoryData]->isValid()) {
+            wbtError << "Failed to create factory";
+            return {};
+        }
+
+        // Return the block factory
+        return factoryMap[blockFactoryData];
+    }
+};
 
 const bool ForwardLogsToStdErr = true;
 
@@ -96,6 +151,10 @@ static void catchLogMessages(bool status, SimStruct* S)
         return;
     }
 }
+
+// ==========
+// S-FUNCTION
+// ==========
 
 // Function: MDL_CHECK_PARAMETERS
 #define MDL_CHECK_PARAMETERS
@@ -154,28 +213,32 @@ static void mdlInitializeSizes(SimStruct* S)
         return;
     }
 
-    // Get the class name
+    // Get the class name and the library name from the parameter
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-    // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
-        platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
 
-    if (!factory.isValid()) {
-        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory.getStatus())
-                 << "): " << factory.getError().c_str();
+    if (!factory) {
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
         catchLogMessages(false, S);
         return;
     }
 
     // Allocate the block from the factory. Since this object is supposed to be deleted
     // by the end of this function scope, SharedLibraryClass can be used and provides RAII.
-    shlibpp::SharedLibraryClass<wbt::Block> block(factory);
+    shlibpp::SharedLibraryClass<wbt::Block> block(*factory);
 
     // Notify errors
     if (!block.isValid()) {
-        const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
         wbtError << "Could not create an object of type " + className;
         catchLogMessages(false, S);
         return;
@@ -186,8 +249,7 @@ static void mdlInitializeSizes(SimStruct* S)
     // Two PWorks:
     // 0: pointer to a Block implementation
     // 1: pointer to a BlockInformation implementation
-    // 2: pointer to the factory
-    ssSetNumPWork(S, 3);
+    ssSetNumPWork(S, 2);
 
     // Setup the block parameters' properties
     ssSetNumSFcnParams(S, block->numberOfParameters());
@@ -282,19 +344,19 @@ static void mdlInitializeSampleTimes(SimStruct* S)
 #define MDL_START
 static void mdlStart(SimStruct* S)
 {
-    // Get the class name
+    // Get the class name and the library name from the parameter
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-    // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    // Allocate the factory and store in the PWork.
-    // This is necessary because the factory should stay alive as long as object created
-    // from it are deleted. In our case, this happens in the mdlTerminate step.
-    auto* factory = new shlibpp::SharedLibraryClassFactory<wbt::Block>(
-        platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
-    ssSetPWorkValue(S, 2, factory);
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
 
-    // Check if the factory is valid
+    if (!factory) {
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
+    }
+
     if (!factory->isValid()) {
         wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
                  << "): " << factory->getError().c_str();
@@ -326,8 +388,8 @@ static void mdlStart(SimStruct* S)
 static void mdlUpdate(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) != 3) {
-        wbtError << "PWork should contain three elements.";
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -355,8 +417,8 @@ static void mdlUpdate(SimStruct* S, int_T tid)
 #if defined(MDL_INITIALIZE_CONDITIONS) && defined(MATLAB_MEX_FILE)
 static void mdlInitializeConditions(SimStruct* S)
 {
-    if (ssGetNumPWork(S) != 3) {
-        wbtError << "PWork should contain three elements.";
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -394,8 +456,8 @@ static void mdlDerivatives(SimStruct* /*S*/)
 static void mdlOutputs(SimStruct* S, int_T tid)
 {
     UNUSED_ARG(tid);
-    if (ssGetNumPWork(S) != 3) {
-        wbtError << "PWork should contain three elements.";
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -423,8 +485,8 @@ static void mdlTerminate(SimStruct* S)
         return;
     }
 
-    if (ssGetNumPWork(S) != 3) {
-        wbtError << "PWork should contain three elements.";
+    if (ssGetNumPWork(S) != 2) {
+        wbtError << "PWork should contain two elements.";
         catchLogMessages(false, S);
         return;
     }
@@ -446,24 +508,34 @@ static void mdlTerminate(SimStruct* S)
                    << "Could't terminate block";
     }
 
-    // Get the factory object
-    auto* factory =
-        static_cast<shlibpp::SharedLibraryClassFactory<wbt::Block>*>(ssGetPWorkValue(S, 2));
+    // Get the class name and the library name from the parameter
+    const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
+    const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
+
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
 
     if (!factory) {
-        wbtError << "Failed to get the factory and delete the block";
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
+        catchLogMessages(false, S);
         return;
     }
 
     // Delete the resources allocated in the PWork vector
     delete blockInfo;
+
     factory->destroy(block);
-    delete factory;
 
     // Clean the PWork vector
     ssSetPWorkValue(S, 0, nullptr);
     ssSetPWorkValue(S, 1, nullptr);
-    ssSetPWorkValue(S, 2, nullptr);
 }
 
 #if defined(MATLAB_MEX_FILE)
