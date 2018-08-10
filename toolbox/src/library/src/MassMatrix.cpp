@@ -22,7 +22,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string MassMatrix::ClassName = "MassMatrix";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

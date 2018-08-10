@@ -21,7 +21,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string CentroidalMomentum::ClassName = "CentroidalMomentum";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

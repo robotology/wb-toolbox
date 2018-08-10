@@ -28,7 +28,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string InverseDynamics::ClassName = "InverseDynamics";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

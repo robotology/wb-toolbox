@@ -27,7 +27,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string YarpRead::ClassName = "YarpRead";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

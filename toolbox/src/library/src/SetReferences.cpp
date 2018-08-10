@@ -30,7 +30,6 @@
 #include <vector>
 
 using namespace wbt;
-const std::string SetReferences::ClassName = "SetReferences";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

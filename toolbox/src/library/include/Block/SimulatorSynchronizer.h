@@ -41,8 +41,6 @@ private:
     std::unique_ptr<impl> pImpl;
 
 public:
-    static const std::string ClassName;
-
     SimulatorSynchronizer();
     ~SimulatorSynchronizer() override;
 

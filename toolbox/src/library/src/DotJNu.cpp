@@ -25,7 +25,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string DotJNu::ClassName = "DotJNu";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

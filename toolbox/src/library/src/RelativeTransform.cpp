@@ -24,7 +24,6 @@
 #include <ostream>
 
 using namespace wbt;
-const std::string RelativeTransform::ClassName = "RelativeTransform";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

@@ -20,7 +20,6 @@
 #include <ostream>
 
 using namespace wbt;
-const std::string SimulatorSynchronizer::ClassName = "SimulatorSynchronizer";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

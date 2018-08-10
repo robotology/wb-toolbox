@@ -24,7 +24,6 @@
 using namespace wbt;
 using namespace iCub::ctrl;
 using namespace yarp::sig;
-const std::string DiscreteFilter::ClassName = "DiscreteFilter";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

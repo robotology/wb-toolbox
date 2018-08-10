@@ -21,7 +21,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string MinimumJerkTrajectoryGenerator::ClassName = "MinimumJerkTrajectoryGenerator";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
