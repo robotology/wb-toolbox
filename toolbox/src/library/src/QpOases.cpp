@@ -20,7 +20,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string QpOases::ClassName = "QpOases";
 
 const unsigned MaxIterations = 100;
 

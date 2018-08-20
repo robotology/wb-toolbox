@@ -22,7 +22,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string YarpWrite::ClassName = "YarpWrite";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

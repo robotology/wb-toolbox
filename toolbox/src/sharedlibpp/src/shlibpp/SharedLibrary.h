@@ -1,25 +1,24 @@
 /*
- * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * Copyright (C) 2006-2018 Istituto Italiano di Tecnologia (IIT)
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms of the
- * GNU Lesser General Public License v2.1 or any later version.
+ * BSD-3-Clause license. See the accompanying LICENSE file for details.
  */
 
-#ifndef _SHLIBPP_SHAREDLIBRARY_
-#define _SHLIBPP_SHAREDLIBRARY_
+#ifndef SHAREDLIBPP_SHAREDLIBRARY_H
+#define SHAREDLIBPP_SHAREDLIBRARY_H
 
+#include <shlibpp/api.h>
 #include <string>
 
 namespace shlibpp {
-    class SharedLibrary;
-}
 
 /**
  * Low-level wrapper for loading shared libraries (DLLs) and accessing
  * symbols within it.
  */
-class shlibpp::SharedLibrary
+class SHLIBPP_API SharedLibrary
 {
 public:
     /**
@@ -32,12 +31,17 @@ public:
      *
      * @param filename name of file (see open method)
      */
-    SharedLibrary(const char* filename);
+    SharedLibrary(const char *filename);
 
     /**
      * Destructor.  Will close() if needed.
      */
     virtual ~SharedLibrary();
+
+    SharedLibrary(const SharedLibrary& rhs) = delete;
+    SharedLibrary(SharedLibrary&& rhs) noexcept = delete;
+    SharedLibrary& operator=(const SharedLibrary& rhs) = delete;
+    SharedLibrary& operator=(SharedLibrary&& rhs) noexcept = delete;
 
     /**
      * Load the named shared library / DLL.  The library is found
@@ -48,7 +52,7 @@ public:
      * @param filename name of file.
      * @return true on success
      */
-    bool open(const char* filename);
+    bool open(const char *filename);
 
     /**
      * Shared library no longer needed, unload if not in use elsewhere.
@@ -57,9 +61,17 @@ public:
     bool close();
 
     /**
+     * Returns a human-readable string describing the most recent error that
+     * occurred from a call to one of its functions.
+     *
+     * @return the most recent error
+     */
+    std::string error();
+
+    /**
      * Look up a symbol in the shared library.
      */
-    void* getSymbol(const char* symbolName);
+    void *getSymbol(const char *symbolName);
 
     /**
      * Check if the shared library is valid
@@ -68,17 +80,13 @@ public:
      */
     bool isValid() const;
 
-    /**
-     * Get Last error message reported by the Os (if presented)
-     * @return return error message
-     */
-    std::string getLastNativeError() const;
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 private:
-    void* implementation;
-    std::string err_message;
-    SharedLibrary(const SharedLibrary&); // Not implemented
-    SharedLibrary& operator=(const SharedLibrary&); // Not implemented
+    class SHLIBPP_HIDDEN Private;
+    Private* mPriv;
+#endif
 };
 
-#endif
+} // namespace shlibpp
+
+#endif // SHAREDLIBPP_SHAREDLIBRARY_H

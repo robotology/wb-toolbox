@@ -18,7 +18,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string YarpClock::ClassName = "YarpClock";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

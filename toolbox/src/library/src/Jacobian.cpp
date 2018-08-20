@@ -27,7 +27,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string Jacobian::ClassName = "Jacobian";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

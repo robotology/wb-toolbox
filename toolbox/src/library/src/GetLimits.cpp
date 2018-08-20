@@ -28,7 +28,6 @@
 #include <vector>
 
 using namespace wbt;
-const std::string GetLimits::ClassName = "GetLimits";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

@@ -24,8 +24,6 @@ namespace wbt {
 class wbt::YarpClock final : public wbt::Block
 {
 public:
-    static const std::string ClassName;
-
     YarpClock() = default;
     ~YarpClock() override = default;
 

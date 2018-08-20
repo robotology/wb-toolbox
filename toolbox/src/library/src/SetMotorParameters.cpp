@@ -27,7 +27,6 @@
 #include <vector>
 
 using namespace wbt;
-const std::string SetMotorParameters::ClassName = "SetMotorParameters";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

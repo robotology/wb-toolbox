@@ -25,7 +25,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string ForwardKinematics::ClassName = "ForwardKinematics";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

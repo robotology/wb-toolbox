@@ -19,7 +19,6 @@
 #include <tuple>
 
 using namespace wbt;
-const std::string RealTimeSynchronizer::ClassName = "RealTimeSynchronizer";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================

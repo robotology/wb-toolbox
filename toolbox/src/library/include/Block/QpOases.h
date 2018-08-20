@@ -43,8 +43,6 @@ private:
     std::unique_ptr<impl> pImpl;
 
 public:
-    static const std::string ClassName;
-
     QpOases();
     ~QpOases() override;
 

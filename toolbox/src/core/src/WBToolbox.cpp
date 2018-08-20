@@ -14,8 +14,8 @@
 #include "Core/Parameter.h"
 #include "Core/Parameters.h"
 #include "Core/SimulinkBlockInformation.h"
-#include "SharedLibrary.h"
-#include "SharedLibraryClass.h"
+#include "shlibpp/SharedLibrary.h"
+#include "shlibpp/SharedLibraryClass.h"
 
 #include <matrix.h>
 #include <simstruc.h>
@@ -24,6 +24,7 @@
 #include <tmwtypes.h>
 
 #include <iostream>
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <stdio.h>
@@ -31,16 +32,70 @@
 #include <utility>
 #include <vector>
 
-std::string platformSpecificLibName(const std::string& library)
+// =========
+// UTILITIES
+// =========
+
+using BlockFactory = shlibpp::SharedLibraryClassFactory<wbt::Block>;
+using BlockFactoryPtr = std::shared_ptr<BlockFactory>;
+
+class BlockFactorySingleton
 {
+    using ClassFactoryName = std::string;
+    using ClassFactoryLibrary = std::string;
+    using BlockFactoryData = std::pair<ClassFactoryLibrary, ClassFactoryName>;
+
+public:
+    static std::string platformSpecificLibName(const std::string& library)
+    {
 #if defined(_WIN32)
-    return library + "dll";
+        return library + "dll";
 #elif defined(__linux__)
-    return "lib" + library + ".so";
+        return "lib" + library + ".so";
 #elif defined(__APPLE__)
-    return "lib" + library + ".dylib";
+        return "lib" + library + ".dylib";
 #endif
-}
+    }
+
+    static BlockFactoryPtr getInstance(BlockFactoryData data)
+    {
+        static std::map<BlockFactoryData, BlockFactoryPtr> factoryMap;
+
+        ClassFactoryLibrary classFactoryLibrary = platformSpecificLibName(data.first);
+        ClassFactoryName& classFactoryName = data.second;
+        BlockFactoryData blockFactoryData = {classFactoryLibrary, classFactoryName};
+
+        // Clean possible leftovers
+        if (factoryMap.find(blockFactoryData) != factoryMap.end()
+            && !factoryMap[blockFactoryData]) {
+            factoryMap.erase(blockFactoryData);
+        }
+
+        // Allocate the factory that loads the dll the first time
+        if (factoryMap.find(blockFactoryData) == factoryMap.end()) {
+
+            // Allocate the factory
+            auto factory = std::make_shared<BlockFactory>(classFactoryLibrary.c_str(),
+                                                          classFactoryName.c_str());
+            if (!factory || !factory->isValid()) {
+                wbtError << "Failed to create factory";
+                return {};
+            }
+
+            // Store it in the map
+            factoryMap.emplace(std::make_pair<BlockFactoryData, BlockFactoryPtr>(
+                {classFactoryLibrary, classFactoryName}, std::move(factory)));
+        }
+
+        if (!factoryMap[blockFactoryData] || !factoryMap[blockFactoryData]->isValid()) {
+            wbtError << "Failed to create factory";
+            return {};
+        }
+
+        // Return the block factory
+        return factoryMap[blockFactoryData];
+    }
+};
 
 const bool ForwardLogsToStdErr = true;
 
@@ -96,6 +151,10 @@ static void catchLogMessages(bool status, SimStruct* S)
         return;
     }
 }
+
+// ==========
+// S-FUNCTION
+// ==========
 
 // Function: MDL_CHECK_PARAMETERS
 #define MDL_CHECK_PARAMETERS
@@ -154,32 +213,32 @@ static void mdlInitializeSizes(SimStruct* S)
         return;
     }
 
-    // Get the class name
+    // Get the class name and the library name from the parameter
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-
-    // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    // Allocate the block from the Factory.
-    // At this stage, the object is just temporary.
-    std::unique_ptr<wbt::Block> block;
-    {
-        // Allocate the factory
-        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
-            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
-        if (!factory.isValid()) {
-            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
-                     << factory.getLastNativeError();
-            catchLogMessages(false, S);
-            return;
-        }
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
 
-        // Allocate the block from the factory
-        block.reset(factory.create());
+    if (!factory) {
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
     }
 
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Allocate the block from the factory. Since this object is supposed to be deleted
+    // by the end of this function scope, SharedLibraryClass can be used and provides RAII.
+    shlibpp::SharedLibraryClass<wbt::Block> block(*factory);
+
     // Notify errors
-    if (!block) {
+    if (!block.isValid()) {
         wbtError << "Could not create an object of type " + className;
         catchLogMessages(false, S);
         return;
@@ -209,7 +268,10 @@ static void mdlInitializeSizes(SimStruct* S)
         }
     }
     else {
-        wbtError << "Number of parameters different from those defined";
+        int_T numOfExpectedParams = ssGetNumSFcnParams(S);
+        int_T numOfBlockParams = ssGetSFcnParamsCount(S);
+        wbtError << "Number of parameters (" << numOfBlockParams
+                 << ") different from those expected (" << numOfExpectedParams << ")";
         catchLogMessages(false, S);
         return;
     }
@@ -282,29 +344,28 @@ static void mdlInitializeSampleTimes(SimStruct* S)
 #define MDL_START
 static void mdlStart(SimStruct* S)
 {
-    // Get the class name
+    // Get the class name and the library name from the parameter
     const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
-
-    // Get the library name
     const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
 
-    // Allocate the block from the Factory and store its pointer in the PWork
-    wbt::Block* block;
-    {
-        // Allocate the factory
-        shlibpp::SharedLibraryClassFactory<wbt::Block> factory(
-            platformSpecificLibName(blockLibraryName).c_str(), className.c_str());
-        if (!factory.isValid()) {
-            wbtError << "Factory error: " << shlibpp::Vocab::decode(factory.getStatus())
-                     << factory.getLastNativeError();
-            catchLogMessages(false, S);
-            return;
-        }
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
 
-        // Allocate the block from the factory
-        block = factory.create();
+    if (!factory) {
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
     }
 
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Allocate the block from the factory and store its pointer in the PWork
+    wbt::Block* block = factory->create();
     ssSetPWorkValue(S, 0, block);
 
     // Allocate the BlockInformation object and store its pointer in the PWork
@@ -447,9 +508,30 @@ static void mdlTerminate(SimStruct* S)
                    << "Could't terminate block";
     }
 
-    // Delete the resources allocated in the PWork vector;
-    delete block;
+    // Get the class name and the library name from the parameter
+    const std::string className(mxArrayToString(ssGetSFcnParam(S, 0)));
+    const std::string blockLibraryName(mxArrayToString(ssGetSFcnParam(S, 1)));
+
+    // Get the block factory
+    BlockFactoryPtr factory = BlockFactorySingleton::getInstance({blockLibraryName, className});
+
+    if (!factory) {
+        wbtError << "Failed to get factory object";
+        catchLogMessages(false, S);
+        return;
+    }
+
+    if (!factory->isValid()) {
+        wbtError << "Factory error (" << static_cast<std::uint32_t>(factory->getStatus())
+                 << "): " << factory->getError().c_str();
+        catchLogMessages(false, S);
+        return;
+    }
+
+    // Delete the resources allocated in the PWork vector
     delete blockInfo;
+
+    factory->destroy(block);
 
     // Clean the PWork vector
     ssSetPWorkValue(S, 0, nullptr);
@@ -460,7 +542,7 @@ static void mdlTerminate(SimStruct* S)
 #define MDL_RTW
 
 template <typename T>
-static std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
+std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
 {
     std::vector<real_T> output;
     output.reserve(vectorInput.size());
@@ -469,7 +551,7 @@ static std::vector<real_T> toRTWNumericVector(const std::vector<T>& vectorInput)
     return output;
 }
 
-static std::string toRTWStringVector(const std::vector<std::string>& stringInput)
+std::string toRTWStringVector(const std::vector<std::string>& stringInput)
 {
     std::string output;
 
@@ -524,7 +606,7 @@ const std::pair<std::string, std::string> parameterTypeToString(const wbt::Param
 }
 
 template <typename T>
-static bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
+bool writeParameterToRTW(const wbt::Parameter<T> param, SimStruct* S)
 {
     if (param.getMetadata().cols == wbt::ParameterMetadata::DynamicSize
         || param.getMetadata().rows == wbt::ParameterMetadata::DynamicSize) {
@@ -666,7 +748,7 @@ bool writeParameterToRTW(const wbt::Parameter<std::string> param, SimStruct* S)
     }
 }
 
-static bool writeRTW(SimStruct* S, const wbt::Parameters& params)
+bool writeRTW(SimStruct* S, const wbt::Parameters& params)
 {
     // RTW Parameters record metadata
     // ==============================
@@ -740,20 +822,29 @@ static void mdlRTW(SimStruct* S)
         // Get the parameters from the block
         ok = block->getParameters(params);
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to get parameters from the block during the code "
+                     << "generation process";
             return;
+        }
 
         // Use parameters metadata to populate the rtw file used by the coder
         ok = writeRTW(S, params);
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to write parameters to the RTW file during the code "
+                     << "generation process";
             return;
+        }
 
-        // Store the PWork vector in the rtw file.
+        // Store the PWork vector in the rtw file
         ok = ssWriteRTWWorkVect(S, "PWork", 1, "blockPWork", ssGetNumPWork(S));
         catchLogMessages(ok, S);
-        if (!ok)
+        if (!ok) {
+            wbtError << "Failed to store the PWork vector during the code "
+                     << "generation process";
             return;
+        }
     }
 }
 #endif

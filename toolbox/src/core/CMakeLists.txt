@@ -29,7 +29,7 @@ add_library(WBToolbox::Core ALIAS Core)
 
 target_include_directories(Core PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox/Core>)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
 
 set_target_properties(Core PROPERTIES
     # VERSION ${PROJECT_VERSION}
@@ -70,7 +70,7 @@ if(WBT_USES_MATLAB)
         SRC src/SimulinkBlockInformation.cpp
             include/Core/SimulinkBlockInformation.h
             src/WBToolbox.cpp
-        LINK_TO WBToolbox::Core MxAnyType sharedlibpp)
+        LINK_TO WBToolbox::Core MxAnyType shlibpp::shlibpp)
     add_library(WBToolbox::Mex ALIAS Mex)
 
     target_compile_definitions(Mex PUBLIC "MATLAB_MEX_FILE")
@@ -90,7 +90,7 @@ if(WBT_USES_MATLAB)
         COMPATIBILITY AnyNewerVersion
         EXPORT ToolboxMexExport
         FIRST_TARGET Mex
-        DEPENDENCIES ToolboxCore MxAnyType sharedlibpp
+        DEPENDENCIES ToolboxCore MxAnyType shlibpp
         NAMESPACE WBToolbox::
         NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 endif()

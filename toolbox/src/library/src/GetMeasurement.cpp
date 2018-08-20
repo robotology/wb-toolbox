@@ -27,7 +27,6 @@
 #include <vector>
 
 using namespace wbt;
-const std::string GetMeasurement::ClassName = "GetMeasurement";
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
