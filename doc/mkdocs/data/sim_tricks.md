@@ -1,3 +1,6 @@
+!!! warning
+    These information have not been updated for some while and might be outdated.
+
 This page contains some tricks (or not so obvious features) needed for creating Blocks in simulink
 
 ### Use of popup mask parameters
