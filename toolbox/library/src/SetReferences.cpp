@@ -38,7 +38,7 @@ enum ParamIndex
 {
     Bias = WBBlock::NumberOfParameters - 1,
     CtrlType,
-    RefSpeed
+    TrajRef
 };
 
 enum InputIndex
@@ -55,8 +55,8 @@ public:
     std::vector<yarp::conf::vocab32_t> controlModes;
     bool resetControlMode = true;
 
-    double refSpeed;
-    std::vector<double> defaultRefSpeed;
+    double trajectoryReference;
+    std::vector<double> defaultTrajectoryReference;
 
     std::vector<double> degBufferReferences;
     std::vector<double> previousReferenceVocabCmPosition;
@@ -90,7 +90,7 @@ bool SetReferences::parseParameters(BlockInformation* blockInfo)
 {
     const std::vector<ParameterMetadata> metadata{
         {ParameterType::STRING, ParamIndex::CtrlType, 1, 1, "CtrlType"},
-        {ParameterType::DOUBLE, ParamIndex::RefSpeed, 1, 1, "RefSpeed"}};
+        {ParameterType::DOUBLE, ParamIndex::TrajRef, 1, 1, "TrajectoryReference"}};
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
@@ -163,8 +163,8 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (!m_parameters.getParameter("RefSpeed", pImpl->refSpeed)) {
-        wbtError << "Could not read reference speed parameter.";
+    if (!m_parameters.getParameter("TrajectoryReference", pImpl->trajectoryReference)) {
+        wbtError << "Could not read reference speed / acceleration parameter.";
         return false;
     }
 
@@ -204,10 +204,10 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // The Position mode is used to set a discrete reference, and then the yarp interface
     // is responsible to generate a trajectory to reach this setpoint.
     // The generated trajectory takes an additional parameter: the speed.
-    // If not properly initialized, this contol mode does not work as expected.
+    // If not properly initialized, this control mode does not work as expected.
     if (controlType == "Position") {
-        // Convert the reference speed from radians to degrees
-        pImpl->refSpeed *= 180.0 / M_PI;
+        // Convert the reference speed from radians/sec to degrees/sec
+        pImpl->trajectoryReference *= 180.0 / M_PI;
 
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
@@ -217,16 +217,50 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         }
 
         // Store the default reference speeds
-        pImpl->defaultRefSpeed.resize(dofs);
-        if (!interface->getRefSpeeds(pImpl->defaultRefSpeed.data())) {
+        pImpl->defaultTrajectoryReference.resize(dofs);
+        if (!interface->getRefSpeeds(pImpl->defaultTrajectoryReference.data())) {
             wbtError << "Failed to get default reference speed.";
             return false;
         }
 
         // Set the new reference speeds
-        std::vector<double> speedInitalization(dofs, pImpl->refSpeed);
+        std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
         if (!interface->setRefSpeeds(speedInitalization.data())) {
             wbtError << "Failed to initialize reference speed.";
+            return false;
+        }
+
+        // In this control mode, the reference should be sent only when it changes.
+        // This vector caches the target joint positions.
+        pImpl->previousReferenceVocabCmPosition.resize(dofs);
+    }
+
+    // Velocity control mode is similar to Position and it accepts a reference acceleration
+    // used to generate the joint trajectory. Usually the desired behavior is to track exactly
+    // the reference velocity, and the default value of the reference acceleration should be
+    // very high.
+    if (controlType == "Velocity") {
+        // Convert the reference acceleration from radians/s^2 to degrees/sec^2
+        pImpl->trajectoryReference *= 180.0 / M_PI;
+
+        // Get the interface
+        yarp::dev::IVelocityControl* interface = nullptr;
+        if (!getRobotInterface()->getInterface(interface) || !interface) {
+            wbtError << "Failed to get IVelocityControl interface.";
+            return false;
+        }
+
+        // Store the default reference accelerations
+        pImpl->defaultTrajectoryReference.resize(dofs);
+        if (!interface->getRefAccelerations(pImpl->defaultTrajectoryReference.data())) {
+            wbtError << "Failed to get default reference acceleration.";
+            return false;
+        }
+
+        // Set the new reference accelerations
+        std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
+        if (!interface->setRefAccelerations(speedInitalization.data())) {
+            wbtError << "Failed to initialize reference acceleration.";
             return false;
         }
 
@@ -256,17 +290,8 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         return false;
     }
 
-    if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
-        // Set all the controlledJoints VOCAB_CM_POSITION
-        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
-
-        ok = icmd->setControlModes(pImpl->controlModes.data());
-        if (!ok) {
-            wbtError << "Failed to set control mode.";
-            return false;
-        }
-    }
-    else { // In Position mode, restore the default reference speeds
+    // In Position mode, restore the default reference speeds
+    if (pImpl->controlModes.front() == VOCAB_CM_POSITION) {
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
         ok = robotInterface->getInterface(interface);
@@ -276,11 +301,41 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         }
         // Restore default reference speeds
         if (interface) {
-            ok = interface->setRefSpeeds(pImpl->defaultRefSpeed.data());
+            ok = interface->setRefSpeeds(pImpl->defaultTrajectoryReference.data());
             if (!ok) {
                 wbtError << "Failed to restore default reference speed.";
                 return false;
             }
+        }
+    }
+
+    // In Velocity mode, restore the default reference accelerations
+    if (pImpl->controlModes.front() == VOCAB_CM_VELOCITY) {
+        // Get the interface
+        yarp::dev::IVelocityControl* interface = nullptr;
+        ok = robotInterface->getInterface(interface);
+        if (!ok || !interface) {
+            wbtError << "Failed to get IVelocityControl interface.";
+            return false;
+        }
+        // Restore default reference accelerations
+        if (interface) {
+            ok = interface->setRefAccelerations(pImpl->defaultTrajectoryReference.data());
+            if (!ok) {
+                wbtError << "Failed to restore default reference acceleration.";
+                return false;
+            }
+        }
+    }
+
+    // Set all the controlledJoints to VOCAB_CM_POSITION
+    if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
+        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
+
+        ok = icmd->setControlModes(pImpl->controlModes.data());
+        if (!ok) {
+            wbtError << "Failed to set control mode.";
+            return false;
         }
     }
 

@@ -29,7 +29,7 @@ namespace wbt {
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
  * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "CtrlType" |
- * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "RefSpeed" |
+ * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "TrajectoryReference" |
  *
  */
 class wbt::SetReferences final : public wbt::WBBlock
