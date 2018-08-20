@@ -229,7 +229,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../create_new_block/" title="Developer area" class="md-tabs__link">
+        <a href="../create_new_library/" title="Developer area" class="md-tabs__link">
           Developer area
         </a>
       
@@ -509,6 +509,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../create_new_library/" title="Tutorial: create a new library" class="md-nav__link">
+      Tutorial: create a new library
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../create_new_block/" title="Add a new block" class="md-nav__link">
       Add a new block
     </a>
@@ -728,7 +740,7 @@
                 <h1 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Disclaimer</p>
-<p><code>WB-Toolbox</code> has been widely tested on <code>Ubuntu 16:04</code> and Matlab <code>R2017b</code>. If you face any issue either with your OS or Matlab version, please submit an <a href="https://github.com/robotology/WB-Toolbox/issues">Issue</a>.</p>
+<p><code>WB-Toolbox</code> has been widely tested on <code>Ubuntu 16:04</code> and <code>Ubuntu 18.04</code> with Matlab <code>R2017b</code>. If you face any issue either with your OS or Matlab version, please submit an <a href="https://github.com/robotology/WB-Toolbox/issues">Issue</a>.</p>
 </div>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
@@ -740,9 +752,10 @@
 </ul>
 <h2 id="optional-requirements">Optional requirements<a class="headerlink" href="#optional-requirements" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/robotology/icub-main"><code>iCub</code></a> (needed for some blocks)</li>
+<li><a href="https://github.com/robotology/icub-main"><code>iCub</code></a></li>
 <li><a href="http://gazebosim.org/">Gazebo Simulator</a></li>
 <li><a href="https://github.com/robotology/gazebo_yarp_plugins"><code>gazebo_yarp_plugins</code></a></li>
+<li><a href="https://github.com/robotology-dependencies/qpOASES/"><code>qpOASES</code></a></li>
 </ul>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>For a simplified installation procedure, jump to <a href="#install-using-the-robotology-superbuild">Install using the <code>robotology-superbuild</code></a>.</p>
@@ -751,7 +764,11 @@
 <p>The following instructions are for Unix-like systems, but they work similarly on other operating systems.</p>
 </div>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
-<p>Install the required and the optional dependencies by following their installation instructions. These instructions need that <code>YARP</code> , <code>iDynTree</code> and <code>YCM</code> packages (and optionally <code>iCub</code>) can be found by <code>CMake</code> using <code>find_package</code>.</p>
+<p>Install the required and the optional dependencies by following their installation instructions. These instructions need that <code>YARP</code>, <code>iDynTree</code> and <code>YCM</code> packages can be found by <code>CMake</code> using <code>find_package</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If an optional dependency is not found, the classes depending on it are not compiled. However, in the Simulink Library the block does not disappear. It will just not work, raising an appropriate error.  </p>
+</div>
 <h3 id="setup-matlab">Setup Matlab<a class="headerlink" href="#setup-matlab" title="Permanent link">&para;</a></h3>
 <p>Make sure that you have MATLAB and Simulink properly installed and running.</p>
 <p><code>CMake</code> needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that <code>CMake</code> is able to <a href="https://cmake.org/cmake/help/v3.3/module/FindMatlab.html">find your Matlab installation</a>, or manually set the <code>Matlab_ROOT_DIR</code> environment variable if needed.</p>
