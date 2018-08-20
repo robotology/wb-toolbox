@@ -1,8 +1,8 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryClass.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryClass.h">
-<area shape="rect" id="node2" href="$_shared_library_class_factory_8h.html" title="SharedLibraryClassFactory.h" alt="" coords="121,125,311,152"/>
-<area shape="rect" id="node3" href="$_shared_library_factory_8h.html" title="SharedLibraryFactory.h" alt="" coords="137,200,295,227"/>
-<area shape="rect" id="node4" href="$_shared_library_8h.html" title="SharedLibrary.h" alt="" coords="5,275,117,301"/>
-<area shape="rect" id="node6" href="$_shared_library_class_api_8h.html" title="SharedLibraryClassApi.h" alt="" coords="194,275,360,301"/>
-<area shape="rect" id="node8" href="$_vocab_8h.html" title="Vocab.h" alt="" coords="426,349,496,376"/>
-<area shape="rect" id="node9" href="$config_8h.html" title="config.h" alt="" coords="334,349,401,376"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryClass.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryClass.h">
+<area shape="rect" id="node2" href="$_shared_library_class_factory_8h.html" title="shlibpp/SharedLibraryClass\lFactory.h" alt="" coords="232,126,413,167"/>
+<area shape="rect" id="node10" href="$_shared_library_class-inl_8h.html" title="shlibpp/SharedLibraryClass\l&#45;inl.h" alt="" coords="437,126,619,167"/>
+<area shape="rect" id="node3" href="$_shared_library_factory_8h.html" title="shlibpp/SharedLibraryFactory.h" alt="" coords="5,224,208,251"/>
+<area shape="rect" id="node6" href="$_shared_library_class_api_8h.html" title="shlibpp/SharedLibraryClass\lApi.h" alt="" coords="232,217,413,258"/>
+<area shape="rect" id="node9" href="$_shared_library_class_factory-inl_8h.html" title="shlibpp/SharedLibraryClass\lFactory&#45;inl.h" alt="" coords="437,217,619,258"/>
+<area shape="rect" id="node4" href="$api_8h.html" title="shlibpp/api.h" alt="" coords="147,307,241,333"/>
 </map>

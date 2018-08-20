@@ -10,6 +10,5 @@ var classwbt_1_1_simulator_synchronizer =
     [ "output", "classwbt_1_1_simulator_synchronizer.html#a6644432dd7b9ee332ce170ef56d3881e", null ],
     [ "parseParameters", "classwbt_1_1_simulator_synchronizer.html#a1b6488bd3cacad47080af155a2989182", null ],
     [ "terminate", "classwbt_1_1_simulator_synchronizer.html#a1dbd24b44e9019693189945746a4a0af", null ],
-    [ "ClassName", "classwbt_1_1_simulator_synchronizer.html#ac69d6802af98e07ef2f2d2673070e575", null ],
     [ "pImpl", "classwbt_1_1_simulator_synchronizer.html#abc69140dde121f53dc8f7733a6deaf49", null ]
 ];

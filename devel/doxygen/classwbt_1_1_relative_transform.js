@@ -9,6 +9,5 @@ var classwbt_1_1_relative_transform =
     [ "output", "classwbt_1_1_relative_transform.html#a51675a1de38e0ae981ec340cc4b17c33", null ],
     [ "parseParameters", "classwbt_1_1_relative_transform.html#a683650262b907f308569367a223b2b97", null ],
     [ "terminate", "classwbt_1_1_relative_transform.html#ac4c13c1852cff197c6edb684bb782649", null ],
-    [ "ClassName", "classwbt_1_1_relative_transform.html#a7d37d915c56ec73165a6841b22fd558f", null ],
     [ "pImpl", "classwbt_1_1_relative_transform.html#a2d52c47e6ef0e19383f69507c386f24d", null ]
 ];

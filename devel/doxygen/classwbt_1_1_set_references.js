@@ -10,6 +10,5 @@ var classwbt_1_1_set_references =
     [ "output", "classwbt_1_1_set_references.html#a68201f24b0e402181c22eadcc5f3d19b", null ],
     [ "parseParameters", "classwbt_1_1_set_references.html#aea8dec46daceef9ff56ffe8900027a07", null ],
     [ "terminate", "classwbt_1_1_set_references.html#a209df9cffa3dbb3cf3209ea626cd0dd7", null ],
-    [ "ClassName", "classwbt_1_1_set_references.html#a2fe6c47dbfa0af7189520e69fd5e4408", null ],
     [ "pImpl", "classwbt_1_1_set_references.html#ac4ea587784b363d0d78342064d305510", null ]
 ];

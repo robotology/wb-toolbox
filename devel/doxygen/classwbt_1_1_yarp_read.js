@@ -9,6 +9,5 @@ var classwbt_1_1_yarp_read =
     [ "output", "classwbt_1_1_yarp_read.html#af1f3d0ff1d45cfbe2383d1817da55565", null ],
     [ "parseParameters", "classwbt_1_1_yarp_read.html#aa09f5d55196e5e692a8438f474b47e60", null ],
     [ "terminate", "classwbt_1_1_yarp_read.html#a0a936fe7e8fa491444377d3c8ce236a9", null ],
-    [ "ClassName", "classwbt_1_1_yarp_read.html#abd286243b1997bba8eb33b721b32c2cf", null ],
     [ "pImpl", "classwbt_1_1_yarp_read.html#a4c678aaae6012eff01302b67fd91ac5e", null ]
 ];

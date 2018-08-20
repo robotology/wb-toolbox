@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('structshlibpp_1_1_shared_library_class
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structshlibpp_1_1_shared_library_class_api-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -113,160 +114,206 @@ $(document).ready(function(){initNavTree('structshlibpp_1_1_shared_library_class
 
 <p><code>#include &lt;<a class="el" href="_shared_library_class_api_8h_source.html">SharedLibraryClassApi.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Collection of hooks for creating/destroying a plugin. Be careful to check carefully for compatibility before using <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#accb59956a0fa8586419eada53c804b2a">create()</a> or <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#affde46b9cb4d3989727ae9e6d825dcc7">destroy()</a>. </p>
+<div class="textblock"><p>Collection of hooks for creating/destroying a plugin. Be careful to check carefully for compatibility before using <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#aecf636bc41364c0f348113411f336dbc">create()</a> or <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ad74bfb8dc0708c69744fbeccd1eecde1">destroy()</a>. </p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ada222628ab91a8e83f66da1ce1b8b170"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ada222628ab91a8e83f66da1ce1b8b170">createFn_t</a> ) = void *(*)(</td></tr>
+<tr class="separator:ada222628ab91a8e83f66da1ce1b8b170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6500d940c6a127f26173bd136ace0dc5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a6500d940c6a127f26173bd136ace0dc5">destroyFn_t</a> = void(*)(void *)</td></tr>
+<tr class="separator:a6500d940c6a127f26173bd136ace0dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38eebcc41edc0523ce373213386c764e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a> = int32_t(*)(char *, size_t)</td></tr>
+<tr class="separator:a38eebcc41edc0523ce373213386c764e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:acf8611fcfe97d8bcbcd33cdc1604fa34"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#acf8611fcfe97d8bcbcd33cdc1604fa34">startCheck</a></td></tr>
-<tr class="separator:acf8611fcfe97d8bcbcd33cdc1604fa34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32f772d83f8f21cbfc36f584a943fb3d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a32f772d83f8f21cbfc36f584a943fb3d">structureSize</a></td></tr>
-<tr class="separator:a32f772d83f8f21cbfc36f584a943fb3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a828de04a577d6df49df1150b0303769c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a828de04a577d6df49df1150b0303769c">systemVersion</a></td></tr>
-<tr class="separator:a828de04a577d6df49df1150b0303769c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accb59956a0fa8586419eada53c804b2a"><td class="memItemLeft" align="right" valign="top">void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#accb59956a0fa8586419eada53c804b2a">create</a> )()</td></tr>
-<tr class="separator:accb59956a0fa8586419eada53c804b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affde46b9cb4d3989727ae9e6d825dcc7"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#affde46b9cb4d3989727ae9e6d825dcc7">destroy</a> )(void *obj)</td></tr>
-<tr class="separator:affde46b9cb4d3989727ae9e6d825dcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea47fed5fc21df0532da284a6e1b42dd"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#aea47fed5fc21df0532da284a6e1b42dd">getVersion</a> )(char *ver, int len)</td></tr>
-<tr class="separator:aea47fed5fc21df0532da284a6e1b42dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4862e316005aa9359f792a3be348631b"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a4862e316005aa9359f792a3be348631b">getAbi</a> )(char *abi, int len)</td></tr>
-<tr class="separator:a4862e316005aa9359f792a3be348631b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a659da362459c0fd1b3c7e952113b1524"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a659da362459c0fd1b3c7e952113b1524">getClassName</a> )(char *name, int len)</td></tr>
-<tr class="separator:a659da362459c0fd1b3c7e952113b1524"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab42e00bf096757d87d4655c5d7b091f0"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ab42e00bf096757d87d4655c5d7b091f0">getBaseClassName</a> )(char *name, int len)</td></tr>
-<tr class="separator:ab42e00bf096757d87d4655c5d7b091f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d1be3687b240943035057be7ac798f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a7d1be3687b240943035057be7ac798f1">roomToGrow</a> [<a class="el" href="config_8h.html#aacf76b601f66f56e93e1777ce10ec50d">SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING</a>]</td></tr>
-<tr class="separator:a7d1be3687b240943035057be7ac798f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0dc321ac8577f66afa553c03ffb5e5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ab0dc321ac8577f66afa553c03ffb5e5c">endCheck</a></td></tr>
-<tr class="separator:ab0dc321ac8577f66afa553c03ffb5e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8024b39cf7b206a025190d7adfda02e3"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a8024b39cf7b206a025190d7adfda02e3">startCheck</a></td></tr>
+<tr class="separator:a8024b39cf7b206a025190d7adfda02e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a964605911fb571c987ea59deba80b1b9"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a964605911fb571c987ea59deba80b1b9">structureSize</a></td></tr>
+<tr class="separator:a964605911fb571c987ea59deba80b1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f257203ea8d860baabfe777d70f0ace"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a9f257203ea8d860baabfe777d70f0ace">systemVersion</a></td></tr>
+<tr class="separator:a9f257203ea8d860baabfe777d70f0ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecf636bc41364c0f348113411f336dbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ada222628ab91a8e83f66da1ce1b8b170">createFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#aecf636bc41364c0f348113411f336dbc">create</a></td></tr>
+<tr class="separator:aecf636bc41364c0f348113411f336dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74bfb8dc0708c69744fbeccd1eecde1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a6500d940c6a127f26173bd136ace0dc5">destroyFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ad74bfb8dc0708c69744fbeccd1eecde1">destroy</a></td></tr>
+<tr class="separator:ad74bfb8dc0708c69744fbeccd1eecde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c53efe5613172b0af78cddb53416ff5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a5c53efe5613172b0af78cddb53416ff5">getVersion</a></td></tr>
+<tr class="separator:a5c53efe5613172b0af78cddb53416ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3969e6867ffd7449d06d48fdaa099830"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a3969e6867ffd7449d06d48fdaa099830">getAbi</a></td></tr>
+<tr class="separator:a3969e6867ffd7449d06d48fdaa099830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f0c240812eed0da916d026b24b7decc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a8f0c240812eed0da916d026b24b7decc">getClassName</a></td></tr>
+<tr class="separator:a8f0c240812eed0da916d026b24b7decc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09ed06fd66509fded356230733091c11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a09ed06fd66509fded356230733091c11">getBaseClassName</a></td></tr>
+<tr class="separator:a09ed06fd66509fded356230733091c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d2de04d9d5529c6a56781ab62ee1770"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a2d2de04d9d5529c6a56781ab62ee1770">roomToGrow</a> [SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING]</td></tr>
+<tr class="separator:a2d2de04d9d5529c6a56781ab62ee1770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5e537f7c9751b86d29caaad550343de"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ae5e537f7c9751b86d29caaad550343de">endCheck</a></td></tr>
+<tr class="separator:ae5e537f7c9751b86d29caaad550343de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="ada222628ab91a8e83f66da1ce1b8b170"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using shlibpp::SharedLibraryClassApi::createFn_t =  void*(*)(</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6500d940c6a127f26173bd136ace0dc5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a6500d940c6a127f26173bd136ace0dc5">shlibpp::SharedLibraryClassApi::destroyFn_t</a> =  void(*)(void*)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a38eebcc41edc0523ce373213386c764e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">shlibpp::SharedLibraryClassApi::getFn_t</a> =  int32_t(*)(char*, size_t)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="accb59956a0fa8586419eada53c804b2a"></a>
+<a class="anchor" id="aecf636bc41364c0f348113411f336dbc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void*(* shlibpp::SharedLibraryClassApi::create)()</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#ada222628ab91a8e83f66da1ce1b8b170">createFn_t</a> shlibpp::SharedLibraryClassApi::create</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="affde46b9cb4d3989727ae9e6d825dcc7"></a>
+<a class="anchor" id="ad74bfb8dc0708c69744fbeccd1eecde1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* shlibpp::SharedLibraryClassApi::destroy)(void *obj)</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a6500d940c6a127f26173bd136ace0dc5">destroyFn_t</a> shlibpp::SharedLibraryClassApi::destroy</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ab0dc321ac8577f66afa553c03ffb5e5c"></a>
+<a class="anchor" id="ae5e537f7c9751b86d29caaad550343de"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int shlibpp::SharedLibraryClassApi::endCheck</td>
+          <td class="memname">int32_t shlibpp::SharedLibraryClassApi::endCheck</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a4862e316005aa9359f792a3be348631b"></a>
+<a class="anchor" id="a3969e6867ffd7449d06d48fdaa099830"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* shlibpp::SharedLibraryClassApi::getAbi)(char *abi, int len)</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a> shlibpp::SharedLibraryClassApi::getAbi</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ab42e00bf096757d87d4655c5d7b091f0"></a>
+<a class="anchor" id="a09ed06fd66509fded356230733091c11"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* shlibpp::SharedLibraryClassApi::getBaseClassName)(char *name, int len)</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a> shlibpp::SharedLibraryClassApi::getBaseClassName</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a659da362459c0fd1b3c7e952113b1524"></a>
+<a class="anchor" id="a8f0c240812eed0da916d026b24b7decc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* shlibpp::SharedLibraryClassApi::getClassName)(char *name, int len)</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a> shlibpp::SharedLibraryClassApi::getClassName</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aea47fed5fc21df0532da284a6e1b42dd"></a>
+<a class="anchor" id="a5c53efe5613172b0af78cddb53416ff5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* shlibpp::SharedLibraryClassApi::getVersion)(char *ver, int len)</td>
+          <td class="memname"><a class="el" href="structshlibpp_1_1_shared_library_class_api.html#a38eebcc41edc0523ce373213386c764e">getFn_t</a> shlibpp::SharedLibraryClassApi::getVersion</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a7d1be3687b240943035057be7ac798f1"></a>
+<a class="anchor" id="a2d2de04d9d5529c6a56781ab62ee1770"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int shlibpp::SharedLibraryClassApi::roomToGrow[<a class="el" href="config_8h.html#aacf76b601f66f56e93e1777ce10ec50d">SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING</a>]</td>
+          <td class="memname">int32_t shlibpp::SharedLibraryClassApi::roomToGrow[SHLIBPP_SHAREDLIBRARYCLASSAPI_PADDING]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="acf8611fcfe97d8bcbcd33cdc1604fa34"></a>
+<a class="anchor" id="a8024b39cf7b206a025190d7adfda02e3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int shlibpp::SharedLibraryClassApi::startCheck</td>
+          <td class="memname">int32_t shlibpp::SharedLibraryClassApi::startCheck</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a32f772d83f8f21cbfc36f584a943fb3d"></a>
+<a class="anchor" id="a964605911fb571c987ea59deba80b1b9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int shlibpp::SharedLibraryClassApi::structureSize</td>
+          <td class="memname">int32_t shlibpp::SharedLibraryClassApi::structureSize</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a828de04a577d6df49df1150b0303769c"></a>
+<a class="anchor" id="a9f257203ea8d860baabfe777d70f0ace"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int shlibpp::SharedLibraryClassApi::systemVersion</td>
+          <td class="memname">int32_t shlibpp::SharedLibraryClassApi::systemVersion</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,7 +321,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/sharedlibpp/include/<a class="el" href="_shared_library_class_api_8h_source.html">SharedLibraryClassApi.h</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/sharedlibpp/src/shlibpp/<a class="el" href="_shared_library_class_api_8h_source.html">SharedLibraryClassApi.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

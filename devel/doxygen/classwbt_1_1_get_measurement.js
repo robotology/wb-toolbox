@@ -9,6 +9,5 @@ var classwbt_1_1_get_measurement =
     [ "output", "classwbt_1_1_get_measurement.html#a6158e1e93a9806164ae3867602e58066", null ],
     [ "parseParameters", "classwbt_1_1_get_measurement.html#aba9ab57f9a69f24d2d8001aae6fd23ba", null ],
     [ "terminate", "classwbt_1_1_get_measurement.html#ac2b440a338df3359e948dfb4572849a5", null ],
-    [ "ClassName", "classwbt_1_1_get_measurement.html#a64f98ca4c235e6d2e78114d78e7d2eb4", null ],
     [ "pImpl", "classwbt_1_1_get_measurement.html#a4d9060046f4456e6e6983118422f7eeb", null ]
 ];

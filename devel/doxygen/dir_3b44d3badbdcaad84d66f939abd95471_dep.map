@@ -1,6 +1,6 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src">
-<area shape="rect" id="node1" href="dir_3b44d3badbdcaad84d66f939abd95471.html" title="src" alt="" coords="27,52,99,100"/>
-<area shape="rect" id="node2" href="dir_38254cf9d1db3078c0863f8dcd8881a9.html" title="include" alt="" coords="27,148,99,196"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000013_000012.html" title="2" alt="" coords="67,122,75,137"/>
-<area shape="rect" id="clust1" href="dir_6e3959465ed458c91232866e7ca77487.html" title="sharedlibpp" alt="" coords="16,16,109,111"/>
+<area shape="rect" id="node2" href="dir_efd457d9aad56086a7366e93363aab84.html" title="shlibpp" alt="" coords="37,159,109,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000013_000014.html" title="4" alt="" coords="78,133,86,148"/>
+<area shape="rect" id="clust2" href="dir_3b44d3badbdcaad84d66f939abd95471.html" alt="" coords="27,52,120,217"/>
+<area shape="rect" id="clust1" href="dir_6e3959465ed458c91232866e7ca77487.html" title="sharedlibpp" alt="" coords="16,16,131,228"/>
 </map>

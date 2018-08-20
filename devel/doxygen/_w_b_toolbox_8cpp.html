@@ -98,7 +98,9 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -110,14 +112,15 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_parameter_8h_source.html">Core/Parameter.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_parameters_8h_source.html">Core/Parameters.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_simulink_block_information_8h_source.html">Core/SimulinkBlockInformation.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_shared_library_8h_source.html">SharedLibrary.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_shared_library_class_8h_source.html">SharedLibraryClass.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_shared_library_8h_source.html">shlibpp/SharedLibrary.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_shared_library_class_8h_source.html">shlibpp/SharedLibraryClass.h</a>&quot;</code><br/>
 <code>#include &lt;matrix.h&gt;</code><br/>
 <code>#include &lt;simstruc.h&gt;</code><br/>
 <code>#include &lt;simstruc_types.h&gt;</code><br/>
 <code>#include &lt;sl_sample_time_defs.h&gt;</code><br/>
 <code>#include &lt;tmwtypes.h&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
+<code>#include &lt;map&gt;</code><br/>
 <code>#include &lt;memory&gt;</code><br/>
 <code>#include &lt;stdint.h&gt;</code><br/>
 <code>#include &lt;stdio.h&gt;</code><br/>
@@ -132,6 +135,11 @@ Include dependency graph for WBToolbox.cpp:</div>
 </div>
 </div>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_block_factory_singleton.html">BlockFactorySingleton</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a9a4ab27953070e39249f3fad28e93749"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a9a4ab27953070e39249f3fad28e93749">S_FUNCTION_LEVEL</a>&#160;&#160;&#160;2</td></tr>
@@ -153,10 +161,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a85b5901d060d095a9e4f6b0c99f08b2d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a85b5901d060d095a9e4f6b0c99f08b2d">MDL_DERIVATIVES</a></td></tr>
 <tr class="separator:a85b5901d060d095a9e4f6b0c99f08b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a13aac22b9fce0d43c430fe0b94cd29e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> = <a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">shlibpp::SharedLibraryClassFactory</a>&lt; <a class="el" href="classwbt_1_1_block.html">wbt::Block</a> &gt;</td></tr>
+<tr class="separator:a13aac22b9fce0d43c430fe0b94cd29e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7e615db12bb3d92683fa3fd877bacd1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#ac7e615db12bb3d92683fa3fd877bacd1">BlockFactoryPtr</a> = std::shared_ptr&lt; <a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> &gt;</td></tr>
+<tr class="separator:ac7e615db12bb3d92683fa3fd877bacd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0346df64000922337e045d687056c12a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a0346df64000922337e045d687056c12a">platformSpecificLibName</a> (const std::string &amp;library)</td></tr>
-<tr class="separator:a0346df64000922337e045d687056c12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a373a3e9fd0b1f97429178fa717a94251"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a373a3e9fd0b1f97429178fa717a94251">catchLogMessages</a> (bool status, SimStruct *S)</td></tr>
 <tr class="separator:a373a3e9fd0b1f97429178fa717a94251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb2c7d4daf1bd2628c38fd39c350b394"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#afb2c7d4daf1bd2628c38fd39c350b394">mdlSetInputPortDimensionInfo</a> (SimStruct *S, int_T port, const DimsInfo_T *dimsInfo)</td></tr>
@@ -282,6 +295,31 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define S_FUNCTION_NAME&#160;&#160;&#160;WBToolbox</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="a13aac22b9fce0d43c430fe0b94cd29e3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> =  <a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">shlibpp::SharedLibraryClassFactory</a>&lt;<a class="el" href="classwbt_1_1_block.html">wbt::Block</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac7e615db12bb3d92683fa3fd877bacd1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="_w_b_toolbox_8cpp.html#ac7e615db12bb3d92683fa3fd877bacd1">BlockFactoryPtr</a> =  std::shared_ptr&lt;<a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -529,22 +567,6 @@ Variables</h2></td></tr>
 <span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a0346df64000922337e045d687056c12a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string platformSpecificLibName </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>library</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
 </div><div class="memdoc">
 
 </div>

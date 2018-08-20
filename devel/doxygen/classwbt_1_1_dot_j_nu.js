@@ -9,6 +9,5 @@ var classwbt_1_1_dot_j_nu =
     [ "output", "classwbt_1_1_dot_j_nu.html#a699ed59c020ac8240657f1b6d0e46ab1", null ],
     [ "parseParameters", "classwbt_1_1_dot_j_nu.html#a112eeda016cc76f05894e7d17aca17df", null ],
     [ "terminate", "classwbt_1_1_dot_j_nu.html#af0b75e4d49927a415bb621026e70e50b", null ],
-    [ "ClassName", "classwbt_1_1_dot_j_nu.html#a64e7a1e4c501f4126d000c6789ef4878", null ],
     [ "pImpl", "classwbt_1_1_dot_j_nu.html#ab74c64edad3cf03eb75bc80a3416d7f8", null ]
 ];

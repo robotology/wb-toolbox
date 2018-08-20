@@ -9,6 +9,5 @@ var classwbt_1_1_real_time_synchronizer =
     [ "output", "classwbt_1_1_real_time_synchronizer.html#a86d33766b329ff5a08a601a6087f8f93", null ],
     [ "parseParameters", "classwbt_1_1_real_time_synchronizer.html#aff655c8bd5862f891ccf357980fc5da7", null ],
     [ "terminate", "classwbt_1_1_real_time_synchronizer.html#a5c4e644810b5e6004bdb9eded27a27df", null ],
-    [ "ClassName", "classwbt_1_1_real_time_synchronizer.html#adea8bae41ebd1f1539a84208aecdafe0", null ],
     [ "pImpl", "classwbt_1_1_real_time_synchronizer.html#a0afd71f7d83dc043f06de2639bb5e2a4", null ]
 ];

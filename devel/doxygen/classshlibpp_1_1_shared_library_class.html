@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('classshlibpp_1_1_shared_library_class.
 
 <p><code>#include &lt;<a class="el" href="_shared_library_class_8h_source.html">SharedLibraryClass.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class T&gt;<br/>
+<div class="textblock"><h3>template&lt;typename T&gt;<br/>
 class shlibpp::SharedLibraryClass&lt; T &gt;</h3>
 
 <p>Container for an object created using a factory provided by a shared library. Used to ensure the object is destroyed by a method also provided by the shared library. Mixing creation and destruction methods could be very bad. </p>
@@ -125,20 +125,26 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a674af45ac5e9663cf4b0ead804c91f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3a21ddcac9793ee97e71865767f770"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#afd3a21ddcac9793ee97e71865767f770">SharedLibraryClass</a> (<a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">SharedLibraryClassFactory</a>&lt; T &gt; &amp;factory)</td></tr>
 <tr class="separator:afd3a21ddcac9793ee97e71865767f770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f81040378e64dde8f559eb69a22432"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a63f81040378e64dde8f559eb69a22432">~SharedLibraryClass</a> ()</td></tr>
+<tr class="separator:a63f81040378e64dde8f559eb69a22432"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a392b3bdfc4cdb45832c8555369026eba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a392b3bdfc4cdb45832c8555369026eba">open</a> (<a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">SharedLibraryClassFactory</a>&lt; T &gt; &amp;factory)</td></tr>
 <tr class="separator:a392b3bdfc4cdb45832c8555369026eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d175380a7e05e7155de6cc0abe6533b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a3d175380a7e05e7155de6cc0abe6533b">close</a> ()</td></tr>
-<tr class="separator:a3d175380a7e05e7155de6cc0abe6533b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1a7030c458c2fbd6eb05b84244cd143"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#ac1a7030c458c2fbd6eb05b84244cd143">~SharedLibraryClass</a> ()</td></tr>
-<tr class="separator:ac1a7030c458c2fbd6eb05b84244cd143"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae94f9159108d5d875651a09aa6663ce8"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#ae94f9159108d5d875651a09aa6663ce8">getContent</a> ()</td></tr>
-<tr class="separator:ae94f9159108d5d875651a09aa6663ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa63f3c7608941698e1171d3b06cf69b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#afa63f3c7608941698e1171d3b06cf69b">close</a> ()</td></tr>
+<tr class="separator:afa63f3c7608941698e1171d3b06cf69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3703539b03d7ad46cc1410c51e9b39c5"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a3703539b03d7ad46cc1410c51e9b39c5">getContent</a> ()</td></tr>
+<tr class="separator:a3703539b03d7ad46cc1410c51e9b39c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adca32a3861f005214475768bb3a68333"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#adca32a3861f005214475768bb3a68333">getContent</a> () const </td></tr>
+<tr class="separator:adca32a3861f005214475768bb3a68333"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a386ab7c81c9181bde9a92fd235d3f84e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a386ab7c81c9181bde9a92fd235d3f84e">isValid</a> () const </td></tr>
 <tr class="separator:a386ab7c81c9181bde9a92fd235d3f84e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefdba4cdbf84d1a121eb132de9127e69"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#aefdba4cdbf84d1a121eb132de9127e69">operator*</a> ()</td></tr>
-<tr class="separator:aefdba4cdbf84d1a121eb132de9127e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5857a9ad4c557f1632ca0d40a827d5f"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#af5857a9ad4c557f1632ca0d40a827d5f">operator-&gt;</a> ()</td></tr>
-<tr class="separator:af5857a9ad4c557f1632ca0d40a827d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4b6bfe2df825539ccafe95caeeabdc3"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#aa4b6bfe2df825539ccafe95caeeabdc3">operator*</a> ()</td></tr>
+<tr class="separator:aa4b6bfe2df825539ccafe95caeeabdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0ee087d7456cefd2caabab21067cd85"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#ac0ee087d7456cefd2caabab21067cd85">operator*</a> () const </td></tr>
+<tr class="separator:ac0ee087d7456cefd2caabab21067cd85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e14eec10947bfb3f5f760a1bf5b126"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#ab6e14eec10947bfb3f5f760a1bf5b126">operator-&gt;</a> ()</td></tr>
+<tr class="separator:ab6e14eec10947bfb3f5f760a1bf5b126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2070bfbfe40a9faedc51aa51c46b2f9e"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classshlibpp_1_1_shared_library_class.html#a2070bfbfe40a9faedc51aa51c46b2f9e">operator-&gt;</a> () const </td></tr>
+<tr class="separator:a2070bfbfe40a9faedc51aa51c46b2f9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -152,10 +158,7 @@ Private Attributes</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::<a class="el" href="classshlibpp_1_1_shared_library_class.html">SharedLibraryClass</a> </td>
@@ -164,11 +167,6 @@ template&lt;class T &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Constructor for empty instance. </p>
 
@@ -178,10 +176,7 @@ template&lt;class T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::<a class="el" href="classshlibpp_1_1_shared_library_class.html">SharedLibraryClass</a> </td>
@@ -191,11 +186,6 @@ template&lt;class T &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Constructor for valid instance of a class from a shared library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -207,17 +197,17 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac1a7030c458c2fbd6eb05b84244cd143"></a>
+<a class="anchor" id="a63f81040378e64dde8f559eb69a22432"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::~<a class="el" href="classshlibpp_1_1_shared_library_class.html">SharedLibraryClass</a> </td>
+          <td class="memname"><a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::~<a class="el" href="classshlibpp_1_1_shared_library_class.html">SharedLibraryClass</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -225,7 +215,7 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -234,17 +224,17 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3d175380a7e05e7155de6cc0abe6533b"></a>
+<a class="anchor" id="afa63f3c7608941698e1171d3b06cf69b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::close </td>
+          <td class="memname">bool <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::close </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -252,7 +242,7 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -261,29 +251,42 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ae94f9159108d5d875651a09aa6663ce8"></a>
+<a class="anchor" id="a3703539b03d7ad46cc1410c51e9b39c5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::getContent </td>
+          <td class="memname">T &amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::getContent </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Gives access to the created instance. No check made to ensure an instance is in fact present. Call <a class="el" href="classshlibpp_1_1_shared_library_class.html#a386ab7c81c9181bde9a92fd235d3f84e">SharedLibraryClass::isValid</a> first if unsure.</p>
+<p>Gives access to the created instance.</p>
+<p>No check made to ensure an instance is in fact present. Call <a class="el" href="classshlibpp_1_1_shared_library_class.html#a386ab7c81c9181bde9a92fd235d3f84e">SharedLibraryClass::isValid</a> first if unsure.</p>
+<dl class="section return"><dt>Returns</dt><dd>the created instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adca32a3861f005214475768bb3a68333"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const T &amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::getContent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gives access to the created instance (const version).</p>
+<p>No check made to ensure an instance is in fact present. Call <a class="el" href="classshlibpp_1_1_shared_library_class.html#a386ab7c81c9181bde9a92fd235d3f84e">SharedLibraryClass::isValid</a> first if unsure.</p>
 <dl class="section return"><dt>Returns</dt><dd>the created instance </dd></dl>
 
 </div>
@@ -292,10 +295,7 @@ template&lt;class T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">bool <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::isValid </td>
@@ -304,11 +304,6 @@ template&lt;class T &gt; </div>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Check whether a valid instance has been created.</p>
 <dl class="section return"><dt>Returns</dt><dd>true iff a valid instance has been created </dd></dl>
@@ -319,10 +314,7 @@ template&lt;class T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">bool <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::open </td>
@@ -332,11 +324,6 @@ template&lt;class T &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Construct an instance using the specified factory. If an instance has already been made, it is destroyed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -349,57 +336,79 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aefdba4cdbf84d1a121eb132de9127e69"></a>
+<a class="anchor" id="aa4b6bfe2df825539ccafe95caeeabdc3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator* </td>
+          <td class="memname">T &amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator* </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Shorthand for <a class="el" href="classshlibpp_1_1_shared_library_class.html#ae94f9159108d5d875651a09aa6663ce8">SharedLibraryClass::getContent</a></p>
+<p>Shorthand for <a class="el" href="classshlibpp_1_1_shared_library_class.html#a3703539b03d7ad46cc1410c51e9b39c5">SharedLibraryClass::getContent</a></p>
 <dl class="section return"><dt>Returns</dt><dd>the created instance </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af5857a9ad4c557f1632ca0d40a827d5f"></a>
+<a class="anchor" id="ac0ee087d7456cefd2caabab21067cd85"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T* <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator-&gt; </td>
+          <td class="memname">const T &amp; <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Shorthand for <a class="el" href="classshlibpp_1_1_shared_library_class.html#a3703539b03d7ad46cc1410c51e9b39c5">SharedLibraryClass::getContent</a> (const version)</p>
+<dl class="section return"><dt>Returns</dt><dd>the created instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab6e14eec10947bfb3f5f760a1bf5b126"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator-&gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>A pointer version of <a class="el" href="classshlibpp_1_1_shared_library_class.html#ae94f9159108d5d875651a09aa6663ce8">SharedLibraryClass::getContent</a></p>
-<dl class="section return"><dt>Returns</dt><dd>a pointer to the created instance, or NULL if there is none </dd></dl>
+<p>A pointer version of <a class="el" href="classshlibpp_1_1_shared_library_class.html#a3703539b03d7ad46cc1410c51e9b39c5">SharedLibraryClass::getContent</a></p>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to the created instance, or nullptr if there is none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2070bfbfe40a9faedc51aa51c46b2f9e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const T * <a class="el" href="classshlibpp_1_1_shared_library_class.html">shlibpp::SharedLibraryClass</a>&lt; T &gt;::operator-&gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A pointer version of <a class="el" href="classshlibpp_1_1_shared_library_class.html#a3703539b03d7ad46cc1410c51e9b39c5">SharedLibraryClass::getContent</a> (const version)</p>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to the created instance, or nullptr if there is none </dd></dl>
 
 </div>
 </div>
@@ -408,7 +417,7 @@ template&lt;class T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -430,7 +439,7 @@ template&lt;class T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -448,8 +457,9 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/sharedlibpp/include/<a class="el" href="_shared_library_class_8h_source.html">SharedLibraryClass.h</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/sharedlibpp/src/shlibpp/<a class="el" href="_shared_library_class_8h_source.html">SharedLibraryClass.h</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/sharedlibpp/src/shlibpp/<a class="el" href="_shared_library_class-inl_8h_source.html">SharedLibraryClass-inl.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

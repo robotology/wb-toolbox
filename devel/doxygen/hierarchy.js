@@ -24,6 +24,7 @@ var hierarchy =
       [ "wbt::YarpRead", "classwbt_1_1_yarp_read.html", null ],
       [ "wbt::YarpWrite", "classwbt_1_1_yarp_write.html", null ]
     ] ],
+    [ "BlockFactorySingleton", "class_block_factory_singleton.html", null ],
     [ "wbt::BlockInformation", "classwbt_1_1_block_information.html", [
       [ "wbt::CoderBlockInformation", "classwbt_1_1_coder_block_information.html", null ],
       [ "wbt::SimulinkBlockInformation", "classwbt_1_1_simulink_block_information.html", null ]
@@ -38,31 +39,39 @@ var hierarchy =
     [ "wbt::YarpWrite::impl", "class_yarp_write_1_1impl.html", null ],
     [ "wbt::CentroidalMomentum::impl", "class_centroidal_momentum_1_1impl.html", null ],
     [ "wbt::Configuration::impl", "class_configuration_1_1impl.html", null ],
+    [ "wbt::SetMotorParameters::impl", "class_set_motor_parameters_1_1impl.html", null ],
     [ "wbt::DiscreteFilter::impl", "class_discrete_filter_1_1impl.html", null ],
     [ "wbt::DotJNu::impl", "class_dot_j_nu_1_1impl.html", null ],
     [ "wbt::ForwardKinematics::impl", "class_forward_kinematics_1_1impl.html", null ],
-    [ "wbt::QpOases::impl", "class_qp_oases_1_1impl.html", null ],
     [ "wbt::GetLimits::impl", "class_get_limits_1_1impl.html", null ],
-    [ "wbt::GetMeasurement::impl", "class_get_measurement_1_1impl.html", null ],
     [ "wbt::CoderBlockInformation::impl", "class_coder_block_information_1_1impl.html", null ],
+    [ "wbt::GetMeasurement::impl", "class_get_measurement_1_1impl.html", null ],
     [ "wbt::InverseDynamics::impl", "class_inverse_dynamics_1_1impl.html", null ],
     [ "wbt::Jacobian::impl", "class_jacobian_1_1impl.html", null ],
     [ "wbt::MassMatrix::impl", "class_mass_matrix_1_1impl.html", null ],
     [ "wbt::MinimumJerkTrajectoryGenerator::impl", "class_minimum_jerk_trajectory_generator_1_1impl.html", null ],
     [ "wbt::Log::impl", "class_log_1_1impl.html", null ],
+    [ "wbt::QpOases::impl", "class_qp_oases_1_1impl.html", null ],
     [ "wbt::RealTimeSynchronizer::impl", "class_real_time_synchronizer_1_1impl.html", null ],
     [ "wbt::RelativeTransform::impl", "class_relative_transform_1_1impl.html", null ],
     [ "wbt::Parameters::impl", "class_parameters_1_1impl.html", null ],
     [ "wbt::RobotInterface::impl", "class_robot_interface_1_1impl.html", null ],
-    [ "wbt::SetMotorParameters::impl", "class_set_motor_parameters_1_1impl.html", null ],
     [ "wbt::InverseKinematics::InverseKinematicsPimpl", "structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html", null ],
     [ "wbt::BlockInformation::IOData", "structwbt_1_1_block_information_1_1_i_o_data.html", null ],
     [ "wbt::GetLimits::impl::Limit", "struct_get_limits_1_1impl_1_1_limit.html", null ],
     [ "wbt::Log", "classwbt_1_1_log.html", null ],
+    [ "MyMath", "class_my_math.html", [
+      [ "MyMathImpl", "class_my_math_impl.html", null ]
+    ] ],
+    [ "MyMathCustom", "class_my_math_custom.html", [
+      [ "MyMathCustomImpl", "class_my_math_custom_impl.html", null ]
+    ] ],
     [ "wbt::Parameter< T >", "classwbt_1_1_parameter.html", null ],
     [ "wbt::ParameterMetadata", "classwbt_1_1_parameter_metadata.html", null ],
     [ "wbt::Parameters", "classwbt_1_1_parameters.html", null ],
     [ "wbt::BlockInformation::Port", "structwbt_1_1_block_information_1_1_port.html", null ],
+    [ "shlibpp::SharedLibrary::Private", "class_shared_library_1_1_private.html", null ],
+    [ "shlibpp::SharedLibraryFactory::Private", "classshlibpp_1_1_shared_library_factory_1_1_private.html", null ],
     [ "wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl", "structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html", null ],
     [ "wbt::RobotInterface", "classwbt_1_1_robot_interface.html", null ],
     [ "SimulatorSynchronizer::impl::RPCData", "struct_simulator_synchronizer_1_1impl_1_1_r_p_c_data.html", null ],
@@ -76,7 +85,6 @@ var hierarchy =
     [ "Thread", null, [
       [ "wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader", "classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html", null ]
     ] ],
-    [ "shlibpp::Vocab", "classshlibpp_1_1_vocab.html", null ],
     [ "WBIModelBlock", null, [
       [ "wbt::InverseKinematics", "classwbt_1_1_inverse_kinematics.html", null ]
     ] ],

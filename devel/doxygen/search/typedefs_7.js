@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vectorsize',['VectorSize',['../classwbt_1_1_block_information.html#ada6c9ca0b9ee1053d448ac89c2f354fe',1,'wbt::BlockInformation']]]
+  ['outputsignalptr',['OutputSignalPtr',['../namespacewbt.html#a9fe92e1957c9ba4f4d8971aa23acf179',1,'wbt']]]
 ];

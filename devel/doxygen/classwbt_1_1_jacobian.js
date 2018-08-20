@@ -9,6 +9,5 @@ var classwbt_1_1_jacobian =
     [ "output", "classwbt_1_1_jacobian.html#ae2e11456153029c94e9a905b0c228cdd", null ],
     [ "parseParameters", "classwbt_1_1_jacobian.html#adaa42f1aad51f7e9a0c55bb442b3ed51", null ],
     [ "terminate", "classwbt_1_1_jacobian.html#a32e17435c3e41685d9451848191458fe", null ],
-    [ "ClassName", "classwbt_1_1_jacobian.html#a0856fc29a4627aed8fef796af7745245", null ],
     [ "pImpl", "classwbt_1_1_jacobian.html#a881508c0b99f6fa085a6b0b1aa325a2c", null ]
 ];

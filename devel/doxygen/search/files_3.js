@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['factory_2ecpp',['Factory.cpp',['../_factory_8cpp.html',1,'']]],
-  ['forwardkinematics_2ecpp',['ForwardKinematics.cpp',['../_forward_kinematics_8cpp.html',1,'']]],
-  ['forwardkinematics_2eh',['ForwardKinematics.h',['../_forward_kinematics_8h.html',1,'']]]
+  ['discretefilter_2ecpp',['DiscreteFilter.cpp',['../_discrete_filter_8cpp.html',1,'']]],
+  ['discretefilter_2eh',['DiscreteFilter.h',['../_discrete_filter_8h.html',1,'']]],
+  ['dotjnu_2ecpp',['DotJNu.cpp',['../_dot_j_nu_8cpp.html',1,'']]],
+  ['dotjnu_2eh',['DotJNu.h',['../_dot_j_nu_8h.html',1,'']]]
 ];

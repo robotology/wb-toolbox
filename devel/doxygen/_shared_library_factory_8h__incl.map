@@ -1,6 +1,3 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryFactory.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryFactory.h">
-<area shape="rect" id="node2" href="$_shared_library_8h.html" title="SharedLibrary.h" alt="" coords="5,125,117,152"/>
-<area shape="rect" id="node4" href="$_shared_library_class_api_8h.html" title="SharedLibraryClassApi.h" alt="" coords="194,125,360,152"/>
-<area shape="rect" id="node6" href="$_vocab_8h.html" title="Vocab.h" alt="" coords="426,200,496,227"/>
-<area shape="rect" id="node7" href="$config_8h.html" title="config.h" alt="" coords="334,200,401,227"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryFactory.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryFactory.h">
+<area shape="rect" id="node2" href="$api_8h.html" title="shlibpp/api.h" alt="" coords="22,125,116,152"/>
 </map>

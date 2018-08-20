@@ -9,6 +9,5 @@ var classwbt_1_1_qp_oases =
     [ "numberOfParameters", "classwbt_1_1_qp_oases.html#ab11a6ccd460b8c1348fb7c44155200ba", null ],
     [ "output", "classwbt_1_1_qp_oases.html#aec158de159621d1a22df18572aac3a97", null ],
     [ "parseParameters", "classwbt_1_1_qp_oases.html#a99e06891ad602994010092e682578b9d", null ],
-    [ "ClassName", "classwbt_1_1_qp_oases.html#a0d8a1260a10319a4479697fd4bc6093d", null ],
     [ "pImpl", "classwbt_1_1_qp_oases.html#a56d771a2dda2ba943aae46a48f5ea8fb", null ]
 ];

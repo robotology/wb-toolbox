@@ -9,6 +9,5 @@ var classwbt_1_1_discrete_filter =
     [ "numberOfParameters", "classwbt_1_1_discrete_filter.html#a1de2d67a6b05843161b7df934c974e27", null ],
     [ "output", "classwbt_1_1_discrete_filter.html#a6fab3c271dd1919adbf46ee097f2deb7", null ],
     [ "parseParameters", "classwbt_1_1_discrete_filter.html#a78e794296b86f6378b297bd32c6ced95", null ],
-    [ "ClassName", "classwbt_1_1_discrete_filter.html#a6315ae355437149559a7a85f9bbe7dcc", null ],
     [ "pImpl", "classwbt_1_1_discrete_filter.html#a275819e1b74eb067ae04dec9b5acb77d", null ]
 ];

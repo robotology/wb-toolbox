@@ -10,6 +10,5 @@ var classwbt_1_1_get_limits =
     [ "output", "classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c", null ],
     [ "parseParameters", "classwbt_1_1_get_limits.html#a238246e51db4cc8cf620d1bdd7a1eeb4", null ],
     [ "terminate", "classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053", null ],
-    [ "ClassName", "classwbt_1_1_get_limits.html#a1dddc33fe8a6e5c790cddfcd1309274c", null ],
     [ "pImpl", "classwbt_1_1_get_limits.html#a49a8484f35b240e8fbc19d83957a5b5a", null ]
 ];

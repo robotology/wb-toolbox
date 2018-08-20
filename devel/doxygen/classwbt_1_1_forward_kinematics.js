@@ -9,6 +9,5 @@ var classwbt_1_1_forward_kinematics =
     [ "output", "classwbt_1_1_forward_kinematics.html#a9d3e022d1d402446aed326e1a3d669a9", null ],
     [ "parseParameters", "classwbt_1_1_forward_kinematics.html#a766390c1ea49528f9946f3bfe51f65d9", null ],
     [ "terminate", "classwbt_1_1_forward_kinematics.html#adae420b75676407b8d53a93c35d47f8b", null ],
-    [ "ClassName", "classwbt_1_1_forward_kinematics.html#a2b1b41cf97cf41b04563f588ca037187", null ],
     [ "pImpl", "classwbt_1_1_forward_kinematics.html#a5537fe58a03f294866c15386ae7e058f", null ]
 ];

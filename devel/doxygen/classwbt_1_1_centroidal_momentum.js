@@ -7,6 +7,5 @@ var classwbt_1_1_centroidal_momentum =
     [ "initialize", "classwbt_1_1_centroidal_momentum.html#a53ca2556b486b4c32b84f62c98bfbe1e", null ],
     [ "output", "classwbt_1_1_centroidal_momentum.html#a748712a59d933ec9e6fb25e2bd760c6c", null ],
     [ "terminate", "classwbt_1_1_centroidal_momentum.html#a3737e52cbc6f33b5b5f95115d0d0dcf5", null ],
-    [ "ClassName", "classwbt_1_1_centroidal_momentum.html#a6a0fb126168a6bf438adc6f727f4051f", null ],
     [ "pImpl", "classwbt_1_1_centroidal_momentum.html#a1b648a11907c39b871d91b080d8c7540", null ]
 ];

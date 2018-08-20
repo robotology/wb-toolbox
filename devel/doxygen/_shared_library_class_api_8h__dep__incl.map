@@ -1,8 +1,11 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryClassApi.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/include/SharedLibraryClassApi.h">
-<area shape="rect" id="node2" href="$_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/Factory.cpp" alt="" coords="5,126,157,197"/>
-<area shape="rect" id="node3" href="$_shared_library_factory_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/include/SharedLibraryFactory.h" alt="" coords="182,126,388,197"/>
-<area shape="rect" id="node4" href="$_shared_library_class_factory_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/include/SharedLibraryClassFactory.h" alt="" coords="44,246,284,317"/>
-<area shape="rect" id="node7" href="$_shared_library_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/src/SharedLibraryFactory.cpp" alt="" coords="308,246,505,317"/>
-<area shape="rect" id="node5" href="$_shared_library_class_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/include/SharedLibraryClass.h" alt="" coords="66,366,261,437"/>
-<area shape="rect" id="node6" href="$_w_b_toolbox_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/core/src\l/WBToolbox.cpp" alt="" coords="87,486,240,557"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryClassApi.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/sharedlibpp/src/shlibpp/SharedLibraryClassApi.h">
+<area shape="rect" id="node2" href="$_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/library/src\l/Factory.cpp" alt="" coords="5,133,157,203"/>
+<area shape="rect" id="node3" href="$_shared_library_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/src/SharedLibraryFactory.cpp" alt="" coords="183,133,380,203"/>
+<area shape="rect" id="node4" href="$_shared_library_class_factory_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/src/shlibpp/SharedLibraryClass\lFactory.h" alt="" coords="405,125,611,211"/>
+<area shape="rect" id="node5" href="$_shared_library_class_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/src/shlibpp/SharedLibraryClass.h" alt="" coords="399,259,617,330"/>
+<area shape="rect" id="node6" href="$_w_b_toolbox_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/core/src\l/WBToolbox.cpp" alt="" coords="27,379,180,450"/>
+<area shape="rect" id="node7" href="$math__test_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/examples/math_test.cpp" alt="" coords="205,379,373,450"/>
+<area shape="rect" id="node8" href="$math__test__custom_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/examples/math_test_custom.cpp" alt="" coords="399,379,617,450"/>
+<area shape="rect" id="node9" href="$_my_math_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/examples/MyMath.cpp" alt="" coords="641,379,800,450"/>
+<area shape="rect" id="node10" href="$_my_math_custom_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/sharedlibpp\l/examples/MyMathCustom.cpp" alt="" coords="826,379,1029,450"/>
 </map>

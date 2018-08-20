@@ -9,6 +9,5 @@ var classwbt_1_1_set_motor_parameters =
     [ "output", "classwbt_1_1_set_motor_parameters.html#a428f3ab42d02e5f9ecdcae350a42f13f", null ],
     [ "parseParameters", "classwbt_1_1_set_motor_parameters.html#abead3bec66868cebee29bf137cdf499c", null ],
     [ "terminate", "classwbt_1_1_set_motor_parameters.html#a3fb0eb3de88a9c2ab2e1d6c3ae43548b", null ],
-    [ "ClassName", "classwbt_1_1_set_motor_parameters.html#a7e1621fb8038948de81a7af27ae89aaa", null ],
     [ "pImpl", "classwbt_1_1_set_motor_parameters.html#af04051ba58a9ddfa7d4604b5f93c4445", null ]
 ];

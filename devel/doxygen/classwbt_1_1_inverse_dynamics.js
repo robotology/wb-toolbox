@@ -8,6 +8,5 @@ var classwbt_1_1_inverse_dynamics =
     [ "numberOfParameters", "classwbt_1_1_inverse_dynamics.html#addf61d8e0ad9e1b72a733cbc6ae24638", null ],
     [ "output", "classwbt_1_1_inverse_dynamics.html#a7265ed2d827967f079956ee2df7881fd", null ],
     [ "terminate", "classwbt_1_1_inverse_dynamics.html#aa7fb9302d8acb5aa145d14fecef0fdd8", null ],
-    [ "ClassName", "classwbt_1_1_inverse_dynamics.html#a4d3b649c5f9a18f19fc5a365ed1b47fc", null ],
     [ "pImpl", "classwbt_1_1_inverse_dynamics.html#a0b2375501e7dbba8c188b0d187be9f1f", null ]
 ];
