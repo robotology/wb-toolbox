@@ -51,7 +51,7 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkSubsys"
 	LoadSaveID		"224"
-	Extents			[2818.0, 1491.0]
+	Extents			[2830.0, 1534.0]
 	ZoomFactor		[10.0]
 	Offset			[557.365625, 208.45]
       }
@@ -73,7 +73,7 @@ Library {
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAAB4AP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAAMQD///8AAAsoAAAGGQAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAAMQD///8AAAs0AAAGRAAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAACG/////wAAAAAAAAAA/////wEAAADu/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFE/////wAAAAAAAAAA/"
@@ -87,9 +87,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Aug 20 18:01:32 2018"
-  RTWModifiedTimeStamp	  456688888
-  ModelVersionFormat	  "1.%<AutoIncrement:647>"
+  LastModifiedDate	  "Tue Aug 21 13:59:32 2018"
+  RTWModifiedTimeStamp	  456760771
+  ModelVersionFormat	  "1.%<AutoIncrement:648>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -3577,9 +3577,9 @@ Library {
 	    " control mode. Choose one of the supplied mode.\n\nUnit of measurement:\n- Position [rad]\n- Velocity [rad/s]\n- "
 	    "Acceleration [rad/s/s]\n- Torque [Nm]"
 	    Initialization	    "if (strcmp(controlType,'Position'))\n    refTrajectory = refSpeed;\nelseif (strcmp(controlTyp"
-	    "e,'Velocity'))\n    refTrajectory = refAcceleration;\nend\n\n% WBBlock Initialization\n% ======================\n"
-	    "\ntry\n    [configBlockAbsName, WBTConfig] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParamet"
-	    "ers = WBTConfig.getSimulinkParameters;\n    clear WBTConfig;\ncatch\nend"
+	    "e,'Velocity'))\n    refTrajectory = refAcceleration;\nelse\n    refTrajectory = 0;\nend\n\n% WBBlock Initializati"
+	    "on\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WBToolbox.BlockInitialization(gcb, gcs"
+	    ");\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear WBTConfig;\ncatch\nend"
 	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
 	    RunInitForIconRedraw    "off"
 	    Array {
