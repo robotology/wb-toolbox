@@ -1,7 +1,6 @@
 var searchData=
 [
   ['baseacceleration',['baseAcceleration',['../class_inverse_dynamics_1_1impl.html#a93b7608e31a1642d0d3dea91a2936c99',1,'wbt::InverseDynamics::impl::baseAcceleration()'],['../_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca4a36648281565d04aa504c9b3962732c',1,'BaseAcceleration():&#160;InverseDynamics.cpp']]],
-  ['baseclassname',['baseClassName',['../classshlibpp_1_1_shared_library_factory_1_1_private.html#a0d95cad8840cff9e2c4217d59f168321',1,'shlibpp::SharedLibraryFactory::Private']]],
   ['basepose',['BasePose',['../_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;CentroidalMomentum.cpp'],['../_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;DotJNu.cpp'],['../_forward_kinematics_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;ForwardKinematics.cpp'],['../_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;InverseDynamics.cpp'],['../_jacobian_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;Jacobian.cpp'],['../_mass_matrix_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471',1,'BasePose():&#160;MassMatrix.cpp']]],
   ['basevelocity',['baseVelocity',['../struct_w_b_block_1_1i_dyn_tree_robot_state.html#ac2a737cb9cb5ac6fb0c22e67cdf3822d',1,'wbt::WBBlock::iDynTreeRobotState::baseVelocity()'],['../_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47',1,'BaseVelocity():&#160;CentroidalMomentum.cpp'],['../_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47',1,'BaseVelocity():&#160;DotJNu.cpp'],['../_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47',1,'BaseVelocity():&#160;InverseDynamics.cpp']]],
   ['bemf',['Bemf',['../_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a21d77ed9e3f28d08995222a7a989f5d5',1,'SetMotorParameters.cpp']]],
@@ -13,8 +12,8 @@ var searchData=
   ['blockfactorydata',['BlockFactoryData',['../class_block_factory_singleton.html#af772d9617a0e888408f561b21b978e7c',1,'BlockFactorySingleton']]],
   ['blockfactoryptr',['BlockFactoryPtr',['../_w_b_toolbox_8cpp.html#ac7e615db12bb3d92683fa3fd877bacd1',1,'WBToolbox.cpp']]],
   ['blockfactorysingleton',['BlockFactorySingleton',['../class_block_factory_singleton.html',1,'']]],
-  ['blockinformation',['BlockInformation',['../classwbt_1_1_block_information.html',1,'wbt']]],
   ['blockinformation',['BlockInformation',['../classwbt_1_1_block_information.html#acd4d61b7712c1f60f2b2db8fada66281',1,'wbt::BlockInformation']]],
+  ['blockinformation',['BlockInformation',['../classwbt_1_1_block_information.html',1,'wbt']]],
   ['blockinformation_2ecpp',['BlockInformation.cpp',['../_block_information_8cpp.html',1,'']]],
   ['blockinformation_2eh',['BlockInformation.h',['../_block_information_8h.html',1,'']]],
   ['blocking',['blocking',['../class_yarp_read_1_1impl.html#aa1c4f7a86aa588e3559588b30aba25f3',1,'YarpRead::impl']]],

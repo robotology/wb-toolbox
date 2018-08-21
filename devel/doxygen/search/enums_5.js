@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['status',['Status',['../classshlibpp_1_1_shared_library_factory.html#acd91ee1929afb17aab043cf82af6fe0a',1,'shlibpp::SharedLibraryFactory']]]
+  ['type',['Type',['../classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd',1,'wbt::Log']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['jacobian_2ecpp',['Jacobian.cpp',['../_jacobian_8cpp.html',1,'']]],
-  ['jacobian_2eh',['Jacobian.h',['../_jacobian_8h.html',1,'']]]
+  ['log_2ecpp',['Log.cpp',['../_log_8cpp.html',1,'']]],
+  ['log_2eh',['Log.h',['../_log_8h.html',1,'']]]
 ];

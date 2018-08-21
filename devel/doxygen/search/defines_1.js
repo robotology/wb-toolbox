@@ -1,24 +1,5 @@
 var searchData=
 [
   ['s_5ffunction_5flevel',['S_FUNCTION_LEVEL',['../_w_b_toolbox_8cpp.html#a9a4ab27953070e39249f3fad28e93749',1,'WBToolbox.cpp']]],
-  ['s_5ffunction_5fname',['S_FUNCTION_NAME',['../_w_b_toolbox_8cpp.html#a0f61df833e166c743295eebf43f0b142',1,'WBToolbox.cpp']]],
-  ['shlibpp_5fapi',['SHLIBPP_API',['../api_8h.html#a43a991192e7aea725c441b263728d672',1,'api.h']]],
-  ['shlibpp_5fdefault_5ffactory_5fname',['SHLIBPP_DEFAULT_FACTORY_NAME',['../_shared_library_class_api_8h.html#a647c275473df79ec7d00b3b94a6eb900',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fdefault_5ffactory_5fname_5fstring',['SHLIBPP_DEFAULT_FACTORY_NAME_STRING',['../_shared_library_class_api_8h.html#a5f9c249e4c144dc057e2d56ace287481',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fdefine_5fdefault_5fshared_5fclass',['SHLIBPP_DEFINE_DEFAULT_SHARED_CLASS',['../_shared_library_class_api_8h.html#a84485f35f7e2aaadb6f9c0efefec48bc',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fdefine_5fshared_5fclass',['SHLIBPP_DEFINE_SHARED_CLASS',['../_shared_library_class_api_8h.html#a28affd82a2ccd4912adec1f15d9707af',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fdefine_5fshared_5fsubclass',['SHLIBPP_DEFINE_SHARED_SUBCLASS',['../_shared_library_class_api_8h.html#ac60095c1d02641da51a05579c817235f',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fdefine_5fshared_5fsubclass_5fcustom',['SHLIBPP_DEFINE_SHARED_SUBCLASS_CUSTOM',['../_shared_library_class_api_8h.html#af0177d730fe0d3193400d1411c27333d',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fexport',['SHLIBPP_EXPORT',['../api_8h.html#a05deb59c7fe98ff0fb10380169daa5fd',1,'api.h']]],
-  ['shlibpp_5fhelper_5fdll_5fexport',['SHLIBPP_HELPER_DLL_EXPORT',['../api_8h.html#a628030873a65ebc49ac2c5d77278b0f7',1,'api.h']]],
-  ['shlibpp_5fhelper_5fdll_5fimport',['SHLIBPP_HELPER_DLL_IMPORT',['../api_8h.html#a0f9bf6f24ee57140633bf40066ee2315',1,'api.h']]],
-  ['shlibpp_5fhelper_5fdll_5flocal',['SHLIBPP_HELPER_DLL_LOCAL',['../api_8h.html#aa1534448d7a101cfe431af63158dfead',1,'api.h']]],
-  ['shlibpp_5fhidden',['SHLIBPP_HIDDEN',['../api_8h.html#ab379e27bc5ae48fbf7fed18bada4e2a9',1,'api.h']]],
-  ['shlibpp_5fimport',['SHLIBPP_IMPORT',['../api_8h.html#a8cd3096e73343b772aa811b939d51d48',1,'api.h']]],
-  ['shlibpp_5flocal',['SHLIBPP_LOCAL',['../api_8h.html#ab5da8251dd6e082a57a48eb55b4a52e4',1,'api.h']]],
-  ['shlibpp_5fshared_5fclass_5ffn',['SHLIBPP_SHARED_CLASS_FN',['../_shared_library_class_api_8h.html#a95b3f80353cb784733ffa36b7530f528',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fstat',['shlibpp_stat',['../_shared_library_factory_8cpp.html#a589e70f0b381cd94da9fb7cf2a8b0403',1,'SharedLibraryFactory.cpp']]],
-  ['shlibpp_5fstringify',['SHLIBPP_STRINGIFY',['../_shared_library_class_api_8h.html#a402a1363d61147a28da1b18e04e466db',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fstringify2',['SHLIBPP_STRINGIFY2',['../_shared_library_class_api_8h.html#a3dee3d39dafd3734afd7adb9d70c78c8',1,'SharedLibraryClassApi.h']]],
-  ['shlibpp_5fstruct_5fstat',['shlibpp_struct_stat',['../_shared_library_factory_8cpp.html#af7047f869ecedd271b68ef0e35ffe942',1,'SharedLibraryFactory.cpp']]]
+  ['s_5ffunction_5fname',['S_FUNCTION_NAME',['../_w_b_toolbox_8cpp.html#a0f61df833e166c743295eebf43f0b142',1,'WBToolbox.cpp']]]
 ];

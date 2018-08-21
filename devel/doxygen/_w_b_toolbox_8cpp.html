@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/core/src/WBToolbox.cpp File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/core/src/WBToolbox.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,8 +112,8 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_parameter_8h_source.html">Core/Parameter.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_parameters_8h_source.html">Core/Parameters.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_simulink_block_information_8h_source.html">Core/SimulinkBlockInformation.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_shared_library_8h_source.html">shlibpp/SharedLibrary.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_shared_library_class_8h_source.html">shlibpp/SharedLibraryClass.h</a>&quot;</code><br/>
+<code>#include &quot;shlibpp/SharedLibrary.h&quot;</code><br/>
+<code>#include &quot;shlibpp/SharedLibraryClass.h&quot;</code><br/>
 <code>#include &lt;matrix.h&gt;</code><br/>
 <code>#include &lt;simstruc.h&gt;</code><br/>
 <code>#include &lt;simstruc_types.h&gt;</code><br/>
@@ -131,7 +131,7 @@ $(document).ready(function(){initNavTree('_w_b_toolbox_8cpp.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for WBToolbox.cpp:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_toolbox_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_w_b_toolbox_8cpp__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -163,7 +163,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a13aac22b9fce0d43c430fe0b94cd29e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> = <a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">shlibpp::SharedLibraryClassFactory</a>&lt; <a class="el" href="classwbt_1_1_block.html">wbt::Block</a> &gt;</td></tr>
+<tr class="memitem:a13aac22b9fce0d43c430fe0b94cd29e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> = shlibpp::SharedLibraryClassFactory&lt; <a class="el" href="classwbt_1_1_block.html">wbt::Block</a> &gt;</td></tr>
 <tr class="separator:a13aac22b9fce0d43c430fe0b94cd29e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7e615db12bb3d92683fa3fd877bacd1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_w_b_toolbox_8cpp.html#ac7e615db12bb3d92683fa3fd877bacd1">BlockFactoryPtr</a> = std::shared_ptr&lt; <a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> &gt;</td></tr>
 <tr class="separator:ac7e615db12bb3d92683fa3fd877bacd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -307,7 +307,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> =  <a class="el" href="classshlibpp_1_1_shared_library_class_factory.html">shlibpp::SharedLibraryClassFactory</a>&lt;<a class="el" href="classwbt_1_1_block.html">wbt::Block</a>&gt;</td>
+          <td class="memname">using <a class="el" href="_w_b_toolbox_8cpp.html#a13aac22b9fce0d43c430fe0b94cd29e3">BlockFactory</a> =  shlibpp::SharedLibraryClassFactory&lt;<a class="el" href="classwbt_1_1_block.html">wbt::Block</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -589,7 +589,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="dir_0d5ab87910e966a23f738f4cfd1bf596.html">core</a></li><li class="navelem"><a class="el" href="dir_a686001e0d5211c69df6508c135dda06.html">src</a></li><li class="navelem"><a class="el" href="_w_b_toolbox_8cpp.html">WBToolbox.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_5c7f243b14fe08a009bbacc76eeffe89.html">core</a></li><li class="navelem"><a class="el" href="dir_58cc692f43c6d658770b5d4e4e3a902c.html">src</a></li><li class="navelem"><a class="el" href="_w_b_toolbox_8cpp.html">WBToolbox.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

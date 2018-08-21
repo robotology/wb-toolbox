@@ -5,7 +5,6 @@ var searchData=
   ['relativetransform',['RelativeTransform',['../classwbt_1_1_relative_transform.html#a37da49162a62ebadce00ef087e4b9904',1,'wbt::RelativeTransform']]],
   ['remoteinversekinematics',['RemoteInverseKinematics',['../classwbt_1_1_remote_inverse_kinematics.html#a23388e3a546597fceb06db111d692e03',1,'wbt::RemoteInverseKinematics']]],
   ['remoteinversekinematicspimpl',['RemoteInverseKinematicsPimpl',['../structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a5ed8bb35a4ad8a18e5fb866bd606b23f',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl']]],
-  ['removeref',['removeRef',['../classshlibpp_1_1_shared_library_factory.html#a8b12f09464c2a910640d22ab68bc4d7d',1,'shlibpp::SharedLibraryFactory']]],
   ['robotinterface',['RobotInterface',['../classwbt_1_1_robot_interface.html#ae16c6dc03fa25ad92aaf535465ca84c2',1,'wbt::RobotInterface::RobotInterface()=delete'],['../classwbt_1_1_robot_interface.html#ab7d4effa9ca69653b44e5b8694a1a69f',1,'wbt::RobotInterface::RobotInterface(const wbt::Configuration &amp;config)']]],
   ['run',['run',['../classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#add5535068265a31b6736390909e4978c',1,'wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader']]]
 ];

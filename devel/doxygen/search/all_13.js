@@ -4,6 +4,8 @@ var searchData=
   ['timeout',['timeout',['../class_yarp_read_1_1impl.html#a7259665bee4602a3f9add4a5927ed6ac',1,'wbt::YarpRead::impl::timeout()'],['../_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a98cb58869380e6582c793dcd0e86598c',1,'Timeout():&#160;YarpRead.cpp']]],
   ['todo_20list',['Todo List',['../todo.html',1,'']]],
   ['torques',['torques',['../class_inverse_dynamics_1_1impl.html#a04064f37531d99af1494ea4bfe2bf1e5',1,'wbt::InverseDynamics::impl::torques()'],['../_inverse_dynamics_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a59f35e7f1c548f65ebbfb4eb3af84f8f',1,'Torques():&#160;InverseDynamics.cpp']]],
+  ['trajectoryreference',['trajectoryReference',['../class_set_references_1_1impl.html#a6b036113e6dfc84e710cb0c7ddf70258',1,'SetReferences::impl']]],
+  ['trajref',['TrajRef',['../_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a0d405bb4315ed21fdc14913ef945e1aa',1,'SetReferences.cpp']]],
   ['transform',['Transform',['../_forward_kinematics_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a',1,'Transform():&#160;ForwardKinematics.cpp'],['../_relative_transform_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a',1,'Transform():&#160;RelativeTransform.cpp']]],
   ['type',['Type',['../classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd',1,'wbt::Log::Type()'],['../classwbt_1_1_parameter_metadata.html#a423e738db70f4d80d5303775f2cc6c98',1,'wbt::ParameterMetadata::type()']]]
 ];
