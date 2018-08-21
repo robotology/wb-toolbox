@@ -60,10 +60,11 @@ if(NOT WBT_USES_MATLAB)
     option(WBT_USES_MATLAB "Compile also Matlab-related components" ${Matlab_FOUND})
 endif()
 
-if(WBT_USES_MATLAB)
-    add_subdirectory(MxAnyType)
-endif()
-
+add_subdirectory(deps)
 add_subdirectory(toolbox)
+
+if(WBT_USES_MATLAB)
+    add_subdirectory(matlab)
+endif()
 
 include(AddUninstallTarget)

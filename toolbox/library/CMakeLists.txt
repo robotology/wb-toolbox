@@ -2,6 +2,25 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+# =================
+# FIND DEPENDENCIES
+# =================
+
+find_package(YARP 3.0.0 REQUIRED)
+
+# Fail if YARP is not compiled as shared library
+# see https://github.com/robotology/codyco-modules/issues/44
+if(NOT ${YARP_IS_SHARED_LIBRARY})
+    message(FATAL_ERROR "YARP was found, but it was compiled as static library. A shared library version of YARP is required.")
+endif()
+
+find_package(iDynTree 0.7.2 REQUIRED)
+
+# This find loads Eigen.
+# It would be nice using the EigenConfig shipped with eigen package, but
+# on Ubuntu 16.04 eigen is old and provides only FindEigen.
+find_package(Eigen3 REQUIRED)
+
 # ==============
 # WBTOOLBOX BASE
 # ==============
@@ -119,7 +138,6 @@ configure_block(BLOCK_NAME "Simulator Synchronizer"
     LIST_PREFIX WBT
     SOURCES src/SimulatorSynchronizer.cpp
     HEADERS include/Block/SimulatorSynchronizer.h)
-add_subdirectory(../thrift ${CMAKE_BINARY_DIR}/toolbox/src/thrift)
 add_library(WBToolbox::ClockRPC ALIAS ClockRpc)
 list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES "ClockRpc")
 

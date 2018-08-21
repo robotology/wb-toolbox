@@ -60,7 +60,7 @@ if(WBT_USES_MATLAB)
 
     # Install TLC file
     install(
-        FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../WBToolbox.tlc
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolbox.tlc
         DESTINATION ${CMAKE_INSTALL_PREFIX}/mex)
 
     # Compile S-Function

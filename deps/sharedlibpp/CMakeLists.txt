@@ -79,7 +79,8 @@ unset(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
 
 
 # Create examples
-option(BUILD_EXAMPLES "Build examples" OFF)
-if(BUILD_EXAMPLES)
+option(BUILD_SHAREDLIBPP_EXAMPLES "Build examples" OFF)
+mark_as_advanced(BUILD_SHAREDLIBPP_EXAMPLES)
+if(BUILD_SHAREDLIBPP_EXAMPLES)
   add_subdirectory(examples)
 endif()

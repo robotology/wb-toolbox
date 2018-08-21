@@ -2,8 +2,6 @@
 % This software may be modified and distributed under the terms of the
 % GNU Lesser General Public License v2.1 or any later version.
 
-addpath(genpath('../../images'));
-
 fprintf('\nWhole Body toolbox exporting library to multiple versions\n');
 
 if (verLessThan('matlab', '8.4'))
@@ -11,8 +9,7 @@ if (verLessThan('matlab', '8.4'))
     quit;
 end
 
-addpath('library');
-addpath('../images');
+addpath(genpath('library'));
 libraryName = 'WBToolboxLibrary_repository';
 
 try

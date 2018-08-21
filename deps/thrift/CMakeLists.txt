@@ -5,6 +5,8 @@
 # GENERATE THE LIBRARY
 # ====================
 
+find_package(YARP 3.0.0 REQUIRED)
+
 # TODO: sooner or later this file will be stored in YARP
 yarp_add_idl(CLOCK_RPC_FILES clock_rpc.thrift)
 

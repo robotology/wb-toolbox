@@ -10,7 +10,7 @@
 [![GitHub release](https://img.shields.io/github/release/robotology/wb-toolbox.svg)](https://github.com/robotology/wb-toolbox/releases)
 [![GitHub issues](https://img.shields.io/github/issues-raw/robotology/wb-toolbox.svg)](https://github.com/robotology/wb-toolbox/issues)
 <a href="https://zenhub.com"><img src="https://img.shields.io/badge/Shipping_faster_with-ZenHub-blue.svg?colorB=435198"></a>
-[![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/robotology/WB-Toolbox?grs=github)
+[![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/robotology/wb-toolbox/master?p=.presentations/WBToolbox2)
 
 ### A Simulink Toolbox for Whole Body Control
 

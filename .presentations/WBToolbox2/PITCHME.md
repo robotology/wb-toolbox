@@ -47,7 +47,7 @@
 
 Obtain information on robot (e.g. configuration and velocity)
 
-![State](presentation/state.png)
+![State](.presentations/WBToolbox2/images/state.png)
 
 ##### Note: to run you need a robot to be present (simulator or real)
 
@@ -57,7 +57,7 @@ Obtain information on robot (e.g. configuration and velocity)
 
 Send references to the robot (e.g. position, torques)
 
-![Actuators](presentation/actuators.png)
+![Actuators](.presentations/WBToolbox2/images/actuators.png)
 
 ##### Note: to run you need a robot to be present (simulator or real)
 
@@ -69,7 +69,7 @@ Send references to the robot (e.g. position, torques)
 - Synchronise to simulator or wall clock 
 - ...
 
-![Utilities](presentation/utilities.png)
+![Utilities](.presentations/WBToolbox2/images/utilities.png)
 
 
 #HSLIDE
