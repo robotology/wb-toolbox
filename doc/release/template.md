@@ -1,4 +1,4 @@
-# WB-Toolbox (YYYY-MM-DD) Release Notes {[`#vX.X`](https://github.com/robotology/wb-toolbox/tree/vX.Y)}
+# WB-Toolbox (YYYY-MM-DD) Release Notes {[`#vX.Y`](https://github.com/robotology/wb-toolbox/releases/tag/vX.Y)}
 
 [Description]
 
