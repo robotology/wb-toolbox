@@ -1,4 +1,5 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/DotJNu.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/DotJNu.h">
-<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="WBBlock.h" alt="" coords="299,109,387,136"/>
-<area shape="rect" id="node3" href="$_block_8h.html" title="Block.h" alt="" coords="149,184,216,211"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/DotJNu.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/DotJNu.h">
+<area shape="rect" id="node2" href="$_w_b_block_8h.html" title="Base/WBBlock.h" alt="" coords="47,125,169,152"/>
+<area shape="rect" id="node3" href="$_block_8h.html" title="Core/Block.h" alt="" coords="59,200,157,227"/>
+<area shape="rect" id="node4" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="146,275,277,301"/>
 </map>

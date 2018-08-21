@@ -1,15 +1,11 @@
 var searchData=
 [
-  ['default_5ftimeout',['DEFAULT_TIMEOUT',['../_yarp_read_8cpp.html#a591d6eb55a8a90012cb1c20b475489a8',1,'YarpRead.cpp']]],
-  ['deg2rad',['deg2rad',['../classwbt_1_1_get_limits.html#a7888ae295d5d6c8c579f7bdca498e19f',1,'wbt::GetLimits::deg2rad()'],['../classwbt_1_1_get_measurement.html#aef270f7ca49f82666572dc089e6636ef',1,'wbt::GetMeasurement::deg2rad()']]],
-  ['deletebuffer',['deleteBuffer',['../classwbt_1_1_signal.html#a8ab1831bc5498aa9ccb996f9a219639b',1,'wbt::Signal']]],
-  ['dgain',['DGAIN',['../namespacewbt.html#a49a7310daeac895d540b88ccb75e02b4a03132c718fc30f65c18682d719835ecb',1,'wbt']]],
-  ['discretefilter',['DiscreteFilter',['../classwbt_1_1_discrete_filter.html#af27ae51026ab6a80091943117ad1cf30',1,'wbt::DiscreteFilter']]],
-  ['discretefilter',['DiscreteFilter',['../classwbt_1_1_discrete_filter.html',1,'wbt']]],
-  ['discretefilter_2ecpp',['DiscreteFilter.cpp',['../_discrete_filter_8cpp.html',1,'']]],
-  ['discretefilter_2eh',['DiscreteFilter.h',['../_discrete_filter_8h.html',1,'']]],
-  ['dotjnu',['DotJNu',['../classwbt_1_1_dot_j_nu.html#af809f7f223995926e7251901c0e03baa',1,'wbt::DotJNu']]],
-  ['dotjnu',['DotJNu',['../classwbt_1_1_dot_j_nu.html',1,'wbt']]],
-  ['dotjnu_2ecpp',['DotJNu.cpp',['../_dot_j_nu_8cpp.html',1,'']]],
-  ['dotjnu_2eh',['DotJNu.h',['../_dot_j_nu_8h.html',1,'']]]
+  ['eraseconfiguration',['eraseConfiguration',['../classwbt_1_1_whole_body_singleton.html#a2c392934db457b4b1f1c39d785ac9639',1,'wbt::WholeBodySingleton']]],
+  ['errmissingport',['ErrMissingPort',['../_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9',1,'ErrMissingPort():&#160;YarpRead.cpp'],['../_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9',1,'ErrMissingPort():&#160;YarpWrite.cpp']]],
+  ['error',['ERROR',['../classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bdabb1ca97ec761fc37101737ba0aa2e7c5',1,'wbt::Log']]],
+  ['erroronmissingport',['errorOnMissingPort',['../class_yarp_read_1_1impl.html#af3523a86841ea07600b73187f5ec2184',1,'wbt::YarpRead::impl::errorOnMissingPort()'],['../class_yarp_write_1_1impl.html#aa58f68cc797f09e887790461a5dbc240',1,'wbt::YarpWrite::impl::errorOnMissingPort()']]],
+  ['errorssstream',['errorsSStream',['../class_log_1_1impl.html#aa7770047f385d8c85b02d9607af6ac23',1,'Log::impl']]],
+  ['existindex',['existIndex',['../class_parameters_1_1impl.html#a6edf47aa7cb709664178356330573e9d',1,'Parameters::impl']]],
+  ['existname',['existName',['../classwbt_1_1_parameters.html#ae65cd803257eec4aba27de1cf64bb0ea',1,'wbt::Parameters::existName()'],['../class_parameters_1_1impl.html#a989fae2d1324af2dc3aca1788f0b3c7a',1,'wbt::Parameters::impl::existName()']]],
+  ['extsettlingtime',['ExtSettlingTime',['../_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a6c20206b723e4cd27615f1e13a9f4301',1,'MinimumJerkTrajectoryGenerator.cpp']]]
 ];

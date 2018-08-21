@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -78,6 +78,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -89,7 +92,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_func_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_func_g.html#index_g"><span>g</span></a></li>
-      <li><a href="functions_func_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_func_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_func_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_func_l.html#index_l"><span>l</span></a></li>
@@ -97,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions_func_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_func_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_func_p.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_func_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_func_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_func_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_t.html#index_t"><span>t</span></a></li>
@@ -126,7 +129,7 @@ $(document).ready(function(){initNavTree('functions_func_n.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -147,10 +150,10 @@ $(document).ready(function(){initNavTree('functions_func_n.html','');});
 , <a class="el" href="classwbt_1_1_remote_inverse_kinematics.html#a3a632a6c5f3e25d20075d668f2c9fe52">wbt::RemoteInverseKinematics</a>
 </li>
 <li>numberOfDoFs()
-: <a class="el" href="classwbt_1_1_toolbox_singleton.html#a47173706a920a495703a73d5d1d5a2b3">wbt::ToolboxSingleton</a>
+: <a class="el" href="classwbt_1_1_whole_body_singleton.html#a44089979048854cf67df347f85fe12e9">wbt::WholeBodySingleton</a>
 </li>
 <li>numberOfParameters()
-: <a class="el" href="classwbt_1_1_block.html#a1a7398cabb5b58bc41c271ff990475ba">wbt::Block</a>
+: <a class="el" href="classwbt_1_1_block.html#abc02441fdaadd1de8e6ea6659fba72ed">wbt::Block</a>
 , <a class="el" href="classwbt_1_1_discrete_filter.html#a1de2d67a6b05843161b7df934c974e27">wbt::DiscreteFilter</a>
 , <a class="el" href="classwbt_1_1_dot_j_nu.html#a76be7d1ac2753f38a814b5002e134105">wbt::DotJNu</a>
 , <a class="el" href="classwbt_1_1_forward_kinematics.html#a98df8cb0c3b886334cc64e24a9dbecc0">wbt::ForwardKinematics</a>
@@ -160,12 +163,13 @@ $(document).ready(function(){initNavTree('functions_func_n.html','');});
 , <a class="el" href="classwbt_1_1_inverse_kinematics.html#a583cce7a51e1fee4d162a7690cee2ce7">wbt::InverseKinematics</a>
 , <a class="el" href="classwbt_1_1_jacobian.html#a182d2a01fbfd9a0e6ff654113b78709a">wbt::Jacobian</a>
 , <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#a59e95d813485d0de9fce035c2ce78b6f">wbt::MinimumJerkTrajectoryGenerator</a>
-, <a class="el" href="classwbt_1_1_model_partitioner.html#a21b62a87783668a8fbc37555a1f76c08">wbt::ModelPartitioner</a>
+, <a class="el" href="classwbt_1_1_qp_oases.html#ab11a6ccd460b8c1348fb7c44155200ba">wbt::QpOases</a>
 , <a class="el" href="classwbt_1_1_real_time_synchronizer.html#a67ab443066ab38fd3c62cbd6861da256">wbt::RealTimeSynchronizer</a>
+, <a class="el" href="classwbt_1_1_relative_transform.html#a06bab32724c26395b305617027065e7c">wbt::RelativeTransform</a>
 , <a class="el" href="classwbt_1_1_remote_inverse_kinematics.html#a250717a130a58d003cc112fb4266315a">wbt::RemoteInverseKinematics</a>
-, <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a3a94141b5809780ad36cb2115e09f6ad">wbt::SetLowLevelPID</a>
+, <a class="el" href="classwbt_1_1_set_motor_parameters.html#ad90eb32170a6c1f90fae2ca2655d81c4">wbt::SetMotorParameters</a>
 , <a class="el" href="classwbt_1_1_set_references.html#aafaa7b13b05a7e58923a7d94dfd5bf7c">wbt::SetReferences</a>
-, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a11fb8f9c23e6676958b2d38e9d751027">wbt::SimulatorSynchronizer</a>
+, <a class="el" href="classwbt_1_1_simulator_synchronizer.html#a66d6726207fda61fc6280de81be9848a">wbt::SimulatorSynchronizer</a>
 , <a class="el" href="classwbt_1_1_w_b_block.html#a1a1f5268bb6f037400557845803cdd50">wbt::WBBlock</a>
 , <a class="el" href="classwbt_1_1_yarp_clock.html#a666dff9ff1834a2603f002fb2984e9bc">wbt::YarpClock</a>
 , <a class="el" href="classwbt_1_1_yarp_read.html#a43c7c9970ea2e68d059706256a5520c6">wbt::YarpRead</a>

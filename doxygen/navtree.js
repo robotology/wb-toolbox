@@ -14,8 +14,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79",
-"classwbt_1_1_toolbox_singleton.html#ac02cf6e132abb2a2c139082a9fc7e29f"
+"classwbt_1_1_configuration.html",
+"classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#ac2984c92f28fe621ceafe8fd3321a6d7",
+"struct_yarp_interfaces.html#a68e8f1877889a151c60fd0285f711cf2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

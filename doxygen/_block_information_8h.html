@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/base/BlockInformation.h File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/core/include/Core/BlockInformation.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('_block_information_8h.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,18 +101,20 @@ $(document).ready(function(){initNavTree('_block_information_8h.html','');});
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">BlockInformation.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;AnyType.h&quot;</code><br/>
+<div class="textblock"><code>#include &lt;memory&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;tuple&gt;</code><br/>
+<code>#include &lt;utility&gt;</code><br/>
+<code>#include &lt;vector&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for BlockInformation.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_block_information_8h__incl.svg" width="176" height="158"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_block_information_8h__incl.svg" width="395" height="158"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -127,35 +129,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract class for storing generic <a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">Block</a> properties.  <a href="classwbt_1_1_block_information.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwbt_1_1_block_information_1_1_port.html">wbt::BlockInformation::Port</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwbt_1_1_block_information_1_1_i_o_data.html">wbt::BlockInformation::IOData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacewbt"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewbt.html">wbt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacei_dyn_tree"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacei_dyn_tree.html">iDynTree</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aeb341277f142cad23899c1867d83a9bd"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0">wbt::_PortDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">wbt::PortDataType</a></td></tr>
-<tr class="separator:aeb341277f142cad23899c1867d83a9bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a6bc28de1f1b7c9c9421e604794270ab0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0">wbt::_PortDataType</a> { <br/>
-&#160;&#160;<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0ad43fdea249b9f9a83ee7187400617235">wbt::PortDataTypeDouble</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0a1d612a899585c9076a81498beeb75c44">wbt::PortDataTypeSingle</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0adc01d2bee00e33b089f662d11b6ce1ed">wbt::PortDataTypeInt8</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0abf2e2bb67504202399d09ae2d2ad80f1">wbt::PortDataTypeUInt8</a>, 
-<br/>
-&#160;&#160;<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0a3c678d4b18917c988f9a5767c0ae8cc8">wbt::PortDataTypeInt16</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0a1ecccc11a0c000ba87b7c0ef1887dc0d">wbt::PortDataTypeUInt16</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0ab43fc5ac758d5c0c5b4beb3dffbdf357">wbt::PortDataTypeInt32</a>, 
-<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0ac946c7f44146546aab73427821a1cd67">wbt::PortDataTypeUInt32</a>, 
-<br/>
-&#160;&#160;<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0a0b36d2efba55c0eab8aefe33bae2c93c">wbt::PortDataTypeBoolean</a>
-<br/>
- }</td></tr>
-<tr class="separator:a6bc28de1f1b7c9c9421e604794270ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab839de1274643197a3ca3d3f7791fc4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewbt.html#aab839de1274643197a3ca3d3f7791fc4">wbt::InputSignalPtr</a> = std::shared_ptr&lt; const <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt;</td></tr>
+<tr class="separator:aab839de1274643197a3ca3d3f7791fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fe92e1957c9ba4f4d8971aa23acf179"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewbt.html#a9fe92e1957c9ba4f4d8971aa23acf179">wbt::OutputSignalPtr</a> = std::shared_ptr&lt; <a class="el" href="classwbt_1_1_signal.html">wbt::Signal</a> &gt;</td></tr>
+<tr class="separator:a9fe92e1957c9ba4f4d8971aa23acf179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -167,7 +160,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="dir_c7d47b7840f5aae905346ded0e46253e.html">base</a></li><li class="navelem"><a class="el" href="_block_information_8h.html">BlockInformation.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_5c7f243b14fe08a009bbacc76eeffe89.html">core</a></li><li class="navelem"><a class="el" href="dir_49d97ec83bba30da53903b45fefb957a.html">include</a></li><li class="navelem"><a class="el" href="dir_f20eff2201697bf9b9865f5c2e93654c.html">Core</a></li><li class="navelem"><a class="el" href="_block_information_8h.html">BlockInformation.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

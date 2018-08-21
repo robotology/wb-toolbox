@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="classwbt_1_1_w_b_block.html" target="_top" xlink:title="wbt::WBBlock">
+<g id="a_node2"><a xlink:href="classwbt_1_1_w_b_block.html" target="_top" xlink:title="Extension of wbt::Block for simplifying the development of whole&#45;body blocks. ">
 <polygon fill="none" stroke="black" points="17,-56.5 17,-75.5 97,-75.5 97,-56.5 17,-56.5"/>
 <text text-anchor="middle" x="57" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::WBBlock</text>
 </a>
@@ -28,7 +28,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="wbt::Block">
+<g id="a_node3"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="Basic abstract class for wrapping generic algorithms. ">
 <polygon fill="none" stroke="black" points="25.5,-112.5 25.5,-131.5 88.5,-131.5 88.5,-112.5 25.5,-112.5"/>
 <text text-anchor="middle" x="57" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::Block</text>
 </a>

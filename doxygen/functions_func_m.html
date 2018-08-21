@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -78,6 +78,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -89,7 +92,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_func_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_func_g.html#index_g"><span>g</span></a></li>
-      <li><a href="functions_func_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_func_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_func_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_func_l.html#index_l"><span>l</span></a></li>
@@ -97,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_func_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_func_p.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_func_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_func_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_func_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_t.html#index_t"><span>t</span></a></li>
@@ -126,7 +129,7 @@ $(document).ready(function(){initNavTree('functions_func_m.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -139,14 +142,11 @@ $(document).ready(function(){initNavTree('functions_func_m.html','');});
 &#160;
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>mapDoFs()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a6163df444fa2bd8fdb552aeac130d90a">wbt::RobotInterface</a>
-</li>
 <li>mapPortTypeToSimulink()
-: <a class="el" href="classwbt_1_1_simulink_block_information.html#aa8cc58302546ff459f4bc06fd1ba0792">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a270cfff3bdffc5dbde79cba1aebe8c4a">wbt::SimulinkBlockInformation</a>
 </li>
 <li>mapSimulinkToPortType()
-: <a class="el" href="classwbt_1_1_simulink_block_information.html#a9ba300cb15417a7f7a6e704abffc92f5">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a118acae721ce2b6960499e86c6ef64a1">wbt::SimulinkBlockInformation</a>
 </li>
 <li>MassMatrix()
 : <a class="el" href="classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1">wbt::MassMatrix</a>
@@ -154,8 +154,8 @@ $(document).ready(function(){initNavTree('functions_func_m.html','');});
 <li>MinimumJerkTrajectoryGenerator()
 : <a class="el" href="classwbt_1_1_minimum_jerk_trajectory_generator.html#a90ee1d1a68044cfc160d97f6d571e48c">wbt::MinimumJerkTrajectoryGenerator</a>
 </li>
-<li>ModelPartitioner()
-: <a class="el" href="classwbt_1_1_model_partitioner.html#ad911aa7d385682e077a1b4edcea16181">wbt::ModelPartitioner</a>
+<li>modelFailed()
+: <a class="el" href="classwbt_1_1_generated_code_wrapper.html#a707ed244ff0879486ec655180d1ce269">wbt::GeneratedCodeWrapper&lt; T &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

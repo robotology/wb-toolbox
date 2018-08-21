@@ -1,5 +1,5 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/RobotInterface.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/src/base/RobotInterface.cpp">
-<area shape="rect" id="node2" href="$_robot_interface_8h.html" title="RobotInterface.h" alt="" coords="381,109,499,136"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Log.h" alt="" coords="5,184,59,211"/>
-<area shape="rect" id="node3" href="$_configuration_8h.html" title="Configuration.h" alt="" coords="270,184,380,211"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/RobotInterface.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/RobotInterface.cpp">
+<area shape="rect" id="node2" href="$_robot_interface_8h.html" title="Base/RobotInterface.h" alt="" coords="343,117,496,144"/>
+<area shape="rect" id="node7" href="$_configuration_8h.html" title="Base/Configuration.h" alt="" coords="64,117,208,144"/>
+<area shape="rect" id="node10" href="$_log_8h.html" title="Core/Log.h" alt="" coords="233,117,319,144"/>
 </map>

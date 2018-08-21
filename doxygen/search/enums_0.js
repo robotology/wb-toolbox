@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_5fportdatatype',['_PortDataType',['../namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0',1,'wbt']]]
+  ['dataformat',['DataFormat',['../classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29',1,'wbt::Signal']]],
+  ['datatype',['DataType',['../namespacewbt.html#add2c701b88d4e393385e3978306c81b8',1,'wbt']]]
 ];

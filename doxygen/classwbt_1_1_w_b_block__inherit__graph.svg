@@ -15,7 +15,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="classwbt_1_1_centroidal_momentum.html" target="_top" xlink:title="wbt::CentroidalMomentum">
+<g id="a_node3"><a xlink:href="classwbt_1_1_centroidal_momentum.html" target="_top" xlink:title="The wbt::CentroidalMomentum class. ">
 <polygon fill="none" stroke="black" points="216.5,-380.5 216.5,-399.5 347.5,-399.5 347.5,-380.5 216.5,-380.5"/>
 <text text-anchor="middle" x="282" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::CentroidalMomentum</text>
 </a>
@@ -28,7 +28,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="classwbt_1_1_dot_j_nu.html" target="_top" xlink:title="wbt::DotJNu">
+<g id="a_node4"><a xlink:href="classwbt_1_1_dot_j_nu.html" target="_top" xlink:title="The wbt::DotJNu class. ">
 <polygon fill="none" stroke="black" points="246,-342.5 246,-361.5 318,-361.5 318,-342.5 246,-342.5"/>
 <text text-anchor="middle" x="282" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::DotJNu</text>
 </a>
@@ -41,7 +41,7 @@
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="classwbt_1_1_forward_kinematics.html" target="_top" xlink:title="wbt::ForwardKinematics">
+<g id="a_node5"><a xlink:href="classwbt_1_1_forward_kinematics.html" target="_top" xlink:title="The wbt::ForwardKinematics class. ">
 <polygon fill="none" stroke="black" points="221,-304.5 221,-323.5 343,-323.5 343,-304.5 221,-304.5"/>
 <text text-anchor="middle" x="282" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::ForwardKinematics</text>
 </a>
@@ -54,7 +54,7 @@
 </g>
 <!-- Node6 -->
 <g id="node6" class="node"><title>Node6</title>
-<g id="a_node6"><a xlink:href="classwbt_1_1_get_limits.html" target="_top" xlink:title="wbt::GetLimits">
+<g id="a_node6"><a xlink:href="classwbt_1_1_get_limits.html" target="_top" xlink:title="The wbt::GetLimits class. ">
 <polygon fill="none" stroke="black" points="242,-266.5 242,-285.5 322,-285.5 322,-266.5 242,-266.5"/>
 <text text-anchor="middle" x="282" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::GetLimits</text>
 </a>
@@ -67,7 +67,7 @@
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
-<g id="a_node7"><a xlink:href="classwbt_1_1_get_measurement.html" target="_top" xlink:title="wbt::GetMeasurement">
+<g id="a_node7"><a xlink:href="classwbt_1_1_get_measurement.html" target="_top" xlink:title="The wbt::GetMeasurement class. ">
 <polygon fill="none" stroke="black" points="225.5,-228.5 225.5,-247.5 338.5,-247.5 338.5,-228.5 225.5,-228.5"/>
 <text text-anchor="middle" x="282" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::GetMeasurement</text>
 </a>
@@ -80,7 +80,7 @@
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
-<g id="a_node8"><a xlink:href="classwbt_1_1_inverse_dynamics.html" target="_top" xlink:title="wbt::InverseDynamics">
+<g id="a_node8"><a xlink:href="classwbt_1_1_inverse_dynamics.html" target="_top" xlink:title="The wbt::InverseDynamics class. ">
 <polygon fill="none" stroke="black" points="224.5,-190.5 224.5,-209.5 339.5,-209.5 339.5,-190.5 224.5,-190.5"/>
 <text text-anchor="middle" x="282" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::InverseDynamics</text>
 </a>
@@ -93,7 +93,7 @@
 </g>
 <!-- Node9 -->
 <g id="node9" class="node"><title>Node9</title>
-<g id="a_node9"><a xlink:href="classwbt_1_1_jacobian.html" target="_top" xlink:title="wbt::Jacobian">
+<g id="a_node9"><a xlink:href="classwbt_1_1_jacobian.html" target="_top" xlink:title="The wbt::Jacobian class. ">
 <polygon fill="none" stroke="black" points="243.5,-152.5 243.5,-171.5 320.5,-171.5 320.5,-152.5 243.5,-152.5"/>
 <text text-anchor="middle" x="282" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::Jacobian</text>
 </a>
@@ -106,7 +106,7 @@
 </g>
 <!-- Node10 -->
 <g id="node10" class="node"><title>Node10</title>
-<g id="a_node10"><a xlink:href="classwbt_1_1_mass_matrix.html" target="_top" xlink:title="wbt::MassMatrix">
+<g id="a_node10"><a xlink:href="classwbt_1_1_mass_matrix.html" target="_top" xlink:title="The wbt::MassMatrix class. ">
 <polygon fill="none" stroke="black" points="237.5,-114.5 237.5,-133.5 326.5,-133.5 326.5,-114.5 237.5,-114.5"/>
 <text text-anchor="middle" x="282" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::MassMatrix</text>
 </a>
@@ -119,9 +119,9 @@
 </g>
 <!-- Node11 -->
 <g id="node11" class="node"><title>Node11</title>
-<g id="a_node11"><a xlink:href="classwbt_1_1_model_partitioner.html" target="_top" xlink:title="wbt::ModelPartitioner">
-<polygon fill="none" stroke="black" points="227.5,-76.5 227.5,-95.5 336.5,-95.5 336.5,-76.5 227.5,-76.5"/>
-<text text-anchor="middle" x="282" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::ModelPartitioner</text>
+<g id="a_node11"><a xlink:href="classwbt_1_1_relative_transform.html" target="_top" xlink:title="The wbt::RelativeTransform class. ">
+<polygon fill="none" stroke="black" points="222.5,-76.5 222.5,-95.5 341.5,-95.5 341.5,-76.5 222.5,-76.5"/>
+<text text-anchor="middle" x="282" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::RelativeTransform</text>
 </a>
 </g>
 </g>
@@ -132,9 +132,9 @@
 </g>
 <!-- Node12 -->
 <g id="node12" class="node"><title>Node12</title>
-<g id="a_node12"><a xlink:href="classwbt_1_1_set_low_level_p_i_d.html" target="_top" xlink:title="wbt::SetLowLevelPID">
-<polygon fill="none" stroke="black" points="226,-38.5 226,-57.5 338,-57.5 338,-38.5 226,-38.5"/>
-<text text-anchor="middle" x="282" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetLowLevelPID</text>
+<g id="a_node12"><a xlink:href="classwbt_1_1_set_motor_parameters.html" target="_top" xlink:title="The wbt::SetMotorParameters class. ">
+<polygon fill="none" stroke="black" points="218,-38.5 218,-57.5 346,-57.5 346,-38.5 218,-38.5"/>
+<text text-anchor="middle" x="282" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetMotorParameters</text>
 </a>
 </g>
 </g>
@@ -145,7 +145,7 @@
 </g>
 <!-- Node13 -->
 <g id="node13" class="node"><title>Node13</title>
-<g id="a_node13"><a xlink:href="classwbt_1_1_set_references.html" target="_top" xlink:title="wbt::SetReferences">
+<g id="a_node13"><a xlink:href="classwbt_1_1_set_references.html" target="_top" xlink:title="The wbt::SetReferences class. ">
 <polygon fill="none" stroke="black" points="230,-0.5 230,-19.5 334,-19.5 334,-0.5 230,-0.5"/>
 <text text-anchor="middle" x="282" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::SetReferences</text>
 </a>
@@ -158,7 +158,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="wbt::Block">
+<g id="a_node2"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="Basic abstract class for wrapping generic algorithms. ">
 <polygon fill="none" stroke="black" points="0.5,-190.5 0.5,-209.5 63.5,-209.5 63.5,-190.5 0.5,-190.5"/>
 <text text-anchor="middle" x="32" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::Block</text>
 </a>

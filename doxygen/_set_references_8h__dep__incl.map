@@ -1,7 +1,4 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/SetReferences.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/SetReferences.h">
-<area shape="rect" id="node2" href="$toolbox_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/include/base\l/toolbox.h" alt="" coords="233,110,385,181"/>
-<area shape="rect" id="node6" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SetReferences.cpp" alt="" coords="410,117,616,173"/>
-<area shape="rect" id="node3" href="$_block_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/Block.cpp" alt="" coords="5,229,189,285"/>
-<area shape="rect" id="node4" href="$factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/factory.cpp" alt="" coords="214,229,404,285"/>
-<area shape="rect" id="node5" href="$toolbox_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/toolbox.cpp" alt="" coords="429,229,621,285"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/SetReferences.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/SetReferences.h">
+<area shape="rect" id="node2" href="$_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/library/src/Factory.cpp" alt="" coords="5,125,208,181"/>
+<area shape="rect" id="node3" href="$_set_references_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/library/src/SetReferences.cpp" alt="" coords="232,125,477,181"/>
 </map>

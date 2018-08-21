@@ -1,7 +1,4 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/SimulatorSynchronizer.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/include/SimulatorSynchronizer.h">
-<area shape="rect" id="node2" href="$toolbox_8h.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/include/base\l/toolbox.h" alt="" coords="233,110,385,181"/>
-<area shape="rect" id="node6" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/SimulatorSynchronizer.cpp" alt="" coords="411,117,661,173"/>
-<area shape="rect" id="node3" href="$_block_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/Block.cpp" alt="" coords="5,229,189,285"/>
-<area shape="rect" id="node4" href="$factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/factory.cpp" alt="" coords="214,229,404,285"/>
-<area shape="rect" id="node5" href="$toolbox_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/src/base/toolbox.cpp" alt="" coords="429,229,621,285"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/SimulatorSynchronizer.h" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/include/Block/SimulatorSynchronizer.h">
+<area shape="rect" id="node2" href="$_factory_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/library/src/Factory.cpp" alt="" coords="5,133,208,189"/>
+<area shape="rect" id="node3" href="$_simulator_synchronizer_8cpp.html" title="/home/travis/build\l/robotology/wb&#45;toolbox\l/toolbox/library/src/Simulator\lSynchronizer.cpp" alt="" coords="233,126,420,197"/>
 </map>

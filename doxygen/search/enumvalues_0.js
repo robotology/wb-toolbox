@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['contiguous',['CONTIGUOUS',['../namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50fa5c8c62bb601264115edc0e96e6ab847c',1,'wbt']]],
-  ['contiguous_5fzerocopy',['CONTIGUOUS_ZEROCOPY',['../namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50fa42c34419852e87e7794c9ae819ea0d00',1,'wbt']]]
+  ['autoconnect',['Autoconnect',['../_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b',1,'Autoconnect():&#160;YarpRead.cpp'],['../_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b',1,'Autoconnect():&#160;YarpWrite.cpp']]]
 ];

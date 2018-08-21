@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -78,6 +78,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -89,7 +92,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_func_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_func_g.html#index_g"><span>g</span></a></li>
-      <li><a href="functions_func_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_func_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_func_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_func_l.html#index_l"><span>l</span></a></li>
@@ -97,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_func_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_func_p.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_func_q.html#index_q"><span>q</span></a></li>
       <li class="current"><a href="functions_func_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_func_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_t.html#index_t"><span>t</span></a></li>
@@ -126,7 +129,7 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -140,26 +143,13 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>rad2deg()
-: <a class="el" href="classwbt_1_1_set_references.html#aaf3866244c8e026f8a2fb9ed63a43be6">wbt::SetReferences</a>
-</li>
-<li>read()
-: <a class="el" href="classgazebo_1_1_clock_server.html#a60372a0a8fbf06845dbb7716b89861c1">gazebo::ClockServer</a>
-, <a class="el" href="classgazebo_1_1_clock_server__continue_simulation.html#a6eb781a4a9e2d0a221d5927b3b257f79">gazebo::ClockServer_continueSimulation</a>
-, <a class="el" href="classgazebo_1_1_clock_server__get_simulation_time.html#a7144b8142f42b1855c61770cbcb966c9">gazebo::ClockServer_getSimulationTime</a>
-, <a class="el" href="classgazebo_1_1_clock_server__get_step_size.html#a97eb3a6ab32892e19b830e41ee30e534">gazebo::ClockServer_getStepSize</a>
-, <a class="el" href="classgazebo_1_1_clock_server__pause_simulation.html#aec42acd2a1617d6e468af54388b6159d">gazebo::ClockServer_pauseSimulation</a>
-, <a class="el" href="classgazebo_1_1_clock_server__reset_simulation_time.html#a71f4b365fb4f77043537a6c68db7e242">gazebo::ClockServer_resetSimulationTime</a>
-, <a class="el" href="classgazebo_1_1_clock_server__step_simulation.html#a25483d77ad40711a861f276df9eabf8f">gazebo::ClockServer_stepSimulation</a>
-, <a class="el" href="classgazebo_1_1_clock_server__step_simulation_and_wait.html#a539f114b9bb6e44aa160be18721b5a4a">gazebo::ClockServer_stepSimulationAndWait</a>
-</li>
-<li>readWBTPidConfigObject()
-: <a class="el" href="classwbt_1_1_set_low_level_p_i_d.html#a2382c4e302158694c946bcbddf631c4f">wbt::SetLowLevelPID</a>
+: <a class="el" href="class_set_references_1_1impl.html#a7de9dfaa279e3d3a3760867b37469a82">wbt::SetReferences::impl</a>
 </li>
 <li>RealTimeSynchronizer()
 : <a class="el" href="classwbt_1_1_real_time_synchronizer.html#ae51ca42abaf7ca03f7bf6d63e224d811">wbt::RealTimeSynchronizer</a>
 </li>
-<li>releaseRemoteControlBoardRemapper()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a605eb65d72dcc9462479f128bf05b851">wbt::RobotInterface</a>
+<li>RelativeTransform()
+: <a class="el" href="classwbt_1_1_relative_transform.html#a37da49162a62ebadce00ef087e4b9904">wbt::RelativeTransform</a>
 </li>
 <li>RemoteInverseKinematics()
 : <a class="el" href="classwbt_1_1_remote_inverse_kinematics.html#a23388e3a546597fceb06db111d692e03">wbt::RemoteInverseKinematics</a>
@@ -167,17 +157,8 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 <li>RemoteInverseKinematicsPimpl()
 : <a class="el" href="structwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl.html#a5ed8bb35a4ad8a18e5fb866bd606b23f">wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl</a>
 </li>
-<li>resetPrefix()
-: <a class="el" href="classwbt_1_1_log.html#aa89f5dce6fe3b923a2c80e1439e536c0">wbt::Log</a>
-</li>
-<li>resetSimulationTime()
-: <a class="el" href="classgazebo_1_1_clock_server.html#a6c7ab487a9fad36cc90db57402ddcf27">gazebo::ClockServer</a>
-</li>
-<li>retainRemoteControlBoardRemapper()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a85cf1db95d5ee52a8da293b0773e4194">wbt::RobotInterface</a>
-</li>
 <li>RobotInterface()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a1e7b1f549649f71c246cea7ac3503313">wbt::RobotInterface</a>
+: <a class="el" href="classwbt_1_1_robot_interface.html#ae16c6dc03fa25ad92aaf535465ca84c2">wbt::RobotInterface</a>
 </li>
 <li>run()
 : <a class="el" href="classwbt_1_1_remote_inverse_kinematics_1_1_remote_inverse_kinematics_pimpl_1_1_solver_r_p_c_reader.html#add5535068265a31b6736390909e4978c">wbt::RemoteInverseKinematics::RemoteInverseKinematicsPimpl::SolverRPCReader</a>

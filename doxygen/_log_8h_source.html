@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/base/Log.h Source File</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/core/include/Core/Log.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('_log_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,71 +101,109 @@ $(document).ready(function(){initNavTree('_log_8h_source.html','');});
 <div class="title">Log.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_log_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef WBT_LOG_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_LOG_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>wbt {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>Log;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_log.html">wbt::Log</a></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#affb4b82eb9a440d94b3e4492865209c4">   17</a></span>&#160;    std::vector&lt;std::string&gt; <a class="code" href="classwbt_1_1_log.html#affb4b82eb9a440d94b3e4492865209c4">errors</a>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#a44909e2cce11a57f42d9e456f22d8ad9">   18</a></span>&#160;    std::vector&lt;std::string&gt; <a class="code" href="classwbt_1_1_log.html#a44909e2cce11a57f42d9e456f22d8ad9">warnings</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#a3a41e8ce6ba4684ae44337e4e840ca5a">   19</a></span>&#160;    std::string <a class="code" href="classwbt_1_1_log.html#a3a41e8ce6ba4684ae44337e4e840ca5a">prefix</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">static</span> std::string <a class="code" href="classwbt_1_1_log.html#aea84bd790495932a7d8919b12bdba81f">serializeVectorString</a>(std::vector&lt;std::string&gt; v, <span class="keyword">const</span> std::string&amp; <a class="code" href="classwbt_1_1_log.html#a3a41e8ce6ba4684ae44337e4e840ca5a">prefix</a>=<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">static</span> <a class="code" href="classwbt_1_1_log.html">wbt::Log</a>&amp; <a class="code" href="classwbt_1_1_log.html#a59a8a378c9b2023401b3d13353ebb6d5">getSingleton</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#abf050e5d61d2131e96f771df4bddecb7">error</a>(<span class="keyword">const</span> std::string&amp; errorMessage);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#aa7f8a361326779050a8dffbcdf8b0718">warning</a>(<span class="keyword">const</span> std::string&amp; warningMessage);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a5c5466057e94ee4d44b4c7ed822307ec">errorAppend</a>(<span class="keyword">const</span> std::string&amp; errorMessage);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#ace77debfb52d8a281a6af43535209ce6">warningAppend</a>(<span class="keyword">const</span> std::string&amp; warningMessage);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#aa89f5dce6fe3b923a2c80e1439e536c0">resetPrefix</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a4196d6bd6f61a9202ced21f131837b90">setPrefix</a>(<span class="keyword">const</span> std::string&amp; prefixMessage);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::string <a class="code" href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">getErrors</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::string <a class="code" href="classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79">getWarnings</a>() <span class="keyword">const</span>;</div>
+<a href="_log_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This software may be modified and distributed under the terms of the</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * GNU Lesser General Public License v2.1 or any later version.</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef WBT_LOG_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_LOG_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifdef NDEBUG</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_LOG_VERBOSITY wbt::Log::Verbosity::RELEASE</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="_log_8h.html#a3216af216059107eb742543930972115">   19</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_LOG_VERBOSITY wbt::Log::Verbosity::DEBUG</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#ifndef wbtError</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="_log_8h.html#a2bd5dfffa002096393f3964866cb424a">   23</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wbtError                                 \</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">    wbt::Log::getSingleton().getLogStringStream( \</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">        wbt::Log::Type::ERROR, __FILE__, __LINE__, __FUNCTION__)</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef wbtWarning</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="_log_8h.html#ad5f7331f57144cf0d09038d1748c3713">   29</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wbtWarning                               \</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">    wbt::Log::getSingleton().getLogStringStream( \</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">        wbt::Log::Type::WARNING, __FILE__, __LINE__, __FUNCTION__)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>wbt {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">class </span>Log;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <span class="comment">// namespace wbt</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a50b022c5c1c5ed3a2b5c26d01524f525">clearErrors</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a12e3bb6589bba4c12984a4d27b3194fd">clearWarnings</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#ae8e21f6b9c3588008349375f2bdbfa6d">clear</a>();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* end of include guard: WBT_LOG_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classwbt_1_1_log_html_a3a41e8ce6ba4684ae44337e4e840ca5a"><div class="ttname"><a href="classwbt_1_1_log.html#a3a41e8ce6ba4684ae44337e4e840ca5a">wbt::Log::prefix</a></div><div class="ttdeci">std::string prefix</div><div class="ttdef"><b>Definition:</b> Log.h:19</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_affb4b82eb9a440d94b3e4492865209c4"><div class="ttname"><a href="classwbt_1_1_log.html#affb4b82eb9a440d94b3e4492865209c4">wbt::Log::errors</a></div><div class="ttdeci">std::vector&lt; std::string &gt; errors</div><div class="ttdef"><b>Definition:</b> Log.h:17</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_aa7f8a361326779050a8dffbcdf8b0718"><div class="ttname"><a href="classwbt_1_1_log.html#aa7f8a361326779050a8dffbcdf8b0718">wbt::Log::warning</a></div><div class="ttdeci">void warning(const std::string &amp;warningMessage)</div><div class="ttdef"><b>Definition:</b> Log.cpp:18</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a12e3bb6589bba4c12984a4d27b3194fd"><div class="ttname"><a href="classwbt_1_1_log.html#a12e3bb6589bba4c12984a4d27b3194fd">wbt::Log::clearWarnings</a></div><div class="ttdeci">void clearWarnings()</div><div class="ttdef"><b>Definition:</b> Log.cpp:74</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_aa89f5dce6fe3b923a2c80e1439e536c0"><div class="ttname"><a href="classwbt_1_1_log.html#aa89f5dce6fe3b923a2c80e1439e536c0">wbt::Log::resetPrefix</a></div><div class="ttdeci">void resetPrefix()</div><div class="ttdef"><b>Definition:</b> Log.cpp:45</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a4196d6bd6f61a9202ced21f131837b90"><div class="ttname"><a href="classwbt_1_1_log.html#a4196d6bd6f61a9202ced21f131837b90">wbt::Log::setPrefix</a></div><div class="ttdeci">void setPrefix(const std::string &amp;prefixMessage)</div><div class="ttdef"><b>Definition:</b> Log.cpp:40</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_ace77debfb52d8a281a6af43535209ce6"><div class="ttname"><a href="classwbt_1_1_log.html#ace77debfb52d8a281a6af43535209ce6">wbt::Log::warningAppend</a></div><div class="ttdeci">void warningAppend(const std::string &amp;warningMessage)</div><div class="ttdef"><b>Definition:</b> Log.cpp:32</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_aea84bd790495932a7d8919b12bdba81f"><div class="ttname"><a href="classwbt_1_1_log.html#aea84bd790495932a7d8919b12bdba81f">wbt::Log::serializeVectorString</a></div><div class="ttdeci">static std::string serializeVectorString(std::vector&lt; std::string &gt; v, const std::string &amp;prefix=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> Log.cpp:50</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a44909e2cce11a57f42d9e456f22d8ad9"><div class="ttname"><a href="classwbt_1_1_log.html#a44909e2cce11a57f42d9e456f22d8ad9">wbt::Log::warnings</a></div><div class="ttdeci">std::vector&lt; std::string &gt; warnings</div><div class="ttdef"><b>Definition:</b> Log.h:18</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_ae8e21f6b9c3588008349375f2bdbfa6d"><div class="ttname"><a href="classwbt_1_1_log.html#ae8e21f6b9c3588008349375f2bdbfa6d">wbt::Log::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition:</b> Log.cpp:84</div></div>
-<div class="ttc" id="classwbt_1_1_log_html"><div class="ttname"><a href="classwbt_1_1_log.html">wbt::Log</a></div><div class="ttdef"><b>Definition:</b> Log.h:14</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_abf050e5d61d2131e96f771df4bddecb7"><div class="ttname"><a href="classwbt_1_1_log.html#abf050e5d61d2131e96f771df4bddecb7">wbt::Log::error</a></div><div class="ttdeci">void error(const std::string &amp;errorMessage)</div><div class="ttdef"><b>Definition:</b> Log.cpp:13</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a5c5466057e94ee4d44b4c7ed822307ec"><div class="ttname"><a href="classwbt_1_1_log.html#a5c5466057e94ee4d44b4c7ed822307ec">wbt::Log::errorAppend</a></div><div class="ttdeci">void errorAppend(const std::string &amp;errorMessage)</div><div class="ttdef"><b>Definition:</b> Log.cpp:23</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a59a8a378c9b2023401b3d13353ebb6d5"><div class="ttname"><a href="classwbt_1_1_log.html#a59a8a378c9b2023401b3d13353ebb6d5">wbt::Log::getSingleton</a></div><div class="ttdeci">static wbt::Log &amp; getSingleton()</div><div class="ttdef"><b>Definition:</b> Log.cpp:7</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a4a66c33316c98cf10c3c2ce54f8cdc79"><div class="ttname"><a href="classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79">wbt::Log::getWarnings</a></div><div class="ttdeci">std::string getWarnings() const </div><div class="ttdef"><b>Definition:</b> Log.cpp:69</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a50b022c5c1c5ed3a2b5c26d01524f525"><div class="ttname"><a href="classwbt_1_1_log.html#a50b022c5c1c5ed3a2b5c26d01524f525">wbt::Log::clearErrors</a></div><div class="ttdeci">void clearErrors()</div><div class="ttdef"><b>Definition:</b> Log.cpp:79</div></div>
-<div class="ttc" id="classwbt_1_1_log_html_a0126342048afdb8a8d2e069f79ef1d0e"><div class="ttname"><a href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">wbt::Log::getErrors</a></div><div class="ttdeci">std::string getErrors() const </div><div class="ttdef"><b>Definition:</b> Log.cpp:64</div></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_log.html">wbt::Log</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd">   46</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd">Type</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bdabb1ca97ec761fc37101737ba0aa2e7c5">ERROR</a>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bda059e9861e0400dfbe05c98a841f3f96b">WARNING</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    };</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302">   52</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302">Verbosity</a></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302a7d649ef069df9885e382417c79f3d5cd">RELEASE</a>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302adc30ec20708ef7b0f641ef78b7880a15">DEBUG</a></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    };</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classwbt_1_1_log.html#a85b937046d35d5dcf634da622f1a8157">   59</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_log_1_1impl.html">impl</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::unique_ptr&lt;impl&gt; <a class="code" href="classwbt_1_1_log.html#a85b937046d35d5dcf634da622f1a8157">pImpl</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classwbt_1_1_log.html#af6071a60aa52b6c1b511f99b4bc1b8fe">Log</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classwbt_1_1_log.html#a2463f53df1303b4a7706b1d46bea4565">~Log</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">static</span> <a class="code" href="classwbt_1_1_log.html">wbt::Log</a>&amp; <a class="code" href="classwbt_1_1_log.html#a59a8a378c9b2023401b3d13353ebb6d5">getSingleton</a>();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    std::stringstream&amp; <a class="code" href="classwbt_1_1_log.html#ad96ee808378ffbdf0b71f531215fa85c">getLogStringStream</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd">Type</a>&amp; type,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                          <span class="keyword">const</span> std::string&amp; file,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                          <span class="keyword">const</span> <span class="keywordtype">unsigned</span>&amp; line,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                          <span class="keyword">const</span> std::string&amp; <span class="keyword">function</span>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    std::string <a class="code" href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">getErrors</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    std::string <a class="code" href="classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79">getWarnings</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a50b022c5c1c5ed3a2b5c26d01524f525">clearErrors</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#a12e3bb6589bba4c12984a4d27b3194fd">clearWarnings</a>();</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classwbt_1_1_log.html#ae8e21f6b9c3588008349375f2bdbfa6d">clear</a>();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;};</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif // WBT_LOG_H</span></div>
+<div class="ttc" id="classwbt_1_1_log_html_af6209eeda8a540cbf334046759dc8302"><div class="ttname"><a href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302">wbt::Log::Verbosity</a></div><div class="ttdeci">Verbosity</div><div class="ttdef"><b>Definition:</b> Log.h:52</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_afa587b6ea290c024c21c9588782cf2bda059e9861e0400dfbe05c98a841f3f96b"><div class="ttname"><a href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bda059e9861e0400dfbe05c98a841f3f96b">wbt::Log::Type::WARNING</a></div></div>
+<div class="ttc" id="classwbt_1_1_log_html_af6071a60aa52b6c1b511f99b4bc1b8fe"><div class="ttname"><a href="classwbt_1_1_log.html#af6071a60aa52b6c1b511f99b4bc1b8fe">wbt::Log::Log</a></div><div class="ttdeci">Log()</div><div class="ttdef"><b>Definition:</b> Log.cpp:27</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a12e3bb6589bba4c12984a4d27b3194fd"><div class="ttname"><a href="classwbt_1_1_log.html#a12e3bb6589bba4c12984a4d27b3194fd">wbt::Log::clearWarnings</a></div><div class="ttdeci">void clearWarnings()</div><div class="ttdoc">Clear the stored warning messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:94</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_afa587b6ea290c024c21c9588782cf2bdabb1ca97ec761fc37101737ba0aa2e7c5"><div class="ttname"><a href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bdabb1ca97ec761fc37101737ba0aa2e7c5">wbt::Log::Type::ERROR</a></div></div>
+<div class="ttc" id="classwbt_1_1_log_html_af6209eeda8a540cbf334046759dc8302a7d649ef069df9885e382417c79f3d5cd"><div class="ttname"><a href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302a7d649ef069df9885e382417c79f3d5cd">wbt::Log::Verbosity::RELEASE</a></div></div>
+<div class="ttc" id="classwbt_1_1_log_html_ae8e21f6b9c3588008349375f2bdbfa6d"><div class="ttname"><a href="classwbt_1_1_log.html#ae8e21f6b9c3588008349375f2bdbfa6d">wbt::Log::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Clear all the stored log messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:104</div></div>
+<div class="ttc" id="classwbt_1_1_log_html"><div class="ttname"><a href="classwbt_1_1_log.html">wbt::Log</a></div><div class="ttdoc">Class for handling log messages. </div><div class="ttdef"><b>Definition:</b> Log.h:43</div></div>
+<div class="ttc" id="class_log_1_1impl_html"><div class="ttname"><a href="class_log_1_1impl.html">wbt::Log::impl</a></div><div class="ttdef"><b>Definition:</b> Log.cpp:15</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_ad96ee808378ffbdf0b71f531215fa85c"><div class="ttname"><a href="classwbt_1_1_log.html#ad96ee808378ffbdf0b71f531215fa85c">wbt::Log::getLogStringStream</a></div><div class="ttdeci">std::stringstream &amp; getLogStringStream(const Type &amp;type, const std::string &amp;file, const unsigned &amp;line, const std::string &amp;function)</div><div class="ttdoc">Get the stringstream object for adding log messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:37</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a59a8a378c9b2023401b3d13353ebb6d5"><div class="ttname"><a href="classwbt_1_1_log.html#a59a8a378c9b2023401b3d13353ebb6d5">wbt::Log::getSingleton</a></div><div class="ttdeci">static wbt::Log &amp; getSingleton()</div><div class="ttdoc">Get the Log singleton. </div><div class="ttdef"><b>Definition:</b> Log.cpp:31</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a4a66c33316c98cf10c3c2ce54f8cdc79"><div class="ttname"><a href="classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79">wbt::Log::getWarnings</a></div><div class="ttdeci">std::string getWarnings() const </div><div class="ttdoc">Get the stored warning messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:89</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a50b022c5c1c5ed3a2b5c26d01524f525"><div class="ttname"><a href="classwbt_1_1_log.html#a50b022c5c1c5ed3a2b5c26d01524f525">wbt::Log::clearErrors</a></div><div class="ttdeci">void clearErrors()</div><div class="ttdoc">Clear the stored error messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:99</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a85b937046d35d5dcf634da622f1a8157"><div class="ttname"><a href="classwbt_1_1_log.html#a85b937046d35d5dcf634da622f1a8157">wbt::Log::pImpl</a></div><div class="ttdeci">std::unique_ptr&lt; impl &gt; pImpl</div><div class="ttdef"><b>Definition:</b> Log.h:59</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a2463f53df1303b4a7706b1d46bea4565"><div class="ttname"><a href="classwbt_1_1_log.html#a2463f53df1303b4a7706b1d46bea4565">wbt::Log::~Log</a></div><div class="ttdeci">~Log()=default</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_afa587b6ea290c024c21c9588782cf2bd"><div class="ttname"><a href="classwbt_1_1_log.html#afa587b6ea290c024c21c9588782cf2bd">wbt::Log::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition:</b> Log.h:46</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_a0126342048afdb8a8d2e069f79ef1d0e"><div class="ttname"><a href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">wbt::Log::getErrors</a></div><div class="ttdeci">std::string getErrors() const </div><div class="ttdoc">Get the stored error messages. </div><div class="ttdef"><b>Definition:</b> Log.cpp:84</div></div>
+<div class="ttc" id="classwbt_1_1_log_html_af6209eeda8a540cbf334046759dc8302adc30ec20708ef7b0f641ef78b7880a15"><div class="ttname"><a href="classwbt_1_1_log.html#af6209eeda8a540cbf334046759dc8302adc30ec20708ef7b0f641ef78b7880a15">wbt::Log::Verbosity::DEBUG</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="dir_c7d47b7840f5aae905346ded0e46253e.html">base</a></li><li class="navelem"><a class="el" href="_log_8h.html">Log.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_5c7f243b14fe08a009bbacc76eeffe89.html">core</a></li><li class="navelem"><a class="el" href="dir_49d97ec83bba30da53903b45fefb957a.html">include</a></li><li class="navelem"><a class="el" href="dir_f20eff2201697bf9b9865f5c2e93654c.html">Core</a></li><li class="navelem"><a class="el" href="_log_8h.html">Log.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

@@ -1,11 +1,9 @@
 var annotated =
 [
-    [ "gazebo", "namespacegazebo.html", "namespacegazebo" ],
-    [ "iCub", "namespacei_cub.html", "namespacei_cub" ],
     [ "iDynTree", "namespacei_dyn_tree.html", null ],
+    [ "SimulatorSynchronizer", "namespace_simulator_synchronizer.html", "namespace_simulator_synchronizer" ],
     [ "wbt", "namespacewbt.html", "namespacewbt" ],
     [ "yarp", "namespaceyarp.html", "namespaceyarp" ],
-    [ "Configuration", "class_configuration.html", null ],
-    [ "iDynTreeRobotState", "structi_dyn_tree_robot_state.html", "structi_dyn_tree_robot_state" ],
-    [ "ToolboxSingleton", "class_toolbox_singleton.html", null ]
+    [ "BlockFactorySingleton", "class_block_factory_singleton.html", "class_block_factory_singleton" ],
+    [ "YarpInterfaces", "struct_yarp_interfaces.html", "struct_yarp_interfaces" ]
 ];

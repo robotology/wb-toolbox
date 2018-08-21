@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('classwbt_1_1_signal.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -104,8 +104,9 @@ $(document).ready(function(){initNavTree('classwbt_1_1_signal.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classwbt_1_1_signal-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -113,95 +114,167 @@ $(document).ready(function(){initNavTree('classwbt_1_1_signal.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class to represent data shared between blocks, labelled as signals.  
+ <a href="classwbt_1_1_signal.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_signal_8h_source.html">Signal.h</a>&gt;</code></p>
-<table class="memberdecls">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class to represent data shared between blocks, labelled as signals. </p>
+<p>Analogously to the block-algorithm corrispondence, this class introduces the signal-data corrispondence. Signals are basically the connections between blocks.</p>
+<p>Signals do not directly translate to block's input and output. Signals are plugged to block ports, and this block port fill the signal with data.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>A signal can be plugged to more than one block port. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_block.html" title="Basic abstract class for wrapping generic algorithms. ">wbt::Block</a> </dd></dl>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_signal_1_1impl.html">impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ab87e5a1587adc330adb27f453c771d29"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">DataFormat</a> { <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29a2bb429991b8b6bd70f2e98a384d0b613">DataFormat::NONCONTIGUOUS</a> = 0, 
+<a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29aaa2a4f4421c371b67e8cdbaa33b7d2fe">DataFormat::CONTIGUOUS</a> = 1, 
+<a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a> = 2
+ }</td></tr>
+<tr class="separator:ab87e5a1587adc330adb27f453c771d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd725ba5ed98300701bdfd029ebde36d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">DynamicSize</a> = -1
+ }</td></tr>
+<tr class="separator:abd725ba5ed98300701bdfd029ebde36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa86c28c6df2c2aee8ecdf51a35b9e689"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aa86c28c6df2c2aee8ecdf51a35b9e689">Signal</a> (const <a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a> &amp;dataFormat=<a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50fa42c34419852e87e7794c9ae819ea0d00">CONTIGUOUS_ZEROCOPY</a>, const <a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a> &amp;dataType=<a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0ad43fdea249b9f9a83ee7187400617235">PortDataTypeDouble</a>, const bool &amp;<a class="el" href="classwbt_1_1_signal.html#ab7086c311e64e9f947a297ded97135fb">isConst</a>=true)</td></tr>
-<tr class="separator:aa86c28c6df2c2aee8ecdf51a35b9e689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafc81d48bda1a0f14ca0f2545e1a36c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aafc81d48bda1a0f14ca0f2545e1a36c2">Signal</a> (const <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">DataFormat</a> &amp;dataFormat=<a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a>, const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;dataType=<a class="el" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58afd3e4ece78a7d422280d5ed379482229">DataType::DOUBLE</a>)</td></tr>
+<tr class="separator:aafc81d48bda1a0f14ca0f2545e1a36c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7a1d116cda63e790bf9aab549d57d3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ae7a1d116cda63e790bf9aab549d57d3a">~Signal</a> ()</td></tr>
 <tr class="separator:ae7a1d116cda63e790bf9aab549d57d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacd1c1db116fa64590cbd616bbb9b99e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aacd1c1db116fa64590cbd616bbb9b99e">Signal</a> (const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;signal)</td></tr>
-<tr class="separator:aacd1c1db116fa64590cbd616bbb9b99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a0fe8adfdcc726120a0890b76bfab8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a12a0fe8adfdcc726120a0890b76bfab8">operator=</a> (const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;signal)=delete</td></tr>
-<tr class="separator:a12a0fe8adfdcc726120a0890b76bfab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32bf66c0306b262cda9756abd40c613b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a32bf66c0306b262cda9756abd40c613b">Signal</a> (<a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;signal)</td></tr>
-<tr class="separator:a32bf66c0306b262cda9756abd40c613b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67e92d075631cf0cff389d1bd23b1535"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a67e92d075631cf0cff389d1bd23b1535">operator=</a> (<a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;signal)=delete</td></tr>
-<tr class="separator:a67e92d075631cf0cff389d1bd23b1535"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62e5d960ad4d79ac886cb33b05203d4f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a62e5d960ad4d79ac886cb33b05203d4f">Signal</a> (const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;other)</td></tr>
+<tr class="separator:a62e5d960ad4d79ac886cb33b05203d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d39704c9010f223327c99ff06e81269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a5d39704c9010f223327c99ff06e81269">operator=</a> (const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;other)=delete</td></tr>
+<tr class="separator:a5d39704c9010f223327c99ff06e81269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0a491b2c5bf4625e9291e70f6e6717b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#af0a491b2c5bf4625e9291e70f6e6717b">Signal</a> (<a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;other)</td></tr>
+<tr class="separator:af0a491b2c5bf4625e9291e70f6e6717b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfa3596ebeb27aada5b0810edc76348"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a0bfa3596ebeb27aada5b0810edc76348">operator=</a> (<a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;other)=delete</td></tr>
+<tr class="separator:a0bfa3596ebeb27aada5b0810edc76348"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a449a416d420fed17324e8c224fdbc994"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a449a416d420fed17324e8c224fdbc994">initializeBufferFromContiguous</a> (const void *buffer)</td></tr>
+<tr class="memdesc:a449a416d420fed17324e8c224fdbc994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the signal from a contiguous buffer.  <a href="#a449a416d420fed17324e8c224fdbc994">More...</a><br/></td></tr>
 <tr class="separator:a449a416d420fed17324e8c224fdbc994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03346e32deaf6b322dad17c992dea427"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a03346e32deaf6b322dad17c992dea427">initializeBufferFromContiguousZeroCopy</a> (const void *buffer)</td></tr>
+<tr class="memdesc:a03346e32deaf6b322dad17c992dea427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the signal from a contiguous buffer without copying data.  <a href="#a03346e32deaf6b322dad17c992dea427">More...</a><br/></td></tr>
 <tr class="separator:a03346e32deaf6b322dad17c992dea427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea8aa99904c67ff981403ac3978fc1c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aea8aa99904c67ff981403ac3978fc1c4">initializeBufferFromNonContiguous</a> (const void *const *bufferPtrs)</td></tr>
+<tr class="memdesc:aea8aa99904c67ff981403ac3978fc1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the signal from a non-contiguous buffer.  <a href="#aea8aa99904c67ff981403ac3978fc1c4">More...</a><br/></td></tr>
 <tr class="separator:aea8aa99904c67ff981403ac3978fc1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7086c311e64e9f947a297ded97135fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ab7086c311e64e9f947a297ded97135fb">isConst</a> () const </td></tr>
-<tr class="separator:ab7086c311e64e9f947a297ded97135fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cb034e8b54b008309760003e56b88fb"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a2cb034e8b54b008309760003e56b88fb">getWidth</a> () const </td></tr>
-<tr class="separator:a2cb034e8b54b008309760003e56b88fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83731b1e3f82aab18b113fec9e5576b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a83731b1e3f82aab18b113fec9e5576b6">getPortDataType</a> () const </td></tr>
-<tr class="separator:a83731b1e3f82aab18b113fec9e5576b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45ada42309699aeaae631ada45ec967"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ae45ada42309699aeaae631ada45ec967">getDataFormat</a> () const </td></tr>
-<tr class="separator:ae45ada42309699aeaae631ada45ec967"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae58646d65ac8e6c5d26fef3cf7d4ce73"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ae58646d65ac8e6c5d26fef3cf7d4ce73"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ae58646d65ac8e6c5d26fef3cf7d4ce73">getBuffer</a> () const </td></tr>
-<tr class="separator:ae58646d65ac8e6c5d26fef3cf7d4ce73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb9ed7ce9c7d907634ca70a7002d807a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aeb9ed7ce9c7d907634ca70a7002d807a"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aeb9ed7ce9c7d907634ca70a7002d807a">get</a> (const unsigned &amp;i) const </td></tr>
-<tr class="separator:aeb9ed7ce9c7d907634ca70a7002d807a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ca17f6b35c577a0917d90c9b3960395"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a7ca17f6b35c577a0917d90c9b3960395">setWidth</a> (const unsigned &amp;width)</td></tr>
-<tr class="separator:a7ca17f6b35c577a0917d90c9b3960395"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfbf0c899573e12a3327c18e53289074"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#abfbf0c899573e12a3327c18e53289074">set</a> (const unsigned &amp;index, const double &amp;data)</td></tr>
-<tr class="separator:abfbf0c899573e12a3327c18e53289074"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4e8ebb2f54026042bc15a4cb6ca6c0c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac4e8ebb2f54026042bc15a4cb6ca6c0c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ac4e8ebb2f54026042bc15a4cb6ca6c0c">setBuffer</a> (const T *data, const unsigned &amp;length)</td></tr>
-<tr class="separator:ac4e8ebb2f54026042bc15a4cb6ca6c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a8ab1831bc5498aa9ccb996f9a219639b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a8ab1831bc5498aa9ccb996f9a219639b">deleteBuffer</a> ()</td></tr>
-<tr class="separator:a8ab1831bc5498aa9ccb996f9a219639b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56759fb25b9201cdd226cbb67246d943"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a56759fb25b9201cdd226cbb67246d943">allocateBuffer</a> (const void *const bufferInput, void *&amp;bufferOutput, unsigned length)</td></tr>
-<tr class="separator:a56759fb25b9201cdd226cbb67246d943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8fdbe3eb6815108b4d05ed93fffc479"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af8fdbe3eb6815108b4d05ed93fffc479"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#af8fdbe3eb6815108b4d05ed93fffc479">getCastBuffer</a> () const </td></tr>
-<tr class="separator:af8fdbe3eb6815108b4d05ed93fffc479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05150207f45ddbad210e8b9bfb8e365a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a">isValid</a> () const </td></tr>
+<tr class="memdesc:a05150207f45ddbad210e8b9bfb8e365a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the signal is valid.  <a href="#a05150207f45ddbad210e8b9bfb8e365a">More...</a><br/></td></tr>
+<tr class="separator:a05150207f45ddbad210e8b9bfb8e365a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3dc7dd9aea1269c35ae4819ac44f64"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#abc3dc7dd9aea1269c35ae4819ac44f64">getWidth</a> () const </td></tr>
+<tr class="memdesc:abc3dc7dd9aea1269c35ae4819ac44f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the width of the signal.  <a href="#abc3dc7dd9aea1269c35ae4819ac44f64">More...</a><br/></td></tr>
+<tr class="separator:abc3dc7dd9aea1269c35ae4819ac44f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adce68449f6c99328d650a0b51ec887b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#adce68449f6c99328d650a0b51ec887b7">getPortDataType</a> () const </td></tr>
+<tr class="memdesc:adce68449f6c99328d650a0b51ec887b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8" title="Defines allowed signal data types. ">wbt::DataType</a> of the signal.  <a href="#adce68449f6c99328d650a0b51ec887b7">More...</a><br/></td></tr>
+<tr class="separator:adce68449f6c99328d650a0b51ec887b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdbb304ab1aac874917db367d0333916"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">DataFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#abdbb304ab1aac874917db367d0333916">getDataFormat</a> () const </td></tr>
+<tr class="memdesc:abdbb304ab1aac874917db367d0333916"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> of the signal.  <a href="#abdbb304ab1aac874917db367d0333916">More...</a><br/></td></tr>
+<tr class="separator:abdbb304ab1aac874917db367d0333916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e15bd4e2f0f760cb1ed33d13216f33"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab5e15bd4e2f0f760cb1ed33d13216f33"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ab5e15bd4e2f0f760cb1ed33d13216f33">getBuffer</a> ()</td></tr>
+<tr class="memdesc:ab5e15bd4e2f0f760cb1ed33d13216f33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pointer to the buffer storing signal's data.  <a href="#ab5e15bd4e2f0f760cb1ed33d13216f33">More...</a><br/></td></tr>
+<tr class="separator:ab5e15bd4e2f0f760cb1ed33d13216f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1a55b01f5b85ab5dd6ed7b2383b7298"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae1a55b01f5b85ab5dd6ed7b2383b7298"><td class="memTemplItemLeft" align="right" valign="top">const T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#ae1a55b01f5b85ab5dd6ed7b2383b7298">getBuffer</a> () const </td></tr>
+<tr class="memdesc:ae1a55b01f5b85ab5dd6ed7b2383b7298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pointer to the buffer storing signal's data.  <a href="#ae1a55b01f5b85ab5dd6ed7b2383b7298">More...</a><br/></td></tr>
+<tr class="separator:ae1a55b01f5b85ab5dd6ed7b2383b7298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55f9e4bdc49fda570df3b097e7fb43be"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a55f9e4bdc49fda570df3b097e7fb43be"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a55f9e4bdc49fda570df3b097e7fb43be">get</a> (const unsigned i) const </td></tr>
+<tr class="memdesc:a55f9e4bdc49fda570df3b097e7fb43be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a single element of the signal.  <a href="#a55f9e4bdc49fda570df3b097e7fb43be">More...</a><br/></td></tr>
+<tr class="separator:a55f9e4bdc49fda570df3b097e7fb43be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33a6e20de12e33ca63c89e18dc2594a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a33a6e20de12e33ca63c89e18dc2594a5">setWidth</a> (const unsigned width)</td></tr>
+<tr class="memdesc:a33a6e20de12e33ca63c89e18dc2594a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the width of the signal.  <a href="#a33a6e20de12e33ca63c89e18dc2594a5">More...</a><br/></td></tr>
+<tr class="separator:a33a6e20de12e33ca63c89e18dc2594a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a194d3225bd2456460ab58efada96e0b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a194d3225bd2456460ab58efada96e0b6">set</a> (const unsigned index, const double data)</td></tr>
+<tr class="memdesc:a194d3225bd2456460ab58efada96e0b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a sigle element of the buffer.  <a href="#a194d3225bd2456460ab58efada96e0b6">More...</a><br/></td></tr>
+<tr class="separator:a194d3225bd2456460ab58efada96e0b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889bd5e8a5ccf944cd7c4e8eb91a4aac"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a889bd5e8a5ccf944cd7c4e8eb91a4aac"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a889bd5e8a5ccf944cd7c4e8eb91a4aac">setBuffer</a> (const T *data, const unsigned length)</td></tr>
+<tr class="memdesc:a889bd5e8a5ccf944cd7c4e8eb91a4aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the buffer storing signal's data.  <a href="#a889bd5e8a5ccf944cd7c4e8eb91a4aac">More...</a><br/></td></tr>
+<tr class="separator:a889bd5e8a5ccf944cd7c4e8eb91a4aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a4726ac6236ba61cf8b8660555de14732"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a4726ac6236ba61cf8b8660555de14732">m_width</a></td></tr>
-<tr class="separator:a4726ac6236ba61cf8b8660555de14732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4f29896052b1f4473903ec7d22110d6"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#af4f29896052b1f4473903ec7d22110d6">m_isConst</a></td></tr>
-<tr class="separator:af4f29896052b1f4473903ec7d22110d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6839ff9444af953576919d5c4aceac9c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a6839ff9444af953576919d5c4aceac9c">m_portDataType</a></td></tr>
-<tr class="separator:a6839ff9444af953576919d5c4aceac9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24acf4d3ae9543933e3b3eb07966ac1c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a24acf4d3ae9543933e3b3eb07966ac1c">m_dataFormat</a></td></tr>
-<tr class="separator:a24acf4d3ae9543933e3b3eb07966ac1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aced5130d50c3f0c51254ccf6378d4aee"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#aced5130d50c3f0c51254ccf6378d4aee">m_bufferPtr</a></td></tr>
-<tr class="separator:aced5130d50c3f0c51254ccf6378d4aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d701ded16cae3667695c526f93b11d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_signal_1_1impl.html">impl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwbt_1_1_signal.html#a07d701ded16cae3667695c526f93b11d">pImpl</a></td></tr>
+<tr class="separator:a07d701ded16cae3667695c526f93b11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a class="anchor" id="abd725ba5ed98300701bdfd029ebde36d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78"></a>DynamicSize</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="ab87e5a1587adc330adb27f453c771d29"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">wbt::Signal::DataFormat</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Defines the format of signals supported by <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a>. It specifies what kind of data the Signal::m_bufferPtr points.</p>
+<ul>
+<li><code>NONCONTIGUOUS</code> matches the default Simulink input signals. Signal::m_bufferPtr is a pointer to an array of pointers, each of them storing an element of the signal.</li>
+<li><code>CONTIGUOUS</code> means that the Signal::m_bufferPtr points to a contiguous array of Signal::m_portDataType type.</li>
+<li><code>CONTIGUOUS_ZEROCOPY</code> matches the default Simulink output signals. Signal::m_bufferPtr is a pointer to an <em>external</em> array of Signal::m_portDataType type.</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd><code>CONTIGUOUS_ZEROCOPY</code> is the only format that doesn't copy data from the original buffer address. Instead, both <code>CONTIGUOUS</code> and <code>NONCONTIGUOUS</code> data formats copy the content of the buffer inside the <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> object. For performance reason, prefer using <code>CONTIGUOUS_ZEROCOPY</code>. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a449a416d420fed17324e8c224fdbc994" title="Initialize the signal from a contiguous buffer. ">initializeBufferFromContiguous</a>, <a class="el" href="classwbt_1_1_signal.html#a03346e32deaf6b322dad17c992dea427" title="Initialize the signal from a contiguous buffer without copying data. ">initializeBufferFromContiguousZeroCopy</a>, <a class="el" href="classwbt_1_1_signal.html#aea8aa99904c67ff981403ac3978fc1c4" title="Initialize the signal from a non-contiguous buffer. ">initializeBufferFromNonContiguous</a> </dd>
+<dd>
+<a class="el" href="classwbt_1_1_block_information.html#af8625d0579aa2b3f1038391beec95e7c" title="Get the signal connected to a 1D input port. ">BlockInformation::getInputPortSignal</a>, <a class="el" href="classwbt_1_1_block_information.html#a638c3cc7f48baae7180bceb219c2807d" title="Get the signal connected to a 1D output port. ">BlockInformation::getOutputPortSignal</a> </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ab87e5a1587adc330adb27f453c771d29a2bb429991b8b6bd70f2e98a384d0b613"></a>NONCONTIGUOUS</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ab87e5a1587adc330adb27f453c771d29aaa2a4f4421c371b67e8cdbaa33b7d2fe"></a>CONTIGUOUS</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4"></a>CONTIGUOUS_ZEROCOPY</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa86c28c6df2c2aee8ecdf51a35b9e689"></a>
+<a class="anchor" id="aafc81d48bda1a0f14ca0f2545e1a36c2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Signal::Signal </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a> &amp;&#160;</td>
-          <td class="paramname"><em>dataFormat</em> = <code><a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50fa42c34419852e87e7794c9ae819ea0d00">CONTIGUOUS_ZEROCOPY</a></code>, </td>
+          <td class="paramtype">const <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">DataFormat</a> &amp;&#160;</td>
+          <td class="paramname"><em>dataFormat</em> = <code><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a> &amp;&#160;</td>
-          <td class="paramname"><em>dataType</em> = <code><a class="el" href="namespacewbt.html#a6bc28de1f1b7c9c9421e604794270ab0ad43fdea249b9f9a83ee7187400617235">PortDataTypeDouble</a></code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const bool &amp;&#160;</td>
-          <td class="paramname"><em>isConst</em> = <code>true</code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> &amp;&#160;</td>
+          <td class="paramname"><em>dataType</em> = <code><a class="el" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58afd3e4ece78a7d422280d5ed379482229">DataType::DOUBLE</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -228,7 +301,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aacd1c1db116fa64590cbd616bbb9b99e"></a>
+<a class="anchor" id="a62e5d960ad4d79ac886cb33b05203d4f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -236,7 +309,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">Signal::Signal </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td>
-          <td class="paramname"><em>signal</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -244,7 +317,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a32bf66c0306b262cda9756abd40c613b"></a>
+<a class="anchor" id="af0a491b2c5bf4625e9291e70f6e6717b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -252,7 +325,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">Signal::Signal </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;&#160;</td>
-          <td class="paramname"><em>signal</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -261,135 +334,79 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a56759fb25b9201cdd226cbb67246d943"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Signal::allocateBuffer </td>
-          <td>(</td>
-          <td class="paramtype">const void *const&#160;</td>
-          <td class="paramname"><em>bufferInput</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&amp;&#160;</td>
-          <td class="paramname"><em>bufferOutput</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>length</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a8ab1831bc5498aa9ccb996f9a219639b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Signal::deleteBuffer </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aeb9ed7ce9c7d907634ca70a7002d807a"></a>
+<a class="anchor" id="a55f9e4bdc49fda570df3b097e7fb43be"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T wbt::Signal::get </td>
+          <td class="memname">T Signal::get </td>
           <td>(</td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
+          <td class="paramtype">const unsigned&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get a single element of the signal. </p>
+<p>This method returns the <code>i-th</code> element of the handled buffer.</p>
+<dl class="section note"><dt>Note</dt><dd>It is recommended to use <a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a" title="Check if the signal is valid. ">Signal::isValid</a> before using this method. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">The</td><td>data type of the returned signal. It must match Signal::m_portDataType. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The index of the element. It should not exceed Signal::m_width. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <code>i-th</code> element of the vector if the signal is valid, or the default value of the type otherwise. </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="ae58646d65ac8e6c5d26fef3cf7d4ce73"></a>
+<a class="anchor" id="ab5e15bd4e2f0f760cb1ed33d13216f33"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T * wbt::Signal::getBuffer </td>
+          <td class="memname">T * Signal::getBuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get the pointer to the buffer storing signal's data. </p>
+<p>The buffer is stored as a void pointer in Signal::m_bufferPtr. In order to use the buffer it should be properly cast to the right data type. Be sure that the Signal::DataType match the type of the buffer otherwise pointer arithmetics does not work.</p>
+<p>If <code>T</code> does not match Signal::m_portDataType the returned value is a <code>nullptr</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>Always check if the pointer is not <code>nullptr</code> before using it. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">The</td><td>data type of the returned buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pointer to the buffer if the class is properly configured, <code>nullptr</code> otherwise. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a889bd5e8a5ccf944cd7c4e8eb91a4aac" title="Set the pointer to the buffer storing signal&#39;s data. ">Signal::setBuffer</a> </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="af8fdbe3eb6815108b4d05ed93fffc479"></a>
+<a class="anchor" id="ae1a55b01f5b85ab5dd6ed7b2383b7298"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T* wbt::Signal::getCastBuffer </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae45ada42309699aeaae631ada45ec967"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a> Signal::getDataFormat </td>
+          <td class="memname">const T * Signal::getBuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -397,14 +414,17 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Get the pointer to the buffer storing signal's data. </p>
+<p>Documented in <a class="el" href="classwbt_1_1_signal.html#ab5e15bd4e2f0f760cb1ed33d13216f33" title="Get the pointer to the buffer storing signal&#39;s data. ">Signal::getBuffer</a> </p>
+
 </div>
 </div>
-<a class="anchor" id="a83731b1e3f82aab18b113fec9e5576b6"></a>
+<a class="anchor" id="abdbb304ab1aac874917db367d0333916"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a> Signal::getPortDataType </td>
+          <td class="memname"><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> Signal::getDataFormat </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -412,20 +432,48 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Read the <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> of the signal. </p>
+<p>The default type is <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>The signal data format. </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="a2cb034e8b54b008309760003e56b88fb"></a>
+<a class="anchor" id="adce68449f6c99328d650a0b51ec887b7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned Signal::getWidth </td>
+          <td class="memname"><a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8">DataType</a> Signal::getPortDataType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Read the <a class="el" href="namespacewbt.html#add2c701b88d4e393385e3978306c81b8" title="Defines allowed signal data types. ">wbt::DataType</a> of the signal. </p>
+<p>The default type is <a class="el" href="namespacewbt.html#a3974a30479347f9c0594dedc6c59fe58afd3e4ece78a7d422280d5ed379482229">DataType::DOUBLE</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>The signal data type. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="abc3dc7dd9aea1269c35ae4819ac44f64"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Signal::getWidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the width of the signal. </p>
+<p>By default the width of <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> is <a class="el" href="classwbt_1_1_signal.html#abd725ba5ed98300701bdfd029ebde36da4435d79981e8c7bb4b84beb4af91ef78">Signal::DynamicSize</a>. However, for being a valid signal, an object must have a specified width.</p>
+<dl class="section return"><dt>Returns</dt><dd>The signal width. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#a33a6e20de12e33ca63c89e18dc2594a5" title="Set the width of the signal. ">Signal::setWidth</a>, <a class="el" href="classwbt_1_1_signal.html#a05150207f45ddbad210e8b9bfb8e365a" title="Check if the signal is valid. ">Signal::isValid</a> </dd></dl>
 
 </div>
 </div>
@@ -443,6 +491,17 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Initialize the signal from a contiguous buffer. </p>
+<p>This method allocates a new array with the same size of <code>buffer</code> and copies the data. In this case, the <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> object will own the data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>The pointer to the original contiguous buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a03346e32deaf6b322dad17c992dea427"></a>
@@ -458,6 +517,18 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initialize the signal from a contiguous buffer without copying data. </p>
+<p>This methods accepts an external contiguous buffer and holds its pointer. The data is not owned by this object.</p>
+<dl class="section note"><dt>Note</dt><dd>You must set the signal width with <a class="el" href="classwbt_1_1_signal.html#a33a6e20de12e33ca63c89e18dc2594a5" title="Set the width of the signal. ">Signal::setWidth</a> in order to have a valid signal.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>The pointer to the original contiguous buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> </dd></dl>
 
 </div>
 </div>
@@ -475,14 +546,26 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Initialize the signal from a non-contiguous buffer. </p>
+<p>This method allocates a new array with the same size of <code>bufferPtrs</code> and copies the data. In this case, the <a class="el" href="classwbt_1_1_signal.html" title="Class to represent data shared between blocks, labelled as signals. ">Signal</a> object will own the data. <code>bufferPtrs</code> points to an array of pointers. Each of these pointers points to a data element.</p>
+<dl class="section note"><dt>Note</dt><dd>You must set the signal width with <a class="el" href="classwbt_1_1_signal.html#a33a6e20de12e33ca63c89e18dc2594a5" title="Set the width of the signal. ">Signal::setWidth</a> in order to have a valid signal.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bufferPtrs</td><td>The pointer to the original non-contiguous buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29">Signal::DataFormat</a> </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="ab7086c311e64e9f947a297ded97135fb"></a>
+<a class="anchor" id="a05150207f45ddbad210e8b9bfb8e365a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool Signal::isConst </td>
+          <td class="memname">bool Signal::isValid </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -490,9 +573,13 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Check if the signal is valid. </p>
+<p>Checks if Signal::m_bufferPtr is not <code>nullptr</code> and Signal::m_width is greater than zero.</p>
+<dl class="section return"><dt>Returns</dt><dd>True for valid signal, false otherwise. </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="a12a0fe8adfdcc726120a0890b76bfab8"></a>
+<a class="anchor" id="a5d39704c9010f223327c99ff06e81269"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -503,7 +590,7 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="classwbt_1_1_signal.html">Signal</a>&amp; wbt::Signal::operator= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&#160;</td>
-          <td class="paramname"><em>signal</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -516,7 +603,7 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a67e92d075631cf0cff389d1bd23b1535"></a>
+<a class="anchor" id="a0bfa3596ebeb27aada5b0810edc76348"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -527,7 +614,7 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="classwbt_1_1_signal.html">Signal</a>&amp; wbt::Signal::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classwbt_1_1_signal.html">Signal</a> &amp;&amp;&#160;</td>
-          <td class="paramname"><em>signal</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -540,20 +627,20 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="abfbf0c899573e12a3327c18e53289074"></a>
+<a class="anchor" id="a194d3225bd2456460ab58efada96e0b6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool Signal::set </td>
           <td>(</td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
+          <td class="paramtype">const unsigned&#160;</td>
           <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramtype">const double&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -564,16 +651,27 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Set the value of a sigle element of the buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the element to write. </td></tr>
+    <tr><td class="paramname">data</td><td>The content of the data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for success, false otherwise.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Port this to a template </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="ac4e8ebb2f54026042bc15a4cb6ca6c0c"></a>
+<a class="anchor" id="a889bd5e8a5ccf944cd7c4e8eb91a4aac"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool wbt::Signal::setBuffer </td>
+          <td class="memname">bool Signal::setBuffer </td>
           <td>(</td>
           <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -581,7 +679,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
+          <td class="paramtype">const unsigned&#160;</td>
           <td class="paramname"><em>length</em>&#160;</td>
         </tr>
         <tr>
@@ -592,26 +690,52 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Set the pointer to the buffer storing signal's data. </p>
+<p>This method allows changing the handled buffer. In the <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29aaa2a4f4421c371b67e8cdbaa33b7d2fe">DataFormat::CONTIGUOUS</a> case the data is copied inside the object. Instead, in the <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29adb3865bc84273ce6aa51b72d8cd4b9f4">DataFormat::CONTIGUOUS_ZEROCOPY</a> only the pointer to the buffer is changed.</p>
+<p>This method is not allowed for <a class="el" href="classwbt_1_1_signal.html#ab87e5a1587adc330adb27f453c771d29a2bb429991b8b6bd70f2e98a384d0b613">DataFormat::NONCONTIGUOUS</a> format.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">The</td><td>data type of the new buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The new buffer address. </td></tr>
+    <tr><td class="paramname">length</td><td>The size of the new buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the buffer was set sucessfully, false otherwise. </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="a7ca17f6b35c577a0917d90c9b3960395"></a>
+<a class="anchor" id="a33a6e20de12e33ca63c89e18dc2594a5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Signal::setWidth </td>
           <td>(</td>
-          <td class="paramtype">const unsigned &amp;&#160;</td>
+          <td class="paramtype">const unsigned&#160;</td>
           <td class="paramname"><em>width</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set the width of the signal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>The width to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="aced5130d50c3f0c51254ccf6378d4aee"></a>
+<a class="anchor" id="a07d701ded16cae3667695c526f93b11d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -619,87 +743,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* wbt::Signal::m_bufferPtr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a24acf4d3ae9543933e3b3eb07966ac1c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="namespacewbt.html#a7ba72f5f5df4dc50e6b982f2db6aa50f">SignalDataFormat</a> wbt::Signal::m_dataFormat</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af4f29896052b1f4473903ec7d22110d6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const bool wbt::Signal::m_isConst</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6839ff9444af953576919d5c4aceac9c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="namespacewbt.html#aeb341277f142cad23899c1867d83a9bd">PortDataType</a> wbt::Signal::m_portDataType</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4726ac6236ba61cf8b8660555de14732"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int wbt::Signal::m_width</td>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="class_signal_1_1impl.html">impl</a>&gt; wbt::Signal::pImpl</td>
         </tr>
       </table>
   </td>
@@ -712,8 +756,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/include/base/<a class="el" href="_signal_8h_source.html">Signal.h</a></li>
-<li>/home/travis/build/robotology/wb-toolbox/toolbox/src/base/<a class="el" href="_signal_8cpp.html">Signal.cpp</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/core/include/Core/<a class="el" href="_signal_8h_source.html">Signal.h</a></li>
+<li>/home/travis/build/robotology/wb-toolbox/toolbox/core/src/<a class="el" href="_signal_8cpp.html">Signal.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

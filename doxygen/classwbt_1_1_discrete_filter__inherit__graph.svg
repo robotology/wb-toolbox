@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="wbt::Block">
+<g id="a_node2"><a xlink:href="classwbt_1_1_block.html" target="_top" xlink:title="Basic abstract class for wrapping generic algorithms. ">
 <polygon fill="none" stroke="black" points="16.5,-56.5 16.5,-75.5 79.5,-75.5 79.5,-56.5 16.5,-56.5"/>
 <text text-anchor="middle" x="48" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::Block</text>
 </a>

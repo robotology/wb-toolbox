@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/GetLimits.h Source File</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/library/include/Block/GetLimits.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('_get_limits_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,73 +101,68 @@ $(document).ready(function(){initNavTree('_get_limits_8h_source.html','');});
 <div class="title">GetLimits.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_get_limits_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef WBT_GETLIMITS_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_GETLIMITS_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_w_b_block_8h.html">WBBlock.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>wbt {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>GetLimits;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">struct </span>Limit;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structwbt_1_1_limit.html">   12</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structwbt_1_1_limit.html">wbt::Limit</a></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structwbt_1_1_limit.html#a33b6ec1b762769d4238747b45dc7e5f6">   14</a></span>&#160;   std::vector&lt;double&gt; <a class="code" href="structwbt_1_1_limit.html#a33b6ec1b762769d4238747b45dc7e5f6">min</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structwbt_1_1_limit.html#a87ee863fe0c552e1b44e8ba213620a38">   15</a></span>&#160;   std::vector&lt;double&gt; <a class="code" href="structwbt_1_1_limit.html#a87ee863fe0c552e1b44e8ba213620a38">max</a>;</div>
+<a href="_get_limits_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This software may be modified and distributed under the terms of the</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * GNU Lesser General Public License v2.1 or any later version.</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef WBT_GETLIMITS_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_GETLIMITS_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_w_b_block_8h.html">Base/WBBlock.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structwbt_1_1_limit.html#a3f8221fd9660f2b289a611b0457e146a">   17</a></span>&#160;   <a class="code" href="structwbt_1_1_limit.html#a3f8221fd9660f2b289a611b0457e146a">Limit</a>(<span class="keywordtype">unsigned</span> size = 0)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;   : <a class="code" href="structwbt_1_1_limit.html#a33b6ec1b762769d4238747b45dc7e5f6">min</a>(size)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;   , <a class="code" href="structwbt_1_1_limit.html#a87ee863fe0c552e1b44e8ba213620a38">max</a>(size)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;   {}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classwbt_1_1_get_limits.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_get_limits.html">wbt::GetLimits</a> : <span class="keyword">public</span> <a class="code" href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classwbt_1_1_get_limits.html#abf45ae4f5de8f20c63d377a9b5456a87">   26</a></span>&#160;    std::unique_ptr&lt;Limit&gt; <a class="code" href="classwbt_1_1_get_limits.html#abf45ae4f5de8f20c63d377a9b5456a87">m_limits</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classwbt_1_1_get_limits.html#a7888ae295d5d6c8c579f7bdca498e19f">deg2rad</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>&amp; v);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classwbt_1_1_get_limits.html#a1dddc33fe8a6e5c790cddfcd1309274c">   30</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code" href="classwbt_1_1_get_limits.html#a1dddc33fe8a6e5c790cddfcd1309274c">ClassName</a>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classwbt_1_1_get_limits.html#ab86a35784e957884895f0d99f5d6172a">GetLimits</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classwbt_1_1_get_limits.html#a3287c00cf648939edfe4cea92f57e2b4">~GetLimits</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_get_limits.html#acb3e1c8313143e5b9fdb93a46ea09794">numberOfParameters</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972">configureSizeAndPorts</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#a1607e3c2c6206a097e5f4bbb6721a29e">initialize</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053">terminate</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c">output</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* WBT_GETLIMITS_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classwbt_1_1_w_b_block_html"><div class="ttname"><a href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div><div class="ttdef"><b>Definition:</b> WBBlock.h:62</div></div>
-<div class="ttc" id="structwbt_1_1_limit_html_a33b6ec1b762769d4238747b45dc7e5f6"><div class="ttname"><a href="structwbt_1_1_limit.html#a33b6ec1b762769d4238747b45dc7e5f6">wbt::Limit::min</a></div><div class="ttdeci">std::vector&lt; double &gt; min</div><div class="ttdef"><b>Definition:</b> GetLimits.h:14</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_a6a68bc1c189d05a2ebe38231315db972"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972">wbt::GetLimits::configureSizeAndPorts</a></div><div class="ttdeci">bool configureSizeAndPorts(BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:30</div></div>
-<div class="ttc" id="structwbt_1_1_limit_html_a87ee863fe0c552e1b44e8ba213620a38"><div class="ttname"><a href="structwbt_1_1_limit.html#a87ee863fe0c552e1b44e8ba213620a38">wbt::Limit::max</a></div><div class="ttdeci">std::vector&lt; double &gt; max</div><div class="ttdef"><b>Definition:</b> GetLimits.h:15</div></div>
-<div class="ttc" id="structwbt_1_1_limit_html_a3f8221fd9660f2b289a611b0457e146a"><div class="ttname"><a href="structwbt_1_1_limit.html#a3f8221fd9660f2b289a611b0457e146a">wbt::Limit::Limit</a></div><div class="ttdeci">Limit(unsigned size=0)</div><div class="ttdef"><b>Definition:</b> GetLimits.h:17</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html"><div class="ttname"><a href="classwbt_1_1_get_limits.html">wbt::GetLimits</a></div><div class="ttdef"><b>Definition:</b> GetLimits.h:23</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_aef405d337b771c949fe9b3e282ef397c"><div class="ttname"><a href="classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c">wbt::GetLimits::output</a></div><div class="ttdeci">bool output(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:223</div></div>
-<div class="ttc" id="structwbt_1_1_limit_html"><div class="ttname"><a href="structwbt_1_1_limit.html">wbt::Limit</a></div><div class="ttdef"><b>Definition:</b> GetLimits.h:12</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_a1607e3c2c6206a097e5f4bbb6721a29e"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a1607e3c2c6206a097e5f4bbb6721a29e">wbt::GetLimits::initialize</a></div><div class="ttdeci">bool initialize(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:73</div></div>
-<div class="ttc" id="classwbt_1_1_block_information_html"><div class="ttname"><a href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></div><div class="ttdef"><b>Definition:</b> BlockInformation.h:26</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_a3287c00cf648939edfe4cea92f57e2b4"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a3287c00cf648939edfe4cea92f57e2b4">wbt::GetLimits::~GetLimits</a></div><div class="ttdeci">~GetLimits() override=default</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_acb3e1c8313143e5b9fdb93a46ea09794"><div class="ttname"><a href="classwbt_1_1_get_limits.html#acb3e1c8313143e5b9fdb93a46ea09794">wbt::GetLimits::numberOfParameters</a></div><div class="ttdeci">unsigned numberOfParameters() override</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:25</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_ae13609781f88cfcb45dc5a7caf943053"><div class="ttname"><a href="classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053">wbt::GetLimits::terminate</a></div><div class="ttdeci">bool terminate(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:199</div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>wbt {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">class </span>BlockInformation;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">class </span>GetLimits;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;} <span class="comment">// namespace wbt</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classwbt_1_1_get_limits.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_get_limits.html">wbt::GetLimits</a> final : <span class="keyword">public</span> <a class="code" href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classwbt_1_1_get_limits.html#a49a8484f35b240e8fbc19d83957a5b5a">   37</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_get_limits_1_1impl.html">impl</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::unique_ptr&lt;impl&gt; <a class="code" href="classwbt_1_1_get_limits.html#a49a8484f35b240e8fbc19d83957a5b5a">pImpl</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classwbt_1_1_get_limits.html#a524b9fd02f2a4936a489e567723e6fb3">GetLimits</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classwbt_1_1_get_limits.html#a22af302a2c47491dc7986cf282e21480">~GetLimits</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_get_limits.html#acb3e1c8313143e5b9fdb93a46ea09794">numberOfParameters</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#a238246e51db4cc8cf620d1bdd7a1eeb4">parseParameters</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972">configureSizeAndPorts</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca">initialize</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e">initializeInitialConditions</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053">terminate</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c">output</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif // WBT_GETLIMITS_H</span></div>
+<div class="ttc" id="classwbt_1_1_w_b_block_html"><div class="ttname"><a href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div><div class="ttdoc">Extension of wbt::Block for simplifying the development of whole-body blocks. </div><div class="ttdef"><b>Definition:</b> WBBlock.h:53</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a22af302a2c47491dc7986cf282e21480"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a22af302a2c47491dc7986cf282e21480">wbt::GetLimits::~GetLimits</a></div><div class="ttdeci">~GetLimits() override</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a238246e51db4cc8cf620d1bdd7a1eeb4"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a238246e51db4cc8cf620d1bdd7a1eeb4">wbt::GetLimits::parseParameters</a></div><div class="ttdeci">bool parseParameters(BlockInformation *blockInfo) override</div><div class="ttdoc">Parse the parameters stored into the BlockInformation object. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:82</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_adbeeebef9513ac6b8fe17cac1c19944e"><div class="ttname"><a href="classwbt_1_1_get_limits.html#adbeeebef9513ac6b8fe17cac1c19944e">wbt::GetLimits::initializeInitialConditions</a></div><div class="ttdeci">bool initializeInitialConditions(const BlockInformation *blockInfo) override</div><div class="ttdoc">Initialize block&#39;s initial conditions. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:170</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a31c8eb67798d161ddd84c76de00daaca"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a31c8eb67798d161ddd84c76de00daaca">wbt::GetLimits::initialize</a></div><div class="ttdeci">bool initialize(BlockInformation *blockInfo) override</div><div class="ttdoc">Initialize the block. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:135</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a6a68bc1c189d05a2ebe38231315db972"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a6a68bc1c189d05a2ebe38231315db972">wbt::GetLimits::configureSizeAndPorts</a></div><div class="ttdeci">bool configureSizeAndPorts(BlockInformation *blockInfo) override</div><div class="ttdoc">Configure the input and output ports. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:95</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a49a8484f35b240e8fbc19d83957a5b5a"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a49a8484f35b240e8fbc19d83957a5b5a">wbt::GetLimits::pImpl</a></div><div class="ttdeci">std::unique_ptr&lt; impl &gt; pImpl</div><div class="ttdef"><b>Definition:</b> GetLimits.h:37</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html"><div class="ttname"><a href="classwbt_1_1_get_limits.html">wbt::GetLimits</a></div><div class="ttdoc">The wbt::GetLimits class. </div><div class="ttdef"><b>Definition:</b> GetLimits.h:34</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_aef405d337b771c949fe9b3e282ef397c"><div class="ttname"><a href="classwbt_1_1_get_limits.html#aef405d337b771c949fe9b3e282ef397c">wbt::GetLimits::output</a></div><div class="ttdeci">bool output(const BlockInformation *blockInfo) override</div><div class="ttdoc">Compute the output of the block. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:181</div></div>
+<div class="ttc" id="classwbt_1_1_block_information_html"><div class="ttname"><a href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></div><div class="ttdoc">Abstract class for storing generic Block properties. </div><div class="ttdef"><b>Definition:</b> BlockInformation.h:56</div></div>
+<div class="ttc" id="class_get_limits_1_1impl_html"><div class="ttname"><a href="class_get_limits_1_1impl.html">wbt::GetLimits::impl</a></div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:50</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_acb3e1c8313143e5b9fdb93a46ea09794"><div class="ttname"><a href="classwbt_1_1_get_limits.html#acb3e1c8313143e5b9fdb93a46ea09794">wbt::GetLimits::numberOfParameters</a></div><div class="ttdeci">unsigned numberOfParameters() override</div><div class="ttdoc">Returns the number of configuration parameters needed by this block. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:77</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_ae13609781f88cfcb45dc5a7caf943053"><div class="ttname"><a href="classwbt_1_1_get_limits.html#ae13609781f88cfcb45dc5a7caf943053">wbt::GetLimits::terminate</a></div><div class="ttdeci">bool terminate(const BlockInformation *blockInfo) override</div><div class="ttdoc">Cleanup block resources. </div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:176</div></div>
 <div class="ttc" id="_w_b_block_8h_html"><div class="ttname"><a href="_w_b_block_8h.html">WBBlock.h</a></div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_ab86a35784e957884895f0d99f5d6172a"><div class="ttname"><a href="classwbt_1_1_get_limits.html#ab86a35784e957884895f0d99f5d6172a">wbt::GetLimits::GetLimits</a></div><div class="ttdeci">GetLimits()=default</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_a7888ae295d5d6c8c579f7bdca498e19f"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a7888ae295d5d6c8c579f7bdca498e19f">wbt::GetLimits::deg2rad</a></div><div class="ttdeci">static double deg2rad(const double &amp;v)</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:20</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_abf45ae4f5de8f20c63d377a9b5456a87"><div class="ttname"><a href="classwbt_1_1_get_limits.html#abf45ae4f5de8f20c63d377a9b5456a87">wbt::GetLimits::m_limits</a></div><div class="ttdeci">std::unique_ptr&lt; Limit &gt; m_limits</div><div class="ttdef"><b>Definition:</b> GetLimits.h:26</div></div>
-<div class="ttc" id="classwbt_1_1_get_limits_html_a1dddc33fe8a6e5c790cddfcd1309274c"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a1dddc33fe8a6e5c790cddfcd1309274c">wbt::GetLimits::ClassName</a></div><div class="ttdeci">static const std::string ClassName</div><div class="ttdef"><b>Definition:</b> GetLimits.h:30</div></div>
+<div class="ttc" id="classwbt_1_1_get_limits_html_a524b9fd02f2a4936a489e567723e6fb3"><div class="ttname"><a href="classwbt_1_1_get_limits.html#a524b9fd02f2a4936a489e567723e6fb3">wbt::GetLimits::GetLimits</a></div><div class="ttdeci">GetLimits()</div><div class="ttdef"><b>Definition:</b> GetLimits.cpp:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="_get_limits_8h.html">GetLimits.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_7bde9667b2ba59ec3c711e65eaa3055f.html">library</a></li><li class="navelem"><a class="el" href="dir_a9f127b3106376eed0de24ada65c0c04.html">include</a></li><li class="navelem"><a class="el" href="dir_7d0bdd83e2ccff985bdd478d0955c489.html">Block</a></li><li class="navelem"><a class="el" href="_get_limits_8h.html">GetLimits.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

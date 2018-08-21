@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -78,6 +78,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -89,7 +92,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_func_f.html#index_f"><span>f</span></a></li>
       <li class="current"><a href="functions_func_g.html#index_g"><span>g</span></a></li>
-      <li><a href="functions_func_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_func_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_func_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_func_l.html#index_l"><span>l</span></a></li>
@@ -97,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_func_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_func_p.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_func_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_func_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_func_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_t.html#index_t"><span>t</span></a></li>
@@ -126,7 +129,7 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -139,26 +142,39 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 &#160;
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>GeneratedCodeWrapper()
+: <a class="el" href="classwbt_1_1_generated_code_wrapper.html#abab82fa6517ca10d8333deb61b4a9998">wbt::GeneratedCodeWrapper&lt; T &gt;</a>
+</li>
 <li>get()
-: <a class="el" href="classwbt_1_1_signal.html#aeb9ed7ce9c7d907634ca70a7002d807a">wbt::Signal</a>
+: <a class="el" href="classwbt_1_1_signal.html#a55f9e4bdc49fda570df3b097e7fb43be">wbt::Signal</a>
+</li>
+<li>getBooleanFieldAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a55302891f55b6a2b6ece40c995de8c71">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getBooleanParameterAtIndex()
-: <a class="el" href="classwbt_1_1_block_information.html#a3ed728a4781c73985bc12c9f93b90399">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#ad9cd4ec38c2260e709b2e188ec6419f3">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#aa3421221571e9373b5aa523e181cf300">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getBoolParameters()
+: <a class="el" href="classwbt_1_1_parameters.html#af7fe90538d7cc9a1386d189503e692f8">wbt::Parameters</a>
 </li>
 <li>getBuffer()
-: <a class="el" href="classwbt_1_1_signal.html#ae58646d65ac8e6c5d26fef3cf7d4ce73">wbt::Signal</a>
+: <a class="el" href="classwbt_1_1_signal.html#ab5e15bd4e2f0f760cb1ed33d13216f33">wbt::Signal</a>
 </li>
-<li>getCastBuffer()
-: <a class="el" href="classwbt_1_1_signal.html#af8fdbe3eb6815108b4d05ed93fffc479">wbt::Signal</a>
+<li>getBufferImpl()
+: <a class="el" href="class_signal_1_1impl.html#a42d5808badc76bf5c41675591bca0dc2">wbt::Signal::impl</a>
+</li>
+<li>getCellAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#ad4a13ab729c44c527d1a11ef0578933b">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getCellFieldAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#ab82e1c499ba41466fea46ad3770db54b">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getConfiguration()
 : <a class="el" href="classwbt_1_1_robot_interface.html#a7cd01dacf266da3da7c85eccd5340c6f">wbt::RobotInterface</a>
-, <a class="el" href="classwbt_1_1_toolbox_singleton.html#ac02cf6e132abb2a2c139082a9fc7e29f">wbt::ToolboxSingleton</a>
-, <a class="el" href="classwbt_1_1_w_b_block.html#a16c43db1a1ecccb19206d22278cd8b92">wbt::WBBlock</a>
+, <a class="el" href="classwbt_1_1_whole_body_singleton.html#ab45a310adc27eecb4efa34f4b95591c0">wbt::WholeBodySingleton</a>
 </li>
-<li>getControlBoardIdxLimit()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a3c29d107d13ba06f58c370fa0afc45bc">wbt::RobotInterface</a>
+<li>getConfKey()
+: <a class="el" href="classwbt_1_1_configuration.html#ad591f7272a1a79e65af159a10c962300">wbt::Configuration</a>
 </li>
 <li>getControlBoardsNames()
 : <a class="el" href="classwbt_1_1_configuration.html#a9cf90256d53d1f8ae4cf7f65a3b377e4">wbt::Configuration</a>
@@ -167,91 +183,144 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classwbt_1_1_configuration.html#aad3879529fbfd80c282f40db6511c15e">wbt::Configuration</a>
 </li>
 <li>getDataFormat()
-: <a class="el" href="classwbt_1_1_signal.html#ae45ada42309699aeaae631ada45ec967">wbt::Signal</a>
+: <a class="el" href="classwbt_1_1_signal.html#abdbb304ab1aac874917db367d0333916">wbt::Signal</a>
+</li>
+<li>getDoubleParameters()
+: <a class="el" href="classwbt_1_1_parameters.html#aae53cc6d214678d21c2a4cb1b40a54d0">wbt::Parameters</a>
 </li>
 <li>getErrors()
-: <a class="el" href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">wbt::Log</a>
+: <a class="el" href="classwbt_1_1_generated_code_wrapper.html#af1887cfae666e49d3a9e1faeca173d09">wbt::GeneratedCodeWrapper&lt; T &gt;</a>
+, <a class="el" href="classwbt_1_1_log.html#a0126342048afdb8a8d2e069f79ef1d0e">wbt::Log</a>
 </li>
 <li>getGravityVector()
 : <a class="el" href="classwbt_1_1_configuration.html#a9ada7ac99360bbddbb305205573903f4">wbt::Configuration</a>
 </li>
+<li>getInputPortData()
+: <a class="el" href="classwbt_1_1_block_information.html#abd42010331b41fb7b8a117248608ba99">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#aa6f1b253c9e754e22ed3bc9d249b9e21">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#aa0c4e785651062660c7f9b87c4038621">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getInputPortMatrixSize()
+: <a class="el" href="classwbt_1_1_block_information.html#ab44e89c6a3f6d6e571c64c8d6e44697a">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#a0e7365145bf07b1a7f304c3673ec78bb">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#a75076d77429c301dd6dfe85e26f477de">wbt::SimulinkBlockInformation</a>
+</li>
 <li>getInputPortSignal()
-: <a class="el" href="classwbt_1_1_block_information.html#a487e26efd0fc12cfba58b4a8c02bd11b">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a05012a514c0be6e2c762ce51240dacd7">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_block_information.html#af8625d0579aa2b3f1038391beec95e7c">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#ae04f2d7d5474e4fc02727b92b0b3c9c0">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#a410cad832866f21357df477d2d6433ad">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getInputPortWidth()
-: <a class="el" href="classwbt_1_1_block_information.html#a12072f425618c55c7eaa41982c46d5d2">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a234a1a9f7e8a140f04b4373a5a21e730">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_block_information.html#a218d25286db0525990196e9b4947714c">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#a5249d67bcef008ccd3bf5437654bad77">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#adf2a7ddea45a28d6a215dc85bc03e077">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getInstance()
+: <a class="el" href="class_block_factory_singleton.html#a4bc3b496b004b534dc824fb4cfa12bed">BlockFactorySingleton</a>
 </li>
 <li>getInterface()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a3860623e325c7f360f208c1f845a5c4a">wbt::RobotInterface</a>
+: <a class="el" href="classwbt_1_1_robot_interface.html#a64fb67aa7f70ea986bae4351ff5e5b65">wbt::RobotInterface</a>
 </li>
-<li>getInterfaceFromTemplate()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a33e818c868f39866d6bf8b552839e467">wbt::RobotInterface</a>
+<li>getInterfaceLazyEval()
+: <a class="el" href="class_robot_interface_1_1impl.html#aa5659a6d497adb014697f94a88e89ee7">wbt::RobotInterface::impl</a>
 </li>
-<li>getJointsMapIndex()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a9a3a2dcf2be20454644d7cbc0765f203">wbt::RobotInterface</a>
-</li>
-<li>getJointsMapString()
-: <a class="el" href="classwbt_1_1_robot_interface.html#abfaf18214d77fa624152734cb3f41552">wbt::RobotInterface</a>
+<li>getIntParameters()
+: <a class="el" href="classwbt_1_1_parameters.html#a58bd612e21271b40a6b735b133d3a1bd">wbt::Parameters</a>
 </li>
 <li>getKinDynComputations()
 : <a class="el" href="classwbt_1_1_robot_interface.html#a7efb52977e25c72646a89be241087fa1">wbt::RobotInterface</a>
-, <a class="el" href="classwbt_1_1_toolbox_singleton.html#abbbe77b7b2e11b3f561f6ac61f804ec1">wbt::ToolboxSingleton</a>
+, <a class="el" href="classwbt_1_1_w_b_block.html#af52531d9afe40dbe32930cb9def84f05">wbt::WBBlock</a>
+, <a class="el" href="classwbt_1_1_whole_body_singleton.html#a3a29cf6deb944b2d805d5afe0f918770">wbt::WholeBodySingleton</a>
 </li>
 <li>GetLimits()
-: <a class="el" href="classwbt_1_1_get_limits.html#ab86a35784e957884895f0d99f5d6172a">wbt::GetLimits</a>
+: <a class="el" href="classwbt_1_1_get_limits.html#a524b9fd02f2a4936a489e567723e6fb3">wbt::GetLimits</a>
 </li>
 <li>getLocalName()
 : <a class="el" href="classwbt_1_1_configuration.html#af32cde45a981f56f25a4eaa57c8bc7e6">wbt::Configuration</a>
 </li>
+<li>getLogStringStream()
+: <a class="el" href="classwbt_1_1_log.html#ad96ee808378ffbdf0b71f531215fa85c">wbt::Log</a>
+</li>
 <li>GetMeasurement()
-: <a class="el" href="classwbt_1_1_get_measurement.html#af76d369acf9476a280ce3d4ddb49fdd4">wbt::GetMeasurement</a>
+: <a class="el" href="classwbt_1_1_get_measurement.html#aa676490387e465a72d50efd5e916e7d4">wbt::GetMeasurement</a>
+</li>
+<li>getMetadata()
+: <a class="el" href="classwbt_1_1_parameter.html#a28d51037b71f546af8ee8edba894636b">wbt::Parameter&lt; T &gt;</a>
 </li>
 <li>getNumberOfDoFs()
 : <a class="el" href="classwbt_1_1_configuration.html#a68673eff0cb92bc0fc070cfa17b3adcb">wbt::Configuration</a>
 </li>
+<li>getNumberOfParameters()
+: <a class="el" href="classwbt_1_1_parameters.html#a821e6202fbbda8f1660528cf6f1510a1">wbt::Parameters</a>
+</li>
+<li>getOutputPortData()
+: <a class="el" href="classwbt_1_1_block_information.html#ab0c002c25b695b04f3a3f8f2f6b86795">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#a4e35b2156a03682d306821b6218b39ec">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#aac1011affdbee3cba00af9e9655d3737">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getOutputPortMatrixSize()
+: <a class="el" href="classwbt_1_1_block_information.html#a82b577f719625e6420e57d26fe6e1abc">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#aefd2f3f7656aa7eff36c9e36aef8f2cd">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#a64cf1129904be0bc5187164ed77cdbda">wbt::SimulinkBlockInformation</a>
+</li>
 <li>getOutputPortSignal()
-: <a class="el" href="classwbt_1_1_block_information.html#aa3cdf1585272ce6b670f98eaf1dd1fdb">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#aa03f4bfccbb7d9cf3888af099227de56">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_block_information.html#a638c3cc7f48baae7180bceb219c2807d">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#a0b67aa9fb1569f0d55903210614c937d">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#a3659fa0d4b4576f10eaf8bc0e0d2e872">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getOutputPortWidth()
-: <a class="el" href="classwbt_1_1_block_information.html#a4fe6e13a1ab75024cd1194eb0e20e0e7">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a6a56b09eff63d48f17720b8c58008f59">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_block_information.html#ae0db6bcbed17291020a0b701e74d5e5c">wbt::BlockInformation</a>
+, <a class="el" href="classwbt_1_1_coder_block_information.html#a372a29a2ba22922fdb844e5aa22ee9ae">wbt::CoderBlockInformation</a>
+, <a class="el" href="classwbt_1_1_simulink_block_information.html#a95f5ae9f31c1857e3bcdc608e365aaa3">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getParameter()
+: <a class="el" href="classwbt_1_1_parameters.html#aefb063ed5b539bf65bc21453339bcb71">wbt::Parameters</a>
+</li>
+<li>getParameterMetadata()
+: <a class="el" href="classwbt_1_1_parameters.html#a6e067c6ec3324fda62d26bc73381284e">wbt::Parameters</a>
+</li>
+<li>getParameters()
+: <a class="el" href="classwbt_1_1_block.html#a5b4c9f424bd665bd1012d0f546f0c53a">wbt::Block</a>
+</li>
+<li>getParamIndex()
+: <a class="el" href="classwbt_1_1_parameters.html#a2ee79296041fc91802c15823a52d4997">wbt::Parameters</a>
+</li>
+<li>getParamName()
+: <a class="el" href="classwbt_1_1_parameters.html#a20b60f993d080c0d7b8a3a4a787f588e">wbt::Parameters</a>
 </li>
 <li>getPortDataType()
-: <a class="el" href="classwbt_1_1_signal.html#a83731b1e3f82aab18b113fec9e5576b6">wbt::Signal</a>
+: <a class="el" href="classwbt_1_1_signal.html#adce68449f6c99328d650a0b51ec887b7">wbt::Signal</a>
 </li>
 <li>getRobotInterface()
-: <a class="el" href="classwbt_1_1_toolbox_singleton.html#a37e80062fe6ce25e434a9aab362dbd9d">wbt::ToolboxSingleton</a>
-, <a class="el" href="classwbt_1_1_w_b_block.html#a695170d7bf577f1c7b3adf6274dc4793">wbt::WBBlock</a>
+: <a class="el" href="classwbt_1_1_w_b_block.html#ab5227eeb6e229969a1e57d15b5c9d2cd">wbt::WBBlock</a>
+, <a class="el" href="classwbt_1_1_whole_body_singleton.html#a68f3a373c33eb2e8d107c9238c5f9914">wbt::WholeBodySingleton</a>
 </li>
 <li>getRobotName()
 : <a class="el" href="classwbt_1_1_configuration.html#aae656d1b723eb0ef399a02a56cd763b5">wbt::Configuration</a>
 </li>
+<li>getScalarFieldAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#ace298faa0912eedcb86430833a98f288">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getScalarParameter()
+: <a class="el" href="classwbt_1_1_parameter.html#ac0ab0847eec1182931db6fc509f869f0">wbt::Parameter&lt; T &gt;</a>
+</li>
 <li>getScalarParameterAtIndex()
-: <a class="el" href="classwbt_1_1_block_information.html#a37dabc3ca01265421622a53e1165ac25">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a0878dae93e915b73dd626854ccc554cf">wbt::SimulinkBlockInformation</a>
-</li>
-<li>getSimulationTime()
-: <a class="el" href="classgazebo_1_1_clock_server.html#ad733692f7eaa6f320848bbb65a261af8">gazebo::ClockServer</a>
-</li>
-<li>getSingleControlBoard()
-: <a class="el" href="classwbt_1_1_robot_interface.html#a9aef35559187504b0d52815ac96c67fa">wbt::RobotInterface</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a4060b8a2cf469dd02d11dbd5e0e50198">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getSingleton()
 : <a class="el" href="classwbt_1_1_log.html#a59a8a378c9b2023401b3d13353ebb6d5">wbt::Log</a>
 </li>
-<li>getStepSize()
-: <a class="el" href="classgazebo_1_1_clock_server.html#a51b80e717a59d51b71a2390dadd3cfde">gazebo::ClockServer</a>
+<li>getStringFieldAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a97106b5b58f0dea09ec3899f7dea9b25">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getStringParameterAtIndex()
-: <a class="el" href="classwbt_1_1_block_information.html#a8ee9b879e9daf358b749ffc8acd3c162">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a191c4cde6b9e8161e5453789b76fc653">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a342fff32d82f6b3007c163dd3f01f3cd">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getStringParameters()
+: <a class="el" href="classwbt_1_1_parameters.html#ab9c6771e611a68360422afeca1a2cc18">wbt::Parameters</a>
 </li>
 <li>getStructAtIndex()
-: <a class="el" href="classwbt_1_1_block_information.html#acef056b3017d8614b1ddd3bd33b8c504">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a7fd71a7ef2b03219d47951021fad8b4f">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#ab5a210dd1a4f5fecc55ff4ef9a56e335">wbt::SimulinkBlockInformation</a>
 </li>
 <li>getUniqueId()
 : <a class="el" href="classwbt_1_1_configuration.html#a54fe0589b0436e3d22d42d4ecf7c9a25">wbt::Configuration</a>
@@ -260,17 +329,19 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classwbt_1_1_configuration.html#acfa5fbb3411e2c8907dbfc6795bc1c9b">wbt::Configuration</a>
 </li>
 <li>getVectorAtIndex()
-: <a class="el" href="classwbt_1_1_block_information.html#ac291505c2b0f2b34d98496e13605c644">wbt::BlockInformation</a>
-, <a class="el" href="classwbt_1_1_simulink_block_information.html#a9f5815eeb931dc80bf9f42a61dacf024">wbt::SimulinkBlockInformation</a>
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a172afebb4b527e2da4d110083406142e">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getVectorDoubleFieldAtIndex()
+: <a class="el" href="classwbt_1_1_simulink_block_information.html#a81244169bbf13e0c381b9300a5cfb1cf">wbt::SimulinkBlockInformation</a>
+</li>
+<li>getVectorParameter()
+: <a class="el" href="classwbt_1_1_parameter.html#a95aab9b245e56966aa82b356398935df">wbt::Parameter&lt; T &gt;</a>
 </li>
 <li>getWarnings()
 : <a class="el" href="classwbt_1_1_log.html#a4a66c33316c98cf10c3c2ce54f8cdc79">wbt::Log</a>
 </li>
-<li>getWBToolboxParameters()
-: <a class="el" href="classwbt_1_1_w_b_block.html#a157e8d9d620bf4a232a85ef0dd666db5">wbt::WBBlock</a>
-</li>
 <li>getWidth()
-: <a class="el" href="classwbt_1_1_signal.html#a2cb034e8b54b008309760003e56b88fb">wbt::Signal</a>
+: <a class="el" href="classwbt_1_1_signal.html#abc3dc7dd9aea1269c35ae4819ac44f64">wbt::Signal</a>
 </li>
 </ul>
 </div><!-- contents -->

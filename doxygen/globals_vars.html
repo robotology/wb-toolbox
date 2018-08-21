@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -72,6 +72,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="globals_vars.html"><span>Variables</span></a></li>
+      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
+      <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
+      <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -95,7 +98,7 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,8 +109,59 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 
 <div class="contents">
 &#160;<ul>
-<li>DEFAULT_TIMEOUT
-: <a class="el" href="_yarp_read_8cpp.html#a591d6eb55a8a90012cb1c20b475489a8">YarpRead.cpp</a>
+<li>defaultParamPrefix
+: <a class="el" href="_parameter_8cpp.html#a9db5b985ee103171a29c1c15cac74852">Parameter.cpp</a>
+</li>
+<li>ForwardLogsToStdErr
+: <a class="el" href="_w_b_toolbox_8cpp.html#a41697a67681f56372c67e99bb96115aa">WBToolbox.cpp</a>
+</li>
+<li>InputIndex_constraints
+: <a class="el" href="_qp_oases_8cpp.html#aef3d77c20939f4e287c96cc75aaa8383">QpOases.cpp</a>
+</li>
+<li>InputIndex_DGains
+: <a class="el" href="_set_motor_parameters_8cpp.html#a314b46d8bbfd9881b3240aaf2e56e9fe">SetMotorParameters.cpp</a>
+</li>
+<li>InputIndex_ExtSettlingTime
+: <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#a1e1bb434aa5f0164cce4268003854761">MinimumJerkTrajectoryGenerator.cpp</a>
+</li>
+<li>InputIndex_IGains
+: <a class="el" href="_set_motor_parameters_8cpp.html#af76dabcb001dc557a24f2361a4fd534f">SetMotorParameters.cpp</a>
+</li>
+<li>InputIndex_InitialValue
+: <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#a0d7819257ab8939daf9b4ca8e34ffbdd">MinimumJerkTrajectoryGenerator.cpp</a>
+</li>
+<li>InputIndex_lb
+: <a class="el" href="_qp_oases_8cpp.html#a0f18f219621d0f758ea5a4726da175ce">QpOases.cpp</a>
+</li>
+<li>InputIndex_lbA
+: <a class="el" href="_qp_oases_8cpp.html#af075272e8c3b8e4c1ca5ea0989693fc6">QpOases.cpp</a>
+</li>
+<li>InputIndex_PGains
+: <a class="el" href="_set_motor_parameters_8cpp.html#a7fe86be069082b190021971a0fc13838">SetMotorParameters.cpp</a>
+</li>
+<li>InputIndex_ub
+: <a class="el" href="_qp_oases_8cpp.html#a38f849f4fa5eb31b86420480068907d1">QpOases.cpp</a>
+</li>
+<li>InputIndex_ubA
+: <a class="el" href="_qp_oases_8cpp.html#ad15dc5885ceeb3ccd0e8d5f37c08adc1">QpOases.cpp</a>
+</li>
+<li>MaxIterations
+: <a class="el" href="_qp_oases_8cpp.html#ae1917d490729f0fb5d349526aeb2df4b">QpOases.cpp</a>
+</li>
+<li>OutputIndex_FirstDer
+: <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#a3cc1c7ee67b58d5b7ebd3ea08e4eae9c">MinimumJerkTrajectoryGenerator.cpp</a>
+</li>
+<li>OutputIndex_IsConnected
+: <a class="el" href="_yarp_read_8cpp.html#a34bdfb929cde8101b0025044ce3ae1ac">YarpRead.cpp</a>
+</li>
+<li>OutputIndex_objVal
+: <a class="el" href="_qp_oases_8cpp.html#a494d5c5f2f075adc1bfa2391158b3032">QpOases.cpp</a>
+</li>
+<li>OutputIndex_SecondDer
+: <a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#a3e7cf9dd8473caa5b299eaeec73bea6d">MinimumJerkTrajectoryGenerator.cpp</a>
+</li>
+<li>OutputIndex_Timestamp
+: <a class="el" href="_yarp_read_8cpp.html#afc6d83206fa7694dd88a46cb566b9f52">YarpRead.cpp</a>
 </li>
 </ul>
 </div><!-- contents -->

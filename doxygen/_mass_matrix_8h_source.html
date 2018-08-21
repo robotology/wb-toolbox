@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/include/MassMatrix.h Source File</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/library/include/Block/MassMatrix.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('_mass_matrix_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,63 +101,63 @@ $(document).ready(function(){initNavTree('_mass_matrix_8h_source.html','');});
 <div class="title">MassMatrix.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_mass_matrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef WBT_MASSMATRIX_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_MASSMATRIX_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_w_b_block_8h.html">WBBlock.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>wbt {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>MassMatrix;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>iDynTree {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>MatrixDynSize;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_mass_matrix.html">wbt::MassMatrix</a> : <span class="keyword">public</span> <a class="code" href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#a268f071254140e7f8e4904167494553f">   18</a></span>&#160;    std::unique_ptr&lt;iDynTree::MatrixDynSize&gt; <a class="code" href="classwbt_1_1_mass_matrix.html#a268f071254140e7f8e4904167494553f">m_massMatrix</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#a97e8f31c5524b87988eb4e143712afa9">   20</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a97e8f31c5524b87988eb4e143712afa9">INPUT_IDX_BASE_POSE</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#a058e44038eab9aa10f0075f292532409">   21</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a058e44038eab9aa10f0075f292532409">INPUT_IDX_JOINTCONF</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#adc7e1e00607692277c765f2685673796">   22</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <a class="code" href="classwbt_1_1_mass_matrix.html#adc7e1e00607692277c765f2685673796">OUTPUT_IDX_MASS_MAT</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#aa7a51d1a7e206861b91d91944488935c">   25</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code" href="classwbt_1_1_mass_matrix.html#aa7a51d1a7e206861b91d91944488935c">ClassName</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1">MassMatrix</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classwbt_1_1_mass_matrix.html#afe2e9b292b17ab3cb56cd8e2928a7cbd">~MassMatrix</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319">configureSizeAndPorts</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<a href="_mass_matrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This software may be modified and distributed under the terms of the</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * GNU Lesser General Public License v2.1 or any later version.</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef WBT_MASSMATRIX_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define WBT_MASSMATRIX_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_w_b_block_8h.html">Base/WBBlock.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>wbt {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">class </span>BlockInformation;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">class </span><a class="code" href="_mass_matrix_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369">MassMatrix</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;} <span class="comment">// namespace wbt</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classwbt_1_1_mass_matrix.html">wbt::MassMatrix</a> final : <span class="keyword">public</span> <a class="code" href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classwbt_1_1_mass_matrix.html#aaef9cc13d69f94764e1dd96610a066a5">   28</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_mass_matrix_1_1impl.html">impl</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    std::unique_ptr&lt;impl&gt; <a class="code" href="classwbt_1_1_mass_matrix.html#aaef9cc13d69f94764e1dd96610a066a5">pImpl</a>;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a4efbdbb443ced7be47e94c346e87a46e">initialize</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a2c1c8c21bb0989904abcab6bb194186e">terminate</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#abb6d937ff309a4576c29f9423db0998e">output</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* WBT_MASSMATRIX_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="classwbt_1_1_w_b_block_html"><div class="ttname"><a href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div><div class="ttdef"><b>Definition:</b> WBBlock.h:62</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_ad2b10d58d0af376621269eb25f1dc319"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319">wbt::MassMatrix::configureSizeAndPorts</a></div><div class="ttdeci">bool configureSizeAndPorts(BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:22</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_afe2e9b292b17ab3cb56cd8e2928a7cbd"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#afe2e9b292b17ab3cb56cd8e2928a7cbd">wbt::MassMatrix::~MassMatrix</a></div><div class="ttdeci">~MassMatrix() override=default</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a2c1c8c21bb0989904abcab6bb194186e"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a2c1c8c21bb0989904abcab6bb194186e">wbt::MassMatrix::terminate</a></div><div class="ttdeci">bool terminate(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:90</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a4efbdbb443ced7be47e94c346e87a46e"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a4efbdbb443ced7be47e94c346e87a46e">wbt::MassMatrix::initialize</a></div><div class="ttdeci">bool initialize(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:77</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a97e8f31c5524b87988eb4e143712afa9"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a97e8f31c5524b87988eb4e143712afa9">wbt::MassMatrix::INPUT_IDX_BASE_POSE</a></div><div class="ttdeci">static const unsigned INPUT_IDX_BASE_POSE</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:20</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_abb6d937ff309a4576c29f9423db0998e"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#abb6d937ff309a4576c29f9423db0998e">wbt::MassMatrix::output</a></div><div class="ttdeci">bool output(const BlockInformation *blockInfo) override</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:95</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_aa7a51d1a7e206861b91d91944488935c"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#aa7a51d1a7e206861b91d91944488935c">wbt::MassMatrix::ClassName</a></div><div class="ttdeci">static const std::string ClassName</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:25</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a93123e185ecafe5e7ae94b2d8e10d7d1"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1">wbt::MassMatrix::MassMatrix</a></div><div class="ttdeci">MassMatrix()</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:20</div></div>
-<div class="ttc" id="classwbt_1_1_block_information_html"><div class="ttname"><a href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></div><div class="ttdef"><b>Definition:</b> BlockInformation.h:26</div></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1">MassMatrix</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classwbt_1_1_mass_matrix.html#a65eddacbad413fd54a8ae839dfd65291">~MassMatrix</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319">configureSizeAndPorts</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a1a675f73b27bb09877dea4a487e07a36">initialize</a>(<a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#a2c1c8c21bb0989904abcab6bb194186e">terminate</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classwbt_1_1_mass_matrix.html#abb6d937ff309a4576c29f9423db0998e">output</a>(<span class="keyword">const</span> <a class="code" href="classwbt_1_1_block_information.html">BlockInformation</a>* blockInfo) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif // WBT_MASSMATRIX_H</span></div>
+<div class="ttc" id="classwbt_1_1_w_b_block_html"><div class="ttname"><a href="classwbt_1_1_w_b_block.html">wbt::WBBlock</a></div><div class="ttdoc">Extension of wbt::Block for simplifying the development of whole-body blocks. </div><div class="ttdef"><b>Definition:</b> WBBlock.h:53</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_ad2b10d58d0af376621269eb25f1dc319"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#ad2b10d58d0af376621269eb25f1dc319">wbt::MassMatrix::configureSizeAndPorts</a></div><div class="ttdeci">bool configureSizeAndPorts(BlockInformation *blockInfo) override</div><div class="ttdoc">Configure the input and output ports. </div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:58</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_a2c1c8c21bb0989904abcab6bb194186e"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a2c1c8c21bb0989904abcab6bb194186e">wbt::MassMatrix::terminate</a></div><div class="ttdeci">bool terminate(const BlockInformation *blockInfo) override</div><div class="ttdoc">Cleanup block resources. </div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:122</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_abb6d937ff309a4576c29f9423db0998e"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#abb6d937ff309a4576c29f9423db0998e">wbt::MassMatrix::output</a></div><div class="ttdeci">bool output(const BlockInformation *blockInfo) override</div><div class="ttdoc">Compute the output of the block. </div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:127</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_a93123e185ecafe5e7ae94b2d8e10d7d1"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a93123e185ecafe5e7ae94b2d8e10d7d1">wbt::MassMatrix::MassMatrix</a></div><div class="ttdeci">MassMatrix()</div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:52</div></div>
+<div class="ttc" id="classwbt_1_1_block_information_html"><div class="ttname"><a href="classwbt_1_1_block_information.html">wbt::BlockInformation</a></div><div class="ttdoc">Abstract class for storing generic Block properties. </div><div class="ttdef"><b>Definition:</b> BlockInformation.h:56</div></div>
 <div class="ttc" id="_w_b_block_8h_html"><div class="ttname"><a href="_w_b_block_8h.html">WBBlock.h</a></div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_adc7e1e00607692277c765f2685673796"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#adc7e1e00607692277c765f2685673796">wbt::MassMatrix::OUTPUT_IDX_MASS_MAT</a></div><div class="ttdeci">static const unsigned OUTPUT_IDX_MASS_MAT</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:22</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a268f071254140e7f8e4904167494553f"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a268f071254140e7f8e4904167494553f">wbt::MassMatrix::m_massMatrix</a></div><div class="ttdeci">std::unique_ptr&lt; iDynTree::MatrixDynSize &gt; m_massMatrix</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:18</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html_a058e44038eab9aa10f0075f292532409"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a058e44038eab9aa10f0075f292532409">wbt::MassMatrix::INPUT_IDX_JOINTCONF</a></div><div class="ttdeci">static const unsigned INPUT_IDX_JOINTCONF</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:21</div></div>
-<div class="ttc" id="classwbt_1_1_mass_matrix_html"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html">wbt::MassMatrix</a></div><div class="ttdef"><b>Definition:</b> MassMatrix.h:15</div></div>
+<div class="ttc" id="class_mass_matrix_1_1impl_html"><div class="ttname"><a href="class_mass_matrix_1_1impl.html">wbt::MassMatrix::impl</a></div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:43</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_a1a675f73b27bb09877dea4a487e07a36"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a1a675f73b27bb09877dea4a487e07a36">wbt::MassMatrix::initialize</a></div><div class="ttdeci">bool initialize(BlockInformation *blockInfo) override</div><div class="ttdoc">Initialize the block. </div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:101</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_aaef9cc13d69f94764e1dd96610a066a5"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#aaef9cc13d69f94764e1dd96610a066a5">wbt::MassMatrix::pImpl</a></div><div class="ttdeci">std::unique_ptr&lt; impl &gt; pImpl</div><div class="ttdef"><b>Definition:</b> MassMatrix.h:28</div></div>
+<div class="ttc" id="_mass_matrix_8cpp_html_aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369"><div class="ttname"><a href="_mass_matrix_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369">MassMatrix</a></div><div class="ttdef"><b>Definition:</b> MassMatrix.cpp:37</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html">wbt::MassMatrix</a></div><div class="ttdoc">The wbt::MassMatrix class. </div><div class="ttdef"><b>Definition:</b> MassMatrix.h:25</div></div>
+<div class="ttc" id="classwbt_1_1_mass_matrix_html_a65eddacbad413fd54a8ae839dfd65291"><div class="ttname"><a href="classwbt_1_1_mass_matrix.html#a65eddacbad413fd54a8ae839dfd65291">wbt::MassMatrix::~MassMatrix</a></div><div class="ttdeci">~MassMatrix() override</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_d9780e31d9042f22eb7acfd9a0dc11e5.html">include</a></li><li class="navelem"><a class="el" href="_mass_matrix_8h.html">MassMatrix.h</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_7bde9667b2ba59ec3c711e65eaa3055f.html">library</a></li><li class="navelem"><a class="el" href="dir_a9f127b3106376eed0de24ada65c0c04.html">include</a></li><li class="navelem"><a class="el" href="dir_7d0bdd83e2ccff985bdd478d0955c489.html">Block</a></li><li class="navelem"><a class="el" href="_mass_matrix_8h.html">MassMatrix.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

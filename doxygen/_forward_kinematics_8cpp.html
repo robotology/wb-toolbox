@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/src/ForwardKinematics.cpp File Reference</title>
+<title>WB-Toolbox: /home/travis/build/robotology/wb-toolbox/toolbox/library/src/ForwardKinematics.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,9 +31,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">WB-Toolbox
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
-   <div id="projectbrief">A Simulink Toolbox for Whole Body Control</div>
+   <div id="projectbrief">ASimulinkToolboxforWholeBodyControl</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('_forward_kinematics_8cpp.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,31 +97,446 @@ $(document).ready(function(){initNavTree('_forward_kinematics_8cpp.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">ForwardKinematics.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_forward_kinematics_8h_source.html">ForwardKinematics.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_block_information_8h_source.html">BlockInformation.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_signal_8h_source.html">Signal.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_log_8h_source.html">Log.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_robot_interface_8h_source.html">RobotInterface.h</a>&quot;</code><br/>
-<code>#include &lt;memory&gt;</code><br/>
-<code>#include &lt;iDynTree/Core/EigenHelpers.h&gt;</code><br/>
-<code>#include &lt;iDynTree/KinDynComputations.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="_configuration_8h_source.html">Base/Configuration.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_robot_interface_8h_source.html">Base/RobotInterface.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_block_information_8h_source.html">Core/BlockInformation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_log_8h_source.html">Core/Log.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_parameter_8h_source.html">Core/Parameter.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_parameters_8h_source.html">Core/Parameters.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_signal_8h_source.html">Core/Signal.h</a>&quot;</code><br/>
 <code>#include &lt;Eigen/Core&gt;</code><br/>
+<code>#include &lt;iDynTree/Core/EigenHelpers.h&gt;</code><br/>
+<code>#include &lt;iDynTree/Core/Transform.h&gt;</code><br/>
+<code>#include &lt;iDynTree/KinDynComputations.h&gt;</code><br/>
+<code>#include &lt;iDynTree/Model/Indices.h&gt;</code><br/>
+<code>#include &lt;ostream&gt;</code><br/>
+<code>#include &lt;tuple&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ForwardKinematics.cpp:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_forward_kinematics_8cpp__incl.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_forward_kinematics_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
-</div></div><!-- contents -->
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forward_kinematics_1_1impl.html">wbt::ForwardKinematics::impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:af89f32402083cdbd7f66ce3f92580c89"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a> { <br/>
+&#160;&#160;<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a35db430bbeecd827809f838c28d6127e">FilterStruct</a>, 
+<a class="el" href="_dot_j_nu_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_dot_j_nu_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_forward_kinematics_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
+<a class="el" href="_get_limits_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_get_limits_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a45474da3ac1b3ff6bf435e7698210ee1">LimitType</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_get_measurement_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a280ebb2b130aee63aa382a6fa3d100a4">MeasType</a>, 
+<a class="el" href="_jacobian_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_jacobian_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558">Frame</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a13018612ce336584ac5c7f414afafafe">SampleTime</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a16802932fcf0486330e591c580f364a1">SettlingTime</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89aaf8392865aea8f24355012391183d9e9">FirstDerivative</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a23de8c854eb282410ba10963837c94b5">SecondDerivative</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1755a07fb7d6a246c5180090c7595774">ReadInitialValue</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a6c20206b723e4cd27615f1e13a9f4301">ExtSettlingTime</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a6933cacbab39d6f612ea612016f07964">ResetOnChange</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a94d533ed1daba226e1c0c252f1f119d8">UseLbA</a>, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a8b6a97477597cd9e24c184d9032f23eb">UseUbA</a>, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89abf2ad17c69143d3078456d98939eb19e">UseLb</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a4972f28122788ce3f9e195a147e9cf53">UseUb</a>, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a49705f9a866ecbfa649dea1685bc1c9c">ComputeObjVal</a>, 
+<a class="el" href="_qp_oases_8cpp.html#af89f32402083cdbd7f66ce3f92580c89adf2e0b6c0866a075e9313e1ee6493a6b">StopWhenFails</a>, 
+<a class="el" href="_real_time_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<br/>
+&#160;&#160;<a class="el" href="_real_time_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049">Period</a>, 
+<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add68a6ad8ca9a858663dd6114db3f07d">Frame1</a>, 
+<a class="el" href="_relative_transform_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a59905975c9008a290de2df74599d1499">Frame2</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a9b1c9cac57b7f0d7e25f5bed06f9741b">SetP</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89add28f26bf4c0e5a1efef601e3adffe8f">SetI</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a98fe28bb2acd28f890f8aea6a2918c78">SetD</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af2c5a751d2cdf517d997ced6406e5738">PidCtrlType</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af8749a1d5047ec56649b17c6edc97e8f">SetKTau</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a61baf70148ade91d6631e90ce0b53841">KTau</a>, 
+<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ad7cf7245a42dea0062c950b17ec1b42e">SetBemf</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_set_motor_parameters_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a21d77ed9e3f28d08995222a7a989f5d5">Bemf</a>, 
+<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = WBBlock::NumberOfParameters - 1, 
+<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a74869a16f6903165df61a1ddbd4240d7">CtrlType</a>, 
+<a class="el" href="_set_references_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a0d405bb4315ed21fdc14913ef945e1aa">TrajRef</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049">Period</a>, 
+<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575">GzClkPort</a>, 
+<a class="el" href="_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ac1ec4fa45b781dda3cff3c31dd258007">RpcPort</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff">WBStruct</a>, 
+<a class="el" href="_w_b_block_8cpp.html#af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac">ConfBlockName</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<br/>
+&#160;&#160;<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727">PortName</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1137eef0d80d338a53273219a8d5cd2e">PortSize</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a32a974561f1246c560b8a12adc56436e">WaitData</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89aa8d809b1d0421049b77e68771dcf78dd">ReadTimestamp</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b">Autoconnect</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9">ErrMissingPort</a>, 
+<a class="el" href="_yarp_read_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a98cb58869380e6582c793dcd0e86598c">Timeout</a>, 
+<a class="el" href="_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842">Bias</a> = Block::NumberOfParameters - 1, 
+<br/>
+&#160;&#160;<a class="el" href="_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727">PortName</a>, 
+<a class="el" href="_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b">Autoconnect</a>, 
+<a class="el" href="_yarp_write_8cpp.html#af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9">ErrMissingPort</a>
+<br/>
+ }</td></tr>
+<tr class="separator:af89f32402083cdbd7f66ce3f92580c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29f29c1d02936a5222859b72549585fc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_forward_kinematics_8cpp.html#a29f29c1d02936a5222859b72549585fc">InputIndex</a> { <br/>
+&#160;&#160;<a class="el" href="_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<a class="el" href="_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47">BaseVelocity</a>, 
+<a class="el" href="_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57">JointVelocity</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_discrete_filter_8cpp.html#a29f29c1d02936a5222859b72549585fca4e4198afe62587f7fecc76957464258b">InputSignal</a> = 0, 
+<a class="el" href="_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<a class="el" href="_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47">BaseVelocity</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_dot_j_nu_8cpp.html#a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57">JointVelocity</a>, 
+<a class="el" href="_forward_kinematics_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<a class="el" href="_forward_kinematics_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<br/>
+&#160;&#160;<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47">BaseVelocity</a>, 
+<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57">JointVelocity</a>, 
+<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fca4a36648281565d04aa504c9b3962732c">BaseAcceleration</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_inverse_dynamics_8cpp.html#a29f29c1d02936a5222859b72549585fcab6964a4f3cd3054304aa242cb1a267f1">JointAcceleration</a>, 
+<a class="el" href="_jacobian_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<a class="el" href="_jacobian_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_mass_matrix_8cpp.html#a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471">BasePose</a> = 0, 
+<br/>
+&#160;&#160;<a class="el" href="_mass_matrix_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a>, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#a29f29c1d02936a5222859b72549585fca4e4198afe62587f7fecc76957464258b">InputSignal</a> = 0, 
+<a class="el" href="_qp_oases_8cpp.html#a29f29c1d02936a5222859b72549585fcad356b46cb7160fda24821fa1884a5af2">Hessian</a> = 0, 
+<a class="el" href="_qp_oases_8cpp.html#a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d">Gradient</a>, 
+<br/>
+&#160;&#160;<a class="el" href="_relative_transform_8cpp.html#a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195">JointConfiguration</a> = 0, 
+<a class="el" href="_set_references_8cpp.html#a29f29c1d02936a5222859b72549585fca4110adc8029d395006625b8305a20e7d">References</a> = 0, 
+<a class="el" href="_yarp_write_8cpp.html#a29f29c1d02936a5222859b72549585fcae7a08cca3b458a424eb814c860b3dfe3">Signal</a> = 0
+<br/>
+ }</td></tr>
+<tr class="separator:a29f29c1d02936a5222859b72549585fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4fac691e6d6eda74ddcec6f95c8bb95"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_forward_kinematics_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95">OutputIndex</a> { <br/>
+&#160;&#160;<a class="el" href="_centroidal_momentum_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a3305de4b1f87e38fe6d6ecc28cb87363">CentroidalMomentum</a> = 0, 
+<a class="el" href="_discrete_filter_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a29e67a435201e969ad9a7ae920045c1d">FilteredSignal</a> = 0, 
+<a class="el" href="_dot_j_nu_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a10833cc08b7f2516962cebf38a33adbd">DotJNu</a> = 0, 
+<a class="el" href="_forward_kinematics_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a">Transform</a> = 0, 
+<br/>
+&#160;&#160;<a class="el" href="_get_limits_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95aac33164e2faf39c9f0b05c7789ae4834">MinLimit</a> = 0, 
+<a class="el" href="_get_limits_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95ae04b0e1bff2e61c03392693913f88100">MaxLimit</a>, 
+<a class="el" href="_get_measurement_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95abdbea0034c79f0f1e980489a4d87c6f4">Measurement</a> = 0, 
+<a class="el" href="_inverse_dynamics_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a59f35e7f1c548f65ebbfb4eb3af84f8f">Torques</a> = 0, 
+<br/>
+&#160;&#160;<a class="el" href="_jacobian_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a653b5ddb257e84bb6262b2e2f73206cd">Jacobian</a> = 0, 
+<a class="el" href="_mass_matrix_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369">MassMatrix</a> = 0, 
+<a class="el" href="_minimum_jerk_trajectory_generator_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a29e67a435201e969ad9a7ae920045c1d">FilteredSignal</a> = 0, 
+<a class="el" href="_qp_oases_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a1a75b81c52874b4ec42e8ff238840c38">PrimalSolution</a> = 0, 
+<br/>
+&#160;&#160;<a class="el" href="_qp_oases_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a2cd232468a1fc44d4cc5c004e3e9dd72">Status</a>, 
+<a class="el" href="_relative_transform_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a">Transform</a> = 0, 
+<a class="el" href="_yarp_clock_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95a4b52d61cc39d9427f91d3b8606319e2c">Clock</a> = 0, 
+<a class="el" href="_yarp_read_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95ae7a08cca3b458a424eb814c860b3dfe3">Signal</a> = 0
+<br/>
+ }</td></tr>
+<tr class="separator:aa4fac691e6d6eda74ddcec6f95c8bb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="a29f29c1d02936a5222859b72549585fc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_centroidal_momentum_8cpp.html#a29f29c1d02936a5222859b72549585fc">InputIndex</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47"></a>BaseVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57"></a>JointVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca4e4198afe62587f7fecc76957464258b"></a>InputSignal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47"></a>BaseVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57"></a>JointVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca0a0e205d9449497d8a7b114785d18b47"></a>BaseVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca748846b01c0830b1175dfa49d1710e57"></a>JointVelocity</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca4a36648281565d04aa504c9b3962732c"></a>BaseAcceleration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcab6964a4f3cd3054304aa242cb1a267f1"></a>JointAcceleration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca5edff3abdb4a50b99b217ac0588da471"></a>BasePose</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca4e4198afe62587f7fecc76957464258b"></a>InputSignal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcad356b46cb7160fda24821fa1884a5af2"></a>Hessian</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d"></a>Gradient</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae4b2ff2b5cd4415df38793cc4d55d195"></a>JointConfiguration</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fca4110adc8029d395006625b8305a20e7d"></a>References</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a29f29c1d02936a5222859b72549585fcae7a08cca3b458a424eb814c860b3dfe3"></a>Signal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_centroidal_momentum_8cpp.html#aa4fac691e6d6eda74ddcec6f95c8bb95">OutputIndex</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a3305de4b1f87e38fe6d6ecc28cb87363"></a>CentroidalMomentum</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a29e67a435201e969ad9a7ae920045c1d"></a>FilteredSignal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a10833cc08b7f2516962cebf38a33adbd"></a>DotJNu</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a"></a>Transform</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95aac33164e2faf39c9f0b05c7789ae4834"></a>MinLimit</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95ae04b0e1bff2e61c03392693913f88100"></a>MaxLimit</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95abdbea0034c79f0f1e980489a4d87c6f4"></a>Measurement</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a59f35e7f1c548f65ebbfb4eb3af84f8f"></a>Torques</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a653b5ddb257e84bb6262b2e2f73206cd"></a>Jacobian</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a6bb5d2760ccd793fe1cff19b8743b369"></a>MassMatrix</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a29e67a435201e969ad9a7ae920045c1d"></a>FilteredSignal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a1a75b81c52874b4ec42e8ff238840c38"></a>PrimalSolution</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a2cd232468a1fc44d4cc5c004e3e9dd72"></a>Status</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a9d60ffa74e6fb107edc6b54e7a861c3a"></a>Transform</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95a4b52d61cc39d9427f91d3b8606319e2c"></a>Clock</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="aa4fac691e6d6eda74ddcec6f95c8bb95ae7a08cca3b458a424eb814c860b3dfe3"></a>Signal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_discrete_filter_8cpp.html#af89f32402083cdbd7f66ce3f92580c89">ParamIndex</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a35db430bbeecd827809f838c28d6127e"></a>FilterStruct</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558"></a>Frame</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558"></a>Frame</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a45474da3ac1b3ff6bf435e7698210ee1"></a>LimitType</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a280ebb2b130aee63aa382a6fa3d100a4"></a>MeasType</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a20e5ef7f93ae45b4c343ef8805f9d558"></a>Frame</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a13018612ce336584ac5c7f414afafafe"></a>SampleTime</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a16802932fcf0486330e591c580f364a1"></a>SettlingTime</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89aaf8392865aea8f24355012391183d9e9"></a>FirstDerivative</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a23de8c854eb282410ba10963837c94b5"></a>SecondDerivative</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a1755a07fb7d6a246c5180090c7595774"></a>ReadInitialValue</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a6c20206b723e4cd27615f1e13a9f4301"></a>ExtSettlingTime</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a6933cacbab39d6f612ea612016f07964"></a>ResetOnChange</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a94d533ed1daba226e1c0c252f1f119d8"></a>UseLbA</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a8b6a97477597cd9e24c184d9032f23eb"></a>UseUbA</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89abf2ad17c69143d3078456d98939eb19e"></a>UseLb</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a4972f28122788ce3f9e195a147e9cf53"></a>UseUb</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a49705f9a866ecbfa649dea1685bc1c9c"></a>ComputeObjVal</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89adf2e0b6c0866a075e9313e1ee6493a6b"></a>StopWhenFails</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049"></a>Period</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89add68a6ad8ca9a858663dd6114db3f07d"></a>Frame1</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a59905975c9008a290de2df74599d1499"></a>Frame2</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a9b1c9cac57b7f0d7e25f5bed06f9741b"></a>SetP</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89add28f26bf4c0e5a1efef601e3adffe8f"></a>SetI</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a98fe28bb2acd28f890f8aea6a2918c78"></a>SetD</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89af2c5a751d2cdf517d997ced6406e5738"></a>PidCtrlType</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89af8749a1d5047ec56649b17c6edc97e8f"></a>SetKTau</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a61baf70148ade91d6631e90ce0b53841"></a>KTau</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ad7cf7245a42dea0062c950b17ec1b42e"></a>SetBemf</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a21d77ed9e3f28d08995222a7a989f5d5"></a>Bemf</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a74869a16f6903165df61a1ddbd4240d7"></a>CtrlType</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a0d405bb4315ed21fdc14913ef945e1aa"></a>TrajRef</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a79aa7162ee6359a93162548a3fcf8049"></a>Period</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575"></a>GzClkPort</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ac1ec4fa45b781dda3cff3c31dd258007"></a>RpcPort</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a695eda385eddf019789efb0a0d2b9cff"></a>WBStruct</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89af3c7aed36ab5979490540bbefc8bc1ac"></a>ConfBlockName</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727"></a>PortName</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a1137eef0d80d338a53273219a8d5cd2e"></a>PortSize</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a32a974561f1246c560b8a12adc56436e"></a>WaitData</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89aa8d809b1d0421049b77e68771dcf78dd"></a>ReadTimestamp</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b"></a>Autoconnect</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9"></a>ErrMissingPort</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a98cb58869380e6582c793dcd0e86598c"></a>Timeout</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ab9dd1f8acb40767a653183cd6ea67842"></a>Bias</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a7a79cce8b597fa98fd7be54edd4ff727"></a>PortName</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89ae28f6c0b6b8b3712025e62afca0aca3b"></a>Autoconnect</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="af89f32402083cdbd7f66ce3f92580c89a1640eb5b6c641eaf9d0d1aff3f9403c9"></a>ErrMissingPort</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_1dbc6a313c5ed2ce247ebe7ca163e9a5.html">src</a></li><li class="navelem"><a class="el" href="_forward_kinematics_8cpp.html">ForwardKinematics.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_cb851817d6f77244316f2683559617a2.html">toolbox</a></li><li class="navelem"><a class="el" href="dir_7bde9667b2ba59ec3c711e65eaa3055f.html">library</a></li><li class="navelem"><a class="el" href="dir_2c4e11c39b7e19db47740eda5eef0028.html">src</a></li><li class="navelem"><a class="el" href="_forward_kinematics_8cpp.html">ForwardKinematics.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>

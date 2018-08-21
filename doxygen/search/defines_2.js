@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['s_5ffunction_5flevel',['S_FUNCTION_LEVEL',['../toolbox_8cpp.html#a9a4ab27953070e39249f3fad28e93749',1,'toolbox.cpp']]],
-  ['s_5ffunction_5fname',['S_FUNCTION_NAME',['../toolbox_8cpp.html#a0f61df833e166c743295eebf43f0b142',1,'toolbox.cpp']]]
+  ['wbt_5flog_5fverbosity',['WBT_LOG_VERBOSITY',['../_log_8h.html#a3216af216059107eb742543930972115',1,'Log.h']]],
+  ['wbterror',['wbtError',['../_log_8h.html#a2bd5dfffa002096393f3964866cb424a',1,'Log.h']]],
+  ['wbtwarning',['wbtWarning',['../_log_8h.html#ad5f7331f57144cf0d09038d1748c3713',1,'Log.h']]]
 ];

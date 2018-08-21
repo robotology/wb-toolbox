@@ -1,17 +1,17 @@
 var classwbt_1_1_w_b_block =
 [
-    [ "WBBlock", "classwbt_1_1_w_b_block.html#a533a7a2a7d20d14176905d28e8ab5f36", null ],
-    [ "~WBBlock", "classwbt_1_1_w_b_block.html#a26c1f9e5748036c5a27167ccffbe096f", null ],
+    [ "iDynTreeRobotState", "struct_w_b_block_1_1i_dyn_tree_robot_state.html", "struct_w_b_block_1_1i_dyn_tree_robot_state" ],
+    [ "WBBlock", "classwbt_1_1_w_b_block.html#ac48ed154ef4273199e2ad4266cd72a85", null ],
+    [ "~WBBlock", "classwbt_1_1_w_b_block.html#a10d3f46b6c1bef2a390ee5a36c180c93", null ],
     [ "configureSizeAndPorts", "classwbt_1_1_w_b_block.html#a3e2c8457dc4df042983e099fb622aec6", null ],
-    [ "getConfiguration", "classwbt_1_1_w_b_block.html#a16c43db1a1ecccb19206d22278cd8b92", null ],
-    [ "getRobotInterface", "classwbt_1_1_w_b_block.html#a695170d7bf577f1c7b3adf6274dc4793", null ],
-    [ "getWBToolboxParameters", "classwbt_1_1_w_b_block.html#a157e8d9d620bf4a232a85ef0dd666db5", null ],
-    [ "initialize", "classwbt_1_1_w_b_block.html#a82ba7b979491f712bcf3ec69cc31b5dc", null ],
+    [ "getKinDynComputations", "classwbt_1_1_w_b_block.html#af52531d9afe40dbe32930cb9def84f05", null ],
+    [ "getRobotInterface", "classwbt_1_1_w_b_block.html#ab5227eeb6e229969a1e57d15b5c9d2cd", null ],
+    [ "initialize", "classwbt_1_1_w_b_block.html#aee8fb77f0cdbd596030eb62c31b5cabb", null ],
     [ "numberOfParameters", "classwbt_1_1_w_b_block.html#a1a1f5268bb6f037400557845803cdd50", null ],
-    [ "setRobotState", "classwbt_1_1_w_b_block.html#a53fe232f914e8d7bd5be902851aa7eb4", null ],
-    [ "terminate", "classwbt_1_1_w_b_block.html#af68ca568432943707a184114af956512", null ],
-    [ "ConfBlockNameParameterIndex", "classwbt_1_1_w_b_block.html#aba5fc8e30d7e9e6cd9506590ff9f5d8a", null ],
-    [ "ConfigurationParameterIndex", "classwbt_1_1_w_b_block.html#aa1a9390e86a633084061c48057578dd6", null ],
-    [ "confKey", "classwbt_1_1_w_b_block.html#ac19cb22b8727a1e4f6d1b422cfc4f0c0", null ],
-    [ "robotState", "classwbt_1_1_w_b_block.html#a14522667525084f064ee088771cf56f5", null ]
+    [ "parseParameters", "classwbt_1_1_w_b_block.html#adf075ab1530ec9b364320e3a926c61c5", null ],
+    [ "setRobotState", "classwbt_1_1_w_b_block.html#aa448f95799155d70a9e0baeb28be17d8", null ],
+    [ "m_confBlockName", "classwbt_1_1_w_b_block.html#afc523e57f87b9c1fb6f79122c62cbb81", null ],
+    [ "m_robotInterface", "classwbt_1_1_w_b_block.html#a423847f1b8e12e3a5c5b432d909de0c7", null ],
+    [ "m_robotState", "classwbt_1_1_w_b_block.html#a479cfd2df4420307441faccf0b3f6366", null ],
+    [ "NumberOfParameters", "classwbt_1_1_w_b_block.html#a347102bbc3342bef44515f7343f62a4f", null ]
 ];
