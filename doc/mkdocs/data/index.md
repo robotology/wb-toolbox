@@ -13,9 +13,9 @@
 
 ## Who use `WB-Toolbox`
 
-`WB-Toolbox` is used extensively in the controllers stored in @robotology-playground/wholeBodyControllers.
+`WB-Toolbox` is used extensively in the controllers stored in @robotology-playground/whole-body-controllers.
 
-[This video](https://youtu.be/UXU3KSa201o) shows latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the @robotology/WB-Toolbox achieves a running `100 Hz` rate.
+This video shows the latest results on the iCub robot achieved in the EU project CoDyCo in which a top level controller implemented with the @robotology/WB-Toolbox achieves a running `100 Hz` rate.
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/VrPBSSQEr3A/0.jpg)](https://youtu.be/UXU3KSa201o "iCub balancing on one foot via external force control and interacting with humans")
 

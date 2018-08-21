@@ -1,21 +1,22 @@
 # Install
 
 !!! info "Disclaimer"
-
-    `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
+    `WB-Toolbox` has been widely tested on `Ubuntu 16:04` and `Ubuntu 18.04` with Matlab `R2017b`. If you face any issue either with your OS or Matlab version, please submit an [Issue](https://github.com/robotology/WB-Toolbox/issues).
 
 ## Requirements
 
 - Matlab 7.1+ and Simulink: tested with Matlab `R2017b`, `R2016b`
 - [`YARP`](https://github.com/robotology/yarp) compiled as shared library (default behavior)
 - [`iDynTree`](https://github.com/robotology/idyntree)
+- [`YCM`](https://github.com/robotology/ycm)
 - Supported Operating Systems: Linux, macOS,  Windows
 
 ## Optional requirements
 
-- [`iCub`](https://github.com/robotology/icub-main) (needed for some blocks)
+- [`iCub`](https://github.com/robotology/icub-main)
 - [Gazebo Simulator](http://gazebosim.org/)
-- [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins).
+- [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins)
+- [`qpOASES`](https://github.com/robotology-dependencies/qpOASES/)
 
 ## Installation
 
@@ -27,13 +28,16 @@ For a simplified installation procedure, jump to [Install using the `robotology-
 
 ### Dependencies
 
-Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP` and `iDynTree` packages (and optionally `iCub`) can be found by `CMake` using `find_package`.
+Install the required and the optional dependencies by following their installation instructions. These instructions need that `YARP`, `iDynTree` and `YCM` packages can be found by `CMake` using `find_package`.
+
+!!! warning
+    If an optional dependency is not found, the classes depending on it are not compiled. However, in the Simulink Library the block does not disappear. It will just not work, raising an appropriate error.  
 
 ### Setup Matlab
 
-Make sure that you have MATLAB and Simulink are properly installed and running.
+Make sure that you have MATLAB and Simulink properly installed and running.
 
-`CMake` needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that `CMake` is able to [find your Matlab installation](https://cmake.org/cmake/help/v3.3/module/FindMatlab.html), and set the `Matlab_ROOT_DIR` environment variable if needed.
+`CMake` needs to find the Matlab installation folder in order to link the sources against its libraries. Make sure that `CMake` is able to [find your Matlab installation](https://cmake.org/cmake/help/v3.3/module/FindMatlab.html), or manually set the `Matlab_ROOT_DIR` environment variable if needed.
 
 After this, check that the MEX compiler for MATLAB is properly configured and working. You can try compiling some of the MATLAB C code examples as described in the [mex official documentation](https://www.mathworks.com/help/matlab/ref/mex.html).
 
@@ -47,11 +51,10 @@ mkdir -p wb-toolbox/build && cd wb-toolbox/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<install-prefix>
 cmake --build . --config Release
 cmake --build . --config Release --target install
-cmake --build . --config Release --target install
 ```
 
 !!! note
-    From refer to your install directory with the variable `<install-prefix>`. Every time you see this variable, you should substitute the absolute install path.
+    From now on, this guide refers to your install directory with the variable `<install-prefix>`. Every time you see this variable, you should substitute the absolute install path.
 
 ## Configuration
 
@@ -59,20 +62,20 @@ cmake --build . --config Release --target install
 
 In order to use the `WB-Toolbox` in Matlab you have to add some folders to the Matlab path.
 
-If you usually execute Matlab from the command line, exporting the following environment variable should be enough:
+If you usually launch Matlab from the command line, exporting the following environment variable should be enough:
 
 ```bash
-export MATLABPATH=<install-prefix>/mex:<install-prefix>/share/WB-Toolbox:<install-prefix>/share/WB-Toolbox/images
+export MATLABPATH=<install-prefix>/mex:<install-prefix>/share/WBToolbox:<install-prefix>/share/WBToolbox/images
 ```
 
 If, instead, you use the desktop launcher, a non-persistent Matlab configuration is the following:
 
 ```matlab
 addpath(['<install-prefix>' /mex])
-addpath(genpath(['<install-prefix>' /share/WB-Toolbox]))
+addpath(genpath(['<install-prefix>' /share/WBToolbox]))
 ```
 
-We also provide for the latter scenario a persistent configuration of `WB-Toolbox`. After the installation, only once after the installation, run the `startup_wbitoolbox.m` script that you can find in the `<install-prefix>/share/WB-Toolbox` directory. This usage assumes that Matlab is always launched from the [`userpath` folder](https://it.mathworks.com/help/matlab/matlab_env/assign-userpath-as-the-startup-folder-on-unix-or-macintosh.html).
+We also provide for the latter scenario a persistent configuration of `WB-Toolbox`. After the installation run once the `startup_wbitoolbox.m` script that you can find in the `<install-prefix>/share/WBToolbox` directory. It will place a file `pathdef.m` in your `userpath`  that loads the right variables to Matlab's environment. Note that this usage assumes that Matlab is always launched from the [`userpath` folder](https://it.mathworks.com/help/matlab/matlab_env/assign-userpath-as-the-startup-folder-on-unix-or-macintosh.html).
 
 ### Environment
 
@@ -82,6 +85,6 @@ Each robot that can be used through `WB-Toolbox` has its own configuration files
 
 The @robotology/robotology-superbuild provides an easy way for users to setup an environment by downloading, compiling, installing all the projects together.
 
-Follow the [superbuild installation instructions](https://github.com/robotology/robotology-superbuild/#installation) and enable the `ROBOTOLOGY_ENABLE_DYNAMICS` profile.
+Follow the [superbuild installation instructions](https://github.com/robotology/robotology-superbuild/#installation) and enable the `ROBOTOLOGY_ENABLE_DYNAMICS` profile. If `WB-Toolbox` is not downloaded and built, check that the `ROBOTOLOGY_USES_MATLAB` is `ON` and the `ROBOTOLOGY_NOT_USE_SIMULINK` is `OFF`.
 
-The configuration should be straightforward. Setup your `#!sh $HOME/.bashrc` file sourcing the `setup.sh` script as described in [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment).
+The configuration should be straightforward following the [Configure your environment](https://github.com/robotology/robotology-superbuild/#configure-your-environment) and [Matlab](https://github.com/robotology/robotology-superbuild#matlab) sections.
