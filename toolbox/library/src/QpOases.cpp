@@ -400,7 +400,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
         lb = lbSignal->getBuffer<double>();
         if (!lbSignal) {
-            wbtError << "Signal for lbA is not valid.";
+            wbtError << "Signal for lb is not valid.";
             return false;
         }
     }
