@@ -400,7 +400,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
         lb = lbSignal->getBuffer<double>();
         if (!lbSignal) {
-            wbtError << "Signal for lbA is not valid.";
+            wbtError << "Signal for lb is not valid.";
             return false;
         }
     }
@@ -487,7 +487,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
     const qpOASES::returnValue statusSol =
         pImpl->sqProblem->getPrimalSolution(solutionSignal->getBuffer<double>());
 
-    if (statusSol != qpOASES::SUCCESSFUL_RETURN) {
+    if (pImpl->stopWhenFails && statusSol != qpOASES::SUCCESSFUL_RETURN) {
         wbtError << "qpOASES: getPrimalSolution() failed.";
         return false;
     }
