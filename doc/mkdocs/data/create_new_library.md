@@ -10,7 +10,7 @@ This guide describes how to use the core infrastructure of the Whole Body Toolbo
 Despite it is a very trivial example, it shows how to structure both the C++ and the Matlab components of a toolbox. From this starting point is then possible to build more complex architectures which might need e.g. to be split in many parts or to link against third-party libraries.
 
 !!! example "Toolbox Example project"
-    You can find the files of this example in the [`example`](https://github/com/robotology/wb-toolbox/example/) folder.
+    You can find the files of this example in the [`example`](https://github.com/robotology/wb-toolbox/tree/master/example) folder.
 
 !!! info
     Until `v4` this core machinery is shipped together with our robotics framework. We're currently working on splitting the toolbox components for providing a standalone process. Stay tuned for upcoming news!
