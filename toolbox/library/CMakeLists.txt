@@ -2,30 +2,14 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-# =================
-# FIND DEPENDENCIES
-# =================
-
-find_package(YARP 3.0.0 REQUIRED)
-
-# Fail if YARP is not compiled as shared library
-# see https://github.com/robotology/codyco-modules/issues/44
-if(NOT ${YARP_IS_SHARED_LIBRARY})
-    message(FATAL_ERROR "YARP was found, but it was compiled as static library. A shared library version of YARP is required.")
-endif()
-
-find_package(iDynTree 0.7.2 REQUIRED)
-
-# This find loads Eigen.
-# It would be nice using the EigenConfig shipped with eigen package, but
-# on Ubuntu 16.04 eigen is old and provides only FindEigen.
-find_package(Eigen3 REQUIRED)
-
 # ==============
 # WBTOOLBOX BASE
 # ==============
 
-add_library(LibraryBase
+# Add configure_block macro
+include(Utilities)
+
+add_library(WBToolboxBase
     src/RobotInterface.cpp
     src/Configuration.cpp
     src/WholeBodySingleton.cpp
@@ -35,8 +19,8 @@ add_library(LibraryBase
     include/Base/WholeBodySingleton.h
     include/Base/WBBlock.h)
 
-target_link_libraries(LibraryBase
-    WBToolbox::Core
+target_link_libraries(WBToolboxBase
+    BlockFactory::Core
     YARP::YARP_OS
     YARP::YARP_init
     YARP::YARP_dev
@@ -44,7 +28,7 @@ target_link_libraries(LibraryBase
     iDynTree::idyntree-modelio-urdf
     iDynTree::idyntree-high-level)
 
-target_include_directories(LibraryBase PUBLIC
+target_include_directories(WBToolboxBase PUBLIC
     $<BUILD_INTERFACE:${EIGEN3_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox/Base>)
@@ -210,24 +194,24 @@ configure_block(BLOCK_NAME "Get Limits"
 get_property(ALL_LIBRARY_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_LIBRARY_SOURCES GLOBAL PROPERTY WBT_SOURCES)
 
-add_library(Library SHARED
+add_library(WBToolboxLibrary SHARED
     src/Factory.cpp
     ${ALL_LIBRARY_HEADERS}
     ${ALL_LIBRARY_SOURCES})
-add_library(WBToolbox::Library ALIAS Library)
+add_library(WBToolbox::Library ALIAS WBToolboxLibrary)
 
 if(MSVC)
     # Import math symbols from standard cmath
-    target_compile_definitions(Library PRIVATE "_USE_MATH_DEFINES")
+    target_compile_definitions(WBToolboxLibrary PRIVATE "_USE_MATH_DEFINES")
 endif()
 
-target_include_directories(Library PUBLIC
+target_include_directories(WBToolboxLibrary PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/Block>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
 
-target_include_directories(Library SYSTEM PRIVATE ${EIGEN3_INCLUDE_DIR})
+target_include_directories(WBToolboxLibrary SYSTEM PRIVATE ${EIGEN3_INCLUDE_DIR})
 
-set_target_properties(Library PROPERTIES
+set_target_properties(WBToolboxLibrary PROPERTIES
     PUBLIC_HEADER "${ALL_LIBRARY_HEADERS}"
     OUTPUT_NAME "WBToolboxLibrary")
 
@@ -240,15 +224,15 @@ list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
     iDynTree::idyntree-modelio-urdf
     iDynTree::idyntree-high-level)
 
-target_link_libraries(Library PUBLIC LibraryBase)
-target_link_libraries(Library PRIVATE WBToolbox::Core shlibpp::shlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
+target_link_libraries(WBToolboxLibrary PUBLIC WBToolboxBase)
+target_link_libraries(WBToolboxLibrary PRIVATE BlockFactory::Core shlibpp::shlibpp ${WBTOOLBOXLIBRARY_EXT_LIBRARIES})
 
 if(WBT_USES_ICUB)
-    target_compile_definitions(Library PRIVATE "WBT_USES_ICUB")
-    target_link_libraries(Library PUBLIC ctrlLib)
+    target_compile_definitions(WBToolboxLibrary PRIVATE "WBT_USES_ICUB")
+    target_link_libraries(WBToolboxLibrary PUBLIC ctrlLib)
 
     # Manually include iCub include folders. They are not exported by the linked library.
-    target_include_directories(Library PRIVATE ${ctrlLib_INCLUDE_DIRS})
+    target_include_directories(WBToolboxLibrary PRIVATE ${ctrlLib_INCLUDE_DIRS})
 
 #    if (${ICUB_USE_IPOPT})
 #        target_link_libraries(WBToolboxLibrary PUBLIC iKin)
@@ -257,16 +241,16 @@ if(WBT_USES_ICUB)
 endif()
 
 if(WBT_USES_QPOASES)
-    target_compile_definitions(Library PUBLIC "WBT_USES_QPOASES")
-    target_link_libraries(Library PUBLIC ${qpOASES_LIBRARIES})
+    target_compile_definitions(WBToolboxLibrary PUBLIC "WBT_USES_QPOASES")
+    target_link_libraries(WBToolboxLibrary PUBLIC ${qpOASES_LIBRARIES})
 
     # Manually include qpOASES include folders. They are not exported by the linked library.
-    target_include_directories(Library PRIVATE ${qpOASES_INCLUDE_DIRS})
+    target_include_directories(WBToolboxLibrary PRIVATE ${qpOASES_INCLUDE_DIRS})
 endif()
 
 install(
-    TARGETS LibraryBase Library
-    EXPORT WBToolboxLibraryExport
+    TARGETS WBToolboxBase WBToolboxLibrary
+    EXPORT WBToolboxExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -279,11 +263,11 @@ if(WBT_USES_QPOASES)
     list(APPEND WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS qpOASES)
 endif()
 
-install_basic_package_files(WBToolboxLibrary
+install_basic_package_files(WBToolbox
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    EXPORT WBToolboxLibraryExport
-    FIRST_TARGET LibraryBase
-    DEPENDENCIES YARP iDynTree ${WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS} ToolboxCore # TODO: Eigen3
+    EXPORT WBToolboxExport
+    FIRST_TARGET WBToolboxBase
+    DEPENDENCIES YARP iDynTree ${WBTOOLBOX_LIBRARY_PUBLIC_DEPENDS} BlockFactoryCore
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)
