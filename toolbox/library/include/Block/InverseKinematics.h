@@ -18,9 +18,9 @@ public:
     InverseKinematics();
 
     virtual unsigned numberOfParameters();
-    virtual bool configureSizeAndPorts(BlockInformation* blockInfo, wbt::Error* error);
+    virtual bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo, wbt::Error* error);
 
-    virtual bool initialize(BlockInformation* blockInfo, wbt::Error* error);
+    virtual bool initialize(blockfactory::core::BlockInformation* blockInfo, wbt::Error* error);
     virtual bool terminate(BlockInformation* blockInfo, wbt::Error* error);
     virtual bool output(BlockInformation* blockInfo, wbt::Error* error);
 };

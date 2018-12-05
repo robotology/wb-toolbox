@@ -16,9 +16,14 @@
 namespace wbt {
     class WholeBodySingleton;
     class RobotInterface;
-    class Parameters;
     class Configuration;
 } // namespace wbt
+
+namespace blockfactory {
+    namespace core {
+        class Parameters;
+    } // namespace core
+} // namespace blockfactory
 
 namespace iDynTree {
     class KinDynComputations;
@@ -145,7 +150,8 @@ public:
      * @see    WholeBodySingleton::storeConfiguration, wbt::Configuration,
      *         Parameters::containConfigurationData
      */
-    std::shared_ptr<RobotInterface> storeConfiguration(const wbt::Parameters& parameters);
+    std::shared_ptr<RobotInterface>
+    storeConfiguration(const blockfactory::core::Parameters& parameters);
 
     /**
      * Delete the wbt::RobotInterface referred by confKey. No-op if it doesn't exist.

@@ -7,10 +7,10 @@
  */
 
 #include "YarpClock.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
@@ -18,6 +18,7 @@
 #include <tuple>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -60,7 +61,7 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -79,7 +80,7 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
     yarp::os::Network::init();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
+        bfError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -96,12 +97,12 @@ bool YarpClock::output(const BlockInformation* blockInfo)
 {
     OutputSignalPtr outputSignal = blockInfo->getOutputPortSignal(OutputIndex::Clock);
     if (!outputSignal) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     if (!outputSignal->set(0, yarp::os::Time::now())) {
-        wbtError << "Failed to write data to the output signal.";
+        bfError << "Failed to write data to the output signal.";
         return false;
     }
     return true;

@@ -14,8 +14,13 @@
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class CentroidalMomentum;
 } // namespace wbt
 
@@ -32,10 +37,10 @@ public:
     CentroidalMomentum();
     ~CentroidalMomentum() override;
 
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_CENTROIDALMOMENTUM_H

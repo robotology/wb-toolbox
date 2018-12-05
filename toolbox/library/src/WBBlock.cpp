@@ -10,11 +10,11 @@
 #include "Base/Configuration.h"
 #include "Base/RobotInterface.h"
 #include "Base/WholeBodySingleton.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <iDynTree/Core/AngularMotionVector3.h>
 #include <iDynTree/Core/EigenHelpers.h>
@@ -30,6 +30,7 @@
 #include <ostream>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 enum ParamIndex
 {
@@ -86,7 +87,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
     using Matrix4dSimulink = Matrix<double, 4, 4, Eigen::ColMajor>;
 
     if (!m_robotState) {
-        wbtError << "Failed to access iDynTreeRobotState object.";
+        bfError << "Failed to access iDynTreeRobotState object.";
         return false;
     }
 
@@ -97,7 +98,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
         // Get the buffer
         const double* buffer = basePose->getBuffer<double>();
         if (!buffer) {
-            wbtError << "Failed to read the base pose from input port.";
+            bfError << "Failed to read the base pose from input port.";
             return false;
         }
         // Fill the data
@@ -111,7 +112,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
         // Get the buffer
         const double* buffer = jointsPos->getBuffer<double>();
         if (!buffer) {
-            wbtError << "Failed to read joints positions from input port.";
+            bfError << "Failed to read joints positions from input port.";
             return false;
         }
         // Fill the data
@@ -127,7 +128,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
         // Get the buffer
         const double* buffer = baseVelocity->getBuffer<double>();
         if (!buffer) {
-            wbtError << "Failed to read the base velocity from input port.";
+            bfError << "Failed to read the base velocity from input port.";
             return false;
         }
         // Fill the data
@@ -141,7 +142,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
         // Get the buffer
         const double* buffer = jointsVelocity->getBuffer<double>();
         if (!buffer) {
-            wbtError << "Failed to read joints velocities from input port.";
+            bfError << "Failed to read joints velocities from input port.";
             return false;
         }
         // Fill the data
@@ -154,7 +155,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
     // =============================================
 
     if (!kinDyn) {
-        wbtError << "Failed to access the KinDynComputations object.";
+        bfError << "Failed to access the KinDynComputations object.";
         return false;
     }
 
@@ -165,7 +166,7 @@ bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
                                     m_robotState->gravity);
 
     if (!ok) {
-        wbtError << "Failed to set the iDynTree robot state.";
+        bfError << "Failed to set the iDynTree robot state.";
         return false;
     }
 
@@ -198,7 +199,7 @@ bool WBBlock::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -214,7 +215,7 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
 
     // Parse the parameters
     if (!WBBlock::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -228,13 +229,13 @@ bool WBBlock::configureSizeAndPorts(BlockInformation* blockInfo)
     m_robotInterface = WholeBodySingleton::sharedInstance().storeConfiguration(m_parameters);
 
     if (!m_robotInterface) {
-        wbtError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
+        bfError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
         return false;
     }
 
     // Check if the DoFs are positive
     if (m_robotInterface->getConfiguration().getNumberOfDoFs() < 1) {
-        wbtError << "Failed to configure WBBlock. Read 0 DoFs.";
+        bfError << "Failed to configure WBBlock. Read 0 DoFs.";
         return false;
     }
 
@@ -249,7 +250,7 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
 
     // Parse the parameters
     if (!WBBlock::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -259,14 +260,14 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
     m_robotInterface = WholeBodySingleton::sharedInstance().storeConfiguration(m_parameters);
 
     if (!m_robotInterface) {
-        wbtError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
+        bfError << "Failed to get the RobotInterface object from the WholeBodySingleton.";
         return false;
     }
 
     // Check if the DoFs are positive
     const auto dofs = m_robotInterface->getConfiguration().getNumberOfDoFs();
     if (dofs < 1) {
-        wbtError << "Failed to configure WBBlock. Read 0 DoFs.";
+        bfError << "Failed to configure WBBlock. Read 0 DoFs.";
         return false;
     }
 
@@ -275,7 +276,7 @@ bool WBBlock::initialize(BlockInformation* blockInfo)
         new iDynTreeRobotState(dofs, m_robotInterface->getConfiguration().getGravityVector()));
 
     if (!m_robotState) {
-        wbtError << "Failed to initialize the iDynTreeRobotState object";
+        bfError << "Failed to initialize the iDynTreeRobotState object";
         return false;
     }
 

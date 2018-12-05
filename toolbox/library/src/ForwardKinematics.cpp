@@ -9,12 +9,12 @@
 #include "ForwardKinematics.h"
 #include "Base/Configuration.h"
 #include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/Transform.h>
@@ -25,6 +25,7 @@
 #include <tuple>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -75,7 +76,7 @@ bool ForwardKinematics::parseParameters(BlockInformation* blockInfo)
     const ParameterMetadata frameMetadata(ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -117,7 +118,7 @@ bool ForwardKinematics::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -134,13 +135,13 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!ForwardKinematics::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     std::string frame;
     if (!m_parameters.getParameter("Frame", frame)) {
-        wbtError << "Cannot retrieve string from frame parameter.";
+        bfError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
@@ -152,14 +153,14 @@ bool ForwardKinematics::initialize(BlockInformation* blockInfo)
 
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Cannot retrieve handle to KinDynComputations.";
+        bfError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
         pImpl->frameIndex = kinDyn->getFrameIndex(frame);
         if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            wbtError << "Cannot find " + frame + " in the frame list.";
+            bfError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
@@ -185,7 +186,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -196,14 +197,14 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
     if (!basePoseSig || !jointsPosSig) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
     bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
-        wbtError << "Failed to set the robot state.";
+        bfError << "Failed to set the robot state.";
         return false;
     }
 
@@ -223,7 +224,7 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     // Get the output signal memory location
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 

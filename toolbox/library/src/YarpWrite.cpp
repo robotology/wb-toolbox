@@ -7,12 +7,12 @@
  */
 
 #include "YarpWrite.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/PortReaderBuffer-inl.h>
@@ -22,6 +22,7 @@
 #include <tuple>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -75,7 +76,7 @@ bool YarpWrite::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -108,7 +109,7 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -128,7 +129,7 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!YarpWrite::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -140,7 +141,7 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("ErrorOnMissingPort", pImpl->errorOnMissingPort);
 
     if (!ok) {
-        wbtError << "Failed to read input parameters.";
+        bfError << "Failed to read input parameters.";
         return false;
     }
 
@@ -150,7 +151,7 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
+        bfError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -169,20 +170,20 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     }
 
     if (!pImpl->port.open(sourcePortName)) {
-        wbtError << "Error while opening yarp port.";
+        bfError << "Error while opening yarp port.";
         return false;
     }
 
     if (pImpl->autoconnect) {
         if (!Network::connect(pImpl->port.getName(), pImpl->destinationPortName)) {
             if (pImpl->errorOnMissingPort) {
-                wbtError << "Failed to connect " << pImpl->port.getName() << " to "
-                         << pImpl->destinationPortName << ".";
+                bfError << "Failed to connect " << pImpl->port.getName() << " to "
+                        << pImpl->destinationPortName << ".";
                 return false;
             }
             else {
-                wbtWarning << "Failed to connect " << pImpl->port.getName() << " to "
-                           << pImpl->destinationPortName << ".";
+                bfWarning << "Failed to connect " << pImpl->port.getName() << " to "
+                          << pImpl->destinationPortName << ".";
             }
         }
     }
@@ -208,7 +209,7 @@ bool YarpWrite::output(const BlockInformation* blockInfo)
     InputSignalPtr signal = blockInfo->getInputPortSignal(InputIndex::Signal);
 
     if (!signal) {
-        wbtError << "Input signal not valid.";
+        bfError << "Input signal not valid.";
         return false;
     }
 

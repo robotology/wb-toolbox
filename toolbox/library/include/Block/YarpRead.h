@@ -9,13 +9,18 @@
 #ifndef WBT_YARPREAD_H
 #define WBT_YARPREAD_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class YarpRead;
 } // namespace wbt
 
@@ -35,7 +40,7 @@ namespace wbt {
  * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
  *
  */
-class wbt::YarpRead final : public wbt::Block
+class wbt::YarpRead final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -46,11 +51,11 @@ public:
     ~YarpRead() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_YARPREAD_H

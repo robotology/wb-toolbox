@@ -7,12 +7,12 @@
  */
 
 #include "DiscreteFilter.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <iCub/ctrl/filters.h>
 #include <yarp/sig/Vector.h>
 
@@ -22,6 +22,7 @@
 #include <vector>
 
 using namespace wbt;
+using namespace blockfactory::core;
 using namespace iCub::ctrl;
 using namespace yarp::sig;
 
@@ -87,7 +88,7 @@ bool DiscreteFilter::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -123,7 +124,7 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -140,7 +141,7 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!DiscreteFilter::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -166,7 +167,7 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("MedianOrder", medianFilter_order);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -176,13 +177,13 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     if (filter_type == "Generic") {
         // Check if numerator and denominator are not empty
         if (num_coeff.empty() || den_coeff.empty()) {
-            wbtError << "Empty numerator or denominator not allowed.";
+            bfError << "Empty numerator or denominator not allowed.";
             return false;
         }
         // Check if numerator or denominator are scalar and zero
         if ((num_coeff.size() == 1 && num_coeff.front() == 0.0)
             || (den_coeff.size() == 1 && den_coeff.front() == 0.0)) {
-            wbtError << "Passed numerator or denominator not valid.";
+            bfError << "Passed numerator or denominator not valid.";
             return false;
         }
     }
@@ -198,12 +199,12 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     if (initStatus) {
         // y0 and output signal dimensions should match
         if (y0.size() != outputSignalSize) {
-            wbtError << "y0 and output signal sizes don't match.";
+            bfError << "y0 and output signal sizes don't match.";
             return false;
         }
         // u0 and input signal dimensions should match (used only for Generic)
         if ((filter_type == "Generic") && (u0.size() != inputPortWidth)) {
-            wbtError << "(Generic) u0 and input signal sizes don't match.";
+            bfError << "(Generic) u0 and input signal sizes don't match.";
             return false;
         }
         // Allocate the initial conditions
@@ -230,8 +231,8 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // -----------------------
     else if (filter_type == "FirstOrderLowPassFilter") {
         if (firstOrderLowPassFilter_fc == 0.0 || firstOrderLowPassFilter_ts == 0.0) {
-            wbtError << "(FirstOrderLowPassFilter) You need to "
-                        "specify Fc and Ts.";
+            bfError << "(FirstOrderLowPassFilter) You need to "
+                       "specify Fc and Ts.";
             return false;
         }
         pImpl->filter = std::unique_ptr<IFilter>(
@@ -241,13 +242,13 @@ bool DiscreteFilter::initialize(BlockInformation* blockInfo)
     // ------------
     else if (filter_type == "MedianFilter") {
         if (medianFilter_order == 0) {
-            wbtError << "(MedianFilter) You need to specify the filter order.";
+            bfError << "(MedianFilter) You need to specify the filter order.";
             return false;
         }
         pImpl->filter = std::unique_ptr<IFilter>(new MedianFilter(medianFilter_order));
     }
     else {
-        wbtError << "Filter type not recognized.";
+        bfError << "Filter type not recognized.";
         return false;
     }
 
@@ -281,7 +282,7 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*block
             pImpl->filter->init(pImpl->y0);
         }
         else {
-            wbtError << "Failed to get the IFilter object.";
+            bfError << "Failed to get the IFilter object.";
             return false;
         }
     }
@@ -292,7 +293,7 @@ bool DiscreteFilter::initializeInitialConditions(const BlockInformation* /*block
 bool DiscreteFilter::output(const BlockInformation* blockInfo)
 {
     if (!pImpl->filter) {
-        wbtError << "Failed to retrieve the filter object.";
+        bfError << "Failed to retrieve the filter object.";
         return false;
     }
 
@@ -301,7 +302,7 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
     OutputSignalPtr outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
 
     if (!inputSignal || !outputSignal) {
-        wbtError << "Signals not valid.";
+        bfError << "Signals not valid.";
         return false;
     }
 
@@ -315,7 +316,7 @@ bool DiscreteFilter::output(const BlockInformation* blockInfo)
 
     // Forward the filtered signals to the output port
     if (!outputSignal->setBuffer(outputVector.data(), outputVector.length())) {
-        wbtError << "Failed to set output buffer.";
+        bfError << "Failed to set output buffer.";
         return false;
     }
 

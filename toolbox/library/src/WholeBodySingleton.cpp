@@ -9,8 +9,9 @@
 #include "Base/WholeBodySingleton.h"
 #include "Base/Configuration.h"
 #include "Base/RobotInterface.h"
-#include "Core/Log.h"
-#include "Core/Parameters.h"
+
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameters.h>
 
 #include <array>
 #include <ostream>
@@ -19,9 +20,10 @@
 #include <vector>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
-                       const wbt::Parameters& parameters);
+                       const Parameters& parameters);
 
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
@@ -44,14 +46,13 @@ int WholeBodySingleton::numberOfDoFs(const std::string& confKey) const
 bool WholeBodySingleton::isKeyValid(const std::string& confKey) const
 {
     if (m_interfaces.find(confKey) == m_interfaces.end()) {
-        wbtError << "Failed to find entry in the ToolboxSingleton related to " << confKey
-                 << " key.";
+        bfError << "Failed to find entry in the ToolboxSingleton related to " << confKey << " key.";
         return false;
     }
 
     if (!m_interfaces.at(confKey).lock()) {
-        wbtError << "Failed to get the RobotInterface object from its weak pointer stored in "
-                 << "TolboxSingleton.";
+        bfError << "Failed to get the RobotInterface object from its weak pointer stored in "
+                << "TolboxSingleton.";
         return false;
     }
 
@@ -99,7 +100,7 @@ std::shared_ptr<RobotInterface>
 WholeBodySingleton::createRobotInterface(const Configuration& config)
 {
     if (!config.isValid()) {
-        wbtError << "The passed configuration object does not contain valid data.";
+        bfError << "The passed configuration object does not contain valid data.";
         return {};
     }
 
@@ -126,9 +127,9 @@ WholeBodySingleton::createRobotInterface(const Configuration& config)
     // previously by another block that points to the same Configuration block. Just to be sure,
     // check if the Configuration objects match:
     if (!(m_interfaces[confKey].lock()->getConfiguration() == config)) {
-        wbtError << "A RobotInterface pointing to " << confKey
-                 << " Configuration block already exists, but contains a different "
-                 << "wbt::Configuration object.";
+        bfError << "A RobotInterface pointing to " << confKey
+                << " Configuration block already exists, but contains a different "
+                << "wbt::Configuration object.";
         return {};
     }
 
@@ -138,7 +139,7 @@ WholeBodySingleton::createRobotInterface(const Configuration& config)
 }
 
 bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
-                       const wbt::Parameters& parameters)
+                       const Parameters& parameters)
 {
     bool ok = true;
 
@@ -159,8 +160,8 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
     ok = ok && parameters.getParameter("ConfBlockName", confBlockName);
 
     if (!ok) {
-        wbtError << "The parameters passed do not contain all the required information to create a "
-                 << "Configuration object.";
+        bfError << "The parameters passed do not contain all the required information to create a "
+                << "Configuration object.";
         return false;
     }
 
@@ -183,20 +184,19 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
     return true;
 }
 
-std::shared_ptr<RobotInterface>
-WholeBodySingleton::storeConfiguration(const wbt::Parameters& parameters)
+std::shared_ptr<RobotInterface> WholeBodySingleton::storeConfiguration(const Parameters& parameters)
 {
     std::shared_ptr<Configuration> configurationPtr = nullptr;
 
     // Create the Configuration object. This checks if parameters contain all the required
     // parameters.
     if (!fillConfiguration(configurationPtr, parameters)) {
-        wbtError << "Failed to fill the configuration with input parameters.";
+        bfError << "Failed to fill the configuration with input parameters.";
         return {};
     }
 
     if (!configurationPtr || !configurationPtr->isValid()) {
-        wbtError << "The parsed Configuration object is not valid.";
+        bfError << "The parsed Configuration object is not valid.";
         return {};
     }
 
@@ -205,7 +205,7 @@ WholeBodySingleton::storeConfiguration(const wbt::Parameters& parameters)
     auto robotInterface = createRobotInterface(*configurationPtr);
 
     if (!robotInterface) {
-        wbtError << "Failed to get the RobotInterface object.";
+        bfError << "Failed to get the RobotInterface object.";
         return {};
     }
 

@@ -8,7 +8,7 @@ namespace wbt {
     class BlockInformation;
 } // namespace wbt
 
-class wbt::RemoteInverseKinematics : public wbt::Block
+class wbt::RemoteInverseKinematics : public blockfactory::core::Block
 {
 
     struct RemoteInverseKinematicsPimpl;
@@ -20,9 +20,9 @@ public:
 
     virtual unsigned numberOfParameters();
     virtual unsigned numberOfDiscreteStates();
-    virtual bool configureSizeAndPorts(BlockInformation* blockInfo, wbt::Error* error);
+    virtual bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo, wbt::Error* error);
 
-    virtual bool initialize(BlockInformation* blockInfo, wbt::Error* error);
+    virtual bool initialize(blockfactory::core::BlockInformation* blockInfo, wbt::Error* error);
     virtual bool terminate(BlockInformation* blockInfo, wbt::Error* error);
     virtual bool output(BlockInformation* blockInfo, wbt::Error* error);
 };

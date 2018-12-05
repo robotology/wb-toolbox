@@ -7,12 +7,12 @@
  */
 
 #include "QpOases.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <qpOASES.hpp>
 
@@ -20,6 +20,7 @@
 #include <tuple>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 const unsigned MaxIterations = 100;
 
@@ -105,7 +106,7 @@ bool QpOases::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -119,7 +120,7 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     // ==========
 
     if (!QpOases::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -137,7 +138,7 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("ComputeObjVal", computeObjVal);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -208,7 +209,7 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     if (!blockInfo->setIOPortsData(ioData)) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -225,7 +226,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!QpOases::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -238,7 +239,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("StopWhenFails", pImpl->stopWhenFails);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -249,14 +250,14 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     const auto size_H = blockInfo->getInputPortMatrixSize(InputIndex::Hessian);
     const auto numberOfVariables = size_H.first;
     if (size_H.first != size_H.second) {
-        wbtError << "The Hessian matrix should be square.";
+        bfError << "The Hessian matrix should be square.";
         return false;
     }
 
     // Check the gradient size
     const auto size_g = blockInfo->getInputPortWidth(InputIndex::Gradient);
     if (size_g != numberOfVariables) {
-        wbtError << "The gradient size does not match with the Hessian size.";
+        bfError << "The gradient size does not match with the Hessian size.";
         return false;
     }
 
@@ -269,7 +270,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
         ok = ok && (blockInfo->getInputPortWidth(InputIndex_ub) == numberOfVariables);
     }
     if (!ok) {
-        wbtError << "Sizes of bounds do not match with the number of variables.";
+        bfError << "Sizes of bounds do not match with the number of variables.";
         return false;
     }
 
@@ -280,8 +281,8 @@ bool QpOases::initialize(BlockInformation* blockInfo)
         const auto size_c = blockInfo->getInputPortMatrixSize(InputIndex_constraints);
         numberOfConstraints = size_c.first;
         if (size_c.second != numberOfVariables) {
-            wbtError << "The column size of the constraints matrix does not match with "
-                     << "the Hessian size";
+            bfError << "The column size of the constraints matrix does not match with "
+                    << "the Hessian size";
             return false;
         }
 
@@ -297,7 +298,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
             ok = ok && (blockInfo->getInputPortWidth(InputIndex_ubA) == numberOfConstraints);
         }
         if (!ok) {
-            wbtError << "Sizes of constraints' bounds do not match with the number of constraints.";
+            bfError << "Sizes of constraints' bounds do not match with the number of constraints.";
             return false;
         }
     }
@@ -309,7 +310,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
         new qpOASES::SQProblem(numberOfVariables, numberOfConstraints));
 
     if (!pImpl->sqProblem) {
-        wbtError << "Failed to allocate the QProblem or SQProblem object.";
+        bfError << "Failed to allocate the QProblem or SQProblem object.";
         return false;
     }
 
@@ -344,7 +345,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
     InputSignalPtr gradientSignal = blockInfo->getInputPortSignal(InputIndex::Gradient);
 
     if (!hessianSignal || !gradientSignal) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -360,7 +361,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
     if (pImpl->useLbA || pImpl->useUbA) {
         InputSignalPtr constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
         if (!constraintsSignal) {
-            wbtError << "Signal for lbA is not valid.";
+            bfError << "Signal for lbA is not valid.";
             return false;
         }
 
@@ -381,7 +382,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
             InputSignalPtr lbASignal = blockInfo->getInputPortSignal(InputIndex_lbA);
             lbA = lbASignal->getBuffer<double>();
             if (!lbASignal) {
-                wbtError << "Signal for lbA is not valid.";
+                bfError << "Signal for lbA is not valid.";
                 return false;
             }
         }
@@ -390,7 +391,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
             InputSignalPtr ubASignal = blockInfo->getInputPortSignal(InputIndex_ubA);
             ubA = ubASignal->getBuffer<double>();
             if (!ubASignal) {
-                wbtError << "Signal for ubA is not valid.";
+                bfError << "Signal for ubA is not valid.";
                 return false;
             }
         }
@@ -400,7 +401,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
         lb = lbSignal->getBuffer<double>();
         if (!lbSignal) {
-            wbtError << "Signal for lb is not valid.";
+            bfError << "Signal for lb is not valid.";
             return false;
         }
     }
@@ -409,7 +410,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
         ub = ubSignal->getBuffer<double>();
         if (!ubSignal) {
-            wbtError << "Signal for ub is not valid.";
+            bfError << "Signal for ub is not valid.";
             return false;
         }
     }
@@ -419,13 +420,13 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
     OutputSignalPtr solutionSignal = blockInfo->getOutputPortSignal(OutputIndex::PrimalSolution);
     if (!solutionSignal) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     OutputSignalPtr statusSignal = blockInfo->getOutputPortSignal(OutputIndex::Status);
     if (!statusSignal) {
-        wbtError << "Status signal not valid.";
+        bfError << "Status signal not valid.";
         return false;
     }
 
@@ -444,7 +445,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
                                         nWSR,
                                         nullptr);
         if (pImpl->stopWhenFails && status != qpOASES::SUCCESSFUL_RETURN) {
-            wbtError << "qpOASES: init() failed.";
+            bfError << "qpOASES: init() failed.";
             return false;
         }
     }
@@ -462,8 +463,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
         // Handle possible errors
         if ((status != qpOASES::SUCCESSFUL_RETURN) && (status != qpOASES::RET_MAX_NWSR_REACHED)) {
-            wbtWarning << "Internal qpOASES error. Trying to solve the problem with the remaining "
-                       << "number of iterations.";
+            bfWarning << "Internal qpOASES error. Trying to solve the problem with the remaining "
+                      << "number of iterations.";
             pImpl->sqProblem->reset();
 
             nWSR = MaxIterations - nWSR;
@@ -479,7 +480,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         }
 
         if (pImpl->stopWhenFails && status != qpOASES::SUCCESSFUL_RETURN) {
-            wbtError << "qpOASES: hotstart() failed.";
+            bfError << "qpOASES: hotstart() failed.";
             return false;
         }
     }
@@ -488,12 +489,12 @@ bool QpOases::output(const BlockInformation* blockInfo)
         pImpl->sqProblem->getPrimalSolution(solutionSignal->getBuffer<double>());
 
     if (pImpl->stopWhenFails && statusSol != qpOASES::SUCCESSFUL_RETURN) {
-        wbtError << "qpOASES: getPrimalSolution() failed.";
+        bfError << "qpOASES: getPrimalSolution() failed.";
         return false;
     }
 
     if (!statusSignal->set(0, qpOASES::getSimpleStatus(status))) {
-        wbtError << "Failed to set status signal.";
+        bfError << "Failed to set status signal.";
         return false;
     }
 
@@ -505,12 +506,12 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
         OutputSignalPtr objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
         if (!objValSignal) {
-            wbtError << "Object Value signal not valid.";
+            bfError << "Object Value signal not valid.";
             return false;
         }
 
         if (!objValSignal->set(0, objVal)) {
-            wbtError << "Failed to set object value signal.";
+            bfError << "Failed to set object value signal.";
             return false;
         }
     }

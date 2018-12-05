@@ -9,12 +9,12 @@
 #include "RelativeTransform.h"
 #include "Base/Configuration.h"
 #include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/Transform.h>
@@ -24,6 +24,7 @@
 #include <ostream>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -78,7 +79,7 @@ bool RelativeTransform::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -119,7 +120,7 @@ bool RelativeTransform::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -136,7 +137,7 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -148,7 +149,7 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("Frame2", frame2);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -160,21 +161,21 @@ bool RelativeTransform::initialize(BlockInformation* blockInfo)
 
     const auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Cannot retrieve handle to KinDynComputations.";
+        bfError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     // Frame 1
     pImpl->frame1Index = kinDyn->getFrameIndex(frame1);
     if (pImpl->frame1Index == iDynTree::FRAME_INVALID_INDEX) {
-        wbtError << "Cannot find " + frame1 + " in the frame list.";
+        bfError << "Cannot find " + frame1 + " in the frame list.";
         return false;
     }
 
     // Frame 2
     pImpl->frame2Index = kinDyn->getFrameIndex(frame2);
     if (pImpl->frame2Index == iDynTree::FRAME_INVALID_INDEX) {
-        wbtError << "Cannot find " + frame2 + " in the frame list.";
+        bfError << "Cannot find " + frame2 + " in the frame list.";
         return false;
     }
 
@@ -199,7 +200,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -209,7 +210,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
     if (!jointsPosSig) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -230,7 +231,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     // Get the output signal memory location
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 

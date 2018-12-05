@@ -9,13 +9,18 @@
 #ifndef WBT_YARPWRITE_H
 #define WBT_YARPWRITE_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class YarpWrite;
 } // namespace wbt
 
@@ -31,7 +36,7 @@ namespace wbt {
  * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
  *
  */
-class wbt::YarpWrite final : public wbt::Block
+class wbt::YarpWrite final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -42,11 +47,11 @@ public:
     ~YarpWrite() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_YARPWRITE_H

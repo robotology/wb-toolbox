@@ -8,8 +8,8 @@
 
 #include "Base/RobotInterface.h"
 #include "Base/Configuration.h"
-#include "Core/Log.h"
 
+#include <BlockFactory/Core/Log.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingMatrices.h>
 #include <iDynTree/Model/Indices.h>
@@ -81,7 +81,7 @@ public:
 
         while (!getMeasurement(buffer.data())) {
             if (++counter == maxIter) {
-                wbtError << "Failed to get a measurement during the interface initialization.";
+                bfError << "Failed to get a measurement during the interface initialization.";
                 return false;
             }
             // Sleep for some while
@@ -119,7 +119,7 @@ public:
 
         // Fail if the file is not found
         if (urdf_file_path.empty()) {
-            wbtError << "ResourceFinder couldn't find urdf file " + urdf_file + ".";
+            bfError << "ResourceFinder couldn't find urdf file " + urdf_file + ".";
             return false;
         }
 
@@ -132,9 +132,9 @@ public:
         // Use ModelLoader to load the reduced model
         iDynTree::ModelLoader mdlLoader;
         if (!mdlLoader.loadReducedModelFromFile(urdf_file_path, controlledJoints)) {
-            wbtError << "Impossible to load " + urdf_file + "." << std::endl
-                     << "Possible causes: file not found, or the joint "
-                     << "list contains an entry not present in the urdf model.";
+            bfError << "Impossible to load " + urdf_file + "." << std::endl
+                    << "Possible causes: file not found, or the joint "
+                    << "list contains an entry not present in the urdf model.";
             return false;
         }
 
@@ -147,7 +147,7 @@ public:
         // Initialize the network
         yarp::os::Network::init();
         if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-            wbtError << "YARP server wasn't found active.";
+            bfError << "YARP server wasn't found active.";
             return false;
         }
 
@@ -187,7 +187,7 @@ public:
         robotDevice = std::unique_ptr<yarp::dev::PolyDriver>(new yarp::dev::PolyDriver());
 
         if (!robotDevice) {
-            wbtError << "Failed to instantiante an empty PolyDriver class.";
+            bfError << "Failed to instantiante an empty PolyDriver class.";
             return false;
         }
 
@@ -195,7 +195,7 @@ public:
         if (!robotDevice->open(options) && !robotDevice->isValid()) {
             // Remove garbage if the opening fails
             robotDevice.reset();
-            wbtError << "Failed to open the RemoteControlBoardRemapper with the options passed.";
+            bfError << "Failed to open the RemoteControlBoardRemapper with the options passed.";
             return false;
         }
 
@@ -240,7 +240,7 @@ const std::shared_ptr<iDynTree::KinDynComputations> RobotInterface::getKinDynCom
 
     // Otherwise, initialize a new object
     if (!pImpl->initializeModel()) {
-        wbtError << "Failed to initialize the KinDynComputations object.";
+        bfError << "Failed to initialize the KinDynComputations object.";
         // Return an empty shared_ptr (implicitly initialized)
         return nullptr;
     }
@@ -260,13 +260,13 @@ T* RobotInterface::impl::getInterfaceLazyEval(
         // Lazy-initialize the RemoteControlBoardRemapper device
         if (!cbRemapper) {
             if (!initializeRemoteControlBoardRemapper()) {
-                wbtError << "Failed to initialize the RemoteControlBoardRemapper.";
+                bfError << "Failed to initialize the RemoteControlBoardRemapper.";
                 return nullptr;
             }
         }
         // Ask the interface from the device
         if (!robotDevice->view(interface)) {
-            wbtError << "Failed to view the interface.";
+            bfError << "Failed to view the interface.";
             return nullptr;
         }
     }

@@ -9,13 +9,18 @@
 #ifndef WBT_FILTER_H
 #define WBT_FILTER_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class DiscreteFilter;
 } // namespace wbt
 
@@ -41,7 +46,7 @@ namespace wbt {
  *
  */
 // clang-format on
-class wbt::DiscreteFilter final : public wbt::Block
+class wbt::DiscreteFilter final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -52,11 +57,12 @@ public:
     ~DiscreteFilter() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool initializeInitialConditions(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool
+    initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_FILTER_H

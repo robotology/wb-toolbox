@@ -9,13 +9,18 @@
 #ifndef WBT_REALTIMESYNCHRONIZER_H
 #define WBT_REALTIMESYNCHRONIZER_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class RealTimeSynchronizer;
 } // namespace wbt
 
@@ -31,7 +36,7 @@ namespace wbt {
  * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "Period" |
  *
  */
-class wbt::RealTimeSynchronizer final : public wbt::Block
+class wbt::RealTimeSynchronizer final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -42,11 +47,11 @@ public:
     ~RealTimeSynchronizer() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_REALTIMESYNCHRONIZER_H

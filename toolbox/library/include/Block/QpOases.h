@@ -6,16 +6,21 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "Core/Block.h"
+#ifndef WBT_QPOASES_H
+#define WBT_QPOASES_H
+
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 
-#ifndef WBT_QPOASES_H
-#define WBT_QPOASES_H
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
 
 namespace wbt {
-    class BlockInformation;
     class QpOases;
 } // namespace wbt
 
@@ -36,7 +41,7 @@ namespace wbt {
  * | ParameterType::BOOL | 5 + Block::NumberOfParameters | 1 | 1 | "StopWhenFails" |
  *
  */
-class wbt::QpOases final : public wbt::Block
+class wbt::QpOases final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -47,11 +52,12 @@ public:
     ~QpOases() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool initializeInitialConditions(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool
+    initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_QPOASES_H

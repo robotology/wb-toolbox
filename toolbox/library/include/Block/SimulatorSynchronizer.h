@@ -9,14 +9,19 @@
 #ifndef WBT_SIMULATORSYNCHRONIZER_H
 #define WBT_SIMULATORSYNCHRONIZER_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
 #include <vector>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
-    class BlockInformation;
     class SimulatorSynchronizer;
 } // namespace wbt
 
@@ -34,7 +39,7 @@ namespace wbt {
  * | ::STRING | 2 + WBBlock::NumberOfParameters | 1 | 1 | "GazeboClockPort" |
  *
  */
-class wbt::SimulatorSynchronizer final : public wbt::Block
+class wbt::SimulatorSynchronizer final : public blockfactory::core::Block
 {
 private:
     class impl;
@@ -46,11 +51,11 @@ public:
 
     unsigned numberOfParameters() override;
     std::vector<std::string> additionalBlockOptions() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
-    bool terminate(const BlockInformation* blockInfo) override;
-    bool output(const BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_SIMULATORSYNCHRONIZER_H

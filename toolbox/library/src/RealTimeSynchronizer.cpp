@@ -7,11 +7,11 @@
  */
 
 #include "RealTimeSynchronizer.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
@@ -19,6 +19,7 @@
 #include <tuple>
 
 using namespace wbt;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -60,7 +61,7 @@ bool RealTimeSynchronizer::parseParameters(BlockInformation* blockInfo)
         ParameterType::DOUBLE, ParamIndex::Period, 1, 1, "Period");
 
     if (!blockInfo->addParameterMetadata(periodMetadata)) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -83,7 +84,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     const bool ok = blockInfo->setIOPortsData({{}, {}});
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -100,17 +101,17 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!RealTimeSynchronizer::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     if (!m_parameters.getParameter("Period", pImpl->period)) {
-        wbtError << "Failed to get parameter 'period' after its parsing.";
+        bfError << "Failed to get parameter 'period' after its parsing.";
         return false;
     }
 
     if (pImpl->period <= 0) {
-        wbtError << "Period must be greater than 0.";
+        bfError << "Period must be greater than 0.";
         return false;
     }
 
@@ -119,7 +120,7 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
 
     yarp::os::Network::init();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active!!";
+        bfError << "YARP server wasn't found active!!";
         return false;
     }
 

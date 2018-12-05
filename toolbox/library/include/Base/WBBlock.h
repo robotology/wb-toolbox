@@ -9,16 +9,21 @@
 #ifndef WBT_WBBLOCK_H
 #define WBT_WBBLOCK_H
 
-#include "Core/Block.h"
+#include <BlockFactory/Core/Block.h>
 #include <memory>
 #include <string>
 
+namespace blockfactory {
+    namespace core {
+        class BlockInformation;
+        class Signal;
+    } // namespace core
+} // namespace blockfactory
+
 namespace wbt {
     class WBBlock;
-    class Signal;
-    class BlockInformation;
     class RobotInterface;
-    using InputSignalPtr = std::shared_ptr<const Signal>;
+    using InputSignalPtr = std::shared_ptr<const blockfactory::core::Signal>;
 } // namespace wbt
 
 namespace iDynTree {
@@ -26,12 +31,14 @@ namespace iDynTree {
 } // namespace iDynTree
 
 /**
- * @brief Extension of wbt::Block for simplifying the development of whole-body blocks
+ * @brief Extension of blockfactory::core::Block for simplifying the development of whole-body
+ * blocks
  *
- * This class provides support of parsing the parameters for creating a wbt::RobotInterface object,
- * and helpers for retrieving iDynTree::KinDynComputations and wbt::RobotInterface objects.
+ * This class provides support of parsing the parameters for creating a wbt::RobotInterface
+ * object, and helpers for retrieving iDynTree::KinDynComputations and wbt::RobotInterface
+ * objects.
  *
- * @see wbt::Block
+ * @see blockfactory::core::block
  *
  * @section wbblock_parameters WBBlock Parameters
  *
@@ -47,10 +54,10 @@ namespace iDynTree {
  * | ::STRUCT_DOUBLE      | 0 + Block::NumberOfParameters | 1 | 3 | "GravityVector"      |
  * | ::STRING             | 1 + Block::NumberOfParameters | 1 | 1 | "ConfBlockName"      |
  *
- * @note The first set of parameters are fields of the same struct. For this reason they share the
- * same index.
+ * @note The first set of parameters are fields of the same struct. For this reason they share
+ * the same index.
  */
-class wbt::WBBlock : public wbt::Block
+class wbt::WBBlock : public blockfactory::core::Block
 {
 protected:
     // TODO: pImpl
@@ -96,9 +103,9 @@ public:
     WBBlock();
     ~WBBlock() override;
     unsigned numberOfParameters() override;
-    bool parseParameters(BlockInformation* blockInfo) override;
-    bool configureSizeAndPorts(BlockInformation* blockInfo) override;
-    bool initialize(BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
+    bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
 };
 
 #endif // WBT_WBBLOCK_H
