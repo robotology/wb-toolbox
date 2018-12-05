@@ -2,6 +2,8 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+find_package(shlibpp REQUIRED)
+find_package(BlockFactory COMPONENTS BlockFactoryCore REQUIRED)
 # =================
 # FIND DEPENDENCIES
 # =================
@@ -70,7 +72,6 @@ include(InstallBasicPackageFiles)
 # TOOLBOX TARGETS
 # ===============
 
-add_subdirectory(core)
 add_subdirectory(library)
 
 # =====================
