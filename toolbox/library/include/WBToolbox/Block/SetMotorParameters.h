@@ -10,20 +10,22 @@
 #ifndef WBT_SETMOTORPARAMETERS_H
 #define WBT_SETMOTORPARAMETERS_H
 
-#include "Base/WBBlock.h"
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class SetMotorParameters;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
         class BlockInformation;
     } // namespace core
 } // namespace blockfactory
-
-namespace wbt {
-    class SetMotorParameters;
-} // namespace wbt
 
 /**
  * @brief The wbt::SetMotorParameters class
@@ -44,7 +46,7 @@ namespace wbt {
  * | ::STRING | 7 + WBBlock::NumberOfParameters | 1 | ParameterMetadata::DynamicSize | "Bemf" |
  * *
  */
-class wbt::SetMotorParameters final : public wbt::WBBlock
+class wbt::block::SetMotorParameters final : public wbt::base::WBBlock
 {
 private:
     class impl;

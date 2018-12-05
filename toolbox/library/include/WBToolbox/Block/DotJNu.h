@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_RELATIVETRASFORM_H
-#define WBT_RELATIVETRASFORM_H
+#ifndef WBT_DOTJNU_H
+#define WBT_DOTJNU_H
 
-#include "Base/WBBlock.h"
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class DotJNu;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,39 +26,34 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class RelativeTransform;
-} // namespace wbt
-
 /**
- * @brief The wbt::RelativeTransform class
+ * @brief The wbt::DotJNu class
  *
  * @section Parameters
  *
- * In addition to @ref wbblock_parameters, wbt::RelativeTransform requires:
+ * In addition to @ref wbblock_parameters, wbt::DotJNu requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame1" |
- * | ::STRING | 1 + WBBlock::NumberOfParameters | 1 | 1 | "Frame2" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
  *
  */
-class wbt::RelativeTransform final : public wbt::WBBlock
+class wbt::block::DotJNu final : public wbt::base::WBBlock
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    RelativeTransform();
-    ~RelativeTransform() override;
+    DotJNu();
+    ~DotJNu() override;
 
     unsigned numberOfParameters() override;
-    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
     bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_RELATIVETRASFORM_H
+#endif // WBT_DOTJNU_H

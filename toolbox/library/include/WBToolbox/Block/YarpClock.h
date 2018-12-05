@@ -13,20 +13,22 @@
 
 #include <string>
 
+namespace wbt {
+    namespace block {
+        class YarpClock;
+    } // namespace block
+} // namespace wbt
+
 namespace blockfactory {
     namespace core {
         class BlockInformation;
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class YarpClock;
-} // namespace wbt
-
 /**
  * @brief The wbt::YarpClock class
  */
-class wbt::YarpClock final : public blockfactory::core::Block
+class wbt::block::YarpClock final : public blockfactory::core::Block
 {
 public:
     YarpClock() = default;

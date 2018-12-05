@@ -6,7 +6,7 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "RealTimeSynchronizer.h"
+#include "WBToolbox/Block/RealTimeSynchronizer.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>
@@ -18,7 +18,7 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
 using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT

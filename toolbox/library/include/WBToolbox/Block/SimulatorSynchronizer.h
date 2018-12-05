@@ -6,13 +6,20 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_QPOASES_H
-#define WBT_QPOASES_H
+#ifndef WBT_SIMULATORSYNCHRONIZER_H
+#define WBT_SIMULATORSYNCHRONIZER_H
 
 #include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
+#include <vector>
+
+namespace wbt {
+    namespace block {
+        class SimulatorSynchronizer;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,44 +27,37 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class QpOases;
-} // namespace wbt
-
 /**
- * @brief The wbt::QpOases class
+ * @brief The wbt::SimulatorSynchronizer class
  *
  * @section Parameters
  *
- * In addition to @ref block_parameters, wbt::DiscreteFilter requires:
+ * In addition to @ref wbblock_parameters, wbt::SetReferences requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ParameterType::BOOL | 0 + Block::NumberOfParameters | 1 | 1 | "UseLba"        |
- * | ParameterType::BOOL | 1 + Block::NumberOfParameters | 1 | 1 | "UseUbA"        |
- * | ParameterType::BOOL | 2 + Block::NumberOfParameters | 1 | 1 | "UseLb"         |
- * | ParameterType::BOOL | 3 + Block::NumberOfParameters | 1 | 1 | "UseUb"         |
- * | ParameterType::BOOL | 4 + Block::NumberOfParameters | 1 | 1 | "ComputeObjVal" |
- * | ParameterType::BOOL | 5 + Block::NumberOfParameters | 1 | 1 | "StopWhenFails" |
+ * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Period"          |
+ * | ::STRING | 1 + WBBlock::NumberOfParameters | 1 | 1 | "RpcPort"         |
+ * | ::STRING | 2 + WBBlock::NumberOfParameters | 1 | 1 | "GazeboClockPort" |
  *
  */
-class wbt::QpOases final : public blockfactory::core::Block
+class wbt::block::SimulatorSynchronizer final : public blockfactory::core::Block
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    QpOases();
-    ~QpOases() override;
+    SimulatorSynchronizer();
+    ~SimulatorSynchronizer() override;
 
     unsigned numberOfParameters() override;
+    std::vector<std::string> additionalBlockOptions() override;
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
-    bool
-    initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_QPOASES_H
+#endif // WBT_SIMULATORSYNCHRONIZER_H

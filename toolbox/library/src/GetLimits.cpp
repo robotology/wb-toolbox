@@ -6,9 +6,9 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "GetLimits.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
+#include "WBToolbox/Block/GetLimits.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>
@@ -27,7 +27,7 @@
 #include <tuple>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
 using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
@@ -35,7 +35,7 @@ using namespace blockfactory::core;
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     LimitType
 };
 
@@ -69,7 +69,7 @@ public:
 // BLOCK CLASS
 // ===========
 
-wbt::GetLimits::GetLimits()
+GetLimits::GetLimits()
     : pImpl{new impl()}
 {}
 

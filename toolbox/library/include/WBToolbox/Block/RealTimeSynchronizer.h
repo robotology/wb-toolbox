@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_JACOBIAN_H
-#define WBT_JACOBIAN_H
+#ifndef WBT_REALTIMESYNCHRONIZER_H
+#define WBT_REALTIMESYNCHRONIZER_H
 
-#include "Base/WBBlock.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class RealTimeSynchronizer;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,31 +26,27 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class Jacobian;
-} // namespace wbt
-
 /**
- * @brief The wbt::Jacobian class
+ * @brief The wbt::RealTimeSynchronizer class
  *
  * @section Parameters
  *
- * In addition to @ref wbblock_parameters, wbt::Jacobian requires:
+ * In addition to @ref block_parameters, wbt::RealTimeSynchronizer requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "Period" |
  *
  */
-class wbt::Jacobian final : public wbt::WBBlock
+class wbt::block::RealTimeSynchronizer final : public blockfactory::core::Block
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    Jacobian();
-    ~Jacobian() override;
+    RealTimeSynchronizer();
+    ~RealTimeSynchronizer() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
@@ -54,4 +56,4 @@ public:
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_JACOBIAN_H
+#endif // WBT_REALTIMESYNCHRONIZER_H

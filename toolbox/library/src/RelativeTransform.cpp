@@ -6,9 +6,9 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "RelativeTransform.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
+#include "WBToolbox/Block/RelativeTransform.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>
@@ -23,7 +23,7 @@
 
 #include <ostream>
 
-using namespace wbt;
+using namespace wbt::block;
 using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
@@ -31,7 +31,7 @@ using namespace blockfactory::core;
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     Frame1,
     Frame2
 };

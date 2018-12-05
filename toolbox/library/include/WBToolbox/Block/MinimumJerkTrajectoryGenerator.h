@@ -14,15 +14,17 @@
 #include <memory>
 #include <string>
 
+namespace wbt {
+    namespace block {
+        class MinimumJerkTrajectoryGenerator;
+    } // namespace block
+} // namespace wbt
+
 namespace blockfactory {
     namespace core {
         class BlockInformation;
     } // namespace core
 } // namespace blockfactory
-
-namespace wbt {
-    class MinimumJerkTrajectoryGenerator;
-} // namespace wbt
 
 /**
  * @brief The wbt::MinimumJerkTrajectoryGenerator class
@@ -42,7 +44,7 @@ namespace wbt {
  * | ::BOOL   | 6 + Block::NumberOfParameters | 1 | 1 | "ResetOnSettlingTimeChange" |
  *
  */
-class wbt::MinimumJerkTrajectoryGenerator final : public blockfactory::core::Block
+class wbt::block::MinimumJerkTrajectoryGenerator final : public blockfactory::core::Block
 {
 private:
     class impl;

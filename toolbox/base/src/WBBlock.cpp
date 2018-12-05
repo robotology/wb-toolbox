@@ -6,10 +6,10 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "Base/WBBlock.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Base/WholeBodySingleton.h"
+#include "WBToolbox/Base/WBBlock.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
+#include "WBToolbox/Base/WholeBodySingleton.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>

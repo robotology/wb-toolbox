@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_REALTIMESYNCHRONIZER_H
-#define WBT_REALTIMESYNCHRONIZER_H
+#ifndef WBT_CENTROIDALMOMENTUM_H
+#define WBT_CENTROIDALMOMENTUM_H
 
-#include <BlockFactory/Core/Block.h>
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class CentroidalMomentum;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,38 +26,23 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class RealTimeSynchronizer;
-} // namespace wbt
-
 /**
- * @brief The wbt::RealTimeSynchronizer class
- *
- * @section Parameters
- *
- * In addition to @ref block_parameters, wbt::RealTimeSynchronizer requires:
- *
- * | Type | Index | Rows  | Cols  | Name  |
- * | ---- | :---: | :---: | :---: | ----- |
- * | ::DOUBLE | 0 + Block::NumberOfParameters | 1 | 1 | "Period" |
- *
+ * @brief The wbt::CentroidalMomentum class
  */
-class wbt::RealTimeSynchronizer final : public blockfactory::core::Block
+class wbt::block::CentroidalMomentum final : public wbt::base::WBBlock
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    RealTimeSynchronizer();
-    ~RealTimeSynchronizer() override;
+    CentroidalMomentum();
+    ~CentroidalMomentum() override;
 
-    unsigned numberOfParameters() override;
-    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
     bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_REALTIMESYNCHRONIZER_H
+#endif // WBT_CENTROIDALMOMENTUM_H

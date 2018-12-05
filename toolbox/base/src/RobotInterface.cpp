@@ -6,8 +6,8 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "Base/RobotInterface.h"
-#include "Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
+#include "WBToolbox/Base/Configuration.h"
 
 #include <BlockFactory/Core/Log.h>
 #include <iDynTree/KinDynComputations.h>

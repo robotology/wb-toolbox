@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_INVERSEDYNAMICS_H
-#define WBT_INVERSEDYNAMICS_H
+#ifndef WBT_YARPWRITE_H
+#define WBT_YARPWRITE_H
 
-#include "Base/WBBlock.h"
+#include <BlockFactory/Core/Block.h>
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class YarpWrite;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,28 +26,34 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class InverseDynamics;
-} // namespace wbt
-
 /**
- * @brief The wbt::InverseDynamics class
+ * @brief The wbt::YarpWrite class
+ *
+ * In addition to @ref block_parameters, wbt::YarpWrite requires:
+ *
+ * | Type | Index | Rows  | Cols  | Name  |
+ * | ---- | :---: | :---: | :---: | ----- |
+ * | ::STRING | 0 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
+ * | ::BOOL   | 1 + Block::NumberOfParameters | 1 | 1 | "Autoconnect"        |
+ * | ::BOOL   | 2 + Block::NumberOfParameters | 1 | 1 | "ErrorOnMissingPort" |
+ *
  */
-class wbt::InverseDynamics final : public wbt::WBBlock
+class wbt::block::YarpWrite final : public blockfactory::core::Block
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    InverseDynamics();
-    ~InverseDynamics() override;
+    YarpWrite();
+    ~YarpWrite() override;
 
     unsigned numberOfParameters() override;
+    bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
     bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_INVERSEDYNAMICS_H
+#endif // WBT_YARPWRITE_H

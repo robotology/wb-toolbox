@@ -14,15 +14,17 @@
 #include <memory>
 #include <string>
 
+namespace wbt {
+    namespace block {
+        class DiscreteFilter;
+    } // namespace block
+} // namespace wbt
+
 namespace blockfactory {
     namespace core {
         class BlockInformation;
     } // namespace core
 } // namespace blockfactory
-
-namespace wbt {
-    class DiscreteFilter;
-} // namespace wbt
 
 // clang-format off
 /**
@@ -46,7 +48,7 @@ namespace wbt {
  *
  */
 // clang-format on
-class wbt::DiscreteFilter final : public blockfactory::core::Block
+class wbt::block::DiscreteFilter final : public blockfactory::core::Block
 {
 private:
     class impl;

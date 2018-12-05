@@ -6,7 +6,7 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "SimulatorSynchronizer.h"
+#include "WBToolbox/Block/SimulatorSynchronizer.h"
 #include "ClockServer.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
@@ -19,7 +19,7 @@
 
 #include <ostream>
 
-using namespace wbt;
+using namespace wbt::block;
 using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT

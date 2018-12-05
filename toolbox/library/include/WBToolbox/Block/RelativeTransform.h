@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_GETMEASUREMENT_H
-#define WBT_GETMEASUREMENT_H
+#ifndef WBT_RELATIVETRASFORM_H
+#define WBT_RELATIVETRASFORM_H
 
-#include "Base/WBBlock.h"
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class RelativeTransform;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,31 +26,28 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class GetMeasurement;
-} // namespace wbt
-
 /**
- * @brief The wbt::GetMeasurement class
+ * @brief The wbt::RelativeTransform class
  *
  * @section Parameters
  *
- * In addition to @ref wbblock_parameters, wbt::GetMeasurement requires:
+ * In addition to @ref wbblock_parameters, wbt::RelativeTransform requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "MeasuredType" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame1" |
+ * | ::STRING | 1 + WBBlock::NumberOfParameters | 1 | 1 | "Frame2" |
  *
  */
-class wbt::GetMeasurement final : public wbt::WBBlock
+class wbt::block::RelativeTransform final : public wbt::base::WBBlock
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    GetMeasurement();
-    ~GetMeasurement() override;
+    RelativeTransform();
+    ~RelativeTransform() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
@@ -54,4 +57,4 @@ public:
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_GETMEASUREMENT_H
+#endif // WBT_RELATIVETRASFORM_H

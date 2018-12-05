@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_FORWARDKINEMATICS_H
-#define WBT_FORWARDKINEMATICS_H
+#ifndef WBT_GETMEASUREMENT_H
+#define WBT_GETMEASUREMENT_H
 
-#include "Base/WBBlock.h"
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class GetMeasurement;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,31 +26,27 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class ForwardKinematics;
-} // namespace wbt
-
 /**
- * @brief The wbt::ForwardKinematics class
+ * @brief The wbt::GetMeasurement class
  *
  * @section Parameters
  *
- * In addition to @ref wbblock_parameters, wbt::ForwardKinematics requires:
+ * In addition to @ref wbblock_parameters, wbt::GetMeasurement requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "MeasuredType" |
  *
  */
-class wbt::ForwardKinematics final : public wbt::WBBlock
+class wbt::block::GetMeasurement final : public wbt::base::WBBlock
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    ForwardKinematics();
-    ~ForwardKinematics() override;
+    GetMeasurement();
+    ~GetMeasurement() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
@@ -54,4 +56,4 @@ public:
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_FORWARDKINEMATICS_H
+#endif // WBT_GETMEASUREMENT_H

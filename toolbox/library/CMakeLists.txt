@@ -22,13 +22,13 @@ if(WBT_USES_ICUB)
         GROUP "Utilities"
         LIST_PREFIX WBT
         SOURCES src/MinimumJerkTrajectoryGenerator.cpp
-        HEADERS include/Block/MinimumJerkTrajectoryGenerator.h)
+        HEADERS include/WBToolbox/Block/MinimumJerkTrajectoryGenerator.h)
 
     configure_block(BLOCK_NAME "Discrete Filter"
         GROUP "Utilities"
         LIST_PREFIX WBT
         SOURCES src/DiscreteFilter.cpp
-        HEADERS include/Block/DiscreteFilter.h)
+        HEADERS include/WBToolbox/Block/DiscreteFilter.h)
 
     # if (${ICUB_USE_IPOPT})
     #     find_package(iDynTree REQUIRED)
@@ -53,39 +53,39 @@ configure_block(BLOCK_NAME "Yarp Read"
     GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/YarpRead.cpp
-    HEADERS include/Block/YarpRead.h)
+    HEADERS include/WBToolbox/Block/YarpRead.h)
 
 configure_block(BLOCK_NAME "Yarp Write"
     GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/YarpWrite.cpp
-    HEADERS include/Block/YarpWrite.h)
+    HEADERS include/WBToolbox/Block/YarpWrite.h)
 
 configure_block(BLOCK_NAME "Real Time Synchronizer"
     GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/RealTimeSynchronizer.cpp
-    HEADERS include/Block/RealTimeSynchronizer.h)
+    HEADERS include/WBToolbox/Block/RealTimeSynchronizer.h)
 
 configure_block(BLOCK_NAME "Yarp Clock"
     GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/YarpClock.cpp
-    HEADERS include/Block/YarpClock.h)
+    HEADERS include/WBToolbox/Block/YarpClock.h)
 
 if(WBT_USES_QPOASES)
     configure_block(BLOCK_NAME "qpOASES"
         GROUP "Utilities"
         LIST_PREFIX WBT
         SOURCES src/QpOases.cpp
-        HEADERS include/Block/QpOases.h)
+        HEADERS include/WBToolbox/Block/QpOases.h)
 endif()
 
 configure_block(BLOCK_NAME "Simulator Synchronizer"
     GROUP "Utilities"
     LIST_PREFIX WBT
     SOURCES src/SimulatorSynchronizer.cpp
-    HEADERS include/Block/SimulatorSynchronizer.h)
+    HEADERS include/WBToolbox/Block/SimulatorSynchronizer.h)
 add_library(WBToolbox::ClockRPC ALIAS ClockRpc)
 list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES "ClockRpc")
 
@@ -93,67 +93,67 @@ configure_block(BLOCK_NAME "Mass Matrix"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/MassMatrix.cpp
-    HEADERS include/Block/MassMatrix.h)
+    HEADERS include/WBToolbox/Block/MassMatrix.h)
 
 configure_block(BLOCK_NAME "Inverse Dynamics"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/InverseDynamics.cpp
-    HEADERS include/Block/InverseDynamics.h)
+    HEADERS include/WBToolbox/Block/InverseDynamics.h)
 
 configure_block(BLOCK_NAME "Centroidal Momentum"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/CentroidalMomentum.cpp
-    HEADERS include/Block/CentroidalMomentum.h)
+    HEADERS include/WBToolbox/Block/CentroidalMomentum.h)
 
 configure_block(BLOCK_NAME "Forward Kinematics"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/ForwardKinematics.cpp
-    HEADERS include/Block/ForwardKinematics.h)
+    HEADERS include/WBToolbox/Block/ForwardKinematics.h)
 
 configure_block(BLOCK_NAME "Jacobian"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/Jacobian.cpp
-    HEADERS include/Block/Jacobian.h)
+    HEADERS include/WBToolbox/Block/Jacobian.h)
 
 configure_block(BLOCK_NAME "DotJ Nu"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/DotJNu.cpp
-    HEADERS include/Block/DotJNu.h)
+    HEADERS include/WBToolbox/Block/DotJNu.h)
 
 configure_block(BLOCK_NAME "Relative Transform"
     GROUP "Model"
     LIST_PREFIX WBT
     SOURCES src/RelativeTransform.cpp
-    HEADERS include/Block/RelativeTransform.h)
+    HEADERS include/WBToolbox/Block/RelativeTransform.h)
 
 configure_block(BLOCK_NAME "Set References"
     GROUP "Actuators"
     LIST_PREFIX WBT
     SOURCES src/SetReferences.cpp
-    HEADERS include/Block/SetReferences.h)
+    HEADERS include/WBToolbox/Block/SetReferences.h)
 
 configure_block(BLOCK_NAME "Set Motor Parameters"
     GROUP "Actuators"
     LIST_PREFIX WBT
     SOURCES src/SetMotorParameters.cpp
-    HEADERS include/Block/SetMotorParameters.h)
+    HEADERS include/WBToolbox/Block/SetMotorParameters.h)
 
 configure_block(BLOCK_NAME "Get Measurement"
     GROUP "State"
     LIST_PREFIX WBT
     SOURCES src/GetMeasurement.cpp
-    HEADERS include/Block/GetMeasurement.h)
+    HEADERS include/WBToolbox/Block/GetMeasurement.h)
 
 configure_block(BLOCK_NAME "Get Limits"
     GROUP "State"
     LIST_PREFIX WBT
     SOURCES src/GetLimits.cpp
-    HEADERS include/Block/GetLimits.h)
+    HEADERS include/WBToolbox/Block/GetLimits.h)
 
 get_property(ALL_LIBRARY_HEADERS GLOBAL PROPERTY WBT_HEADERS)
 get_property(ALL_LIBRARY_SOURCES GLOBAL PROPERTY WBT_SOURCES)
@@ -170,14 +170,13 @@ if(MSVC)
 endif()
 
 target_include_directories(WBToolboxLibrary PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/Block>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/WBToolbox>)
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_include_directories(WBToolboxLibrary SYSTEM PRIVATE ${EIGEN3_INCLUDE_DIR})
 
 set_target_properties(WBToolboxLibrary PROPERTIES
-    PUBLIC_HEADER "${ALL_LIBRARY_HEADERS}"
-    OUTPUT_NAME "WBToolboxLibrary")
+    PUBLIC_HEADER "${ALL_LIBRARY_HEADERS}")
 
 list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
     YARP::YARP_OS

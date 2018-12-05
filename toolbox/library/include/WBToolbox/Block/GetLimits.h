@@ -6,13 +6,19 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef WBT_SETREFERENCES_H
-#define WBT_SETREFERENCES_H
+#ifndef WBT_GETLIMITS_H
+#define WBT_GETLIMITS_H
 
-#include "Base/WBBlock.h"
+#include "WBToolbox/Base/WBBlock.h"
 
 #include <memory>
 #include <string>
+
+namespace wbt {
+    namespace block {
+        class GetLimits;
+    } // namespace block
+} // namespace wbt
 
 namespace blockfactory {
     namespace core {
@@ -20,32 +26,27 @@ namespace blockfactory {
     } // namespace core
 } // namespace blockfactory
 
-namespace wbt {
-    class SetReferences;
-} // namespace wbt
-
 /**
- * @brief The wbt::SetReferences class
+ * @brief The wbt::GetLimits class
  *
  * @section Parameters
  *
- * In addition to @ref wbblock_parameters, wbt::SetReferences requires:
+ * In addition to @ref wbblock_parameters, wbt::GetLimits requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "CtrlType" |
- * | ::DOUBLE | 0 + WBBlock::NumberOfParameters | 1 | 1 | "TrajectoryReference" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "LimitType" |
  *
  */
-class wbt::SetReferences final : public wbt::WBBlock
+class wbt::block::GetLimits final : public wbt::base::WBBlock
 {
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
 public:
-    SetReferences();
-    ~SetReferences() override;
+    GetLimits();
+    ~GetLimits() override;
 
     unsigned numberOfParameters() override;
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
@@ -57,4 +58,4 @@ public:
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
-#endif // WBT_SETREFERENCES_H
+#endif // WBT_GETLIMITS_H

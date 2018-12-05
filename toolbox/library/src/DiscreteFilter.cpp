@@ -6,7 +6,7 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "DiscreteFilter.h"
+#include "WBToolbox/Block/DiscreteFilter.h"
 
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>
@@ -21,7 +21,7 @@
 #include <tuple>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
 using namespace blockfactory::core;
 using namespace iCub::ctrl;
 using namespace yarp::sig;
