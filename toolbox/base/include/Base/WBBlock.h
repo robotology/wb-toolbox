@@ -21,9 +21,11 @@ namespace blockfactory {
 } // namespace blockfactory
 
 namespace wbt {
-    class WBBlock;
-    class RobotInterface;
-    using InputSignalPtr = std::shared_ptr<const blockfactory::core::Signal>;
+    namespace base {
+        class WBBlock;
+        class RobotInterface;
+        using InputSignalPtr = std::shared_ptr<const blockfactory::core::Signal>;
+    } // namespace base
 } // namespace wbt
 
 namespace iDynTree {
@@ -57,14 +59,14 @@ namespace iDynTree {
  * @note The first set of parameters are fields of the same struct. For this reason they share
  * the same index.
  */
-class wbt::WBBlock : public blockfactory::core::Block
+class wbt::base::WBBlock : public blockfactory::core::Block
 {
 protected:
     // TODO: pImpl
     struct iDynTreeRobotState;
     std::unique_ptr<iDynTreeRobotState> m_robotState;
     std::string m_confBlockName;
-    std::shared_ptr<wbt::RobotInterface> m_robotInterface;
+    std::shared_ptr<wbt::base::RobotInterface> m_robotInterface;
 
     /**
      * @brief Helper for retrieving the iDynTree::KinDynComputations object
@@ -76,7 +78,7 @@ protected:
      * @brief Helper for retrieving the wbt::RobotInterface object
      * @return A pointer to wbt::RobotInterface.
      */
-    const std::shared_ptr<wbt::RobotInterface> getRobotInterface() const;
+    const std::shared_ptr<wbt::base::RobotInterface> getRobotInterface() const;
 
     /**
      * @brief Helper for setting the robot state inside the iDynTree::KinDynComputations object
@@ -90,10 +92,10 @@ protected:
      *
      * @see iDynTree::KinDynComputations::setRobotState, wbt::iDynTreeRobotState
      */
-    bool setRobotState(wbt::InputSignalPtr basePose,
-                       wbt::InputSignalPtr jointsPos,
-                       wbt::InputSignalPtr baseVelocity,
-                       wbt::InputSignalPtr jointsVelocity,
+    bool setRobotState(wbt::base::InputSignalPtr basePose,
+                       wbt::base::InputSignalPtr jointsPos,
+                       wbt::base::InputSignalPtr baseVelocity,
+                       wbt::base::InputSignalPtr jointsVelocity,
                        iDynTree::KinDynComputations* kinDyn);
 
 public:

@@ -14,9 +14,11 @@
 #include <unordered_map>
 
 namespace wbt {
-    class WholeBodySingleton;
-    class RobotInterface;
-    class Configuration;
+    namespace base {
+        class WholeBodySingleton;
+        class RobotInterface;
+        class Configuration;
+    } // namespace base
 } // namespace wbt
 
 namespace blockfactory {
@@ -39,13 +41,13 @@ namespace iDynTree {
  * @see wbt::yarpDevices
  *
  */
-class wbt::WholeBodySingleton
+class wbt::base::WholeBodySingleton
 {
 private:
     /// Object that stores all the configurations labelled by the name of the Simulink Block's
     /// name.
     /// @see wbt::RobotInterface
-    std::unordered_map<std::string, std::weak_ptr<wbt::RobotInterface>> m_interfaces;
+    std::unordered_map<std::string, std::weak_ptr<wbt::base::RobotInterface>> m_interfaces;
 
 public:
     // CONSTRUCTOR / DESTRUCTOR
@@ -89,7 +91,7 @@ public:
      *
      * @return the singleton instance
      */
-    static wbt::WholeBodySingleton& sharedInstance();
+    static wbt::base::WholeBodySingleton& sharedInstance();
 
     /**
      * Returns the Configuration object labelled by confKey.

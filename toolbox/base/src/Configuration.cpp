@@ -10,7 +10,7 @@
 
 #include <algorithm>
 
-using namespace wbt;
+using namespace wbt::base;
 
 class Configuration::impl
 {
@@ -33,7 +33,7 @@ Configuration::Configuration(const std::string& confKey)
     pImpl->confKey = confKey;
 }
 
-Configuration::Configuration(const wbt::Configuration& other)
+Configuration::Configuration(const Configuration& other)
     : pImpl{other.pImpl->clone()}
 {}
 

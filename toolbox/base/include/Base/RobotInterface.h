@@ -35,12 +35,14 @@ namespace iDynTree {
 }
 
 namespace wbt {
-    class RobotInterface;
-    class Configuration;
+    namespace base {
+        class RobotInterface;
+        class Configuration;
 
-    using JointIndex_Yarp = int;
-    using JointIndex_iDynTree = int;
-    using JointName = std::string;
+        using JointIndex_Yarp = int;
+        using JointIndex_iDynTree = int;
+        using JointName = std::string;
+    } // namespace base
 } // namespace wbt
 
 /**
@@ -52,7 +54,7 @@ namespace wbt {
  *
  * @see wbt::Configuration
  */
-class wbt::RobotInterface
+class wbt::base::RobotInterface
 {
 private:
     class impl;
@@ -63,7 +65,7 @@ public:
     // ========================
 
     RobotInterface() = delete;
-    RobotInterface(const wbt::Configuration& config);
+    RobotInterface(const wbt::base::Configuration& config);
     ~RobotInterface();
 
     // GET METHODS
@@ -74,7 +76,7 @@ public:
      *
      * @return A reference of the configuration this object refers to.
      */
-    const wbt::Configuration& getConfiguration() const;
+    const wbt::base::Configuration& getConfiguration() const;
 
     /**
      * @brief Get the object to operate on the configured model
@@ -98,28 +100,30 @@ public:
 
 // Specialize the getInterface template
 namespace wbt {
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IControlMode*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IControlLimits*& interface);
-    template <>
-    bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface);
+    namespace base {
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IControlMode*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IPositionControl*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IPositionDirect*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IVelocityControl*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::ITorqueControl*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IPWMControl*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::ICurrentControl*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IEncoders*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IMotorEncoders*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IControlLimits*& interface);
+        template <>
+        bool RobotInterface::getInterface(yarp::dev::IPidControl*& interface);
+    } // namespace base
 } // namespace wbt
 
 #endif // WBT_ROBOTINTERFACE_H

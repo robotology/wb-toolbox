@@ -15,8 +15,10 @@
 #include <vector>
 
 namespace wbt {
-    class Configuration;
-}
+    namespace base {
+        class Configuration;
+    } // namespace base
+} // namespace wbt
 
 /**
  * @brief Store the configuration for whole-body blocks
@@ -31,7 +33,7 @@ namespace wbt {
  * @see wbt::RobotInterface, wbt::WBBlock, wbt::WholeBodySingleton, WBToolbox.Configuration Matlab
  * Class
  */
-class wbt::Configuration
+class wbt::base::Configuration
 {
 private:
     class impl;

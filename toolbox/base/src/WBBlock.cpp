@@ -29,7 +29,7 @@
 #include <memory>
 #include <ostream>
 
-using namespace wbt;
+using namespace wbt::base;
 using namespace blockfactory::core;
 
 enum ParamIndex
@@ -68,15 +68,15 @@ std::shared_ptr<iDynTree::KinDynComputations> WBBlock::getKinDynComputations() c
     return m_robotInterface->getKinDynComputations();
 }
 
-const std::shared_ptr<wbt::RobotInterface> WBBlock::getRobotInterface() const
+const std::shared_ptr<wbt::base::RobotInterface> WBBlock::getRobotInterface() const
 {
     return m_robotInterface;
 }
 
-bool WBBlock::setRobotState(wbt::InputSignalPtr basePose,
-                            wbt::InputSignalPtr jointsPos,
-                            wbt::InputSignalPtr baseVelocity,
-                            wbt::InputSignalPtr jointsVelocity,
+bool WBBlock::setRobotState(InputSignalPtr basePose,
+                            InputSignalPtr jointsPos,
+                            InputSignalPtr baseVelocity,
+                            InputSignalPtr jointsVelocity,
                             iDynTree::KinDynComputations* kinDyn)
 {
     // SAVE THE ROBOT STATE

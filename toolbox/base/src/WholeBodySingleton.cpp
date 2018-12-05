@@ -19,10 +19,10 @@
 #include <string>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::base;
 using namespace blockfactory::core;
 
-bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
+bool fillConfiguration(std::shared_ptr<Configuration>& configurationPtr,
                        const Parameters& parameters);
 
 // CONSTRUCTOR / DESTRUCTOR
@@ -138,7 +138,7 @@ WholeBodySingleton::createRobotInterface(const Configuration& config)
     return m_interfaces[confKey].lock();
 }
 
-bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
+bool fillConfiguration(std::shared_ptr<Configuration>& configurationPtr,
                        const Parameters& parameters)
 {
     bool ok = true;
@@ -168,7 +168,7 @@ bool fillConfiguration(std::shared_ptr<wbt::Configuration>& configurationPtr,
     // Populate the Configuration object
     // =================================
 
-    configurationPtr.reset(new wbt::Configuration(confBlockName));
+    configurationPtr.reset(new Configuration(confBlockName));
     configurationPtr->setRobotName(robotName);
     configurationPtr->setUrdfFile(urdfFile);
     configurationPtr->setControlledJoints(controlledJoints);

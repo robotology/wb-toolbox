@@ -30,7 +30,7 @@
 #include <utility>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::base;
 
 // ====================
 // ROBOTINTERFACE PIMPL
@@ -58,7 +58,7 @@ public:
     std::shared_ptr<iDynTree::KinDynComputations> kinDynComp;
     YarpInterfaces yarpInterfaces;
 
-    const wbt::Configuration config; // Configuration from Simulink Block's parameters
+    const Configuration config; // Configuration from Simulink Block's parameters
 
     impl() = delete;
     explicit impl(const Configuration& configuration)
@@ -210,7 +210,7 @@ public:
 // CONSTRUCTOR / DESTRUCTOR
 // ========================
 
-RobotInterface::RobotInterface(const wbt::Configuration& config)
+RobotInterface::RobotInterface(const Configuration& config)
     : pImpl{new impl(config)}
 {}
 
@@ -227,7 +227,7 @@ RobotInterface::~RobotInterface()
 // GET METHODS
 // ===========
 
-const wbt::Configuration& RobotInterface::getConfiguration() const
+const Configuration& RobotInterface::getConfiguration() const
 {
     return pImpl->config;
 }
