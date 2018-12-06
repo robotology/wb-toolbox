@@ -192,7 +192,7 @@ target_link_libraries(WBToolboxLibrary PRIVATE BlockFactory::Core shlibpp::shlib
 
 if(WBT_USES_ICUB)
     target_compile_definitions(WBToolboxLibrary PRIVATE "WBT_USES_ICUB")
-    target_link_libraries(WBToolboxLibrary PUBLIC ctrlLib)
+    target_link_libraries(WBToolboxLibrary PRIVATE ctrlLib)
 
     # Manually include iCub include folders. They are not exported by the linked library.
     target_include_directories(WBToolboxLibrary PRIVATE ${ctrlLib_INCLUDE_DIRS})
@@ -204,8 +204,8 @@ if(WBT_USES_ICUB)
 endif()
 
 if(WBT_USES_QPOASES)
-    target_compile_definitions(WBToolboxLibrary PUBLIC "WBT_USES_QPOASES")
-    target_link_libraries(WBToolboxLibrary PUBLIC ${qpOASES_LIBRARIES})
+    target_compile_definitions(WBToolboxLibrary PRIVATE "WBT_USES_QPOASES")
+    target_link_libraries(WBToolboxLibrary PRIVATE ${qpOASES_LIBRARIES})
 
     # Manually include qpOASES include folders. They are not exported by the linked library.
     target_include_directories(WBToolboxLibrary PRIVATE ${qpOASES_INCLUDE_DIRS})
