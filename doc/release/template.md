@@ -6,19 +6,15 @@
 
 ## New Features
 
+### `WBToolboxBase`
+
 ### `WBToolboxLibrary`
-
-### `WBToolboxMex`
-
-### `WBToolboxCoder`
 
 ## Bug Fixes
 
+### `WBToolboxBase`
+
 ### `WBToolboxLibrary`
-
-### `WBToolboxMex`
-
-### `WBToolboxCoder`
 
 ## Contributors
 
