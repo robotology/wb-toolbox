@@ -66,6 +66,16 @@ if(NOT BUILD_SHARED_LIBS)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
+# Tweak linker flags in Linux
+if(UNIX AND NOT APPLE)
+    if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+        get_filename_component(LINKER_BIN ${CMAKE_LINKER} NAME)
+            if(${LINKER_BIN} STREQUAL "ld")
+                set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--unresolved-symbols=report-all")
+            endif()
+    endif()
+endif()
+
 # Settings for RPATH
 if(NOT MSVC)
     option(WBT_ENABLE_RPATH "Enable RPATH installation" TRUE)
