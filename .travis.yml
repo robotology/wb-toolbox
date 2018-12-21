@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 language: cpp
 services: docker
 
@@ -162,7 +162,8 @@ jobs:
     - &osx_template
       stage: osx
       os: osx
-      osx_image: xcode9.3
+      osx_image: xcode10.1
+      services:
       before_install: skip
       install: *osx_install
       before_script: skip
