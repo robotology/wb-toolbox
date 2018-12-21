@@ -51,3 +51,14 @@ cmake .. \
     -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE \
     -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE
 cmake --build . --config $TRAVIS_BUILD_TYPE --target install $CMAKE_BUILD_OPTIONS
+
+# Install BlockFactory
+cd $HOME/git
+git clone --depth 1 https://github.com/robotology/blockfactory
+cd blockfactory
+mkdir build && cd build
+cmake .. \
+    -G"$TRAVIS_CMAKE_GENERATOR" \
+    -DCMAKE_BUILD_TYPE=$TRAVIS_BUILD_TYPE \
+    -DCMAKE_INSTALL_PREFIX=$DEPS_CACHE
+cmake --build . --config $TRAVIS_BUILD_TYPE --target install $CMAKE_BUILD_OPTIONS

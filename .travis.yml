@@ -9,6 +9,11 @@ cache:
     - $HOME/.ccache
     - $HOME/Library/Caches/Homebrew
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 stages:
   - test # Default stage with job matrix
   - osx
@@ -49,16 +54,24 @@ before_script:
       travis_terminate 1
     fi
   - docker pull $DOCKER_IMAGE_NAME
+  # Start the container in the background
+  - >-
+    docker run -it -d \
+      --name ci \
+      -v "$TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR" \
+      -v "$HOME/.ccache:$HOME/.ccache" \
+      -w "$TRAVIS_BUILD_DIR" \
+      --env-file "$TRAVIS_BUILD_DIR/.ci/env-file" \
+      $DOCKER_IMAGE_NAME \
+      bash
+  # Install BlockFactory
+  - docker exec -w /tmp ci git clone https://github.com/robotology/blockfactory
+  - docker exec -w /tmp ci mkdir blockfactory/build
+  - docker exec -w /tmp/blockfactory/build ci cmake -G"$TRAVIS_CMAKE_GENERATOR" ..
+  - docker exec -w /tmp/blockfactory/build ci cmake --build . --target install
 
 script:
-  - >-
-    docker run -it \
-      -v $TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR \
-      -v $HOME/.ccache:$HOME/.ccache \
-      -w $TRAVIS_BUILD_DIR \
-      --env-file .ci/env-file \
-      $DOCKER_IMAGE_NAME \
-      sh .ci/script.sh
+  - docker exec ci ./.ci/script.sh
 
 # ==========
 # STAGE: osx
