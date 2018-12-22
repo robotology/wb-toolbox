@@ -13,9 +13,18 @@ addons:
   apt:
     packages:
       - docker-ce
+  homebrew:
+    update: true
+    packages:
+      - ccache
+      - eigen
+      - ace
+      - tinyxml
+      - gsl
 
 stages:
-  - test # Default stage with job matrix
+  # Default stage with job matrix
+  - test
   - osx
   - deploy
 
@@ -78,17 +87,16 @@ script:
 # ==========
 
 stage_osx:
+  before_install: &osx_before_install
+    # Setup ccache
+    - export PATH="/usr/local/opt/ccache/libexec:$PATH"
   install: &osx_install
     # Setup the dependencies folder
     - export DEPS_CACHE=$HOME/deps
     - export PATH=$PATH:$DEPS_CACHE/bin
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DEPS_CACHE/lib
     - export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
-    # Setup ccache
-    - brew install ccache
-    - export PATH="/usr/local/opt/ccache/libexec:$PATH"
     # Install dependencies
-    - brew install eigen ace tinyxml gsl
     - cd $TRAVIS_BUILD_DIR/.ci
     - ./install.sh || travis_terminate 1
   script: &osx_script
@@ -164,13 +172,14 @@ jobs:
       os: osx
       osx_image: xcode10.1
       services:
-      before_install: skip
+      before_install: *osx_before_install
       install: *osx_install
       before_script: skip
       script: *osx_script
       after_failure: skip
       after_success: skip
       after_script: skip
+      compiler:
       env:
         TRAVIS_CMAKE_GENERATOR="Xcode"
         TRAVIS_BUILD_TYPE="Debug"
