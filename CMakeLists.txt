@@ -98,7 +98,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}"
 
 include(AddInstallRPATHSupport)
 add_install_rpath_support(BIN_DIRS ${CMAKE_INSTALL_PREFIX}/bin
-                          LIB_DIRS ${CMAKE_INSTALL_PREFIX}/mex ${CMAKE_INSTALL_PREFIX}/lib
+                          ${CMAKE_INSTALL_PREFIX}/lib
                           DEPENDS WBT_ENABLE_RPATH
                           USE_LINK_PATH)
 
