@@ -73,11 +73,6 @@ before_script:
       --env-file "$TRAVIS_BUILD_DIR/.ci/env-file" \
       $DOCKER_IMAGE_NAME \
       bash
-  # Install BlockFactory
-  - docker exec -w /tmp ci git clone https://github.com/robotology/blockfactory
-  - docker exec -w /tmp ci mkdir blockfactory/build
-  - docker exec -w /tmp/blockfactory/build ci cmake -G"$TRAVIS_CMAKE_GENERATOR" ..
-  - docker exec -w /tmp/blockfactory/build ci cmake --build . --target install
 
 script:
   - docker exec ci ./.ci/script.sh
