@@ -14,7 +14,8 @@ endif()
 # FIND DEPENDENCIES
 # =================
 
-find_package(YCM 0.9 REQUIRED)
+# Matlab is not a compile dependency. If it is found, the Simulink library
+# and all the Matlab-related resources are installed.
 find_package(Matlab COMPONENTS
     MX_LIBRARY
     ENG_LIBRARY
@@ -22,6 +23,7 @@ find_package(Matlab COMPONENTS
     # SIMULINK # Requires CMake > 3.7
 )
 
+find_package(YCM 0.9 REQUIRED)
 find_package(YARP 3.0.0 REQUIRED)
 
 # Fail if YARP is not compiled as shared library
@@ -62,9 +64,7 @@ else()
     option(WBT_SHARED_LIBRARY "Compile WBToolbox as a shared library" TRUE)
 endif()
 set(BUILD_SHARED_LIBS ${WBT_SHARED_LIBRARY})
-if(NOT BUILD_SHARED_LIBS)
-    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Tweak linker flags in Linux
 if(UNIX AND NOT APPLE)

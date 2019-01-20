@@ -54,15 +54,7 @@ configure_file(
     ${CMAKE_BINARY_DIR}/toolbox/setupForMatlabDebug.m
     @ONLY)
 
-#if MAJOR >= 2014 && MINOR >= b
-# Note: We had issues with Matlab 2014b and .mdl models.
-# But this issue seems to have been disappeared in 2015b. We have to check if we need to enable this if again
-# TODO: check if the mdl support is still required
-# if (${Matlab_VERSION_STRING} GREATER "8.3")
-# install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.slx DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# else()
-# install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/WBToolboxLibrary.mdl DESTINATION ${WB-TOOLBOX_SHARE_DIR})
-# endif()
+# Install the Simulink Library
 install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/library/exported/WBToolboxLibrary.slx
     DESTINATION ${WBTOOLBOX_SHARE_DIR})
