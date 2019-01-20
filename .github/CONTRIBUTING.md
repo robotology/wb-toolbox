@@ -2,9 +2,9 @@
 
 First off, thanks for your interest in contributing to this project! :tada:
 
-The following is a set of guidelines for contributing to WB-Toolbox. This project is developed at the Italian Institute of Technology and it is part of our [robotology](https://github.com/robotology) organization.
+The following is a set of guidelines for contributing to Whole-Body Toolbox. This project is developed at the Italian Institute of Technology and it is part of our [robotology](https://github.com/robotology) organization.
 
-Keep in mind that the following are mostly guidelines, not strict rules. Use your best judgement and feel free to propose changes to this document in a pull request. This project is not yet mature as other ones inside our organization, we'd be glad to hear your voice.
+Keep in mind that the following are mostly guidelines, not strict rules. Use your best judgement and feel free to propose changes to this document in a pull request.
 
 #### Table of contents
 
@@ -14,6 +14,7 @@ Keep in mind that the following are mostly guidelines, not strict rules. Use you
   - [CMake](#cmake)
   - [Git](#git)
 - [Documentation](#documentation)
+- [Website](#website)
 - [Policies](#policies)
   - [Versioning](#versioning)
   - [Deprecations](#deprecations)
@@ -44,7 +45,7 @@ Furthermore:
 - Add an empty line between project, system headers, and `std` headers.
 - Forward-declare classes into namespaces.
 - Do not use `#pragma once`, use instead `#ifndef ... #define ... #endif` macro.
-- The defines macros should have the `WBT_<CLASSNAME>_H` format.
+- The defines macros should have the `NS1_NS2_<CLASSNAME>_H` format.
 - The final `#endif` should have a comment containing the closed `#ifndef`.
 - When possible, use explicit declaration and explicit instantiation of templates.
 - When not possible, use [three-files `-inl.h`](http://drake.mit.edu/cxx_inl.html) pattern approach.
@@ -52,8 +53,8 @@ Furthermore:
 Example:
 
 ```cpp
-#ifndef WBT_JACOBIAN_H
-#define WBT_JACOBIAN_H
+#ifndef WBT_BLOCK_JACOBIAN_H
+#define WBT_BLOCK_JACOBIAN_H
 
 #include "Jacobian.h"
 #include "RobotInterface.h"
@@ -66,14 +67,16 @@ Example:
 #include <ostream>
 
 namespace wbt {
-    class Jacobian;
+    namespace block {
+        class Jacobian;
+    } // namespace block
 } // namespace wbt
 
-class wbt::Jacobian
+class wbt::block::Jacobian
 {
 ...
 
-#endif // WBT_JACOBIAN_H
+#endif // WBT_BLOCK_JACOBIAN_H
 ```
 
 ### CMake
@@ -96,34 +99,56 @@ class wbt::Jacobian
 
 ## Documentation
 
-- All the new classes and methods of your PR should contain the doxygen documentation in their headers. For checking its render before pushing, a possible way is the following:
-   ```bash
-   # From the build directory:
+- All the new classes and methods of your PR should contain the doxygen documentation in their headers. For checking its render before pushing, proceed as follows:
+   ```
+   mkdir buildDox
+   cd buildDox
+   cmake -DWBT_BUILD_DOCS=ON ..
    make dox
+   # If there are any errors, fix them.
    cd doc/doxygen/html
-   python -m http.server
+   python3 -m http.server
    # Browse to http://localhost:8000
    ```
-- Your PR should add a changelog in the [doc/release](/doc/release) file of the upcoming version.
+- Your PR should add a changelog in the [doc/release](/doc/release) file of the [upcoming version](#versioning) (minor release if the PR targets `master`, major release if it targets `devel`).
+
+## Website
+
+Our website is based on the [mkdocs](https://github.com/mkdocs/mkdocs) framework and the [mkdocs-material](https://github.com/squidfunk/mkdocs-material) theme.
+
+The easier way to modify a page of website is doing it directly from the website. In the top-right corner of every page, on the same line of the page title, you will find an pencil icon. If you click on the icon, the markdown file that creates the webpage opens in the GitHub web editor. Here you can modify the document and create a pull request.
+
+If the edits you want to submit are not trivial, or if you want to check how the website will be rendered, you need to clone the repository and modify with your favourite text editor the files inside the [`doc/mkdocs/data`](/doc/mkdocs/data) folder. Afterwards, you can generate and browse a local website executing the following commands:
+
+```
+mkdir buildWebsite
+cd buildWebsite
+cmake -DWBT_BUILD_DOCS=ON ..
+make mkdocs
+# If there are any errors, fix them.
+cd doc/mkdocs
+python3 -m http.server
+# Browse to http://localhost:8000
+```
 
 ## Policies
 
 ## Versioning
 
-After an assessment period, with few releases without any defined versioning policy, starting from the release `4` WB-Toolbox follows the following pattern:
+Starting from `v5`, this project hosts only a blockfactory plugin library. All the public APIs have been moved to [robotology/blockfactory](https://github.com/robotology/blockfactory). The versioning policy is not anymore related to public APIs.
 
-#### Major releases, e.g. `4`
+The next sections use the definition of **user code**: it represents all the functionalities that can be built with the `WBT` library. It includes Simulink models, autogenerated code from Simulink models, and C++ code that directly uses `WBT` as a C++ library.
 
-- We use a fast rollout numbering, publishing a new major release every devel freeze. This happens when we decide that the amount of new features are worth a new release.
-- Major releases may or may not break APIs. Read [Deprecations](#deprecations) for further information.
+#### Major releases, e.g. `v5`
 
-#### Minor releases, e.g. `4.1`
+- We use a fast rollout numbering, publishing a new major release every `devel` freeze. This happens when we decide that the amount of new features are worth a new release.
+- Major releases may or may not break user code. Read [Deprecations](#deprecations) for further information.
+
+#### Minor releases, e.g. `v5.1`
 
 - Minor releases may contain hot-fixes applied directly to `master` (and then merged to `devel`).
-- APIs stability is preserved.
+- User code is preserved.
 
 ## Deprecations
 
-The following policy is still a rule-of-thumb. We are not yet enforcing it, but soon we will. Take note of it because this will be valid as soon as we reach an acceptable API stability.
-
-- Functions and classes which are marked as deprecated in one major release will be kept at least for another major release. This means that a deprecated class in version `4` will still be present in version `5`, but it might be deleted in version `6`.
+Functions and classes which are marked as deprecated in one major release will be kept at least for another major release. This means that a deprecated class in version `v4` will still be present in version `v5`, but it might be deleted in version `v6`. This should give users an acceptable time buffer to update their models.
