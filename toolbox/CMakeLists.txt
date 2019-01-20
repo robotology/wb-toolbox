@@ -3,7 +3,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 find_package(shlibpp REQUIRED)
-find_package(BlockFactory COMPONENTS BlockFactoryCore REQUIRED)
+find_package(BlockFactory COMPONENTS Core REQUIRED)
 
 add_subdirectory(base)
 add_subdirectory(library)
