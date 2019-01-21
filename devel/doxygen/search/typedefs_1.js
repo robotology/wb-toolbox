@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['classfactorylibrary',['ClassFactoryLibrary',['../class_block_factory_singleton.html#a0773acd28fe67a0a3cbd7e625e060e8a',1,'BlockFactorySingleton']]],
-  ['classfactoryname',['ClassFactoryName',['../class_block_factory_singleton.html#aed6011ad5ab24b795c00c71b35581af0',1,'BlockFactorySingleton']]],
-  ['cols',['Cols',['../classwbt_1_1_block_information.html#a048ca36f8e6feffe4dbe5d74e62120b3',1,'wbt::BlockInformation']]]
+  ['jointindex_5fidyntree',['JointIndex_iDynTree',['../namespacewbt_1_1base.html#a04b40b965f97a8fe3e29b60e7225c00b',1,'wbt::base']]],
+  ['jointindex_5fyarp',['JointIndex_Yarp',['../namespacewbt_1_1base.html#a2e4eac63de5308e00a7506f773136f57',1,'wbt::base']]],
+  ['jointname',['JointName',['../namespacewbt_1_1base.html#a46792107c09fa17f9bc8b2da28c3ccad',1,'wbt::base']]]
 ];

@@ -1,12 +1,6 @@
 <map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/SetMotorParameters.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/SetMotorParameters.cpp">
-<area shape="rect" id="node2" href="$_set_motor_parameters_8h.html" title="Block/SetMotorParameters.h" alt="" coords="650,125,840,152"/>
-<area shape="rect" id="node5" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="396,349,528,376"/>
-<area shape="rect" id="node9" href="$_configuration_8h.html" title="Base/Configuration.h" alt="" coords="604,349,748,376"/>
-<area shape="rect" id="node11" href="$_robot_interface_8h.html" title="Base/RobotInterface.h" alt="" coords="1222,349,1374,376"/>
-<area shape="rect" id="node14" href="$_block_information_8h.html" title="Core/BlockInformation.h" alt="" coords="924,349,1086,376"/>
-<area shape="rect" id="node16" href="$_log_8h.html" title="Core/Log.h" alt="" coords="1111,349,1197,376"/>
-<area shape="rect" id="node18" href="$_parameter_8h.html" title="Core/Parameter.h" alt="" coords="44,349,169,376"/>
-<area shape="rect" id="node19" href="$_signal_8h.html" title="Core/Signal.h" alt="" coords="924,200,1025,227"/>
-<area shape="rect" id="node3" href="$_w_b_block_8h.html" title="Base/WBBlock.h" alt="" coords="605,200,728,227"/>
-<area shape="rect" id="node4" href="$_block_8h.html" title="Core/Block.h" alt="" coords="309,275,408,301"/>
+<area shape="rect" id="node2" href="$_set_motor_parameters_8h.html" title="WBToolbox/Block/SetMotor\lParameters.h" alt="" coords="55,124,246,165"/>
+<area shape="rect" id="node7" href="$_configuration_8h.html" title="WBToolbox/Base/Configuration.h" alt="" coords="579,131,805,158"/>
+<area shape="rect" id="node10" href="$_robot_interface_8h.html" title="WBToolbox/Base/RobotInterface.h" alt="" coords="270,131,503,158"/>
+<area shape="rect" id="node3" href="$_w_b_block_8h.html" title="WBToolbox/Base/WBBlock.h" alt="" coords="79,213,273,240"/>
 </map>

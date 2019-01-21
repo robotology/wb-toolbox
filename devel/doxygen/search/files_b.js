@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['realtimesynchronizer_2ecpp',['RealTimeSynchronizer.cpp',['../_real_time_synchronizer_8cpp.html',1,'']]],
-  ['realtimesynchronizer_2eh',['RealTimeSynchronizer.h',['../_real_time_synchronizer_8h.html',1,'']]],
-  ['relativetransform_2ecpp',['RelativeTransform.cpp',['../_relative_transform_8cpp.html',1,'']]],
-  ['relativetransform_2eh',['RelativeTransform.h',['../_relative_transform_8h.html',1,'']]],
-  ['remoteinversekinematics_2ecpp',['RemoteInverseKinematics.cpp',['../_remote_inverse_kinematics_8cpp.html',1,'']]],
-  ['remoteinversekinematics_2eh',['RemoteInverseKinematics.h',['../_remote_inverse_kinematics_8h.html',1,'']]],
-  ['robotinterface_2ecpp',['RobotInterface.cpp',['../_robot_interface_8cpp.html',1,'']]],
-  ['robotinterface_2eh',['RobotInterface.h',['../_robot_interface_8h.html',1,'']]]
+  ['yarpclock_2ecpp',['YarpClock.cpp',['../_yarp_clock_8cpp.html',1,'']]],
+  ['yarpclock_2eh',['YarpClock.h',['../_yarp_clock_8h.html',1,'']]],
+  ['yarpread_2ecpp',['YarpRead.cpp',['../_yarp_read_8cpp.html',1,'']]],
+  ['yarpread_2eh',['YarpRead.h',['../_yarp_read_8h.html',1,'']]],
+  ['yarpwrite_2ecpp',['YarpWrite.cpp',['../_yarp_write_8cpp.html',1,'']]],
+  ['yarpwrite_2eh',['YarpWrite.h',['../_yarp_write_8h.html',1,'']]]
 ];

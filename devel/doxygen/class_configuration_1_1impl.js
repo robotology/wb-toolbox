@@ -1,12 +1,12 @@
 var class_configuration_1_1impl =
 [
-    [ "clone", "class_configuration_1_1impl.html#ad8de9b01251018db7a2e04353e554e5e", null ],
-    [ "confKey", "class_configuration_1_1impl.html#a9039b4d87f74e4903025b0e9ca1e4acc", null ],
-    [ "controlBoardsNames", "class_configuration_1_1impl.html#aea0dba29964f908739d2b3d8d1b301dd", null ],
-    [ "controlledJoints", "class_configuration_1_1impl.html#a77c7768c9d75b25ec8c73801617c1bba", null ],
-    [ "dofs", "class_configuration_1_1impl.html#aaad4c7c61975fa9eaab9c37574c0ad57", null ],
-    [ "gravityVector", "class_configuration_1_1impl.html#a6b19956a6c5b4f4e0bedd8d533171264", null ],
-    [ "localName", "class_configuration_1_1impl.html#a4e0789e5936c7b25b0de8e974646ed03", null ],
-    [ "robotName", "class_configuration_1_1impl.html#acdabb54e8f2ea08b6080fc65469ce1d1", null ],
-    [ "urdfFile", "class_configuration_1_1impl.html#a3481917fd9693ead607bbda2de9b3583", null ]
+    [ "clone", "class_configuration_1_1impl.html#a44bc4c8573a01fc76023b6c1ad1656e1", null ],
+    [ "confKey", "class_configuration_1_1impl.html#ab64bf0ede9ec40eb52f075ce1410fdfd", null ],
+    [ "controlBoardsNames", "class_configuration_1_1impl.html#a3e45633fb709ca72ca5d433bbdf30889", null ],
+    [ "controlledJoints", "class_configuration_1_1impl.html#abe2f58e2afb0dc5874e06c649e070ef9", null ],
+    [ "dofs", "class_configuration_1_1impl.html#a5116fec9731c9e281c07b7cc0981f70f", null ],
+    [ "gravityVector", "class_configuration_1_1impl.html#ab24a4284983fbd99038a0af363c19e3a", null ],
+    [ "localName", "class_configuration_1_1impl.html#ac953ff0b5aedc4ad5ba093c04f7e6809", null ],
+    [ "robotName", "class_configuration_1_1impl.html#ab84af71350f4871f9abb8806db0c5ce5", null ],
+    [ "urdfFile", "class_configuration_1_1impl.html#a5a6dab6d8f015eebe149f484c50e5e9f", null ]
 ];

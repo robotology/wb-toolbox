@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['log_2ecpp',['Log.cpp',['../_log_8cpp.html',1,'']]],
-  ['log_2eh',['Log.h',['../_log_8h.html',1,'']]]
+  ['qpoases_2ecpp',['QpOases.cpp',['../_qp_oases_8cpp.html',1,'']]],
+  ['qpoases_2eh',['QpOases.h',['../_qp_oases_8h.html',1,'']]]
 ];

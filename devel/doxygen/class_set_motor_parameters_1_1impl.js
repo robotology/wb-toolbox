@@ -1,14 +1,14 @@
 var class_set_motor_parameters_1_1impl =
 [
-    [ "controlType", "class_set_motor_parameters_1_1impl.html#a11656c067edb0e9950ecb59cd1835024", null ],
-    [ "firstRun", "class_set_motor_parameters_1_1impl.html#a427d9c93543edfd590aa985f39861976", null ],
-    [ "motorParamsApplied", "class_set_motor_parameters_1_1impl.html#a0e5b6e740a42cae308bf891860e5bf56", null ],
-    [ "motorParamsDefault", "class_set_motor_parameters_1_1impl.html#af4527363c5d88edd0aaf990035b01427", null ],
-    [ "pidValuesApplied", "class_set_motor_parameters_1_1impl.html#a5e7526bcf879a48a28120af356ad2a5b", null ],
-    [ "pidValuesDefault", "class_set_motor_parameters_1_1impl.html#aaed611fcdfa5aa406fffa6ec7f19103d", null ],
-    [ "setBemf", "class_set_motor_parameters_1_1impl.html#af49fcd13fe1fd2c1011b852d5c730df0", null ],
-    [ "setD", "class_set_motor_parameters_1_1impl.html#a733f76ed43aebbed667a42789468109f", null ],
-    [ "setI", "class_set_motor_parameters_1_1impl.html#af57cdd292acec661cbffb7ad7975e2c7", null ],
-    [ "setKTau", "class_set_motor_parameters_1_1impl.html#a32df886b7f0cbaeb868c95de4814e7a8", null ],
-    [ "setP", "class_set_motor_parameters_1_1impl.html#a7e85c80ecaeefeb1751ee2cadf9cf23d", null ]
+    [ "controlType", "class_set_motor_parameters_1_1impl.html#aeb65f1ee97d024a9edc2e400a9488da2", null ],
+    [ "firstRun", "class_set_motor_parameters_1_1impl.html#ad52aa7fb12b7f708008e4366d5f4f07a", null ],
+    [ "motorParamsApplied", "class_set_motor_parameters_1_1impl.html#a55b4454fa3a0bdf025fb7c3d8fdf3766", null ],
+    [ "motorParamsDefault", "class_set_motor_parameters_1_1impl.html#a83de9ddec3c9080ab9cfb2d6f24f390b", null ],
+    [ "pidValuesApplied", "class_set_motor_parameters_1_1impl.html#accf9b1a92d3cd6772cc60d2420ac1e4f", null ],
+    [ "pidValuesDefault", "class_set_motor_parameters_1_1impl.html#ada81a4cc7dff48ffadef07c2da261f8a", null ],
+    [ "setBemf", "class_set_motor_parameters_1_1impl.html#a24736febed4c2201d011e74ea9d427d5", null ],
+    [ "setD", "class_set_motor_parameters_1_1impl.html#a19876818b8dc1d9f621ab0e272ea6049", null ],
+    [ "setI", "class_set_motor_parameters_1_1impl.html#a77a3b00fa59ca721dacbb10f0ac7ca38", null ],
+    [ "setKTau", "class_set_motor_parameters_1_1impl.html#ac5d2c5d440753b83057fe2d98136144c", null ],
+    [ "setP", "class_set_motor_parameters_1_1impl.html#a3fe464ed767db9ba03e3650d3978de50", null ]
 ];
