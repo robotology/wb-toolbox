@@ -6,20 +6,21 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "SimulatorSynchronizer.h"
+#include "WBToolbox/Block/SimulatorSynchronizer.h"
 #include "ClockServer.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/Port.h>
 #include <yarp/os/WireLink.h>
 
 #include <ostream>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -72,7 +73,7 @@ unsigned SimulatorSynchronizer::numberOfParameters()
 
 std::vector<std::string> SimulatorSynchronizer::additionalBlockOptions()
 {
-    return std::vector<std::string>(1, wbt::BlockOptionPrioritizeOrder);
+    return std::vector<std::string>(1, blockfactory::core::BlockOptionPrioritizeOrder);
 }
 
 bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
@@ -84,7 +85,7 @@ bool SimulatorSynchronizer::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -108,7 +109,7 @@ bool SimulatorSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     const bool ok = blockInfo->setIOPortsData({{}, {}});
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -125,7 +126,7 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!SimulatorSynchronizer::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -138,7 +139,7 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("RpcPort", clientPortName);
 
     if (!ok) {
-        wbtError << "Error reading RPC parameters.";
+        bfError << "Error reading RPC parameters.";
         return false;
     }
 
@@ -147,7 +148,7 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
 
     yarp::os::Network::init();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork()) {
-        wbtError << "Error initializing Yarp network.";
+        bfError << "Error initializing Yarp network.";
         return false;
     }
 
@@ -165,7 +166,7 @@ bool SimulatorSynchronizer::terminate(const BlockInformation* /*blockInfo*/)
         pImpl->rpcData.clockServer.continueSimulation();
         if (!yarp::os::Network::disconnect(pImpl->rpcData.configuration.clientPortName,
                                            pImpl->rpcData.configuration.serverPortName)) {
-            wbtError << "Error disconnecting from simulator clock server.";
+            bfError << "Error disconnecting from simulator clock server.";
         }
         pImpl->rpcData.clientPort.close();
     }
@@ -182,7 +183,7 @@ bool SimulatorSynchronizer::output(const BlockInformation* /*blockInfo*/)
         if (!pImpl->rpcData.clientPort.open(pImpl->rpcData.configuration.clientPortName)
             || !yarp::os::Network::connect(pImpl->rpcData.configuration.clientPortName,
                                            pImpl->rpcData.configuration.serverPortName)) {
-            wbtError << "Error connecting to simulator clock server.";
+            bfError << "Error connecting to simulator clock server.";
             return false;
         }
 

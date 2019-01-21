@@ -6,13 +6,13 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "InverseDynamics.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/InverseDynamics.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorDynSize.h>
@@ -27,7 +27,8 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -116,7 +117,7 @@ bool InverseDynamics::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -145,7 +146,7 @@ bool InverseDynamics::initialize(BlockInformation* blockInfo)
     // Get the KinDynComputations pointer
     const auto& kindyn = getRobotInterface()->getKinDynComputations();
     if (!kindyn) {
-        wbtError << "Failed to get the KinDynComputations object";
+        bfError << "Failed to get the KinDynComputations object";
         return false;
     }
 
@@ -168,7 +169,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -181,7 +182,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
     if (!basePoseSig || !jointsPosSig || !baseVelocitySignal || !jointsVelocitySignal) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -189,7 +190,7 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
         basePoseSig, jointsPosSig, baseVelocitySignal, jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
-        wbtError << "Failed to set the robot state.";
+        bfError << "Failed to set the robot state.";
         return false;
     }
 
@@ -199,14 +200,14 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     InputSignalPtr baseAccelerationSignal =
         blockInfo->getInputPortSignal(InputIndex::BaseAcceleration);
     if (!baseAccelerationSignal) {
-        wbtError << "Base Acceleration signal not valid.";
+        bfError << "Base Acceleration signal not valid.";
         return false;
     }
     const double* bufBaseAcc = baseAccelerationSignal->getBuffer<double>();
 
     for (unsigned i = 0; i < baseAccelerationSignal->getWidth(); ++i) {
         if (!pImpl->baseAcceleration.setVal(i, bufBaseAcc[i])) {
-            wbtError << "Failed to fill base accelerations class member.";
+            bfError << "Failed to fill base accelerations class member.";
             return false;
         }
     }
@@ -217,14 +218,14 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsAccelerationSignal =
         blockInfo->getInputPortSignal(InputIndex::JointAcceleration);
     if (!jointsAccelerationSignal) {
-        wbtError << "Joints Acceleration signal not valid.";
+        bfError << "Joints Acceleration signal not valid.";
         return false;
     }
     const double* bufJointsAcc = jointsAccelerationSignal->getBuffer<double>();
 
     for (unsigned i = 0; i < jointsAccelerationSignal->getWidth(); ++i) {
         if (!pImpl->jointsAcceleration.setVal(i, bufJointsAcc[i])) {
-            wbtError << "Failed to fill joint accelerations class member.";
+            bfError << "Failed to fill joint accelerations class member.";
             return false;
         }
     }
@@ -239,14 +240,14 @@ bool InverseDynamics::output(const BlockInformation* blockInfo)
                                  pImpl->torques);
 
     if (!ok) {
-        wbtError << "iDynTree failed to compute inverse dynamics.";
+        bfError << "iDynTree failed to compute inverse dynamics.";
         return false;
     }
 
     // Get the output signal
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Torques);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
     double* outputBuffer = output->getBuffer<double>();

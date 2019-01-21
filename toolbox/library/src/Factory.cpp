@@ -7,35 +7,35 @@
  */
 
 // YARP-dependent blocks
-#include "Block/GetLimits.h"
-#include "Block/GetMeasurement.h"
-#include "Block/RealTimeSynchronizer.h"
-#include "Block/SetMotorParameters.h"
-#include "Block/SetReferences.h"
-#include "Block/SimulatorSynchronizer.h"
-#include "Block/YarpClock.h"
-#include "Block/YarpRead.h"
-#include "Block/YarpWrite.h"
+#include "WBToolbox/Block/GetLimits.h"
+#include "WBToolbox/Block/GetMeasurement.h"
+#include "WBToolbox/Block/RealTimeSynchronizer.h"
+#include "WBToolbox/Block/SetMotorParameters.h"
+#include "WBToolbox/Block/SetReferences.h"
+#include "WBToolbox/Block/SimulatorSynchronizer.h"
+#include "WBToolbox/Block/YarpClock.h"
+#include "WBToolbox/Block/YarpRead.h"
+#include "WBToolbox/Block/YarpWrite.h"
 // #include "Block/RemoteInverseKinematics.h"
 
 // iDyntree-dependent blocks
-#include "Block/CentroidalMomentum.h"
-#include "Block/DotJNu.h"
-#include "Block/ForwardKinematics.h"
-#include "Block/InverseDynamics.h"
-#include "Block/Jacobian.h"
-#include "Block/MassMatrix.h"
-#include "Block/RelativeTransform.h"
+#include "WBToolbox/Block/CentroidalMomentum.h"
+#include "WBToolbox/Block/DotJNu.h"
+#include "WBToolbox/Block/ForwardKinematics.h"
+#include "WBToolbox/Block/InverseDynamics.h"
+#include "WBToolbox/Block/Jacobian.h"
+#include "WBToolbox/Block/MassMatrix.h"
+#include "WBToolbox/Block/RelativeTransform.h"
 
 // iCub-dependent blocks
 #ifdef WBT_USES_ICUB
-#include "Block/DiscreteFilter.h"
-#include "Block/MinimumJerkTrajectoryGenerator.h"
+#include "WBToolbox/Block/DiscreteFilter.h"
+#include "WBToolbox/Block/MinimumJerkTrajectoryGenerator.h"
 #endif
 
 // Other blocks
 #ifdef WBT_USES_QPOASES
-#include "Block/QpOases.h"
+#include "WBToolbox/Block/QpOases.h"
 #endif
 #ifdef WBT_USES_IPOPT
 // #include "Block/InverseKinematics.h"
@@ -47,37 +47,57 @@
 #include "shlibpp/SharedLibraryClassApi.h"
 
 // YARP-dependent blocks
-SHLIBPP_DEFINE_SHARED_SUBCLASS(GetLimits, wbt::GetLimits, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(GetMeasurement, wbt::GetMeasurement, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(RealTimeSynchronizer, wbt::RealTimeSynchronizer, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(SetMotorParameters, wbt::SetMotorParameters, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(SetReferences, wbt::SetReferences, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(SimulatorSynchronizer, wbt::SimulatorSynchronizer, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpClock, wbt::YarpClock, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpRead, wbt::YarpRead, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpWrite, wbt::YarpWrite, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(GetLimits, wbt::block::GetLimits, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(GetMeasurement,
+                               wbt::block::GetMeasurement,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(RealTimeSynchronizer,
+                               wbt::block::RealTimeSynchronizer,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SetMotorParameters,
+                               wbt::block::SetMotorParameters,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SetReferences, wbt::block::SetReferences, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(SimulatorSynchronizer,
+                               wbt::block::SimulatorSynchronizer,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpClock, wbt::block::YarpClock, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpRead, wbt::block::YarpRead, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpWrite, wbt::block::YarpWrite, blockfactory::core::Block)
 
 // iDyntree-dependent blocks
-SHLIBPP_DEFINE_SHARED_SUBCLASS(CentroidalMomentum, wbt::CentroidalMomentum, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(DotJNu, wbt::DotJNu, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(ForwardKinematics, wbt::ForwardKinematics, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseDynamics, wbt::InverseDynamics, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::Jacobian, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::MassMatrix, wbt::Block)
-SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform, wbt::RelativeTransform, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(CentroidalMomentum,
+                               wbt::block::CentroidalMomentum,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(DotJNu, wbt::block::DotJNu, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(ForwardKinematics,
+                               wbt::block::ForwardKinematics,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseDynamics,
+                               wbt::block::InverseDynamics,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::block::Jacobian, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::block::MassMatrix, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform,
+                               wbt::block::RelativeTransform,
+                               blockfactory::core::Block)
 
 // iCub-dependent blocks
 #ifdef WBT_USES_ICUB
-SHLIBPP_DEFINE_SHARED_SUBCLASS(DiscreteFilter, wbt::DiscreteFilter, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(DiscreteFilter,
+                               wbt::block::DiscreteFilter,
+                               blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(MinimumJerkTrajectoryGenerator,
-                               wbt::MinimumJerkTrajectoryGenerator,
-                               wbt::Block)
+                               wbt::block::MinimumJerkTrajectoryGenerator,
+                               blockfactory::core::Block)
 #endif
 
 // Other blocks
 #ifdef WBT_USES_QPOASES
-SHLIBPP_DEFINE_SHARED_SUBCLASS(QpOases, wbt::QpOases, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(QpOases, wbt::block::QpOases, blockfactory::core::Block)
 #endif
 #ifdef WBT_USES_IPOPT
-SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseKinematics, wbt::InverseKinematics, wbt::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseKinematics,
+                               wbt::block::InverseKinematics,
+                               blockfactory::core::Block)
 #endif

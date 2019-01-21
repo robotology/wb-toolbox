@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "SetReferences.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/SetReferences.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/IControlMode.h>
 #include <yarp/dev/ICurrentControl.h>
@@ -29,14 +29,15 @@
 #include <tuple>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     CtrlType,
     TrajRef
 };
@@ -94,7 +95,7 @@ bool SetReferences::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -133,7 +134,7 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -153,18 +154,18 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!SetReferences::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     std::string controlType;
     if (!m_parameters.getParameter("CtrlType", controlType)) {
-        wbtError << "Could not read control type parameter.";
+        bfError << "Could not read control type parameter.";
         return false;
     }
 
     if (!m_parameters.getParameter("TrajectoryReference", pImpl->trajectoryReference)) {
-        wbtError << "Could not read reference speed / acceleration parameter.";
+        bfError << "Could not read reference speed / acceleration parameter.";
         return false;
     }
 
@@ -197,7 +198,7 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         pImpl->controlModes.assign(dofs, VOCAB_CM_CURRENT);
     }
     else {
-        wbtError << "Control Mode not supported.";
+        bfError << "Control Mode not supported.";
         return false;
     }
 
@@ -212,21 +213,21 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
         if (!getRobotInterface()->getInterface(interface) || !interface) {
-            wbtError << "Failed to get IPositionControl interface.";
+            bfError << "Failed to get IPositionControl interface.";
             return false;
         }
 
         // Store the default reference speeds
         pImpl->defaultTrajectoryReference.resize(dofs);
         if (!interface->getRefSpeeds(pImpl->defaultTrajectoryReference.data())) {
-            wbtError << "Failed to get default reference speed.";
+            bfError << "Failed to get default reference speed.";
             return false;
         }
 
         // Set the new reference speeds
         std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
         if (!interface->setRefSpeeds(speedInitalization.data())) {
-            wbtError << "Failed to initialize reference speed.";
+            bfError << "Failed to initialize reference speed.";
             return false;
         }
 
@@ -246,21 +247,21 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
         // Get the interface
         yarp::dev::IVelocityControl* interface = nullptr;
         if (!getRobotInterface()->getInterface(interface) || !interface) {
-            wbtError << "Failed to get IVelocityControl interface.";
+            bfError << "Failed to get IVelocityControl interface.";
             return false;
         }
 
         // Store the default reference accelerations
         pImpl->defaultTrajectoryReference.resize(dofs);
         if (!interface->getRefAccelerations(pImpl->defaultTrajectoryReference.data())) {
-            wbtError << "Failed to get default reference acceleration.";
+            bfError << "Failed to get default reference acceleration.";
             return false;
         }
 
         // Set the new reference accelerations
         std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
         if (!interface->setRefAccelerations(speedInitalization.data())) {
-            wbtError << "Failed to initialize reference acceleration.";
+            bfError << "Failed to initialize reference acceleration.";
             return false;
         }
 
@@ -286,7 +287,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     IControlMode* icmd = nullptr;
     ok = robotInterface->getInterface(icmd);
     if (!ok || !icmd) {
-        wbtError << "Failed to get the IControlMode interface.";
+        bfError << "Failed to get the IControlMode interface.";
         return false;
     }
 
@@ -296,14 +297,14 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         yarp::dev::IPositionControl* interface = nullptr;
         ok = robotInterface->getInterface(interface);
         if (!ok || !interface) {
-            wbtError << "Failed to get IPositionControl interface.";
+            bfError << "Failed to get IPositionControl interface.";
             return false;
         }
         // Restore default reference speeds
         if (interface) {
             ok = interface->setRefSpeeds(pImpl->defaultTrajectoryReference.data());
             if (!ok) {
-                wbtError << "Failed to restore default reference speed.";
+                bfError << "Failed to restore default reference speed.";
                 return false;
             }
         }
@@ -315,14 +316,14 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         yarp::dev::IVelocityControl* interface = nullptr;
         ok = robotInterface->getInterface(interface);
         if (!ok || !interface) {
-            wbtError << "Failed to get IVelocityControl interface.";
+            bfError << "Failed to get IVelocityControl interface.";
             return false;
         }
         // Restore default reference accelerations
         if (interface) {
             ok = interface->setRefAccelerations(pImpl->defaultTrajectoryReference.data());
             if (!ok) {
-                wbtError << "Failed to restore default reference acceleration.";
+                bfError << "Failed to restore default reference acceleration.";
                 return false;
             }
         }
@@ -334,7 +335,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
 
         ok = icmd->setControlModes(pImpl->controlModes.data());
         if (!ok) {
-            wbtError << "Failed to set control mode.";
+            bfError << "Failed to set control mode.";
             return false;
         }
     }
@@ -372,12 +373,12 @@ bool SetReferences::output(const BlockInformation* blockInfo)
         // Get the interface
         IControlMode* icmd = nullptr;
         if (!robotInterface->getInterface(icmd) || !icmd) {
-            wbtError << "Failed to get the IControlMode2 interface.";
+            bfError << "Failed to get the IControlMode2 interface.";
             return false;
         }
         // Set the control mode to all the controlledJoints
         if (!icmd->setControlModes(pImpl->controlModes.data())) {
-            wbtError << "Failed to set control mode.";
+            bfError << "Failed to set control mode.";
             return false;
         }
     }
@@ -385,7 +386,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     // Get the signal
     InputSignalPtr references = blockInfo->getInputPortSignal(InputIndex::References);
     if (!references) {
-        wbtError << "Input signal not valid.";
+        bfError << "Input signal not valid.";
         return false;
     }
 
@@ -393,7 +394,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     const double* bufferReferences = references->getBuffer<double>();
 
     if (!bufferReferences) {
-        wbtError << "Failed to get the buffer containing references.";
+        bfError << "Failed to get the buffer containing references.";
         return false;
     }
 
@@ -401,7 +402,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     // TODO: here only the first element is checked
     switch (pImpl->controlModes.front()) {
         case VOCAB_CM_UNKNOWN:
-            wbtError << "Control mode has not been successfully set.";
+            bfError << "Control mode has not been successfully set.";
             return false;
         case VOCAB_CM_POSITION: {
             // Do not update the position reference if it didn't change.
@@ -417,7 +418,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IPositionControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get IPositionControl interface.";
+                bfError << "Failed to get IPositionControl interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -430,7 +431,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IPositionDirect* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get IPositionDirect interface.";
+                bfError << "Failed to get IPositionDirect interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -443,7 +444,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IVelocityControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get IVelocityControl interface.";
+                bfError << "Failed to get IVelocityControl interface.";
                 return false;
             }
             // Convert from rad to deg
@@ -456,7 +457,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                bfError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Set the references
@@ -467,7 +468,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             IPWMControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get IPWMControl interface.";
+                bfError << "Failed to get IPWMControl interface.";
                 return false;
             }
             // Set the references
@@ -478,7 +479,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Get the interface
             ICurrentControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
-                wbtError << "Failed to get ICurrentControl interface.";
+                bfError << "Failed to get ICurrentControl interface.";
                 return false;
             }
             // Set the references
@@ -488,7 +489,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     }
 
     if (!ok) {
-        wbtError << "Failed to set references.";
+        bfError << "Failed to set references.";
         return false;
     }
 

@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 language: cpp
 services: docker
 
@@ -9,8 +9,22 @@ cache:
     - $HOME/.ccache
     - $HOME/Library/Caches/Homebrew
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+  homebrew:
+    update: true
+    packages:
+      - ccache
+      - eigen
+      - ace
+      - tinyxml
+      - gsl
+
 stages:
-  - test # Default stage with job matrix
+  # Default stage with job matrix
+  - test
   - osx
   - deploy
 
@@ -49,33 +63,35 @@ before_script:
       travis_terminate 1
     fi
   - docker pull $DOCKER_IMAGE_NAME
+  # Start the container in the background
+  - >-
+    docker run -it -d \
+      --name ci \
+      -v "$TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR" \
+      -v "$HOME/.ccache:$HOME/.ccache" \
+      -w "$TRAVIS_BUILD_DIR" \
+      --env-file "$TRAVIS_BUILD_DIR/.ci/env-file" \
+      $DOCKER_IMAGE_NAME \
+      bash
 
 script:
-  - >-
-    docker run -it \
-      -v $TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR \
-      -v $HOME/.ccache:$HOME/.ccache \
-      -w $TRAVIS_BUILD_DIR \
-      --env-file .ci/env-file \
-      $DOCKER_IMAGE_NAME \
-      sh .ci/script.sh
+  - docker exec ci ./.ci/script.sh
 
 # ==========
 # STAGE: osx
 # ==========
 
 stage_osx:
+  before_install: &osx_before_install
+    # Setup ccache
+    - export PATH="/usr/local/opt/ccache/libexec:$PATH"
   install: &osx_install
     # Setup the dependencies folder
     - export DEPS_CACHE=$HOME/deps
     - export PATH=$PATH:$DEPS_CACHE/bin
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DEPS_CACHE/lib
     - export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
-    # Setup ccache
-    - brew install ccache
-    - export PATH="/usr/local/opt/ccache/libexec:$PATH"
     # Install dependencies
-    - brew install eigen ace tinyxml gsl
     - cd $TRAVIS_BUILD_DIR/.ci
     - ./install.sh || travis_terminate 1
   script: &osx_script
@@ -149,14 +165,16 @@ jobs:
     - &osx_template
       stage: osx
       os: osx
-      osx_image: xcode9.3
-      before_install: skip
+      osx_image: xcode10.1
+      services:
+      before_install: *osx_before_install
       install: *osx_install
       before_script: skip
       script: *osx_script
       after_failure: skip
       after_success: skip
       after_script: skip
+      compiler:
       env:
         TRAVIS_CMAKE_GENERATOR="Xcode"
         TRAVIS_BUILD_TYPE="Debug"

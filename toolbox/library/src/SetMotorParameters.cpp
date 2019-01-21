@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "Block/SetMotorParameters.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/SetMotorParameters.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/dev/ControlBoardPid.h>
 #include <yarp/dev/IPidControl.h>
 #include <yarp/dev/ITorqueControl.h>
@@ -26,14 +26,15 @@
 #include <unordered_map>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     SetP,
     SetI,
     SetD,
@@ -99,7 +100,7 @@ bool SetMotorParameters::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -117,7 +118,7 @@ bool SetMotorParameters::configureSizeAndPorts(BlockInformation* blockInfo)
     // ==========
 
     if (!SetMotorParameters::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -131,7 +132,7 @@ bool SetMotorParameters::configureSizeAndPorts(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("SetD", setD);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -170,12 +171,12 @@ bool SetMotorParameters::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     if (!blockInfo->setIOPortsData(ioData)) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -192,7 +193,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     // ================
 
     if (!SetMotorParameters::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -211,7 +212,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("Bemf", bemfVector);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -223,12 +224,12 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
 
     if (pImpl->setKTau && (kTauVector.size() != dofs)) {
-        wbtError << "KTau vector doesn't have a width equal to " << dofs << ".";
+        bfError << "KTau vector doesn't have a width equal to " << dofs << ".";
         return false;
     }
 
     if (pImpl->setBemf && (bemfVector.size() != dofs)) {
-        wbtError << "Back EMF vector doesn't have a width equal to " << dofs << ".";
+        bfError << "Back EMF vector doesn't have a width equal to " << dofs << ".";
         return false;
     }
 
@@ -242,7 +243,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
         pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
     }
     else {
-        wbtError << "Control type not recognized.";
+        bfError << "Control type not recognized.";
         return false;
     }
 
@@ -252,13 +253,13 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     // Get the interface
     yarp::dev::IPidControl* iPidControl = nullptr;
     if (!robotInterface->getInterface(iPidControl) || !iPidControl) {
-        wbtError << "Failed to get IPidControl interface.";
+        bfError << "Failed to get IPidControl interface.";
         return false;
     }
 
     // Store the default gains
     if (!iPidControl->getPids(pImpl->controlType, pImpl->pidValuesDefault.data())) {
-        wbtError << "Failed to get default data from IPidControl.";
+        bfError << "Failed to get default data from IPidControl.";
         return false;
     }
 
@@ -271,7 +272,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     // Get the interface
     yarp::dev::ITorqueControl* iTorqueControl = nullptr;
     if (!getRobotInterface()->getInterface(iTorqueControl) || !iTorqueControl) {
-        wbtError << "Failed to get ITorqueControl interface.";
+        bfError << "Failed to get ITorqueControl interface.";
         return false;
     }
 
@@ -282,7 +283,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     // Get the default values
     for (unsigned m = 0; m < dofs; ++m) {
         if (!iTorqueControl->getMotorTorqueParams(m, &pImpl->motorParamsDefault[m])) {
-            wbtError << "Failed to get motor torque parameters.";
+            bfError << "Failed to get motor torque parameters.";
             return false;
         }
     }
@@ -306,7 +307,7 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     if ((pImpl->setP && (blockInfo->getInputPortWidth(InputIndex_PGains) != dofs))
         || (pImpl->setI && (blockInfo->getInputPortWidth(InputIndex_IGains) != dofs))
         || (pImpl->setD && (blockInfo->getInputPortWidth(InputIndex_DGains) != dofs))) {
-        wbtError << "Input ports must have a size equal to " << dofs << ".";
+        bfError << "Input ports must have a size equal to " << dofs << ".";
         return false;
     }
 
@@ -322,27 +323,27 @@ bool SetMotorParameters::terminate(const BlockInformation* blockInfo)
         // Get the IPidControl interface
         yarp::dev::IPidControl* iPidControl = nullptr;
         if (!robotInterface->getInterface(iPidControl) || !iPidControl) {
-            wbtError << "Failed to get IPidControl interface.";
+            bfError << "Failed to get IPidControl interface.";
             return false;
         }
 
         // Reset default PID gains
         if (!iPidControl->setPids(pImpl->controlType, pImpl->pidValuesDefault.data())) {
-            wbtError << "Failed to reset PIDs to the default values.";
+            bfError << "Failed to reset PIDs to the default values.";
             return false;
         }
 
         // Get the ITorqueControl interface
         yarp::dev::ITorqueControl* interface = nullptr;
         if (!robotInterface->getInterface(interface) || !interface) {
-            wbtError << "Failed to get ITorqueControl interface.";
+            bfError << "Failed to get ITorqueControl interface.";
             return false;
         }
 
         // Restore default motor torque parameters
         for (unsigned m = 0; m < dofs; ++m) {
             if (!interface->setMotorTorqueParams(m, pImpl->motorParamsDefault[m])) {
-                wbtError << "Failed to restore default motor torque parameters.";
+                bfError << "Failed to restore default motor torque parameters.";
                 break;
             }
         }
@@ -365,15 +366,15 @@ bool SetMotorParameters::output(const BlockInformation* blockInfo)
         // Get the interface
         yarp::dev::ITorqueControl* interface = nullptr;
         if (!robotInterface->getInterface(interface) || !interface) {
-            wbtError << "Failed to get ITorqueControl interface.";
+            bfError << "Failed to get ITorqueControl interface.";
             return false;
         }
 
         // Apply the motor parameters
         for (unsigned m = 0; m < dofs; ++m) {
             if (!interface->setMotorTorqueParams(m, pImpl->motorParamsApplied[m])) {
-                wbtError << "Failed to set motor torque parameters for joint "
-                         << controlledJoints[m] << ".";
+                bfError << "Failed to set motor torque parameters for joint " << controlledJoints[m]
+                        << ".";
                 break;
             }
         }
@@ -385,7 +386,7 @@ bool SetMotorParameters::output(const BlockInformation* blockInfo)
         InputSignalPtr pGainsSignal = blockInfo->getInputPortSignal(InputIndex_PGains);
 
         if (!pGainsSignal) {
-            wbtError << "Failed to get signal containing proportional gains.";
+            bfError << "Failed to get signal containing proportional gains.";
         }
 
         for (unsigned i = 0; i < pImpl->pidValuesApplied.size(); ++i) {
@@ -401,7 +402,7 @@ bool SetMotorParameters::output(const BlockInformation* blockInfo)
         InputSignalPtr iGainsSignal = blockInfo->getInputPortSignal(InputIndex_IGains);
 
         if (!iGainsSignal) {
-            wbtError << "Failed to get signal containing integral gains.";
+            bfError << "Failed to get signal containing integral gains.";
         }
 
         for (unsigned i = 0; i < pImpl->pidValuesApplied.size(); ++i) {
@@ -417,7 +418,7 @@ bool SetMotorParameters::output(const BlockInformation* blockInfo)
         InputSignalPtr dGainsSignal = blockInfo->getInputPortSignal(InputIndex_DGains);
 
         if (!dGainsSignal) {
-            wbtError << "Failed to get signal containing derivative gains.";
+            bfError << "Failed to get signal containing derivative gains.";
         }
 
         for (unsigned i = 0; i < pImpl->pidValuesApplied.size(); ++i) {
@@ -433,13 +434,13 @@ bool SetMotorParameters::output(const BlockInformation* blockInfo)
         // Get the interface
         yarp::dev::IPidControl* iPidControl = nullptr;
         if (!robotInterface->getInterface(iPidControl) || !iPidControl) {
-            wbtError << "Failed to get IPidControl interface.";
+            bfError << "Failed to get IPidControl interface.";
             return false;
         }
 
         // Apply the new pid gains
         if (!iPidControl->setPids(pImpl->controlType, pImpl->pidValuesApplied.data())) {
-            wbtError << "Failed to set PID values.";
+            bfError << "Failed to set PID values.";
             return false;
         }
     }

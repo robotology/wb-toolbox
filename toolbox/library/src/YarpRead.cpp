@@ -6,13 +6,13 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "YarpRead.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/YarpRead.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/PortReaderBuffer-inl.h>
@@ -26,7 +26,8 @@
 #include <string>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -97,7 +98,7 @@ bool YarpRead::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -111,7 +112,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     // ==========
 
     if (!YarpRead::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -125,12 +126,12 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("SignalSize", signalSize);
 
     if (!ok) {
-        wbtError << "Failed to read input parameters.";
+        bfError << "Failed to read input parameters.";
         return false;
     }
 
     if (signalSize <= 0) {
-        wbtError << "Signal size must be non negative.";
+        bfError << "Signal size must be non negative.";
         return false;
     }
 
@@ -168,7 +169,7 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
     }
 
     if (!blockInfo->setIOPortsData(ioData)) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -188,7 +189,7 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!YarpRead::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -203,7 +204,7 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("Timeout", pImpl->timeout);
 
     if (!ok) {
-        wbtError << "Failed to read input parameters.";
+        bfError << "Failed to read input parameters.";
         return false;
     }
 
@@ -213,7 +214,7 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     Network::init();
 
     if (!Network::initialized() || !Network::checkNetwork(5.0)) {
-        wbtError << "YARP server wasn't found active.";
+        bfError << "YARP server wasn't found active.";
         return false;
     }
 
@@ -232,20 +233,20 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     }
 
     if (!pImpl->port.open(destinationPortName)) {
-        wbtError << "Error while opening yarp port.";
+        bfError << "Error while opening yarp port.";
         return false;
     }
 
     if (pImpl->autoconnect) {
         if (!Network::connect(pImpl->sourcePortName, pImpl->port.getName())) {
             if (pImpl->errorOnMissingPort) {
-                wbtError << "Failed to connect " + pImpl->sourcePortName + " to "
-                                + pImpl->port.getName() + ".";
+                bfError << "Failed to connect " + pImpl->sourcePortName + " to "
+                               + pImpl->port.getName() + ".";
                 return false;
             }
             else {
-                wbtWarning << "Failed to connect " + pImpl->sourcePortName + " to "
-                                  + pImpl->port.getName() + ".";
+                bfWarning << "Failed to connect " + pImpl->sourcePortName + " to "
+                                 + pImpl->port.getName() + ".";
             }
         }
     }
@@ -282,8 +283,8 @@ bool YarpRead::output(const BlockInformation* blockInfo)
                 yarp::os::Time::delay(0.0005);
                 const double now = yarp::os::SystemClock::nowSystem();
                 if ((now - t0) > pImpl->timeout) {
-                    wbtError << "The port didn't receive any data for longer "
-                             << "than the configured timeout.";
+                    bfError << "The port didn't receive any data for longer "
+                            << "than the configured timeout.";
                     return false;
                 }
             }
@@ -297,14 +298,14 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         if (pImpl->shouldReadTimestamp) {
             yarp::os::Stamp timestamp;
             if (!pImpl->port.getEnvelope(timestamp)) {
-                wbtError << "Failed to read port envelope (timestamp). Be sure"
-                         << " that the input port actually writes this data.";
+                bfError << "Failed to read port envelope (timestamp). Be sure"
+                        << " that the input port actually writes this data.";
                 return false;
             }
 
             OutputSignalPtr timestampSignal = blockInfo->getOutputPortSignal(OutputIndex_Timestamp);
             if (!timestampSignal) {
-                wbtError << "Output signal not valid.";
+                bfError << "Output signal not valid.";
                 return false;
             }
 
@@ -315,19 +316,19 @@ bool YarpRead::output(const BlockInformation* blockInfo)
         OutputSignalPtr signal = blockInfo->getOutputPortSignal(OutputIndex::Signal);
 
         if (!signal) {
-            wbtError << "Output signal not valid.";
+            bfError << "Output signal not valid.";
             return false;
         }
 
         if (vectorBuffer->size() != signal->getWidth()) {
-            wbtError << "Size of received data from " << pImpl->port.getName() << " ("
-                     << vectorBuffer->size() << ")"
-                     << " does not match with output signal width (" << signal->getWidth() << ").";
+            bfError << "Size of received data from " << pImpl->port.getName() << " ("
+                    << vectorBuffer->size() << ")"
+                    << " does not match with output signal width (" << signal->getWidth() << ").";
             return false;
         }
 
         if (!signal->setBuffer(vectorBuffer->data(), vectorBuffer->size())) {
-            wbtError << "Failed to set the output buffer.";
+            bfError << "Failed to set the output buffer.";
             return false;
         }
 
@@ -339,12 +340,12 @@ bool YarpRead::output(const BlockInformation* blockInfo)
 
             OutputSignalPtr statusPort = blockInfo->getOutputPortSignal(OutputIndex_IsConnected);
             if (!statusPort) {
-                wbtError << "Output signal not valid.";
+                bfError << "Output signal not valid.";
                 return false;
             }
 
             if (!statusPort->set(0, 1)) {
-                wbtError << "Failed to write data to output buffer.";
+                bfError << "Failed to write data to output buffer.";
                 return false;
             }
         }

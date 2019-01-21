@@ -6,13 +6,13 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "CentroidalMomentum.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/CentroidalMomentum.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Signal.h>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
@@ -20,7 +20,8 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -95,7 +96,7 @@ bool CentroidalMomentum::configureSizeAndPorts(BlockInformation* blockInfo)
     });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -117,7 +118,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -130,7 +131,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
     if (!basePoseSig || !jointsPosSig || !baseVelocitySignal || !jointsVelocitySignal) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -138,7 +139,7 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
         basePoseSig, jointsPosSig, baseVelocitySignal, jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
-        wbtError << "Failed to set the robot state.";
+        bfError << "Failed to set the robot state.";
         return false;
     }
 
@@ -151,13 +152,13 @@ bool CentroidalMomentum::output(const BlockInformation* blockInfo)
     // Get the output signal
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::CentroidalMomentum);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     // Fill the output buffer
     if (!output->setBuffer(toEigen(pImpl->centroidalMomentum).data(), output->getWidth())) {
-        wbtError << "Failed to set output buffer.";
+        bfError << "Failed to set output buffer.";
         return false;
     }
 
