@@ -1,4 +1,4 @@
-`WBT` has been developed in the [Dynamic Interaction Control](https://www.iit.it/research/lines/dynamic-interaction-control) research line at the [Italian Institute of Technology](https://www.iit.it).
+`WBT` has been developed in the [Dynamic Interaction Control](https://dic.iit.it) research line at the [Italian Institute of Technology](https://www.iit.it).
 
 It was born from the ashes of @robotology-playground/WBI-Toolbox.
 
