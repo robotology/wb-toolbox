@@ -212,6 +212,7 @@ jobs:
             - doxygen-gui
             - graphviz
             - python3-pip
+            - python3-setuptools
     - <<: *deploy_template
       if: fork = false AND branch = "devel" AND type != pull_request
 
