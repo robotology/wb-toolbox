@@ -23,10 +23,10 @@ addons:
       - gsl
 
 stages:
-  # Default stage with job matrix
-  - test
+  - test # Default stage with job matrix
   - osx
-  - deploy
+  - name: deploy
+    if: fork = false AND branch IN (master, devel) AND type != pull_request AND env(DEPLOY_TOKEN) IS present
 
 compiler:
   - gcc
@@ -190,7 +190,6 @@ jobs:
       stage: deploy
       compiler:
       cache:
-      if: fork = false AND branch = "master" AND type != pull_request
       before_install: skip
       install: *deploy_install
       before_script: skip
