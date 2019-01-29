@@ -1166,7 +1166,7 @@ Library {
 	  ZOrder		  106
 	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SetMotorParameters','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
+	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
 	  "Type,setKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -1503,7 +1503,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -1684,7 +1684,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
 	      "ectory"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
@@ -1889,7 +1889,7 @@ Library {
 		  Position		  [180, 11, 255, 144]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'CentroidalMomentum','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'CentroidalMomentum','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2079,7 +2079,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2273,7 +2273,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2361,7 +2361,7 @@ Library {
 	      Position		      [190, 199, 355, 331]
 	      ZOrder		      75
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+	      Parameters	      "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -2520,7 +2520,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'MassMatrix','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'MassMatrix','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2741,7 +2741,7 @@ Library {
 		  Position		  [125, 4, 190, 126]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'DotJNu','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'DotJNu','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2918,7 +2918,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'Jacobian','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'Jacobian','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -3118,7 +3118,7 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'ForwardKinematics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'ForwardKinematics','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -3585,7 +3585,7 @@ Library {
 		  Position		  [120, 40, 180, 70]
 		  ZOrder		  27
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'RelativeTransform','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frame1, frame2"
+		  Parameters		  "'RelativeTransform','WBToolbox',WBTConfigParameters,configBlockAbsName,frame1, frame2"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -4015,7 +4015,7 @@ Library {
 	      Position		      [115, 33, 175, 102]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetLimits','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,limitsType"
+	      Parameters	      "'GetLimits','WBToolbox',WBTConfigParameters,configBlockAbsName,limitsType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4171,7 +4171,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4316,7 +4316,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4846,7 +4846,7 @@ Library {
 	  ZOrder		  103
 	  BackgroundColor	  "yellow"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'DiscreteFilter','WBToolboxLibrary',filterDataStruct"
+	  Parameters		  "'DiscreteFilter','WBToolbox',filterDataStruct"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5172,7 +5172,7 @@ Library {
 	  Position		  [470, 93, 625, 147]
 	  ZOrder		  78
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolboxLibrary',sampleTime,settlingTime,firstDerivatives,secondD"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondD"
 	  "erivatives,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -5354,7 +5354,7 @@ Library {
 	  Position		  [405, -6, 595, 66]
 	  ZOrder		  104
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'QpOases','WBToolboxLibrary',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
+	  Parameters		  "'QpOases','WBToolbox',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5514,7 +5514,7 @@ Library {
 	  BackgroundColor	  "gray"
 	  ShowName		  off
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'RealTimeSynchronizer','WBToolboxLibrary',period"
+	  Parameters		  "'RealTimeSynchronizer','WBToolbox',period"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5548,7 +5548,7 @@ Library {
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  ShowName		  off
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SimulatorSynchronizer','WBToolboxLibrary',period, serverPortName, clientPortName"
+	  Parameters		  "'SimulatorSynchronizer','WBToolbox',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5819,7 +5819,7 @@ Library {
 	  ZOrder		  85
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpClock','WBToolboxLibrary'"
+	  Parameters		  "'YarpClock','WBToolbox'"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5844,7 +5844,7 @@ Library {
 	  ZOrder		  22
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpRead','WBToolboxLibrary',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
+	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
 	  "imeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -5943,7 +5943,7 @@ Library {
 	  ZOrder		  27
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpWrite','WBToolboxLibrary',portName,autoconnect,errorOnConnection"
+	  Parameters		  "'YarpWrite','WBToolbox',portName,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
