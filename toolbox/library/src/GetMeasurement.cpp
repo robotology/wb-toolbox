@@ -123,15 +123,14 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Vector with the information asked (1xDoFs)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::Measurement, std::vector<int>{dofs}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::Measurement, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

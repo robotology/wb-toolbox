@@ -150,27 +150,30 @@ bool SetMotorParameters::configureSizeAndPorts(BlockInformation* blockInfo)
     //
 
     int numberOfInputs = -1;
-    BlockInformation::IOData ioData;
+    InputPortsInfo inputPortsInfo;
 
     if (setP) {
         InputIndex_PGains = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_PGains, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back({static_cast<size_t>(InputIndex_PGains),
+                                  Port::Dimensions{Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
 
     if (setI) {
         InputIndex_IGains = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_IGains, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back({static_cast<size_t>(InputIndex_IGains),
+                                  Port::Dimensions{Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
 
     if (setD) {
         InputIndex_DGains = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_DGains, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back({static_cast<size_t>(InputIndex_DGains),
+                                  Port::Dimensions{Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
 
-    if (!blockInfo->setIOPortsData(ioData)) {
+    if (!blockInfo->setPortsInfo(inputPortsInfo, {})) {
         bfError << "Failed to configure input / output ports.";
         return false;
     }

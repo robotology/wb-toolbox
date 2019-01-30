@@ -114,16 +114,15 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     // 2) Vector with the max limit (1xDoFs)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::MinLimit, std::vector<int>{dofs}, DataType::DOUBLE),
-            std::make_tuple(OutputIndex::MaxLimit, std::vector<int>{dofs}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::MinLimit, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+            {OutputIndex::MaxLimit, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

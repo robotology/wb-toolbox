@@ -97,16 +97,14 @@ bool YarpWrite::configureSizeAndPorts(BlockInformation* blockInfo)
     // No outputs
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(
-                InputIndex::Signal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE),
+            {InputIndex::Signal, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE},
         },
         {
             // Outputs
-        },
-    });
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

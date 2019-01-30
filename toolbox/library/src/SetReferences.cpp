@@ -123,15 +123,14 @@ bool SetReferences::configureSizeAndPorts(BlockInformation* blockInfo)
     // No outputs
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(InputIndex::References, std::vector<int>{dofs}, DataType::DOUBLE),
+            {InputIndex::References, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
         },
         {
             // Outputs
-        },
-    });
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

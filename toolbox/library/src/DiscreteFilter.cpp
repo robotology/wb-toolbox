@@ -109,19 +109,19 @@ bool DiscreteFilter::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) The output signal (1xn)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(
-                InputIndex::InputSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE),
+            {InputIndex::InputSignal,
+             Port::Dimensions{Port::DynamicSize},
+             Port::Port::DataType::DOUBLE},
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::FilteredSignal,
-                            std::vector<int>{Signal::DynamicSize},
-                            DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::FilteredSignal,
+             Port::Dimensions{Port::DynamicSize},
+             Port::Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

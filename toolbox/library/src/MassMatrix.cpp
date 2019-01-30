@@ -77,19 +77,16 @@ bool MassMatrix::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Matrix representing the mass matrix (DoFs+6)x(DoFs+6)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(InputIndex::BasePose, std::vector<int>{4, 4}, DataType::DOUBLE),
-            std::make_tuple(
-                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
+            {InputIndex::BasePose, Port::Dimensions{4, 4}, Port::DataType::DOUBLE},
+            {InputIndex::JointConfiguration, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
         },
         {
             // Outputs
-            std::make_tuple(
-                OutputIndex::MassMatrix, std::vector<int>{dofs + 6, dofs + 6}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::MassMatrix, Port::Dimensions{dofs + 6, dofs + 6}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";
@@ -179,8 +176,8 @@ bool MassMatrix::output(const BlockInformation* blockInfo)
     Map<MatrixXdiDynTree> massMatrixRowMajor = toEigen(pImpl->massMatrix);
     Map<MatrixXdSimulink> massMatrixColMajor(
         output->getBuffer<double>(),
-        blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).first,
-        blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).second);
+        blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).rows,
+        blockInfo->getOutputPortMatrixSize(OutputIndex::MassMatrix).cols);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     massMatrixColMajor = massMatrixRowMajor;
