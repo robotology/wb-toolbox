@@ -215,8 +215,6 @@ jobs:
             - python3-pip
             - python3-setuptools
             - python3-wheel
-    - <<: *deploy_template
-      if: fork = false AND branch = "devel" AND type != pull_request
 
 # notifications:
 #  email:
