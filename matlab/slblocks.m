@@ -6,7 +6,7 @@ function blkStruct = slblocks
 
 % Name of the .mdl file
 Browser.Library   = 'WBToolboxLibrary';
-Browser.Name      = 'Whole Body Toolbox';
+Browser.Name      = 'WholeBodyToolbox';
 Browser.IsFlat    =  0;
 
 blkStruct.Browser =  Browser;
