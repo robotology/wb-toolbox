@@ -50,8 +50,8 @@ enum OutputIndex
     // Other optional outputs
 };
 
-static int OutputIndex_Timestamp = OutputIndex::Signal;
-static int OutputIndex_IsConnected = OutputIndex::Signal;
+static size_t OutputIndex_Timestamp = OutputIndex::Signal;
+static size_t OutputIndex_IsConnected = OutputIndex::Signal;
 
 // BLOCK PIMPL
 // ===========
@@ -157,18 +157,21 @@ bool YarpRead::configureSizeAndPorts(BlockInformation* blockInfo)
         OutputIndex_IsConnected = OutputIndex_Timestamp + 1;
     }
 
-    BlockInformation::IOData ioData;
-    ioData.output.emplace_back(OutputIndex::Signal, std::vector<int>{signalSize}, DataType::DOUBLE);
+    OutputPortsInfo outputPortsInfo;
+    outputPortsInfo.push_back(
+        {OutputIndex::Signal, Port::Dimensions{signalSize}, Port::DataType::DOUBLE});
 
     if (readTimestamp) {
-        ioData.output.emplace_back(OutputIndex_Timestamp, std::vector<int>{2}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_Timestamp, Port::Dimensions{2}, Port::DataType::DOUBLE});
     }
     if (!autoconnect) {
         // Use double anyway even if it is a bool signal.
-        ioData.output.emplace_back(OutputIndex_IsConnected, std::vector<int>{1}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_IsConnected, Port::Dimensions{1}, Port::DataType::DOUBLE});
     }
 
-    if (!blockInfo->setIOPortsData(ioData)) {
+    if (!blockInfo->setPortsInfo({}, outputPortsInfo)) {
         bfError << "Failed to configure input / output ports.";
         return false;
     }

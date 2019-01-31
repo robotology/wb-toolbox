@@ -73,6 +73,8 @@ before_script:
       --env-file "$TRAVIS_BUILD_DIR/.ci/env-file" \
       $DOCKER_IMAGE_NAME \
       bash
+  # Fix Travis only for this PR
+  - docker exec -it -w /projects/robotology-superbuild/build ci make BlockFactory
 
 script:
   - docker exec ci ./.ci/script.sh

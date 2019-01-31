@@ -44,8 +44,8 @@ enum InputIndex
     // Other optional inputs
 };
 
-static int InputIndex_InitialValue = InputIndex::InputSignal;
-static int InputIndex_ExtSettlingTime = InputIndex::InputSignal;
+static size_t InputIndex_InitialValue = InputIndex::InputSignal;
+static size_t InputIndex_ExtSettlingTime = InputIndex::InputSignal;
 
 enum OutputIndex
 {
@@ -53,8 +53,8 @@ enum OutputIndex
     // Other optional outputs
 };
 
-static int OutputIndex_FirstDer = OutputIndex::FilteredSignal;
-static int OutputIndex_SecondDer = OutputIndex::FilteredSignal;
+static size_t OutputIndex_FirstDer = OutputIndex::FilteredSignal;
+static size_t OutputIndex_SecondDer = OutputIndex::FilteredSignal;
 
 // BLOCK PIMPL
 // ===========
@@ -168,32 +168,36 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
         OutputIndex_SecondDer = OutputIndex_FirstDer + 1;
     }
 
-    BlockInformation::IOData ioData;
-    ioData.input.emplace_back(
-        InputIndex::InputSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
-    ioData.output.emplace_back(
-        OutputIndex::FilteredSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+    InputPortsInfo inputPortsInfo;
+    OutputPortsInfo outputPortsInfo;
+
+    inputPortsInfo.push_back(
+        {InputIndex::InputSignal, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
+    outputPortsInfo.push_back(
+        {OutputIndex::FilteredSignal, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
 
     // Handle optional inputs
     if (readInitialValue) {
-        ioData.input.emplace_back(InputIndex_InitialValue, std::vector<int>{1}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_InitialValue, Port::Dimensions{1}, Port::DataType::DOUBLE});
     }
     if (readExternalSettlingTime) {
-        ioData.input.emplace_back(
-            InputIndex_ExtSettlingTime, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back({InputIndex_ExtSettlingTime,
+                                  Port::Dimensions{Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
 
     // Handle optional outputs
     if (computeFirstDerivative) {
-        ioData.output.emplace_back(
-            OutputIndex_FirstDer, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_FirstDer, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
     if (computeSecondDerivative) {
-        ioData.output.emplace_back(
-            OutputIndex_SecondDer, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_SecondDer, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
 
-    if (!blockInfo->setIOPortsData(ioData)) {
+    if (!blockInfo->setPortsInfo(inputPortsInfo, outputPortsInfo)) {
         bfError << "Failed to configure input / output ports.";
         return false;
     }

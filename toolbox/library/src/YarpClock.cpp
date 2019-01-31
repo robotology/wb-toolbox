@@ -50,15 +50,14 @@ bool YarpClock::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) The yarp time. In short, it streams yarp::os::Time::now().
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::Clock, std::vector<int>{1}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::Clock, Port::Dimensions{1}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";

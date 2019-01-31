@@ -1159,14 +1159,14 @@ Library {
 	ZoomFactor		"562"
 	Block {
 	  BlockType		  S-Function
-	  Name			  "Set Motor Parameters"
+	  Name			  "SetMotorParameters"
 	  SID			  "1847"
 	  Ports			  [1, 1]
 	  Position		  [645, 290, 755, 340]
 	  ZOrder		  106
 	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SetMotorParameters','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
+	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
 	  "Type,setKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -1175,7 +1175,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    21
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Set Motor Parameters"
+	    Type		    "SetMotorParameters"
 	    Description		    "This block allows to set motor PIDs and constants such as the motor constant and the back EMF.\n"
 	    "\nThe motor constant and the back EMF are set in the block's mask, and their values are applied during the first "
 	    "simulation loop. The PIDs values are instead set from the input ports.\n\nAll these vectors should have a size eq"
@@ -1378,7 +1378,7 @@ Library {
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Set Motor References"
+	  Name			  "SetMotorReferences"
 	  SID			  "1791"
 	  Ports			  [1]
 	  Position		  [710, 210, 785, 260]
@@ -1389,7 +1389,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    45
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Set Motor References"
+	    Type		    "SetMotorReferences"
 	    Description		    "This block sets motor references. The type of control mode is specified as a parameter in the b"
 	    "lock.\n\nAssuming N as the number of motors (usually equal to internal DoFs):\n\nInput:\n  - References: Vector o"
 	    "f size N, representing the references to be sent to the robot controlled motors.\n\nParameters:\n  - Control Mode"
@@ -1470,7 +1470,7 @@ Library {
 	    }
 	  }
 	  System {
-	    Name		    "Set Motor References"
+	    Name		    "SetMotorReferences"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -1503,7 +1503,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -1519,7 +1519,7 @@ Library {
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Set References"
+	  Name			  "SetReferences"
 	  SID			  "1767"
 	  Ports			  [1]
 	  Position		  [605, 210, 680, 260]
@@ -1530,7 +1530,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    53
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Set References"
+	    Type		    "SetReferences"
 	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
 	    "as a parameter in the block.\n\nAssuming DoFs is the number of internal degrees of freedom configured in the asso"
 	    "ciated Config block:\n\nInput:\n  - References: Vector of size DoFs, representing the references to be sent to th"
@@ -1651,7 +1651,7 @@ Library {
 	    }
 	  }
 	  System {
-	    Name		    "Set References"
+	    Name		    "SetReferences"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -1684,7 +1684,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
 	      "ectory"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
@@ -1770,7 +1770,7 @@ Library {
 	    ZoomFactor		    "330"
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Centroidal Momentum"
+	      Name		      "CentroidalMomentum"
 	      SID		      "1694"
 	      Ports		      [4, 1]
 	      Position		      [475, 101, 660, 164]
@@ -1780,7 +1780,7 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		67
 		$ClassName		"Simulink.Mask"
-		Type			"Centroidal Momentum"
+		Type			"CentroidalMomentum"
 		Description		"This block computed the 6 element centroidal momentum, as defined in:\n\n\"Centroidal dynamics of a hu"
 		"manoid robot\" - DE Orin, A Goswami, SH Lee\nAutonomous Robots 35 (2-3), 161-176\n\nAssuming DoFs is the number of i"
 		"nternal degrees of freedom of the robot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transforma"
@@ -1829,7 +1829,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Centroidal Momentum"
+		Name			"CentroidalMomentum"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -1889,14 +1889,14 @@ Library {
 		  Position		  [180, 11, 255, 144]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'CentroidalMomentum','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'CentroidalMomentum','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "Centroidal Momentum"
+		  Name			  "CentroidalMomentum"
 		  SID			  "1700"
 		  Position		  [315, 73, 345, 87]
 		  ZOrder		  25
@@ -1906,7 +1906,7 @@ Library {
 		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
-		  DstBlock		  "Centroidal Momentum"
+		  DstBlock		  "CentroidalMomentum"
 		  DstPort		  1
 		}
 		Line {
@@ -1941,7 +1941,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Get Bias Forces"
+	      Name		      "GetBiasForces"
 	      SID		      "1724"
 	      Ports		      [4, 1]
 	      Position		      [400, 212, 540, 313]
@@ -1998,7 +1998,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Get Bias Forces"
+		Name			"GetBiasForces"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -2079,7 +2079,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2155,7 +2155,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Get Gravity Forces"
+	      Name		      "GetGravityForces"
 	      SID		      "1733"
 	      Ports		      [2, 1]
 	      Position		      [600, 210, 740, 310]
@@ -2210,7 +2210,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Get Gravity Forces"
+		Name			"GetGravityForces"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -2273,7 +2273,7 @@ Library {
 		  Position		  [180, 24, 240, 216]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2355,13 +2355,13 @@ Library {
 	    }
 	    Block {
 	      BlockType		      S-Function
-	      Name		      "Inverse Dynamics"
+	      Name		      "InverseDynamics"
 	      SID		      "1748"
 	      Ports		      [6, 1]
 	      Position		      [190, 199, 355, 331]
 	      ZOrder		      75
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'InverseDynamics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+	      Parameters	      "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -2369,7 +2369,7 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		82
 		$ClassName		"Simulink.Mask"
-		Type			"Inverse Dynamics"
+		Type			"InverseDynamics"
 		Description		"This block compute the inverse dynamics of the robot.\n\nAssuming DoFs is the number of internal degre"
 		"es of freedom of the robot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transformation between "
 		"the base frame and the world frame.\n  - Joint configuration: Vector of size DoFs, representing the configuration of"
@@ -2423,7 +2423,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Mass Matrix"
+	      Name		      "MassMatrix"
 	      SID		      "1633"
 	      Ports		      [2, 1]
 	      Position		      [250, 104, 390, 171]
@@ -2433,11 +2433,11 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		87
 		$ClassName		"Simulink.Mask"
-		Type			"Mass Matrix"
+		Type			"MassMatrix"
 		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of internal degrees of free"
 		"dom of the robot,\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transformation between the base f"
 		"rame and the world frame.\n  - Joint configuration: Vector of size DoFs, representing the configuration of the joint"
-		"s.\n\nOutput:\n  - Mass Matrix: a (DoFs + 6) x (DoFs + 6) matrix representing the mass matrix of the robot."
+		"s.\n\nOutput:\n  - MassMatrix: a (DoFs + 6) x (DoFs + 6) matrix representing the mass matrix of the robot."
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
@@ -2478,7 +2478,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Mass Matrix"
+		Name			"MassMatrix"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -2520,14 +2520,14 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'MassMatrix','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName"
+		  Parameters		  "'MassMatrix','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "Mass Matrix"
+		  Name			  "MassMatrix"
 		  SID			  "1637"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
@@ -2537,7 +2537,7 @@ Library {
 		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
-		  DstBlock		  "Mass Matrix"
+		  DstBlock		  "MassMatrix"
 		  DstPort		  1
 		}
 		Line {
@@ -2595,7 +2595,7 @@ Library {
 	    ZoomFactor		    "480"
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "DotJ Nu"
+	      Name		      "DotJNu"
 	      SID		      "1683"
 	      Ports		      [4, 1]
 	      Position		      [590, 170, 755, 265]
@@ -2605,7 +2605,7 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		93
 		$ClassName		"Simulink.Mask"
-		Type			"DotJ Nu"
+		Type			"DotJNu"
 		Description		"This block computes the product between the time derivative of the Jacobian of the specified frame and"
 		" the state (base and joints) velocity vector.\n\nAssuming DoFs is the number of internal degrees of freedom of the r"
 		"obot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transformation between the the base frame and"
@@ -2681,7 +2681,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"DotJ Nu"
+		Name			"DotJNu"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -2741,7 +2741,7 @@ Library {
 		  Position		  [125, 4, 190, 126]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'DotJNu','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'DotJNu','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
@@ -2918,14 +2918,14 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'Jacobian','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'Jacobian','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "Forward Kinematics"
+		  Name			  "ForwardKinematics"
 		  SID			  "1667"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
@@ -2935,7 +2935,7 @@ Library {
 		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
-		  DstBlock		  "Forward Kinematics"
+		  DstBlock		  "ForwardKinematics"
 		  DstPort		  1
 		}
 		Line {
@@ -2993,7 +2993,7 @@ Library {
 	    ZoomFactor		    "469"
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Forward Kinematics"
+	      Name		      "ForwardKinematics"
 	      SID		      "1647"
 	      Ports		      [2, 1]
 	      Position		      [360, 103, 510, 167]
@@ -3003,11 +3003,11 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		110
 		$ClassName		"Simulink.Mask"
-		Type			"Forward Kinematics"
+		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transform"
 		"ation between the the base frame and the world frame.\n  - Joint configuration: Vector of size DoFs, representing th"
-		"e configuration of the joints.\n\nOutput:\n  - Forward Kinematics: a 4x4 matrix representing the homogenous transfor"
+		"e configuration of the joints.\n\nOutput:\n  - ForwardKinematics: a 4x4 matrix representing the homogenous transfor"
 		"mation between the specified frame and the world frame.\n\nParameters:\n  - Frame name: the name of the frame. It sh"
 		"ould be specified in the URDF model."
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
@@ -3076,7 +3076,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Forward Kinematics"
+		Name			"ForwardKinematics"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3118,14 +3118,14 @@ Library {
 		  Position		  [125, 37, 185, 68]
 		  ZOrder		  19
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'ForwardKinematics','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frameName"
+		  Parameters		  "'ForwardKinematics','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "Forward Kinematics"
+		  Name			  "ForwardKinematics"
 		  SID			  "1651"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
@@ -3135,7 +3135,7 @@ Library {
 		  ZOrder		  1
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
-		  DstBlock		  "Forward Kinematics"
+		  DstBlock		  "ForwardKinematics"
 		  DstPort		  1
 		}
 		Line {
@@ -3158,7 +3158,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Inverse Kinematics"
+	      Name		      "InverseKinematics"
 	      SID		      "1754"
 	      Ports		      [3, 2]
 	      Position		      [350, 198, 525, 262]
@@ -3173,11 +3173,11 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		118
 		$ClassName		"Simulink.Mask"
-		Type			"Forward Kinematics"
+		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix repre"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
 		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
@@ -3344,7 +3344,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Inverse Kinematics"
+		Name			"InverseKinematics"
 		Location		[0, 23, 1280, 744]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3456,7 +3456,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Relative Transform"
+	      Name		      "RelativeTransform"
 	      SID		      "1799"
 	      Ports		      [1, 1]
 	      Position		      [565, 198, 715, 262]
@@ -3466,7 +3466,7 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		139
 		$ClassName		"Simulink.Mask"
-		Type			"Relative Transform"
+		Type			"RelativeTransform"
 		Description		"This block calculates the relative transform between two frames.\n\nAssuming DoFs is the number of int"
 		"ernal degrees of freedom of the robot:\n\nInput:\n  - Joint configuration: Vector of size DoFs, representing the con"
 		"figuration of the joints.\n\nOutput:\n  - Transform: a 4x4 matrix representing the homogenous transformation between"
@@ -3552,7 +3552,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Relative Transform"
+		Name			"RelativeTransform"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3585,14 +3585,14 @@ Library {
 		  Position		  [120, 40, 180, 70]
 		  ZOrder		  27
 		  FunctionName		  "BlockFactory"
-		  Parameters		  "'RelativeTransform','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,frame1, frame2"
+		  Parameters		  "'RelativeTransform','WBToolbox',WBTConfigParameters,configBlockAbsName,frame1, frame2"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
 		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "Relative Transform"
+		  Name			  "RelativeTransform"
 		  SID			  "1803"
 		  Position		  [225, 48, 255, 62]
 		  ZOrder		  25
@@ -3602,7 +3602,7 @@ Library {
 		  ZOrder		  4
 		  SrcBlock		  "S-Function"
 		  SrcPort		  1
-		  DstBlock		  "Relative Transform"
+		  DstBlock		  "RelativeTransform"
 		  DstPort		  1
 		}
 		Line {
@@ -3616,7 +3616,7 @@ Library {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Remote Inverse Kinematics"
+	      Name		      "RemoteInverseKinematics"
 	      SID		      "1761"
 	      Ports		      [2, 1]
 	      Position		      [560, 105, 720, 165]
@@ -3631,11 +3631,11 @@ Library {
 		$PropName		"MaskObject"
 		$ObjectID		149
 		$ClassName		"Simulink.Mask"
-		Type			"Forward Kinematics"
+		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- Forward Kinematics: a 4x4 matrix repre"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
 		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
@@ -3744,7 +3744,7 @@ Library {
 		}
 	      }
 	      System {
-		Name			"Remote Inverse Kinematics"
+		Name			"RemoteInverseKinematics"
 		Location		[0, 27, 1920, 1080]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3862,7 +3862,7 @@ Library {
 	ZoomFactor		"696"
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Get Limits"
+	  Name			  "GetLimits"
 	  SID			  "1690"
 	  Ports			  [0, 2]
 	  Position		  [345, 225, 460, 260]
@@ -3873,7 +3873,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    162
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Get Limits"
+	    Type		    "GetLimits"
 	    Description		    "This block provides the joint limits gathering data from either the Robot's Control Board or UR"
 	    "DF model.\n\nOutput:\n  - Max: 1xDoFs vector containing the maximum limit\n  - Min:  1xDoFs vector containing the"
 	    " maximum limit\n\nUnit of measurement:\n  - Position: rad\n  - Velocity: rad/sec"
@@ -3989,7 +3989,7 @@ Library {
 	    }
 	  }
 	  System {
-	    Name		    "Get Limits"
+	    Name		    "GetLimits"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -4015,7 +4015,7 @@ Library {
 	      Position		      [115, 33, 175, 102]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetLimits','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,limitsType"
+	      Parameters	      "'GetLimits','WBToolbox',WBTConfigParameters,configBlockAbsName,limitsType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4055,7 +4055,7 @@ Library {
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Get Measurement"
+	  Name			  "GetMeasurement"
 	  SID			  "1671"
 	  Ports			  [0, 1]
 	  Position		  [290, 158, 385, 192]
@@ -4066,7 +4066,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    172
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Get Measurement"
+	    Type		    "GetMeasurement"
 	    Description		    "This block gathers the measurement of the specified type.\n\nAssuming DoFs is the number of deg"
 	    "rees of freedom of the robot,\n\nOutput:\n  - References: Vector of size DoFs, representing the requested measure"
 	    "ment.\n\nParameters:\n  - Control Mode: The control mode. Choose one of the supplied mode.\n\nUnit of measurement"
@@ -4146,7 +4146,7 @@ Library {
 	    }
 	  }
 	  System {
-	    Name		    "Get Measurement"
+	    Name		    "GetMeasurement"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -4171,7 +4171,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4195,7 +4195,7 @@ Library {
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Get Motor Measurement"
+	  Name			  "GetMotorMeasurement"
 	  SID			  "1796"
 	  Ports			  [0, 1]
 	  Position		  [410, 158, 505, 192]
@@ -4206,7 +4206,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    180
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Get Measurement"
+	    Type		    "GetMeasurement"
 	    Description		    "This block gathers the measurement of the specified type.\n\nAssuming DoFs is the number of deg"
 	    "rees of freedom of the robot,\n\nOutput:\n  - References: Vector of size DoFs, representing the requested measure"
 	    "ment.\n\nParameters:\n  - Control Mode: The control mode. Choose one of the supplied mode.\n\nUnit of measurement"
@@ -4291,7 +4291,7 @@ Library {
 	    }
 	  }
 	  System {
-	    Name		    "Get Motor Measurement"
+	    Name		    "GetMotorMeasurement"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -4316,7 +4316,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'GetMeasurement','WBToolboxLibrary',WBTConfigParameters,configBlockAbsName,measuredType"
+	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -4846,7 +4846,7 @@ Library {
 	  ZOrder		  103
 	  BackgroundColor	  "yellow"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'DiscreteFilter','WBToolboxLibrary',filterDataStruct"
+	  Parameters		  "'DiscreteFilter','WBToolbox',filterDataStruct"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -4854,7 +4854,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    214
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Discrete Filter"
+	    Type		    "DiscreteFilter"
 	    Description		    "This block wraps the Filter, FirstOrderLowPassFilter, and MedianFilter from iCub::ctrl."
 	    Initialization	    "filterDataStruct = struct;\nfilterDataStruct.Fc = Fc;\nfilterDataStruct.Ts = Ts;\nfilterDataS"
 	    "truct.MedianOrder = orderMedianFilter;\nfilterDataStruct.FilterType = filterType;\nfilterDataStruct.NumCoeffs = n"
@@ -5053,7 +5053,7 @@ Library {
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Match Signal Sizes"
+	  Name			  "MatchSignalSizes"
 	  SID			  "1818"
 	  Ports			  [2, 1]
 	  Position		  [440, 297, 525, 353]
@@ -5063,7 +5063,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    238
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Match Signal Sizes"
+	    Type		    "MatchSignalSizes"
 	    Description		    "It can happen on particular cases that the Simulink engine cannot propagate the right sizes fro"
 	    "m blocks of the toolbox. If you encounter such problems you can try using this blocks which introducing a minimal"
 	    " overhead assigns to input Signal the same size of input Reference and outputs Signal.\n\nCurrently it supports o"
@@ -5073,7 +5073,7 @@ Library {
 	    RunInitForIconRedraw    "off"
 	  }
 	  System {
-	    Name		    "Match Signal Sizes"
+	    Name		    "MatchSignalSizes"
 	    Location		    [548, 183, 3416, 1872]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -5166,13 +5166,13 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
-	  Name			  "Minimum Jerk Trajectory Generator"
+	  Name			  "MinimumJerkTrajectoryGenerator"
 	  SID			  "1747"
 	  Ports			  [1, 3]
 	  Position		  [470, 93, 625, 147]
 	  ZOrder		  78
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolboxLibrary',sampleTime,settlingTime,firstDerivatives,secondD"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondD"
 	  "erivatives,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -5181,7 +5181,7 @@ Library {
 	    $PropName		    "MaskObject"
 	    $ObjectID		    239
 	    $ClassName		    "Simulink.Mask"
-	    Type		    "Minimum Jerk Trajectory Generator"
+	    Type		    "MinimumJerkTrajectoryGenerator"
 	    Description		    "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk "
 	    "Trajectory Generator is approximated using a 3rd order LTI dynamical system (for more details see [1]).\n\nPositi"
 	    "on, velocity and acceleration trajectories are computed.\n\nThe main advantage with respect to the standard polyn"
@@ -5354,7 +5354,7 @@ Library {
 	  Position		  [405, -6, 595, 66]
 	  ZOrder		  104
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'QpOases','WBToolboxLibrary',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
+	  Parameters		  "'QpOases','WBToolbox',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5514,7 +5514,7 @@ Library {
 	  BackgroundColor	  "gray"
 	  ShowName		  off
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'RealTimeSynchronizer','WBToolboxLibrary',period"
+	  Parameters		  "'RealTimeSynchronizer','WBToolbox',period"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5548,7 +5548,7 @@ Library {
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  ShowName		  off
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SimulatorSynchronizer','WBToolboxLibrary',period, serverPortName, clientPortName"
+	  Parameters		  "'SimulatorSynchronizer','WBToolbox',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5819,7 +5819,7 @@ Library {
 	  ZOrder		  85
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpClock','WBToolboxLibrary'"
+	  Parameters		  "'YarpClock','WBToolbox'"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5837,14 +5837,14 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
-	  Name			  "Yarp Read"
+	  Name			  "YarpRead"
 	  SID			  "1632"
 	  Ports			  [0, 2]
 	  Position		  [90, 94, 150, 141]
 	  ZOrder		  22
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpRead','WBToolboxLibrary',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
+	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
 	  "imeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
@@ -5936,14 +5936,14 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
-	  Name			  "Yarp Write"
+	  Name			  "YarpWrite"
 	  SID			  "1659"
 	  Ports			  [1]
 	  Position		  [230, 96, 290, 144]
 	  ZOrder		  27
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpWrite','WBToolboxLibrary',portName,autoconnect,errorOnConnection"
+	  Parameters		  "'YarpWrite','WBToolbox',portName,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5957,7 +5957,7 @@ Library {
 	    "specified, the first parameter become the\nname of the target port to which the data will be stramed, \ne.g. like"
 	    " \"yarp write ... /destinationPort\"\n"
 	    SelfModifiable	    "on"
-	    Display		    "disp('Yarp Write')"
+	    Display		    "disp('YarpWrite')"
 	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"

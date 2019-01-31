@@ -81,7 +81,7 @@ bool RealTimeSynchronizer::configureSizeAndPorts(BlockInformation* blockInfo)
     // No outputs
     //
 
-    const bool ok = blockInfo->setIOPortsData({{}, {}});
+    const bool ok = blockInfo->setPortsInfo({}, {});
 
     if (!ok) {
         bfError << "Failed to configure input / output ports.";
