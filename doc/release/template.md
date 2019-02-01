@@ -8,13 +8,13 @@
 
 ### `WBToolboxBase`
 
-### `WBToolboxLibrary`
+### `WBToolbox`
 
 ## Bug Fixes
 
 ### `WBToolboxBase`
 
-### `WBToolboxLibrary`
+### `WBToolbox`
 
 ## Contributors
 
