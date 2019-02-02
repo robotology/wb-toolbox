@@ -1,7 +1,11 @@
 var searchData=
 [
-  ['massmatrix_2ecpp',['MassMatrix.cpp',['../_mass_matrix_8cpp.html',1,'']]],
-  ['massmatrix_2eh',['MassMatrix.h',['../_mass_matrix_8h.html',1,'']]],
-  ['minimumjerktrajectorygenerator_2ecpp',['MinimumJerkTrajectoryGenerator.cpp',['../_minimum_jerk_trajectory_generator_8cpp.html',1,'']]],
-  ['minimumjerktrajectorygenerator_2eh',['MinimumJerkTrajectoryGenerator.h',['../_minimum_jerk_trajectory_generator_8h.html',1,'']]]
+  ['realtimesynchronizer_2ecpp',['RealTimeSynchronizer.cpp',['../_real_time_synchronizer_8cpp.html',1,'']]],
+  ['realtimesynchronizer_2eh',['RealTimeSynchronizer.h',['../_real_time_synchronizer_8h.html',1,'']]],
+  ['relativetransform_2ecpp',['RelativeTransform.cpp',['../_relative_transform_8cpp.html',1,'']]],
+  ['relativetransform_2eh',['RelativeTransform.h',['../_relative_transform_8h.html',1,'']]],
+  ['remoteinversekinematics_2ecpp',['RemoteInverseKinematics.cpp',['../_remote_inverse_kinematics_8cpp.html',1,'']]],
+  ['remoteinversekinematics_2eh',['RemoteInverseKinematics.h',['../_remote_inverse_kinematics_8h.html',1,'']]],
+  ['robotinterface_2ecpp',['RobotInterface.cpp',['../_robot_interface_8cpp.html',1,'']]],
+  ['robotinterface_2eh',['RobotInterface.h',['../_robot_interface_8h.html',1,'']]]
 ];

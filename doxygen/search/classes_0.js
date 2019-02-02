@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['block',['Block',['../classwbt_1_1_block.html',1,'wbt']]],
-  ['blockfactorysingleton',['BlockFactorySingleton',['../class_block_factory_singleton.html',1,'']]],
-  ['blockinformation',['BlockInformation',['../classwbt_1_1_block_information.html',1,'wbt']]]
+  ['centroidalmomentum',['CentroidalMomentum',['../classwbt_1_1block_1_1_centroidal_momentum.html',1,'wbt::block']]],
+  ['configuration',['Configuration',['../classwbt_1_1base_1_1_configuration.html',1,'wbt::base']]]
 ];

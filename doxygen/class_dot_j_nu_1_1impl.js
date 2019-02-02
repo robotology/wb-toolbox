@@ -1,6 +1,6 @@
 var class_dot_j_nu_1_1impl =
 [
-    [ "dotJNu", "class_dot_j_nu_1_1impl.html#a54df2356689422bc640c9a6d2d853c38", null ],
-    [ "frameIndex", "class_dot_j_nu_1_1impl.html#aa020765a38d6f2c8b4151a4da7172c75", null ],
-    [ "frameIsCoM", "class_dot_j_nu_1_1impl.html#a2ede45573de6d937de42f66dbb917609", null ]
+    [ "dotJNu", "class_dot_j_nu_1_1impl.html#abc567705a09339950d274d6d750deaca", null ],
+    [ "frameIndex", "class_dot_j_nu_1_1impl.html#af9fb935f636f436b84683ec638565988", null ],
+    [ "frameIsCoM", "class_dot_j_nu_1_1impl.html#a442e9fc1879195bb29607c32e46c115f", null ]
 ];

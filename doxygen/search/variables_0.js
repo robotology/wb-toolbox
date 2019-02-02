@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['autoconnect',['autoconnect',['../class_yarp_read_1_1impl.html#a2a3051b9e6e3775328c471b33ec3a36a',1,'wbt::YarpRead::impl::autoconnect()'],['../class_yarp_write_1_1impl.html#ad646c8f915eb4aa8fc9598dc368b39c2',1,'wbt::YarpWrite::impl::autoconnect()']]]
+  ['autoconnect',['autoconnect',['../class_yarp_read_1_1impl.html#a6650381deff7967c6c8c60b037c7c80b',1,'wbt::block::YarpRead::impl::autoconnect()'],['../class_yarp_write_1_1impl.html#a74139689807ab08d1b13d37afcc7ca4e',1,'wbt::block::YarpWrite::impl::autoconnect()']]]
 ];

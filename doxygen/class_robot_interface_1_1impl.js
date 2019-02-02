@@ -1,13 +1,13 @@
 var class_robot_interface_1_1impl =
 [
-    [ "impl", "class_robot_interface_1_1impl.html#a78fbad0c53075e73a1e706b34a1a15f3", null ],
-    [ "impl", "class_robot_interface_1_1impl.html#adf07bfd73d028002d20832d138131d98", null ],
-    [ "checkInterface", "class_robot_interface_1_1impl.html#af98b5032edd60cd8df332e4ff05c04c6", null ],
-    [ "getInterfaceLazyEval", "class_robot_interface_1_1impl.html#aa5659a6d497adb014697f94a88e89ee7", null ],
-    [ "initializeModel", "class_robot_interface_1_1impl.html#a05773ae4c4ab294f0aed1befaf47bc75", null ],
-    [ "initializeRemoteControlBoardRemapper", "class_robot_interface_1_1impl.html#aba63312f96e3fb175a179e97073da473", null ],
-    [ "config", "class_robot_interface_1_1impl.html#a08a822c9a95aaea95a76376c8ed26039", null ],
-    [ "kinDynComp", "class_robot_interface_1_1impl.html#aa20509eaeb627c1ff8a828a1c6626cef", null ],
-    [ "robotDevice", "class_robot_interface_1_1impl.html#a1da5ecc2aba9e967f657abfab108d6be", null ],
-    [ "yarpInterfaces", "class_robot_interface_1_1impl.html#ad3c642c1cc94480e8ccbf61ac76f98cc", null ]
+    [ "impl", "class_robot_interface_1_1impl.html#a40f97632a8fbf5e4935d2cbf9988d18c", null ],
+    [ "impl", "class_robot_interface_1_1impl.html#a711debffa98800aad52fb12b92a8f640", null ],
+    [ "checkInterface", "class_robot_interface_1_1impl.html#a5f13b5e3cece1e1b818e92cf00519e47", null ],
+    [ "getInterfaceLazyEval", "class_robot_interface_1_1impl.html#afb318b848569db4463b3d4627e59aa99", null ],
+    [ "initializeModel", "class_robot_interface_1_1impl.html#af3a58ed323573b361007c663090b4bf6", null ],
+    [ "initializeRemoteControlBoardRemapper", "class_robot_interface_1_1impl.html#a5c06a9556bc379539549bc2f2e61b28c", null ],
+    [ "config", "class_robot_interface_1_1impl.html#aa2fbf0fbe8f2bb25c20845c06928be3e", null ],
+    [ "kinDynComp", "class_robot_interface_1_1impl.html#a85b20fdf4b2c9c30f19ac43ed12ace22", null ],
+    [ "robotDevice", "class_robot_interface_1_1impl.html#ae7ba77cfc7fa18ea59ea0c91bda9f186", null ],
+    [ "yarpInterfaces", "class_robot_interface_1_1impl.html#a363bbb53a86d2db0c9299679e1a7f5d6", null ]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['centroidalmomentum',['CentroidalMomentum',['../classwbt_1_1_centroidal_momentum.html',1,'wbt']]],
-  ['coderblockinformation',['CoderBlockInformation',['../classwbt_1_1_coder_block_information.html',1,'wbt']]],
-  ['configuration',['Configuration',['../classwbt_1_1_configuration.html',1,'wbt']]]
+  ['discretefilter',['DiscreteFilter',['../classwbt_1_1block_1_1_discrete_filter.html',1,'wbt::block']]],
+  ['dotjnu',['DotJNu',['../classwbt_1_1block_1_1_dot_j_nu.html',1,'wbt::block']]]
 ];

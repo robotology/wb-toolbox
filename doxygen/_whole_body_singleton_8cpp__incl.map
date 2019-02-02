@@ -1,7 +1,5 @@
-<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/WholeBodySingleton.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/library/src/WholeBodySingleton.cpp">
-<area shape="rect" id="node2" href="$_whole_body_singleton_8h.html" title="Base/WholeBodySingleton.h" alt="" coords="182,125,369,152"/>
-<area shape="rect" id="node6" href="$_configuration_8h.html" title="Base/Configuration.h" alt="" coords="712,125,856,152"/>
-<area shape="rect" id="node9" href="$_robot_interface_8h.html" title="Base/RobotInterface.h" alt="" coords="5,125,157,152"/>
-<area shape="rect" id="node11" href="$_log_8h.html" title="Core/Log.h" alt="" coords="394,125,480,152"/>
-<area shape="rect" id="node13" href="$_parameters_8h.html" title="Core/Parameters.h" alt="" coords="505,125,636,152"/>
+<map id="/home/travis/build/robotology/wb&#45;toolbox/toolbox/base/src/WholeBodySingleton.cpp" name="/home/travis/build/robotology/wb&#45;toolbox/toolbox/base/src/WholeBodySingleton.cpp">
+<area shape="rect" id="node2" href="$_whole_body_singleton_8h.html" title="WBToolbox/Base/WholeBody\lSingleton.h" alt="" coords="263,109,461,151"/>
+<area shape="rect" id="node6" href="$_configuration_8h.html" title="WBToolbox/Base/Configuration.h" alt="" coords="535,117,762,143"/>
+<area shape="rect" id="node9" href="$_robot_interface_8h.html" title="WBToolbox/Base/RobotInterface.h" alt="" coords="5,117,239,143"/>
 </map>

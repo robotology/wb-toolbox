@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['inputsignalptr',['InputSignalPtr',['../namespacewbt.html#aab839de1274643197a3ca3d3f7791fc4',1,'wbt']]]
+  ['matrixxdqpoases',['MatrixXdQpOases',['../_qp_oases_8cpp.html#a15c452222fe9d7ba00ec58837a34c9fe',1,'QpOases.cpp']]],
+  ['matrixxdsimulink',['MatrixXdSimulink',['../_qp_oases_8cpp.html#a6c6324b16138d7c02a4e42dbd771f2fa',1,'QpOases.cpp']]]
 ];

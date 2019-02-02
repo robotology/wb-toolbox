@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['limit',['Limit',['../struct_get_limits_1_1impl_1_1_limit.html',1,'GetLimits::impl']]],
-  ['log',['Log',['../classwbt_1_1_log.html',1,'wbt']]]
+  ['massmatrix',['MassMatrix',['../classwbt_1_1block_1_1_mass_matrix.html',1,'wbt::block']]],
+  ['minimumjerktrajectorygenerator',['MinimumJerkTrajectoryGenerator',['../classwbt_1_1block_1_1_minimum_jerk_trajectory_generator.html',1,'wbt::block']]]
 ];

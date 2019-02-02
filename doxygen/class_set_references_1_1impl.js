@@ -1,10 +1,10 @@
 var class_set_references_1_1impl =
 [
-    [ "rad2deg", "class_set_references_1_1impl.html#a7de9dfaa279e3d3a3760867b37469a82", null ],
-    [ "controlModes", "class_set_references_1_1impl.html#af464473426efd6a18b055fe45c70ad78", null ],
-    [ "defaultTrajectoryReference", "class_set_references_1_1impl.html#a25e0fbce3ee799db7755a6cde88c589b", null ],
-    [ "degBufferReferences", "class_set_references_1_1impl.html#abc783ac3acb4d74c182adff0fc64d1fd", null ],
-    [ "previousReferenceVocabCmPosition", "class_set_references_1_1impl.html#ada4c2559f72cb05e2a1725bf52399f07", null ],
-    [ "resetControlMode", "class_set_references_1_1impl.html#a2f09a10c1f1e481c59c08b471604a564", null ],
-    [ "trajectoryReference", "class_set_references_1_1impl.html#a6b036113e6dfc84e710cb0c7ddf70258", null ]
+    [ "rad2deg", "class_set_references_1_1impl.html#a4a62337ea11cacf1862bd25d0de52207", null ],
+    [ "controlModes", "class_set_references_1_1impl.html#a3cae2954cb0ae3636541a99b2786221b", null ],
+    [ "defaultTrajectoryReference", "class_set_references_1_1impl.html#a163c71a9be2b9d4052287d1440c251bb", null ],
+    [ "degBufferReferences", "class_set_references_1_1impl.html#ae55b8765941720872b4c710bddab784a", null ],
+    [ "previousReferenceVocabCmPosition", "class_set_references_1_1impl.html#ad996e56f911a425f311d37a095eeff0b", null ],
+    [ "resetControlMode", "class_set_references_1_1impl.html#a7e5dbf7b1b8895c9c9d2ecfcb2c6ec74", null ],
+    [ "trajectoryReference", "class_set_references_1_1impl.html#ab4e7c7889d54e678fe940674fd77267c", null ]
 ];
