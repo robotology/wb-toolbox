@@ -73,6 +73,12 @@ before_script:
       --env-file "$TRAVIS_BUILD_DIR/.ci/env-file" \
       $DOCKER_IMAGE_NAME \
       bash
+  # Fix the image waiting that current WBT master is used in the superbuild
+  - >-
+    docker exec -it \
+      -w /projects/robotology-superbuild/build/robotology/BlockFactory \
+      ci \
+      make install
 
 script:
   - docker exec ci ./.ci/script.sh
