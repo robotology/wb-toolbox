@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "GetLimits.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/GetLimits.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/IJoint.h>
 #include <iDynTree/Model/Indices.h>
@@ -27,14 +27,15 @@
 #include <tuple>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     LimitType
 };
 
@@ -68,7 +69,7 @@ public:
 // BLOCK CLASS
 // ===========
 
-wbt::GetLimits::GetLimits()
+GetLimits::GetLimits()
     : pImpl{new impl()}
 {}
 
@@ -85,7 +86,7 @@ bool GetLimits::parseParameters(BlockInformation* blockInfo)
         ParameterType::STRING, ParamIndex::LimitType, 1, 1, "LimitType");
 
     if (!blockInfo->addParameterMetadata(limitTypeMetadata)) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -113,19 +114,18 @@ bool GetLimits::configureSizeAndPorts(BlockInformation* blockInfo)
     // 2) Vector with the max limit (1xDoFs)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::MinLimit, std::vector<int>{dofs}, DataType::DOUBLE),
-            std::make_tuple(OutputIndex::MaxLimit, std::vector<int>{dofs}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::MinLimit, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+            {OutputIndex::MaxLimit, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -144,13 +144,13 @@ bool GetLimits::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!GetLimits::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     // Read the control type
     if (!m_parameters.getParameter("LimitType", pImpl->limitType)) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -206,7 +206,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
             || pImpl->limitType == "ControlBoardVelocity") {
             // Get the interface
             if (!robotInterface->getInterface(iControlLimits2) || !iControlLimits2) {
-                wbtError << "Failed to get IControlLimits2 interface.";
+                bfError << "Failed to get IControlLimits2 interface.";
                 return false;
             }
         }
@@ -214,7 +214,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         if (pImpl->limitType == "ControlBoardPosition") {
             for (unsigned i = 0; i < dofs; ++i) {
                 if (!iControlLimits2->getLimits(i, &min, &max)) {
-                    wbtError << "Failed to get limits from the interface.";
+                    bfError << "Failed to get limits from the interface.";
                     return false;
                 }
                 pImpl->limits.min[i] = GetLimits::impl::deg2rad(min);
@@ -224,7 +224,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         else if (pImpl->limitType == "ControlBoardVelocity") {
             for (unsigned i = 0; i < dofs; ++i) {
                 if (!iControlLimits2->getVelLimits(i, &min, &max)) {
-                    wbtError << "Failed to get limits from the interface.";
+                    bfError << "Failed to get limits from the interface.";
                     return false;
                 }
                 pImpl->limits.min[i] = GetLimits::impl::deg2rad(min);
@@ -243,7 +243,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
             // Get the KinDynComputations pointer
             const auto& kindyncomp = robotInterface->getKinDynComputations();
             if (!kindyncomp) {
-                wbtError << "Failed to retrieve the KinDynComputations object.";
+                bfError << "Failed to retrieve the KinDynComputations object.";
                 return false;
             }
 
@@ -259,7 +259,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
                 iDynTree::JointIndex jointIndex = model.getJointIndex(joint);
 
                 if (jointIndex == iDynTree::JOINT_INVALID_INDEX) {
-                    wbtError << "Invalid iDynTree joint index.";
+                    bfError << "Invalid iDynTree joint index.";
                     return false;
                 }
 
@@ -267,14 +267,14 @@ bool GetLimits::output(const BlockInformation* blockInfo)
                 p_joint = model.getJoint(jointIndex);
 
                 if (!p_joint->hasPosLimits()) {
-                    wbtWarning << "Joint " << joint << " has no model limits.";
+                    bfWarning << "Joint " << joint << " has no model limits.";
                     pImpl->limits.min[i] = -std::numeric_limits<double>::infinity();
                     pImpl->limits.max[i] = std::numeric_limits<double>::infinity();
                 }
                 else {
                     if (!p_joint->getPosLimits(0, min, max)) {
-                        wbtError << "Failed to get joint limits from the URDF model "
-                                 << "for the joint " << joint + ".";
+                        bfError << "Failed to get joint limits from the URDF model "
+                                << "for the joint " << joint + ".";
                         return false;
                     }
                     pImpl->limits.min[i] = min;
@@ -288,7 +288,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
         // else if (limitType == "ModelEffort") {
         // }
         else {
-            wbtError << "Limit type " + pImpl->limitType + " not recognized.";
+            bfError << "Limit type " + pImpl->limitType + " not recognized.";
             return false;
         }
     }
@@ -297,7 +297,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
     OutputSignalPtr maxPort = blockInfo->getOutputPortSignal(OutputIndex::MaxLimit);
 
     if (!minPort || !maxPort) {
-        wbtError << "Output signals not valid.";
+        bfError << "Output signals not valid.";
         return false;
     }
 
@@ -309,7 +309,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
     ok = ok && maxPort->setBuffer(pImpl->limits.max.data(), dofs);
 
     if (!ok) {
-        wbtError << "Failed to set output buffers.";
+        bfError << "Failed to set output buffers.";
         return false;
     }
 

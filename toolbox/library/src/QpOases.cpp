@@ -6,20 +6,21 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "QpOases.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/QpOases.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <qpOASES.hpp>
 
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 const unsigned MaxIterations = 100;
 
@@ -44,11 +45,11 @@ enum InputIndex
     // Other optional inputs
 };
 
-static int InputIndex_constraints = InputIndex::Gradient;
-static int InputIndex_lbA = InputIndex::Gradient;
-static int InputIndex_ubA = InputIndex::Gradient;
-static int InputIndex_lb = InputIndex::Gradient;
-static int InputIndex_ub = InputIndex::Gradient;
+static size_t InputIndex_constraints = InputIndex::Gradient;
+static size_t InputIndex_lbA = InputIndex::Gradient;
+static size_t InputIndex_ubA = InputIndex::Gradient;
+static size_t InputIndex_lb = InputIndex::Gradient;
+static size_t InputIndex_ub = InputIndex::Gradient;
 
 enum OutputIndex
 {
@@ -57,7 +58,7 @@ enum OutputIndex
     // Other optional inputs
 };
 
-static int OutputIndex_objVal = OutputIndex::Status;
+static size_t OutputIndex_objVal = OutputIndex::Status;
 
 // BLOCK PIMPL
 // ===========
@@ -105,7 +106,7 @@ bool QpOases::parseParameters(BlockInformation* blockInfo)
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -119,7 +120,7 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     // ==========
 
     if (!QpOases::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -137,7 +138,7 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("ComputeObjVal", computeObjVal);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -159,56 +160,58 @@ bool QpOases::configureSizeAndPorts(BlockInformation* blockInfo)
     // 2) Status of the qp solver (1x1)
     // 3) Optional: Value of the object function (1x1)
 
-    BlockInformation::IOData ioData;
+    InputPortsInfo inputPortsInfo;
+    OutputPortsInfo outputPortsInfo;
 
     // Inputs
-    ioData.input.emplace_back(InputIndex::Hessian,
-                              std::vector<int>{Signal::DynamicSize, Signal::DynamicSize},
-                              DataType::DOUBLE);
-    ioData.input.emplace_back(
-        InputIndex::Gradient, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
-    ioData.output.emplace_back(
-        OutputIndex::PrimalSolution, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
-    ioData.output.emplace_back(OutputIndex::Status, std::vector<int>{1}, DataType::DOUBLE);
+    inputPortsInfo.push_back({InputIndex::Hessian,
+                              Port::Dimensions{Port::DynamicSize, Port::DynamicSize},
+                              Port::DataType::DOUBLE});
+    inputPortsInfo.push_back(
+        {InputIndex::Gradient, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
+    outputPortsInfo.push_back(
+        {OutputIndex::PrimalSolution, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
+    outputPortsInfo.push_back({OutputIndex::Status, Port::Dimensions{1}, Port::DataType::DOUBLE});
 
     // Optional inputs
-    int numberOfInputs = InputIndex::Gradient;
+    size_t numberOfInputs = InputIndex::Gradient;
     if (useLbA || useUbA) {
         InputIndex_constraints = ++numberOfInputs;
-        ioData.input.emplace_back(InputIndex_constraints,
-                                  std::vector<int>{Signal::DynamicSize, Signal::DynamicSize},
-                                  DataType::DOUBLE);
+        inputPortsInfo.push_back({InputIndex_constraints,
+                                  Port::Dimensions{Port::DynamicSize, Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
     if (useLbA) {
         InputIndex_lbA = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_lbA, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_lbA, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
     if (useUbA) {
         InputIndex_ubA = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_ubA, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_ubA, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
     if (useLb) {
         InputIndex_lb = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_lb, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_lb, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
     if (useUb) {
         InputIndex_ub = ++numberOfInputs;
-        ioData.input.emplace_back(
-            InputIndex_ub, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_ub, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
 
     // Optional outputs
-    int numberOfOutputs = OutputIndex::Status;
+    size_t numberOfOutputs = OutputIndex::Status;
     if (computeObjVal) {
         OutputIndex_objVal = ++numberOfOutputs;
-        ioData.output.emplace_back(OutputIndex_objVal, std::vector<int>{1}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_objVal, Port::Dimensions{1}, Port::DataType::DOUBLE});
     }
 
-    if (!blockInfo->setIOPortsData(ioData)) {
-        wbtError << "Failed to configure input / output ports.";
+    if (!blockInfo->setPortsInfo(inputPortsInfo, outputPortsInfo)) {
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -225,7 +228,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!QpOases::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -238,7 +241,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("StopWhenFails", pImpl->stopWhenFails);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -247,16 +250,16 @@ bool QpOases::initialize(BlockInformation* blockInfo)
 
     // Check the hessian size
     const auto size_H = blockInfo->getInputPortMatrixSize(InputIndex::Hessian);
-    const auto numberOfVariables = size_H.first;
-    if (size_H.first != size_H.second) {
-        wbtError << "The Hessian matrix should be square.";
+    const auto numberOfVariables = size_H.rows;
+    if (size_H.rows != size_H.cols) {
+        bfError << "The Hessian matrix should be square.";
         return false;
     }
 
     // Check the gradient size
     const auto size_g = blockInfo->getInputPortWidth(InputIndex::Gradient);
     if (size_g != numberOfVariables) {
-        wbtError << "The gradient size does not match with the Hessian size.";
+        bfError << "The gradient size does not match with the Hessian size.";
         return false;
     }
 
@@ -269,7 +272,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
         ok = ok && (blockInfo->getInputPortWidth(InputIndex_ub) == numberOfVariables);
     }
     if (!ok) {
-        wbtError << "Sizes of bounds do not match with the number of variables.";
+        bfError << "Sizes of bounds do not match with the number of variables.";
         return false;
     }
 
@@ -278,15 +281,15 @@ bool QpOases::initialize(BlockInformation* blockInfo)
     if (pImpl->useLbA || pImpl->useUbA) {
         // Check the constraints size
         const auto size_c = blockInfo->getInputPortMatrixSize(InputIndex_constraints);
-        numberOfConstraints = size_c.first;
-        if (size_c.second != numberOfVariables) {
-            wbtError << "The column size of the constraints matrix does not match with "
-                     << "the Hessian size";
+        numberOfConstraints = size_c.rows;
+        if (size_c.cols != numberOfVariables) {
+            bfError << "The column size of the constraints matrix does not match with "
+                    << "the Hessian size";
             return false;
         }
 
         // Resize the buffer
-        pImpl->constraints_rowMajor.resize(size_c.first, size_c.second);
+        pImpl->constraints_rowMajor.resize(size_c.rows, size_c.cols);
 
         // Check the constraints' bound size
         bool ok = true;
@@ -297,7 +300,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
             ok = ok && (blockInfo->getInputPortWidth(InputIndex_ubA) == numberOfConstraints);
         }
         if (!ok) {
-            wbtError << "Sizes of constraints' bounds do not match with the number of constraints.";
+            bfError << "Sizes of constraints' bounds do not match with the number of constraints.";
             return false;
         }
     }
@@ -309,7 +312,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
         new qpOASES::SQProblem(numberOfVariables, numberOfConstraints));
 
     if (!pImpl->sqProblem) {
-        wbtError << "Failed to allocate the QProblem or SQProblem object.";
+        bfError << "Failed to allocate the QProblem or SQProblem object.";
         return false;
     }
 
@@ -344,7 +347,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
     InputSignalPtr gradientSignal = blockInfo->getInputPortSignal(InputIndex::Gradient);
 
     if (!hessianSignal || !gradientSignal) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -360,7 +363,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
     if (pImpl->useLbA || pImpl->useUbA) {
         InputSignalPtr constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
         if (!constraintsSignal) {
-            wbtError << "Signal for lbA is not valid.";
+            bfError << "Signal for lbA is not valid.";
             return false;
         }
 
@@ -370,8 +373,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
         Map<MatrixXdSimulink> constraints_colMajor(
             const_cast<double*>(constraintsSignal->getBuffer<double>()),
-            blockInfo->getInputPortMatrixSize(InputIndex_constraints).first,
-            blockInfo->getInputPortMatrixSize(InputIndex_constraints).second);
+            blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows,
+            blockInfo->getInputPortMatrixSize(InputIndex_constraints).cols);
         pImpl->constraints_rowMajor = constraints_colMajor;
 
         // Update the buffer passed to SQProblem
@@ -381,7 +384,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
             InputSignalPtr lbASignal = blockInfo->getInputPortSignal(InputIndex_lbA);
             lbA = lbASignal->getBuffer<double>();
             if (!lbASignal) {
-                wbtError << "Signal for lbA is not valid.";
+                bfError << "Signal for lbA is not valid.";
                 return false;
             }
         }
@@ -390,7 +393,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
             InputSignalPtr ubASignal = blockInfo->getInputPortSignal(InputIndex_ubA);
             ubA = ubASignal->getBuffer<double>();
             if (!ubASignal) {
-                wbtError << "Signal for ubA is not valid.";
+                bfError << "Signal for ubA is not valid.";
                 return false;
             }
         }
@@ -400,7 +403,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
         lb = lbSignal->getBuffer<double>();
         if (!lbSignal) {
-            wbtError << "Signal for lb is not valid.";
+            bfError << "Signal for lb is not valid.";
             return false;
         }
     }
@@ -409,7 +412,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         InputSignalPtr ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
         ub = ubSignal->getBuffer<double>();
         if (!ubSignal) {
-            wbtError << "Signal for ub is not valid.";
+            bfError << "Signal for ub is not valid.";
             return false;
         }
     }
@@ -419,13 +422,13 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
     OutputSignalPtr solutionSignal = blockInfo->getOutputPortSignal(OutputIndex::PrimalSolution);
     if (!solutionSignal) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     OutputSignalPtr statusSignal = blockInfo->getOutputPortSignal(OutputIndex::Status);
     if (!statusSignal) {
-        wbtError << "Status signal not valid.";
+        bfError << "Status signal not valid.";
         return false;
     }
 
@@ -444,7 +447,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
                                         nWSR,
                                         nullptr);
         if (pImpl->stopWhenFails && status != qpOASES::SUCCESSFUL_RETURN) {
-            wbtError << "qpOASES: init() failed.";
+            bfError << "qpOASES: init() failed.";
             return false;
         }
     }
@@ -462,8 +465,8 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
         // Handle possible errors
         if ((status != qpOASES::SUCCESSFUL_RETURN) && (status != qpOASES::RET_MAX_NWSR_REACHED)) {
-            wbtWarning << "Internal qpOASES error. Trying to solve the problem with the remaining "
-                       << "number of iterations.";
+            bfWarning << "Internal qpOASES error. Trying to solve the problem with the remaining "
+                      << "number of iterations.";
             pImpl->sqProblem->reset();
 
             nWSR = MaxIterations - nWSR;
@@ -479,7 +482,7 @@ bool QpOases::output(const BlockInformation* blockInfo)
         }
 
         if (pImpl->stopWhenFails && status != qpOASES::SUCCESSFUL_RETURN) {
-            wbtError << "qpOASES: hotstart() failed.";
+            bfError << "qpOASES: hotstart() failed.";
             return false;
         }
     }
@@ -488,12 +491,12 @@ bool QpOases::output(const BlockInformation* blockInfo)
         pImpl->sqProblem->getPrimalSolution(solutionSignal->getBuffer<double>());
 
     if (pImpl->stopWhenFails && statusSol != qpOASES::SUCCESSFUL_RETURN) {
-        wbtError << "qpOASES: getPrimalSolution() failed.";
+        bfError << "qpOASES: getPrimalSolution() failed.";
         return false;
     }
 
     if (!statusSignal->set(0, qpOASES::getSimpleStatus(status))) {
-        wbtError << "Failed to set status signal.";
+        bfError << "Failed to set status signal.";
         return false;
     }
 
@@ -505,12 +508,12 @@ bool QpOases::output(const BlockInformation* blockInfo)
 
         OutputSignalPtr objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
         if (!objValSignal) {
-            wbtError << "Object Value signal not valid.";
+            bfError << "Object Value signal not valid.";
             return false;
         }
 
         if (!objValSignal->set(0, objVal)) {
-            wbtError << "Failed to set object value signal.";
+            bfError << "Failed to set object value signal.";
             return false;
         }
     }

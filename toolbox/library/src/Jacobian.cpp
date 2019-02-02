@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "Jacobian.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/Jacobian.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/MatrixDynSize.h>
@@ -26,14 +26,15 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     Frame
 };
 
@@ -82,7 +83,7 @@ bool Jacobian::parseParameters(BlockInformation* blockInfo)
     bool ok = blockInfo->addParameterMetadata(frameMetadata);
 
     if (!ok) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -111,21 +112,20 @@ bool Jacobian::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Matrix representing the Jacobian (6x(DoFs+6))
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(InputIndex::BasePose, std::vector<int>{4, 4}, DataType::DOUBLE),
-            std::make_tuple(
-                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
+            {InputIndex::BasePose, Port::Dimensions{4, 4}, Port::DataType::DOUBLE},
+
+            {InputIndex::JointConfiguration, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::Jacobian, std::vector<int>{6, 6 + dofs}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::Jacobian, Port::Dimensions{6, 6 + dofs}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -142,13 +142,13 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!Jacobian::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     std::string frame;
     if (!m_parameters.getParameter("Frame", frame)) {
-        wbtError << "Cannot retrieve string from frame parameter.";
+        bfError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
@@ -160,14 +160,14 @@ bool Jacobian::initialize(BlockInformation* blockInfo)
 
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Cannot retrieve handle to KinDynComputations.";
+        bfError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
         pImpl->frameIndex = kinDyn->getFrameIndex(frame);
         if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            wbtError << "Cannot find " + frame + " in the frame list.";
+            bfError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
@@ -206,7 +206,7 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -217,14 +217,14 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
     if (!basePoseSig || !jointsPosSig) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
     bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
 
     if (!ok) {
-        wbtError << "Failed to set the robot state.";
+        bfError << "Failed to set the robot state.";
         return false;
     }
 
@@ -248,14 +248,14 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     }
 
     if (!ok) {
-        wbtError << "Failed to get the Jacobian.";
+        bfError << "Failed to get the Jacobian.";
         return false;
     }
 
     // Get the output signal memory location
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Jacobian);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
@@ -263,8 +263,8 @@ bool Jacobian::output(const BlockInformation* blockInfo)
     Map<MatrixXdiDynTree> jacobianRowMajor = toEigen(pImpl->jacobian);
     Map<MatrixXdSimulink> jacobianColMajor(
         output->getBuffer<double>(),
-        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).first,
-        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).second);
+        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).rows,
+        blockInfo->getOutputPortMatrixSize(OutputIndex::Jacobian).cols);
 
     // Forward the buffer to Simulink transforming it to ColMajor
     jacobianColMajor = jacobianRowMajor;

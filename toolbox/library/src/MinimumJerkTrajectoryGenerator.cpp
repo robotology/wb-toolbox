@@ -6,13 +6,13 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "MinimumJerkTrajectoryGenerator.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/MinimumJerkTrajectoryGenerator.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <iCub/ctrl/minJerkCtrl.h>
 #include <yarp/sig/Vector.h>
 
@@ -20,7 +20,8 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -43,8 +44,8 @@ enum InputIndex
     // Other optional inputs
 };
 
-static int InputIndex_InitialValue = InputIndex::InputSignal;
-static int InputIndex_ExtSettlingTime = InputIndex::InputSignal;
+static size_t InputIndex_InitialValue = InputIndex::InputSignal;
+static size_t InputIndex_ExtSettlingTime = InputIndex::InputSignal;
 
 enum OutputIndex
 {
@@ -52,8 +53,8 @@ enum OutputIndex
     // Other optional outputs
 };
 
-static int OutputIndex_FirstDer = OutputIndex::FilteredSignal;
-static int OutputIndex_SecondDer = OutputIndex::FilteredSignal;
+static size_t OutputIndex_FirstDer = OutputIndex::FilteredSignal;
+static size_t OutputIndex_SecondDer = OutputIndex::FilteredSignal;
 
 // BLOCK PIMPL
 // ===========
@@ -102,7 +103,7 @@ bool MinimumJerkTrajectoryGenerator::parseParameters(BlockInformation* blockInfo
 
     for (const auto& md : metadata) {
         if (!blockInfo->addParameterMetadata(md)) {
-            wbtError << "Failed to store parameter metadata";
+            bfError << "Failed to store parameter metadata";
             return false;
         }
     }
@@ -116,7 +117,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     // ==========
 
     if (!MinimumJerkTrajectoryGenerator::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -132,7 +133,7 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
     ok = ok && m_parameters.getParameter("ReadExternalSettlingTime", readExternalSettlingTime);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -167,33 +168,37 @@ bool MinimumJerkTrajectoryGenerator::configureSizeAndPorts(BlockInformation* blo
         OutputIndex_SecondDer = OutputIndex_FirstDer + 1;
     }
 
-    BlockInformation::IOData ioData;
-    ioData.input.emplace_back(
-        InputIndex::InputSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
-    ioData.output.emplace_back(
-        OutputIndex::FilteredSignal, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+    InputPortsInfo inputPortsInfo;
+    OutputPortsInfo outputPortsInfo;
+
+    inputPortsInfo.push_back(
+        {InputIndex::InputSignal, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
+    outputPortsInfo.push_back(
+        {OutputIndex::FilteredSignal, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
 
     // Handle optional inputs
     if (readInitialValue) {
-        ioData.input.emplace_back(InputIndex_InitialValue, std::vector<int>{1}, DataType::DOUBLE);
+        inputPortsInfo.push_back(
+            {InputIndex_InitialValue, Port::Dimensions{1}, Port::DataType::DOUBLE});
     }
     if (readExternalSettlingTime) {
-        ioData.input.emplace_back(
-            InputIndex_ExtSettlingTime, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        inputPortsInfo.push_back({InputIndex_ExtSettlingTime,
+                                  Port::Dimensions{Port::DynamicSize},
+                                  Port::DataType::DOUBLE});
     }
 
     // Handle optional outputs
     if (computeFirstDerivative) {
-        ioData.output.emplace_back(
-            OutputIndex_FirstDer, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_FirstDer, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
     if (computeSecondDerivative) {
-        ioData.output.emplace_back(
-            OutputIndex_SecondDer, std::vector<int>{Signal::DynamicSize}, DataType::DOUBLE);
+        outputPortsInfo.push_back(
+            {OutputIndex_SecondDer, Port::Dimensions{Port::DynamicSize}, Port::DataType::DOUBLE});
     }
 
-    if (!blockInfo->setIOPortsData(ioData)) {
-        wbtError << "Failed to configure input / output ports.";
+    if (!blockInfo->setPortsInfo(inputPortsInfo, outputPortsInfo)) {
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -210,7 +215,7 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!MinimumJerkTrajectoryGenerator::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
@@ -230,7 +235,7 @@ bool MinimumJerkTrajectoryGenerator::initialize(BlockInformation* blockInfo)
         && m_parameters.getParameter("ResetOnSettlingTimeChange", pImpl->resetOnSettlingTimeChange);
 
     if (!ok) {
-        wbtError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
@@ -256,7 +261,7 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         InputSignalPtr externalTimeSignal =
             blockInfo->getInputPortSignal(InputIndex_ExtSettlingTime);
         if (!externalTimeSignal) {
-            wbtError << "Input signal not valid.";
+            bfError << "Input signal not valid.";
             return false;
         }
 
@@ -277,7 +282,7 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
         InputSignalPtr initialValuesSignal = blockInfo->getInputPortSignal(InputIndex_InitialValue);
         if (!initialValuesSignal) {
-            wbtError << "Input signal not valid.";
+            bfError << "Input signal not valid.";
             return false;
         }
 
@@ -292,7 +297,7 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     InputSignalPtr referencesSignal = blockInfo->getInputPortSignal(InputIndex::InputSignal);
     if (!referencesSignal) {
-        wbtError << "Input signal not valid.";
+        bfError << "Input signal not valid.";
         return false;
     }
 
@@ -309,12 +314,12 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
 
     OutputSignalPtr outputSignal = blockInfo->getOutputPortSignal(OutputIndex::FilteredSignal);
     if (!outputSignal) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     if (!outputSignal->setBuffer(signal.data(), signal.size())) {
-        wbtError << "Failed to set output buffer.";
+        bfError << "Failed to set output buffer.";
         return false;
     }
 
@@ -326,13 +331,13 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         OutputSignalPtr firstDerivativeSignal =
             blockInfo->getOutputPortSignal(OutputIndex_FirstDer);
         if (!firstDerivativeSignal) {
-            wbtError << "Output signal not valid.";
+            bfError << "Output signal not valid.";
             return false;
         }
 
         if (!firstDerivativeSignal->setBuffer(derivative.data(),
                                               firstDerivativeSignal->getWidth())) {
-            wbtError << "Failed to set output buffer.";
+            bfError << "Failed to set output buffer.";
             return false;
         }
     }
@@ -345,13 +350,13 @@ bool MinimumJerkTrajectoryGenerator::output(const BlockInformation* blockInfo)
         OutputSignalPtr secondDerivativeSignal =
             blockInfo->getOutputPortSignal(OutputIndex_SecondDer);
         if (!secondDerivativeSignal) {
-            wbtError << "Output signal not valid.";
+            bfError << "Output signal not valid.";
             return false;
         }
 
         if (!secondDerivativeSignal->setBuffer(derivative.data(),
                                                secondDerivativeSignal->getWidth())) {
-            wbtError << "Failed to set output buffer.";
+            bfError << "Failed to set output buffer.";
             return false;
         }
     }

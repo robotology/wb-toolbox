@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "GetMeasurement.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/GetMeasurement.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IEncoders.h>
 #include <yarp/dev/IMotorEncoders.h>
@@ -26,14 +26,15 @@
 #include <tuple>
 #include <vector>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     MeasType
 };
 
@@ -95,7 +96,7 @@ bool GetMeasurement::parseParameters(BlockInformation* blockInfo)
         ParameterType::STRING, ParamIndex::MeasType, 1, 1, "MeasuredType");
 
     if (!blockInfo->addParameterMetadata(measTypeMetadata)) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -122,18 +123,17 @@ bool GetMeasurement::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Vector with the information asked (1xDoFs)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::Measurement, std::vector<int>{dofs}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::Measurement, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -150,14 +150,14 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!GetMeasurement::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     // Read the measured type
     std::string measuredType;
     if (!m_parameters.getParameter("MeasuredType", measuredType)) {
-        wbtError << "Could not read measured type parameter.";
+        bfError << "Could not read measured type parameter.";
         return false;
     }
 
@@ -190,7 +190,7 @@ bool GetMeasurement::initialize(BlockInformation* blockInfo)
         pImpl->measuredType = impl::MeasuredType::MOTOR_PWM;
     }
     else {
-        wbtError << "Measurement not supported.";
+        bfError << "Measurement not supported.";
         return false;
     }
 
@@ -226,7 +226,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
-                wbtError << "Failed to get IEncoders interface.";
+                bfError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -238,7 +238,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
-                wbtError << "Failed to get IEncoders interface.";
+                bfError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -250,7 +250,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IEncoders* iEncoders = nullptr;
             if (!robotInterface->getInterface(iEncoders) || !iEncoders) {
-                wbtError << "Failed to get IEncoders interface.";
+                bfError << "Failed to get IEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -262,7 +262,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::ITorqueControl* iTorqueControl = nullptr;
             if (!robotInterface->getInterface(iTorqueControl) || !iTorqueControl) {
-                wbtError << "Failed to get ITorqueControl interface.";
+                bfError << "Failed to get ITorqueControl interface.";
                 return false;
             }
             // Get the measurement
@@ -277,7 +277,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get IMotorEncoders interface.";
+                bfError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -289,7 +289,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get IMotorEncoders interface.";
+                bfError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -301,7 +301,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IMotorEncoders* iMotorEncoders = nullptr;
             if (!robotInterface->getInterface(iMotorEncoders) || !iMotorEncoders) {
-                wbtError << "Failed to get IMotorEncoders interface.";
+                bfError << "Failed to get IMotorEncoders interface.";
                 return false;
             }
             // Get the measurement
@@ -313,7 +313,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::ICurrentControl* iCurrentControl = nullptr;
             if (!robotInterface->getInterface(iCurrentControl) || !iCurrentControl) {
-                wbtError << "Failed to get ICurrentControl interface.";
+                bfError << "Failed to get ICurrentControl interface.";
                 return false;
             }
             // Get the measurement
@@ -324,7 +324,7 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
             // Get the interface
             yarp::dev::IPWMControl* iPWMControl = nullptr;
             if (!robotInterface->getInterface(iPWMControl) || !iPWMControl) {
-                wbtError << "Failed to get IPWMControl interface.";
+                bfError << "Failed to get IPWMControl interface.";
                 return false;
             }
             // Get the measurement
@@ -334,20 +334,20 @@ bool GetMeasurement::output(const BlockInformation* blockInfo)
     }
 
     if (!ok) {
-        wbtError << "Failed to get measurement.";
+        bfError << "Failed to get measurement.";
         return false;
     }
 
     // Get the output signal
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Measurement);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     // Fill the output buffer
     if (!output->setBuffer(pImpl->measurement.data(), output->getWidth())) {
-        wbtError << "Failed to set output buffer.";
+        bfError << "Failed to set output buffer.";
         return false;
     }
 

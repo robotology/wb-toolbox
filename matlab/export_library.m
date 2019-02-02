@@ -24,14 +24,11 @@ try
     set_param(libraryName, 'Lock', 'on');
   end
 
-  % Export the library
+  % Export the library. It must be in slx otherwise it will not show up in
+  % the Simulink Library browser.
   fprintf('\nExporting for 2014b\n');
   save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
   movefile('WBToolboxLibrary.slx', 'library/exported/WBToolboxLibrary.slx');
-  % TODO: Check if mdl support is still required
-  % fprintf('\nExporting for 2012a\n');
-  % save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2012A_MDL');
-  % movefile('WBToolboxLibrary.mdl', 'library/exported/WBToolboxLibrary.mdl');
 
   % Unload the library
   close_system(libraryName);

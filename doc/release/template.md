@@ -1,4 +1,4 @@
-# WB-Toolbox (YYYY-MM-DD) Release Notes {[`#vX.Y`](https://github.com/robotology/wb-toolbox/releases/tag/vX.Y)}
+# Whole-Body Toolbox (YYYY-MM-DD) Release Notes {[`#vX.Y`](https://github.com/robotology/wb-toolbox/releases/tag/vX.Y)}
 
 [Description]
 
@@ -6,19 +6,15 @@
 
 ## New Features
 
-### `WBToolboxLibrary`
+### `WBToolboxBase`
 
-### `WBToolboxMex`
-
-### `WBToolboxCoder`
+### `WBToolbox`
 
 ## Bug Fixes
 
-### `WBToolboxLibrary`
+### `WBToolboxBase`
 
-### `WBToolboxMex`
-
-### `WBToolboxCoder`
+### `WBToolbox`
 
 ## Contributors
 

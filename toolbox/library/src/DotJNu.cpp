@@ -6,15 +6,15 @@
  * GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "DotJNu.h"
-#include "Base/Configuration.h"
-#include "Base/RobotInterface.h"
-#include "Core/BlockInformation.h"
-#include "Core/Log.h"
-#include "Core/Parameter.h"
-#include "Core/Parameters.h"
-#include "Core/Signal.h"
+#include "WBToolbox/Block/DotJNu.h"
+#include "WBToolbox/Base/Configuration.h"
+#include "WBToolbox/Base/RobotInterface.h"
 
+#include <BlockFactory/Core/BlockInformation.h>
+#include <BlockFactory/Core/Log.h>
+#include <BlockFactory/Core/Parameter.h>
+#include <BlockFactory/Core/Parameters.h>
+#include <BlockFactory/Core/Signal.h>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
@@ -24,14 +24,15 @@
 #include <ostream>
 #include <tuple>
 
-using namespace wbt;
+using namespace wbt::block;
+using namespace blockfactory::core;
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
 
 enum ParamIndex
 {
-    Bias = WBBlock::NumberOfParameters - 1,
+    Bias = wbt::base::WBBlock::NumberOfParameters - 1,
     Frame
 };
 
@@ -78,7 +79,7 @@ bool DotJNu::parseParameters(BlockInformation* blockInfo)
     const ParameterMetadata frameMetadata(ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame");
 
     if (!blockInfo->addParameterMetadata(frameMetadata)) {
-        wbtError << "Failed to store parameters metadata.";
+        bfError << "Failed to store parameters metadata.";
         return false;
     }
 
@@ -108,23 +109,21 @@ bool DotJNu::configureSizeAndPorts(BlockInformation* blockInfo)
     // 1) Vector representing the \dot{J} \nu vector (1x6)
     //
 
-    const bool ok = blockInfo->setIOPortsData({
+    const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            std::make_tuple(InputIndex::BasePose, std::vector<int>{4, 4}, DataType::DOUBLE),
-            std::make_tuple(
-                InputIndex::JointConfiguration, std::vector<int>{dofs}, DataType::DOUBLE),
-            std::make_tuple(InputIndex::BaseVelocity, std::vector<int>{6}, DataType::DOUBLE),
-            std::make_tuple(InputIndex::JointVelocity, std::vector<int>{dofs}, DataType::DOUBLE),
+            {InputIndex::BasePose, Port::Dimensions{4, 4}, Port::DataType::DOUBLE},
+            {InputIndex::JointConfiguration, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
+            {InputIndex::BaseVelocity, Port::Dimensions{6}, Port::DataType::DOUBLE},
+            {InputIndex::JointVelocity, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
         },
         {
             // Outputs
-            std::make_tuple(OutputIndex::DotJNu, std::vector<int>{6}, DataType::DOUBLE),
-        },
-    });
+            {OutputIndex::DotJNu, Port::Dimensions{6}, Port::DataType::DOUBLE},
+        });
 
     if (!ok) {
-        wbtError << "Failed to configure input / output ports.";
+        bfError << "Failed to configure input / output ports.";
         return false;
     }
 
@@ -141,13 +140,13 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
     // ==========
 
     if (!DotJNu::parseParameters(blockInfo)) {
-        wbtError << "Failed to parse parameters.";
+        bfError << "Failed to parse parameters.";
         return false;
     }
 
     std::string frame;
     if (!m_parameters.getParameter("Frame", frame)) {
-        wbtError << "Cannot retrieve string from frame parameter.";
+        bfError << "Cannot retrieve string from frame parameter.";
         return false;
     }
 
@@ -159,14 +158,14 @@ bool DotJNu::initialize(BlockInformation* blockInfo)
 
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Cannot retrieve handle to KinDynComputations.";
+        bfError << "Cannot retrieve handle to KinDynComputations.";
         return false;
     }
 
     if (frame != "com") {
         pImpl->frameIndex = kinDyn->getFrameIndex(frame);
         if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
-            wbtError << "Cannot find " + frame + " in the frame list.";
+            bfError << "Cannot find " + frame + " in the frame list.";
             return false;
         }
     }
@@ -192,7 +191,7 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // Get the KinDynComputations object
     auto kinDyn = getKinDynComputations();
     if (!kinDyn) {
-        wbtError << "Failed to retrieve the KinDynComputations object.";
+        bfError << "Failed to retrieve the KinDynComputations object.";
         return false;
     }
 
@@ -205,7 +204,7 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     InputSignalPtr jointsVelocitySignal = blockInfo->getInputPortSignal(InputIndex::JointVelocity);
 
     if (!basePoseSig || !jointsPosSig || !baseVelocitySignal || !jointsVelocitySignal) {
-        wbtError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
@@ -213,7 +212,7 @@ bool DotJNu::output(const BlockInformation* blockInfo)
         basePoseSig, jointsPosSig, baseVelocitySignal, jointsVelocitySignal, kinDyn.get());
 
     if (!ok) {
-        wbtError << "Failed to set the robot state.";
+        bfError << "Failed to set the robot state.";
         return false;
     }
 
@@ -232,12 +231,12 @@ bool DotJNu::output(const BlockInformation* blockInfo)
     // Forward the output to Simulink
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::DotJNu);
     if (!output) {
-        wbtError << "Output signal not valid.";
+        bfError << "Output signal not valid.";
         return false;
     }
 
     if (!output->setBuffer(pImpl->dotJNu.data(), output->getWidth())) {
-        wbtError << "Failed to set output buffer.";
+        bfError << "Failed to set output buffer.";
     }
 
     return true;

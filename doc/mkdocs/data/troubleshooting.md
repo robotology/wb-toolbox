@@ -16,25 +16,3 @@ The current version on Ubuntu 16:04 is `libstdc++.so.6`, make sure this is the c
 
 !!! info
     Another solution involving the `.matlab7rc.sh` file can be found in https://github.com/robotology/codyco-superbuild/issues/141#issuecomment-257892256.
-
-## `YARP` not installed in the system default directory
-
-In case you compiled `YARP` in a directory different from the system default one and you are not using RPATH, you need to tell to MATLAB the location in which to find the shared libraries for `YARP`. If you launch MATLAB from command line, this task is already done for you by `bash` (if you edited `.bashrc`). If you launch MATLAB from the UI (e.g. on macOS by double clicking the application icon) you need to further add the variables in `${MATLAB_ROOT}/bin/.matlab7rc.sh` by first doing
-
-```bash
-    chmod +w .matlab7rc.sh
-```
-
-Then looking for the variable `LDPATH_SUFFIX` and assign to every instance the contents of your `DYLD_LIBRARY_PATH`. Finally do:
-
-```bash
-    chmod -w .matlab7rc.sh
-```
-
-The error message you get in this case might look something like:
-
-```bash
-Library not loaded: libyarpwholeBodyinterface.0.0.1.dylib
-Referenced from:
-${CODYCO_SUPERBUILD_DIR}/install/mex/robotState.mexmaci64
-```
