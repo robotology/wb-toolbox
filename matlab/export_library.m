@@ -25,6 +25,7 @@ try
   end
 
   % Export the library. It must be in slx otherwise it will not show up in
+  % the Simulink Library browser.
   fprintf('\nExporting for 2014b\n');
   save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
   movefile('WBToolboxLibrary.slx', 'library/exported/WBToolboxLibrary.slx');
