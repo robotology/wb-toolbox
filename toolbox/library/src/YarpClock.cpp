@@ -28,8 +28,23 @@ enum OutputIndex
     Clock = 0,
 };
 
+// BLOCK PIMPL
+// ===========
+
+class YarpClock::impl
+{
+public:
+    std::unique_ptr<yarp::os::Network> network = nullptr;
+};
+
 // BLOCK CLASS
 // ===========
+
+YarpClock::YarpClock()
+    : pImpl{new impl()}
+{}
+
+YarpClock::~YarpClock() = default;
 
 unsigned YarpClock::numberOfParameters()
 {
@@ -76,7 +91,7 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    yarp::os::Network::init();
+    pImpl->network = std::make_unique<yarp::os::Network>();
 
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         bfError << "YARP server wasn't found active.";
@@ -88,7 +103,6 @@ bool YarpClock::initialize(BlockInformation* blockInfo)
 
 bool YarpClock::terminate(const BlockInformation* /*blockInfo*/)
 {
-    yarp::os::Network::fini();
     return true;
 }
 

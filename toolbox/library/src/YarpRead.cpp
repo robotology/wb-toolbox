@@ -69,6 +69,7 @@ public:
     std::string sourcePortName;
 
     yarp::os::BufferedPort<yarp::sig::Vector> port;
+    std::unique_ptr<yarp::os::Network> network = nullptr;
 };
 
 // BLOCK CLASS
@@ -214,9 +215,9 @@ bool YarpRead::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    Network::init();
+    pImpl->network = std::make_unique<yarp::os::Network>();
 
-    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         bfError << "YARP server wasn't found active.";
         return false;
     }
@@ -265,7 +266,6 @@ bool YarpRead::terminate(const BlockInformation* /*blockInfo*/)
     // Close the port
     pImpl->port.close();
 
-    yarp::os::Network::fini();
     return true;
 }
 

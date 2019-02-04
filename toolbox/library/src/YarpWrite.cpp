@@ -51,6 +51,7 @@ public:
 
     std::string destinationPortName;
     yarp::os::BufferedPort<yarp::sig::Vector> port;
+    std::unique_ptr<yarp::os::Network> network = nullptr;
 };
 
 // BLOCK CLASS
@@ -146,9 +147,9 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    Network::init();
+    pImpl->network = std::make_unique<yarp::os::Network>();
 
-    if (!Network::initialized() || !Network::checkNetwork(5.0)) {
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         bfError << "YARP server wasn't found active.";
         return false;
     }
@@ -173,7 +174,7 @@ bool YarpWrite::initialize(BlockInformation* blockInfo)
     }
 
     if (pImpl->autoconnect) {
-        if (!Network::connect(pImpl->port.getName(), pImpl->destinationPortName)) {
+        if (!yarp::os::Network::connect(pImpl->port.getName(), pImpl->destinationPortName)) {
             if (pImpl->errorOnMissingPort) {
                 bfError << "Failed to connect " << pImpl->port.getName() << " to "
                         << pImpl->destinationPortName << ".";
@@ -198,7 +199,6 @@ bool YarpWrite::terminate(const BlockInformation* /*blockInfo*/)
     // Close the port
     pImpl->port.close();
 
-    yarp::os::Network::fini();
     return true;
 }
 
