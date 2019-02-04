@@ -829,10 +829,6 @@
 </ul>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>For a simplified installation procedure, jump to <a href="#install-using-the-robotology-superbuild">Install using the <code>robotology-superbuild</code></a>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The following instructions are for Unix-like systems, but they work similarly on other operating systems.</p>
-</div>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
 <p>Install the required and the optional dependencies by following their installation instructions. These instructions need that <code>blockfactory</code>, <code>YARP</code>, <code>iDynTree</code> and <code>YCM</code> packages can be found by <code>CMake</code> using <code>find_package</code>.</p>
 <div class="admonition warning">
@@ -874,7 +870,7 @@ cmake --build . --config Release --target install
 </div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <h3 id="plugin">Plugin<a class="headerlink" href="#plugin" title="Permanent link">&para;</a></h3>
-<p>In order to use Whole-Body Toolbox, the dynamic loader of the operating system should be able to find the plugin library. Add the folder <code>&lt;install-prefix&gt;/lib</code> to the following environment variable depending on the OS:</p>
+<p>In order to use Whole-Body Toolbox, the dynamic loader of the operating system should be able to find the plugin library. Add the folder <code>&lt;install-prefix&gt;/lib/blockfactory</code> to the following environment variable depending on the OS:</p>
 <table>
 <thead>
 <tr>

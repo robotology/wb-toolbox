@@ -22,7 +22,7 @@ var searchData=
   ['_7esimulatorsynchronizer',['~SimulatorSynchronizer',['../classwbt_1_1block_1_1_simulator_synchronizer.html#a180f0f132946d77cbc7a8427ae8104e2',1,'wbt::block::SimulatorSynchronizer']]],
   ['_7ewbblock',['~WBBlock',['../classwbt_1_1base_1_1_w_b_block.html#a10d3f46b6c1bef2a390ee5a36c180c93',1,'wbt::base::WBBlock']]],
   ['_7ewholebodysingleton',['~WholeBodySingleton',['../classwbt_1_1base_1_1_whole_body_singleton.html#a47a8daa2ad1970a42ba876c42a5f3dde',1,'wbt::base::WholeBodySingleton']]],
-  ['_7eyarpclock',['~YarpClock',['../classwbt_1_1block_1_1_yarp_clock.html#a59d05bd26fe4891490f6dd20e70ed455',1,'wbt::block::YarpClock']]],
+  ['_7eyarpclock',['~YarpClock',['../classwbt_1_1block_1_1_yarp_clock.html#a6b91bbeba584aa05bf2973c975f9ac0c',1,'wbt::block::YarpClock']]],
   ['_7eyarpread',['~YarpRead',['../classwbt_1_1block_1_1_yarp_read.html#a8bb8e9ce021942f2b449ab4cfa90f4a2',1,'wbt::block::YarpRead']]],
   ['_7eyarpwrite',['~YarpWrite',['../classwbt_1_1block_1_1_yarp_write.html#a8abfc08df48a53be0df73d1ec7fba94f',1,'wbt::block::YarpWrite']]]
 ];
