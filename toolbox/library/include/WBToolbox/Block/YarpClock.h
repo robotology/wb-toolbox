@@ -30,9 +30,13 @@ namespace blockfactory {
  */
 class wbt::block::YarpClock final : public blockfactory::core::Block
 {
+private:
+    class impl;
+    std::unique_ptr<impl> pImpl;
+
 public:
-    YarpClock() = default;
-    ~YarpClock() override = default;
+    YarpClock();
+    ~YarpClock() override;
 
     unsigned numberOfParameters() override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;

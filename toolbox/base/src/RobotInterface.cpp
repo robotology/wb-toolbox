@@ -54,6 +54,7 @@ struct YarpInterfaces
 class RobotInterface::impl
 {
 public:
+    std::unique_ptr<yarp::os::Network> network = nullptr;
     std::unique_ptr<yarp::dev::PolyDriver> robotDevice;
     std::shared_ptr<iDynTree::KinDynComputations> kinDynComp;
     YarpInterfaces yarpInterfaces;
@@ -144,8 +145,11 @@ public:
 
     bool initializeRemoteControlBoardRemapper()
     {
+        if (!network) {
+            network = std::make_unique<yarp::os::Network>();
+        }
+
         // Initialize the network
-        yarp::os::Network::init();
         if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
             bfError << "YARP server wasn't found active.";
             return false;
@@ -220,8 +224,6 @@ RobotInterface::~RobotInterface()
     if (pImpl->robotDevice) {
         pImpl->robotDevice->close();
     }
-    // Finalize the network
-    yarp::os::Network::fini();
 }
 
 // GET METHODS

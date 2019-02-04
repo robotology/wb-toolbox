@@ -25,9 +25,6 @@
 
 For a simplified installation procedure, jump to [Install using the `robotology-superbuild`](#install-using-the-robotology-superbuild).
 
-!!! warning
-    The following instructions are for Unix-like systems, but they work similarly on other operating systems.
-
 ### Dependencies
 
 Install the required and the optional dependencies by following their installation instructions. These instructions need that `blockfactory`, `YARP`, `iDynTree` and `YCM` packages can be found by `CMake` using `find_package`.
@@ -76,7 +73,7 @@ If all the dependencies are met, proceed with the following instructions:
 
 ### Plugin
 
-In order to use Whole-Body Toolbox, the dynamic loader of the operating system should be able to find the plugin library. Add the folder `<install-prefix>/lib` to the following environment variable depending on the OS:
+In order to use Whole-Body Toolbox, the dynamic loader of the operating system should be able to find the plugin library. Add the folder `<install-prefix>/lib/blockfactory` to the following environment variable depending on the OS:
 
 | GNU / Linux       | macOS               | Windows |
 | ----------------- | ------------------- | ------- |
