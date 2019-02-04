@@ -41,6 +41,7 @@ class SimulatorSynchronizer::impl
 public:
     double period = 0.01;
     bool firstRun = true;
+    std::unique_ptr<yarp::os::Network> network = nullptr;
 
     struct RPCData
     {
@@ -146,8 +147,8 @@ bool SimulatorSynchronizer::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    yarp::os::Network::init();
-    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork()) {
+    pImpl->network = std::make_unique<yarp::os::Network>();
+    if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         bfError << "Error initializing Yarp network.";
         return false;
     }
@@ -170,7 +171,7 @@ bool SimulatorSynchronizer::terminate(const BlockInformation* /*blockInfo*/)
         }
         pImpl->rpcData.clientPort.close();
     }
-    yarp::os::Network::fini();
+
     return true;
 }
 

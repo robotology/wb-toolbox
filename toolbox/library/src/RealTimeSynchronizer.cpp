@@ -39,6 +39,7 @@ public:
     double period = 0.01;
     double initialTime;
     unsigned long counter = 0;
+    std::unique_ptr<yarp::os::Network> network = nullptr;
 };
 
 // BLOCK CLASS
@@ -118,7 +119,7 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
     // CLASS INITIALIZATION
     // ====================
 
-    yarp::os::Network::init();
+    pImpl->network = std::make_unique<yarp::os::Network>();
     if (!yarp::os::Network::initialized() || !yarp::os::Network::checkNetwork(5.0)) {
         bfError << "YARP server wasn't found active!!";
         return false;
@@ -129,7 +130,6 @@ bool RealTimeSynchronizer::initialize(BlockInformation* blockInfo)
 
 bool RealTimeSynchronizer::terminate(const BlockInformation* /*blockInfo*/)
 {
-    yarp::os::Network::fini();
     return true;
 }
 
