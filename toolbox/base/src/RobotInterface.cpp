@@ -140,7 +140,18 @@ public:
         }
 
         // Add the loaded model to the KinDynComputations object
-        return kinDynComp->loadRobotModel(mdlLoader.model());
+        if (!kinDynComp->loadRobotModel(mdlLoader.model())) {
+            bfError << "Failed to load model " << urdf_file << " in the KinDynComputations object.";
+            return false;
+        }
+
+        // Set the base link
+        if (!kinDynComp->setFloatingBase(config.getBaseLink())) {
+            bfError << "Failed to set '" << config.getBaseLink() << "' as new base link.";
+            return false;
+        }
+
+        return true;
     }
 
     bool initializeRemoteControlBoardRemapper()
