@@ -146,6 +146,7 @@ bool fillConfiguration(std::shared_ptr<Configuration>& configurationPtr,
     std::string robotName;
     std::string urdfFile;
     std::string localName;
+    std::string baseLink;
     std::string confBlockName;
     std::vector<double> gravityVector;
     std::vector<std::string> controlledJoints;
@@ -158,6 +159,7 @@ bool fillConfiguration(std::shared_ptr<Configuration>& configurationPtr,
     ok = ok && parameters.getParameter("ControlBoardsNames", controlBoardsNames);
     ok = ok && parameters.getParameter("GravityVector", gravityVector);
     ok = ok && parameters.getParameter("ConfBlockName", confBlockName);
+    ok = ok && parameters.getParameter("BaseLink", baseLink);
 
     if (!ok) {
         bfError << "The parameters passed do not contain all the required information to create a "
@@ -174,6 +176,7 @@ bool fillConfiguration(std::shared_ptr<Configuration>& configurationPtr,
     configurationPtr->setControlledJoints(controlledJoints);
     configurationPtr->setControlBoardsNames(controlBoardsNames);
     configurationPtr->setLocalName(localName);
+    configurationPtr->setBaseLink(baseLink);
 
     std::array<double, 3> gravityArray;
     for (size_t i = 0; i < 3; ++i) {
