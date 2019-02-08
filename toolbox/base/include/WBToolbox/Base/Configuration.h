@@ -55,6 +55,7 @@ public:
      * @param urdfFile Name of the file containing the urdf model.
      * @param controlledJoints Subset of controlled joints.
      * @param controlBoardsNames Names of the used ControlBoard names.
+     * @param baseLink The considered base link.
      * @param localName Prefix appended to the opened ports.
      * @param gravityVector The gravity vector.
      */
@@ -62,6 +63,7 @@ public:
                        const std::string& urdfFile,
                        const std::vector<std::string>& controlledJoints,
                        const std::vector<std::string>& controlBoardsNames,
+                       const std::string& baseLink,
                        const std::string& localName,
                        const std::array<double, 3>& gravityVector);
 
@@ -92,6 +94,13 @@ public:
      * @param controlBoardsNames Names of the used ControlBoard names.
      */
     void setControlBoardsNames(const std::vector<std::string>& controlBoardsNames);
+
+    /**
+     * @brief Set the model base link
+     *
+     * @param baseLink The considered base link.
+     */
+    void setBaseLink(const std::string& baseLink);
 
     /**
      * @brief Set the prefix appended to the opened ports
@@ -138,6 +147,13 @@ public:
      * @return Names of the used ControlBoard names.
      */
     const std::vector<std::string>& getControlBoardsNames() const;
+
+    /**
+     * @brief Get the model base link
+     *
+     * @return The considered base link.
+     */
+    const std::string getBaseLink() const;
 
     /**
      * @brief Get the prefix appended to the opened ports. A leading "/" is always present.

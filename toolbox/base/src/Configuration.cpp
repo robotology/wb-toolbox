@@ -19,6 +19,7 @@ public:
     std::string robotName;
     std::string urdfFile;
     std::string localName;
+    std::string baseLink;
     std::vector<std::string> controlledJoints;
     std::vector<std::string> controlBoardsNames;
     std::array<double, 3> gravityVector;
@@ -48,6 +49,7 @@ void Configuration::setParameters(const std::string& robotName,
                                   const std::string& urdfFile,
                                   const std::vector<std::string>& controlledJoints,
                                   const std::vector<std::string>& controlBoardsNames,
+                                  const std::string& baseLink,
                                   const std::string& localName,
                                   const std::array<double, 3>& gravityVector)
 {
@@ -55,6 +57,7 @@ void Configuration::setParameters(const std::string& robotName,
     setUrdfFile(urdfFile);
     setControlledJoints(controlledJoints);
     setControlBoardsNames(controlBoardsNames);
+    setBaseLink(baseLink);
     setLocalName(localName);
     setGravityVector(gravityVector);
 }
@@ -78,6 +81,11 @@ void Configuration::setControlledJoints(const std::vector<std::string>& controll
 void Configuration::setControlBoardsNames(const std::vector<std::string>& controlBoardsNames)
 {
     pImpl->controlBoardsNames = controlBoardsNames;
+}
+
+void Configuration::setBaseLink(const std::string& baseLink)
+{
+    pImpl->baseLink = baseLink;
 }
 
 void Configuration::setLocalName(const std::string& localName)
@@ -133,6 +141,11 @@ const std::vector<std::string>& Configuration::getControlBoardsNames() const
     return pImpl->controlBoardsNames;
 }
 
+const std::string Configuration::getBaseLink() const
+{
+    return pImpl->baseLink;
+}
+
 const std::string& Configuration::getLocalName() const
 {
     return pImpl->localName;
@@ -160,7 +173,7 @@ bool Configuration::isValid() const
 {
     bool status = !pImpl->robotName.empty() && !pImpl->urdfFile.empty() && !pImpl->localName.empty()
                   && !pImpl->controlledJoints.empty() && !pImpl->controlBoardsNames.empty()
-                  && !pImpl->gravityVector.empty() && pImpl->dofs > 0;
+                  && !pImpl->baseLink.empty() && !pImpl->gravityVector.empty() && pImpl->dofs > 0;
     return status;
 }
 
@@ -174,6 +187,7 @@ bool Configuration::operator==(const Configuration& config) const
            && this->pImpl->localName == config.pImpl->localName
            && this->pImpl->controlledJoints == config.pImpl->controlledJoints
            && this->pImpl->controlBoardsNames == config.pImpl->controlBoardsNames
+           && this->pImpl->baseLink == config.pImpl->baseLink
            && this->pImpl->gravityVector == config.pImpl->gravityVector
            && this->pImpl->dofs == config.pImpl->dofs;
 }
