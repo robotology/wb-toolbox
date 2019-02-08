@@ -194,6 +194,7 @@ bool WBBlock::parseParameters(BlockInformation* blockInfo)
         {ParameterType::STRUCT_CELL_STRING, ParamIndex::WBStruct, 1, DynPar, "ControlledJoints"},
         {ParameterType::STRUCT_CELL_STRING, ParamIndex::WBStruct, 1, DynPar, "ControlBoardsNames"},
         {ParameterType::STRUCT_STRING, ParamIndex::WBStruct, 1, 1, "LocalName"},
+        {ParameterType::STRUCT_STRING, ParamIndex::WBStruct, 1, 1, "BaseLink"},
         {ParameterType::STRUCT_DOUBLE, ParamIndex::WBStruct, 1, 3, "GravityVector"},
         {ParameterType::STRING, ParamIndex::ConfBlockName, 1, 1, "ConfBlockName"}};
 
