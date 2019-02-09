@@ -13,6 +13,7 @@ classdef Configuration < matlab.mixin.Copyable
         % Robot state
         RobotName          char
         UrdfFile           char
+        BaseLink           char
         ControlledJoints   cell
         ControlBoardsNames cell
         LocalName          char
@@ -79,6 +80,7 @@ classdef Configuration < matlab.mixin.Copyable
             value = ...
                 ~isempty(obj.RobotName) && ...
                 ~isempty(obj.UrdfFile)  && ...
+                ~isempty(obj.BaseLink)  && ...
                 ~isempty(obj.ControlledJoints)   && ...
                 ~isempty(obj.ControlBoardsNames) && ...
                 ~isempty(obj.LocalName) && ...
@@ -90,6 +92,7 @@ classdef Configuration < matlab.mixin.Copyable
             value = struct();
             value.RobotName = obj.RobotName;
             value.UrdfFile  = obj.UrdfFile;
+            value.BaseLink  = obj.BaseLink;
             value.LocalName = obj.LocalName;
             value.ControlledJoints   = obj.ControlledJoints;
             value.ControlBoardsNames = obj.ControlBoardsNames;
