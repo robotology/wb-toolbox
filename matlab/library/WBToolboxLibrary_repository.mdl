@@ -1,7 +1,7 @@
 Library {
   Name			  "WBToolboxLibrary_repository"
   Version		  9.1
-  SavedCharacterEncoding  "US-ASCII"
+  SavedCharacterEncoding  "UTF-8"
   DiagnosticSuppressor	  "on"
   SuppressorTable	  "22 serialization::archive 11 0 6 0 0 0 1 0"
   Notes			  ""
@@ -51,9 +51,9 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkSubsys"
 	LoadSaveID		"192"
-	Extents			[1882.0, 849.0]
-	ZoomFactor		[2.1893333333333334]
-	Offset			[-79.803440925700272, -12.394640682095002]
+	Extents			[1882.0, 834.0]
+	ZoomFactor		[2.1493333333333333]
+	Offset			[-86.6343924472705, -12.5136476426799]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -71,12 +71,12 @@ Library {
       }
       WindowState	      "AAAA/wAAAAD9AAAAAgAAAAAAAAC9AAACivwCAAAAA/sAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
-      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAAB4AP///wAAAAEAAAAAAAAAAPwCA"
+      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAACTAP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAAMQD///8AAAeAAAADlwAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAANAD///8AAAeAAAADjwAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
-      "////wEAAACG/////wAAAAAAAAAA/////wEAAADu/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
-      "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFE/////wAAAAAAAAAA/"
+      "////wEAAACQ/////wAAAAAAAAAA/////wEAAAD6/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
+      "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFW/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA"
     }
   }
@@ -87,9 +87,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "dferigo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 05 14:25:23 2018"
-  RTWModifiedTimeStamp	  465920717
-  ModelVersionFormat	  "1.%<AutoIncrement:674>"
+  LastModifiedDate	  "Sat Feb 09 15:02:35 2019"
+  RTWModifiedTimeStamp	  471625327
+  ModelVersionFormat	  "1.%<AutoIncrement:676>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1166,8 +1166,8 @@ Library {
 	  ZOrder		  106
 	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
-	  "Type,setKTau,kTau,setBemf,bemf"
+	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pidType,se"
+	  "tKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -1684,8 +1684,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
-	      "ectory"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTrajectory"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -3007,9 +3006,9 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transform"
 		"ation between the the base frame and the world frame.\n  - Joint configuration: Vector of size DoFs, representing th"
-		"e configuration of the joints.\n\nOutput:\n  - ForwardKinematics: a 4x4 matrix representing the homogenous transfor"
-		"mation between the specified frame and the world frame.\n\nParameters:\n  - Frame name: the name of the frame. It sh"
-		"ould be specified in the URDF model."
+		"e configuration of the joints.\n\nOutput:\n  - ForwardKinematics: a 4x4 matrix representing the homogenous transform"
+		"ation between the specified frame and the world frame.\n\nParameters:\n  - Frame name: the name of the frame. It sho"
+		"uld be specified in the URDF model."
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
@@ -3177,8 +3176,8 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
-		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repres"
+		"enting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
 		"                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the un"
@@ -3635,8 +3634,8 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
-		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repres"
+		"enting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
 		"                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the un"
@@ -4373,7 +4372,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"219"
+	ZoomFactor		"215"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Configuration"
@@ -4394,7 +4393,7 @@ Library {
 	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
-	      Dimension		      8
+	      Dimension		      9
 	      Object {
 		$ObjectID		190
 		Type			"popup"
@@ -4410,17 +4409,18 @@ Library {
 		Value			"Mask"
 		Callback		"% Get the Workspace/Mask menu\nh = Simulink.Mask.get(gcb);\ncurrentConfigSource = get_param(gcb,'ConfigSo"
 		"urce');\n\nif strcmp(currentConfigSource,'Workspace')\n    % Switch the visibility of the GUI elements\n    set_para"
-		"m(gcb,'MaskVisibilities',{'on';'on';'on';'on';'on';'on';'on';'on';});\n    h.Parameters(3).ReadOnly = 'on';\n    h.P"
-		"arameters(4).ReadOnly = 'on';\n    h.Parameters(5).ReadOnly = 'on';\n    h.Parameters(6).ReadOnly = 'on';\n    h.Par"
-		"ameters(7).ReadOnly = 'on';\n    h.Parameters(8).ReadOnly = 'on';\n    \n    % Parse the object inserted in the Conf"
-		"igObject field\n    currentConfigObject = get_param(gcb,'ConfigObject');\n    WBToolbox.ConfigurationToMask(gcb,curr"
-		"entConfigObject);\n    clear currentConfigObject;\nelseif strcmp(currentConfigSource,'Mask')\n    % Switch the visib"
-		"ility of the GUI elements\n    set_param(gcb,'MaskVisibilities',{'on';'off';'on';'on';'on';'on';'on';'on';});\n    h"
-		".Parameters(3).ReadOnly = 'off';\n    h.Parameters(4).ReadOnly = 'off';\n    h.Parameters(5).ReadOnly = 'off';\n    "
-		"h.Parameters(6).ReadOnly = 'off';\n    h.Parameters(7).ReadOnly = 'off';\n    h.Parameters(8).ReadOnly = 'off';\n   "
-		" h.Parameters(3).Enabled = 'on';\n    h.Parameters(4).Enabled = 'on';\n    h.Parameters(5).Enabled = 'on';\n    h.Pa"
-		"rameters(6).Enabled = 'on';\n    h.Parameters(7).Enabled = 'on';\n    h.Parameters(8).Enabled = 'on';\nend\n\nclear "
-		"h currentConfigSource"
+		"m(gcb,'MaskVisibilities',{'on';'on';'on';'on';'on';'on';'on';'on';'on';});\n    h.Parameters(3).ReadOnly = 'on';\n  "
+		"  h.Parameters(4).ReadOnly = 'on';\n    h.Parameters(5).ReadOnly = 'on';\n    h.Parameters(6).ReadOnly = 'on';\n    "
+		"h.Parameters(7).ReadOnly = 'on';\n    h.Parameters(8).ReadOnly = 'on';\n    h.Parameters(9).ReadOnly = 'on';\n    \n"
+		"    % Parse the object inserted in the ConfigObject field\n    currentConfigObject = get_param(gcb,'ConfigObject');\n"
+		"    WBToolbox.ConfigurationToMask(gcb,currentConfigObject);\n    clear currentConfigObject;\nelseif strcmp(currentCo"
+		"nfigSource,'Mask')\n    % Switch the visibility of the GUI elements\n    set_param(gcb,'MaskVisibilities',{'on';'off"
+		"';'on';'on';'on';'on';'on';'on';'on';});\n    h.Parameters(3).ReadOnly = 'off';\n    h.Parameters(4).ReadOnly = 'off"
+		"';\n    h.Parameters(5).ReadOnly = 'off';\n    h.Parameters(6).ReadOnly = 'off';\n    h.Parameters(7).ReadOnly = 'of"
+		"f';\n    h.Parameters(8).ReadOnly = 'off';\n    h.Parameters(9).ReadOnly = 'off';\n    h.Parameters(3).Enabled = 'on"
+		"';\n    h.Parameters(4).Enabled = 'on';\n    h.Parameters(5).Enabled = 'on';\n    h.Parameters(6).Enabled = 'on';\n "
+		"   h.Parameters(7).Enabled = 'on';\n    h.Parameters(8).Enabled = 'on';\n    h.Parameters(9).Enabled = 'on';\nend\n\n"
+		"clear h currentConfigSource"
 	      }
 	      Object {
 		$ObjectID		191
@@ -4451,26 +4451,33 @@ Library {
 	      Object {
 		$ObjectID		194
 		Type			"edit"
+		Name			"BaseLink"
+		Prompt			"Base Link"
+		Value			"'root_link'"
+	      }
+	      Object {
+		$ObjectID		195
+		Type			"edit"
 		Name			"ControlledJoints"
 		Prompt			"Controlled Joints"
 		Value			"{'l_elbow','l_shoulder_pitch','torso_roll'}"
 	      }
 	      Object {
-		$ObjectID		195
+		$ObjectID		196
 		Type			"edit"
 		Name			"ControlBoardsNames"
 		Prompt			"Control Boards Names"
 		Value			"{'left_arm','right_arm','torso'}"
 	      }
 	      Object {
-		$ObjectID		196
+		$ObjectID		197
 		Type			"edit"
 		Name			"LocalName"
 		Prompt			"Local Name"
 		Value			"'WBT'"
 	      }
 	      Object {
-		$ObjectID		197
+		$ObjectID		198
 		Type			"edit"
 		Name			"GravityVector"
 		Prompt			"Gravity Vector"
@@ -4482,11 +4489,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		198
+		$ObjectID		199
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  199
+		  $ObjectID		  200
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4494,28 +4501,28 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		200
+		$ObjectID		201
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  201
+		  $ObjectID		  202
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    202
+		    $ObjectID		    203
 		    Prompt		    "From"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    203
+		    $ObjectID		    204
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "ConfigSource"
 		    }
 		    Object {
-		    $ObjectID		    204
+		    $ObjectID		    205
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "ConfigObject"
@@ -4525,38 +4532,43 @@ Library {
 		    Name		    "TabFrom"
 		    }
 		    Object {
-		    $ObjectID		    205
+		    $ObjectID		    206
 		    Prompt		    "Data"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
-		    Dimension		    6
+		    Dimension		    7
 		    Object {
-		    $ObjectID		    206
+		    $ObjectID		    207
 		    PromptLocation	    "left"
 		    Name		    "RobotName"
 		    }
 		    Object {
-		    $ObjectID		    207
+		    $ObjectID		    208
 		    PromptLocation	    "left"
 		    Name		    "UrdfFile"
 		    }
 		    Object {
-		    $ObjectID		    208
-		    PromptLocation	    "left"
-		    Name		    "ControlledJoints"
-		    }
-		    Object {
 		    $ObjectID		    209
 		    PromptLocation	    "left"
-		    Name		    "ControlBoardsNames"
+		    Name		    "BaseLink"
 		    }
 		    Object {
 		    $ObjectID		    210
 		    PromptLocation	    "left"
-		    Name		    "LocalName"
+		    Name		    "ControlledJoints"
 		    }
 		    Object {
 		    $ObjectID		    211
+		    PromptLocation	    "left"
+		    Name		    "ControlBoardsNames"
+		    }
+		    Object {
+		    $ObjectID		    212
+		    PromptLocation	    "left"
+		    Name		    "LocalName"
+		    }
+		    Object {
+		    $ObjectID		    213
 		    PromptLocation	    "left"
 		    Name		    "GravityVector"
 		    }
@@ -4627,12 +4639,12 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    212
+	    $ObjectID		    214
 	    $ClassName		    "Simulink.Mask"
 	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      213
+	      $ObjectID		      215
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -4852,7 +4864,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    214
+	    $ObjectID		    216
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "DiscreteFilter"
 	    Description		    "This block wraps the Filter, FirstOrderLowPassFilter, and MedianFilter from iCub::ctrl."
@@ -4866,7 +4878,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      9
 	      Object {
-		$ObjectID		215
+		$ObjectID		217
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4891,21 +4903,21 @@ Library {
 		"lterType initStatus p howToCoeffs vis_init;"
 	      }
 	      Object {
-		$ObjectID		216
+		$ObjectID		218
 		Type			"edit"
 		Name			"numCoeffs"
 		Prompt			"Numerator Coefficients*"
 		Value			"[0]"
 	      }
 	      Object {
-		$ObjectID		217
+		$ObjectID		219
 		Type			"edit"
 		Name			"denCoeffs"
 		Prompt			"Denominator Coefficients*"
 		Value			"[0]"
 	      }
 	      Object {
-		$ObjectID		218
+		$ObjectID		220
 		Type			"edit"
 		Name			"Fc"
 		Prompt			"Cut Frequency (Hz)"
@@ -4913,7 +4925,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		219
+		$ObjectID		221
 		Type			"edit"
 		Name			"Ts"
 		Prompt			"Sampling time (s)"
@@ -4921,7 +4933,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		220
+		$ObjectID		222
 		Type			"edit"
 		Name			"orderMedianFilter"
 		Prompt			"Order"
@@ -4929,7 +4941,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		221
+		$ObjectID		223
 		Type			"checkbox"
 		Name			"initStatus"
 		Prompt			"Define initial conditions"
@@ -4941,7 +4953,7 @@ Library {
 		"atus visibilities filterType;"
 	      }
 	      Object {
-		$ObjectID		222
+		$ObjectID		224
 		Type			"edit"
 		Name			"y0"
 		Prompt			"Output y0"
@@ -4949,7 +4961,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		223
+		$ObjectID		225
 		Type			"edit"
 		Name			"u0"
 		Prompt			"Input u0"
@@ -4962,11 +4974,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		224
+		$ObjectID		226
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  225
+		  $ObjectID		  227
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4974,68 +4986,68 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		226
+		$ObjectID		228
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Control"
 		  Dimension		  8
 		  Object {
-		    $ObjectID		    227
+		    $ObjectID		    229
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "filterType"
 		  }
 		  Object {
-		    $ObjectID		    228
+		    $ObjectID		    230
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "numCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    229
+		    $ObjectID		    231
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "denCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    230
+		    $ObjectID		    232
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "* The coefficients are ordered in increasing power of z^-1"
 		    Name		    "howToCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    231
+		    $ObjectID		    233
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "Fc"
 		  }
 		  Object {
-		    $ObjectID		    232
+		    $ObjectID		    234
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "Ts"
 		  }
 		  Object {
-		    $ObjectID		    233
+		    $ObjectID		    235
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "orderMedianFilter"
 		  }
 		  Object {
-		    $ObjectID		    234
+		    $ObjectID		    236
 		    $ClassName		    "Simulink.dialog.Group"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    235
+		    $ObjectID		    237
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "initStatus"
 		    }
 		    Object {
-		    $ObjectID		    236
+		    $ObjectID		    238
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "y0"
 		    }
 		    Object {
-		    $ObjectID		    237
+		    $ObjectID		    239
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "u0"
 		    }
@@ -5061,7 +5073,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    238
+	    $ObjectID		    240
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "MatchSignalSizes"
 	    Description		    "It can happen on particular cases that the Simulink engine cannot propagate the right sizes fro"
@@ -5172,14 +5184,14 @@ Library {
 	  Position		  [470, 93, 625, 147]
 	  ZOrder		  78
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondD"
-	  "erivatives,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondDerivati"
+	  "ves,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    239
+	    $ObjectID		    241
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "MinimumJerkTrajectoryGenerator"
 	    Description		    "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk "
@@ -5203,7 +5215,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      7
 	      Object {
-		$ObjectID		240
+		$ObjectID		242
 		Type			"checkbox"
 		Name			"externalSettlingTime"
 		Prompt			"External Settling Time"
@@ -5214,21 +5226,21 @@ Library {
 		"SettlingTime"
 	      }
 	      Object {
-		$ObjectID		241
+		$ObjectID		243
 		Type			"edit"
 		Name			"settlingTime"
 		Prompt			"Settling Time"
 		Value			"3"
 	      }
 	      Object {
-		$ObjectID		242
+		$ObjectID		244
 		Type			"edit"
 		Name			"sampleTime"
 		Prompt			"Sample Time"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		243
+		$ObjectID		245
 		Type			"checkbox"
 		Name			"resetOnSettlingTime"
 		Prompt			"Reset on Settling Time Changes"
@@ -5236,21 +5248,21 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		244
+		$ObjectID		246
 		Type			"checkbox"
 		Name			"firstDerivatives"
 		Prompt			"Output First Derivative"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		245
+		$ObjectID		247
 		Type			"checkbox"
 		Name			"secondDerivatives"
 		Prompt			"Output Second Derivative"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		246
+		$ObjectID		248
 		Type			"checkbox"
 		Name			"explicitInitialValue"
 		Prompt			"Explicit Initial Value"
@@ -5263,11 +5275,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		247
+		$ObjectID		249
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  248
+		  $ObjectID		  250
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5275,38 +5287,38 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		249
+		$ObjectID		251
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  250
+		  $ObjectID		  252
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    251
+		    $ObjectID		    253
 		    Prompt		    "Trajectory Parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    252
+		    $ObjectID		    254
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "externalSettlingTime"
 		    }
 		    Object {
-		    $ObjectID		    253
+		    $ObjectID		    255
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "settlingTime"
 		    }
 		    Object {
-		    $ObjectID		    254
+		    $ObjectID		    256
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "sampleTime"
 		    }
 		    Object {
-		    $ObjectID		    255
+		    $ObjectID		    257
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "resetOnSettlingTime"
 		    }
@@ -5315,21 +5327,21 @@ Library {
 		    Name		    "Tab1"
 		    }
 		    Object {
-		    $ObjectID		    256
+		    $ObjectID		    258
 		    Prompt		    "Input/Output"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    257
+		    $ObjectID		    259
 		    Name		    "firstDerivatives"
 		    }
 		    Object {
-		    $ObjectID		    258
+		    $ObjectID		    260
 		    Name		    "secondDerivatives"
 		    }
 		    Object {
-		    $ObjectID		    259
+		    $ObjectID		    261
 		    Name		    "explicitInitialValue"
 		    }
 		    PropName		    "DialogControls"
@@ -5360,7 +5372,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    260
+	    $ObjectID		    262
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "QP"
 	    Description		    "This block solves a QP problem using the qpOASES library:\n\nx = argmin 0.5 * x' * H * x + c' *"
@@ -5377,42 +5389,42 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		261
+		$ObjectID		263
 		Type			"checkbox"
 		Name			"lbA"
 		Prompt			"Accept constraints lower bound input (lbA)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		262
+		$ObjectID		264
 		Type			"checkbox"
 		Name			"ubA"
 		Prompt			"Accept constraints upper bound input (ubA)"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		263
+		$ObjectID		265
 		Type			"checkbox"
 		Name			"lb"
 		Prompt			"Accept lower bound input (lb)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		264
+		$ObjectID		266
 		Type			"checkbox"
 		Name			"ub"
 		Prompt			"Accept upper bound input (ub)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		265
+		$ObjectID		267
 		Type			"checkbox"
 		Name			"computeObjVal"
 		Prompt			"Output the value of the objective function"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		266
+		$ObjectID		268
 		Type			"checkbox"
 		Name			"stopIfFails"
 		Prompt			"Stop the simulation if the solver fails"
@@ -5424,11 +5436,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		267
+		$ObjectID		269
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  268
+		  $ObjectID		  270
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5436,23 +5448,23 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		269
+		$ObjectID		271
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    270
+		    $ObjectID		    272
 		    Prompt		    "Constraints bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    271
+		    $ObjectID		    273
 		    Name		    "lbA"
 		    }
 		    Object {
-		    $ObjectID		    272
+		    $ObjectID		    274
 		    Name		    "ubA"
 		    }
 		    PropName		    "DialogControls"
@@ -5460,17 +5472,17 @@ Library {
 		    Name		    "constraintsBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    273
+		    $ObjectID		    275
 		    Prompt		    "Simple bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    274
+		    $ObjectID		    276
 		    Name		    "lb"
 		    }
 		    Object {
-		    $ObjectID		    275
+		    $ObjectID		    277
 		    Name		    "ub"
 		    }
 		    PropName		    "DialogControls"
@@ -5478,17 +5490,17 @@ Library {
 		    Name		    "simpleBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    276
+		    $ObjectID		    278
 		    Prompt		    "Other"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    277
+		    $ObjectID		    279
 		    Name		    "computeObjVal"
 		    }
 		    Object {
-		    $ObjectID		    278
+		    $ObjectID		    280
 		    Name		    "stopIfFails"
 		    }
 		    PropName		    "DialogControls"
@@ -5520,7 +5532,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    279
+	    $ObjectID		    281
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Real Time Synchronizer"
 	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
@@ -5529,7 +5541,7 @@ Library {
 	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      280
+	      $ObjectID		      282
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "period"
@@ -5554,7 +5566,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    281
+	    $ObjectID		    283
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Simulator Synchronizer"
 	    Description		    "This block synchronizes with the external simulation on a simulator \n(only Gazebo is supported"
@@ -5565,21 +5577,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		282
+		$ObjectID		284
 		Type			"edit"
 		Name			"period"
 		Prompt			"Controller Period (in seconds)"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		283
+		$ObjectID		285
 		Type			"edit"
 		Name			"serverPortName"
 		Prompt			"Server Port Name"
 		Value			"'/clock/rpc'"
 	      }
 	      Object {
-		$ObjectID		284
+		$ObjectID		286
 		Type			"edit"
 		Name			"clientPortName"
 		Prompt			"Client Port Name"
@@ -5600,12 +5612,12 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    285
+	    $ObjectID		    287
 	    $ClassName		    "Simulink.Mask"
 	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      286
+	      $ObjectID		      288
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -5825,7 +5837,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    287
+	    $ObjectID		    289
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Clock"
 	    Description		    "This block outputs the current YARP Time.\nIn a nutshell, this block outputs the equivalent of "
@@ -5844,14 +5856,13 @@ Library {
 	  ZOrder		  22
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
-	  "imeout"
+	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,timeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    288
+	    $ObjectID		    290
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \n\nBy default it has the option 'Autoconnect' a"
@@ -5871,21 +5882,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      7
 	      Object {
-		$ObjectID		289
+		$ObjectID		291
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Source Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		290
+		$ObjectID		292
 		Type			"edit"
 		Name			"signalSize"
 		Prompt			"Port Size"
 		Value			"1"
 	      }
 	      Object {
-		$ObjectID		291
+		$ObjectID		293
 		Type			"edit"
 		Name			"timeout"
 		Prompt			"Timeout"
@@ -5893,7 +5904,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		292
+		$ObjectID		294
 		Type			"checkbox"
 		Name			"blocking"
 		Prompt			"Blocking Read"
@@ -5904,14 +5915,14 @@ Library {
 		"king_val mask_visibility"
 	      }
 	      Object {
-		$ObjectID		293
+		$ObjectID		295
 		Type			"checkbox"
 		Name			"timestamp"
 		Prompt			"Read Timestamp"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		294
+		$ObjectID		296
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -5924,7 +5935,7 @@ Library {
 		"ibilities"
 	      }
 	      Object {
-		$ObjectID		295
+		$ObjectID		297
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -5949,7 +5960,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    296
+	    $ObjectID		    298
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -5963,14 +5974,14 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		297
+		$ObjectID		299
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		298
+		$ObjectID		300
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -5981,7 +5992,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		299
+		$ObjectID		301
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6003,7 +6014,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    300
+	    $ObjectID		    302
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -6149,7 +6160,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    301
+	    $ObjectID		    303
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
@@ -6403,7 +6414,7 @@ Library {
       "1) http://www.codyco.eu</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
       ":0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#636363;\">H2020 EU Project AnDy (No. 731540 H"
       "2020-ICT-2016-1) http://andy-project.eu</span></p></body></html>"
-      Position		      [157, 176, 333, 208]
+      Position		      [157, 176, 355, 208]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
