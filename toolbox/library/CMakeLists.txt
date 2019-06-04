@@ -21,6 +21,7 @@ endif()
 # ===================
 
 # YARP blocks
+list(APPEND WBT_BLOCKS "YarpRpc")
 list(APPEND WBT_BLOCKS "YarpRead")
 list(APPEND WBT_BLOCKS "YarpWrite")
 list(APPEND WBT_BLOCKS "YarpClock")

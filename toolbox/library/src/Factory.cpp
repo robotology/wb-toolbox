@@ -14,6 +14,7 @@
 #include "WBToolbox/Block/SetReferences.h"
 #include "WBToolbox/Block/SimulatorSynchronizer.h"
 #include "WBToolbox/Block/YarpClock.h"
+#include "WBToolbox/Block/YarpRpc.h"
 #include "WBToolbox/Block/YarpRead.h"
 #include "WBToolbox/Block/YarpWrite.h"
 // #include "Block/RemoteInverseKinematics.h"
@@ -62,6 +63,7 @@ SHLIBPP_DEFINE_SHARED_SUBCLASS(SimulatorSynchronizer,
                                wbt::block::SimulatorSynchronizer,
                                blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpClock, wbt::block::YarpClock, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpRpc, wbt::block::YarpRpc, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpRead, wbt::block::YarpRead, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(YarpWrite, wbt::block::YarpWrite, blockfactory::core::Block)
 
