@@ -44,15 +44,11 @@ enum InputIndex
 class YarpRpc::impl
 {
 public:
-    bool shouldReadTimestamp = false;
-    bool errorOnMissingPort = true;
-    bool firstDataReception = true;
-    double timeout = 1.0;
     std::string serverPortName;
     std::string clientPortName;
 
     std::unique_ptr<yarp::os::Network> network = nullptr;
-    yarp::os::RpcClient rpcPort;
+    yarp::os::RpcClient rpcClientPort;
     yarp::os::Bottle rpcCommand;
 };
 
@@ -168,35 +164,34 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
     // TODO: Check if the client name can be improved
     pImpl->clientPortName = "/rpcClient" + pImpl->serverPortName;
 
-    if (!pImpl->rpcPort.open(pImpl->clientPortName)) {
+    if (!pImpl->rpcClientPort.open(pImpl->clientPortName)) {
         bfError << "Error while opening yarp rpc server port.";
         return false;
     }
 
-    if (!yarp::os::Network::connect(pImpl->clientPortName, pImpl->rpcPort.getName())) {
-        if (pImpl->errorOnMissingPort) {
-            bfError << "Failed to connect " << pImpl->clientPortName << " to "
-                    << pImpl->rpcPort.getName() << ".";
-            return false;
-        }
-        else {
-            bfWarning << "Failed to connect " << pImpl->clientPortName  << " to "
-                      << pImpl->rpcPort.getName()<< ".";
-        }
+    if (!yarp::os::Network::connect(pImpl->rpcClientPort.getName(), pImpl->serverPortName)) {
+        bfError << "Failed to connect " << pImpl->serverPortName << " to "
+                << pImpl->rpcClientPort.getName() << ".";
+        return false;
     }
 
     // Store rpc command in bottle
-    pImpl->rpcCommand.addString(command);
+    pImpl->rpcCommand.fromString(command);
 
     return true;
 }
 
 bool YarpRpc::terminate(const BlockInformation* /*blockInfo*/)
 {
-    yarp::os::Network::connect(pImpl->clientPortName, pImpl->rpcPort.getName());
+    if(pImpl->rpcClientPort.isWriting()) {
+        bfWarning << "Interrupting rpc port";
+        pImpl->rpcClientPort.interrupt();
+    }
+
+    yarp::os::Network::disconnect(pImpl->rpcClientPort.getName(), pImpl->serverPortName);
 
     // Close the port
-    pImpl->rpcPort.close();
+    pImpl->rpcClientPort.close();
 
     return true;
 }
@@ -214,9 +209,11 @@ bool YarpRpc::output(const BlockInformation* blockInfo)
 
     double trigger = triggerSignal->get<double>(0);
 
-    if (static_cast<bool>(trigger)) {
-        pImpl->rpcPort.write(pImpl->rpcCommand, response);
+    if (static_cast<bool>(trigger) && !pImpl->rpcClientPort.isWriting()) {
+        pImpl->rpcClientPort.write(pImpl->rpcCommand, response);
+        bfWarning << response.toString().c_str();
     }
 
     //TODO: Check if it is useful to forward reponse to an output signal
+    return true;
 }
