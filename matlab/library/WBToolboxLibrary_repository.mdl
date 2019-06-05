@@ -1,7 +1,7 @@
 Library {
   Name			  "WBToolboxLibrary_repository"
   Version		  9.1
-  SavedCharacterEncoding  "US-ASCII"
+  SavedCharacterEncoding  "UTF-8"
   DiagnosticSuppressor	  "on"
   SuppressorTable	  "22 serialization::archive 11 0 6 0 0 0 1 0"
   Notes			  ""
@@ -27,7 +27,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 27.0, 1920.0, 1053.0]
+      Location		      [1920.0, 27.0, 2560.0, 1413.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -51,9 +51,9 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkSubsys"
 	LoadSaveID		"192"
-	Extents			[1882.0, 849.0]
-	ZoomFactor		[2.1893333333333334]
-	Offset			[-79.803440925700272, -12.394640682095002]
+	Extents			[2522.0, 1245.0]
+	ZoomFactor		[3.2453333333333334]
+	Offset			[-110.9381820749893, -10.313886606409199]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -71,12 +71,12 @@ Library {
       }
       WindowState	      "AAAA/wAAAAD9AAAAAgAAAAAAAAC9AAACivwCAAAAA/sAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
-      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAAB4AP///wAAAAEAAAAAAAAAAPwCA"
+      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAABiAP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAAMQD///8AAAeAAAADlwAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAALAD///8AAAoAAAAFGwAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
-      "////wEAAACG/////wAAAAAAAAAA/////wEAAADu/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
-      "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFE/////wAAAAAAAAAA/"
+      "////wEAAACA/////wAAAAAAAAAA/////wEAAADo/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
+      "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAE7/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA"
     }
   }
@@ -85,11 +85,11 @@ Library {
   Creator		  "jorhabib"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "dferigo"
+  LastModifiedBy	  "yeshi"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 05 14:25:23 2018"
-  RTWModifiedTimeStamp	  465920717
-  ModelVersionFormat	  "1.%<AutoIncrement:674>"
+  LastModifiedDate	  "Wed Jun 05 14:50:34 2019"
+  RTWModifiedTimeStamp	  481647029
+  ModelVersionFormat	  "1.%<AutoIncrement:676>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1122,7 +1122,7 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "416"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1847"
+    SIDHighWatermark	    "1848"
     Block {
       BlockType		      SubSystem
       Name		      "Actuators"
@@ -1166,8 +1166,8 @@ Library {
 	  ZOrder		  106
 	  BackgroundColor	  "[0.513700, 0.851000, 0.670600]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pid"
-	  "Type,setKTau,kTau,setBemf,bemf"
+	  Parameters		  "'SetMotorParameters','WBToolbox',WBTConfigParameters,configBlockAbsName,readP,readI,readD,pidType,se"
+	  "tKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -1684,8 +1684,7 @@ Library {
 	      Position		      [125, 39, 185, 71]
 	      ZOrder		      19
 	      FunctionName	      "BlockFactory"
-	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTraj"
-	      "ectory"
+	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTrajectory"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
 	      SFcnIsStateOwnerBlock   off
@@ -3007,9 +3006,9 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot:\n\nInput:\n  - Base pose: 4x4 matrix representing the homogenous transform"
 		"ation between the the base frame and the world frame.\n  - Joint configuration: Vector of size DoFs, representing th"
-		"e configuration of the joints.\n\nOutput:\n  - ForwardKinematics: a 4x4 matrix representing the homogenous transfor"
-		"mation between the specified frame and the world frame.\n\nParameters:\n  - Frame name: the name of the frame. It sh"
-		"ould be specified in the URDF model."
+		"e configuration of the joints.\n\nOutput:\n  - ForwardKinematics: a 4x4 matrix representing the homogenous transform"
+		"ation between the specified frame and the world frame.\n\nParameters:\n  - Frame name: the name of the frame. It sho"
+		"uld be specified in the URDF model."
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
@@ -3177,8 +3176,8 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
-		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repres"
+		"enting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
 		"                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the un"
@@ -3635,8 +3634,8 @@ Library {
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
 		"internal degrees of freedom of the robot,\nInput:\n- Base pose: 4x4 matrix representing the homogenous transformatio"
 		"n between\n             the the base frame and the world frame.\n- Joint configuration: Vector of size DoFs, represe"
-		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repre"
-		"senting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
+		"nting the configuration \n                       of the joints.\n\nOutput:\n- ForwardKinematics: a 4x4 matrix repres"
+		"enting the homogenous transformation between\n             the specified frame and the world frame.\n\nParameters:\n"
 		"- Frame name: the name of the frame. It should be specified in the URDF model.\n\n- Robot Port Name: Name of the por"
 		"ts opened by the robot. (e.g. icub).\n                   Set an empty string ('') to use the name specified in the \n"
 		"                   Whole Body Interface configuration file.\n- Model Name: Prefix name of the ports opened by the un"
@@ -4358,7 +4357,7 @@ Library {
       }
       System {
 	Name			"Utilities"
-	Location		[0, 27, 1920, 1080]
+	Location		[1920, 27, 4480, 1440]
 	Open			on
 	PortBlocksUseCompactNotation off
 	SetDomainSpec		off
@@ -4373,7 +4372,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"219"
+	ZoomFactor		"325"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Configuration"
@@ -5172,8 +5171,8 @@ Library {
 	  Position		  [470, 93, 625, 147]
 	  ZOrder		  78
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondD"
-	  "erivatives,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
+	  Parameters		  "'MinimumJerkTrajectoryGenerator','WBToolbox',sampleTime,settlingTime,firstDerivatives,secondDerivati"
+	  "ves,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5840,12 +5839,11 @@ Library {
 	  Name			  "YarpRead"
 	  SID			  "1632"
 	  Ports			  [0, 2]
-	  Position		  [90, 94, 150, 141]
+	  Position		  [100, 94, 160, 141]
 	  ZOrder		  22
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,t"
-	  "imeout"
+	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,timeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5936,10 +5934,92 @@ Library {
 	}
 	Block {
 	  BlockType		  S-Function
+	  Name			  "YarpRpc"
+	  SID			  "1848"
+	  Ports			  [1]
+	  Position		  [-70, 105, 50, 135]
+	  ZOrder		  252
+	  FunctionName		  "BlockFactory"
+	  Parameters		  "'YarpRpc','WBToolbox',portName,rpcCommand"
+	  SFunctionDeploymentMode off
+	  EnableBusSupport	  off
+	  SFcnIsStateOwnerBlock	  off
+	  Object {
+	    $PropName		    "MaskObject"
+	    $ObjectID		    296
+	    $ClassName		    "Simulink.Mask"
+	    Type		    "YARP Rpc"
+	    Description		    "This block behaves as the command 'yarp rpc'. \n\nIt takes two parameters:\n1) Rpc server port "
+	    "name to which user wants to send rpc commands. This is a string datatype.\n2) Rpc command which is the command us"
+	    "er wants to send. This is a string datatype.\n\nThis block has an input signal called Trigger. This is intended t"
+	    "o be a boolean datatype and when the signal is true the rpc command is sent to the rpc server port."
+	    Initialization	    "portName = char(portName);\nrpcCommand = char(rpcCommand);"
+	    Display		    "disp('YarpRpc')\n\nport_label('input',1,'Trigger')"
+	    RunInitForIconRedraw    "off"
+	    Array {
+	      Type		      "Simulink.MaskParameter"
+	      Dimension		      2
+	      Object {
+		$ObjectID		297
+		Type			"edit"
+		Name			"portName"
+		Prompt			"Rpc server port name"
+		Value			"'/portName'"
+	      }
+	      Object {
+		$ObjectID		298
+		Type			"edit"
+		Name			"rpcCommand"
+		Prompt			"Rpc command"
+		Value			"'<rpc command>'"
+	      }
+	      PropName		      "Parameters"
+	    }
+	    Array {
+	      Type		      "Simulink.dialog.Group"
+	      Dimension		      2
+	      Object {
+		$ObjectID		299
+		Prompt			"%<MaskType>"
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  300
+		  $ClassName		  "Simulink.dialog.Text"
+		  Prompt		  "%<MaskDescription>"
+		  Name			  "DescTextVar"
+		}
+		Name			"DescGroupVar"
+	      }
+	      Object {
+		$ObjectID		301
+		Prompt			"Simulink:studio:ToolBarParametersMenu"
+		Array {
+		  Type			  "Simulink.dialog.parameter.Edit"
+		  Dimension		  2
+		  Object {
+		    $ObjectID		    302
+		    PromptLocation	    "left"
+		    Name		    "portName"
+		  }
+		  Object {
+		    $ObjectID		    303
+		    PromptLocation	    "left"
+		    Name		    "rpcCommand"
+		  }
+		  PropName		  "DialogControls"
+		}
+		Name			"ParameterGroupVar"
+	      }
+	      PropName		      "DialogControls"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  S-Function
 	  Name			  "YarpWrite"
 	  SID			  "1659"
 	  Ports			  [1]
-	  Position		  [230, 96, 290, 144]
+	  Position		  [220, 96, 280, 144]
 	  ZOrder		  27
 	  ForegroundColor	  "[0.490196, 0.000000, 0.000000]"
 	  FunctionName		  "BlockFactory"
@@ -5949,7 +6029,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    296
+	    $ObjectID		    304
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -5963,14 +6043,14 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		297
+		$ObjectID		305
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		298
+		$ObjectID		306
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -5981,7 +6061,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		299
+		$ObjectID		307
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6003,7 +6083,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    300
+	    $ObjectID		    308
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -6149,7 +6229,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    301
+	    $ObjectID		    309
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
