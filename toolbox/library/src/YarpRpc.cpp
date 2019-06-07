@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT)
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms of the
@@ -85,14 +85,6 @@ bool YarpRpc::parseParameters(BlockInformation* blockInfo)
 
 bool YarpRpc::configureSizeAndPorts(BlockInformation* blockInfo)
 {
-    // PARAMETERS
-    // ==========
-
-    if (!YarpRpc::parseParameters(blockInfo)) {
-        bfError << "Failed to parse parameters.";
-        return false;
-    }
-
     // INPUT
     // =====
     //
@@ -103,7 +95,6 @@ bool YarpRpc::configureSizeAndPorts(BlockInformation* blockInfo)
     //
     // No outputs
     //
-
 
     const bool ok = blockInfo->setPortsInfo(
         {
@@ -127,8 +118,6 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
     if (!Block::initialize(blockInfo)) {
         return false;
     }
-
-    using namespace yarp::os;
 
     // PARAMETERS
     // ==========
@@ -161,8 +150,7 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
     }
 
     // Open a rpc client port
-    // TODO: Check if the client name can be improved
-    pImpl->clientPortName = "/rpcClient" + pImpl->serverPortName;
+    pImpl->clientPortName = "...";
 
     if (!pImpl->rpcClientPort.open(pImpl->clientPortName)) {
         bfError << "Error while opening yarp rpc server port.";
@@ -207,9 +195,17 @@ bool YarpRpc::output(const BlockInformation* blockInfo)
 
     yarp::os::Bottle response;
 
+    //TODO: Update to getting bool type after
+    //testing boolean support more thoroughly
     double trigger = triggerSignal->get<double>(0);
 
-    if (static_cast<bool>(trigger) && !pImpl->rpcClientPort.isWriting()) {
+    if (static_cast<bool>(trigger)) {
+
+        if (pImpl->rpcClientPort.isWriting()) {
+            bfError << "YarpRpc client port is blocked in writing";
+            return false;
+        }
+
         pImpl->rpcClientPort.write(pImpl->rpcCommand, response);
         bfWarning << response.toString().c_str();
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT)
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms of the
@@ -26,9 +26,9 @@ namespace blockfactory {
 } // namespace blockfactory
 
 /**
- * @brief The wbt::YarpRead class
+ * @brief The wbt::YarpRpc class
  *
- * In addition to @ref block_parameters, wbt::YarpRead requires:
+ * In addition to @ref block_parameters, wbt::YarpRpc requires:
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
