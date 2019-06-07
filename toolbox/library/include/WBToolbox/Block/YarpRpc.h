@@ -32,8 +32,9 @@ namespace blockfactory {
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
- * | ::STRING | 1 + Block::NumberOfParameters | 1 | 1 | "RpcCommand"         |
+ * | ::BOOL   | 0 + Block::NumberOfParameters | 1 | 1 | "RisingEdgeTrigger" |
+ * | ::STRING | 1 + Block::NumberOfParameters | 1 | 1 | "PortName"           |
+ * | ::STRING | 2 + Block::NumberOfParameters | 1 | 1 | "RpcCommand"         |
  *
  */
 class wbt::block::YarpRpc final : public blockfactory::core::Block
@@ -52,6 +53,8 @@ public:
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
     bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
+
+    bool sendRpcCommand();
 };
 
 #endif // WBT_YARPRPC_H

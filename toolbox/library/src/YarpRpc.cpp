@@ -29,6 +29,7 @@ using namespace blockfactory::core;
 enum ParamIndex
 {
     Bias = Block::NumberOfParameters - 1,
+    RisingEdgeTrigger,
     PortName,
     RpcCommand,
 };
@@ -44,10 +45,13 @@ enum InputIndex
 class YarpRpc::impl
 {
 public:
+    double timeout = 0.25;
     std::string serverPortName;
     std::string clientPortName;
 
     std::unique_ptr<yarp::os::Network> network = nullptr;
+    bool previousTrigger = false;
+    bool risingEdgeTrigger;
     yarp::os::RpcClient rpcClientPort;
     yarp::os::Bottle rpcCommand;
 };
@@ -63,12 +67,13 @@ YarpRpc::~YarpRpc() = default;
 
 unsigned YarpRpc::numberOfParameters()
 {
-    return Block::numberOfParameters() + 2;
+    return Block::numberOfParameters() + 3;
 }
 
 bool YarpRpc::parseParameters(BlockInformation* blockInfo)
 {
     const std::vector<ParameterMetadata> metadata{
+        {ParameterType::BOOL, ParamIndex::RisingEdgeTrigger, 1, 1, "RisingEdgeTrigger"},
         {ParameterType::STRING, ParamIndex::PortName, 1, 1, "PortName"},
         {ParameterType::STRING, ParamIndex::RpcCommand, 1, 1, "RpcCommand"}
     };
@@ -131,6 +136,7 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
     std::string command;
 
     bool ok = true;
+    ok = ok && m_parameters.getParameter("RisingEdgeTrigger", pImpl->risingEdgeTrigger);
     ok = ok && m_parameters.getParameter("PortName", pImpl->serverPortName);
     ok = ok && m_parameters.getParameter("RpcCommand", command);
 
@@ -193,23 +199,59 @@ bool YarpRpc::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    yarp::os::Bottle response;
+    bool rpcStatus = true;
 
     //TODO: Update to getting bool type after
     //testing boolean support more thoroughly
     double trigger = triggerSignal->get<double>(0);
 
-    if (static_cast<bool>(trigger)) {
+    if (pImpl->risingEdgeTrigger) {
 
-        if (pImpl->rpcClientPort.isWriting()) {
-            bfError << "YarpRpc client port is blocked in writing";
-            return false;
+        if (trigger && !pImpl->previousTrigger) {
+
+            rpcStatus = sendRpcCommand();
+
         }
 
-        pImpl->rpcClientPort.write(pImpl->rpcCommand, response);
-        bfWarning << response.toString().c_str();
+    }
+    else if (static_cast<bool>(trigger)) {
+
+        rpcStatus = sendRpcCommand();
+
     }
 
+    //Update previous trigger
+    pImpl->previousTrigger = trigger;
+
     //TODO: Check if it is useful to forward reponse to an output signal
+    return rpcStatus;
+}
+
+bool YarpRpc::sendRpcCommand()
+{
+    if (pImpl->rpcClientPort.isWriting()) {
+        bfError << "YarpRpc client port is blocked in writing";
+        return false;
+    }
+
+    yarp::os::Bottle response;
+
+    // Initialize the time counter for the timeout
+    const double t0 = yarp::os::SystemClock::nowSystem();
+
+    while(!pImpl->rpcClientPort.write(pImpl->rpcCommand, response)) {
+
+        yarp::os::Time::delay(0.0005);
+        const double now = yarp::os::SystemClock::nowSystem();
+
+        if((now - t0) > pImpl->timeout) {
+            bfError << "Failed to send the rpc command to the server "
+                    << " with in the configured timeout";
+            return false;
+        }
+    }
+
+    bfWarning << response.toString().c_str();
+
     return true;
 }

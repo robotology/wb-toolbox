@@ -87,9 +87,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "yeshi"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 05 14:50:34 2019"
-  RTWModifiedTimeStamp	  481647029
-  ModelVersionFormat	  "1.%<AutoIncrement:676>"
+  LastModifiedDate	  "Fri Jun 07 12:07:47 2019"
+  RTWModifiedTimeStamp	  481810061
+  ModelVersionFormat	  "1.%<AutoIncrement:677>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -5940,7 +5940,7 @@ Library {
 	  Position		  [-70, 105, 50, 135]
 	  ZOrder		  252
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'YarpRpc','WBToolbox',portName,rpcCommand"
+	  Parameters		  "'YarpRpc','WBToolbox',risingEdgeTrigger,portName,rpcCommand"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5949,25 +5949,35 @@ Library {
 	    $ObjectID		    296
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Rpc"
-	    Description		    "This block behaves as the command 'yarp rpc'. \n\nIt takes two parameters:\n1) Rpc server port "
-	    "name to which user wants to send rpc commands. This is a string datatype.\n2) Rpc command which is the command us"
-	    "er wants to send. This is a string datatype.\n\nThis block has an input signal called Trigger. This is intended t"
-	    "o be a boolean datatype and when the signal is true the rpc command is sent to the rpc server port."
+	    Description		    "This block behaves as the command 'yarp rpc'. Accordingly, this is a blocked call blocking the "
+	    "simulation until a reply is received.\n\nIt takes two parameters:\n1) Rising edge trigger which is enabled by def"
+	    "ault. Rpc command is sent only if a rising edge is detected. i.e a signal change from 0 to 1. If rising edge trig"
+	    "ger is unchecked, a trigger signal of 1 will send the rpc command.\n2) Rpc server port name to which user wants t"
+	    "o send rpc commands. This is a string datatype.\n3) Rpc command which is the command user wants to send. This is "
+	    "a string datatype.\n\nThis block has an input signal called Trigger. This is intended to be a boolean datatype an"
+	    "d when the signal is true the rpc command is sent to the rpc server port."
 	    Initialization	    "portName = char(portName);\nrpcCommand = char(rpcCommand);"
 	    Display		    "disp('YarpRpc')\n\nport_label('input',1,'Trigger')"
 	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
-	      Dimension		      2
+	      Dimension		      3
 	      Object {
 		$ObjectID		297
+		Type			"checkbox"
+		Name			"risingEdgeTrigger"
+		Prompt			"Rising Edge Trigger"
+		Value			"on"
+	      }
+	      Object {
+		$ObjectID		298
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Rpc server port name"
 		Value			"'/portName'"
 	      }
 	      Object {
-		$ObjectID		298
+		$ObjectID		299
 		Type			"edit"
 		Name			"rpcCommand"
 		Prompt			"Rpc command"
@@ -5979,11 +5989,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		299
+		$ObjectID		300
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  300
+		  $ObjectID		  301
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5991,18 +6001,25 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		301
+		$ObjectID		302
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
-		  Type			  "Simulink.dialog.parameter.Edit"
-		  Dimension		  2
+		  Type			  "Simulink.dialog.parameter.Control"
+		  Dimension		  3
 		  Object {
-		    $ObjectID		    302
+		    $ObjectID		    303
+		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
+		    Name		    "risingEdgeTrigger"
+		  }
+		  Object {
+		    $ObjectID		    304
+		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "portName"
 		  }
 		  Object {
-		    $ObjectID		    303
+		    $ObjectID		    305
+		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "rpcCommand"
 		  }
@@ -6029,7 +6046,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    304
+	    $ObjectID		    306
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -6043,14 +6060,14 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		305
+		$ObjectID		307
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		306
+		$ObjectID		308
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -6061,7 +6078,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		307
+		$ObjectID		309
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6083,7 +6100,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    308
+	    $ObjectID		    310
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -6229,7 +6246,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    309
+	    $ObjectID		    311
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
