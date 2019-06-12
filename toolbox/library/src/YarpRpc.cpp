@@ -47,7 +47,6 @@ class YarpRpc::impl
 public:
     double timeout = 0.25;
     std::string serverPortName;
-    std::string clientPortName;
 
     std::unique_ptr<yarp::os::Network> network = nullptr;
     bool previousTrigger = false;
@@ -156,9 +155,7 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
     }
 
     // Open a rpc client port
-    pImpl->clientPortName = "...";
-
-    if (!pImpl->rpcClientPort.open(pImpl->clientPortName)) {
+    if (!pImpl->rpcClientPort.open("...")) {
         bfError << "Error while opening yarp rpc server port.";
         return false;
     }
@@ -177,7 +174,7 @@ bool YarpRpc::initialize(BlockInformation* blockInfo)
 
 bool YarpRpc::terminate(const BlockInformation* /*blockInfo*/)
 {
-    if(pImpl->rpcClientPort.isWriting()) {
+    if (pImpl->rpcClientPort.isWriting()) {
         bfWarning << "Interrupting rpc port";
         pImpl->rpcClientPort.interrupt();
     }
@@ -205,18 +202,16 @@ bool YarpRpc::output(const BlockInformation* blockInfo)
     //testing boolean support more thoroughly
     double trigger = triggerSignal->get<double>(0);
 
-    if (pImpl->risingEdgeTrigger) {
-
+    if (pImpl->risingEdgeTrigger) { // edge-triggered activation
         if (trigger && !pImpl->previousTrigger) {
 
-            rpcStatus = sendRpcCommand();
+            rpcStatus = this->sendRpcCommand();
 
         }
-
     }
-    else if (static_cast<bool>(trigger)) {
+    else if (static_cast<bool>(trigger)) { // level-triggered activation
 
-        rpcStatus = sendRpcCommand();
+        rpcStatus = this->sendRpcCommand();
 
     }
 
@@ -244,14 +239,20 @@ bool YarpRpc::sendRpcCommand()
         yarp::os::Time::delay(0.0005);
         const double now = yarp::os::SystemClock::nowSystem();
 
-        if((now - t0) > pImpl->timeout) {
+        if ((now - t0) > pImpl->timeout) {
             bfError << "Failed to send the rpc command to the server "
                     << " with in the configured timeout";
             return false;
         }
     }
 
-    bfWarning << response.toString().c_str();
+    //TODO: Update response handling
+    /* At the moment there is not output signal based on the response string.
+     * We can add optional additional "expected response" parameter to the YarpRpc
+     * block mask and check the reponse against it. In case if they do not match,
+     * we can notify the user directly in simulink using bferror logger
+     */
+    //bfWarning << response.toString().c_str();
 
     return true;
 }

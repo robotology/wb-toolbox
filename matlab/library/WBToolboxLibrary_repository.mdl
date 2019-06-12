@@ -87,9 +87,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "yeshi"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 07 12:07:47 2019"
-  RTWModifiedTimeStamp	  481810061
-  ModelVersionFormat	  "1.%<AutoIncrement:677>"
+  LastModifiedDate	  "Wed Jun 12 11:36:37 2019"
+  RTWModifiedTimeStamp	  482240164
+  ModelVersionFormat	  "1.%<AutoIncrement:678>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -5951,11 +5951,12 @@ Library {
 	    Type		    "YARP Rpc"
 	    Description		    "This block behaves as the command 'yarp rpc'. Accordingly, this is a blocked call blocking the "
 	    "simulation until a reply is received.\n\nIt takes two parameters:\n1) Rising edge trigger which is enabled by def"
-	    "ault. Rpc command is sent only if a rising edge is detected. i.e a signal change from 0 to 1. If rising edge trig"
-	    "ger is unchecked, a trigger signal of 1 will send the rpc command.\n2) Rpc server port name to which user wants t"
-	    "o send rpc commands. This is a string datatype.\n3) Rpc command which is the command user wants to send. This is "
-	    "a string datatype.\n\nThis block has an input signal called Trigger. This is intended to be a boolean datatype an"
-	    "d when the signal is true the rpc command is sent to the rpc server port."
+	    "ault. Rpc command is sent only if an edge-trigger is detected i.e a signal change from 0 to 1. If rising edge tri"
+	    "gger is unchecked the level-trigger activation is used i.e a trigger signal of 1 will send the rpc command.\n2) R"
+	    "pc server port name to which user wants to send rpc commands. This is a string datatype.\n3) Rpc command which is"
+	    " the command user wants to send. This is a string datatype.\n\nThis block has an input signal called Trigger. Thi"
+	    "s is intended to be a boolean datatype and when the signal is true the rpc command is sent to the rpc server port"
+	    "."
 	    Initialization	    "portName = char(portName);\nrpcCommand = char(rpcCommand);"
 	    Display		    "disp('YarpRpc')\n\nport_label('input',1,'Trigger')"
 	    RunInitForIconRedraw    "off"

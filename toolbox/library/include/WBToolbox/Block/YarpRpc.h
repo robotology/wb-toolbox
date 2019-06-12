@@ -43,6 +43,8 @@ private:
     class impl;
     std::unique_ptr<impl> pImpl;
 
+    bool sendRpcCommand();
+
 public:
     YarpRpc();
     ~YarpRpc() override;
@@ -53,8 +55,6 @@ public:
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
     bool terminate(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
-
-    bool sendRpcCommand();
 };
 
 #endif // WBT_YARPRPC_H
