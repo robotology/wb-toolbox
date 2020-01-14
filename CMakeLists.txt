@@ -32,7 +32,7 @@ if(NOT ${YARP_IS_SHARED_LIBRARY})
     message(FATAL_ERROR "YARP was found, but it was compiled as static library. A shared library version of YARP is required.")
 endif()
 
-find_package(iDynTree 0.7.2 REQUIRED)
+find_package(iDynTree 1.0.0 REQUIRED)
 
 # This find loads Eigen.
 # It would be nice using the EigenConfig shipped with eigen package, but
@@ -133,4 +133,3 @@ add_subdirectory(toolbox)
 if(WBT_USES_MATLAB)
     add_subdirectory(matlab)
 endif()
-
