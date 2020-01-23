@@ -12,7 +12,6 @@ install_basic_package_files(WBToolbox
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
     EXPORT WBToolboxExport
-    FIRST_TARGET WBToolboxBase
     DEPENDENCIES BlockFactoryCore
     NAMESPACE WBToolbox::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)
