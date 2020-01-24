@@ -115,7 +115,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(GNUInstallDirs)
-include(YCMDefaultDirs)
 include(InstallBasicPackageFiles)
 include(AddUninstallTarget)
 
