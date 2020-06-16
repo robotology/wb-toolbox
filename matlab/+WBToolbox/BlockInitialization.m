@@ -16,8 +16,8 @@ try
     blockNameSplit = strsplit(currentBlock,'/');
     topLevel = blockNameSplit{1};
 
-    % Get all the blocks from the top level of the system
-    blocks_system = find_system(topLevel,'LookUnderMasks','on','FollowLinks','on');
+    % Get all the "Config" blocks from the top level of the system (name of block under mask matching 'ImConfig')
+    blocks_system = find_system(topLevel,'LookUnderMasks','on','FollowLinks','on','Regexp','on','Name','ImConfig');
 
     % Get the name of the block's subsystem
     %[blockScopeName,~] = fileparts(blockAbsoluteName);
