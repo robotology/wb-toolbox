@@ -16,9 +16,7 @@
 #include <BlockFactory/Core/Parameter.h>
 #include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
-#include <iDynTree/Core/AngularMotionVector3.h>
 #include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/LinearMotionVector3.h>
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorDynSize.h>
