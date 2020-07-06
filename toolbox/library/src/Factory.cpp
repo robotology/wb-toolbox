@@ -26,6 +26,7 @@
 #include "WBToolbox/Block/Jacobian.h"
 #include "WBToolbox/Block/MassMatrix.h"
 #include "WBToolbox/Block/RelativeTransform.h"
+#include "WBToolbox/Block/CMM.h"
 
 // iCub-dependent blocks
 #ifdef WBT_USES_ICUB
@@ -80,6 +81,9 @@ SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::block::Jacobian, blockfactory::cor
 SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::block::MassMatrix, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform,
                                wbt::block::RelativeTransform,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(CMM,
+                               wbt::block::CMM,
                                blockfactory::core::Block)
 
 // iCub-dependent blocks
