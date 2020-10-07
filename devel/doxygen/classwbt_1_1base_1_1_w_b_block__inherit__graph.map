@@ -1,13 +1,15 @@
 <map id="wbt::base::WBBlock" name="wbt::base::WBBlock">
-<area shape="rect" id="node3" href="$classwbt_1_1block_1_1_centroidal_momentum.html" title="The wbt::CentroidalMomentum class. " alt="" coords="303,5,535,32"/>
-<area shape="rect" id="node4" href="$classwbt_1_1block_1_1_dot_j_nu.html" title="The wbt::DotJNu class. " alt="" coords="350,56,487,83"/>
-<area shape="rect" id="node5" href="$classwbt_1_1block_1_1_forward_kinematics.html" title="The wbt::ForwardKinematics class. " alt="" coords="312,107,525,133"/>
-<area shape="rect" id="node6" href="$classwbt_1_1block_1_1_get_limits.html" title="The wbt::GetLimits class. " alt="" coords="341,157,496,184"/>
-<area shape="rect" id="node7" href="$classwbt_1_1block_1_1_get_measurement.html" title="The wbt::GetMeasurement class. " alt="" coords="316,208,521,235"/>
-<area shape="rect" id="node8" href="$classwbt_1_1block_1_1_inverse_dynamics.html" title="The wbt::InverseDynamics class. " alt="" coords="317,259,520,285"/>
-<area shape="rect" id="node9" href="$classwbt_1_1block_1_1_jacobian.html" title="The wbt::Jacobian class. " alt="" coords="345,309,492,336"/>
-<area shape="rect" id="node10" href="$classwbt_1_1block_1_1_mass_matrix.html" title="The wbt::MassMatrix class. " alt="" coords="336,360,501,387"/>
-<area shape="rect" id="node11" href="$classwbt_1_1block_1_1_relative_transform.html" title="The wbt::RelativeTransform class. " alt="" coords="316,411,521,437"/>
-<area shape="rect" id="node12" href="$classwbt_1_1block_1_1_set_motor_parameters.html" title="The wbt::SetMotorParameters class. " alt="" coords="305,461,532,488"/>
-<area shape="rect" id="node13" href="$classwbt_1_1block_1_1_set_references.html" title="The wbt::SetReferences class. " alt="" coords="326,512,511,539"/>
+<area shape="rect" id="node1" title="Extension of blockfactory::core::Block for simplifying the development of whole&#45;body blocks." alt="" coords="112,259,263,285"/>
+<area shape="rect" id="node3" href="$classwbt_1_1block_1_1_centroidal_momentum.html" title="The wbt::CentroidalMomentum class." alt="" coords="311,5,549,32"/>
+<area shape="rect" id="node4" href="$classwbt_1_1block_1_1_dot_j_nu.html" title="The wbt::DotJNu class." alt="" coords="359,56,501,83"/>
+<area shape="rect" id="node5" href="$classwbt_1_1block_1_1_forward_kinematics.html" title="The wbt::ForwardKinematics class." alt="" coords="319,107,541,133"/>
+<area shape="rect" id="node6" href="$classwbt_1_1block_1_1_get_limits.html" title="The wbt::GetLimits class." alt="" coords="350,157,510,184"/>
+<area shape="rect" id="node7" href="$classwbt_1_1block_1_1_get_measurement.html" title="The wbt::GetMeasurement class." alt="" coords="325,208,535,235"/>
+<area shape="rect" id="node8" href="$classwbt_1_1block_1_1_inverse_dynamics.html" title="The wbt::InverseDynamics class." alt="" coords="325,259,535,285"/>
+<area shape="rect" id="node9" href="$classwbt_1_1block_1_1_jacobian.html" title="The wbt::Jacobian class." alt="" coords="354,309,506,336"/>
+<area shape="rect" id="node10" href="$classwbt_1_1block_1_1_mass_matrix.html" title="The wbt::MassMatrix class." alt="" coords="343,360,517,387"/>
+<area shape="rect" id="node11" href="$classwbt_1_1block_1_1_relative_transform.html" title="The wbt::RelativeTransform class." alt="" coords="321,411,539,437"/>
+<area shape="rect" id="node12" href="$classwbt_1_1block_1_1_set_motor_parameters.html" title="The wbt::SetMotorParameters class." alt="" coords="315,461,545,488"/>
+<area shape="rect" id="node13" href="$classwbt_1_1block_1_1_set_references.html" title="The wbt::SetReferences class." alt="" coords="335,512,525,539"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,259,64,285"/>
 </map>
