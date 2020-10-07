@@ -27,20 +27,25 @@ This video shows the latest results on the iCub robot achieved in the EU project
 
 ### Citing this work
 
-Please cite the following publication if you are using Whole-Body Toolbox for your own research and/or robot controllers:
-
-> Romano F., Traversaro S., Pucci D., Nori F.<br>
-> **A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems**<br>
-> _Journal of Software Engineering for Robotics, 2017_
-
-Bibtex citation:
+Please cite the following publications if you are using Whole-Body Toolbox for your own research and/or robot controllers:
 
 ```
-@ARTICLE{RomanoWBI17Journal,
-author={F. Romano and S. Traversaro and D. Pucci and F. Nori},
-journal={Journal of Software Engineering for Robotics},
-title={A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems},
-year={2017},
+@article{FerigoControllers2020,
+	title = {A generic synchronous dataflow architecture to rapidly prototype and deploy robot controllers},
+	author = {Ferigo, Diego and Traversaro, Silvio and Romano, Francesco and Pucci, Daniele},
+	url = {https://journals.sagepub.com/doi/10.1177/1729881420921625},
+	doi = {10.1177/1729881420921625},
+	journal = {International Journal of Advanced Robotic Systems},
+	year = {2020},
+}
+```
+
+```
+@article{RomanoWBI17Journal,
+  title={A Whole-Body Software Abstraction layer for Control Design of free-floating Mechanical Systems},
+  author={F. Romano and S. Traversaro and D. Pucci and F. Nori},
+  journal={Journal of Software Engineering for Robotics},
+  year={2017},
 }
 ```
 
