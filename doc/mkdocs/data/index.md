@@ -1,9 +1,9 @@
 # Whole-Body Toolbox
 ## A Simulink Toolbox for Whole-Body Control
 
-[![Build Status (master)](https://img.shields.io/travis/robotology/wb-toolbox/master.svg?logo=travis&label=master)](https://travis-ci.org/robotology/wb-toolbox)
-[![Build Status (devel)](https://img.shields.io/travis/robotology/wb-toolbox/devel.svg?logo=travis&label=devel)](https://travis-ci.org/robotology/wb-toolbox)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1c726331d58b4a1ebfba1c25d15f00ad)](https://www.codacy.com/app/diegoferigo/wb-toolbox?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=robotology/wb-toolbox&amp;utm_campaign=Badge_Grade)
+![CI](https://github.com/robotology/wb-toolbox/workflows/CI/badge.svg)
+![CI](https://github.com/robotology/wb-toolbox/workflows/CI/badge.svg?branch=devel)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e1ec16225e5458481c1c141ce44adae)](https://www.codacy.com/gh/robotology/wb-toolbox/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=robotology/wb-toolbox&amp;utm_campaign=Badge_Grade)
 
 [![License](https://img.shields.io/badge/license-LGPL-19c2d8.svg)](https://github.com/robotology/wb-toolbox/blob/master/LICENSE.LGPL2)
 [![GitHub release](https://img.shields.io/github/release/robotology/wb-toolbox.svg)](https://github.com/robotology/wb-toolbox/releases)
