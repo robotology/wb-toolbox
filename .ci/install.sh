@@ -16,7 +16,7 @@ cmake --build . --target install
 
 # Install Yarp
 cd $HOME/git
-git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/yarp.git
+git clone --depth 1 https://github.com/robotology/yarp.git
 cd yarp
 mkdir build && cd build
 cmake .. \
@@ -28,7 +28,7 @@ cmake --build . --config $TRAVIS_BUILD_TYPE --target install
 
 # Install icub-main
 cd $HOME/git
- git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/icub-main.git
+git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/icub-main.git
 cd icub-main
 mkdir build && cd build
 cmake .. \
