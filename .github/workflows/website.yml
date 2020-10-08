@@ -48,8 +48,9 @@ jobs:
       - name: Clone gh-pages
         run: |
           git ls-remote --heads --exit-code https://github.com/robotology/wb-toolbox gh-pages
-          git clone -b gh-pages https://github.com/robotology/wb-toolbox ${GH_PAGES_ROOTDIR}
-          echo "GH_PAGES_ROOTDIR=${GH_PAGES_ROOTDIR}" >> $GITHUB_ENV
+          git clone -b gh-pages --depth=1 https://github.com/robotology/wb-toolbox ${GH_PAGES_ROOTDIR}
+          rm -rf ${GH_PAGES_ROOTDIR}/.git
+          echo "GH_PAGES_ROOTDIR=${GITHUB_WORKSPACE}/${GH_PAGES_ROOTDIR}" >> $GITHUB_ENV
         env:
           GH_PAGES_ROOTDIR: build/ghpages
 
@@ -70,14 +71,13 @@ jobs:
           mkdir -p $DEPLOY_FOLDER
           cd $GH_PAGES_ROOTDIR
           touch .nojekyll
-          git config push.default simple
 
       - name: Populate deploy folder
         run: |
           rm -rf $DEPLOY_FOLDER/mkdocs
           rm -rf $DEPLOY_FOLDER/doxygen
-          mv $MKDOCS_INPUT_FOLDER $DEPLOY_FOLDER/mkdocs
-          mv $DOXYGEN_INPUT_FOLDER/html $DEPLOY_FOLDER/doxygen
+          cp -r $MKDOCS_INPUT_FOLDER $DEPLOY_FOLDER/mkdocs
+          cp -r $DOXYGEN_INPUT_FOLDER/html $DEPLOY_FOLDER/doxygen
         env:
           MKDOCS_INPUT_FOLDER: build/doc/mkdocs
           DOXYGEN_INPUT_FOLDER: build/doc/doxygen
