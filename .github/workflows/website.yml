@@ -1,0 +1,96 @@
+name: Website
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+      - devel
+
+jobs:
+  website:
+    name: Build and Deploy
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - uses: actions/checkout@master
+        with:
+          persist-credentials: false
+
+      - run: git fetch --prune --unshallow
+
+      - name: Inspect Environment
+        run: |
+          env | grep ^GITHUB
+          cat ${GITHUB_EVENT_PATH}
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+          architecture: x64
+
+      - name: Install website dependecies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz texlive-font-utils
+          pip install "tornado<6.0" mkdocs Pygments mkdocs-material
+
+      - name: Generate documentation
+        run: |
+          mkdir build
+          cd build
+          cmake .. -G"Unix Makefiles" -DWBT_BUILD_DOCS:BOOL=TRUE
+          make dox
+          make mkdocs
+
+      - name: Clone gh-pages
+        run: |
+          git ls-remote --heads --exit-code https://github.com/robotology/wb-toolbox gh-pages
+          git clone -b gh-pages --depth=1 https://github.com/robotology/wb-toolbox ${GH_PAGES_ROOTDIR}
+          rm -rf ${GH_PAGES_ROOTDIR}/.git
+          echo "GH_PAGES_ROOTDIR=${GITHUB_WORKSPACE}/${GH_PAGES_ROOTDIR}" >> $GITHUB_ENV
+        env:
+          GH_PAGES_ROOTDIR: build/ghpages
+
+      - name: Select deploy folder [master]
+        if: |
+          (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
+          (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'refs/heads/master')
+        run: echo "DEPLOY_FOLDER=${GH_PAGES_ROOTDIR}" >> $GITHUB_ENV
+
+      - name: Select deploy folder [other]
+        if: |
+          (github.event_name == 'push' && github.ref != 'refs/heads/master') ||
+          (github.event_name == 'pull_request' && github.event.pull_request.head.ref != 'refs/heads/master')
+        run: echo "DEPLOY_FOLDER=${GH_PAGES_ROOTDIR}/devel" >> $GITHUB_ENV
+
+      - name: Prepare deploy folder
+        run: |
+          mkdir -p $DEPLOY_FOLDER
+          cd $GH_PAGES_ROOTDIR
+          touch .nojekyll
+
+      - name: Populate deploy folder
+        run: |
+          rm -rf $DEPLOY_FOLDER/mkdocs
+          rm -rf $DEPLOY_FOLDER/doxygen
+          cp -r $MKDOCS_INPUT_FOLDER $DEPLOY_FOLDER/mkdocs
+          cp -r $DOXYGEN_INPUT_FOLDER/html $DEPLOY_FOLDER/doxygen
+        env:
+          MKDOCS_INPUT_FOLDER: build/doc/mkdocs
+          DOXYGEN_INPUT_FOLDER: build/doc/doxygen
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: |
+          github.event_name == 'push' &&
+          github.repository == 'robotology/wb-toolbox' &&
+          (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/devel')
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build/ghpages
+          CLEAN: true
+          CLEAN_EXCLUDE: '[".gitignore", ".nojekyll", "index.html"]'
