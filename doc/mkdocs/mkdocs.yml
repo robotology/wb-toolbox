@@ -19,11 +19,11 @@ theme:
         tabs: true
     # favicon:
     #     icon: dashboard
-    logo:
-        icon: dashboard
+    icon:
+        logo: fontawesome/solid/cube
 
 # Copyright
-copyright: 'Copyright &copy; 2019 Istituto Italiano di Tecnologia - iCub Facility'
+copyright: 'Copyright &copy; 2020 Istituto Italiano di Tecnologia'
 
 # Extensions
 markdown_extensions:
