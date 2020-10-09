@@ -90,7 +90,9 @@ bool CentroidalTotalMomentumMatrix::configureSizeAndPorts(BlockInformation* bloc
         },
         {
             // Outputs
-            {OutputIndex::CentroidalTotalMomentumMatrix, Port::Dimensions{6, 6 + dofs}, Port::DataType::DOUBLE},
+            {OutputIndex::CentroidalTotalMomentumMatrix,
+             Port::Dimensions{6, 6 + dofs},
+             Port::DataType::DOUBLE},
         });
 
     if (!ok) {
@@ -165,25 +167,27 @@ bool CentroidalTotalMomentumMatrix::output(const BlockInformation* blockInfo)
     // OUTPUT
     // ======
     // Compute the CentroidalTotalMomentumMatrix
-    
-    ok = kinDyn->getCentroidalTotalMomentumJacobian(pImpl->CentroidalTotalMomentumMatrix); 
-    
+
+    ok = kinDyn->getCentroidalTotalMomentumJacobian(pImpl->CentroidalTotalMomentumMatrix);
+
     if (!ok) {
         bfError << "Failed to get the Centroidal Total Momentum Matrix .";
         return false;
     }
 
     // Get the output signal memory location
-    
-    OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::CentroidalTotalMomentumMatrix);
-    
+
+    OutputSignalPtr output =
+        blockInfo->getOutputPortSignal(OutputIndex::CentroidalTotalMomentumMatrix);
+
     if (!output) {
         bfError << "Output signal not valid.";
         return false;
     }
 
     // Allocate objects for row-major -> col-major conversion
-    Map<MatrixXdiDynTree> CentroidalTotalMomentumMatrixRowMajor = toEigen(pImpl->CentroidalTotalMomentumMatrix);
+    Map<MatrixXdiDynTree> CentroidalTotalMomentumMatrixRowMajor =
+        toEigen(pImpl->CentroidalTotalMomentumMatrix);
     Map<MatrixXdSimulink> CentroidalTotalMomentumMatrixColMajor(
         output->getBuffer<double>(),
         blockInfo->getOutputPortMatrixSize(OutputIndex::CentroidalTotalMomentumMatrix).rows,
