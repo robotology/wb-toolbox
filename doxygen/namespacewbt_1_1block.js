@@ -1,6 +1,7 @@
 var namespacewbt_1_1block =
 [
     [ "CentroidalMomentum", "classwbt_1_1block_1_1_centroidal_momentum.html", "classwbt_1_1block_1_1_centroidal_momentum" ],
+    [ "CentroidalTotalMomentumMatrix", "classwbt_1_1block_1_1_centroidal_total_momentum_matrix.html", "classwbt_1_1block_1_1_centroidal_total_momentum_matrix" ],
     [ "DiscreteFilter", "classwbt_1_1block_1_1_discrete_filter.html", "classwbt_1_1block_1_1_discrete_filter" ],
     [ "DotJNu", "classwbt_1_1block_1_1_dot_j_nu.html", "classwbt_1_1block_1_1_dot_j_nu" ],
     [ "ForwardKinematics", "classwbt_1_1block_1_1_forward_kinematics.html", "classwbt_1_1block_1_1_forward_kinematics" ],
