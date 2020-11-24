@@ -38,6 +38,7 @@ list(APPEND WBT_BLOCKS "Jacobian")
 list(APPEND WBT_BLOCKS "ForwardKinematics")
 list(APPEND WBT_BLOCKS "RelativeTransform")
 list(APPEND WBT_BLOCKS "CentroidalMomentum")
+list(APPEND WBT_BLOCKS "CentroidalTotalMomentumMatrix")
 
 # Other
 list(APPEND WBT_BLOCKS "RealTimeSynchronizer")

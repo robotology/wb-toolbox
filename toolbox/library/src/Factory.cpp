@@ -20,6 +20,7 @@
 
 // iDyntree-dependent blocks
 #include "WBToolbox/Block/CentroidalMomentum.h"
+#include "WBToolbox/Block/CentroidalTotalMomentumMatrix.h"
 #include "WBToolbox/Block/DotJNu.h"
 #include "WBToolbox/Block/ForwardKinematics.h"
 #include "WBToolbox/Block/InverseDynamics.h"
@@ -80,6 +81,9 @@ SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::block::Jacobian, blockfactory::cor
 SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::block::MassMatrix, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform,
                                wbt::block::RelativeTransform,
+                               blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(CentroidalTotalMomentumMatrix,
+                               wbt::block::CentroidalTotalMomentumMatrix,
                                blockfactory::core::Block)
 
 // iCub-dependent blocks
