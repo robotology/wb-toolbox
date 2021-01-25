@@ -90,7 +90,7 @@ jobs:
           export DEPS_CACHE=$HOME/deps
           export PATH=$PATH:$DEPS_CACHE/bin
           export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
-          ./.ci/install.sh || false
+          bash ./.ci/install.sh || false
         env:
           CMAKE_GENERATOR: "Visual Studio 16 2019"
           CMAKE_BUILD_TYPE: Release
