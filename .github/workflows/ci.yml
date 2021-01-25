@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+env:
+  VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
+
 jobs:
 
   ci:
@@ -14,6 +17,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
+          - windows-latest
 
     steps:
 
@@ -33,6 +37,18 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: brew install ace assimp eigen tinyxml gsl ipopt ninja
 
+      - name: 'Windows: System Dependencies'
+        if: contains(matrix.os, 'windows')
+        run: |
+          # To avoid spending a huge time compiling vcpkg dependencies, we download a root that comes precompiled with all the ports that we need
+          choco install -y wget unzip
+          # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
+          # that has been used to create the pre-compiled archive
+          cd C:/
+          wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/v0.6.0/vcpkg-robotology.zip
+          unzip vcpkg-robotology.zip -d C:/
+          rm vcpkg-robotology.zip
+
       - name: Setup dependencies branch [master]
         if: |
           github.ref == 'refs/heads/master' ||
@@ -44,8 +60,9 @@ jobs:
           (github.event_name == 'push' && github.ref != 'refs/heads/master') ||
           (github.event_name == 'pull_request' && github.event.pull_request.head.ref != 'refs/heads/master')
         run: echo "DEPS_BRANCH=devel" >> $GITHUB_ENV
-
-      - name: Install dependencies
+          
+      - name: Install dependencies (Ubuntu and macOS)
+        if: contains(matrix.os, 'ubuntu') || contains(matrix.os, 'macos')
         run: |
           export DEPS_CACHE=$HOME/deps
           export PATH=$PATH:$DEPS_CACHE/bin
@@ -55,7 +72,8 @@ jobs:
           CMAKE_GENERATOR: Ninja
           CMAKE_BUILD_TYPE: Debug
 
-      - name: Build
+      - name: Build (Ubuntu and macOS)
+        if: contains(matrix.os, 'ubuntu') || contains(matrix.os, 'macos')
         run: |
           export DEPS_CACHE=$HOME/deps
           export PATH=$PATH:$DEPS_CACHE/bin
@@ -68,3 +86,31 @@ jobs:
         env:
           CMAKE_GENERATOR: Ninja
           CMAKE_BUILD_TYPE: Debug
+
+      - name: Install dependencies (Windows)
+        if: contains(matrix.os, 'windows')
+        shell: bash
+        run: |
+          source /c/robotology/scripts/setup-deps.sh
+          export DEPS_CACHE=$HOME/deps
+          export PATH=$PATH:$DEPS_CACHE/bin
+          export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
+          ./.ci/install.sh || false
+        env:
+          CMAKE_GENERATOR: "Visual Studio 16 2019"
+          CMAKE_BUILD_TYPE: Release
+
+      - name: Build
+        run: |
+          source /c/robotology/scripts/setup-deps.sh
+          export DEPS_CACHE=$HOME/deps
+          export PATH=$PATH:$DEPS_CACHE/bin
+          export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:$DEPS_CACHE
+          mkdir build && cd build
+          cmake ..\
+            -G"$CMAKE_GENERATOR" \
+            -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+          cmake --build . --config $CMAKE_BUILD_TYPE
+        env:
+          CMAKE_GENERATOR: "Visual Studio 16 2019"
+          CMAKE_BUILD_TYPE: Release
