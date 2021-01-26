@@ -1,11 +1,14 @@
 #!/bin/sh
 set -e
 
+echo "Creating $HOME/git"
 mkdir $HOME/git
 export CXXFLAGS="-Wno-unused-command-line-argument"
 
 # Install YCM
+echo "Moving to $HOME/git"
 cd $HOME/git
+echo "Running git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/ycm.git"
 git clone --depth 1 -b $DEPS_BRANCH https://github.com/robotology/ycm.git
 cd ycm
 mkdir build && cd build
