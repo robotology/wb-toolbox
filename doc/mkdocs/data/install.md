@@ -9,6 +9,7 @@
 - [`YARP`](https://github.com/robotology/yarp) compiled as shared library (default behavior)
 - [`iDynTree`](https://github.com/robotology/idyntree)
 - [`YCM`](https://github.com/robotology/ycm)
+- [`Eigen3`](http://eigen.tuxfamily.org)
 - Supported Operating Systems: Linux, macOS, Windows
 
 ### Development requirements
@@ -27,7 +28,7 @@ For a simplified installation procedure, jump to [Install using the `robotology-
 
 ### Dependencies
 
-Install the required and the optional dependencies by following their installation instructions. These instructions need that `blockfactory`, `YARP`, `iDynTree` and `YCM` packages can be found by `CMake` using `find_package`.
+Install the required and the optional dependencies by following their installation instructions. These instructions need that `blockfactory`, `YARP`, `iDynTree`, `YCM` and `Eigen3` packages can be found by `CMake` using `find_package`.
 
 !!! warning
     If an optional dependency is not found, the classes depending on it are not compiled. However, in the Simulink Library the blocks do not disappear. They will just not work, raising an appropriate error.
