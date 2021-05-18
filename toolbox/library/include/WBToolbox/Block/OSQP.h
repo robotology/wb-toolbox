@@ -48,6 +48,7 @@ class wbt::block::OSQP final : public blockfactory::core::Block
 private:
     class impl;
     std::unique_ptr<impl> pImpl;
+    bool solverInitialization(const blockfactory::core::BlockInformation* blockInfo);
 
 public:
     OSQP();

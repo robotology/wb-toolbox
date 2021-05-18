@@ -16,14 +16,21 @@
 #include <Eigen/Core>
 #include <OsqpEigen/OsqpEigen.h>
 #include <OsqpEigen/Constants.hpp>
+#include <osqp/util.h>
 
 
 #include <ostream>
 #include <tuple>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 using namespace blockfactory::core;
 
 const unsigned MaxIterations = 100;
+
+#define WBT_OSQP_INF 1e8
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
 // ===================================
@@ -217,6 +224,93 @@ bool wbt::block::OSQP::configureSizeAndPorts(BlockInformation* blockInfo)
     return true;
 }
 
+bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
+{
+    // Check the hessian size
+    const auto size_H = blockInfo->getInputPortMatrixSize(InputIndex::Hessian);
+    const auto numberOfVariables = size_H.rows;
+    if (size_H.rows != size_H.cols) {
+        //bfError << "The Hessian matrix should be square.";
+        return false;
+    }
+
+    // Check the gradient size
+    const auto size_g = blockInfo->getInputPortWidth(InputIndex::Gradient);
+    if (size_g != numberOfVariables) {
+        //bfError << "The gradient size does not match with the Hessian size.";
+        return false;
+    }
+
+    // Check the simple bounds size
+    bool ok = true;
+    if (pImpl->useLb) {
+        ok = ok && (blockInfo->getInputPortWidth(InputIndex_lb) == numberOfVariables);
+    }
+    if (pImpl->useUb) {
+        ok = ok && (blockInfo->getInputPortWidth(InputIndex_ub) == numberOfVariables);
+    }
+    if (!ok) {
+        //bfError << "Sizes of bounds do not match with the number of variables.";
+        return false;
+    }
+
+    int numberOfTotalConstraints = 0;
+
+    if (pImpl->useLbA || pImpl->useUbA) {
+        // Check the constraints size
+        const auto size_c = blockInfo->getInputPortMatrixSize(InputIndex_constraints);
+        int numberOfConstraints = size_c.rows;
+        numberOfTotalConstraints += size_c.rows;
+        if (size_c.cols != numberOfVariables) {
+            //bfError << "The column size of the constraints matrix does not match with "
+            //        << "the Hessian size";
+            return false;
+        }
+
+        // Resize the buffer
+        //pImpl->constraints_rowMajor.resize(size_c.rows, size_c.cols);
+
+        // Check the constraints' bound size
+        bool ok = true;
+        if (pImpl->useLbA) {
+            ok = ok && (blockInfo->getInputPortWidth(InputIndex_lbA) == numberOfConstraints);
+        }
+        if (pImpl->useUbA) {
+            ok = ok && (blockInfo->getInputPortWidth(InputIndex_ubA) == numberOfConstraints);
+        }
+        if (!ok) {
+            bfError << "Sizes of constraints' bounds do not match with the number of constraints.";
+            return false;
+        }
+    }
+
+    if (pImpl->useLb || pImpl->useUb) {
+        numberOfTotalConstraints += numberOfVariables;
+    }
+
+    // Allocate the solver.
+    pImpl->sqSolver = std::unique_ptr<OsqpEigen::Solver>(
+        new OsqpEigen::Solver());
+
+    // In qpOASES, SQProblem is used also without constraints, while other classes (e.g. QProblem, QProblemB) assume
+    // fixed H and g and we cannot use them since we assume them as time varying quantities. For the time being, we
+    // keep the same structure also for OSQP
+    pImpl->sqSolver->data()->setNumberOfVariables(numberOfVariables);
+
+    pImpl->sqSolver->data()->setNumberOfConstraints(numberOfTotalConstraints);
+
+    if (!pImpl->sqSolver) {
+        bfError << "Failed to allocate the OsqpEigen::Solver object.";
+        return false;
+    }
+
+    // Setup options
+    pImpl->sqSolver->settings()->setVerbosity(true);
+    // Remove internal state
+    pImpl->sqSolver->settings()->setAdaptiveRho(false);
+    pImpl->sqSolver->settings()->setWarmStart(true);
+}
+
 bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
 {
     if (!Block::initialize(blockInfo)) {
@@ -240,100 +334,36 @@ bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("StopWhenFails", pImpl->stopWhenFails);
 
     if (!ok) {
-        //bfError << "Failed to get parameters after their parsing.";
+        bfError << "Failed to get parameters after their parsing.";
         return false;
     }
 
     // CLASS INITIALIZATION
     // ====================
-
-    // Check the hessian size
-    const auto size_H = blockInfo->getInputPortMatrixSize(InputIndex::Hessian);
-    const auto numberOfVariables = size_H.rows;
-    if (size_H.rows != size_H.cols) {
-        //bfError << "The Hessian matrix should be square.";
+    if (!this->solverInitialization(blockInfo)) {
         return false;
     }
 
-    // Check the gradient size
-    const auto size_g = blockInfo->getInputPortWidth(InputIndex::Gradient);
-    if (size_g != numberOfVariables) {
-        //bfError << "The gradient size does not match with the Hessian size.";
-        return false;
-    }
-
-    // Check the simple bounds size
-    ok = true;
-    if (pImpl->useLb) {
-        ok = ok && (blockInfo->getInputPortWidth(InputIndex_lb) == numberOfVariables);
-    }
-    if (pImpl->useUb) {
-        ok = ok && (blockInfo->getInputPortWidth(InputIndex_ub) == numberOfVariables);
-    }
-    if (!ok) {
-        //bfError << "Sizes of bounds do not match with the number of variables.";
-        return false;
-    }
-
-    int numberOfConstraints = 0;
-
-    if (pImpl->useLbA || pImpl->useUbA) {
-        // Check the constraints size
-        const auto size_c = blockInfo->getInputPortMatrixSize(InputIndex_constraints);
-        numberOfConstraints = size_c.rows;
-        if (size_c.cols != numberOfVariables) {
-            //bfError << "The column size of the constraints matrix does not match with "
-            //        << "the Hessian size";
-            return false;
-        }
-
-        // Resize the buffer
-        //pImpl->constraints_rowMajor.resize(size_c.rows, size_c.cols);
-
-        // Check the constraints' bound size
-        bool ok = true;
-        if (pImpl->useLbA) {
-            ok = ok && (blockInfo->getInputPortWidth(InputIndex_lbA) == numberOfConstraints);
-        }
-        if (pImpl->useUbA) {
-            ok = ok && (blockInfo->getInputPortWidth(InputIndex_ubA) == numberOfConstraints);
-        }
-        if (!ok) {
-            //bfError << "Sizes of constraints' bounds do not match with the number of constraints.";
-            return false;
-        }
-    }
-
-    // Allocate the solver.
-    pImpl->sqSolver = std::unique_ptr<OsqpEigen::Solver>(
-        new OsqpEigen::Solver());
-
-    // In qpOASES, SQProblem is used also without constraints, while other classes (e.g. QProblem, QProblemB) assume
-    // fixed H and g and we cannot use them since we assume them as time varying quantities. For the time being, we
-    // keep the same structure also for OSQP
-    pImpl->sqSolver->data()->setNumberOfVariables(numberOfVariables);
-    pImpl->sqSolver->data()->setNumberOfConstraints(numberOfConstraints);
-
-    if (!pImpl->sqSolver) {
-        //bfError << "Failed to allocate the OsqpEigen::Solver object.";
-        return false;
-    }
-
-    // Setup options
-    pImpl->sqSolver->settings()->setVerbosity(true);
 
     return true;
 }
 
 bool wbt::block::OSQP::initializeInitialConditions(const BlockInformation* /*blockInfo*/)
 {
+    static int initRuns = 0;
+    initRuns++;
+
+    std::cerr << "wbt::block::OSQP::initializeInitialConditions run " << initRuns << std::endl;
     pImpl->sqSolver->clearSolver();
     return true;
 }
 
+
 bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 {
-    pImpl->sqSolver->clearSolver();
+    static int outputRuns = 0;
+    outputRuns++;
+
 
 
     // INPUTS
@@ -351,31 +381,31 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 
     pImpl->sqSolver->data()->setNumberOfVariables(blockInfo->getInputPortMatrixSize(InputIndex::Hessian).rows);
 
-    /*
-    std::cerr << " blockInfo->getInputPortMatrixSize(InputIndex::Hessian).rows: " << blockInfo->getInputPortMatrixSize(InputIndex::Hessian).rows << std::endl;
-    std::cerr << " blockInfo->getInputPortMatrixSize(InputIndex::Hessian).cols: " << blockInfo->getInputPortMatrixSize(InputIndex::Hessian).cols << std::endl;
-    std::cerr << " blockInfo->getInputPortMatrixSize(InputIndex::Gradient).rows: " << blockInfo->getInputPortMatrixSize(InputIndex::Gradient).rows << std::endl;
-    std::cerr << " blockInfo->getInputPortMatrixSize(InputIndex::Gradient).cols: " << blockInfo->getInputPortMatrixSize(InputIndex::Gradient).cols << std::endl;
-    */
     Eigen::Map<Eigen::VectorXd> gradient_colMajor(
         const_cast<double*>(gradientSignal->getBuffer<double>()),
         blockInfo->getInputPortWidth(InputIndex::Gradient));
 
     if (!hessianSignal || !gradientSignal) {
-        //bfError << "Input signals not valid.";
+        bfError << "Input signals not valid.";
         return false;
     }
 
     int numberOfVariables = blockInfo->getInputPortMatrixSize(InputIndex::Hessian).rows;
+    int nrOfTotalConstraints = 0;
+    int numberOfProperConstraints = 0;
+
+    Eigen::VectorXd properConstraintsLowerBounds;
+    Eigen::VectorXd properConstraintsUpperBounds;
+    Eigen::VectorXd variableConstraintsLowerBounds;
+    Eigen::VectorXd variableConstraintsUpperBounds;
+    Eigen::MatrixXd properConstraintMatrix;
 
     // OPTIONAL INPUTS
     // ===============
-
-
     if (pImpl->useLbA || pImpl->useUbA) {
         InputSignalPtr constraintsSignal = blockInfo->getInputPortSignal(InputIndex_constraints);
         if (!constraintsSignal) {
-            //bfError << "Signal for lbA is not valid.";
+            bfError << "Signal for lbA is not valid.";
             return false;
         }
 
@@ -384,85 +414,106 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows,
             blockInfo->getInputPortMatrixSize(InputIndex_constraints).cols);
 
-        int numberOfConstraints = blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows;
-        pImpl->sqSolver->data()->setNumberOfConstraints(numberOfConstraints);
-
-        Eigen::SparseMatrix<double> constraints_sparse = constraints_colMajor.sparseView();
-        pImpl->sqSolver->data()->clearLinearConstraintsMatrix();
-        pImpl->sqSolver->data()->setLinearConstraintsMatrix(constraints_sparse);
-
-        /*
-        std::cerr << "constraints_colMajor" << constraints_colMajor << std::endl;
-        std::cerr << "blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows: " << blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows << std::endl;
-        std::cerr << "blockInfo->getInputPortMatrixSize(InputIndex_constraints).cols: " << blockInfo->getInputPortMatrixSize(InputIndex_constraints).cols << std::endl;
-        */
+        numberOfProperConstraints = blockInfo->getInputPortMatrixSize(InputIndex_constraints).rows;
+        nrOfTotalConstraints += numberOfProperConstraints;
+        properConstraintMatrix = constraints_colMajor;
 
         if (pImpl->useLbA) {
             InputSignalPtr lbASignal = blockInfo->getInputPortSignal(InputIndex_lbA);
             if (!lbASignal) {
-                //bfError << "Signal for lbA is not valid.";
+                bfError << "Signal for lbA is not valid.";
                 return false;
             }
             //std::cerr << "blockInfo->getInputPortWidth(InputIndex_lbA):" << blockInfo->getInputPortWidth(InputIndex_lbA) << std::endl;
             Eigen::Map<Eigen::VectorXd> lbA_colMajor(
                 const_cast<double*>(lbASignal->getBuffer<double>()),
                 blockInfo->getInputPortWidth(InputIndex_lbA));
-            pImpl->sqSolver->data()->setLowerBound(lbA_colMajor);
-            //std::cerr << "lbA_colMajor: " << lbA_colMajor << std::endl;
-        } else {
-            Eigen::VectorXd lbA_colMajor = Eigen::VectorXd::Constant(numberOfConstraints, -1e8);
-            pImpl->sqSolver->data()->setLowerBound(lbA_colMajor);
-            //std::cerr << "lbA_colMajor: " << lbA_colMajor << std::endl;
+            properConstraintsLowerBounds = lbA_colMajor;
         }
 
         if (pImpl->useUbA) {
             InputSignalPtr ubASignal = blockInfo->getInputPortSignal(InputIndex_ubA);
             if (!ubASignal) {
-                //bfError << "Signal for ubA is not valid.";
+                bfError << "Signal for ubA is not valid.";
                 return false;
             }
             //std::cerr << "blockInfo->getInputPortWidth(InputIndex_ubA):" << blockInfo->getInputPortWidth(InputIndex_ubA) << std::endl;
             Eigen::Map<Eigen::VectorXd> ubA_colMajor(
                 const_cast<double*>(ubASignal->getBuffer<double>()),
                 blockInfo->getInputPortWidth(InputIndex_ubA));
-            pImpl->sqSolver->data()->setUpperBound(ubA_colMajor);
-            //std::cerr << "ubA_colMajor: " << ubA_colMajor << std::endl;
+            properConstraintsUpperBounds = ubA_colMajor;
+        }
+    }
+
+    if (pImpl->useLb || pImpl->useUb) {
+        // If variables constraints are given, we need to increase the total number of constraints
+        nrOfTotalConstraints += numberOfVariables;
+
+        if (pImpl->useLb) {
+            InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
+            if (!lbSignal) {
+                bfError << "Signal for lb is not valid.";
+                return false;
+            }
+            Eigen::Map<const Eigen::VectorXd> variableConstraintsLowerBoundsMap(lbSignal->getBuffer<double>(),
+                                                                                lbSignal->getWidth());
+            variableConstraintsLowerBounds = variableConstraintsLowerBoundsMap;
+        }
+
+        if (pImpl->useUb) {
+            InputSignalPtr ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
+            if (!ubSignal) {
+                bfError << "Signal for ub is not valid.";
+                return false;
+            }
+            Eigen::Map<const Eigen::VectorXd> variableConstraintsUpperBoundsMap(ubSignal->getBuffer<double>(),
+                                                                                ubSignal->getWidth());
+            variableConstraintsUpperBounds = variableConstraintsUpperBoundsMap;
+        }
+    }
+
+
+    // Let's build the actual constraints passed to OSQP
+    if(nrOfTotalConstraints != 0) {
+        Eigen::VectorXd totalConstraintsLowerBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, -WBT_OSQP_INF);
+        Eigen::VectorXd totalConstraintsUpperBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, WBT_OSQP_INF);
+        Eigen::MatrixXd totalConstraintsMatrix = Eigen::MatrixXd(nrOfTotalConstraints, numberOfVariables);
+
+        if (pImpl->useLbA) {
+            totalConstraintsLowerBounds.head(numberOfProperConstraints) = properConstraintsLowerBounds;
+        }
+
+        if (pImpl->useUbA) {
+            totalConstraintsUpperBounds.head(numberOfProperConstraints) = properConstraintsUpperBounds;
+        }
+
+
+        if (pImpl->useLb) {
+            totalConstraintsLowerBounds.tail(numberOfVariables) = variableConstraintsLowerBounds;
+        }
+
+        if (pImpl->useUb) {
+            totalConstraintsUpperBounds.tail(numberOfVariables) = variableConstraintsUpperBounds;
+        }
+
+        if (pImpl->useLbA || pImpl->useUbA) {
+            totalConstraintsMatrix.topRows(numberOfProperConstraints) = properConstraintMatrix;
+        }
+
+        if (pImpl->useLb || pImpl->useUb) {
+            totalConstraintsMatrix.bottomRows(numberOfVariables) = Eigen::MatrixXd::Identity(numberOfVariables, numberOfVariables);
+        }
+
+        if (!pImpl->sqSolver->isInitialized()) {
+            Eigen::SparseMatrix<double> totalConstraintsMatrixSparse = totalConstraintsMatrix.sparseView();
+            pImpl->sqSolver->data()->setLinearConstraintsMatrix(totalConstraintsMatrixSparse);
+            pImpl->sqSolver->data()->setBounds(totalConstraintsLowerBounds, totalConstraintsUpperBounds);
         } else {
-            Eigen::VectorXd ubA_colMajor = Eigen::VectorXd::Constant(numberOfConstraints, 1e8);
-            pImpl->sqSolver->data()->setUpperBound(ubA_colMajor);
-            //std::cerr << "ubA_colMajor: " << ubA_colMajor << std::endl;
+            Eigen::SparseMatrix<double> totalConstraintsMatrixSparse = totalConstraintsMatrix.sparseView();
+            pImpl->sqSolver->updateLinearConstraintsMatrix(totalConstraintsMatrixSparse);
+            pImpl->sqSolver->updateBounds(totalConstraintsLowerBounds, totalConstraintsUpperBounds);
         }
     }
-
-    if (pImpl->useLb) {
-        //bfError << "OSQP: UseLb options currently not supported.";
-        return false;
-        /*
-        InputSignalPtr lbSignal = blockInfo->getInputPortSignal(InputIndex_lb);
-        if (!lbSignal) {
-            //bfError << "Signal for lb is not valid.";
-            return false;
-        }
-        Eigen::Map<Eigen::VectorXd> lb_colMajor(
-            const_cast<double*>(lbSignal->getBuffer<double>()),
-            blockInfo->getInputPortMatrixSize(lbSignal).rows);*/
-    }
-
-    if (pImpl->useUb) {
-        //bfError << "OSQP: UseUb options currently not supported.";
-        return false;
-        /*
-        InputSignalPtr ubSignal = blockInfo->getInputPortSignal(InputIndex_ub);
-        if (!ubSignal) {
-            //bfError << "Signal for ub is not valid.";
-            return false;
-        }
-        Eigen::Map<Eigen::VectorXd> ub_colMajor(
-            const_cast<double*>(ubSignal->getBuffer<double>()),
-            blockInfo->getInputPortMatrixSize(ubSignal).rows);
-            */
-    }
-
     // OUTPUTS
     // =======
 
@@ -493,22 +544,29 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
     //std::cerr << "Size of gradient " << gradient_colMajor.size() << std::endl;
     //std::cerr << "Size of gradient " << gradient_colMajor.size() << std::endl;
 
-    pImpl->sqSolver->data()->clearHessianMatrix();
-    pImpl->sqSolver->data()->setHessianMatrix(hessian_sparse);
-    //std::cerr << "Size of gradient " << gradient_colMajor.size() << std::endl;
-    pImpl->sqSolver->data()->setGradient(gradient_colMajor);
+    if (!pImpl->sqSolver->isInitialized()) {
+        pImpl->sqSolver->data()->setHessianMatrix(hessian_sparse);
+        //std::cerr << "Size of gradient " << gradient_colMajor.size() << std::endl;
+        pImpl->sqSolver->data()->setGradient(gradient_colMajor);
+    } else {
+        pImpl->sqSolver->updateHessianMatrix(hessian_sparse);
+        //std::cerr << "Size of gradient " << gradient_colMajor.size() << std::endl;
+        pImpl->sqSolver->updateGradient(gradient_colMajor);
+    }
 
 
     // Solve
     //std::cerr << "initSolver running" << std::endl;
-    if(!pImpl->sqSolver->initSolver()) {
-        //std::cerr << "initSolver failed" << std::endl;
-        //bfError << "OSQP: initSolver() failed.";
-        return false;
+    if(!pImpl->sqSolver->isInitialized()) {
+        if(!pImpl->sqSolver->initSolver()) {
+            bfError << "OSQP: initSolver() failed.";
+            return false;
+        }
     }
 
+
     if(!pImpl->sqSolver->solve()) {
-        //bfError << "OSQP: solve() failed.";
+        bfError << "OSQP: solve() failed.";
         return false;
     }
 
