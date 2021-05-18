@@ -1,21 +1,13 @@
 Library {
   Name			  "WBToolboxLibrary_repository"
-  Version		  10.0
+  Version		  8.4
   SavedCharacterEncoding  "UTF-8"
-  SLCCPlugin		  "on"
-  LogicAnalyzerPlugin	  "on"
-  AnimationPlugin	  "on"
-  DiagnosticSuppressor	  "on"
-  WebScopes_FoundationPlugin "on"
-  NotesPlugin		  "on"
   LibraryType		  "BlockLibrary"
-  EnableAccessToBaseWorkspace on
   ScopeRefreshTime	  0.035000
   OverrideScopeRefreshTime on
   DisableAllScopes	  off
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  LastSavedArchitecture	  "glnxa64"
   Object {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    1
@@ -25,7 +17,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [67.0, 148.0, 2560.0, 1440.0]
+      Location		      [42.0, 23.0, 1750.0, 1097.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -35,7 +27,6 @@ Library {
 	Width			[50]
 	Height			[50]
 	Filter			[9]
-	Minimized		"Unset"
       }
       Object {
 	$PropName		"ExplorerBarInfo"
@@ -45,159 +36,116 @@ Library {
       }
       Array {
 	Type			"Simulink.EditorInfo"
-	Dimension		9
+	Dimension		10
 	Object {
 	  $ObjectID		  5
 	  IsActive		  [1]
-	  IsTabbed		  [1]
 	  ViewObjType		  "SimulinkTopLevel"
 	  LoadSaveID		  "0"
-	  Extents		  [2522.0, 1199.0]
-	  ZoomFactor		  [4.0]
-	  Offset		  [-71.812363004544125, -25.811988773055347]
-	  SceneRectInView	  [-71.812363004544125, -25.811988773055347, 630.5, 299.75]
+	  Extents		  [1712.0, 868.0]
+	  ZoomFactor		  [2.7153053132434577]
+	  Offset		  [-71.812363004544125, -35.771685034737587]
 	}
 	Object {
 	  $ObjectID		  6
 	  IsActive		  [0]
-	  IsTabbed		  [0]
+	  ViewObjType		  "SimulinkSubsys"
+	  LoadSaveID		  "1296"
+	  Extents		  [1712.0, 868.0]
+	  ZoomFactor		  [5.2466166877616587]
+	  Offset		  [-148.63713628266035, -114.21997476247031]
+	}
+	Object {
+	  $ObjectID		  7
+	  IsActive		  [0]
+	  ViewObjType		  "SimulinkSubsys"
+	  LoadSaveID		  "192"
+	  Extents		  [1712.0, 868.0]
+	  ZoomFactor		  [1.5419454451878538]
+	  Offset		  [-198.60003045066941, -99.1501929491047]
+	}
+	Object {
+	  $ObjectID		  8
+	  IsActive		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "209"
 	  Extents		  [2522.0, 1199.0]
 	  ZoomFactor		  [2.5]
 	  Offset		  [-258.01185578242905, -157.8236768561307]
-	  SceneRectInView	  [-258.01185578242905, -157.8236768561307, 1008.8, 479.6]
 	}
 	Object {
-	  $ObjectID		  7
+	  $ObjectID		  9
 	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "202"
 	  Extents		  [2522.0, 1199.0]
 	  ZoomFactor		  [2.4606371641733422]
 	  Offset		  [213.61276834817875, 99.508993480891093]
-	  SceneRectInView	  [213.61276834817875, 99.508993480891093, 1024.9377830750893, 487.27216570461223]
 	}
 	Object {
-	  $ObjectID		  8
+	  $ObjectID		  10
 	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "176"
 	  Extents		  [2522.0, 1199.0]
 	  ZoomFactor		  [4.0]
 	  Offset		  [235.1044081864668, 52.222402871604459]
-	  SceneRectInView	  [235.1044081864668, 52.222402871604459, 630.5, 299.75]
 	}
 	Object {
-	  $ObjectID		  9
+	  $ObjectID		  11
 	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "1633"
 	  Extents		  [2010.0, 839.0]
 	  ZoomFactor		  [6.2999999999999989]
 	  Offset		  [-19.500372023809547, -8.00793650793652]
-	  SceneRectInView	  [-19.500372023809547, -8.00793650793652, 319.04761904761909, 133.17460317460319]
 	}
 	Object {
-	  $ObjectID		  10
+	  $ObjectID		  12
 	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "1663"
 	  Extents		  [2010.0, 839.0]
 	  ZoomFactor		  [5.95]
 	  Offset		  [-20.290375525210067, -11.920168067226882]
-	  SceneRectInView	  [-20.290375525210067, -11.920168067226882, 337.81512605042013, 141.00840336134453]
 	}
 	Object {
-	  $ObjectID		  11
+	  $ObjectID		  13
 	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "369"
 	  Extents		  [2010.0, 839.0]
 	  ZoomFactor		  [2.3928943762659363]
 	  Offset		  [129.66449864161302, 95.246736292428238]
-	  SceneRectInView	  [129.66449864161302, 95.246736292428238, 839.98692960972426, 350.621409921671]
 	}
 	Object {
-	  $ObjectID		  12
+	  $ObjectID		  14
 	  IsActive		  [0]
-	  IsTabbed		  [0]
-	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "192"
-	  Extents		  [1943.0, 884.0]
-	  ZoomFactor		  [1.75]
-	  Offset		  [-198.60003045066941, -70.259004698103354]
-	  SceneRectInView	  [-198.60003045066941, -70.259004698103354, 1110.2857142857142, 505.14285714285717]
-	}
-	Object {
-	  $ObjectID		  13
-	  IsActive		  [0]
-	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "206"
 	  Extents		  [1943.0, 884.0]
 	  ZoomFactor		  [6.0]
 	  Offset		  [252.44396551724137, 145.16666666666663]
-	  SceneRectInView	  [252.44396551724137, 145.16666666666663, 323.83333333333331, 147.33333333333334]
 	}
 	PropName		"EditorsInfo"
       }
-      Object {
-	$PropName		"DockComponentsInfo"
-	$ObjectID		14
-	$ClassName		"Simulink.DockComponentInfo"
-	Type			"GLUE2:PropertyInspector"
-	ID			"Property Inspector"
-	Visible			[0]
-	CreateCallback		""
-	UserData		""
-	Floating		[0]
-	DockPosition		"Right"
-	Width			[640]
-	Height			[480]
-	Minimized		"Unset"
-      }
-      WindowState	      "AAAA/wAAAAD9AAAAAgAAAAAAAAC9AAACivwCAAAAA/sAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
-      "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
-      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAANQAAAooAAABiAP///wAAAAEAAAAAAAAAAPwCA"
-      "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAAOQD///8AAAoAAAAE7AAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAA"
-      Array {
-	Type			"Cell"
-	Dimension		0
-	PropName		"PersistedApps"
-      }
-      WindowUuid	      "c7279315-9484-4d17-a8fb-89419ee2a0fe"
     }
-    BDUuid		    "f635108f-97cd-436e-9bd5-741f3038f9ba"
   }
-  HideAutomaticNames	  off
   Created		  "Thu Feb 06 02:21:39 2014"
   Creator		  "jorhabib"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "csartore"
+  LastModifiedBy	  "nunoguedelha"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Oct 08 17:42:42 2020"
-  RTWModifiedTimeStamp	  524078665
-  ModelVersionFormat	  "1.%<AutoIncrement:683>"
+  LastModifiedDate	  "Tue May 18 22:49:47 2021"
+  RTWModifiedTimeStamp	  543278987
+  ModelVersionFormat	  "1.%<AutoIncrement:0>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
   WideLines		  off
   ShowLineDimensions	  off
   ShowPortDataTypes	  off
-  ShowAllPropagatedSignalLabels	off
-  PortDataTypeDisplayFormat "AliasTypeOnly"
-  ShowEditTimeErrors	  on
-  ShowEditTimeWarnings	  on
-  ShowEditTimeAdvisorChecks off
-  ShowPortUnits		  off
   ShowDesignRanges	  off
   ShowLoopsOnError	  on
   IgnoreBidirectionalLines off
@@ -205,23 +153,15 @@ Library {
   ShowTestPointIcons	  on
   ShowSignalResolutionIcons on
   ShowViewerIcons	  on
-  SortedOrder		  off
-  VariantCondition	  off
-  ShowSubsystemDomainSpec off
-  ExecutionContextIcon	  off
   ShowLinearizationAnnotations on
-  ShowVisualizeInsertedRTB on
   ShowMarkup		  on
   BlockNameDataTip	  off
   BlockParametersDataTip  off
   BlockDescriptionStringDataTip	off
-  BlockVariantConditionDataTip off
   ToolBar		  on
   StatusBar		  on
   BrowserShowLibraryLinks off
-  FunctionConnectors	  off
   BrowserLookUnderMasks	  off
-  MultiThreadCoSim	  on
   SimulationMode	  "normal"
   PauseTimes		  "5"
   NumberOfSteps		  1
@@ -231,6 +171,27 @@ Library {
   LinearizationMsg	  "none"
   Profile		  off
   ParamWorkspaceSource	  "MATLABWorkspace"
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  off
+  CovForceBlockReductionOff on
+  CovEnableCumulative	  on
+  CovSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  CovSFcnEnable		  off
+  CovBoundaryAbsTol	  0.000010
+  CovBoundaryRelTol	  0.010000
+  CovUseTimeInterval	  off
+  CovStartTime		  0
+  CovStopTime		  0
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -254,28 +215,22 @@ Library {
   ExtModeAutoUpdateStatusClock on
   ShowModelReferenceBlockVersion off
   ShowModelReferenceBlockIO off
-  OrderedModelArguments	  on
   Array {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      15
-      Version		      "19.1.1"
-      DisabledProps	      []
-      Description	      ""
+      $ObjectID		      17
+      Version		      "1.14.3"
       Array {
 	Type			"Handle"
-	Dimension		10
+	Dimension		9
 	Simulink.SolverCC {
-	  $ObjectID		  16
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  ""
+	  $ObjectID		  18
+	  Version		  "1.14.3"
 	  Components		  []
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
-	  AutoScaleAbsTol	  on
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxOrder		  5
@@ -288,32 +243,24 @@ Library {
 	  MinStep		  "auto"
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
-	  EnableMultiTasking	  on
+	  SolverMode		  "Auto"
+	  EnableConcurrentExecution off
 	  ConcurrentTasks	  off
-	  Solver		  "ode45"
 	  SolverName		  "ode45"
 	  SolverJacobianMethodControl "auto"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Nonadaptive"
 	  AlgebraicLoopSolver	  "TrustRegion"
-	  SolverInfoToggleStatus  off
-	  IsAutoAppliedInSIP	  off
 	  SolverResetMethod	  "Fast"
 	  PositivePriorityOrder	  off
 	  AutoInsertRateTranBlk	  off
 	  SampleTimeConstraint	  "Unconstrained"
 	  InsertRTBMode		  "Whenever possible"
-	  SampleTimeProperty	  []
-	  DecoupledContinuousIntegration off
-	  MinimalZcImpactIntegration off
-	  SolverOrder		  3
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  17
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  ""
+	  $ObjectID		  19
+	  Version		  "1.14.3"
 	  Components		  []
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -324,7 +271,7 @@ Library {
 	  LoadExternalInput	  off
 	  LoadInitialState	  off
 	  SaveFinalState	  off
-	  SaveOperatingPoint	  off
+	  SaveCompleteFinalSimState off
 	  SaveFormat		  "Array"
 	  SignalLoggingSaveFormat "ModelDataLogs"
 	  SaveOutput		  on
@@ -333,8 +280,6 @@ Library {
 	  DSMLogging		  on
 	  InspectSignalLogs	  off
 	  VisualizeSimOutput	  on
-	  StreamToWorkspace	  off
-	  StreamVariableName	  "streamout"
 	  SaveTime		  on
 	  ReturnWorkspaceOutputs  off
 	  StateSaveName		  "xout"
@@ -346,14 +291,10 @@ Library {
 	  OutputTimes		  "[]"
 	  ReturnWorkspaceOutputsName "out"
 	  Refine		  "1"
-	  LoggingToFile		  off
-	  DatasetSignalFormat	  "timeseries"
-	  LoggingFileName	  "out.mat"
-	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  18
-	  Version		  "19.1.1"
+	  $ObjectID		  20
+	  Version		  "1.14.3"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    9
@@ -368,14 +309,12 @@ Library {
 	    Cell		    "EfficientTunableParamExpr"
 	    PropName		    "DisabledProps"
 	  }
-	  Description		  ""
 	  Components		  []
 	  BlockReduction	  on
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
-	  DefaultParameterBehavior "Tunable"
-	  UseDivisionForNetSlopeComputation "off"
-	  GainParamInheritBuiltInType off
+	  InlineParams		  off
+	  UseDivisionForNetSlopeComputation "Off"
 	  UseFloatMulNetSlope	  off
 	  DefaultUnderspecifiedDataType	"double"
 	  UseSpecifiedMinMax	  off
@@ -386,14 +325,12 @@ Library {
 	  CachingGlobalReferences off
 	  GlobalBufferReuse	  on
 	  StrengthReduction	  off
-	  AdvancedOptControl	  ""
 	  ExpressionFolding	  on
 	  BooleansAsBitfields	  off
 	  BitfieldContainerType	  "uint_T"
 	  EnableMemcpy		  on
 	  MemcpyThreshold	  64
 	  PassReuseOutputArgsAs	  "Structure reference"
-	  PassReuseOutputArgsThreshold 12
 	  ExpressionDepthLimit	  2147483647
 	  LocalBlockOutputs	  on
 	  RollThreshold		  5
@@ -406,40 +343,21 @@ Library {
 	  NoFixptDivByZeroProtection off
 	  EfficientFloat2IntCast  off
 	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
 	  LifeSpan		  "inf"
 	  MaxStackSize		  "Inherit from target"
 	  BufferReusableBoundary  on
-	  SimCompilerOptimization "off"
+	  SimCompilerOptimization "Off"
 	  AccelVerboseBuild	  off
-	  OptimizeBlockOrder	  "off"
-	  OptimizeDataStoreBuffers on
-	  BusAssignmentInplaceUpdate on
-	  DifferentSizesBufferReuse off
-	  UseRowMajorAlgorithm	  off
-	  OptimizationLevel	  "level2"
-	  OptimizationPriority	  "Balanced"
-	  OptimizationCustomize	  on
-	  LabelGuidedReuse	  off
-	  MultiThreadedLoops	  off
-	  DenormalBehavior	  "GradualUnderflow"
-	  EfficientTunableParamExpr off
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  19
-	  Version		  "19.1.1"
-	  Array {
-	    Type		    "Cell"
-	    Dimension		    1
-	    Cell		    "UseOnlyExistingSharedCode"
-	    PropName		    "DisabledProps"
-	  }
-	  Description		  ""
+	  $ObjectID		  21
+	  Version		  "1.14.3"
 	  Components		  []
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
 	  SignalInfNanChecking	  "none"
-	  StringTruncationChecking "error"
 	  SignalRangeChecking	  "none"
 	  ReadBeforeWriteMsg	  "UseLocalSettings"
 	  WriteAfterWriteMsg	  "UseLocalSettings"
@@ -467,7 +385,6 @@ Library {
 	  MultiTaskRateTransMsg	  "error"
 	  SingleTaskRateTransMsg  "none"
 	  TasksWithSamePriorityMsg "warning"
-	  ExportedTasksRateTransMsg "none"
 	  SigSpecEnsureSampleTimeMsg "warning"
 	  CheckMatrixSingularityMsg "none"
 	  IntegerOverflowMsg	  "warning"
@@ -483,21 +400,17 @@ Library {
 	  UnderSpecifiedDataTypeMsg "none"
 	  UnnecessaryDatatypeConvMsg "none"
 	  VectorMatrixConversionMsg "none"
-	  InvalidFcnCallConnMsg	  "error"
-	  FcnCallInpInsideContextMsg "warning"
+	  FcnCallInpInsideContextMsg "EnableAllAsWarning"
 	  SignalLabelMismatchMsg  "none"
 	  UnconnectedInputMsg	  "warning"
 	  UnconnectedOutputMsg	  "warning"
 	  UnconnectedLineMsg	  "warning"
-	  UseOnlyExistingSharedCode "error"
 	  SFcnCompatibilityMsg	  "none"
 	  FrameProcessingCompatibilityMsg "error"
 	  UniqueDataStoreMsg	  "none"
 	  BusObjectLabelMismatch  "warning"
 	  RootOutportRequireBusObject "warning"
 	  AssertControl		  "UseLocalSettings"
-	  AllowSymbolicDim	  on
-	  RowMajorDimensionSupport off
 	  ModelReferenceIOMsg	  "none"
 	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
 	  ModelReferenceVersionMismatchMessage "none"
@@ -507,50 +420,27 @@ Library {
 	  ModelReferenceSymbolNameMessage "warning"
 	  ModelReferenceExtraNoncontSigs "error"
 	  StateNameClashWarn	  "warning"
-	  OperatingPointInterfaceChecksumMismatchMsg "warning"
-	  NonCurrentReleaseOperatingPointMsg "error"
-	  ChecksumConsistencyForSSReuse	"none"
-	  PregeneratedLibrarySubsystemCodeDiagnostic "warning"
-	  MatchCodeGenerationContextForUpdateDiagram "none"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
 	  InitInArrayFormatMsg	  "warning"
 	  StrictBusMsg		  "ErrorLevel1"
 	  BusNameAdapt		  "WarnAndRepair"
 	  NonBusSignalsTreatedAsBus "none"
-	  SymbolicDimMinMaxWarning "warning"
-	  LossOfSymbolicDimsSimulationWarning "warning"
-	  LossOfSymbolicDimsCodeGenerationWarning "error"
-	  SymbolicDimsDataTypeCodeGenerationDiagnostic "error"
 	  BlockIODiagnostic	  "none"
 	  SFUnusedDataAndEventsDiag "warning"
 	  SFUnexpectedBacktrackingDiag "warning"
 	  SFInvalidInputDataAccessInChartInitDiag "warning"
 	  SFNoUnconditionalDefaultTransitionDiag "warning"
 	  SFTransitionOutsideNaturalParentDiag "warning"
-	  SFUnreachableExecutionPathDiag "warning"
+	  SFUnconditionalTransitionShadowingDiag "warning"
 	  SFUndirectedBroadcastEventsDiag "warning"
 	  SFTransitionActionBeforeConditionDiag	"warning"
-	  SFOutputUsedAsStateInMooreChartDiag "error"
-	  SFTemporalDelaySmallerThanSampleTimeDiag "warning"
-	  SFSelfTransitionDiag	  "warning"
-	  SFExecutionAtInitializationDiag "none"
-	  SFMachineParentedDataDiag "warning"
 	  IntegerSaturationMsg	  "warning"
-	  AllowedUnitSystems	  "all"
-	  UnitsInconsistencyMsg	  "warning"
-	  AllowAutomaticUnitConversions	on
-	  RCSCRenamedMsg	  "warning"
-	  RCSCObservableMsg	  "warning"
-	  ForceCombineOutputUpdateInSim	off
-	  UnitDatabase		  ""
-	  UnderSpecifiedDimensionMsg "none"
-	  DebugExecutionForFMUViaOutOfProcess off
-	  ArithmeticOperatorsInVariantConditions "warning"
+	  ModelReferenceCSMismatchMessage "none"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  20
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  ""
+	  $ObjectID		  22
+	  Version		  "1.14.3"
 	  Components		  []
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -560,8 +450,6 @@ Library {
 	  ProdBitPerFloat	  32
 	  ProdBitPerDouble	  64
 	  ProdBitPerPointer	  32
-	  ProdBitPerSizeT	  32
-	  ProdBitPerPtrDiffT	  32
 	  ProdLargestAtomicInteger "Char"
 	  ProdLargestAtomicFloat  "None"
 	  ProdIntDivRoundTo	  "Undefined"
@@ -578,8 +466,6 @@ Library {
 	  TargetBitPerFloat	  32
 	  TargetBitPerDouble	  64
 	  TargetBitPerPointer	  32
-	  TargetBitPerSizeT	  32
-	  TargetBitPerPtrDiffT	  32
 	  TargetLargestAtomicInteger "Char"
 	  TargetLargestAtomicFloat "None"
 	  TargetShiftRightIntArith on
@@ -592,68 +478,38 @@ Library {
 	  TargetHWDeviceType	  "Specified"
 	  TargetUnknown		  off
 	  ProdEqTarget		  on
-	  UseEmbeddedCoderFeatures on
-	  UseSimulinkCoderFeatures on
-	  HardwareBoardFeatureSet "EmbeddedCoderHSP"
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  21
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  ""
+	  $ObjectID		  23
+	  Version		  "1.14.3"
 	  Components		  []
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
-	  EnableRefExpFcnMdlSchedulingChecks on
 	  CheckModelReferenceTargetMessage "error"
 	  EnableParallelModelReferenceBuilds off
 	  ParallelModelReferenceErrorOnInvalidPool on
 	  ParallelModelReferenceMATLABWorkerInit "None"
 	  ModelReferenceNumInstancesAllowed "Multi"
 	  PropagateVarSize	  "Infer from blocks in model"
-	  ModelDependencies	  ""
 	  ModelReferencePassRootInputsByReference on
 	  ModelReferenceMinAlgLoopOccurrences off
 	  PropagateSignalLabelsOutOfModel off
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  22
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  ""
+	  $ObjectID		  24
+	  Version		  "1.14.3"
 	  Components		  []
-	  SimCustomSourceCode	  ""
-	  SimCustomHeaderCode	  ""
-	  SimCustomInitializer	  ""
-	  SimCustomTerminator	  ""
-	  SimReservedNameArray	  []
-	  SimUserSources	  ""
-	  SimUserIncludeDirs	  ""
-	  SimUserLibraries	  ""
-	  SimUserDefines	  ""
-	  SimCustomCompilerFlags  ""
-	  SimCustomLinkerFlags	  ""
 	  SFSimEcho		  on
 	  SimCtrlC		  on
 	  SimIntegrity		  on
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
-	  SimAnalyzeCustomCode	  off
-	  SimBuildMode		  "sf_incremental_build"
 	  SimGenImportedTypeDefs  off
-	  ModelFunctionsGlobalVisibility "on"
-	  CompileTimeRecursionLimit 50
-	  EnableRuntimeRecursion  on
-	  MATLABDynamicMemAlloc	  on
-	  MATLABDynamicMemAllocThreshold 65536
-	  CustomCodeFunctionArrayLayout	[]
-	  DefaultCustomCodeFunctionArrayLayout "NotSpecified"
-	  CustomCodeUndefinedFunction "UseInterfaceOnly"
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  23
-	  Version		  "19.1.1"
+	  $ObjectID		  25
+	  Version		  "1.14.3"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    16
@@ -675,43 +531,25 @@ Library {
 	    Cell		    "CodeProfilingInstrumentation"
 	    PropName		    "DisabledProps"
 	  }
-	  Description		  ""
 	  SystemTargetFile	  "grt.tlc"
-	  HardwareBoard		  "None"
-	  ShowCustomHardwareApp	  off
-	  ShowEmbeddedHardwareApp off
 	  TLCOptions		  ""
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
 	  GenerateMakefile	  on
 	  PackageGeneratedCodeAndArtifacts off
-	  PackageName		  ""
 	  TemplateMakefile	  "grt_default_tmf"
 	  PostCodeGenCommand	  ""
 	  GenerateReport	  off
 	  RTWVerbose		  on
 	  RetainRTWFile		  off
-	  RTWBuildHooks		  []
 	  ProfileTLC		  off
 	  TLCDebug		  off
 	  TLCCoverage		  off
 	  TLCAssert		  off
 	  RTWUseLocalCustomCode	  off
 	  RTWUseSimCustomCode	  off
-	  CustomSourceCode	  ""
-	  CustomHeaderCode	  ""
-	  CustomInclude		  ""
-	  CustomSource		  ""
-	  CustomLibrary		  ""
-	  CustomDefine		  ""
-	  CustomBLASCallback	  ""
-	  CustomLAPACKCallback	  ""
-	  CustomFFTCallback	  ""
-	  CustomInitializer	  ""
-	  CustomTerminator	  ""
 	  Toolchain		  "Automatically locate an installed toolchain"
 	  BuildConfiguration	  "Faster Builds"
-	  CustomToolchainOptions  []
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
 	  PortableWordSizes	  off
@@ -719,7 +557,7 @@ Library {
 	  CodeExecutionProfiling  off
 	  CodeExecutionProfileVariable "executionProfile"
 	  CodeProfilingSaveOptions "SummaryOnly"
-	  CodeProfilingInstrumentation "off"
+	  CodeProfilingInstrumentation off
 	  SILDebugging		  off
 	  TargetLang		  "C"
 	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
@@ -731,9 +569,7 @@ Library {
 	  GenerateWebview	  off
 	  GenerateCodeMetricsReport off
 	  GenerateCodeReplacementReport	off
-	  GenerateMissedCodeReplacementReport off
-	  RTWCompilerOptimization "off"
-	  ObjectivePriorities	  []
+	  RTWCompilerOptimization "Off"
 	  RTWCustomCompilerOptimizations ""
 	  CheckMdlBeforeBuild	  "Off"
 	  SharedConstantsCachingThreshold 1024
@@ -741,8 +577,8 @@ Library {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      24
-	      Version		      "19.1.1"
+	      $ObjectID		      26
+	      Version		      "1.14.3"
 	      Array {
 		Type			"Cell"
 		Dimension		28
@@ -776,9 +612,7 @@ Library {
 		Cell			"BlockCommentType"
 		PropName		"DisabledProps"
 	      }
-	      Description	      ""
 	      Components	      []
-	      Comment		      ""
 	      ForceParamTrailComments off
 	      GenerateComments	      on
 	      CommentStyle	      "Auto"
@@ -793,46 +627,32 @@ Library {
 	      SFDataObjDesc	      off
 	      MATLABFcnDesc	      off
 	      MangleLength	      1
-	      SharedChecksumLength    8
 	      CustomSymbolStrGlobalVar "$R$N$M"
 	      CustomSymbolStrType     "$N$R$M_T"
 	      CustomSymbolStrField    "$N$M"
 	      CustomSymbolStrFcn      "$R$N$M$F"
-	      CustomSymbolStrModelFcn "$R$N"
 	      CustomSymbolStrFcnArg   "rt$I$N$M"
 	      CustomSymbolStrBlkIO    "rtb_$N$M"
 	      CustomSymbolStrTmpVar   "$N$M"
 	      CustomSymbolStrMacro    "$R$N$M"
 	      CustomSymbolStrUtil     "$N$C"
-	      CustomSymbolStrEmxType  "emxArray_$M$N"
-	      CustomSymbolStrEmxFcn   "emx$M$N"
-	      CustomUserTokenString   ""
-	      CustomCommentsFcn	      ""
 	      DefineNamingRule	      "None"
-	      DefineNamingFcn	      ""
 	      ParamNamingRule	      "None"
-	      ParamNamingFcn	      ""
 	      SignalNamingRule	      "None"
-	      SignalNamingFcn	      ""
 	      InsertBlockDesc	      off
 	      InsertPolySpaceComments off
 	      SimulinkBlockComments   on
-	      BlockCommentType	      "BlockPathComment"
-	      StateflowObjectComments on
 	      MATLABSourceComments    off
 	      EnableCustomComments    off
-	      InternalIdentifierFile  ""
 	      InternalIdentifier      "Shortened"
 	      InlinedPrmAccess	      "Literals"
 	      ReqsInCode	      off
 	      UseSimReservedNames     off
-	      ReservedNameArray	      []
-	      EnumMemberNameClash     "error"
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      25
-	      Version		      "19.1.1"
+	      $ObjectID		      27
+	      Version		      "1.14.3"
 	      Array {
 		Type			"Cell"
 		Dimension		19
@@ -857,7 +677,6 @@ Library {
 		Cell			"PreserveStateflowLocalDataDimensions"
 		PropName		"DisabledProps"
 	      }
-	      Description	      ""
 	      Components	      []
 	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
 	      TargetLibSuffix	      ""
@@ -866,12 +685,9 @@ Library {
 	      TargetLangStandard      "C89/C90 (ANSI)"
 	      CodeReplacementLibrary  "None"
 	      UtilityFuncGeneration   "Auto"
-	      MultiwordTypeDef	      "System defined"
+	      ERTMultiwordTypeDef     "System defined"
 	      MultiwordLength	      2048
-	      DynamicStringBufferSize 256
 	      GenerateFullHeader      on
-	      InferredTypesCompatibility off
-	      ExistingSharedCode      ""
 	      GenerateSampleERTMain   off
 	      GenerateTestInterfaces  off
 	      ModelReferenceCompliant on
@@ -879,48 +695,30 @@ Library {
 	      CompOptLevelCompliant   on
 	      ConcurrentExecutionCompliant on
 	      IncludeMdlTerminateFcn  on
-	      GeneratePreprocessorConditionals "Disable all"
 	      CombineOutputUpdateFcns off
 	      CombineSignalStateStructs	off
-	      GroupInternalDataByFunction off
 	      SuppressErrorStatus     off
 	      IncludeFileDelimiter    "Auto"
 	      ERTCustomFileBanners    off
 	      SupportAbsoluteTime     on
 	      LogVarNameModifier      "rt_"
 	      MatFileLogging	      on
-	      MultiInstanceERTCode    off
 	      CodeInterfacePackaging  "Nonreusable function"
-	      PurelyIntegerCode	      off
 	      SupportNonFinite	      on
 	      SupportComplex	      on
+	      PurelyIntegerCode	      off
 	      SupportContinuousTime   on
 	      SupportNonInlinedSFcns  on
-	      RemoveDisableFunc	      off
-	      RemoveResetFunc	      off
 	      SupportVariableSizeSignals off
 	      ParenthesesLevel	      "Nominal"
 	      CastingMode	      "Nominal"
-	      PreserveStateflowLocalDataDimensions off
 	      MATLABClassNameForMDSCustomization "Simulink.SoftwareTarget.GRTCustomization"
 	      ModelStepFunctionPrototypeControlCompliant off
 	      CPPClassGenCompliant    on
 	      AutosarCompliant	      off
-	      MDXCompliant	      off
 	      GRTInterface	      on
 	      GenerateAllocFcn	      off
-	      UseToolchainInfoCompliant	on
 	      GenerateSharedConstants on
-	      CoderGroups	      []
-	      AccessMethods	      []
-	      LookupTableObjectStructAxisOrder "1,2,3,4,..."
-	      LUTObjectStructOrderExplicitValues "Size,Breakpoints,Table"
-	      LUTObjectStructOrderEvenSpacing "Size,Breakpoints,Table"
-	      ArrayLayout	      "Column-major"
-	      UnsupportedSFcnMsg      "error"
-	      ERTHeaderFileRootName   "$R$E"
-	      ERTSourceFileRootName   "$R$E"
-	      ERTDataFileRootName     "$R_data"
 	      UseMalloc		      off
 	      ExtMode		      off
 	      ExtModeStaticAlloc      off
@@ -928,7 +726,6 @@ Library {
 	      ExtModeStaticAllocSize  1000000
 	      ExtModeTransport	      0
 	      ExtModeMexFile	      "ext_comm"
-	      ExtModeMexArgs	      ""
 	      ExtModeIntrfLevel	      "Level1"
 	      RTWCAPISignals	      off
 	      RTWCAPIParams	      off
@@ -940,51 +737,9 @@ Library {
 	    PropName		    "Components"
 	  }
 	}
-	SlCovCC.ConfigComp {
-	  $ObjectID		  26
-	  Version		  "19.1.1"
-	  DisabledProps		  []
-	  Description		  "Simulink Coverage Configuration Component"
-	  Components		  []
-	  Name			  "Simulink Coverage"
-	  CovEnable		  off
-	  CovScope		  "EntireSystem"
-	  CovIncludeTopModel	  on
-	  RecordCoverage	  off
-	  CovPath		  "/"
-	  CovSaveName		  "covdata"
-	  CovCompData		  ""
-	  CovMetricSettings	  "dw"
-	  CovFilter		  ""
-	  CovHTMLOptions	  ""
-	  CovNameIncrementing	  off
-	  CovHtmlReporting	  on
-	  CovForceBlockReductionOff on
-	  CovEnableCumulative	  on
-	  CovSaveCumulativeToWorkspaceVar on
-	  CovSaveSingleToWorkspaceVar on
-	  CovCumulativeVarName	  "covCumulativeData"
-	  CovCumulativeReport	  off
-	  CovSaveOutputData	  on
-	  CovOutputDir		  "slcov_output/$ModelName$"
-	  CovDataFileName	  "$ModelName$_cvdata"
-	  CovShowResultsExplorer  on
-	  CovReportOnPause	  on
-	  CovModelRefEnable	  "off"
-	  CovModelRefExcluded	  ""
-	  CovExternalEMLEnable	  off
-	  CovSFcnEnable		  off
-	  CovBoundaryAbsTol	  1e-05
-	  CovBoundaryRelTol	  0.01
-	  CovUseTimeInterval	  off
-	  CovStartTime		  0
-	  CovStopTime		  0
-	  CovMcdcMode		  "Masking"
-	}
 	hdlcoderui.hdlcc {
-	  $ObjectID		  27
-	  Version		  "19.1.1"
-	  DisabledProps		  []
+	  $ObjectID		  29
+	  Version		  "1.14.3"
 	  Description		  "HDL Coder custom configuration component"
 	  Components		  []
 	  Name			  "HDL Coder"
@@ -1001,7 +756,6 @@ Library {
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
       ConfigPrmDlgPosition    [ 963, 135, 1843, 765 ]
-      ExtraOptions	      ""
     }
     PropName		    "ConfigurationSets"
   }
@@ -1016,7 +770,6 @@ Library {
     FontWeight		    "normal"
     FontAngle		    "normal"
     ShowName		    on
-    HideAutomaticName	    on
     BlockRotation	    0
     BlockMirror		    off
   }
@@ -1030,12 +783,7 @@ Library {
     FontSize		    10
     FontWeight		    "normal"
     FontAngle		    "normal"
-    MarkupType		    "model"
     UseDisplayTextAsClickCallback off
-    AnnotationType	    "note_annotation"
-    FixedHeight		    off
-    FixedWidth		    off
-    Interpreter		    "off"
   }
   LineDefaults {
     FontName		    "Helvetica"
@@ -1046,8 +794,8 @@ Library {
   MaskDefaults {
     SelfModifiable	    "off"
     IconFrame		    "on"
-    IconOpaque		    "opaque"
-    RunInitForIconRedraw    "analyze"
+    IconOpaque		    "on"
+    RunInitForIconRedraw    "off"
     IconRotate		    "none"
     PortRotate		    "default"
     IconUnits		    "autoscale"
@@ -1064,11 +812,6 @@ Library {
   }
   BlockParameterDefaults {
     Block {
-      BlockType		      Clock
-      DisplayTime	      off
-      Decimation	      "10"
-    }
-    Block {
       BlockType		      Constant
       Value		      "1"
       VectorParams1D	      on
@@ -1084,7 +827,7 @@ Library {
     Block {
       BlockType		      Demux
       Outputs		      "4"
-      DisplayOption	      "none"
+      DisplayOption	      "bar"
       BusSelectionMode	      off
     }
     Block {
@@ -1104,25 +847,30 @@ Library {
       Multiplication	      "Element-wise(K.*u)"
       ParamMin		      "[]"
       ParamMax		      "[]"
-      ParamDataTypeStr	      "Inherit: Same as input"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutMin		      "[]"
       OutMax		      "[]"
-      OutDataTypeStr	      "Inherit: Same as input"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
       LockScale		      off
       RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
+      SaturateOnIntegerOverflow	off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      InitialCondition
+      Value		      "1"
       SampleTime	      "-1"
     }
     Block {
       BlockType		      Inport
       Port		      "1"
+      IconDisplay	      "Port number"
       OutputFunctionCall      off
       OutMin		      "[]"
       OutMax		      "[]"
       OutDataTypeStr	      "Inherit: auto"
       LockScale		      off
       BusOutputAsStruct	      off
-      Unit		      "inherit"
       PortDimensions	      "-1"
       VarSizeSig	      "Inherit"
       SampleTime	      "-1"
@@ -1133,27 +881,31 @@ Library {
       Interpolate	      on
     }
     Block {
+      BlockType		      Memory
+      X0		      "0"
+      InheritSampleTime	      off
+      LinearizeMemory	      off
+      LinearizeAsDelay	      off
+      StateMustResolveToSignalObject off
+    }
+    Block {
       BlockType		      Outport
       Port		      "1"
+      IconDisplay	      "Port number"
       OutMin		      "[]"
       OutMax		      "[]"
       OutDataTypeStr	      "Inherit: auto"
       LockScale		      off
       BusOutputAsStruct	      off
-      Unit		      "inherit"
       PortDimensions	      "-1"
       VarSizeSig	      "Inherit"
       SampleTime	      "-1"
       SignalType	      "auto"
       SamplingMode	      "auto"
-      EnsureOutportIsVirtual  off
       SourceOfInitialOutputValue "Dialog"
       OutputWhenDisabled      "held"
       InitialOutput	      "[]"
-      MustResolveToSignalObject	off
       OutputWhenUnConnected   off
-      OutputWhenUnconnectedValue "0"
-      VectorParamsAs1DForOutWhenUnconnected on
     }
     Block {
       BlockType		      Product
@@ -1161,13 +913,13 @@ Library {
       Multiplication	      "Element-wise(.*)"
       CollapseMode	      "All dimensions"
       CollapseDim	      "1"
-      InputSameDT	      on
+      InputSameDT	      off
       OutMin		      "[]"
       OutMax		      "[]"
-      OutDataTypeStr	      "Inherit: Same as first input"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
       LockScale		      off
-      RndMeth		      "Zero"
-      SaturateOnIntegerOverflow	on
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
       SampleTime	      "-1"
     }
     Block {
@@ -1175,7 +927,6 @@ Library {
       FunctionName	      "system"
       SFunctionModules	      "''"
       PortCounts	      "[]"
-      MultiThreadCoSim	      "auto"
     }
     Block {
       BlockType		      SubSystem
@@ -1184,8 +935,6 @@ Library {
       PermitHierarchicalResolution "All"
       TreatAsAtomicUnit	      off
       MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      ScheduleAs	      "Sample time"
       SystemSampleTime	      "-1"
       RTWSystemCode	      "Auto"
       RTWFcnNameOpts	      "Auto"
@@ -1204,33 +953,24 @@ Library {
       Opaque		      off
       MaskHideContents	      off
       SFBlockType	      "NONE"
-      VariantControlMode      "Expression"
       Variant		      off
       GeneratePreprocessorConditionals off
-      AllowZeroVariantControls off
-      PropagateVariantConditions off
-      TreatAsGroupedWhenPropagatingVariantConditions on
       ContentPreviewEnabled   off
-      IsWebBlock	      off
-      IsObserver	      off
-      Latency		      "0"
-      AutoFrameSizeCalculation off
-      IsWebBlockPanel	      off
     }
     Block {
       BlockType		      Sum
-      IconShape		      "rectangular"
+      IconShape		      "round"
       Inputs		      "++"
       CollapseMode	      "All dimensions"
       CollapseDim	      "1"
-      InputSameDT	      on
+      InputSameDT	      off
       AccumDataTypeStr	      "Inherit: Inherit via internal rule"
       OutMin		      "[]"
       OutMax		      "[]"
-      OutDataTypeStr	      "Inherit: Same as first input"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
       LockScale		      off
       RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
+      SaturateOnIntegerOverflow	off
       SampleTime	      "-1"
     }
     Block {
@@ -1239,11 +979,8 @@ Library {
   }
   System {
     Name		    "WBToolboxLibrary_repository"
-    Location		    [67, 148, 2627, 1588]
-    Open		    on
-    PortBlocksUseCompactNotation off
-    SetExecutionDomain	    off
-    ExecutionDomainType	    "Deduce"
+    Location		    [42, 23, 1792, 1120]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "black"
@@ -1254,10 +991,9 @@ Library {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "400"
+    ZoomFactor		    "272"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1852"
-    SimulinkSubDomain	    "Simulink"
+    SIDHighWatermark	    "1859"
     Block {
       BlockType		      SubSystem
       Name		      "Actuators"
@@ -1270,7 +1006,7 @@ Library {
       RequestExecContextInheritance off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		28
+	$ObjectID		30
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyActuators.png'),'center')"
       }
@@ -1278,9 +1014,6 @@ Library {
 	Name			"Actuators"
 	Location		[0, 27, 1920, 1080]
 	Open			off
-	PortBlocksUseCompactNotation off
-	SetExecutionDomain	off
-	ExecutionDomainType	"Deduce"
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1292,7 +1025,6 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"562"
-	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  S-Function
 	  Name			  "SetMotorParameters"
@@ -1306,10 +1038,9 @@ Library {
 	  "tKTau,kTau,setBemf,bemf"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    29
+	    $ObjectID		    31
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "SetMotorParameters"
 	    Description		    "This block allows to set motor PIDs and constants such as the motor constant and the back EMF.\n"
@@ -1329,7 +1060,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      8
 	      Object {
-		$ObjectID		30
+		$ObjectID		32
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -1350,28 +1081,28 @@ Library {
 		"ized');\nend\n\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		31
+		$ObjectID		33
 		Type			"checkbox"
 		Name			"readP"
 		Prompt			"Enable P gains input signal"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		32
+		$ObjectID		34
 		Type			"checkbox"
 		Name			"readI"
 		Prompt			"Enable I gains input signal"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		33
+		$ObjectID		35
 		Type			"checkbox"
 		Name			"readD"
 		Prompt			"Enable D gains input signal"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		34
+		$ObjectID		36
 		Type			"checkbox"
 		Name			"setKTau"
 		Prompt			"Set motor constant KTau"
@@ -1380,7 +1111,7 @@ Library {
 		"   h.Parameters(6).Enabled = 'off';\nelse\n    h.Parameters(6).Enabled = 'on';\nend\n\nclear h setKTauValue"
 	      }
 	      Object {
-		$ObjectID		35
+		$ObjectID		37
 		Type			"edit"
 		Name			"kTau"
 		Prompt			"kTau"
@@ -1388,7 +1119,7 @@ Library {
 		Enabled			"off"
 	      }
 	      Object {
-		$ObjectID		36
+		$ObjectID		38
 		Type			"checkbox"
 		Name			"setBemf"
 		Prompt			"Set motor back EMF constant"
@@ -1397,7 +1128,7 @@ Library {
 		"   h.Parameters(8).Enabled = 'off';\nelse\n    h.Parameters(8).Enabled = 'on';\nend\n\nclear h setBemfValue"
 	      }
 	      Object {
-		$ObjectID		37
+		$ObjectID		39
 		Type			"edit"
 		Name			"bemf"
 		Prompt			"bemf"
@@ -1410,11 +1141,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		38
+		$ObjectID		40
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  39
+		  $ObjectID		  41
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -1422,34 +1153,34 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		40
+		$ObjectID		42
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    41
+		    $ObjectID		    43
 		    Prompt		    "Gains"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    42
+		    $ObjectID		    44
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "pidType"
 		    }
 		    Object {
-		    $ObjectID		    43
+		    $ObjectID		    45
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "readP"
 		    }
 		    Object {
-		    $ObjectID		    44
+		    $ObjectID		    46
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "readI"
 		    }
 		    Object {
-		    $ObjectID		    45
+		    $ObjectID		    47
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "readD"
 		    }
@@ -1458,29 +1189,29 @@ Library {
 		    Name		    "Container3"
 		  }
 		  Object {
-		    $ObjectID		    46
+		    $ObjectID		    48
 		    Prompt		    "Motor Torque Parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    47
+		    $ObjectID		    49
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "setKTau"
 		    }
 		    Object {
-		    $ObjectID		    48
+		    $ObjectID		    50
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "kTau"
 		    }
 		    Object {
-		    $ObjectID		    49
+		    $ObjectID		    51
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "setBemf"
 		    }
 		    Object {
-		    $ObjectID		    50
+		    $ObjectID		    52
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "bemf"
@@ -1490,10 +1221,10 @@ Library {
 		    Name		    "Container4"
 		  }
 		  Object {
-		    $ObjectID		    51
+		    $ObjectID		    53
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    52
+		    $ObjectID		    54
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -1523,7 +1254,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    53
+	    $ObjectID		    55
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "SetMotorReferences"
 	    Description		    "This block sets motor references. The type of control mode is specified as a parameter in the b"
@@ -1535,10 +1266,9 @@ Library {
 	    "bsName, WBTConfig] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimul"
 	    "inkParameters;\n    clear WBTConfig;\ncatch\nend"
 	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      54
+	      $ObjectID		      56
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "popup"
 	      Array {
@@ -1565,11 +1295,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      3
 	      Object {
-		$ObjectID		55
+		$ObjectID		57
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  56
+		  $ObjectID		  58
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -1577,21 +1307,21 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		57
+		$ObjectID		59
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  58
+		  $ObjectID		  60
 		  $ClassName		  "Simulink.dialog.parameter.Popup"
 		  Name			  "controlType"
 		}
 		Name			"ParameterGroupVar"
 	      }
 	      Object {
-		$ObjectID		59
+		$ObjectID		61
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  60
+		  $ObjectID		  62
 		  $ClassName		  "Simulink.dialog.Button"
 		  Prompt		  "Toggle Config Block Highlighting"
 		  Callback		  "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(configBl"
@@ -1609,9 +1339,6 @@ Library {
 	    Name		    "SetMotorReferences"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -1623,14 +1350,12 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "1000"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "References"
 	      SID		      "1794"
 	      Position		      [55, 48, 85, 62]
 	      ZOrder		      24
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      S-Function
@@ -1643,7 +1368,6 @@ Library {
 	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refSpeed"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -1665,7 +1389,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    61
+	    $ObjectID		    63
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "SetReferences"
 	    Description		    "This block sets the references for the robot actuators.\nThe type of control mode is specified "
@@ -1681,12 +1405,11 @@ Library {
 	    "on\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WBToolbox.BlockInitialization(gcb, gcs"
 	    ");\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear WBTConfig;\ncatch\nend"
 	    Display		    "disp(get_param(gcb,'controlType'))\n%port_label('input',1,'References')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		62
+		$ObjectID		64
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -1711,14 +1434,14 @@ Library {
 		"  error('Control Type not recognized.')\nend\n\nclear  maskStr"
 	      }
 	      Object {
-		$ObjectID		63
+		$ObjectID		65
 		Type			"edit"
 		Name			"refSpeed"
 		Prompt			"Reference Speed"
 		Value			"10*(pi/180)"
 	      }
 	      Object {
-		$ObjectID		64
+		$ObjectID		66
 		Type			"edit"
 		Name			"refAcceleration"
 		Prompt			"Reference Velocity"
@@ -1731,11 +1454,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      3
 	      Object {
-		$ObjectID		65
+		$ObjectID		67
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  66
+		  $ObjectID		  68
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -1743,24 +1466,24 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		67
+		$ObjectID		69
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.parameter.Control"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    68
+		    $ObjectID		    70
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "controlType"
 		  }
 		  Object {
-		    $ObjectID		    69
+		    $ObjectID		    71
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "refSpeed"
 		  }
 		  Object {
-		    $ObjectID		    70
+		    $ObjectID		    72
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "refAcceleration"
@@ -1770,10 +1493,10 @@ Library {
 		Name			"ParameterGroupVar"
 	      }
 	      Object {
-		$ObjectID		71
+		$ObjectID		73
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  72
+		  $ObjectID		  74
 		  $ClassName		  "Simulink.dialog.Button"
 		  Prompt		  "Toggle Config Block Highlighting"
 		  Callback		  "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(configBl"
@@ -1791,9 +1514,6 @@ Library {
 	    Name		    "SetReferences"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -1805,14 +1525,12 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "1000"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "References"
 	      SID		      "1768"
 	      Position		      [55, 48, 85, 62]
 	      ZOrder		      24
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      S-Function
@@ -1825,7 +1543,6 @@ Library {
 	      Parameters	      "'SetReferences','WBToolbox',WBTConfigParameters,configBlockAbsName,controlType,refTrajectory"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -1850,7 +1567,7 @@ Library {
       RequestExecContextInheritance off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		73
+	$ObjectID		75
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyModel.png'),'center')"
       }
@@ -1858,9 +1575,6 @@ Library {
 	Name			"Model"
 	Location		[67, 148, 2627, 1588]
 	Open			off
-	PortBlocksUseCompactNotation off
-	SetExecutionDomain	off
-	ExecutionDomainType	"Deduce"
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1872,7 +1586,6 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"250"
-	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Dynamics"
@@ -1884,7 +1597,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    74
+	    $ObjectID		    76
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('Dynamics.png'))"
 	  }
@@ -1892,9 +1605,6 @@ Library {
 	    Name		    "Dynamics"
 	    Location		    [0, 0, 2048, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -1906,7 +1616,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "239"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "CentroidalMomentum"
@@ -1917,7 +1626,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		75
+		$ObjectID		77
 		$ClassName		"Simulink.Mask"
 		Type			"CentroidalMomentum"
 		Description		"This block computed the 6 element centroidal momentum, as defined in:\n\n\"Centroidal dynamics of a hu"
@@ -1931,27 +1640,26 @@ Library {
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
-		RunInitForIconRedraw	"off"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  76
+		  $ObjectID		  78
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    77
+		    $ObjectID		    79
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
 		    }
 		    Object {
-		    $ObjectID		    78
+		    $ObjectID		    80
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    79
+		    $ObjectID		    81
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -1971,9 +1679,6 @@ Library {
 		Name			"CentroidalMomentum"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -1985,14 +1690,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"480"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1695"
 		  Position		  [20, 18, 50, 32]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2001,7 +1704,6 @@ Library {
 		  Position		  [20, 53, 50, 67]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2010,7 +1712,6 @@ Library {
 		  Position		  [20, 88, 50, 102]
 		  ZOrder		  26
 		  Port			  "3"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2019,7 +1720,6 @@ Library {
 		  Position		  [20, 123, 50, 137]
 		  ZOrder		  27
 		  Port			  "4"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -2032,7 +1732,6 @@ Library {
 		  Parameters		  "'CentroidalMomentum','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -2040,8 +1739,6 @@ Library {
 		  SID			  "1700"
 		  Position		  [315, 73, 345, 87]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -2090,7 +1787,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		80
+		$ObjectID		82
 		$ClassName		"Simulink.Mask"
 		Type			"Get Generalized Bias Forces"
 		Description		"This block retrieves the generalied bias forces of the robot.\n\nAssuming DoFs is the number of intern"
@@ -2102,27 +1799,26 @@ Library {
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
-		RunInitForIconRedraw	"off"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  81
+		  $ObjectID		  83
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    82
+		    $ObjectID		    84
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
 		    }
 		    Object {
-		    $ObjectID		    83
+		    $ObjectID		    85
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    84
+		    $ObjectID		    86
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -2142,9 +1838,6 @@ Library {
 		Name			"GetBiasForces"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -2156,14 +1849,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"395"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1776"
 		  Position		  [10, 38, 40, 52]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2172,7 +1863,6 @@ Library {
 		  Position		  [10, 68, 40, 82]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2181,7 +1871,6 @@ Library {
 		  Position		  [10, 98, 40, 112]
 		  ZOrder		  26
 		  Port			  "3"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2190,7 +1879,6 @@ Library {
 		  Position		  [10, 128, 40, 142]
 		  ZOrder		  27
 		  Port			  "4"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Constant
@@ -2209,9 +1897,6 @@ Library {
 		  ZOrder		  31
 		  ShowName		  off
 		  Gain			  "0"
-		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
 		}
 		Block {
 		  BlockType		  S-Function
@@ -2224,7 +1909,6 @@ Library {
 		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -2232,8 +1916,6 @@ Library {
 		  SID			  "1783"
 		  Position		  [300, 113, 330, 127]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -2306,7 +1988,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		85
+		$ObjectID		87
 		$ClassName		"Simulink.Mask"
 		Type			"Gravity bias"
 		Description		"This block compute the generalized bias forces due to the gravity\n\nAssuming DoFs is the number of in"
@@ -2316,27 +1998,26 @@ Library {
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
-		RunInitForIconRedraw	"off"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  86
+		  $ObjectID		  88
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    87
+		    $ObjectID		    89
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
 		    }
 		    Object {
-		    $ObjectID		    88
+		    $ObjectID		    90
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    89
+		    $ObjectID		    91
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -2356,9 +2037,6 @@ Library {
 		Name			"GetGravityForces"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -2370,14 +2048,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"395"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1784"
 		  Position		  [10, 38, 40, 52]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2386,7 +2062,6 @@ Library {
 		  Position		  [10, 68, 40, 82]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Constant
@@ -2405,9 +2080,6 @@ Library {
 		  ZOrder		  33
 		  ShowName		  off
 		  Gain			  "0"
-		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
 		}
 		Block {
 		  BlockType		  S-Function
@@ -2420,7 +2092,6 @@ Library {
 		  Parameters		  "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -2428,8 +2099,6 @@ Library {
 		  SID			  "1789"
 		  Position		  [300, 113, 330, 127]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -2509,10 +2178,9 @@ Library {
 	      Parameters	      "'InverseDynamics','WBToolbox',WBTConfigParameters,configBlockAbsName"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		90
+		$ObjectID		92
 		$ClassName		"Simulink.Mask"
 		Type			"InverseDynamics"
 		Description		"This block compute the inverse dynamics of the robot.\n\nAssuming DoFs is the number of internal degre"
@@ -2529,27 +2197,26 @@ Library {
 		Display			"port_label('output', 1, 'Torques')\n\nport_label('input', 1, 'Base pose')\nport_label('input', 2, 'Joints"
 		" configuration')\nport_label('input', 3, 'Base velocity')\nport_label('input', 4, 'Joints velocity')\nport_label('in"
 		"put', 5, 'Base acceleration')\nport_label('input', 6, 'Joints acceleration')\n"
-		RunInitForIconRedraw	"off"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  91
+		  $ObjectID		  93
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    92
+		    $ObjectID		    94
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
 		    }
 		    Object {
-		    $ObjectID		    93
+		    $ObjectID		    95
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    94
+		    $ObjectID		    96
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -2576,7 +2243,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		95
+		$ObjectID		97
 		$ClassName		"Simulink.Mask"
 		Type			"MassMatrix"
 		Description		"This block retrieves the robot mass matrix.\n\nAssuming DoFs is the number of internal degrees of free"
@@ -2586,27 +2253,26 @@ Library {
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
-		RunInitForIconRedraw	"off"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  96
+		  $ObjectID		  98
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    97
+		    $ObjectID		    99
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
 		    }
 		    Object {
-		    $ObjectID		    98
+		    $ObjectID		    100
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    99
+		    $ObjectID		    101
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -2626,9 +2292,6 @@ Library {
 		Name			"MassMatrix"
 		Location		[0, 0, 2048, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -2640,14 +2303,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"630"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1634"
 		  Position		  [20, 23, 50, 37]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2656,7 +2317,6 @@ Library {
 		  Position		  [20, 63, 50, 77]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -2669,7 +2329,6 @@ Library {
 		  Parameters		  "'MassMatrix','WBToolbox',WBTConfigParameters,configBlockAbsName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -2677,8 +2336,6 @@ Library {
 		  SID			  "1637"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -2718,7 +2375,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    100
+	    $ObjectID		    102
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('jacobian.png'))"
 	  }
@@ -2726,9 +2383,6 @@ Library {
 	    Name		    "Jacobians"
 	    Location		    [67, 148, 2627, 1588]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -2740,7 +2394,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "246"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "CentroidalTotalMomentumMatrix"
@@ -2752,10 +2405,9 @@ Library {
 	      Parameters	      "'CentroidalTotalMomentumMatrix', 'WBToolbox', WBTConfigParameters, configBlockAbsName"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		101
+		$ObjectID		103
 		$ClassName		"Simulink.Mask"
 		Type			"CentroidalTotalMomentumMatrix"
 		Description		"This block retrieves the Centroidal Total Momentum Matrix.\n\nAssuming DoFs is the number of internal "
@@ -2770,12 +2422,12 @@ Library {
 		RunInitForIconRedraw	"on"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  102
+		  $ObjectID		  104
 		  $ClassName		  "Simulink.dialog.Group"
 		  Prompt		  "%<MaskType>"
 		  Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    103
+		    $ObjectID		    105
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -2794,7 +2446,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		104
+		$ObjectID		106
 		$ClassName		"Simulink.Mask"
 		Type			"DotJNu"
 		Description		"This block computes the product between the time derivative of the Jacobian of the specified frame and"
@@ -2815,7 +2467,7 @@ Library {
 		RunInitForIconRedraw	"on"
 		Object {
 		  $PropName		  "Parameters"
-		  $ObjectID		  105
+		  $ObjectID		  107
 		  $ClassName		  "Simulink.MaskParameter"
 		  Type			  "edit"
 		  Name			  "frameName"
@@ -2826,11 +2478,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    106
+		    $ObjectID		    108
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    107
+		    $ObjectID		    109
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -2838,22 +2490,22 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    108
+		    $ObjectID		    110
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    109
+		    $ObjectID		    111
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Object {
-		    $ObjectID		    110
+		    $ObjectID		    112
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    111
+		    $ObjectID		    113
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -2875,9 +2527,6 @@ Library {
 		Name			"DotJNu"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -2889,14 +2538,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"595"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1684"
 		  Position		  [20, 13, 50, 27]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2905,7 +2552,6 @@ Library {
 		  Position		  [20, 43, 50, 57]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2914,7 +2560,6 @@ Library {
 		  Position		  [20, 73, 50, 87]
 		  ZOrder		  26
 		  Port			  "3"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -2923,7 +2568,6 @@ Library {
 		  Position		  [20, 103, 50, 117]
 		  ZOrder		  27
 		  Port			  "4"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -2936,7 +2580,6 @@ Library {
 		  Parameters		  "'DotJNu','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -2944,8 +2587,6 @@ Library {
 		  SID			  "1689"
 		  Position		  [245, 58, 275, 72]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -2994,7 +2635,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		112
+		$ObjectID		114
 		$ClassName		"Simulink.Mask"
 		Type			"Jacobian"
 		Description		"This block retrieves the Jacobian of the specified frame.\n\nAssuming DoFs is the number of internal d"
@@ -3012,7 +2653,7 @@ Library {
 		RunInitForIconRedraw	"on"
 		Object {
 		  $PropName		  "Parameters"
-		  $ObjectID		  113
+		  $ObjectID		  115
 		  $ClassName		  "Simulink.MaskParameter"
 		  Type			  "edit"
 		  Name			  "frameName"
@@ -3023,11 +2664,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    114
+		    $ObjectID		    116
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    115
+		    $ObjectID		    117
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3035,22 +2676,22 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    116
+		    $ObjectID		    118
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    117
+		    $ObjectID		    119
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Object {
-		    $ObjectID		    118
+		    $ObjectID		    120
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    119
+		    $ObjectID		    121
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -3072,9 +2713,6 @@ Library {
 		Name			"Jacobian"
 		Location		[0, 0, 2048, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3086,14 +2724,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"595"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1664"
 		  Position		  [20, 23, 50, 37]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -3102,7 +2738,6 @@ Library {
 		  Position		  [20, 63, 50, 77]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -3115,7 +2750,6 @@ Library {
 		  Parameters		  "'Jacobian','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -3123,8 +2757,6 @@ Library {
 		  SID			  "1667"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -3164,7 +2796,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    120
+	    $ObjectID		    122
 	    $ClassName		    "Simulink.Mask"
 	    Display		    "image(imread('forwardKinematics.png'))"
 	  }
@@ -3172,9 +2804,6 @@ Library {
 	    Name		    "Kinematics"
 	    Location		    [67, 148, 2627, 1588]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -3186,7 +2815,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "400"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "ForwardKinematics"
@@ -3197,7 +2825,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		121
+		$ObjectID		123
 		$ClassName		"Simulink.Mask"
 		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -3215,7 +2843,7 @@ Library {
 		RunInitForIconRedraw	"on"
 		Object {
 		  $PropName		  "Parameters"
-		  $ObjectID		  122
+		  $ObjectID		  124
 		  $ClassName		  "Simulink.MaskParameter"
 		  Type			  "edit"
 		  Name			  "frameName"
@@ -3226,11 +2854,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    123
+		    $ObjectID		    125
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    124
+		    $ObjectID		    126
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3238,22 +2866,22 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    125
+		    $ObjectID		    127
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    126
+		    $ObjectID		    128
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frameName"
 		    }
 		    Object {
-		    $ObjectID		    127
+		    $ObjectID		    129
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    128
+		    $ObjectID		    130
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -3275,9 +2903,6 @@ Library {
 		Name			"ForwardKinematics"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3289,14 +2914,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"595"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Base Pose"
 		  SID			  "1648"
 		  Position		  [20, 23, 50, 37]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -3305,7 +2928,6 @@ Library {
 		  Position		  [20, 63, 50, 77]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -3318,7 +2940,6 @@ Library {
 		  Parameters		  "'ForwardKinematics','WBToolbox',WBTConfigParameters,configBlockAbsName,frameName"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -3326,8 +2947,6 @@ Library {
 		  SID			  "1651"
 		  Position		  [245, 48, 275, 62]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -3369,7 +2988,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		129
+		$ObjectID		131
 		$ClassName		"Simulink.Mask"
 		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -3394,21 +3013,21 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  7
 		  Object {
-		    $ObjectID		    130
+		    $ObjectID		    132
 		    Type		    "edit"
 		    Name		    "baseFrame"
 		    Prompt		    "Base Frame"
 		    Value		    "'root_link'"
 		  }
 		  Object {
-		    $ObjectID		    131
+		    $ObjectID		    133
 		    Type		    "edit"
 		    Name		    "endEffFrame"
 		    Prompt		    "End Effector frame"
 		    Value		    "'l_sole'"
 		  }
 		  Object {
-		    $ObjectID		    132
+		    $ObjectID		    134
 		    Type		    "popup"
 		    Array {
 		    Type		    "Cell"
@@ -3422,7 +3041,7 @@ Library {
 		    Value		    "Full Constraint (Position and Orientation)"
 		  }
 		  Object {
-		    $ObjectID		    133
+		    $ObjectID		    135
 		    Type		    "edit"
 		    Name		    "robotName"
 		    Prompt		    "Robot Port Name"
@@ -3430,7 +3049,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    134
+		    $ObjectID		    136
 		    Type		    "edit"
 		    Name		    "localName"
 		    Prompt		    "Model Name"
@@ -3438,7 +3057,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    135
+		    $ObjectID		    137
 		    Type		    "edit"
 		    Name		    "wbiFile"
 		    Prompt		    "WBI filename"
@@ -3446,7 +3065,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    136
+		    $ObjectID		    138
 		    Type		    "edit"
 		    Name		    "wbiList"
 		    Prompt		    "WBI list name"
@@ -3459,11 +3078,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    137
+		    $ObjectID		    139
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    138
+		    $ObjectID		    140
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3471,34 +3090,34 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    139
+		    $ObjectID		    141
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    140
+		    $ObjectID		    142
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    141
+		    $ObjectID		    143
 		    Prompt		    "Block parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    142
+		    $ObjectID		    144
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "baseFrame"
 		    }
 		    Object {
-		    $ObjectID		    143
+		    $ObjectID		    145
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "endEffFrame"
 		    }
 		    Object {
-		    $ObjectID		    144
+		    $ObjectID		    146
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "optOption"
 		    }
@@ -3507,25 +3126,25 @@ Library {
 		    Name		    "Container8"
 		    }
 		    Object {
-		    $ObjectID		    145
+		    $ObjectID		    147
 		    Prompt		    "WBI parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    146
+		    $ObjectID		    148
 		    Name		    "robotName"
 		    }
 		    Object {
-		    $ObjectID		    147
+		    $ObjectID		    149
 		    Name		    "localName"
 		    }
 		    Object {
-		    $ObjectID		    148
+		    $ObjectID		    150
 		    Name		    "wbiFile"
 		    }
 		    Object {
-		    $ObjectID		    149
+		    $ObjectID		    151
 		    Name		    "wbiList"
 		    }
 		    PropName		    "DialogControls"
@@ -3545,9 +3164,6 @@ Library {
 		Name			"InverseKinematics"
 		Location		[0, 23, 1280, 744]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3559,14 +3175,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"312"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Desired frame pose"
 		  SID			  "1759"
 		  Position		  [10, 13, 40, 27]
 		  ZOrder		  26
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -3575,7 +3189,6 @@ Library {
 		  Position		  [10, 43, 40, 57]
 		  ZOrder		  22
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -3584,7 +3197,6 @@ Library {
 		  Position		  [10, 73, 40, 87]
 		  ZOrder		  24
 		  Port			  "3"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -3597,7 +3209,6 @@ Library {
 		  Parameters		  "'InverseKinematics',robotName,localName,wbiFile,wbiList,baseFrame, endEffFrame,optOption"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -3605,8 +3216,6 @@ Library {
 		  SID			  "1758"
 		  Position		  [280, 23, 310, 37]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Block {
 		  BlockType		  Outport
@@ -3615,8 +3224,6 @@ Library {
 		  Position		  [280, 68, 310, 82]
 		  ZOrder		  27
 		  Port			  "2"
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -3665,7 +3272,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		150
+		$ObjectID		152
 		$ClassName		"Simulink.Mask"
 		Type			"RelativeTransform"
 		Description		"This block calculates the relative transform between two frames.\n\nAssuming DoFs is the number of int"
@@ -3683,14 +3290,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    151
+		    $ObjectID		    153
 		    Type		    "edit"
 		    Name		    "frame1"
 		    Prompt		    "Frame1 name"
 		    Value		    "'frame1'"
 		  }
 		  Object {
-		    $ObjectID		    152
+		    $ObjectID		    154
 		    Type		    "edit"
 		    Name		    "frame2"
 		    Prompt		    "Frame2 name"
@@ -3702,11 +3309,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    153
+		    $ObjectID		    155
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    154
+		    $ObjectID		    156
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3714,27 +3321,27 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    155
+		    $ObjectID		    157
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Array {
 		    Type		    "Simulink.dialog.Control"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    156
+		    $ObjectID		    158
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frame1"
 		    }
 		    Object {
-		    $ObjectID		    157
+		    $ObjectID		    159
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "frame2"
 		    }
 		    Object {
-		    $ObjectID		    158
+		    $ObjectID		    160
 		    $ClassName		    "Simulink.dialog.Group"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    159
+		    $ObjectID		    161
 		    $ClassName		    "Simulink.dialog.Button"
 		    Prompt		    "Toggle Config Block Highlighting"
 		    Callback		    "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(conf"
@@ -3756,9 +3363,6 @@ Library {
 		Name			"RelativeTransform"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3770,14 +3374,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"834"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Joint configuration"
 		  SID			  "1800"
 		  Position		  [45, 48, 75, 62]
 		  ZOrder		  22
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -3790,7 +3392,6 @@ Library {
 		  Parameters		  "'RelativeTransform','WBToolbox',WBTConfigParameters,configBlockAbsName,frame1, frame2"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -3798,8 +3399,6 @@ Library {
 		  SID			  "1803"
 		  Position		  [225, 48, 255, 62]
 		  ZOrder		  25
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  4
@@ -3832,7 +3431,7 @@ Library {
 	      RequestExecContextInheritance off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		160
+		$ObjectID		162
 		$ClassName		"Simulink.Mask"
 		Type			"ForwardKinematics"
 		Description		"This block retrieves the forward kinematics of the specified frame.\n\nAssuming DoFs is the number of "
@@ -3859,14 +3458,14 @@ Library {
 		  Type			  "Simulink.MaskParameter"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    161
+		    $ObjectID		    163
 		    Type		    "edit"
 		    Name		    "solverName"
 		    Prompt		    "Solver Name"
 		    Value		    "'/cartesianSolver'"
 		  }
 		  Object {
-		    $ObjectID		    162
+		    $ObjectID		    164
 		    Type		    "edit"
 		    Name		    "dofs"
 		    Prompt		    "#Dofs"
@@ -3874,7 +3473,7 @@ Library {
 		    Tunable		    "off"
 		  }
 		  Object {
-		    $ObjectID		    163
+		    $ObjectID		    165
 		    Type		    "popup"
 		    Array {
 		    Type		    "Cell"
@@ -3893,11 +3492,11 @@ Library {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    164
+		    $ObjectID		    166
 		    Prompt		    "%<MaskType>"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    165
+		    $ObjectID		    167
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "%<MaskDescription>"
 		    Name		    "DescTextVar"
@@ -3905,33 +3504,33 @@ Library {
 		    Name		    "DescGroupVar"
 		  }
 		  Object {
-		    $ObjectID		    166
+		    $ObjectID		    168
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    167
+		    $ObjectID		    169
 		    $ClassName		    "Simulink.dialog.TabContainer"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    168
+		    $ObjectID		    170
 		    $ClassName		    "Simulink.dialog.Tab"
 		    Prompt		    "Block parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    169
+		    $ObjectID		    171
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "solverName"
 		    }
 		    Object {
-		    $ObjectID		    170
+		    $ObjectID		    172
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "dofs"
 		    }
 		    Object {
-		    $ObjectID		    171
+		    $ObjectID		    173
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "optOption"
 		    }
@@ -3950,9 +3549,6 @@ Library {
 		Name			"RemoteInverseKinematics"
 		Location		[0, 27, 1920, 1080]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3964,14 +3560,12 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"469"
-		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
 		  Name			  "Desired frame pose"
 		  SID			  "1762"
 		  Position		  [10, 23, 40, 37]
 		  ZOrder		  26
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -3980,7 +3574,6 @@ Library {
 		  Position		  [10, 68, 40, 82]
 		  ZOrder		  24
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  S-Function
@@ -3993,7 +3586,6 @@ Library {
 		  Parameters		  "'RemoteInverseKinematics',solverName, dofs, optOption"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		}
 		Block {
 		  BlockType		  Outport
@@ -4001,8 +3593,6 @@ Library {
 		  SID			  "1765"
 		  Position		  [285, 48, 315, 62]
 		  ZOrder		  27
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
 		  ZOrder		  1
@@ -4043,7 +3633,7 @@ Library {
       RequestExecContextInheritance off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		172
+	$ObjectID		174
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('wholeBodyStates.png'),'center');"
       }
@@ -4051,9 +3641,6 @@ Library {
 	Name			"States"
 	Location		[2568, 323, 4549, 1448]
 	Open			off
-	PortBlocksUseCompactNotation off
-	SetExecutionDomain	off
-	ExecutionDomainType	"Deduce"
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -4065,7 +3652,6 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"600"
-	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "GetLimits"
@@ -4077,7 +3663,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    173
+	    $ObjectID		    175
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "GetLimits"
 	    Description		    "This block provides the joint limits gathering data from either the Robot's Control Board or UR"
@@ -4096,12 +3682,11 @@ Library {
 	    SelfModifiable	    "on"
 	    Display		    "fprintf('%s\\n(%s)',get_param(gcb,'limitsType'),get_param(gcb,'limitsSource'))\n\nport_label('outpu"
 	    "t',1,'Min')\nport_label('output',2,'Max')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      2
 	      Object {
-		$ObjectID		174
+		$ObjectID		176
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4122,7 +3707,7 @@ Library {
 		"imit blockParameters limitsTypeBlockParam"
 	      }
 	      Object {
-		$ObjectID		175
+		$ObjectID		177
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4147,11 +3732,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      3
 	      Object {
-		$ObjectID		176
+		$ObjectID		178
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  177
+		  $ObjectID		  179
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4159,17 +3744,17 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		178
+		$ObjectID		180
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.parameter.Popup"
 		  Dimension		  2
 		  Object {
-		    $ObjectID		    179
+		    $ObjectID		    181
 		    Name		    "limitsSource"
 		  }
 		  Object {
-		    $ObjectID		    180
+		    $ObjectID		    182
 		    Name		    "limitsType"
 		  }
 		  PropName		  "DialogControls"
@@ -4177,10 +3762,10 @@ Library {
 		Name			"ParameterGroupVar"
 	      }
 	      Object {
-		$ObjectID		181
+		$ObjectID		183
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  182
+		  $ObjectID		  184
 		  $ClassName		  "Simulink.dialog.Button"
 		  Prompt		  "Toggle Config Block Highlighting"
 		  Callback		  "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(configBl"
@@ -4198,9 +3783,6 @@ Library {
 	    Name		    "GetLimits"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4213,7 +3795,6 @@ Library {
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "966"
 	    SIDHighWatermark	    "1773"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "S-Function"
@@ -4225,7 +3806,6 @@ Library {
 	      Parameters	      "'GetLimits','WBToolbox',WBTConfigParameters,configBlockAbsName,limitsType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -4233,8 +3813,6 @@ Library {
 	      SID		      "1690:1692"
 	      Position		      [220, 43, 250, 57]
 	      ZOrder		      25
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -4243,8 +3821,6 @@ Library {
 	      Position		      [220, 78, 250, 92]
 	      ZOrder		      26
 	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -4273,7 +3849,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    183
+	    $ObjectID		    185
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "GetMeasurement"
 	    Description		    "This block gathers the measurement of the specified type.\n\nAssuming DoFs is the number of deg"
@@ -4284,10 +3860,9 @@ Library {
 	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
 	    "   clear WBTConfig;\ncatch\nend"
 	    Display		    "port_label('output', 1, get_param(gcb,'measuredType'))"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      184
+	      $ObjectID		      186
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "popup"
 	      Array {
@@ -4314,11 +3889,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      3
 	      Object {
-		$ObjectID		185
+		$ObjectID		187
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  186
+		  $ObjectID		  188
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4326,21 +3901,21 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		187
+		$ObjectID		189
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  188
+		  $ObjectID		  190
 		  $ClassName		  "Simulink.dialog.parameter.Popup"
 		  Name			  "measuredType"
 		}
 		Name			"ParameterGroupVar"
 	      }
 	      Object {
-		$ObjectID		189
+		$ObjectID		191
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  190
+		  $ObjectID		  192
 		  $ClassName		  "Simulink.dialog.Button"
 		  Prompt		  "Toggle Config Block Highlighting"
 		  Callback		  "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(configBl"
@@ -4358,9 +3933,6 @@ Library {
 	    Name		    "GetMeasurement"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4372,7 +3944,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "1000"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "S-Function"
@@ -4384,7 +3955,6 @@ Library {
 	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -4392,8 +3962,6 @@ Library {
 	      SID		      "1673"
 	      Position		      [210, 48, 240, 62]
 	      ZOrder		      25
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -4415,7 +3983,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    191
+	    $ObjectID		    193
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "GetMeasurement"
 	    Description		    "This block gathers the measurement of the specified type.\n\nAssuming DoFs is the number of deg"
@@ -4426,10 +3994,9 @@ Library {
 	    "] = WBToolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n "
 	    "   clear WBTConfig;\ncatch\nend"
 	    Display		    "port_label('output', 1, get_param(gcb,'measuredType'))"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      192
+	      $ObjectID		      194
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "popup"
 	      Array {
@@ -4461,11 +4028,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      3
 	      Object {
-		$ObjectID		193
+		$ObjectID		195
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  194
+		  $ObjectID		  196
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4473,21 +4040,21 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		195
+		$ObjectID		197
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  196
+		  $ObjectID		  198
 		  $ClassName		  "Simulink.dialog.parameter.Popup"
 		  Name			  "measuredType"
 		}
 		Name			"ParameterGroupVar"
 	      }
 	      Object {
-		$ObjectID		197
+		$ObjectID		199
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  198
+		  $ObjectID		  200
 		  $ClassName		  "Simulink.dialog.Button"
 		  Prompt		  "Toggle Config Block Highlighting"
 		  Callback		  "[configBlock, ~] = WBToolbox.BlockInitialization(gcb, gcs);\n\ntry\n    if (strcmp(get_param(configBl"
@@ -4505,9 +4072,6 @@ Library {
 	    Name		    "GetMotorMeasurement"
 	    Location		    [0, 27, 1920, 1080]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4519,7 +4083,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "1000"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      S-Function
 	      Name		      "S-Function"
@@ -4531,7 +4094,6 @@ Library {
 	      Parameters	      "'GetMeasurement','WBToolbox',WBTConfigParameters,configBlockAbsName,measuredType"
 	      SFunctionDeploymentMode off
 	      EnableBusSupport	      off
-	      SFcnIsStateOwnerBlock   off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -4539,8 +4101,6 @@ Library {
 	      SID		      "1798"
 	      Position		      [210, 48, 240, 62]
 	      ZOrder		      25
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -4565,17 +4125,14 @@ Library {
       RequestExecContextInheritance off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		199
+	$ObjectID		201
 	$ClassName		"Simulink.Mask"
 	Display			"image(imread('utilities.png'))"
       }
       System {
 	Name			"Utilities"
-	Location		[2568, 323, 4549, 1448]
+	Location		[42, 23, 1792, 1120]
 	Open			off
-	PortBlocksUseCompactNotation off
-	SetExecutionDomain	off
-	ExecutionDomainType	"Deduce"
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -4586,8 +4143,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"175"
-	SimulinkSubDomain	"Simulink"
+	ZoomFactor		"154"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Configuration"
@@ -4601,16 +4157,15 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    200
+	    $ObjectID		    202
 	    $ClassName		    "Simulink.Mask"
 	    SelfModifiable	    "on"
 	    Display		    "disp('Config')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      8
 	      Object {
-		$ObjectID		201
+		$ObjectID		203
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -4637,7 +4192,7 @@ Library {
 		"h currentConfigSource"
 	      }
 	      Object {
-		$ObjectID		202
+		$ObjectID		204
 		Type			"edit"
 		Name			"ConfigObject"
 		Prompt			"Name of the object"
@@ -4649,42 +4204,42 @@ Library {
 		"oolbox.ConfigurationToMask(gcb,currentConfigObject);\n\nclear currentConfigObject;"
 	      }
 	      Object {
-		$ObjectID		203
+		$ObjectID		205
 		Type			"edit"
 		Name			"RobotName"
 		Prompt			"Robot Name"
 		Value			"'icubSim'"
 	      }
 	      Object {
-		$ObjectID		204
+		$ObjectID		206
 		Type			"edit"
 		Name			"UrdfFile"
 		Prompt			"Urdf File"
 		Value			"'model.urdf'"
 	      }
 	      Object {
-		$ObjectID		205
+		$ObjectID		207
 		Type			"edit"
 		Name			"ControlledJoints"
 		Prompt			"Controlled Joints"
 		Value			"{'l_elbow','l_shoulder_pitch','torso_roll'}"
 	      }
 	      Object {
-		$ObjectID		206
+		$ObjectID		208
 		Type			"edit"
 		Name			"ControlBoardsNames"
 		Prompt			"Control Boards Names"
 		Value			"{'left_arm','right_arm','torso'}"
 	      }
 	      Object {
-		$ObjectID		207
+		$ObjectID		209
 		Type			"edit"
 		Name			"LocalName"
 		Prompt			"Local Name"
 		Value			"'WBT'"
 	      }
 	      Object {
-		$ObjectID		208
+		$ObjectID		210
 		Type			"edit"
 		Name			"GravityVector"
 		Prompt			"Gravity Vector"
@@ -4696,11 +4251,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		209
+		$ObjectID		211
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  210
+		  $ObjectID		  212
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -4708,28 +4263,28 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		211
+		$ObjectID		213
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  212
+		  $ObjectID		  214
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    213
+		    $ObjectID		    215
 		    Prompt		    "From"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    214
+		    $ObjectID		    216
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "ConfigSource"
 		    }
 		    Object {
-		    $ObjectID		    215
+		    $ObjectID		    217
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "ConfigObject"
@@ -4739,38 +4294,38 @@ Library {
 		    Name		    "TabFrom"
 		    }
 		    Object {
-		    $ObjectID		    216
+		    $ObjectID		    218
 		    Prompt		    "Data"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Edit"
 		    Dimension		    6
 		    Object {
-		    $ObjectID		    217
+		    $ObjectID		    219
 		    PromptLocation	    "left"
 		    Name		    "RobotName"
 		    }
 		    Object {
-		    $ObjectID		    218
+		    $ObjectID		    220
 		    PromptLocation	    "left"
 		    Name		    "UrdfFile"
 		    }
 		    Object {
-		    $ObjectID		    219
+		    $ObjectID		    221
 		    PromptLocation	    "left"
 		    Name		    "ControlledJoints"
 		    }
 		    Object {
-		    $ObjectID		    220
+		    $ObjectID		    222
 		    PromptLocation	    "left"
 		    Name		    "ControlBoardsNames"
 		    }
 		    Object {
-		    $ObjectID		    221
+		    $ObjectID		    223
 		    PromptLocation	    "left"
 		    Name		    "LocalName"
 		    }
 		    Object {
-		    $ObjectID		    222
+		    $ObjectID		    224
 		    PromptLocation	    "left"
 		    Name		    "GravityVector"
 		    }
@@ -4791,9 +4346,6 @@ Library {
 	    Name		    "Configuration"
 	    Location		    [550, 86, 1677, 725]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4806,7 +4358,6 @@ Library {
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "600"
 	    SIDHighWatermark	    "70"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Constant
 	      Name		      "ImConfig"
@@ -4842,12 +4393,11 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    223
+	    $ObjectID		    225
 	    $ClassName		    "Simulink.Mask"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      224
+	      $ObjectID		      226
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -4859,9 +4409,6 @@ Library {
 	    Name		    "DampPinv"
 	    Location		    [0, 29, 1280, 744]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4873,14 +4420,12 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "100"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "mat"
 	      SID		      "105"
 	      Position		      [50, 53, 80, 67]
 	      ZOrder		      -1
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
@@ -4889,7 +4434,6 @@ Library {
 	      Position		      [50, 93, 80, 107]
 	      ZOrder		      -2
 	      Port		      "2"
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -4900,7 +4444,7 @@ Library {
 	      ZOrder		      -4
 	      LibraryVersion	      "1.32"
 	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
+	      PermitHierarchicalResolution "ParametersOnly"
 	      TreatAsAtomicUnit	      on
 	      RequestExecContextInheritance off
 	      SFBlockType	      "MATLAB Function"
@@ -4908,9 +4452,6 @@ Library {
 		Name			"Damped Pseudo Inverse"
 		Location		[12, 45, 1279, 3773]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -4922,15 +4463,13 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1631"
-		SimulinkSubDomain	"Simulink"
+		SIDHighWatermark	"1634"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
 		  SID			  "107::1"
 		  Position		  [20, 101, 40, 119]
 		  ZOrder		  -1
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -4939,30 +4478,28 @@ Library {
 		  Position		  [20, 136, 40, 154]
 		  ZOrder		  11
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1630"
+		  SID			  "107::1633"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  110
+		  ZOrder		  113
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1629"
-		  Tag			  "Stateflow S-Function 6"
+		  SID			  "107::1632"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  109
+		  ZOrder		  112
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		  Port {
 		    PortNumber		    2
 		    Name		    "DPinv"
@@ -4971,9 +4508,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1631"
+		  SID			  "107::1634"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  111
+		  ZOrder		  114
 		}
 		Block {
 		  BlockType		  Outport
@@ -4981,11 +4518,9 @@ Library {
 		  SID			  "107::5"
 		  Position		  [460, 101, 480, 119]
 		  ZOrder		  -6
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
-		  ZOrder		  81
+		  ZOrder		  86
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -4993,7 +4528,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  82
+		  ZOrder		  87
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -5001,7 +4536,7 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  83
+		  ZOrder		  88
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -5009,14 +4544,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  84
+		  ZOrder		  89
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  85
+		  ZOrder		  90
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -5030,8 +4565,6 @@ Library {
 	      SID		      "108"
 	      Position		      [225, 73, 255, 87]
 	      ZOrder		      -5
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -5068,10 +4601,9 @@ Library {
 	  Parameters		  "'DiscreteFilter','WBToolbox',filterDataStruct"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    225
+	    $ObjectID		    227
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "DiscreteFilter"
 	    Description		    "This block wraps the Filter, FirstOrderLowPassFilter, and MedianFilter from iCub::ctrl."
@@ -5080,12 +4612,11 @@ Library {
 	    "umCoeffs;\nfilterDataStruct.DenCoeffs = denCoeffs;\nfilterDataStruct.y0 = y0;\nfilterDataStruct.u0 = u0;\nfilterD"
 	    "ataStruct.InitStatus = uint8(initStatus);"
 	    Display		    "disp('Filter')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      9
 	      Object {
-		$ObjectID		226
+		$ObjectID		228
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -5110,21 +4641,21 @@ Library {
 		"lterType initStatus p howToCoeffs vis_init;"
 	      }
 	      Object {
-		$ObjectID		227
+		$ObjectID		229
 		Type			"edit"
 		Name			"numCoeffs"
 		Prompt			"Numerator Coefficients*"
 		Value			"[0]"
 	      }
 	      Object {
-		$ObjectID		228
+		$ObjectID		230
 		Type			"edit"
 		Name			"denCoeffs"
 		Prompt			"Denominator Coefficients*"
 		Value			"[0]"
 	      }
 	      Object {
-		$ObjectID		229
+		$ObjectID		231
 		Type			"edit"
 		Name			"Fc"
 		Prompt			"Cut Frequency (Hz)"
@@ -5132,7 +4663,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		230
+		$ObjectID		232
 		Type			"edit"
 		Name			"Ts"
 		Prompt			"Sampling time (s)"
@@ -5140,7 +4671,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		231
+		$ObjectID		233
 		Type			"edit"
 		Name			"orderMedianFilter"
 		Prompt			"Order"
@@ -5148,7 +4679,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		232
+		$ObjectID		234
 		Type			"checkbox"
 		Name			"initStatus"
 		Prompt			"Define initial conditions"
@@ -5160,7 +4691,7 @@ Library {
 		"atus visibilities filterType;"
 	      }
 	      Object {
-		$ObjectID		233
+		$ObjectID		235
 		Type			"edit"
 		Name			"y0"
 		Prompt			"Output y0"
@@ -5168,7 +4699,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		234
+		$ObjectID		236
 		Type			"edit"
 		Name			"u0"
 		Prompt			"Input u0"
@@ -5181,11 +4712,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		235
+		$ObjectID		237
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  236
+		  $ObjectID		  238
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5193,68 +4724,68 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		237
+		$ObjectID		239
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Control"
 		  Dimension		  8
 		  Object {
-		    $ObjectID		    238
+		    $ObjectID		    240
 		    $ClassName		    "Simulink.dialog.parameter.Popup"
 		    Name		    "filterType"
 		  }
 		  Object {
-		    $ObjectID		    239
+		    $ObjectID		    241
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "numCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    240
+		    $ObjectID		    242
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "denCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    241
+		    $ObjectID		    243
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "* The coefficients are ordered in increasing power of z^-1"
 		    Name		    "howToCoeffs"
 		  }
 		  Object {
-		    $ObjectID		    242
+		    $ObjectID		    244
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "Fc"
 		  }
 		  Object {
-		    $ObjectID		    243
+		    $ObjectID		    245
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "Ts"
 		  }
 		  Object {
-		    $ObjectID		    244
+		    $ObjectID		    246
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "orderMedianFilter"
 		  }
 		  Object {
-		    $ObjectID		    245
+		    $ObjectID		    247
 		    $ClassName		    "Simulink.dialog.Group"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    246
+		    $ObjectID		    248
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "initStatus"
 		    }
 		    Object {
-		    $ObjectID		    247
+		    $ObjectID		    249
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "y0"
 		    }
 		    Object {
-		    $ObjectID		    248
+		    $ObjectID		    250
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "u0"
 		    }
@@ -5280,7 +4811,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    249
+	    $ObjectID		    251
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "MatchSignalSizes"
 	    Description		    "It can happen on particular cases that the Simulink engine cannot propagate the right sizes fro"
@@ -5289,15 +4820,11 @@ Library {
 	    "nly 1D vectors."
 	    Display		    "port_label('input', 1, 'Reference')\nport_label('input', 2, 'Signal')\nport_label('output', 1, 'Sig"
 	    "nal')"
-	    RunInitForIconRedraw    "off"
 	  }
 	  System {
 	    Name		    "MatchSignalSizes"
 	    Location		    [548, 183, 3416, 1872]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -5309,7 +4836,6 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "1000"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Reference"
@@ -5317,7 +4843,6 @@ Library {
 	      Position		      [315, 178, 345, 192]
 	      ZOrder		      240
 	      NamePlacement	      "alternate"
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
@@ -5326,7 +4851,6 @@ Library {
 	      Position		      [315, 198, 345, 212]
 	      ZOrder		      241
 	      Port		      "2"
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      DotProduct
@@ -5349,8 +4873,6 @@ Library {
 	      SID		      "1823"
 	      Position		      [410, 243, 440, 257]
 	      ZOrder		      244
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      27
@@ -5397,10 +4919,9 @@ Library {
 	  "ves,explicitInitialValue,externalSettlingTime,resetOnSettlingTime"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    250
+	    $ObjectID		    252
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "MinimumJerkTrajectoryGenerator"
 	    Description		    "This block wraps the minJerkTrajGen class from iCub::ctrl::minJerkTrajGen.\n\nThe Minimum Jerk "
@@ -5424,7 +4945,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      7
 	      Object {
-		$ObjectID		251
+		$ObjectID		253
 		Type			"checkbox"
 		Name			"externalSettlingTime"
 		Prompt			"External Settling Time"
@@ -5435,21 +4956,21 @@ Library {
 		"SettlingTime"
 	      }
 	      Object {
-		$ObjectID		252
+		$ObjectID		254
 		Type			"edit"
 		Name			"settlingTime"
 		Prompt			"Settling Time"
 		Value			"3"
 	      }
 	      Object {
-		$ObjectID		253
+		$ObjectID		255
 		Type			"edit"
 		Name			"sampleTime"
 		Prompt			"Sample Time"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		254
+		$ObjectID		256
 		Type			"checkbox"
 		Name			"resetOnSettlingTime"
 		Prompt			"Reset on Settling Time Changes"
@@ -5457,21 +4978,21 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		255
+		$ObjectID		257
 		Type			"checkbox"
 		Name			"firstDerivatives"
 		Prompt			"Output First Derivative"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		256
+		$ObjectID		258
 		Type			"checkbox"
 		Name			"secondDerivatives"
 		Prompt			"Output Second Derivative"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		257
+		$ObjectID		259
 		Type			"checkbox"
 		Name			"explicitInitialValue"
 		Prompt			"Explicit Initial Value"
@@ -5484,11 +5005,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		258
+		$ObjectID		260
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  259
+		  $ObjectID		  261
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5496,38 +5017,38 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		260
+		$ObjectID		262
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  261
+		  $ObjectID		  263
 		  $ClassName		  "Simulink.dialog.TabContainer"
 		  Array {
 		    Type		    "Simulink.dialog.Tab"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    262
+		    $ObjectID		    264
 		    Prompt		    "Trajectory Parameters"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.Control"
 		    Dimension		    4
 		    Object {
-		    $ObjectID		    263
+		    $ObjectID		    265
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "externalSettlingTime"
 		    }
 		    Object {
-		    $ObjectID		    264
+		    $ObjectID		    266
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "settlingTime"
 		    }
 		    Object {
-		    $ObjectID		    265
+		    $ObjectID		    267
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    Name		    "sampleTime"
 		    }
 		    Object {
-		    $ObjectID		    266
+		    $ObjectID		    268
 		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
 		    Name		    "resetOnSettlingTime"
 		    }
@@ -5536,21 +5057,21 @@ Library {
 		    Name		    "Tab1"
 		    }
 		    Object {
-		    $ObjectID		    267
+		    $ObjectID		    269
 		    Prompt		    "Input/Output"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    268
+		    $ObjectID		    270
 		    Name		    "firstDerivatives"
 		    }
 		    Object {
-		    $ObjectID		    269
+		    $ObjectID		    271
 		    Name		    "secondDerivatives"
 		    }
 		    Object {
-		    $ObjectID		    270
+		    $ObjectID		    272
 		    Name		    "explicitInitialValue"
 		    }
 		    PropName		    "DialogControls"
@@ -5578,10 +5099,9 @@ Library {
 	  Parameters		  "'QpOases','WBToolbox',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    271
+	    $ObjectID		    273
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "QP"
 	    Description		    "This block solves a QP problem using the qpOASES library:\n\nx = argmin 0.5 * x' * H * x + c' *"
@@ -5598,42 +5118,42 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		272
+		$ObjectID		274
 		Type			"checkbox"
 		Name			"lbA"
 		Prompt			"Accept constraints lower bound input (lbA)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		273
+		$ObjectID		275
 		Type			"checkbox"
 		Name			"ubA"
 		Prompt			"Accept constraints upper bound input (ubA)"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		274
+		$ObjectID		276
 		Type			"checkbox"
 		Name			"lb"
 		Prompt			"Accept lower bound input (lb)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		275
+		$ObjectID		277
 		Type			"checkbox"
 		Name			"ub"
 		Prompt			"Accept upper bound input (ub)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		276
+		$ObjectID		278
 		Type			"checkbox"
 		Name			"computeObjVal"
 		Prompt			"Output the value of the objective function"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		277
+		$ObjectID		279
 		Type			"checkbox"
 		Name			"stopIfFails"
 		Prompt			"Stop the simulation if the solver fails"
@@ -5645,11 +5165,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		278
+		$ObjectID		280
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  279
+		  $ObjectID		  281
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5657,23 +5177,23 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		280
+		$ObjectID		282
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    281
+		    $ObjectID		    283
 		    Prompt		    "Constraints bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    282
+		    $ObjectID		    284
 		    Name		    "lbA"
 		    }
 		    Object {
-		    $ObjectID		    283
+		    $ObjectID		    285
 		    Name		    "ubA"
 		    }
 		    PropName		    "DialogControls"
@@ -5681,17 +5201,17 @@ Library {
 		    Name		    "constraintsBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    284
+		    $ObjectID		    286
 		    Prompt		    "Simple bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    285
+		    $ObjectID		    287
 		    Name		    "lb"
 		    }
 		    Object {
-		    $ObjectID		    286
+		    $ObjectID		    288
 		    Name		    "ub"
 		    }
 		    PropName		    "DialogControls"
@@ -5699,17 +5219,17 @@ Library {
 		    Name		    "simpleBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    287
+		    $ObjectID		    289
 		    Prompt		    "Other"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    288
+		    $ObjectID		    290
 		    Name		    "computeObjVal"
 		    }
 		    Object {
-		    $ObjectID		    289
+		    $ObjectID		    291
 		    Name		    "stopIfFails"
 		    }
 		    PropName		    "DialogControls"
@@ -5738,19 +5258,17 @@ Library {
 	  Parameters		  "'RealTimeSynchronizer','WBToolbox',period"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    290
+	    $ObjectID		    292
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Real Time Synchronizer"
 	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
 	    "conds).\nThe bigger the period the more probable \nis that Simulink can remain synched with it.\n"
 	    Display		    "disp('Real Time Synchronizer')"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      291
+	      $ObjectID		      293
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "period"
@@ -5772,35 +5290,33 @@ Library {
 	  Parameters		  "'SimulatorSynchronizer','WBToolbox',period, serverPortName, clientPortName"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    292
+	    $ObjectID		    294
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Simulator Synchronizer"
 	    Description		    "This block synchronizes with the external simulation on a simulator \n(only Gazebo is supported"
 	    " at the moment).\n\n"
 	    Display		    "disp('Simulator Synchronizer')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		293
+		$ObjectID		295
 		Type			"edit"
 		Name			"period"
 		Prompt			"Controller Period (in seconds)"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		294
+		$ObjectID		296
 		Type			"edit"
 		Name			"serverPortName"
 		Prompt			"Server Port Name"
 		Value			"'/clock/rpc'"
 	      }
 	      Object {
-		$ObjectID		295
+		$ObjectID		297
 		Type			"edit"
 		Name			"clientPortName"
 		Prompt			"Client Port Name"
@@ -5821,12 +5337,11 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    296
+	    $ObjectID		    298
 	    $ClassName		    "Simulink.Mask"
-	    RunInitForIconRedraw    "off"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      297
+	      $ObjectID		      299
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -5838,9 +5353,6 @@ Library {
 	    Name		    "TruncPinv"
 	    Location		    [0, 29, 1280, 744]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -5852,14 +5364,12 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "100"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "S"
 	      SID		      "110"
 	      Position		      [50, 53, 80, 67]
 	      ZOrder		      -1
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
@@ -5868,7 +5378,6 @@ Library {
 	      Position		      [50, 93, 80, 107]
 	      ZOrder		      -2
 	      Port		      "2"
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -5879,7 +5388,7 @@ Library {
 	      ZOrder		      -4
 	      LibraryVersion	      "1.32"
 	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
+	      PermitHierarchicalResolution "ParametersOnly"
 	      TreatAsAtomicUnit	      on
 	      RequestExecContextInheritance off
 	      SFBlockType	      "MATLAB Function"
@@ -5887,9 +5396,6 @@ Library {
 		Name			"Truncated PseudoInverse"
 		Location		[12, 45, 1279, 3773]
 		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -5901,15 +5407,13 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1622"
-		SimulinkSubDomain	"Simulink"
+		SIDHighWatermark	"1625"
 		Block {
 		  BlockType		  Inport
 		  Name			  "mat"
 		  SID			  "112::1"
 		  Position		  [20, 101, 40, 119]
 		  ZOrder		  -1
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
@@ -5918,30 +5422,28 @@ Library {
 		  Position		  [20, 136, 40, 154]
 		  ZOrder		  11
 		  Port			  "2"
-		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1621"
+		  SID			  "112::1624"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  110
+		  ZOrder		  113
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1620"
-		  Tag			  "Stateflow S-Function 7"
+		  SID			  "112::1623"
+		  Tag			  "Stateflow S-Function WBToolboxLibrary_repository 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  109
+		  ZOrder		  112
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
 		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
 		  Port {
 		    PortNumber		    2
 		    Name		    "TPinv"
@@ -5950,9 +5452,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1622"
+		  SID			  "112::1625"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  111
+		  ZOrder		  114
 		}
 		Block {
 		  BlockType		  Outport
@@ -5960,11 +5462,9 @@ Library {
 		  SID			  "112::5"
 		  Position		  [460, 101, 480, 119]
 		  ZOrder		  -6
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
 		}
 		Line {
-		  ZOrder		  81
+		  ZOrder		  86
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -5972,7 +5472,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  82
+		  ZOrder		  87
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -5980,7 +5480,7 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  83
+		  ZOrder		  88
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -5988,14 +5488,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  84
+		  ZOrder		  89
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  85
+		  ZOrder		  90
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -6009,8 +5509,6 @@ Library {
 	      SID		      "113"
 	      Position		      [225, 73, 255, 87]
 	      ZOrder		      -5
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -6047,17 +5545,15 @@ Library {
 	  Parameters		  "'YarpClock','WBToolbox'"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    298
+	    $ObjectID		    300
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Clock"
 	    Description		    "This block outputs the current YARP Time.\nIn a nutshell, this block outputs the equivalent of "
 	    "the C++ function call yarp::os::Time::now()"
 	    SelfModifiable	    "on"
 	    Display		    "disp('YARP Time')\n"
-	    RunInitForIconRedraw    "off"
 	  }
 	}
 	Block {
@@ -6072,10 +5568,9 @@ Library {
 	  Parameters		  "'YarpRead','WBToolbox',portName,signalSize,blocking,timestamp,autoconnect,errorOnConnection,timeout"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    299
+	    $ObjectID		    301
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \n\nBy default it has the option 'Autoconnect' a"
@@ -6095,21 +5590,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      7
 	      Object {
-		$ObjectID		300
+		$ObjectID		302
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Source Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		301
+		$ObjectID		303
 		Type			"edit"
 		Name			"signalSize"
 		Prompt			"Port Size"
 		Value			"1"
 	      }
 	      Object {
-		$ObjectID		302
+		$ObjectID		304
 		Type			"edit"
 		Name			"timeout"
 		Prompt			"Timeout"
@@ -6117,7 +5612,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		303
+		$ObjectID		305
 		Type			"checkbox"
 		Name			"blocking"
 		Prompt			"Blocking Read"
@@ -6128,14 +5623,14 @@ Library {
 		"king_val mask_visibility"
 	      }
 	      Object {
-		$ObjectID		304
+		$ObjectID		306
 		Type			"checkbox"
 		Name			"timestamp"
 		Prompt			"Read Timestamp"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		305
+		$ObjectID		307
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -6148,7 +5643,7 @@ Library {
 		"ibilities"
 	      }
 	      Object {
-		$ObjectID		306
+		$ObjectID		308
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6170,10 +5665,9 @@ Library {
 	  Parameters		  "'YarpWrite','WBToolbox',portName,autoconnect,errorOnConnection"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
-	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    307
+	    $ObjectID		    309
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -6182,19 +5676,18 @@ Library {
 	    " \"yarp write ... /destinationPort\"\n"
 	    SelfModifiable	    "on"
 	    Display		    "disp('YarpWrite')"
-	    RunInitForIconRedraw    "off"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		308
+		$ObjectID		310
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		309
+		$ObjectID		311
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -6205,7 +5698,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		310
+		$ObjectID		312
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6227,20 +5720,16 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    311
+	    $ObjectID		    313
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
 	    "d is the ratio (x-y)/y."
-	    RunInitForIconRedraw    "off"
 	  }
 	  System {
 	    Name		    "errors"
 	    Location		    [0, 29, 1280, 744]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -6252,14 +5741,12 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "100"
-	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "x"
 	      SID		      "715"
 	      Position		      [30, 28, 60, 42]
 	      ZOrder		      -1
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
@@ -6268,7 +5755,6 @@ Library {
 	      Position		      [25, 103, 55, 117]
 	      ZOrder		      -2
 	      Port		      "2"
-	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
@@ -6277,10 +5763,8 @@ Library {
 	      Ports		      [2, 1]
 	      Position		      [95, 27, 125, 58]
 	      ZOrder		      -3
+	      IconShape		      "rectangular"
 	      Inputs		      "+-"
-	      InputSameDT	      off
-	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Product
@@ -6290,10 +5774,6 @@ Library {
 	      Position		      [165, 37, 195, 68]
 	      ZOrder		      -4
 	      Inputs		      "*/"
-	      InputSameDT	      off
-	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -6301,8 +5781,6 @@ Library {
 	      SID		      "719"
 	      Position		      [225, 13, 255, 27]
 	      ZOrder		      -5
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -6311,8 +5789,6 @@ Library {
 	      Position		      [220, 48, 250, 62]
 	      ZOrder		      -6
 	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
 	    }
 	    Line {
 	      ZOrder		      1
@@ -6376,19 +5852,15 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    312
+	    $ObjectID		    314
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
-	    RunInitForIconRedraw    "off"
 	  }
 	  System {
 	    Name		    "holder\n"
-	    Location		    [12, 45, 1340, 980]
+	    Location		    [42, 23, 1792, 1120]
 	    Open		    off
-	    PortBlocksUseCompactNotation off
-	    SetExecutionDomain	    off
-	    ExecutionDomainType	    "Deduce"
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -6399,210 +5871,115 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    SimulinkSubDomain	    "Simulink"
+	    ZoomFactor		    "525"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "s"
-	      SID		      "1297"
-	      Position		      [145, 43, 175, 57]
-	      ZOrder		      13
-	      IconDisplay	      "Port number"
+	      SID		      "1853"
+	      Position		      [-140, -37, -110, -23]
+	      ZOrder		      28
 	    }
 	    Block {
-	      BlockType		      Clock
-	      Name		      "Clock"
-	      SID		      "1298"
-	      Position		      [45, 65, 65, 85]
-	      ZOrder		      11
-	    }
-	    Block {
-	      BlockType		      Reference
-	      Name		      "Compare\nTo Constant"
-	      SID		      "1299"
-	      Ports		      [1, 1]
-	      Position		      [90, 60, 120, 90]
-	      ZOrder		      10
-	      LibraryVersion	      "1.453"
-	      SourceBlock	      "simulink/Logic and Bit\nOperations/Compare\nTo Constant"
-	      SourceType	      "Compare To Constant"
-	      SourceProductName	      "Simulink"
-	      SourceProductBaseCode   "SL"
-	      ContentPreviewEnabled   off
-	      relop		      "=="
-	      const		      "0"
-	      OutDataTypeStr	      "boolean"
-	      ZeroCross		      on
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "MATLAB Function"
-	      SID		      "1300"
+	      BlockType		      Sum
+	      Name		      "Add"
+	      SID		      "1854"
 	      Ports		      [2, 1]
-	      Position		      [235, 37, 305, 88]
-	      ZOrder		      15
-	      LibraryVersion	      "1.32"
-	      ErrorFcn		      "Stateflow.Translate.translate"
-	      PermitHierarchicalResolution "ExplicitOnly"
-	      TreatAsAtomicUnit	      on
-	      RequestExecContextInheritance off
-	      SFBlockType	      "MATLAB Function"
-	      System {
-		Name			"MATLAB Function"
-		Location		[12, 45, 1135, 3068]
-		Open			off
-		PortBlocksUseCompactNotation off
-		SetExecutionDomain	off
-		ExecutionDomainType	"Deduce"
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		SIDHighWatermark	"1628"
-		SimulinkSubDomain	"Simulink"
-		Block {
-		  BlockType		  Inport
-		  Name			  "s"
-		  SID			  "1300::24"
-		  Position		  [20, 101, 40, 119]
-		  ZOrder		  10
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "unused"
-		  SID			  "1300::26"
-		  Position		  [20, 136, 40, 154]
-		  ZOrder		  12
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Demux
-		  Name			  " Demux "
-		  SID			  "1300::1627"
-		  Ports			  [1, 1]
-		  Position		  [270, 230, 320, 270]
-		  ZOrder		  98
-		  Outputs		  "1"
-		}
-		Block {
-		  BlockType		  S-Function
-		  Name			  " SFunction "
-		  SID			  "1300::1626"
-		  Tag			  "Stateflow S-Function 1"
-		  Ports			  [2, 2]
-		  Position		  [180, 100, 230, 160]
-		  ZOrder		  97
-		  FunctionName		  "sf_sfun"
-		  PortCounts		  "[2 2]"
-		  SFunctionDeploymentMode off
-		  EnableBusSupport	  off
-		  SFcnIsStateOwnerBlock	  off
-		  Port {
-		    PortNumber		    2
-		    Name		    "s0"
-		  }
-		}
-		Block {
-		  BlockType		  Terminator
-		  Name			  " Terminator "
-		  SID			  "1300::1628"
-		  Position		  [460, 241, 480, 259]
-		  ZOrder		  99
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "s0"
-		  SID			  "1300::25"
-		  Position		  [460, 101, 480, 119]
-		  ZOrder		  11
-		  IconDisplay		  "Port number"
-		  VectorParamsAs1DForOutWhenUnconnected	off
-		}
-		Line {
-		  ZOrder		  81
-		  SrcBlock		  "s"
-		  SrcPort		  1
-		  Points		  [120, 0]
-		  DstBlock		  " SFunction "
-		  DstPort		  1
-		}
-		Line {
-		  ZOrder		  82
-		  SrcBlock		  "unused"
-		  SrcPort		  1
-		  DstBlock		  " SFunction "
-		  DstPort		  2
-		}
-		Line {
-		  Name			  "s0"
-		  ZOrder		  83
-		  Labels		  [0, 0]
-		  SrcBlock		  " SFunction "
-		  SrcPort		  2
-		  DstBlock		  "s0"
-		  DstPort		  1
-		}
-		Line {
-		  ZOrder		  84
-		  SrcBlock		  " Demux "
-		  SrcPort		  1
-		  DstBlock		  " Terminator "
-		  DstPort		  1
-		}
-		Line {
-		  ZOrder		  85
-		  SrcBlock		  " SFunction "
-		  SrcPort		  1
-		  DstBlock		  " Demux "
-		  DstPort		  1
-		}
-	      }
+	      Position		      [35, -50, 65, -20]
+	      ZOrder		      34
+	      Inputs		      "|++"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      SID		      "1855"
+	      Position		      [-140, -95, -110, -65]
+	      ZOrder		      32
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      InitialCondition
+	      Name		      "IC"
+	      SID		      "1856"
+	      Position		      [-95, -102, -55, -58]
+	      ZOrder		      31
+	    }
+	    Block {
+	      BlockType		      Memory
+	      Name		      "Memory"
+	      SID		      "1857"
+	      Position		      [70, -5, 100, 25]
+	      ZOrder		      30
+	      BlockMirror	      on
+	      InheritSampleTime	      on
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      SID		      "1858"
+	      Ports		      [2, 1]
+	      Position		      [-25, -53, 5, -22]
+	      ZOrder		      33
 	    }
 	    Block {
 	      BlockType		      Outport
 	      Name		      "s(0)"
-	      SID		      "1301"
-	      Position		      [330, 58, 360, 72]
-	      ZOrder		      14
-	      IconDisplay	      "Port number"
-	      VectorParamsAs1DForOutWhenUnconnected off
+	      SID		      "1859"
+	      Position		      [145, -42, 175, -28]
+	      ZOrder		      29
 	    }
 	    Line {
-	      ZOrder		      1
-	      SrcBlock		      "Clock"
+	      ZOrder		      5
+	      SrcBlock		      "Memory"
 	      SrcPort		      1
-	      DstBlock		      "Compare\nTo Constant"
+	      Points		      [-15, 0]
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      ZOrder		      6
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "IC"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      2
-	      SrcBlock		      "MATLAB Function"
+	      ZOrder		      9
+	      SrcBlock		      "Add"
 	      SrcPort		      1
-	      DstBlock		      "s(0)"
-	      DstPort		      1
+	      Points		      [49, 0]
+	      Branch {
+		ZOrder			8
+		Points			[0, 45]
+		DstBlock		"Memory"
+		DstPort			1
+	      }
+	      Branch {
+		ZOrder			7
+		DstBlock		"s(0)"
+		DstPort			1
+	      }
 	    }
 	    Line {
-	      ZOrder		      3
+	      ZOrder		      10
 	      SrcBlock		      "s"
 	      SrcPort		      1
-	      DstBlock		      "MATLAB Function"
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      ZOrder		      11
+	      SrcBlock		      "IC"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      DstBlock		      "Product"
 	      DstPort		      1
 	    }
 	    Line {
-	      ZOrder		      4
-	      SrcBlock		      "Compare\nTo Constant"
+	      ZOrder		      12
+	      SrcBlock		      "Product"
 	      SrcPort		      1
-	      DstBlock		      "MATLAB Function"
-	      DstPort		      2
+	      DstBlock		      "Add"
+	      DstPort		      1
 	    }
 	  }
 	}
@@ -6611,7 +5988,7 @@ Library {
     Annotation {
       SID		      "1213"
       Name		      "WHOLE BODY TOOLBOX"
-      Position		      [172, 149, 319, 166]
+      Position		      [241, 157, 380, 174]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
@@ -6634,7 +6011,7 @@ Library {
       "1) http://www.codyco.eu</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
       ":0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#636363;\">H2020 EU Project AnDy (No. 731540 H"
       "2020-ICT-2016-1) http://andy-project.eu</span></p></body></html>"
-      Position		      [157, 176, 333, 213]
+      Position		      [245, 189, 421, 216]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
@@ -6646,30 +6023,32 @@ Library {
 }
 #Finite State Machines
 #
-#   Stateflow 80000019
+#   Stateflow 80000036
 #
 #
 Stateflow {
   machine {
     id			    1
     name		    "WBToolboxLibrary_repository"
-    sfVersion		    80000019
-    firstTarget		    26
+    created		    "06-Feb-2014 02:21:39"
+    isLibrary		    1
+    sfVersion		    80000001
+    firstTarget		    18
   }
   chart {
     id			    2
     machine		    1
-    name		    "Utilities/holder\n/MATLAB Function"
-    windowPosition	    [1152 -205 -179 985]
+    name		    "Utilities/DampPinv/Damped Pseudo Inverse"
+    windowPosition	    [699 -205 167 985]
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 3046 1050 1.25]
     treeNode		    [0 3 0 0]
     viewObj		    2
     toolbarMode		    LIBRARY_TOOLBAR
-    ssIdHighWaterMark	    9
+    ssIdHighWaterMark	    8
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
-    chartFileNumber	    1
+    chartFileNumber	    6
     disableImplicitCasting  1
     eml {
       name		      "fcn"
@@ -6692,15 +6071,16 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function s0 = fcn(s, ~)\npersistent state\n%#codegen\n\nif isempty(state)\n    state = s;\nend\n\n"
-      "s0 = state;"
+      script		      "function DPinv  = fcn(mat,sigma)\n% Economody size svd of mat\n[U,S,V] = svd(mat,'econ');\n% Damp"
+      "ed version of S with sigma\nS(S>sigma)=S(S>sigma)./((S(S>sigma)).^2+sigma^2);\n% Damped pseudoinverse\nDPinv = V"
+      "*pinv(S)*U';"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
   data {
     id			    4
-    ssIdNumber		    7
-    name		    "s"
+    ssIdNumber		    4
+    name		    "mat"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -6710,22 +6090,16 @@ Stateflow {
       type {
 	method			SF_INHERITED_TYPE
 	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [2 0 5]
   }
   data {
     id			    5
-    ssIdNumber		    8
-    name		    "s0"
+    ssIdNumber		    5
+    name		    "DPinv"
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -6735,22 +6109,17 @@ Stateflow {
       type {
 	method			SF_INHERITED_TYPE
 	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
       frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [2 4 6]
   }
   data {
     id			    6
-    ssIdNumber		    9
-    name		    "unused"
+    ssIdNumber		    8
+    name		    "sigma"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -6765,9 +6134,6 @@ Stateflow {
       }
       complexity	      SF_COMPLEX_INHERITED
       frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [2 5 0]
@@ -6784,7 +6150,7 @@ Stateflow {
   transition {
     id			    8
     labelString		    "{eML_blk_kernel();}"
-    labelPosition	    [76.125 85.875 102.544 14.964]
+    labelPosition	    [80.125 91.875 102.544 14.964]
     fontSize		    12
     src {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
@@ -6808,14 +6174,14 @@ Stateflow {
   instance {
     id			    9
     machine		    1
-    name		    "Utilities/holder\n/MATLAB Function"
+    name		    "Utilities/DampPinv/Damped Pseudo Inverse"
     chart		    2
   }
   chart {
     id			    10
     machine		    1
-    name		    "Utilities/DampPinv/Damped Pseudo Inverse"
-    windowPosition	    [699 -205 167 985]
+    name		    "Utilities/TruncPinv/Truncated PseudoInverse"
+    windowPosition	    [649 -205 167 985]
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 3046 1050 1.25]
     treeNode		    [0 11 0 0]
@@ -6824,7 +6190,7 @@ Stateflow {
     ssIdHighWaterMark	    8
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
-    chartFileNumber	    6
+    chartFileNumber	    7
     disableImplicitCasting  1
     eml {
       name		      "fcn"
@@ -6847,9 +6213,8 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function DPinv  = fcn(mat,sigma)\n% Economody size svd of mat\n[U,S,V] = svd(mat,'econ');\n% Damp"
-      "ed version of S with sigma\nS(S>sigma)=S(S>sigma)./((S(S>sigma)).^2+sigma^2);\n% Damped pseudoinverse\nDPinv = V"
-      "*pinv(S)*U';"
+      script		      "function TPinv  = fcn(mat,tol)\n%#codegen\n[U,S,V] = svd(mat,'econ');\n% Setting to zero value\n%"
+      " Setting to 1/S(i,i) singular values greater than tol\n S(S>tol)=1./S(S>tol);\n TPinv = V*pinv(S)*U';"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -6868,9 +6233,6 @@ Stateflow {
 	primitive		SF_DOUBLE_TYPE
       }
       complexity	      SF_COMPLEX_INHERITED
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [10 0 13]
@@ -6878,7 +6240,7 @@ Stateflow {
   data {
     id			    13
     ssIdNumber		    5
-    name		    "DPinv"
+    name		    "TPinv"
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -6891,9 +6253,6 @@ Stateflow {
       }
       complexity	      SF_COMPLEX_INHERITED
       frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [10 12 14]
@@ -6901,7 +6260,7 @@ Stateflow {
   data {
     id			    14
     ssIdNumber		    8
-    name		    "sigma"
+    name		    "tol"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -6916,9 +6275,6 @@ Stateflow {
       }
       complexity	      SF_COMPLEX_INHERITED
       frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
     }
     dataType		    "Inherit: Same as Simulink"
     linkNode		    [10 13 0]
@@ -6959,161 +6315,11 @@ Stateflow {
   instance {
     id			    17
     machine		    1
-    name		    "Utilities/DampPinv/Damped Pseudo Inverse"
+    name		    "Utilities/TruncPinv/Truncated PseudoInverse"
     chart		    10
   }
-  chart {
-    id			    18
-    machine		    1
-    name		    "Utilities/TruncPinv/Truncated PseudoInverse"
-    windowPosition	    [649 -205 167 985]
-    viewLimits		    [0 156.75 0 153.75]
-    screen		    [1 1 3046 1050 1.25]
-    treeNode		    [0 19 0 0]
-    viewObj		    18
-    toolbarMode		    LIBRARY_TOOLBAR
-    ssIdHighWaterMark	    8
-    decomposition	    CLUSTER_CHART
-    type		    EML_CHART
-    chartFileNumber	    7
-    disableImplicitCasting  1
-    eml {
-      name		      "fcn"
-    }
-    firstData		    20
-    firstTransition	    24
-    firstJunction	    23
-  }
-  state {
-    id			    19
-    labelString		    "eML_blk_kernel()"
-    position		    [18 64.5 118 66]
-    fontSize		    12
-    chart		    18
-    treeNode		    [18 0 0 0]
-    superState		    SUBCHART
-    subviewer		    18
-    ssIdNumber		    1
-    type		    FUNC_STATE
-    decomposition	    CLUSTER_STATE
-    eml {
-      isEML		      1
-      script		      "function TPinv  = fcn(mat,tol)\n%#codegen\n[U,S,V] = svd(mat,'econ');\n% Setting to zero value\n%"
-      " Setting to 1/S(i,i) singular values greater than tol\n S(S>tol)=1./S(S>tol);\n TPinv = V*pinv(S)*U';"
-      editorLayout	      "100 M4x1[10 5 700 500]"
-    }
-  }
-  data {
-    id			    20
-    ssIdNumber		    4
-    name		    "mat"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [18 0 21]
-  }
-  data {
-    id			    21
-    ssIdNumber		    5
-    name		    "TPinv"
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [18 20 22]
-  }
-  data {
-    id			    22
-    ssIdNumber		    8
-    name		    "tol"
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-    linkNode		    [18 21 0]
-  }
-  junction {
-    id			    23
-    position		    [23.5747 49.5747 7]
-    chart		    18
-    subviewer		    18
-    ssIdNumber		    3
-    type		    CONNECTIVE_JUNCTION
-    linkNode		    [18 0 0]
-  }
-  transition {
-    id			    24
-    labelString		    "{eML_blk_kernel();}"
-    labelPosition	    [80.125 91.875 102.544 14.964]
-    fontSize		    12
-    src {
-      intersection	      [0 0 1 0 23.5747 14.625 0 0]
-    }
-    dst {
-      id		      23
-      intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
-    }
-    midPoint		    [23.5747 24.9468]
-    chart		    18
-    dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    18
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    2
-    linkNode		    [18 0 0]
-  }
-  instance {
-    id			    25
-    machine		    1
-    name		    "Utilities/TruncPinv/Truncated PseudoInverse"
-    chart		    18
-  }
   target {
-    id			    26
+    id			    18
     machine		    1
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
