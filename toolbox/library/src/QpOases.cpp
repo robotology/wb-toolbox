@@ -318,7 +318,7 @@ bool QpOases::initialize(BlockInformation* blockInfo)
 
     // Setup safe options
     qpOASES::Options problemOptions;
-    problemOptions.setToDefault();
+    problemOptions.setToReliable();
     pImpl->sqProblem->setOptions(problemOptions);
 
 #ifdef NDEBUG
