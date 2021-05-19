@@ -33,7 +33,7 @@ jobs:
         # Compilation related dependencies 
         mamba install cmake compilers ninja pkg-config
         # Actual dependencies
-        mamba install blockfactory idyntree osqp-eigen qpoases yarp
+        mamba install eigen blockfactory idyntree osqp-eigen qpoases yarp
         
     - name: Dependencies [Windows]
       if: contains(matrix.os, 'windows')
