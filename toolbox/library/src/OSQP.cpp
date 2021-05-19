@@ -309,6 +309,8 @@ bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
     // Remove internal state
     pImpl->sqSolver->settings()->setAdaptiveRho(false);
     pImpl->sqSolver->settings()->setWarmStart(true);
+
+
 }
 
 bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
@@ -364,8 +366,6 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
     static int outputRuns = 0;
     outputRuns++;
 
-
-
     // INPUTS
     // ======
 
@@ -399,6 +399,9 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
     Eigen::VectorXd variableConstraintsLowerBounds;
     Eigen::VectorXd variableConstraintsUpperBounds;
     Eigen::MatrixXd properConstraintMatrix;
+    Eigen::VectorXd totalConstraintsLowerBounds;
+    Eigen::VectorXd totalConstraintsUpperBounds;
+    Eigen::MatrixXd totalConstraintsMatrix;
 
     // OPTIONAL INPUTS
     // ===============
@@ -475,9 +478,9 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 
     // Let's build the actual constraints passed to OSQP
     if(nrOfTotalConstraints != 0) {
-        Eigen::VectorXd totalConstraintsLowerBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, -WBT_OSQP_INF);
-        Eigen::VectorXd totalConstraintsUpperBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, WBT_OSQP_INF);
-        Eigen::MatrixXd totalConstraintsMatrix = Eigen::MatrixXd(nrOfTotalConstraints, numberOfVariables);
+        totalConstraintsLowerBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, -WBT_OSQP_INF);
+        totalConstraintsUpperBounds = Eigen::VectorXd::Constant(nrOfTotalConstraints, WBT_OSQP_INF);
+        totalConstraintsMatrix = Eigen::MatrixXd(nrOfTotalConstraints, numberOfVariables);
 
         if (pImpl->useLbA) {
             totalConstraintsLowerBounds.head(numberOfProperConstraints) = properConstraintsLowerBounds;
@@ -556,11 +559,12 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 
 
     // Solve
-    //std::cerr << "initSolver running" << std::endl;
     if(!pImpl->sqSolver->isInitialized()) {
         if(!pImpl->sqSolver->initSolver()) {
             bfError << "OSQP: initSolver() failed.";
             return false;
+        } else {
+           std::cerr << "[OsqpEigen::Solver::initSolver] Workspace setup correctly." << std::endl;
         }
     }
 
