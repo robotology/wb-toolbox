@@ -16,6 +16,11 @@ if(NOT WBT_USES_QPOASES)
     option(WBT_USES_QPOASES "Build blocks that depend on qpOASES library" ${qpOASES_FOUND})
 endif()
 
+find_package(OsqpEigen)
+if(NOT WBT_USES_OSQPEIGEN)
+    option(WBT_USES_OSQPEIGEN "Build blocks that depend on osqp-eigen library" ${OsqpEigen_FOUND})
+endif()
+
 # ===================
 # BLOCKFACTORY PLUGIN
 # ===================
@@ -50,6 +55,10 @@ endif()
 
 if(WBT_USES_QPOASES)
     list(APPEND WBT_BLOCKS "QpOases")
+endif()
+
+if(WBT_USES_OSQPEIGEN)
+    list(APPEND WBT_BLOCKS "OSQP")
 endif()
 
 # Include CMake helpers provided by BlockFactory
@@ -118,6 +127,11 @@ if(WBT_USES_QPOASES)
 
     # Manually include qpOASES include folders. They are not exported by the linked library.
     target_include_directories(WBToolbox PRIVATE ${qpOASES_INCLUDE_DIRS})
+endif()
+
+if(WBT_USES_OSQPEIGEN)
+    target_compile_definitions(WBToolbox PRIVATE "WBT_USES_OSQPEIGEN")
+    target_link_libraries(WBToolbox PRIVATE OsqpEigen::OsqpEigen)
 endif()
 
 # Install the plugin
