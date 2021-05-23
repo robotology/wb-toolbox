@@ -38,6 +38,9 @@
 #ifdef WBT_USES_QPOASES
 #include "WBToolbox/Block/QpOases.h"
 #endif
+#ifdef WBT_USES_OSQPEIGEN
+#include "WBToolbox/Block/OSQP.h"
+#endif
 #ifdef WBT_USES_IPOPT
 // #include "Block/InverseKinematics.h"
 #endif
@@ -99,6 +102,9 @@ SHLIBPP_DEFINE_SHARED_SUBCLASS(MinimumJerkTrajectoryGenerator,
 // Other blocks
 #ifdef WBT_USES_QPOASES
 SHLIBPP_DEFINE_SHARED_SUBCLASS(QpOases, wbt::block::QpOases, blockfactory::core::Block)
+#endif
+#ifdef WBT_USES_OSQPEIGEN
+SHLIBPP_DEFINE_SHARED_SUBCLASS(OSQP, wbt::block::OSQP, blockfactory::core::Block)
 #endif
 #ifdef WBT_USES_IPOPT
 SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseKinematics,

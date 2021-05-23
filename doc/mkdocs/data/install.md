@@ -19,8 +19,9 @@
 - [`iCub`](https://github.com/robotology/icub-main)
 - [Gazebo Simulator](http://gazebosim.org/)
 - [`gazebo_yarp_plugins`](https://github.com/robotology/gazebo_yarp_plugins)
-- [`qpOASES`](https://github.com/robotology-dependencies/qpOASES/)
+- [`qpOASES`](https://github.com/coin-or/qpOASES)
 - [`matio`](https://github.com/tbeu/matio)
+- [`osqp-eigen`](https://github.com/robotology/osqp-eigen)
 
 ## Installation
 
