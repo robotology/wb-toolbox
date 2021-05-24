@@ -21,7 +21,7 @@ var searchData=
   ['getrobotname_94',['getRobotName',['../classwbt_1_1base_1_1_configuration.html#af9126d4b4543f00001974e780487f12e',1,'wbt::base::Configuration']]],
   ['getuniqueid_95',['getUniqueId',['../classwbt_1_1base_1_1_configuration.html#afca529f6fba7d4070c9e3a518272aca4',1,'wbt::base::Configuration']]],
   ['geturdffile_96',['getUrdfFile',['../classwbt_1_1base_1_1_configuration.html#a149734bc344b5d53ff1b4b45c99ea716',1,'wbt::base::Configuration']]],
-  ['gradient_97',['Gradient',['../_qp_oases_8cpp.html#a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d',1,'QpOases.cpp']]],
+  ['gradient_97',['Gradient',['../_o_s_q_p_8cpp.html#a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d',1,'Gradient():&#160;OSQP.cpp'],['../_qp_oases_8cpp.html#a29f29c1d02936a5222859b72549585fcaadd31e0ae0bc3c65905fdbb5b2c2633d',1,'Gradient():&#160;QpOases.cpp']]],
   ['gravity_98',['gravity',['../struct_w_b_block_1_1i_dyn_tree_robot_state.html#a54b9c2ddb652dfebba1a947ff49d3ad0',1,'WBBlock::iDynTreeRobotState']]],
   ['gravityvector_99',['gravityVector',['../class_configuration_1_1impl.html#ab24a4284983fbd99038a0af363c19e3a',1,'Configuration::impl']]],
   ['gzclkport_100',['GzClkPort',['../_simulator_synchronizer_8cpp.html#af89f32402083cdbd7f66ce3f92580c89addd4e4fabc4bd8f5b672c0e185e4a575',1,'SimulatorSynchronizer.cpp']]]

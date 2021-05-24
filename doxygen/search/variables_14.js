@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['world_5ft_5fbase_728',['world_T_base',['../struct_w_b_block_1_1i_dyn_tree_robot_state.html#ae962d5458c554fb1720ffb0130d742b9',1,'WBBlock::iDynTreeRobotState']]]
+  ['variableconstraintslowerbounds_766',['variableConstraintsLowerBounds',['../classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a1b3a73411f46f5bebf9833d27098792f',1,'wbt::block::OSQP::impl']]],
+  ['variableconstraintsupperbounds_767',['variableConstraintsUpperBounds',['../classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a735bf32ca01a4383fd0805286cbd13bd',1,'wbt::block::OSQP::impl']]]
 ];
