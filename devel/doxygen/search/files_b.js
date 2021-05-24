@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['yarpclock_2ecpp_462',['YarpClock.cpp',['../_yarp_clock_8cpp.html',1,'']]],
-  ['yarpclock_2eh_463',['YarpClock.h',['../_yarp_clock_8h.html',1,'']]],
-  ['yarpread_2ecpp_464',['YarpRead.cpp',['../_yarp_read_8cpp.html',1,'']]],
-  ['yarpread_2eh_465',['YarpRead.h',['../_yarp_read_8h.html',1,'']]],
-  ['yarpwrite_2ecpp_466',['YarpWrite.cpp',['../_yarp_write_8cpp.html',1,'']]],
-  ['yarpwrite_2eh_467',['YarpWrite.h',['../_yarp_write_8h.html',1,'']]]
+  ['wbblock_2ecpp_481',['WBBlock.cpp',['../_w_b_block_8cpp.html',1,'']]],
+  ['wbblock_2eh_482',['WBBlock.h',['../_w_b_block_8h.html',1,'']]],
+  ['wholebodysingleton_2ecpp_483',['WholeBodySingleton.cpp',['../_whole_body_singleton_8cpp.html',1,'']]],
+  ['wholebodysingleton_2eh_484',['WholeBodySingleton.h',['../_whole_body_singleton_8h.html',1,'']]]
 ];
