@@ -5,6 +5,12 @@ The format of this document is based on [Keep a Changelog](https://keepachangelo
 
 ## [Unreleased]
 
+## [5.4.1] - 2021-05-26
+
+### Fixed 
+- Fixed bug that caused Simulink models that used OSQP block to hang indefinitely in "Initializing" or "Compiling" phase (https://github.com/robotology/wb-toolbox/pull/220).
+- Disable verbose output option in OSQP block (https://github.com/robotology/wb-toolbox/pull/220).
+
 ## [5.4.0] - 2021-05-24
 
 ### Added

@@ -316,7 +316,7 @@ bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
     pImpl->totalConstraintsMatrix = Eigen::MatrixXd(pImpl->numberOfTotalConstraints, pImpl->numberOfVariables);
 
     // Setup options
-    pImpl->sqSolver->settings()->setVerbosity(true);
+    pImpl->sqSolver->settings()->setVerbosity(false);
 
     // Set adaptive_rho to false to avoid converge problems
     // See https://github.com/oxfordcontrol/osqp/issues/151
@@ -326,7 +326,7 @@ bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
     // of hessians, gradient and constraints
     pImpl->sqSolver->settings()->setWarmStart(true);
 
-
+    return true;
 }
 
 bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
