@@ -326,7 +326,7 @@ bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
     // of hessians, gradient and constraints
     pImpl->sqSolver->settings()->setWarmStart(true);
 
-
+    return true;
 }
 
 bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
