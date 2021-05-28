@@ -5,11 +5,15 @@ The format of this document is based on [Keep a Changelog](https://keepachangelo
 
 ## [Unreleased]
 
-## [5.4.1] - 2021-05-xx
+## [5.4.1] - 2021-05-28
+
+### Changed
+- The `WBToolboxLibrary.slx` file is now encoded in R2016b slx format, so at least MATLAB R2016b is required to use it.
 
 ### Fixed 
 - Fixed bug that caused Simulink models that used OSQP block to hang indefinitely in "Initializing" or "Compiling" phase (https://github.com/robotology/wb-toolbox/pull/220).
 - Disable verbose output option in OSQP block (https://github.com/robotology/wb-toolbox/pull/220).
+- Fixed problem introduced in 5.4.0 that prevented the `WholeBodyToolbox` library to appear correctly in the Simulink library browser on some MATLAB versions and on some Operating Systems (spotted on MATLAB R2020b with Ubuntu 20.04) (https://github.com/robotology/wb-toolbox/issues/219, https://github.com/robotology/wb-toolbox/pull/220).
 
 ## [5.4.0] - 2021-05-24
 

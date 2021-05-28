@@ -2,12 +2,7 @@
 % This software may be modified and distributed under the terms of the
 % GNU Lesser General Public License v2.1 or any later version.
 
-fprintf('\nWhole Body toolbox exporting library to multiple versions\n');
-
-if (verLessThan('matlab', '8.4'))
-    error('This script should be launched with a MATLAB version >= than 2014b');
-    quit;
-end
+fprintf('\nWhole Body toolbox exporting library to old Simulink version\n');
 
 addpath(genpath('library'));
 libraryName = 'WBToolboxLibrary_repository';
@@ -26,8 +21,8 @@ try
 
   % Export the library. It must be in slx otherwise it will not show up in
   % the Simulink Library browser.
-  fprintf('\nExporting for 2014b\n');
-  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2014B_SLX');
+  fprintf('\nExporting for 2016b\n');
+  save_system(libraryName, 'WBToolboxLibrary', 'ExportToVersion', 'R2016B_SLX');
   movefile('WBToolboxLibrary.slx', 'library/exported/WBToolboxLibrary.slx');
 
   % Unload the library
