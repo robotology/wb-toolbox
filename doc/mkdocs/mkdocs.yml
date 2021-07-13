@@ -1,5 +1,6 @@
 # Project information
 site_name: 'WBT'
+site_url: https://robotology.github.io/wb-toolbox/
 site_description: 'A Simulink Toolbox for Whole-Body Control'
 site_author: 'Diego Ferigo'
 
