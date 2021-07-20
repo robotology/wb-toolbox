@@ -25,6 +25,7 @@
 #include "WBToolbox/Block/ForwardKinematics.h"
 #include "WBToolbox/Block/InverseDynamics.h"
 #include "WBToolbox/Block/Jacobian.h"
+#include "WBToolbox/Block/RelativeJacobian.h"
 #include "WBToolbox/Block/MassMatrix.h"
 #include "WBToolbox/Block/RelativeTransform.h"
 
@@ -81,6 +82,7 @@ SHLIBPP_DEFINE_SHARED_SUBCLASS(InverseDynamics,
                                wbt::block::InverseDynamics,
                                blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(Jacobian, wbt::block::Jacobian, blockfactory::core::Block)
+SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeJacobian, wbt::block::RelativeJacobian, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(MassMatrix, wbt::block::MassMatrix, blockfactory::core::Block)
 SHLIBPP_DEFINE_SHARED_SUBCLASS(RelativeTransform,
                                wbt::block::RelativeTransform,
