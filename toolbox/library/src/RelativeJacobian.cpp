@@ -41,8 +41,7 @@ enum ParamIndex
 
 enum InputIndex
 {
-    BasePose = 0,
-    JointConfiguration,
+    JointConfiguration = 0,
 };
 
 enum OutputIndex
@@ -56,10 +55,8 @@ enum OutputIndex
 class RelativeJacobian::impl
 {
 public:
-    iDynTree::MatrixDynSize jacobianCOM;
     iDynTree::MatrixDynSize jacobian;
-
-    bool frameIsCoM = false;
+    iDynTree::VectorDynSize jointConfiguration;
     iDynTree::FrameIndex frameIndex1 = iDynTree::FRAME_INVALID_INDEX;
     iDynTree::FrameIndex frameIndex2 = iDynTree::FRAME_INVALID_INDEX;
 };
@@ -106,9 +103,7 @@ bool RelativeJacobian::configureSizeAndPorts(BlockInformation* blockInfo)
     // INPUTS
     // ======
     //
-    // 1) Homogeneous transform for base pose wrt the world frame (4x4 matrix)
-    // 2) Joints position (1xDoFs vector)
-    // 3) Base frame velocity (1x6 vector)
+    // 1) Joints position (1xDoFs vector)
     //
     // OUTPUTS
     // =======
@@ -119,8 +114,6 @@ bool RelativeJacobian::configureSizeAndPorts(BlockInformation* blockInfo)
     const bool ok = blockInfo->setPortsInfo(
         {
             // Inputs
-            {InputIndex::BasePose, Port::Dimensions{4, 4}, Port::DataType::DOUBLE},
-
             {InputIndex::JointConfiguration, Port::Dimensions{dofs}, Port::DataType::DOUBLE},
         },
         {
@@ -173,42 +166,23 @@ bool RelativeJacobian::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    if (frame1 != "com") {
-        pImpl->frameIndex1 = kinDyn->getFrameIndex(frame1);
-        if (pImpl->frameIndex1 == iDynTree::FRAME_INVALID_INDEX) {
-            bfError << "Cannot find " + frame1 + " in the frame list.";
-            return false;
-        }
-    }
-    else {
-        pImpl->frameIsCoM = true;
-        pImpl->frameIndex1 = iDynTree::FRAME_INVALID_INDEX;
+    // Frame 1
+    pImpl->frameIndex1 = kinDyn->getFrameIndex(frame1);
+    if (pImpl->frameIndex1 == iDynTree::FRAME_INVALID_INDEX) {
+        bfError << "Cannot find " + frame1 + " in the frame list.";
+        return false;
     }
 
-    if (frame2 != "com") {
-        pImpl->frameIndex2 = kinDyn->getFrameIndex(frame2);
-        if (pImpl->frameIndex2 == iDynTree::FRAME_INVALID_INDEX) {
-            bfError << "Cannot find " + frame2 + " in the frame list.";
-            return false;
-        }
-    }
-    else {
-        pImpl->frameIsCoM = true;
-        pImpl->frameIndex2 = iDynTree::FRAME_INVALID_INDEX;
+    // Frame 2
+    pImpl->frameIndex2 = kinDyn->getFrameIndex(frame2);
+    if (pImpl->frameIndex2 == iDynTree::FRAME_INVALID_INDEX) {
+        bfError << "Cannot find " + frame2 + " in the frame list.";
+        return false;
     }
 
-    // Initialize buffers
-    // ------------------
-
-    // Get the DoFs
-    const auto dofs = getRobotInterface()->getConfiguration().getNumberOfDoFs();
-
-    pImpl->jacobianCOM.resize(3, dofs);
-    pImpl->jacobianCOM.zero();
-
-    // Output
-    pImpl->jacobian.resize(6, dofs);
-    pImpl->jacobian.zero();
+    // Initialize the buffer
+    pImpl->jointConfiguration.resize(kinDyn->getNrOfDegreesOfFreedom());
+    pImpl->jointConfiguration.zero();
 
     return true;
 }
@@ -231,43 +205,27 @@ bool RelativeJacobian::output(const BlockInformation* blockInfo)
         return false;
     }
 
-    // GET THE SIGNALS POPULATE THE ROBOT STATE
-    // ========================================
+    // GET THE SIGNALS
+    // ===============
 
-    InputSignalPtr basePoseSig = blockInfo->getInputPortSignal(InputIndex::BasePose);
     InputSignalPtr jointsPosSig = blockInfo->getInputPortSignal(InputIndex::JointConfiguration);
 
-    if (!basePoseSig || !jointsPosSig) {
+    if (!jointsPosSig) {
         bfError << "Input signals not valid.";
         return false;
     }
 
-    bool ok = setRobotState(basePoseSig, jointsPosSig, nullptr, nullptr, kinDyn.get());
-
-    if (!ok) {
-        bfError << "Failed to set the robot state.";
-        return false;
+    for (unsigned i = 0; i < jointsPosSig->getWidth(); ++i) {
+        pImpl->jointConfiguration.setVal(i, jointsPosSig->get<double>(i));
     }
+
+    kinDyn->setJointPos(pImpl->jointConfiguration);
 
     // OUTPUT
     // ======
 
-    iDynTree::Transform world_H_frame;
-
     // Compute the jacobian
-    ok = false;
-    if (!pImpl->frameIsCoM) {
-        world_H_frame = kinDyn->getWorldTransform(pImpl->frameIndex1);
-        ok = kinDyn->getRelativeJacobian(pImpl->frameIndex1, pImpl->frameIndex2, pImpl->jacobian);
-    }
-    else {
-        world_H_frame.setPosition(kinDyn->getCenterOfMassPosition());
-        // TODO check if there's the possibility to have the CoM jacobian relative to another frame
-        ok = kinDyn->getCenterOfMassJacobian(pImpl->jacobianCOM);
-        auto cols = pImpl->jacobianCOM.cols();
-        toEigen(pImpl->jacobian).block(0, 0, 3, cols) = toEigen(pImpl->jacobianCOM);
-        toEigen(pImpl->jacobian).block(3, 0, 3, cols).setZero();
-    }
+        bool ok = kinDyn->getRelativeJacobian(pImpl->frameIndex1, pImpl->frameIndex2, pImpl->jacobian);
 
     if (!ok) {
         bfError << "Failed to get the Jacobian.";
