@@ -61,11 +61,14 @@ nav:
     - Documentation [devel]: https://robotology.github.io/wb-toolbox/devel/doxygen/
     - Tutorials:
         - Introduction: tutorial_introduction.md
-        - Basic Simulink simulation: simulink_basic.md
-        - Use model blocks: simulink_model_blocks.md
+        - Basic real-time Simulink simulation: simulink_basic.md
+        - Using model blocks: simulink_model_blocks.md
         - Simulink and Gazebo: simulink_gazebo.md
     - Migration:
         - From WBI-Toolbox: 'Migration_from_WBI-Toolbox_1.0.md'
         - From WB-Toolbox 2.0: 'Migration_from_WB-Toolbox_2.0.md'
     - About: 'about.md'
     - License: 'license.md'
+
+extra_javascript:
+    - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
