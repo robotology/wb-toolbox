@@ -74,6 +74,7 @@ jobs:
 
       - name: Populate deploy folder
         run: |
+          cp doc/index.html $DEPLOY_FOLDER/index.html
           rm -rf $DEPLOY_FOLDER/mkdocs
           rm -rf $DEPLOY_FOLDER/doxygen
           cp -r $MKDOCS_INPUT_FOLDER $DEPLOY_FOLDER/mkdocs
@@ -93,4 +94,4 @@ jobs:
           BRANCH: gh-pages
           FOLDER: build/ghpages
           CLEAN: true
-          CLEAN_EXCLUDE: '[".gitignore", ".nojekyll", "index.html"]'
+          CLEAN_EXCLUDE: '[".gitignore", ".nojekyll"]'
