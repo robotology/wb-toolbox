@@ -14,7 +14,7 @@ We are not going too much in detail about the implementation of this co-simulati
 
 The most intuitive choice of the clock for a co-simulation setup is using the time of the physic engine, that means Gazebo in this case. The robotology-superbuild already installed and configured the [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) repository, that includes among other a plugin that streams the Gazebo clock to a YARP port. We will sync Simulink to use this network clock instead of the real-time clock, obtaining a synchronized co-simulation.
 
-This time, we need to execute `yarpserver` and launch Gazebo with `gazebo -slibgazeboyarp_clock.so`. 
+This time, we need to execute `yarpserver` and launch Gazebo with `gazebo -slibgazebo_yarp_clock.so`. 
 
 ### Master and Slave
 
