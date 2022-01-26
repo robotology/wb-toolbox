@@ -35,8 +35,8 @@ namespace blockfactory {
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame1" |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame2" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "RefFrame" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
  *
  */
 class wbt::block::RelativeJacobian final : public wbt::base::WBBlock

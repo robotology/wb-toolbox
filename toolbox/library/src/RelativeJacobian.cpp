@@ -35,8 +35,8 @@ using namespace blockfactory::core;
 enum ParamIndex
 {
     Bias = wbt::base::WBBlock::NumberOfParameters - 1,
-    Frame1,
-    Frame2
+    RefFrame,
+    Frame
 };
 
 enum InputIndex
@@ -57,8 +57,8 @@ class RelativeJacobian::impl
 public:
     iDynTree::MatrixDynSize jacobian;
     iDynTree::VectorDynSize jointConfiguration;
-    iDynTree::FrameIndex frameIndex1 = iDynTree::FRAME_INVALID_INDEX;
-    iDynTree::FrameIndex frameIndex2 = iDynTree::FRAME_INVALID_INDEX;
+    iDynTree::FrameIndex refFrameIndex = iDynTree::FRAME_INVALID_INDEX;
+    iDynTree::FrameIndex frameIndex = iDynTree::FRAME_INVALID_INDEX;
 };
 
 // BLOCK CLASS
@@ -78,8 +78,8 @@ unsigned RelativeJacobian::numberOfParameters()
 bool RelativeJacobian::parseParameters(BlockInformation* blockInfo)
 {
     const std::vector<ParameterMetadata> frameMetadata{
-    {ParameterType::STRING, ParamIndex::Frame1, 1, 1, "Frame1"},
-    {ParameterType::STRING, ParamIndex::Frame2, 1, 1, "Frame2"}};
+    {ParameterType::STRING, ParamIndex::RefFrame, 1, 1, "RefFrame"},
+    {ParameterType::STRING, ParamIndex::Frame, 1, 1, "Frame"}};
 
     for (const auto& md : frameMetadata) {
         if (!blockInfo->addParameterMetadata(md)) {
@@ -143,14 +143,14 @@ bool RelativeJacobian::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    std::string frame1, frame2;
-    if (!m_parameters.getParameter("Frame1", frame1)) {
-        bfError << "Cannot retrieve string from the first frame parameter.";
+    std::string refFrame, frame;
+    if (!m_parameters.getParameter("RefFrame", refFrame)) {
+        bfError << "Cannot retrieve string from the reference frame parameter.";
         return false;
     }
 
-    if (!m_parameters.getParameter("Frame2", frame2)) {
-        bfError << "Cannot retrieve string from the second frame parameter.";
+    if (!m_parameters.getParameter("Frame", frame)) {
+        bfError << "Cannot retrieve string from the frame parameter.";
         return false;
     }
 
@@ -167,16 +167,16 @@ bool RelativeJacobian::initialize(BlockInformation* blockInfo)
     }
 
     // Frame 1
-    pImpl->frameIndex1 = kinDyn->getFrameIndex(frame1);
-    if (pImpl->frameIndex1 == iDynTree::FRAME_INVALID_INDEX) {
-        bfError << "Cannot find " + frame1 + " in the frame list.";
+    pImpl->refFrameIndex = kinDyn->getFrameIndex(refFrame);
+    if (pImpl->refFrameIndex == iDynTree::FRAME_INVALID_INDEX) {
+        bfError << "Cannot find " + refFrame + " in the frame list.";
         return false;
     }
 
     // Frame 2
-    pImpl->frameIndex2 = kinDyn->getFrameIndex(frame2);
-    if (pImpl->frameIndex2 == iDynTree::FRAME_INVALID_INDEX) {
-        bfError << "Cannot find " + frame2 + " in the frame list.";
+    pImpl->frameIndex = kinDyn->getFrameIndex(frame);
+    if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
+        bfError << "Cannot find " + frame + " in the frame list.";
         return false;
     }
 
@@ -225,7 +225,7 @@ bool RelativeJacobian::output(const BlockInformation* blockInfo)
     // ======
 
     // Compute the jacobian
-        bool ok = kinDyn->getRelativeJacobian(pImpl->frameIndex1, pImpl->frameIndex2, pImpl->jacobian);
+        bool ok = kinDyn->getRelativeJacobian(pImpl->refFrameIndex, pImpl->frameIndex, pImpl->jacobian);
 
     if (!ok) {
         bfError << "Failed to get the Jacobian.";
