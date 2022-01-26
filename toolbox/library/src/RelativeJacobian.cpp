@@ -166,14 +166,14 @@ bool RelativeJacobian::initialize(BlockInformation* blockInfo)
         return false;
     }
 
-    // Frame 1
+    // Reference Frame
     pImpl->refFrameIndex = kinDyn->getFrameIndex(refFrame);
     if (pImpl->refFrameIndex == iDynTree::FRAME_INVALID_INDEX) {
         bfError << "Cannot find " + refFrame + " in the frame list.";
         return false;
     }
 
-    // Frame 2
+    // Frame
     pImpl->frameIndex = kinDyn->getFrameIndex(frame);
     if (pImpl->frameIndex == iDynTree::FRAME_INVALID_INDEX) {
         bfError << "Cannot find " + frame + " in the frame list.";
