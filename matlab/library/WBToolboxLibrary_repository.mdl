@@ -1,14 +1,14 @@
 Library {
-  Name			  "WBToolboxLibrary_repository"
+  Name			  "WBToolboxLibrary_repository2"
   Version		  10.2
   SavedCharacterEncoding  "UTF-8"
-  ModelUUID		  "2df547a6-2710-4713-8771-1d8373118e68"
+  ModelUUID		  "42d2b8d8-7c70-478c-ba60-9c2289efe140"
   LogicAnalyzerPlugin	  "on"
   AnimationPlugin	  "on"
-  SLCCPlugin		  "on"
-  WebScopes_FoundationPlugin "on"
   DiagnosticSuppressor	  "on"
   slcheck_filter_plugin	  "on"
+  WebScopes_FoundationPlugin "on"
+  SLCCPlugin		  "on"
   NotesPlugin		  "on"
   LibraryType		  "BlockLibrary"
   EnableAccessToBaseWorkspace on
@@ -27,7 +27,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [570.0, 150.0, 1349.0, 1130.0]
+      Location		      [50.0, 141.0, 1349.0, 1130.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -87,10 +87,10 @@ Library {
 	  IsTabbed		  [1]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "202"
-	  Extents		  [1311.0, 902.0]
-	  ZoomFactor		  [2.0]
-	  Offset		  [-26.647435921981128, 13.084397545926834]
-	  SceneRectInView	  [-26.647435921981128, 13.084397545926834, 655.5, 451.0]
+	  Extents		  [1311.0, 897.0]
+	  ZoomFactor		  [1.4018715154983867]
+	  Offset		  [154.91078604342727, -104.27277812645792]
+	  SceneRectInView	  [154.91078604342727, -104.27277812645792, 935.17842791314547, 639.85892436162578]
 	}
 	Object {
 	  $ObjectID		  9
@@ -187,19 +187,6 @@ Library {
 	Dimension		2
 	Object {
 	  $ObjectID		  17
-	  Type			  "GLUE2:PropertyInspector"
-	  ID			  "Property Inspector"
-	  Visible		  [0]
-	  CreateCallback	  ""
-	  UserData		  ""
-	  Floating		  [0]
-	  DockPosition		  "Right"
-	  Width			  [640]
-	  Height		  [480]
-	  Minimized		  "Unset"
-	}
-	Object {
-	  $ObjectID		  18
 	  Type			  "Simulink:Editor:ReferencedFiles"
 	  ID			  "Referenced Files"
 	  Visible		  [0]
@@ -211,6 +198,19 @@ Library {
 	  Height		  [480]
 	  Minimized		  "Unset"
 	}
+	Object {
+	  $ObjectID		  18
+	  Type			  "GLUE2:PropertyInspector"
+	  ID			  "Property Inspector"
+	  Visible		  [0]
+	  CreateCallback	  ""
+	  UserData		  ""
+	  Floating		  [0]
+	  DockPosition		  "Right"
+	  Width			  [640]
+	  Height		  [480]
+	  Minimized		  "Unset"
+	}
 	PropName		"DockComponentsInfo"
       }
       WindowState	      "AAAA/wAAAAD9AAAAAgAAAAAAAAC9AAAB+PwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
@@ -218,7 +218,7 @@ Library {
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAABiAP////sAAABgAFMAaQBtAHUAb"
       "ABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZ"
       "QBzAAAAAAD/////AAAAiQD///8AAAABAAACOAAABMz8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAd"
-      "ABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAB5AAAEzAAAAawA////AAAFRQAAA8MAAAABAAAAAgAAAAEAAAAC/"
+      "ABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAB5AAAEzAAAAawA////AAAFRQAAA74AAAABAAAAAgAAAAEAAAAC/"
       "AAAAAA="
       Array {
 	Type			"Cell"
@@ -227,20 +227,19 @@ Library {
       }
       WindowUuid	      "ad8aa86f-d4e0-4548-95bb-bd58dbd5e328"
     }
-    BDUuid		    "feede281-d839-43c8-9bdf-7deb69870a90"
+    BDUuid		    "b109891e-8f47-43d9-85b7-b3b508804754"
   }
   HideAutomaticNames	  on
   SequenceViewerTimePrecision 3
   SequenceViewerHistory	  1000
   Created		  "Thu Feb 06 02:21:39 2014"
   Creator		  "jorhabib"
-  UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "hosameldin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Aug 13 18:31:09 2021"
-  RTWModifiedTimeStamp	  550780066
-  ModelVersionFormat	  "%<AutoIncrement:13.5>"
+  LastModifiedDate	  "Wed Jan 26 16:11:42 2022"
+  RTWModifiedTimeStamp	  565114302
+  ModelVersionFormat	  "%<AutoIncrement:13.0>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -506,7 +505,6 @@ Library {
 	  UnderspecifiedInitializationDetection	"Classic"
 	  MergeDetectMultiDrivingBlocksExec "none"
 	  CheckExecutionContextPreStartOutputMsg off
-	  CheckExecutionContextRuntimeOutputMsg	off
 	  SignalResolutionControl "UseLocalSettings"
 	  BlockPriorityViolationMsg "warning"
 	  MinStepSizeMsg	  "warning"
@@ -694,6 +692,7 @@ Library {
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
 	  SimAnalyzeCustomCode	  off
+	  SimDebugExecutionForCustomCode off
 	  SimGenImportedTypeDefs  off
 	  ModelFunctionsGlobalVisibility "on"
 	  CompileTimeRecursionLimit 50
@@ -1284,7 +1283,6 @@ Library {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       SimViewingDevice	      off
-      ActiveForDiff	      off
       DataTypeOverride	      "UseLocalSettings"
       DataTypeOverrideAppliesTo	"AllNumericTypes"
       MinMaxOverflowLogging   "UseLocalSettings"
@@ -1325,10 +1323,10 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary_repository"
+    Name		    "WBToolboxLibrary_repository2"
     Location		    [570, 150, 1919, 1280]
     SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
-    Open		    on
+    Open		    off
     PortBlocksUseCompactNotation off
     SetExecutionDomain	    off
     ExecutionDomainType	    "Deduce"
@@ -1945,7 +1943,7 @@ Library {
 	Name			"Model"
 	Location		[570, 150, 1919, 1280]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-	Open			on
+	Open			off
 	PortBlocksUseCompactNotation off
 	SetExecutionDomain	off
 	ExecutionDomainType	"Deduce"
@@ -1980,7 +1978,7 @@ Library {
 	    Name		    "Dynamics"
 	    Location		    [570, 150, 1919, 1280]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
-	    Open		    on
+	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    SetExecutionDomain	    off
 	    ExecutionDomainType	    "Deduce"
@@ -2691,7 +2689,7 @@ Library {
 		Name			"MassMatrix"
 		Location		[570, 150, 1919, 1280]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-		Open			on
+		Open			off
 		PortBlocksUseCompactNotation off
 		SetExecutionDomain	off
 		ExecutionDomainType	"Deduce"
@@ -2786,9 +2784,9 @@ Library {
 	  }
 	  System {
 	    Name		    "Jacobians"
-	    Location		    [570, 150, 1919, 1280]
+	    Location		    [50, 141, 1399, 1271]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
-	    Open		    on
+	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    SetExecutionDomain	    off
 	    ExecutionDomainType	    "Deduce"
@@ -2802,7 +2800,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "200"
+	    ZoomFactor		    "140"
 	    SimulinkSubDomain	    "Simulink"
 	    Block {
 	      BlockType		      S-Function
@@ -3130,7 +3128,7 @@ Library {
 		Name			"Jacobian"
 		Location		[570, 150, 1919, 1280]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-		Open			on
+		Open			off
 		PortBlocksUseCompactNotation off
 		SetExecutionDomain	off
 		ExecutionDomainType	"Deduce"
@@ -3220,11 +3218,13 @@ Library {
 		$ObjectID		124
 		$ClassName		"Simulink.Mask"
 		Type			"Relative Jacobian"
-		Description		"This block retrieves the Relative Jacobian between two specified frames.\n\nAssuming DoFs is the numbe"
-		"r of internal degrees of freedom of the robot:\n\nInput:\n  - Joint configuration: Vector of size DoFs, representing"
-		" the configuration of the joints.\n\nOutput:\n  - Jacobian: a 6xdofs matrix representing the Jacobian between the sp"
-		"ecified frames written in Mixed representation: origin as child, orientation as parent.\n\nParameters:\n  - Frame na"
-		"me: the name of the frame. It should be specified in the URDF model."
+		Description		"This block retrieves the Relative Jacobian between two specified frames, labeled `referenceFrame` and "
+		"`Frame`. The Jacobian is written in the reference frame.\n\nAssuming DoFs is the number of internal degrees of freed"
+		"om of the robot:\n\nInput:\n  - Joint configuration: Vector of size DoFs, representing the configuration of the join"
+		"ts.\n\nOutput:\n  - Jacobian: a 6xdofs matrix representing the Jacobian between the specified frames written in Mixe"
+		"d representation: origin as child, orientation as parent.\n\nParameters:\n  - referenceFrame name: the name of the r"
+		"eference frame. It should be specified in the URDF model.\n  - Frame name: the name of the frame. It should be speci"
+		"fied in the URDF model."
 		Initialization		"% WBBlock Initialization\n% ======================\n\ntry\n    [configBlockAbsName, WBTConfig] = WB"
 		"Toolbox.BlockInitialization(gcb, gcs);\n    \n    WBTConfigParameters = WBTConfig.getSimulinkParameters;\n    clear "
 		"WBTConfig;\ncatch\nend"
@@ -3239,15 +3239,15 @@ Library {
 		    $ObjectID		    125
 		    Type		    "edit"
 		    Name		    "frameName1"
-		    Prompt		    "Frame 1 name"
-		    Value		    "'frame1'"
+		    Prompt		    "referenceFrame name"
+		    Value		    "'refFrame'"
 		  }
 		  Object {
 		    $ObjectID		    126
 		    Type		    "edit"
 		    Name		    "frameName2"
-		    Prompt		    "Frame 2 name"
-		    Value		    "'frame2'"
+		    Prompt		    "Frame name"
+		    Value		    "'frame'"
 		  }
 		  PropName		  "Parameters"
 		}
@@ -3306,7 +3306,7 @@ Library {
 		Name			"RelativeJacobian"
 		Location		[570, 150, 1919, 1280]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-		Open			on
+		Open			off
 		PortBlocksUseCompactNotation off
 		SetExecutionDomain	off
 		ExecutionDomainType	"Deduce"
@@ -3962,7 +3962,7 @@ Library {
 		Name			"RelativeTransform"
 		Location		[570, 150, 1919, 1280]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-		Open			on
+		Open			off
 		PortBlocksUseCompactNotation off
 		SetExecutionDomain	off
 		ExecutionDomainType	"Deduce"
@@ -4252,7 +4252,7 @@ Library {
 	Name			"States"
 	Location		[570, 150, 1919, 1280]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-	Open			on
+	Open			off
 	PortBlocksUseCompactNotation off
 	SetExecutionDomain	off
 	ExecutionDomainType	"Deduce"
@@ -4767,7 +4767,7 @@ Library {
 	Name			"Utilities"
 	Location		[570, 150, 1919, 1280]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
-	Open			on
+	Open			off
 	PortBlocksUseCompactNotation off
 	SetExecutionDomain	off
 	ExecutionDomainType	"Deduce"
@@ -5116,7 +5116,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1649"
+		SIDHighWatermark	"1652"
 		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
@@ -5136,20 +5136,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "107::1648"
+		  SID			  "107::1651"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  128
+		  ZOrder		  131
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "107::1647"
+		  SID			  "107::1650"
 		  Tag			  "Stateflow S-Function 6"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  127
+		  ZOrder		  130
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -5163,9 +5163,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "107::1649"
+		  SID			  "107::1652"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  129
+		  ZOrder		  132
 		}
 		Block {
 		  BlockType		  Outport
@@ -5175,7 +5175,7 @@ Library {
 		  ZOrder		  -6
 		}
 		Line {
-		  ZOrder		  111
+		  ZOrder		  116
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -5183,7 +5183,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  112
+		  ZOrder		  117
 		  SrcBlock		  "sigma"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -5191,7 +5191,7 @@ Library {
 		}
 		Line {
 		  Name			  "DPinv"
-		  ZOrder		  113
+		  ZOrder		  118
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -5199,14 +5199,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  114
+		  ZOrder		  119
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  115
+		  ZOrder		  120
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -6238,7 +6238,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"1640"
+		SIDHighWatermark	"1643"
 		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
@@ -6258,20 +6258,20 @@ Library {
 		Block {
 		  BlockType		  Demux
 		  Name			  " Demux "
-		  SID			  "112::1639"
+		  SID			  "112::1642"
 		  Ports			  [1, 1]
 		  Position		  [270, 230, 320, 270]
-		  ZOrder		  128
+		  ZOrder		  131
 		  Outputs		  "1"
 		}
 		Block {
 		  BlockType		  S-Function
 		  Name			  " SFunction "
-		  SID			  "112::1638"
+		  SID			  "112::1641"
 		  Tag			  "Stateflow S-Function 7"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 160]
-		  ZOrder		  127
+		  ZOrder		  130
 		  FunctionName		  "sf_sfun"
 		  PortCounts		  "[2 2]"
 		  SFunctionDeploymentMode off
@@ -6285,9 +6285,9 @@ Library {
 		Block {
 		  BlockType		  Terminator
 		  Name			  " Terminator "
-		  SID			  "112::1640"
+		  SID			  "112::1643"
 		  Position		  [460, 241, 480, 259]
-		  ZOrder		  129
+		  ZOrder		  132
 		}
 		Block {
 		  BlockType		  Outport
@@ -6297,7 +6297,7 @@ Library {
 		  ZOrder		  -6
 		}
 		Line {
-		  ZOrder		  111
+		  ZOrder		  116
 		  SrcBlock		  "mat"
 		  SrcPort		  1
 		  Points		  [120, 0]
@@ -6305,7 +6305,7 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  112
+		  ZOrder		  117
 		  SrcBlock		  "tol"
 		  SrcPort		  1
 		  DstBlock		  " SFunction "
@@ -6313,7 +6313,7 @@ Library {
 		}
 		Line {
 		  Name			  "TPinv"
-		  ZOrder		  113
+		  ZOrder		  118
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
@@ -6321,14 +6321,14 @@ Library {
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  114
+		  ZOrder		  119
 		  SrcBlock		  " Demux "
 		  SrcPort		  1
 		  DstBlock		  " Terminator "
 		  DstPort		  1
 		}
 		Line {
-		  ZOrder		  115
+		  ZOrder		  120
 		  SrcBlock		  " SFunction "
 		  SrcPort		  1
 		  DstBlock		  " Demux "
@@ -6702,7 +6702,7 @@ Library {
 	    Name		    "holder\n"
 	    Location		    [570, 150, 1919, 1280]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
-	    Open		    on
+	    Open		    off
 	    PortBlocksUseCompactNotation off
 	    SetExecutionDomain	    off
 	    ExecutionDomainType	    "Deduce"
@@ -6869,13 +6869,13 @@ Library {
 }
 #Finite State Machines
 #
-#   Stateflow 80000036
+#   Stateflow 80000041
 #
 #
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary_repository"
+    name		    "WBToolboxLibrary_repository2"
     sfVersion		    80000036
     firstTarget		    18
   }

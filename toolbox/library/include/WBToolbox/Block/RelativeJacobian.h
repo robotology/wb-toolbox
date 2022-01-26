@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Istituto Italiano di Tecnologia (IIT)
+ * Copyright (C) 2022 Istituto Italiano di Tecnologia (IIT)
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms of the
@@ -35,7 +35,8 @@ namespace blockfactory {
  *
  * | Type | Index | Rows  | Cols  | Name  |
  * | ---- | :---: | :---: | :---: | ----- |
- * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame1" |
+ * | ::STRING | 0 + WBBlock::NumberOfParameters | 1 | 1 | "Frame2" |
  *
  */
 class wbt::block::RelativeJacobian final : public wbt::base::WBBlock
