@@ -5,6 +5,8 @@ The format of this document is based on [Keep a Changelog](https://keepachangelo
 
 ## [Unreleased]
 
+## [5.5.0] - 2022-02-01
+
 ### Added
 - New `RelativeJacobian` block that implements `KinDynComputations::getRelativeJacobian(.)` of `iDynTree` (https://github.com/robotology/wb-toolbox/issues/225).
 
