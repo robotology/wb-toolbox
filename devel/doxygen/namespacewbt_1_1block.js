@@ -14,6 +14,7 @@ var namespacewbt_1_1block =
     [ "OSQP", "classwbt_1_1block_1_1_o_s_q_p.html", "classwbt_1_1block_1_1_o_s_q_p" ],
     [ "QpOases", "classwbt_1_1block_1_1_qp_oases.html", "classwbt_1_1block_1_1_qp_oases" ],
     [ "RealTimeSynchronizer", "classwbt_1_1block_1_1_real_time_synchronizer.html", "classwbt_1_1block_1_1_real_time_synchronizer" ],
+    [ "RelativeJacobian", "classwbt_1_1block_1_1_relative_jacobian.html", "classwbt_1_1block_1_1_relative_jacobian" ],
     [ "RelativeTransform", "classwbt_1_1block_1_1_relative_transform.html", "classwbt_1_1block_1_1_relative_transform" ],
     [ "SetMotorParameters", "classwbt_1_1block_1_1_set_motor_parameters.html", "classwbt_1_1block_1_1_set_motor_parameters" ],
     [ "SetReferences", "classwbt_1_1block_1_1_set_references.html", "classwbt_1_1block_1_1_set_references" ],
