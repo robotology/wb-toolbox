@@ -61,7 +61,8 @@ public:
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
-    bool initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool
+    initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 
