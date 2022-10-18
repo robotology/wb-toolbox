@@ -1,14 +1,14 @@
 Library {
-  Name			  "WBToolboxLibrary_repository2"
+  Name			  "WBToolboxLibrary_repository"
   Version		  10.2
   SavedCharacterEncoding  "UTF-8"
   ModelUUID		  "42d2b8d8-7c70-478c-ba60-9c2289efe140"
   LogicAnalyzerPlugin	  "on"
+  WebScopes_FoundationPlugin "on"
   AnimationPlugin	  "on"
+  SLCCPlugin		  "on"
   DiagnosticSuppressor	  "on"
   slcheck_filter_plugin	  "on"
-  WebScopes_FoundationPlugin "on"
-  SLCCPlugin		  "on"
   NotesPlugin		  "on"
   LibraryType		  "BlockLibrary"
   EnableAccessToBaseWorkspace on
@@ -27,7 +27,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [50.0, 141.0, 1349.0, 1130.0]
+      Location		      [53.0, 375.0, 1155.0, 733.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -50,124 +50,124 @@ Library {
 	Dimension		12
 	Object {
 	  $ObjectID		  5
-	  IsActive		  [0]
+	  IsActive		  [1]
 	  IsTabbed		  [1]
 	  ViewObjType		  "SimulinkTopLevel"
 	  LoadSaveID		  "0"
-	  Extents		  [1311.0, 902.0]
-	  ZoomFactor		  [1.85]
-	  Offset		  [-89.795992886308341, -39.161038908920773]
-	  SceneRectInView	  [-89.795992886308341, -39.161038908920773, 708.64864864864865, 487.56756756756755]
+	  Extents		  [1790.0, 843.0]
+	  ZoomFactor		  [1.5000000000000002]
+	  Offset		  [-212.97520781552339, -85.549777647659539]
+	  SceneRectInView	  [-212.97520781552339, -85.549777647659539, 745.83333333333326, 351.24999999999994]
 	}
 	Object {
 	  $ObjectID		  6
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "1296"
-	  Extents		  [913.0, 744.0]
-	  ZoomFactor		  [2.0]
-	  Offset		  [-184.68563869352414, -164.64890379313098]
-	  SceneRectInView	  [-184.68563869352414, -164.64890379313098, 456.5, 372.0]
+	  LoadSaveID		  "192"
+	  Extents		  [1790.0, 843.0]
+	  ZoomFactor		  [1.25]
+	  Offset		  [-41.05950975640792, -44.855266380345881]
+	  SceneRectInView	  [-41.05950975640792, -44.855266380345881, 895.0, 421.5]
 	}
 	Object {
 	  $ObjectID		  7
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "192"
-	  Extents		  [913.0, 744.0]
-	  ZoomFactor		  [1.5]
-	  Offset		  [371.69049024359214, -20.02193304701251]
-	  SceneRectInView	  [371.69049024359214, -20.02193304701251, 608.66666666666663, 496.0]
+	  LoadSaveID		  "1862"
+	  Extents		  [2098.0, 1443.0]
+	  ZoomFactor		  [4.13599959703823]
+	  Offset		  [-94.869288289166008, -105.54256381527671]
+	  SceneRectInView	  [-94.869288289166008, -105.54256381527671, 316.972951578332, 218.08512763055342]
 	}
 	Object {
 	  $ObjectID		  8
-	  IsActive		  [1]
-	  IsTabbed		  [1]
+	  IsActive		  [0]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "202"
-	  Extents		  [1311.0, 897.0]
-	  ZoomFactor		  [1.4018715154983867]
-	  Offset		  [154.91078604342727, -104.27277812645792]
-	  SceneRectInView	  [154.91078604342727, -104.27277812645792, 935.17842791314547, 639.85892436162578]
+	  LoadSaveID		  "209"
+	  Extents		  [2098.0, 1443.0]
+	  ZoomFactor		  [1.9999999999999996]
+	  Offset		  [31.638927599518752, -76.74367685613089]
+	  SceneRectInView	  [31.638927599518752, -76.74367685613089, 655.50000000000011, 451.00000000000011]
 	}
 	Object {
 	  $ObjectID		  9
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "1799"
-	  Extents		  [1311.0, 902.0]
-	  ZoomFactor		  [5.0]
-	  Offset		  [26.663800209832146, -29.738848920863305]
-	  SceneRectInView	  [26.663800209832146, -29.738848920863305, 262.2, 180.4]
+	  LoadSaveID		  "206"
+	  Extents		  [3000.0, 1206.0]
+	  ZoomFactor		  [6.0]
+	  Offset		  [252.44396551724139, 145.16666666666663]
+	  SceneRectInView	  [252.44396551724139, 145.16666666666663, 312.49999999999994, 125.66666666666666]
 	}
 	Object {
 	  $ObjectID		  10
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "1633"
-	  Extents		  [1875.0, 754.0]
-	  ZoomFactor		  [6.2999999999999989]
-	  Offset		  [-19.500372023809547, -9.9920634920635081]
-	  SceneRectInView	  [-19.500372023809547, -9.9920634920635081, 297.61904761904765, 119.6825396825397]
+	  LoadSaveID		  "369"
+	  Extents		  [3000.0, 1206.0]
+	  ZoomFactor		  [3.0]
+	  Offset		  [201.78631633871396, 105.24564709323813]
+	  SceneRectInView	  [201.78631633871396, 105.24564709323813, 624.99999999999989, 251.33333333333331]
 	}
 	Object {
 	  $ObjectID		  11
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "1663"
-	  Extents		  [2522.0, 1167.0]
-	  ZoomFactor		  [5.976728957840125]
-	  Offset		  [-8.82679341963322, -12.692788396709815]
-	  SceneRectInView	  [-8.82679341963322, -12.692788396709815, 421.96994673678535, 195.25730683656957]
+	  Extents		  [3840.0, 1760.0]
+	  ZoomFactor		  [5.6335919911089443]
+	  Offset		  [-10.849791145680058, -12.692788396709815]
+	  SceneRectInView	  [-10.849791145680058, -12.692788396709815, 426.015942188879, 195.25730683656954]
 	}
 	Object {
 	  $ObjectID		  12
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "369"
-	  Extents		  [1875.0, 754.0]
-	  ZoomFactor		  [3.0]
-	  Offset		  [201.78631633871396, 105.24564709323813]
-	  SceneRectInView	  [201.78631633871396, 105.24564709323813, 625.0, 251.33333333333334]
+	  LoadSaveID		  "1633"
+	  Extents		  [3000.0, 1206.0]
+	  ZoomFactor		  [6.2999999999999989]
+	  Offset		  [-19.500372023809547, -9.9920634920635081]
+	  SceneRectInView	  [-19.500372023809547, -9.9920634920635081, 297.61904761904765, 119.68253968253971]
 	}
 	Object {
 	  $ObjectID		  13
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "206"
-	  Extents		  [1875.0, 754.0]
-	  ZoomFactor		  [6.0]
-	  Offset		  [252.44396551724139, 145.16666666666663]
-	  SceneRectInView	  [252.44396551724139, 145.16666666666663, 312.5, 125.66666666666667]
+	  LoadSaveID		  "1799"
+	  Extents		  [2098.0, 1443.0]
+	  ZoomFactor		  [4.9999999999999991]
+	  Offset		  [26.663800209832146, -29.738848920863319]
+	  SceneRectInView	  [26.663800209832146, -29.738848920863319, 262.20000000000005, 180.40000000000003]
 	}
 	Object {
 	  $ObjectID		  14
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "209"
-	  Extents		  [1311.0, 902.0]
-	  ZoomFactor		  [2.0]
-	  Offset		  [31.638927599518752, -76.743676856130833]
-	  SceneRectInView	  [31.638927599518752, -76.743676856130833, 655.5, 451.0]
+	  LoadSaveID		  "202"
+	  Extents		  [2100.0, 1478.0]
+	  ZoomFactor		  [1.4034754874840827]
+	  Offset		  [154.91078604342721, -113.43705795889008]
+	  SceneRectInView	  [154.91078604342721, -113.43705795889008, 935.17842791314558, 658.1874840264901]
 	}
 	Object {
 	  $ObjectID		  15
 	  IsActive		  [0]
-	  IsTabbed		  [1]
+	  IsTabbed		  [0]
 	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "1862"
-	  Extents		  [1311.0, 902.0]
-	  ZoomFactor		  [4.1359995970382313]
-	  Offset		  [-94.869288289166008, -105.54256381527669]
-	  SceneRectInView	  [-94.869288289166008, -105.54256381527669, 316.972951578332, 218.08512763055339]
+	  LoadSaveID		  "1296"
+	  Extents		  [1461.0, 1190.0]
+	  ZoomFactor		  [2.0]
+	  Offset		  [-184.68563869352417, -164.64890379313098]
+	  SceneRectInView	  [-184.68563869352417, -164.64890379313098, 456.50000000000006, 372.0]
 	}
 	Object {
 	  $ObjectID		  16
@@ -194,8 +194,8 @@ Library {
 	  UserData		  "{\"filterShowRefModels\":\"true\",\"filterShowRefSubs\":\"true\",\"filterShowOnlyDirtyFiles\":\"false\"}\n"
 	  Floating		  [0]
 	  DockPosition		  "Left"
-	  Width			  [640]
-	  Height		  [480]
+	  Width			  [400]
+	  Height		  [300]
 	  Minimized		  "Unset"
 	}
 	Object {
@@ -207,18 +207,18 @@ Library {
 	  UserData		  ""
 	  Floating		  [0]
 	  DockPosition		  "Right"
-	  Width			  [640]
-	  Height		  [480]
+	  Width			  [400]
+	  Height		  [300]
 	  Minimized		  "Unset"
 	}
 	PropName		"DockComponentsInfo"
       }
       WindowState	      "AAAA/wAAAAD9AAAAAgAAAAAAAAC9AAAB+PwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
-      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAABiAP////sAAABgAFMAaQBtAHUAb"
+      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAABwAP////sAAABgAFMAaQBtAHUAb"
       "ABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZ"
-      "QBzAAAAAAD/////AAAAiQD///8AAAABAAACOAAABMz8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAd"
-      "ABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAB5AAAEzAAAAawA////AAAFRQAAA74AAAABAAAAAgAAAAEAAAAC/"
+      "QBzAAAAAAD/////AAAAlwD///8AAAABAAACOAAABMz8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAd"
+      "ABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAB5AAAEzAAAAqoA////AAAHOAAAA5kAAAABAAAAAgAAAAEAAAAC/"
       "AAAAAA="
       Array {
 	Type			"Cell"
@@ -234,12 +234,13 @@ Library {
   SequenceViewerHistory	  1000
   Created		  "Thu Feb 06 02:21:39 2014"
   Creator		  "jorhabib"
+  UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "hosameldin"
+  LastModifiedBy	  "vpasandi"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jan 26 16:11:42 2022"
-  RTWModifiedTimeStamp	  565114302
-  ModelVersionFormat	  "%<AutoIncrement:13.0>"
+  LastModifiedDate	  "Tue Oct 18 16:57:02 2022"
+  RTWModifiedTimeStamp	  588004805
+  ModelVersionFormat	  "%<AutoIncrement:13.5>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -505,6 +506,7 @@ Library {
 	  UnderspecifiedInitializationDetection	"Classic"
 	  MergeDetectMultiDrivingBlocksExec "none"
 	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
 	  SignalResolutionControl "UseLocalSettings"
 	  BlockPriorityViolationMsg "warning"
 	  MinStepSizeMsg	  "warning"
@@ -692,7 +694,6 @@ Library {
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
 	  SimAnalyzeCustomCode	  off
-	  SimDebugExecutionForCustomCode off
 	  SimGenImportedTypeDefs  off
 	  ModelFunctionsGlobalVisibility "on"
 	  CompileTimeRecursionLimit 50
@@ -1283,6 +1284,7 @@ Library {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       SimViewingDevice	      off
+      ActiveForDiff	      off
       DataTypeOverride	      "UseLocalSettings"
       DataTypeOverrideAppliesTo	"AllNumericTypes"
       MinMaxOverflowLogging   "UseLocalSettings"
@@ -1323,10 +1325,10 @@ Library {
     }
   }
   System {
-    Name		    "WBToolboxLibrary_repository2"
-    Location		    [570, 150, 1919, 1280]
+    Name		    "WBToolboxLibrary_repository"
+    Location		    [53, 375, 1208, 1108]
     SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
-    Open		    off
+    Open		    on
     PortBlocksUseCompactNotation off
     SetExecutionDomain	    off
     ExecutionDomainType	    "Deduce"
@@ -1340,7 +1342,7 @@ Library {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "185"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "1877"
     SimulinkSubDomain	    "Simulink"
@@ -1349,7 +1351,7 @@ Library {
       Name		      "Actuators"
       SID		      "224"
       Ports		      []
-      Position		      [250, 16, 348, 113]
+      Position		      [160, -9, 258, 88]
       ZOrder		      -17
       ForegroundColor	      "white"
       DropShadow	      on
@@ -1928,7 +1930,7 @@ Library {
       Name		      "Model"
       SID		      "209"
       Ports		      []
-      Position		      [133, 16, 231, 113]
+      Position		      [43, -9, 141, 88]
       ZOrder		      -3
       ForegroundColor	      "white"
       DropShadow	      on
@@ -1941,7 +1943,7 @@ Library {
       }
       System {
 	Name			"Model"
-	Location		[570, 150, 1919, 1280]
+	Location		[53, 375, 1402, 1505]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 	Open			off
 	PortBlocksUseCompactNotation off
@@ -1976,7 +1978,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Dynamics"
-	    Location		    [570, 150, 1919, 1280]
+	    Location		    [53, 375, 1402, 1505]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -2687,7 +2689,7 @@ Library {
 	      }
 	      System {
 		Name			"MassMatrix"
-		Location		[570, 150, 1919, 1280]
+		Location		[53, 375, 1402, 1505]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -2784,7 +2786,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Jacobians"
-	    Location		    [50, 141, 1399, 1271]
+	    Location		    [53, 375, 1402, 1505]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -3126,7 +3128,7 @@ Library {
 	      }
 	      System {
 		Name			"Jacobian"
-		Location		[570, 150, 1919, 1280]
+		Location		[53, 375, 1402, 1505]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3142,7 +3144,7 @@ Library {
 		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 		TiledPageScale		1
 		ShowPageBoundaries	off
-		ZoomFactor		"598"
+		ZoomFactor		"563"
 		SimulinkSubDomain	"Simulink"
 		Block {
 		  BlockType		  Inport
@@ -3304,7 +3306,7 @@ Library {
 	      }
 	      System {
 		Name			"RelativeJacobian"
-		Location		[570, 150, 1919, 1280]
+		Location		[53, 375, 1402, 1505]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -3960,7 +3962,7 @@ Library {
 	      }
 	      System {
 		Name			"RelativeTransform"
-		Location		[570, 150, 1919, 1280]
+		Location		[53, 375, 1402, 1505]
 		SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 		Open			off
 		PortBlocksUseCompactNotation off
@@ -4237,7 +4239,7 @@ Library {
       Name		      "States"
       SID		      "206"
       Ports		      []
-      Position		      [16, 17, 114, 114]
+      Position		      [-74, -8, 24, 89]
       ZOrder		      -4
       ForegroundColor	      "white"
       DropShadow	      on
@@ -4250,7 +4252,7 @@ Library {
       }
       System {
 	Name			"States"
-	Location		[570, 150, 1919, 1280]
+	Location		[53, 375, 1402, 1505]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 	Open			off
 	PortBlocksUseCompactNotation off
@@ -4752,7 +4754,7 @@ Library {
       Name		      "Utilities"
       SID		      "192"
       Ports		      []
-      Position		      [364, 17, 462, 114]
+      Position		      [274, -8, 372, 89]
       ZOrder		      -1
       ForegroundColor	      "white"
       DropShadow	      on
@@ -4765,7 +4767,7 @@ Library {
       }
       System {
 	Name			"Utilities"
-	Location		[570, 150, 1919, 1280]
+	Location		[53, 375, 1208, 1108]
 	SystemRect		[0.000000, 0.000000, 0.000000, 0.000000]
 	Open			off
 	PortBlocksUseCompactNotation off
@@ -4781,7 +4783,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"150"
+	ZoomFactor		"125"
 	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  SubSystem
@@ -5758,7 +5760,7 @@ Library {
 	  Position		  [650, -13, 835, 63]
 	  ZOrder		  255
 	  FunctionName		  "BlockFactory"
-	  Parameters		  "'OSQP','WBToolbox',lbA,ubA,lb,ub,computeObjVal,stopIfFails"
+	  Parameters		  "'OSQP','WBToolbox',lbA,ubA,lb,ub,computeObjVal,stopIfFails,adaptiveRho,polish,maxIterations"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  off
 	  SFcnIsStateOwnerBlock	  off
@@ -5769,6 +5771,9 @@ Library {
 	    Type		    "OSQP"
 	    Description		    "This block solves a QP problem using the OSQP library:\n\nx = argmin 0.5 * x' * H * x + c' * x\n"
 	    "\ns.t.\n\nlbA <= Ax <= ubA\nlb <= x <= ub \n"
+	    Initialization	    "% Check if the maximum iteration number is a real and positive number.\nif (maxIterations ~= "
+	    "round(maxIterations) || ~isreal(maxIterations) || (maxIterations < 1))\n    error(\"[OSQP]: The maximum iteration"
+	    " number is a real positive number.\");\nend"
 	    Display		    "disp('OSQP')\n\nport_label('output', 1, 'PrimalSolution')\nport_label('output', 2, 'Status')\n\nif "
 	    "(computeObjVal)\n    port_label('output', 3, 'Obj func value')\nend\n\nport_label('input', 1, 'H');\nport_label('"
 	    "input', 2, 'g');\n\ninputPortNumber = 2;\n\nif (lbA || ubA)\n    inputPortNumber = 3;\n    port_label('input', 3,"
@@ -5779,7 +5784,7 @@ Library {
 	    RunInitForIconRedraw    "on"
 	    Array {
 	      Type		      "Simulink.MaskParameter"
-	      Dimension		      6
+	      Dimension		      9
 	      Object {
 		$ObjectID		286
 		Type			"checkbox"
@@ -5822,17 +5827,38 @@ Library {
 		Prompt			"Stop the simulation if the solver fails"
 		Value			"off"
 	      }
+	      Object {
+		$ObjectID		292
+		Type			"checkbox"
+		Name			"adaptiveRho"
+		Prompt			"Use adaptive rho algorithm"
+		Value			"off"
+	      }
+	      Object {
+		$ObjectID		293
+		Type			"checkbox"
+		Name			"polish"
+		Prompt			"Use polish algorithm"
+		Value			"off"
+	      }
+	      Object {
+		$ObjectID		294
+		Type			"edit"
+		Name			"maxIterations"
+		Prompt			"Maximum number of iterations"
+		Value			"100"
+	      }
 	      PropName		      "Parameters"
 	    }
 	    Array {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		292
+		$ObjectID		295
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  293
+		  $ObjectID		  296
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5840,70 +5866,143 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		294
+		$ObjectID		297
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
-		Array {
-		  Type			  "Simulink.dialog.Group"
-		  Dimension		  3
-		  Object {
-		    $ObjectID		    295
+		Object {
+		  $PropName		  "DialogControls"
+		  $ObjectID		  298
+		  $ClassName		  "Simulink.dialog.TabContainer"
+		  Array {
+		    Type		    "Simulink.dialog.Tab"
+		    Dimension		    2
+		    Object {
+		    $ObjectID		    299
+		    Prompt		    "QP problem"
+		    Array {
+		    Type		    "Simulink.dialog.Group"
+		    Dimension		    2
+		    Object {
+		    $ObjectID		    300
 		    Prompt		    "Constraints bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    296
+		    $ObjectID		    301
 		    Name		    "lbA"
 		    }
 		    Object {
-		    $ObjectID		    297
+		    $ObjectID		    302
 		    Name		    "ubA"
 		    }
 		    PropName		    "DialogControls"
 		    }
 		    Name		    "constraintsBoundsBox"
-		  }
-		  Object {
-		    $ObjectID		    298
+		    }
+		    Object {
+		    $ObjectID		    303
 		    Prompt		    "Simple bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    299
+		    $ObjectID		    304
 		    Name		    "lb"
 		    }
 		    Object {
-		    $ObjectID		    300
+		    $ObjectID		    305
 		    Name		    "ub"
 		    }
 		    PropName		    "DialogControls"
 		    }
 		    Name		    "simpleBoundsBox"
-		  }
-		  Object {
-		    $ObjectID		    301
-		    Prompt		    "Other"
-		    Array {
-		    Type		    "Simulink.dialog.parameter.CheckBox"
-		    Dimension		    2
-		    Object {
-		    $ObjectID		    302
-		    Name		    "computeObjVal"
-		    }
-		    Object {
-		    $ObjectID		    303
-		    Name		    "stopIfFails"
 		    }
 		    PropName		    "DialogControls"
 		    }
-		    Name		    "otherBox"
+		    Name		    "Tab1"
+		    }
+		    Object {
+		    $ObjectID		    306
+		    Prompt		    "Setting"
+		    Array {
+		    Type		    "Simulink.dialog.parameter.Control"
+		    Dimension		    5
+		    Object {
+		    $ObjectID		    307
+		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
+		    Name		    "computeObjVal"
+		    }
+		    Object {
+		    $ObjectID		    308
+		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
+		    Name		    "stopIfFails"
+		    }
+		    Object {
+		    $ObjectID		    309
+		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
+		    Name		    "adaptiveRho"
+		    }
+		    Object {
+		    $ObjectID		    310
+		    $ClassName		    "Simulink.dialog.parameter.CheckBox"
+		    Name		    "polish"
+		    }
+		    Object {
+		    $ObjectID		    311
+		    $ClassName		    "Simulink.dialog.parameter.Edit"
+		    Name		    "maxIterations"
+		    }
+		    PropName		    "DialogControls"
+		    }
+		    Name		    "Tab2"
+		    }
+		    PropName		    "DialogControls"
 		  }
-		  PropName		  "DialogControls"
+		  Name			  "Container6"
 		}
 		Name			"ParameterGroupVar"
 	      }
 	      PropName		      "DialogControls"
+	    }
+	    Object {
+	      $PropName		      "ParameterConstraints"
+	      $ObjectID		      312
+	      $ClassName	      "Simulink.Mask.Constraints"
+	      Name		      "Constraint_positivity"
+	      Object {
+		$PropName		"ConstraintRules"
+		$ObjectID		313
+		$ClassName		"Simulink.Mask.ParameterConstraintRules"
+		DataType		"numeric"
+		Array {
+		  Type			  "Cell"
+		  Dimension		  1
+		  Cell			  "scalar"
+		  PropName		  "Dimension"
+		}
+		Array {
+		  Type			  "Cell"
+		  Dimension		  1
+		  Cell			  "real"
+		  PropName		  "Complexity"
+		}
+		Array {
+		  Type			  "Cell"
+		  Dimension		  1
+		  Cell			  "positive"
+		  PropName		  "Sign"
+		}
+		Array {
+		  Type			  "Cell"
+		  Dimension		  1
+		  Cell			  "finite"
+		  PropName		  "Finiteness"
+		}
+		Minimum			""
+		Maximum			""
+		CustomConstraint	""
+		CustomErrorMessage	""
+	      }
 	    }
 	  }
 	}
@@ -5921,7 +6020,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    304
+	    $ObjectID		    314
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "QP"
 	    Description		    "This block solves a QP problem using the qpOASES library:\n\nx = argmin 0.5 * x' * H * x + c' *"
@@ -5938,42 +6037,42 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      6
 	      Object {
-		$ObjectID		305
+		$ObjectID		315
 		Type			"checkbox"
 		Name			"lbA"
 		Prompt			"Accept constraints lower bound input (lbA)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		306
+		$ObjectID		316
 		Type			"checkbox"
 		Name			"ubA"
 		Prompt			"Accept constraints upper bound input (ubA)"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		307
+		$ObjectID		317
 		Type			"checkbox"
 		Name			"lb"
 		Prompt			"Accept lower bound input (lb)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		308
+		$ObjectID		318
 		Type			"checkbox"
 		Name			"ub"
 		Prompt			"Accept upper bound input (ub)"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		309
+		$ObjectID		319
 		Type			"checkbox"
 		Name			"computeObjVal"
 		Prompt			"Output the value of the objective function"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		310
+		$ObjectID		320
 		Type			"checkbox"
 		Name			"stopIfFails"
 		Prompt			"Stop the simulation if the solver fails"
@@ -5985,11 +6084,11 @@ Library {
 	      Type		      "Simulink.dialog.Group"
 	      Dimension		      2
 	      Object {
-		$ObjectID		311
+		$ObjectID		321
 		Prompt			"%<MaskType>"
 		Object {
 		  $PropName		  "DialogControls"
-		  $ObjectID		  312
+		  $ObjectID		  322
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
@@ -5997,23 +6096,23 @@ Library {
 		Name			"DescGroupVar"
 	      }
 	      Object {
-		$ObjectID		313
+		$ObjectID		323
 		Prompt			"Simulink:studio:ToolBarParametersMenu"
 		Array {
 		  Type			  "Simulink.dialog.Group"
 		  Dimension		  3
 		  Object {
-		    $ObjectID		    314
+		    $ObjectID		    324
 		    Prompt		    "Constraints bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    315
+		    $ObjectID		    325
 		    Name		    "lbA"
 		    }
 		    Object {
-		    $ObjectID		    316
+		    $ObjectID		    326
 		    Name		    "ubA"
 		    }
 		    PropName		    "DialogControls"
@@ -6021,17 +6120,17 @@ Library {
 		    Name		    "constraintsBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    317
+		    $ObjectID		    327
 		    Prompt		    "Simple bounds"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    318
+		    $ObjectID		    328
 		    Name		    "lb"
 		    }
 		    Object {
-		    $ObjectID		    319
+		    $ObjectID		    329
 		    Name		    "ub"
 		    }
 		    PropName		    "DialogControls"
@@ -6039,17 +6138,17 @@ Library {
 		    Name		    "simpleBoundsBox"
 		  }
 		  Object {
-		    $ObjectID		    320
+		    $ObjectID		    330
 		    Prompt		    "Other"
 		    Array {
 		    Type		    "Simulink.dialog.parameter.CheckBox"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    321
+		    $ObjectID		    331
 		    Name		    "computeObjVal"
 		    }
 		    Object {
-		    $ObjectID		    322
+		    $ObjectID		    332
 		    Name		    "stopIfFails"
 		    }
 		    PropName		    "DialogControls"
@@ -6081,7 +6180,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    323
+	    $ObjectID		    333
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Real Time Synchronizer"
 	    Description		    "This block slows down the simulation trying to match the period specified \nas parameter (in se"
@@ -6089,7 +6188,7 @@ Library {
 	    Display		    "disp('Real Time Synchronizer')"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      324
+	      $ObjectID		      334
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "period"
@@ -6114,7 +6213,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    325
+	    $ObjectID		    335
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Simulator Synchronizer"
 	    Description		    "This block synchronizes with the external simulation on a simulator \n(only Gazebo is supported"
@@ -6124,21 +6223,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		326
+		$ObjectID		336
 		Type			"edit"
 		Name			"period"
 		Prompt			"Controller Period (in seconds)"
 		Value			"0.01"
 	      }
 	      Object {
-		$ObjectID		327
+		$ObjectID		337
 		Type			"edit"
 		Name			"serverPortName"
 		Prompt			"Server Port Name"
 		Value			"'/clock/rpc'"
 	      }
 	      Object {
-		$ObjectID		328
+		$ObjectID		338
 		Type			"edit"
 		Name			"clientPortName"
 		Prompt			"Client Port Name"
@@ -6159,11 +6258,11 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    329
+	    $ObjectID		    339
 	    $ClassName		    "Simulink.Mask"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      330
+	      $ObjectID		      340
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "tol"
@@ -6381,7 +6480,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    331
+	    $ObjectID		    341
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Clock"
 	    Description		    "This block outputs the current YARP Time.\nIn a nutshell, this block outputs the equivalent of "
@@ -6405,7 +6504,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    332
+	    $ObjectID		    342
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Read"
 	    Description		    "This block behaves as the command 'yarp read'. \n\nBy default it has the option 'Autoconnect' a"
@@ -6425,21 +6524,21 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      7
 	      Object {
-		$ObjectID		333
+		$ObjectID		343
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Source Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		334
+		$ObjectID		344
 		Type			"edit"
 		Name			"signalSize"
 		Prompt			"Port Size"
 		Value			"1"
 	      }
 	      Object {
-		$ObjectID		335
+		$ObjectID		345
 		Type			"edit"
 		Name			"timeout"
 		Prompt			"Timeout"
@@ -6447,7 +6546,7 @@ Library {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		336
+		$ObjectID		346
 		Type			"checkbox"
 		Name			"blocking"
 		Prompt			"Blocking Read"
@@ -6458,14 +6557,14 @@ Library {
 		"king_val mask_visibility"
 	      }
 	      Object {
-		$ObjectID		337
+		$ObjectID		347
 		Type			"checkbox"
 		Name			"timestamp"
 		Prompt			"Read Timestamp"
 		Value			"on"
 	      }
 	      Object {
-		$ObjectID		338
+		$ObjectID		348
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -6478,7 +6577,7 @@ Library {
 		"ibilities"
 	      }
 	      Object {
-		$ObjectID		339
+		$ObjectID		349
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6503,7 +6602,7 @@ Library {
 	  SFcnIsStateOwnerBlock	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    340
+	    $ObjectID		    350
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "YARP Write"
 	    Description		    "This block behaves as the command 'yarp write'. \n\nBy default this block opens a port names as"
@@ -6516,14 +6615,14 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      3
 	      Object {
-		$ObjectID		341
+		$ObjectID		351
 		Type			"edit"
 		Name			"portName"
 		Prompt			"Opened Port Name"
 		Value			"'/portname'"
 	      }
 	      Object {
-		$ObjectID		342
+		$ObjectID		352
 		Type			"checkbox"
 		Name			"autoconnect"
 		Prompt			"Autoconnect"
@@ -6534,7 +6633,7 @@ Library {
 		"';'off'});\nend\nset_param(gcb, 'MaskPrompts', prompt_string);\nclear autoconnect_val prompt_string"
 	      }
 	      Object {
-		$ObjectID		343
+		$ObjectID		353
 		Type			"checkbox"
 		Name			"errorOnConnection"
 		Prompt			"Error on missing connection"
@@ -6556,7 +6655,7 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    344
+	    $ObjectID		    354
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Errors"
 	    Description		    "Computes two kinds of errors. The first is just the difference between x\nand y while the secon"
@@ -6693,14 +6792,14 @@ Library {
 	  RequestExecContextInheritance	off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    345
+	    $ObjectID		    355
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Holder"
 	    Description		    "This block holds the first input value during the simulation."
 	  }
 	  System {
 	    Name		    "holder\n"
-	    Location		    [570, 150, 1919, 1280]
+	    Location		    [53, 375, 1402, 1505]
 	    SystemRect		    [0.000000, 0.000000, 0.000000, 0.000000]
 	    Open		    off
 	    PortBlocksUseCompactNotation off
@@ -6834,7 +6933,7 @@ Library {
     Annotation {
       SID		      "1213"
       Name		      "WHOLE BODY TOOLBOX"
-      Position		      [172, 149, 319, 166]
+      Position		      [82, 124, 229, 141]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
@@ -6857,7 +6956,7 @@ Library {
       "1) http://www.codyco.eu</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
       ":0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#636363;\">H2020 EU Project AnDy (No. 731540 H"
       "2020-ICT-2016-1) http://andy-project.eu</span></p></body></html>"
-      Position		      [157, 176, 333, 213]
+      Position		      [67, 151, 243, 188]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "white"
       BackgroundColor	      "black"
@@ -6869,13 +6968,13 @@ Library {
 }
 #Finite State Machines
 #
-#   Stateflow 80000041
+#   Stateflow 80000036
 #
 #
 Stateflow {
   machine {
     id			    1
-    name		    "WBToolboxLibrary_repository2"
+    name		    "WBToolboxLibrary_repository"
     sfVersion		    80000036
     firstTarget		    18
   }

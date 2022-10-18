@@ -41,6 +41,9 @@ namespace blockfactory {
  * | ParameterType::BOOL | 3 + Block::NumberOfParameters | 1 | 1 | "UseUb"         |
  * | ParameterType::BOOL | 4 + Block::NumberOfParameters | 1 | 1 | "ComputeObjVal" |
  * | ParameterType::BOOL | 5 + Block::NumberOfParameters | 1 | 1 | "StopWhenFails" |
+ * | ParameterType::BOOL | 6 + Block::NumberOfParameters | 1 | 1 | "AdaptiveRho"   |
+ * | ParameterType::BOOL | 7 + Block::NumberOfParameters | 1 | 1 | "Polish"        |
+ * | ParameterType::BOOL | 8 + Block::NumberOfParameters | 1 | 1 | "MaxIterations" |
  *
  */
 class wbt::block::OSQP final : public blockfactory::core::Block
@@ -58,8 +61,7 @@ public:
     bool parseParameters(blockfactory::core::BlockInformation* blockInfo) override;
     bool configureSizeAndPorts(blockfactory::core::BlockInformation* blockInfo) override;
     bool initialize(blockfactory::core::BlockInformation* blockInfo) override;
-    bool
-    initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
+    bool initializeInitialConditions(const blockfactory::core::BlockInformation* blockInfo) override;
     bool output(const blockfactory::core::BlockInformation* blockInfo) override;
 };
 

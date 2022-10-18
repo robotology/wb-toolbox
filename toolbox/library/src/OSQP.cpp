@@ -28,8 +28,6 @@
 
 using namespace blockfactory::core;
 
-const unsigned MaxIterations = 100;
-
 #define WBT_OSQP_INF 1e8
 
 // INDICES: PARAMETERS, INPUTS, OUTPUT
@@ -44,6 +42,9 @@ enum ParamIndex
     UseUb,
     ComputeObjVal,
     StopWhenFails,
+    AdaptiveRho,
+    Polish,
+    MaxIterations,
 };
 
 enum InputIndex
@@ -83,6 +84,9 @@ public:
     bool useUb;
     bool computeObjVal;
     bool stopWhenFails;
+    bool adaptiveRho;
+    bool polish;
+    unsigned maxIterations;
     // Buffers
     size_t numberOfVariables;
     size_t numberOfTotalConstraints;
@@ -110,7 +114,7 @@ wbt::block::OSQP::~OSQP() = default;
 
 unsigned wbt::block::OSQP::numberOfParameters()
 {
-    return Block::numberOfParameters() + 6;
+    return Block::numberOfParameters() + 9;
 }
 
 bool wbt::block::OSQP::parseParameters(BlockInformation* blockInfo)
@@ -122,6 +126,9 @@ bool wbt::block::OSQP::parseParameters(BlockInformation* blockInfo)
         {ParameterType::BOOL, ParamIndex::UseUb, 1, 1, "UseUb"},
         {ParameterType::BOOL, ParamIndex::ComputeObjVal, 1, 1, "ComputeObjVal"},
         {ParameterType::BOOL, ParamIndex::StopWhenFails, 1, 1, "StopWhenFails"},
+        {ParameterType::BOOL, ParamIndex::AdaptiveRho, 1, 1, "AdaptiveRho"},
+        {ParameterType::BOOL, ParamIndex::Polish, 1, 1, "Polish"},
+        {ParameterType::INT, ParamIndex::MaxIterations, 1, 1, "MaxIterations"},
     };
 
     for (const auto& md : metadata) {
@@ -318,14 +325,21 @@ bool wbt::block::OSQP::solverInitialization(const BlockInformation*blockInfo)
     // Setup options
     pImpl->sqSolver->settings()->setVerbosity(false);
 
-    // Set adaptive_rho to false to avoid converge problems
+    // Setup adaptive_rho
+    // Note that enabling adaptive_rho could cause converge problems
     // See https://github.com/oxfordcontrol/osqp/issues/151
-    pImpl->sqSolver->settings()->setAdaptiveRho(false);
+    pImpl->sqSolver->settings()->setAdaptiveRho(pImpl->adaptiveRho);
 
     // Set warm start to true to permit to just update the values
     // of hessians, gradient and constraints
     pImpl->sqSolver->settings()->setWarmStart(true);
 
+    // Setup the polishing option
+    pImpl->sqSolver->settings()->setPolish(pImpl->polish);
+    
+    // Setup the maximum number of iterations
+    pImpl->sqSolver->settings()->setMaxIteration(pImpl->maxIterations);
+    
     return true;
 }
 
@@ -337,6 +351,8 @@ bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
 
     // PARAMETERS
     // ==========
+
+    int maxIter = -1;
 
     if (!OSQP::parseParameters(blockInfo)) {
         bfError << "Failed to parse parameters.";
@@ -350,11 +366,23 @@ bool wbt::block::OSQP::initialize(BlockInformation* blockInfo)
     ok = ok && m_parameters.getParameter("UseUb", pImpl->useUb);
     ok = ok && m_parameters.getParameter("ComputeObjVal", pImpl->computeObjVal);
     ok = ok && m_parameters.getParameter("StopWhenFails", pImpl->stopWhenFails);
+    ok = ok && m_parameters.getParameter("AdaptiveRho", pImpl->adaptiveRho);
+    ok = ok && m_parameters.getParameter("Polish", pImpl->polish);
+    ok = ok && m_parameters.getParameter("MaxIterations", maxIter);
 
     if (!ok) {
         bfError << "Failed to get parameters after their parsing.";
         return false;
     }
+
+    // Check if the maximum number of Iterations read correctly from Simulink GUI
+    if (maxIter > 0){
+       pImpl->maxIterations = maxIter;
+    } else {
+       pImpl->maxIterations = 1;
+       bfError << "Failed to set the maximum number of iterations.";
+       return false;
+    }  
 
     // CLASS INITIALIZATION
     // ====================
