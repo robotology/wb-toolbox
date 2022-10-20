@@ -38,7 +38,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classwbt_1_1base_1_1_whole_body_singleton.html#aee4410cb5fb4cf86c3997a78b0fc4feb",
-"namespacewbt_1_1base.html"
+"namespaces.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
