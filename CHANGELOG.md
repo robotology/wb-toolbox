@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format of this document is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [unreleased]
+
+### Changed
+- Add adaptive_rho, polish and maximum iteration options for `OSQP` block (https://github.com/robotology/wb-toolbox/pull/234#issuecomment-1284136010).
+- Remove deprecated functions from `OSQP` block (https://github.com/robotology/wb-toolbox/pull/234#issuecomment-1284136010).
 
 ## [5.5.0] - 2022-02-01
 
