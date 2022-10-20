@@ -586,21 +586,20 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
         }
     }
 
-    bool solveReturnVal = pImpl->sqSolver->solve();
+    OsqpEigen::ErrorExitFlag solveReturnVal = pImpl->sqSolver->solveProblem();
 
-    if (pImpl->stopWhenFails && !solveReturnVal) {
-        bfError << "OSQP: solve() failed.";
+    if (pImpl->stopWhenFails && solveReturnVal != OsqpEigen::ErrorExitFlag::NoError) {
+        bfError << "OSQP: solveProblem() failed.";
         return false;
     }
 
     // Get outputs
-    if (solveReturnVal) {
+    if (solveReturnVal == OsqpEigen::ErrorExitFlag::NoError) {
         solution_colMajor = pImpl->sqSolver->getSolution();
     }
 
     // Set status
-    double status = solveReturnVal ? 0 : 1;
-    if (!statusSignal->set(0, status)) {
+    if (!statusSignal->set(0, double(solveReturnVal))) {
         bfError << "Failed to set status signal.";
         return false;
     }
