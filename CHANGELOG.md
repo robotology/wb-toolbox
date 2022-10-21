@@ -5,6 +5,8 @@ The format of this document is based on [Keep a Changelog](https://keepachangelo
 
 ## [unreleased]
 
+## [5.6.0] - 2022-10-21
+
 ### Changed
 - Add adaptive_rho, polish and maximum iteration options for `OSQP` block (https://github.com/robotology/wb-toolbox/pull/234#issuecomment-1284136010).
 - Remove deprecated functions from `OSQP` block (https://github.com/robotology/wb-toolbox/pull/234#issuecomment-1284136010).
