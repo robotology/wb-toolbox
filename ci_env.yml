@@ -1,0 +1,16 @@
+name: wbtoolboxdev
+channels:
+  - conda-forge
+  - robotology
+dependencies:
+  - cmake
+  - compilers
+  - make
+  - ninja
+  - pkg-config
+  - eigen 
+  - blockfactory
+  - idyntree 
+  - osqp-eigen
+  - qpoases 
+  - yarp
