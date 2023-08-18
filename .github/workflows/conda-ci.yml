@@ -26,6 +26,10 @@ jobs:
       with:
         environment-file: ci_env.yml
 
+    - name: Configure VS Toolchain (Windows)
+      if: contains(matrix.os, 'windows')
+      uses: ilammy/msvc-dev-cmd@v1.12.1
+
     - name: Setup compilation env variables (Windows)
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
