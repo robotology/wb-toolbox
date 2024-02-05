@@ -226,6 +226,7 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
 
     // Compute the relative transform
     frame1_H_frame2 = kinDyn->getRelativeTransform(pImpl->frame1Index, pImpl->frame2Index);
+    std::cerr << "RelativeTransform: frame1_H_frame2: " << frame1_H_frame2.toString() << std::endl;
 
     // Get the output signal memory location
     OutputSignalPtr output = blockInfo->getOutputPortSignal(OutputIndex::Transform);
