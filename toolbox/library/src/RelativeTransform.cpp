@@ -235,8 +235,9 @@ bool RelativeTransform::output(const BlockInformation* blockInfo)
     }
 
     // Allocate objects for row-major -> col-major conversion
-    Map<const Matrix4diDynTree> frame1_H_frame2_RowMajor =
-        toEigen(frame1_H_frame2.asHomogeneousTransform());
+    const iDynTree::Matrix4x4 frame1_H_frame2_asHomogeneous =
+        frame1_H_frame2.asHomogeneousTransform();
+    Map<const Matrix4diDynTree> frame1_H_frame2_RowMajor = toEigen(frame1_H_frame2_asHomogeneous);
     Map<Matrix4dSimulink> frame1_H_frame2_ColMajor(output->getBuffer<double>(), 4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor
