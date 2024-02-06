@@ -1,9 +1,12 @@
 var classwbt_1_1block_1_1_o_s_q_p_1_1impl =
 [
+    [ "adaptiveRho", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a8eeabab1ff0357ad6cb0dcf00ca66396", null ],
     [ "computeObjVal", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a63cd9ae32a46e7e9056ad8fdcc4cd1c2", null ],
+    [ "maxIterations", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a2dde427d2500071cfde5c969e7446399", null ],
     [ "numberOfProperConstraints", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a889ede28eb99f0630909aece88b16363", null ],
     [ "numberOfTotalConstraints", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a04e1f6b7a942d99c763087592f84e159", null ],
     [ "numberOfVariables", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#affec5726e59d637d04292c4b3e140844", null ],
+    [ "polish", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#aaf7df984867b0c13227a466173a72973", null ],
     [ "properConstraintMatrix", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a347bedfc040fda23ca5f550f1602a2dd", null ],
     [ "properConstraintMatrixSparse", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#ae39332d63e0fa63c4415dc2f36923107", null ],
     [ "properConstraintsLowerBounds", "classwbt_1_1block_1_1_o_s_q_p_1_1impl.html#a25d261db20e8389aa8cdafc71a6f123e", null ],
