@@ -5,6 +5,12 @@ The format of this document is based on [Keep a Changelog](https://keepachangelo
 
 ## [unreleased]
 
+## [5.6.1] - 2023-02-06
+
+## Fixed
+
+- Fix memory allocation bug in ForwardKinematics and RelativeTransform blocks (https://github.com/robotology/wb-toolbox/pull/243).
+
 ## [5.6.0] - 2022-10-21
 
 ### Changed

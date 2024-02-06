@@ -227,8 +227,8 @@ bool ForwardKinematics::output(const BlockInformation* blockInfo)
     }
 
     // Allocate objects for row-major -> col-major conversion
-    Map<const Matrix4diDynTree> world_H_frame_RowMajor =
-        toEigen(world_H_frame.asHomogeneousTransform());
+    const iDynTree::Matrix4x4 world_H_frame_asHomogeneous = world_H_frame.asHomogeneousTransform();
+    Map<const Matrix4diDynTree> world_H_frame_RowMajor = toEigen(world_H_frame_asHomogeneous);
     Map<Matrix4dSimulink> world_H_frame_ColMajor(output->getBuffer<double>(), 4, 4);
 
     // Forward the buffer to Simulink transforming it to ColMajor
