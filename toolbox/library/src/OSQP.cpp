@@ -599,7 +599,8 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
     }
 
     // Set status
-    if (!statusSignal->set(0, double(solveReturnVal))) {
+    OsqpEigen::Status status = pImpl->sqSolver->getStatus();
+    if (!statusSignal->set(0, double(status))) {
         bfError << "Failed to set status signal.";
         return false;
     }
