@@ -49,7 +49,7 @@
 #include <string>
 
 // Class factory API
-#include "shlibpp/SharedLibraryClassApi.h"
+#include "sharedlibpp/SharedLibraryClassApi.h"
 
 // YARP-dependent blocks
 SHLIBPP_DEFINE_SHARED_SUBCLASS(GetLimits, wbt::block::GetLimits, blockfactory::core::Block)

@@ -9,7 +9,7 @@ dependencies:
   - ninja
   - pkg-config
   - eigen 
-  - blockfactory
+  - blockfactory>=1.0.0
   - idyntree 
   - osqp-eigen
   - qpoases 
