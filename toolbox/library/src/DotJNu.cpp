@@ -15,10 +15,10 @@
 #include <BlockFactory/Core/Parameter.h>
 #include <BlockFactory/Core/Parameters.h>
 #include <BlockFactory/Core/Signal.h>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/Indices.h>
+#include <iDynTree/Indices.h>
 
 #include <memory>
 #include <ostream>

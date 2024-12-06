@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 project(WB-Toolbox LANGUAGES CXX VERSION 6.0.0)
 
 if(WBT_BUILD_DOCS)

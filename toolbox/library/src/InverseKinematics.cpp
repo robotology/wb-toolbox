@@ -7,8 +7,8 @@
 #include <Eigen/Core>
 #include <iCub/iKin/iKinFwd.h>
 #include <iCub/iKin/iKinIpOpt.h>
-#include <iDynTree/Model/DenavitHartenberg.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/DenavitHartenberg.h>
+#include <iDynTree/ModelLoader.h>
 #include <iDynTree/iKinConversions.h>
 #include <wbi/wholeBodyInterface.h>
 #include <yarp/os/ResourceFinder.h>

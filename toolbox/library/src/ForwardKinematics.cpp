@@ -16,10 +16,10 @@
 #include <BlockFactory/Core/Parameters.h>
 #include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/Transform.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Transform.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/Indices.h>
+#include <iDynTree/Indices.h>
 
 #include <ostream>
 #include <tuple>
