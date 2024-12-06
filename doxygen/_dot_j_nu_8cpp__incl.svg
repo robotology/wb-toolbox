@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 2178;
+var viewWidth = 2095;
 var viewHeight = 218;
 var sectionId = 'dynsection-0';
 </script>
@@ -204,91 +204,91 @@ var sectionId = 'dynsection-0';
 <g id="node18" class="node">
 <title>Node18</title>
 <g id="a_node18"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="1343.9,-112.5 1343.9,-131.5 1504.9,-131.5 1504.9,-112.5 1343.9,-112.5"/>
-<text text-anchor="middle" x="1424.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/Core/EigenHelpers.h</text>
+<polygon fill="none" stroke="#bfbfbf" points="1343.4,-112.5 1343.4,-131.5 1479.4,-131.5 1479.4,-112.5 1343.4,-112.5"/>
+<text text-anchor="middle" x="1411.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/EigenHelpers.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node18 -->
 <g id="edge23" class="edge">
 <title>Node1&#45;&gt;Node18</title>
-<path fill="none" stroke="midnightblue" d="M1153.28,-173.49C1218.48,-161.35 1309.94,-144.32 1368.19,-133.47"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1369.12,-136.86 1378.31,-131.58 1367.83,-129.97 1369.12,-136.86"/>
+<path fill="none" stroke="midnightblue" d="M1152.9,-173.01C1215.48,-160.9 1301.94,-144.17 1357.27,-133.47"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1358.07,-136.88 1367.23,-131.54 1356.74,-130.01 1358.07,-136.88"/>
 </g>
 <!-- Node19 -->
 <g id="node19" class="node">
 <title>Node19</title>
 <g id="a_node19"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="1523.4,-112.5 1523.4,-131.5 1685.4,-131.5 1685.4,-112.5 1523.4,-112.5"/>
-<text text-anchor="middle" x="1604.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/Core/VectorFixSize.h</text>
+<polygon fill="none" stroke="#bfbfbf" points="1497.9,-112.5 1497.9,-131.5 1634.9,-131.5 1634.9,-112.5 1497.9,-112.5"/>
+<text text-anchor="middle" x="1566.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/VectorFixSize.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node19 -->
 <g id="edge24" class="edge">
 <title>Node1&#45;&gt;Node19</title>
-<path fill="none" stroke="midnightblue" d="M1153.17,-178.44C1252.85,-166.2 1424.74,-145.08 1525.13,-132.74"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1525.72,-136.19 1535.22,-131.5 1524.87,-129.25 1525.72,-136.19"/>
+<path fill="none" stroke="midnightblue" d="M1152.93,-177.74C1245.91,-165.43 1400.67,-144.94 1492.17,-132.83"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1492.73,-136.28 1502.18,-131.5 1491.81,-129.34 1492.73,-136.28"/>
 </g>
 <!-- Node20 -->
 <g id="node20" class="node">
 <title>Node20</title>
 <g id="a_node20"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="1703.9,-112.5 1703.9,-131.5 1878.9,-131.5 1878.9,-112.5 1703.9,-112.5"/>
-<text text-anchor="middle" x="1791.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/KinDynComputations.h</text>
+<polygon fill="none" stroke="#bfbfbf" points="1652.9,-112.5 1652.9,-131.5 1827.9,-131.5 1827.9,-112.5 1652.9,-112.5"/>
+<text text-anchor="middle" x="1740.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/KinDynComputations.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node20 -->
 <g id="edge25" class="edge">
 <title>Node1&#45;&gt;Node20</title>
-<path fill="none" stroke="midnightblue" d="M1153.09,-181.03C1268.42,-170.67 1492.05,-150.53 1693.7,-132.06"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1694.25,-135.53 1703.89,-131.13 1693.61,-128.56 1694.25,-135.53"/>
+<path fill="none" stroke="midnightblue" d="M1152.98,-180.42C1274.7,-168.52 1510.3,-145.49 1643.15,-132.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1643.71,-135.97 1653.33,-131.51 1643.03,-129 1643.71,-135.97"/>
 </g>
 <!-- Node21 -->
 <g id="node21" class="node">
 <title>Node21</title>
 <g id="a_node21"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="1896.9,-112.5 1896.9,-131.5 2035.9,-131.5 2035.9,-112.5 1896.9,-112.5"/>
-<text text-anchor="middle" x="1966.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/Model/Indices.h</text>
+<polygon fill="none" stroke="#bfbfbf" points="1846.4,-112.5 1846.4,-131.5 1952.4,-131.5 1952.4,-112.5 1846.4,-112.5"/>
+<text text-anchor="middle" x="1899.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">iDynTree/Indices.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node21 -->
 <g id="edge26" class="edge">
 <title>Node1&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M1153.12,-183.84C1296.16,-175.93 1610.97,-157.29 1886.48,-132.14"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1887.03,-135.61 1896.67,-131.21 1886.39,-128.63 1887.03,-135.61"/>
+<path fill="none" stroke="midnightblue" d="M1152.9,-184.12C1289.01,-176.91 1580.04,-159.71 1836.09,-132.07"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1836.77,-135.52 1846.33,-130.96 1836.01,-128.56 1836.77,-135.52"/>
 </g>
 <!-- Node22 -->
 <g id="node22" class="node">
 <title>Node22</title>
 <g id="a_node22"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="2053.9,-112.5 2053.9,-131.5 2110.9,-131.5 2110.9,-112.5 2053.9,-112.5"/>
-<text text-anchor="middle" x="2082.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">ostream</text>
+<polygon fill="none" stroke="#bfbfbf" points="1970.9,-112.5 1970.9,-131.5 2027.9,-131.5 2027.9,-112.5 1970.9,-112.5"/>
+<text text-anchor="middle" x="1999.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">ostream</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node22 -->
 <g id="edge28" class="edge">
 <title>Node1&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M1152.9,-188.27C1316.36,-187.8 1708.35,-181.27 2043.9,-131.96"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2044.44,-135.42 2053.81,-130.49 2043.41,-128.5 2044.44,-135.42"/>
+<path fill="none" stroke="midnightblue" d="M1153.19,-187.5C1306.22,-185.55 1657.09,-176.34 1960.54,-131.84"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1961.49,-135.23 1970.86,-130.31 1960.46,-128.31 1961.49,-135.23"/>
 </g>
 <!-- Node23 -->
 <g id="node23" class="node">
 <title>Node23</title>
 <g id="a_node23"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="2128.9,-112.5 2128.9,-131.5 2169.9,-131.5 2169.9,-112.5 2128.9,-112.5"/>
-<text text-anchor="middle" x="2149.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">tuple</text>
+<polygon fill="none" stroke="#bfbfbf" points="2045.9,-112.5 2045.9,-131.5 2086.9,-131.5 2086.9,-112.5 2045.9,-112.5"/>
+<text text-anchor="middle" x="2066.4" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">tuple</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node23 -->
 <g id="edge29" class="edge">
 <title>Node1&#45;&gt;Node23</title>
-<path fill="none" stroke="midnightblue" d="M1152.97,-186.33C1358.69,-181.5 1915.72,-165.81 2118.67,-131.85"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2119.39,-135.28 2128.64,-130.12 2118.19,-128.38 2119.39,-135.28"/>
+<path fill="none" stroke="midnightblue" d="M1153.19,-185.91C1347.2,-180.3 1849.67,-163.32 2035.7,-131.86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2036.4,-135.29 2045.64,-130.1 2035.18,-128.39 2036.4,-135.29"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
