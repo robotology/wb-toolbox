@@ -16,11 +16,11 @@
 #include <BlockFactory/Core/Parameter.h>
 #include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Transform.h>
+#include <iDynTree/Twist.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
 
 #include <array>

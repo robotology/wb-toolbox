@@ -16,9 +16,9 @@
 #include <BlockFactory/Core/Parameters.h>
 #include <BlockFactory/Core/Signal.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/IJoint.h>
-#include <iDynTree/Model/Indices.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/IJoint.h>
+#include <iDynTree/Indices.h>
+#include <iDynTree/Model.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 
 #include <cmath>

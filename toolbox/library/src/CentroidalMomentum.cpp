@@ -13,8 +13,8 @@
 #include <BlockFactory/Core/BlockInformation.h>
 #include <BlockFactory/Core/Log.h>
 #include <BlockFactory/Core/Signal.h>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/SpatialMomentum.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
 
 #include <ostream>

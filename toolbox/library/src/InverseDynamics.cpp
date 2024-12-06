@@ -14,14 +14,14 @@
 #include <BlockFactory/Core/Log.h>
 #include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Core/Wrench.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
+#include <iDynTree/Wrench.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/FreeFloatingState.h>
-#include <iDynTree/Model/JointState.h>
-#include <iDynTree/Model/LinkState.h>
+#include <iDynTree/FreeFloatingState.h>
+#include <iDynTree/JointState.h>
+#include <iDynTree/LinkState.h>
 
 #include <memory>
 #include <ostream>

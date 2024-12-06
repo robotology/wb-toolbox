@@ -60,8 +60,8 @@ Example:
 #include "RobotInterface.h"
 #include "Signal.h"
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/SpatialMomentum.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/SpatialMomentum.h>
 #include <iDynTree/KinDynComputations.h>
 
 #include <ostream>

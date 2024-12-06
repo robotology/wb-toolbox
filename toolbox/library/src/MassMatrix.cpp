@@ -14,8 +14,8 @@
 #include <BlockFactory/Core/Log.h>
 #include <BlockFactory/Core/Signal.h>
 #include <Eigen/Core>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/MatrixDynSize.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/MatrixDynSize.h>
 #include <iDynTree/KinDynComputations.h>
 
 #include <ostream>

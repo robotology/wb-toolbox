@@ -11,9 +11,9 @@
 
 #include <BlockFactory/Core/Log.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/FreeFloatingMatrices.h>
-#include <iDynTree/Model/Indices.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/FreeFloatingMatrices.h>
+#include <iDynTree/Indices.h>
+#include <iDynTree/Model.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
