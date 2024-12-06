@@ -24,7 +24,7 @@ target_link_libraries(WBToolboxBase
     YARP::YARP_init
     YARP::YARP_dev
     iDynTree::idyntree-model
-    iDynTree::idyntree-modelio-urdf
+    iDynTree::idyntree-modelio
     iDynTree::idyntree-high-level)
 
 target_include_directories(WBToolboxBase PUBLIC

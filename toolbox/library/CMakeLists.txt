@@ -101,7 +101,7 @@ list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
     YARP::YARP_math
     iDynTree::idyntree-core
     iDynTree::idyntree-model
-    iDynTree::idyntree-modelio-urdf
+    iDynTree::idyntree-modelio
     iDynTree::idyntree-high-level)
 
 # Additional dependency of the SimulatorSynchronizer block

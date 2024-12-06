@@ -14,7 +14,7 @@
 #include <iDynTree/FreeFloatingMatrices.h>
 #include <iDynTree/Indices.h>
 #include <iDynTree/Model.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/ModelLoader.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Bottle.h>
