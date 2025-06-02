@@ -16,7 +16,6 @@
 #include <Eigen/Core>
 #include <OsqpEigen/Constants.hpp>
 #include <OsqpEigen/OsqpEigen.h>
-#include <osqp/util.h>
 
 #include <ostream>
 #include <tuple>
