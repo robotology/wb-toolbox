@@ -4,7 +4,7 @@ channels:
   - robotology
 dependencies:
   - cmake
-  - compilers
+  - cxx-compiler
   - make
   - ninja
   - pkg-config

@@ -16,7 +16,6 @@
 #include <Eigen/Core>
 #include <OsqpEigen/Constants.hpp>
 #include <OsqpEigen/OsqpEigen.h>
-#include <osqp/util.h>
 
 #include <ostream>
 #include <tuple>
@@ -610,7 +609,7 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 
     if (pImpl->computeObjVal) {
 
-        double objVal = pImpl->sqSolver->workspace()->info->obj_val;
+        double objVal = pImpl->sqSolver->getObjValue();
 
         OutputSignalPtr objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
         if (!objValSignal) {

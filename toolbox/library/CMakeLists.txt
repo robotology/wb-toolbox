@@ -96,7 +96,7 @@ target_include_directories(WBToolbox PUBLIC
 
 # Main dependencies
 list(APPEND WBTOOLBOXLIBRARY_EXT_LIBRARIES
-    YARP::YARP_OS
+    YARP::YARP_os
     YARP::YARP_dev
     YARP::YARP_math
     iDynTree::idyntree-core

@@ -21,7 +21,7 @@ set_target_properties(ClockRpc PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Link it with YARP
 find_package(YARP 3.0.0 REQUIRED)
-target_link_libraries(ClockRpc YARP::YARP_OS)
+target_link_libraries(ClockRpc YARP::YARP_os)
 
 # Extract the include directory from the files names
 foreach(file ${CLOCK_RPC_FILES})
