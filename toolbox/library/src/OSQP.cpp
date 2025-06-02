@@ -609,7 +609,7 @@ bool wbt::block::OSQP::output(const BlockInformation* blockInfo)
 
     if (pImpl->computeObjVal) {
 
-        double objVal = pImpl->sqSolver->workspace()->info->obj_val;
+        double objVal = pImpl->sqSolver->getObjValue();
 
         OutputSignalPtr objValSignal = blockInfo->getOutputPortSignal(OutputIndex_objVal);
         if (!objValSignal) {
