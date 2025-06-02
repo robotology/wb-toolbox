@@ -20,7 +20,7 @@ set_target_properties(WBToolboxBase PROPERTIES
 
 target_link_libraries(WBToolboxBase
     BlockFactory::Core
-    YARP::YARP_OS
+    YARP::YARP_os
     YARP::YARP_init
     YARP::YARP_dev
     iDynTree::idyntree-model
