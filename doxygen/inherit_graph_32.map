@@ -1,3 +1,27 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structwbt_1_1_inverse_kinematics_1_1_inverse_kinematics_pimpl.html" title=" " alt="" coords="5,5,193,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,537,144,578"/>
+<area shape="rect" id="node2" href="$classwbt_1_1_remote_inverse_kinematics.html" title=" " alt="" coords="203,275,429,301"/>
+<area shape="rect" id="node3" href="$classwbt_1_1base_1_1_w_b_block.html" title="Extension of blockfactory::core::Block for simplifying the development of whole&#45;body blocks." alt="" coords="241,325,391,352"/>
+<area shape="rect" id="node17" href="$classwbt_1_1block_1_1_discrete_filter.html" title="The wbt::DiscreteFilter class." alt="" coords="224,376,408,403"/>
+<area shape="rect" id="node18" href="$classwbt_1_1block_1_1_minimum_jerk_trajectory_generator.html" title="The wbt::MinimumJerkTrajectoryGenerator class." alt="" coords="192,427,440,469"/>
+<area shape="rect" id="node19" href="$classwbt_1_1block_1_1_o_s_q_p.html" title="The wbt::OSQP class." alt="" coords="249,493,383,520"/>
+<area shape="rect" id="node20" href="$classwbt_1_1block_1_1_qp_oases.html" title="The wbt::QpOases class." alt="" coords="239,544,393,571"/>
+<area shape="rect" id="node21" href="$classwbt_1_1block_1_1_real_time_synchronizer.html" title="The wbt::RealTimeSynchronizer class." alt="" coords="195,595,437,621"/>
+<area shape="rect" id="node22" href="$classwbt_1_1block_1_1_simulator_synchronizer.html" title="The wbt::SimulatorSynchronizer class." alt="" coords="194,645,438,672"/>
+<area shape="rect" id="node23" href="$classwbt_1_1block_1_1_yarp_clock.html" title="The wbt::YarpClock class." alt="" coords="236,696,396,723"/>
+<area shape="rect" id="node24" href="$classwbt_1_1block_1_1_yarp_read.html" title="The wbt::YarpRead class." alt="" coords="237,747,395,773"/>
+<area shape="rect" id="node25" href="$classwbt_1_1block_1_1_yarp_write.html" title="The wbt::YarpWrite class." alt="" coords="237,797,395,824"/>
+<area shape="rect" id="node4" href="$classwbt_1_1block_1_1_centroidal_momentum.html" title="The wbt::CentroidalMomentum class." alt="" coords="488,5,727,32"/>
+<area shape="rect" id="node5" href="$classwbt_1_1block_1_1_centroidal_total_momentum_matrix.html" title="The wbt::CentroidalTotalMomentumMatrix class." alt="" coords="510,57,705,98"/>
+<area shape="rect" id="node6" href="$classwbt_1_1block_1_1_dot_j_nu.html" title="The wbt::DotJNu class." alt="" coords="536,123,679,149"/>
+<area shape="rect" id="node7" href="$classwbt_1_1block_1_1_forward_kinematics.html" title="The wbt::ForwardKinematics class." alt="" coords="496,173,719,200"/>
+<area shape="rect" id="node8" href="$classwbt_1_1block_1_1_get_limits.html" title="The wbt::GetLimits class." alt="" coords="527,224,687,251"/>
+<area shape="rect" id="node9" href="$classwbt_1_1block_1_1_get_measurement.html" title="The wbt::GetMeasurement class." alt="" coords="502,275,713,301"/>
+<area shape="rect" id="node10" href="$classwbt_1_1block_1_1_inverse_dynamics.html" title="The wbt::InverseDynamics class." alt="" coords="502,325,713,352"/>
+<area shape="rect" id="node11" href="$classwbt_1_1block_1_1_jacobian.html" title="The wbt::Jacobian class." alt="" coords="531,376,683,403"/>
+<area shape="rect" id="node12" href="$classwbt_1_1block_1_1_mass_matrix.html" title="The wbt::MassMatrix class." alt="" coords="521,427,694,453"/>
+<area shape="rect" id="node13" href="$classwbt_1_1block_1_1_relative_jacobian.html" title="The wbt::RelativeJacobian class." alt="" coords="504,477,711,504"/>
+<area shape="rect" id="node14" href="$classwbt_1_1block_1_1_relative_transform.html" title="The wbt::RelativeTransform class." alt="" coords="499,528,715,555"/>
+<area shape="rect" id="node15" href="$classwbt_1_1block_1_1_set_motor_parameters.html" title="The wbt::SetMotorParameters class." alt="" coords="492,579,723,605"/>
+<area shape="rect" id="node16" href="$classwbt_1_1block_1_1_set_references.html" title="The wbt::SetReferences class." alt="" coords="512,629,703,656"/>
 </map>

@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 416;
+var viewWidth = 476;
 var viewHeight = 496;
 var sectionId = 'dynsection-0';
 </script>
@@ -58,8 +58,8 @@ var sectionId = 'dynsection-0';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Extension of blockfactory::core::Block for simplifying the development of whole&#45;body blocks.">
-<polygon fill="#bfbfbf" stroke="black" points="80,-228.5 80,-247.5 193,-247.5 193,-228.5 80,-228.5"/>
-<text text-anchor="middle" x="136.5" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::base::WBBlock</text>
+<polygon fill="#bfbfbf" stroke="black" points="140,-228.5 140,-247.5 253,-247.5 253,-228.5 140,-228.5"/>
+<text text-anchor="middle" x="196.5" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::base::WBBlock</text>
 </a>
 </g>
 </g>
@@ -67,212 +67,213 @@ var sectionId = 'dynsection-0';
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:href="classwbt_1_1block_1_1_centroidal_momentum.html" target="_top" xlink:title="The wbt::CentroidalMomentum class.">
-<polygon fill="none" stroke="black" points="229,-468.5 229,-487.5 408,-487.5 408,-468.5 229,-468.5"/>
-<text text-anchor="middle" x="318.5" y="-475.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::CentroidalMomentum</text>
+<polygon fill="none" stroke="black" points="289,-468.5 289,-487.5 468,-487.5 468,-468.5 289,-468.5"/>
+<text text-anchor="middle" x="378.5" y="-475.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::CentroidalMomentum</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M139.63,-257.99C145.4,-301.69 165.46,-406.04 229,-459 233.59,-462.82 238.76,-465.93 244.25,-468.45"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="143.07,-257.32 138.4,-247.81 136.13,-258.15 143.07,-257.32"/>
+<path fill="none" stroke="midnightblue" d="M199.63,-257.99C205.4,-301.69 225.46,-406.04 289,-459 293.59,-462.82 298.76,-465.93 304.25,-468.45"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="203.07,-257.32 198.4,-247.81 196.13,-258.15 203.07,-257.32"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
 <g id="a_node4"><a xlink:href="classwbt_1_1block_1_1_centroidal_total_momentum_matrix.html" target="_top" xlink:title="The wbt::CentroidalTotalMomentumMatrix class.">
-<polygon fill="none" stroke="black" points="245.5,-419 245.5,-449 391.5,-449 391.5,-419 245.5,-419"/>
-<text text-anchor="start" x="253.5" y="-437" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::CentroidalTotal</text>
-<text text-anchor="middle" x="318.5" y="-426" font-family="Helvetica,sans-Serif" font-size="10.00">MomentumMatrix</text>
+<polygon fill="none" stroke="black" points="305.5,-419 305.5,-449 451.5,-449 451.5,-419 305.5,-419"/>
+<text text-anchor="start" x="313.5" y="-437" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::CentroidalTotal</text>
+<text text-anchor="middle" x="378.5" y="-426" font-family="Helvetica,sans-Serif" font-size="10.00">MomentumMatrix</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node4 -->
 <g id="edge3" class="edge">
 <title>Node1&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M142.47,-257.56C152.56,-293.17 178.83,-368.65 229,-409 233.98,-413 239.56,-416.36 245.43,-419.19"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="145.84,-256.61 139.86,-247.87 139.09,-258.43 145.84,-256.61"/>
+<path fill="none" stroke="midnightblue" d="M202.47,-257.56C212.56,-293.17 238.83,-368.65 289,-409 293.98,-413 299.56,-416.36 305.43,-419.19"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="205.84,-256.61 199.86,-247.87 199.09,-258.43 205.84,-256.61"/>
 </g>
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
 <g id="a_node5"><a xlink:href="classwbt_1_1block_1_1_dot_j_nu.html" target="_top" xlink:title="The wbt::DotJNu class.">
-<polygon fill="none" stroke="black" points="265,-380.5 265,-399.5 372,-399.5 372,-380.5 265,-380.5"/>
-<text text-anchor="middle" x="318.5" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::DotJNu</text>
+<polygon fill="none" stroke="black" points="325,-380.5 325,-399.5 432,-399.5 432,-380.5 325,-380.5"/>
+<text text-anchor="middle" x="378.5" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::DotJNu</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node5 -->
 <g id="edge4" class="edge">
 <title>Node1&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M145.08,-257.09C157.79,-286.48 186.27,-342.4 229,-371 239.58,-378.08 252.32,-382.58 264.8,-385.43"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="148.19,-255.45 141.12,-247.56 141.73,-258.14 148.19,-255.45"/>
+<path fill="none" stroke="midnightblue" d="M205.08,-257.09C217.79,-286.48 246.27,-342.4 289,-371 299.58,-378.08 312.32,-382.58 324.8,-385.43"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="208.19,-255.45 201.12,-247.56 201.73,-258.14 208.19,-255.45"/>
 </g>
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
 <g id="a_node6"><a xlink:href="classwbt_1_1block_1_1_forward_kinematics.html" target="_top" xlink:title="The wbt::ForwardKinematics class.">
-<polygon fill="none" stroke="black" points="235,-342.5 235,-361.5 402,-361.5 402,-342.5 235,-342.5"/>
-<text text-anchor="middle" x="318.5" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::ForwardKinematics</text>
+<polygon fill="none" stroke="black" points="295,-342.5 295,-361.5 462,-361.5 462,-342.5 295,-342.5"/>
+<text text-anchor="middle" x="378.5" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::ForwardKinematics</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node6 -->
 <g id="edge5" class="edge">
 <title>Node1&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M149.61,-255.98C165.28,-277.76 194.68,-313.9 229,-333 236,-336.9 243.73,-340 251.61,-342.46"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="152.36,-253.8 143.76,-247.61 146.62,-257.81 152.36,-253.8"/>
+<path fill="none" stroke="midnightblue" d="M209.61,-255.98C225.28,-277.76 254.68,-313.9 289,-333 296,-336.9 303.73,-340 311.61,-342.46"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="212.36,-253.8 203.76,-247.61 206.62,-257.81 212.36,-253.8"/>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
 <g id="a_node7"><a xlink:href="classwbt_1_1block_1_1_get_limits.html" target="_top" xlink:title="The wbt::GetLimits class.">
-<polygon fill="none" stroke="black" points="258.5,-304.5 258.5,-323.5 378.5,-323.5 378.5,-304.5 258.5,-304.5"/>
-<text text-anchor="middle" x="318.5" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::GetLimits</text>
+<polygon fill="none" stroke="black" points="318.5,-304.5 318.5,-323.5 438.5,-323.5 438.5,-304.5 318.5,-304.5"/>
+<text text-anchor="middle" x="378.5" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::GetLimits</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node7 -->
 <g id="edge6" class="edge">
 <title>Node1&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M158.23,-253.84C176.08,-266.74 203,-284.48 229,-295 238.47,-298.83 248.84,-301.94 259.03,-304.45"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="159.9,-250.73 149.78,-247.6 155.74,-256.36 159.9,-250.73"/>
+<path fill="none" stroke="midnightblue" d="M218.23,-253.84C236.08,-266.74 263,-284.48 289,-295 298.47,-298.83 308.84,-301.94 319.03,-304.45"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="219.9,-250.73 209.78,-247.6 215.74,-256.36 219.9,-250.73"/>
 </g>
 <!-- Node8 -->
 <g id="node8" class="node">
 <title>Node8</title>
 <g id="a_node8"><a xlink:href="classwbt_1_1block_1_1_get_measurement.html" target="_top" xlink:title="The wbt::GetMeasurement class.">
-<polygon fill="none" stroke="black" points="239.5,-266.5 239.5,-285.5 397.5,-285.5 397.5,-266.5 239.5,-266.5"/>
-<text text-anchor="middle" x="318.5" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::GetMeasurement</text>
+<polygon fill="none" stroke="black" points="299.5,-266.5 299.5,-285.5 457.5,-285.5 457.5,-266.5 299.5,-266.5"/>
+<text text-anchor="middle" x="378.5" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::GetMeasurement</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node8 -->
 <g id="edge7" class="edge">
 <title>Node1&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M192.83,-249.68C218.36,-255.07 248.28,-261.39 272.41,-266.48"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="193.43,-246.23 182.92,-247.59 191.98,-253.08 193.43,-246.23"/>
+<path fill="none" stroke="midnightblue" d="M252.83,-249.68C278.36,-255.07 308.28,-261.39 332.41,-266.48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="253.43,-246.23 242.92,-247.59 251.98,-253.08 253.43,-246.23"/>
 </g>
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
 <g id="a_node9"><a xlink:href="classwbt_1_1block_1_1_inverse_dynamics.html" target="_top" xlink:title="The wbt::InverseDynamics class.">
-<polygon fill="none" stroke="black" points="239.5,-228.5 239.5,-247.5 397.5,-247.5 397.5,-228.5 239.5,-228.5"/>
-<text text-anchor="middle" x="318.5" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::InverseDynamics</text>
+<polygon fill="none" stroke="black" points="299.5,-228.5 299.5,-247.5 457.5,-247.5 457.5,-228.5 299.5,-228.5"/>
+<text text-anchor="middle" x="378.5" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::InverseDynamics</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node9 -->
 <g id="edge8" class="edge">
 <title>Node1&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M203.55,-238C215.22,-238 227.47,-238 239.43,-238"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="203.47,-234.5 193.47,-238 203.47,-241.5 203.47,-234.5"/>
+<path fill="none" stroke="midnightblue" d="M263.55,-238C275.22,-238 287.47,-238 299.43,-238"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="263.47,-234.5 253.47,-238 263.47,-241.5 263.47,-234.5"/>
 </g>
 <!-- Node10 -->
 <g id="node10" class="node">
 <title>Node10</title>
 <g id="a_node10"><a xlink:href="classwbt_1_1block_1_1_jacobian.html" target="_top" xlink:title="The wbt::Jacobian class.">
-<polygon fill="none" stroke="black" points="261.5,-190.5 261.5,-209.5 375.5,-209.5 375.5,-190.5 261.5,-190.5"/>
-<text text-anchor="middle" x="318.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::Jacobian</text>
+<polygon fill="none" stroke="black" points="321.5,-190.5 321.5,-209.5 435.5,-209.5 435.5,-190.5 321.5,-190.5"/>
+<text text-anchor="middle" x="378.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::Jacobian</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node10 -->
 <g id="edge9" class="edge">
 <title>Node1&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M192.83,-226.32C218.36,-220.93 248.28,-214.61 272.41,-209.52"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="191.98,-222.92 182.92,-228.41 193.43,-229.77 191.98,-222.92"/>
+<path fill="none" stroke="midnightblue" d="M252.83,-226.32C278.36,-220.93 308.28,-214.61 332.41,-209.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="251.98,-222.92 242.92,-228.41 253.43,-229.77 251.98,-222.92"/>
 </g>
 <!-- Node11 -->
 <g id="node11" class="node">
 <title>Node11</title>
 <g id="a_node11"><a xlink:href="classwbt_1_1block_1_1_mass_matrix.html" target="_top" xlink:title="The wbt::MassMatrix class.">
-<polygon fill="none" stroke="black" points="253.5,-152.5 253.5,-171.5 383.5,-171.5 383.5,-152.5 253.5,-152.5"/>
-<text text-anchor="middle" x="318.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::MassMatrix</text>
+<polygon fill="none" stroke="black" points="313.5,-152.5 313.5,-171.5 443.5,-171.5 443.5,-152.5 313.5,-152.5"/>
+<text text-anchor="middle" x="378.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::MassMatrix</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node11 -->
 <g id="edge10" class="edge">
 <title>Node1&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M158.23,-222.16C176.08,-209.26 203,-191.52 229,-181 238.47,-177.17 248.84,-174.06 259.03,-171.55"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="155.74,-219.64 149.78,-228.4 159.9,-225.27 155.74,-219.64"/>
+<path fill="none" stroke="midnightblue" d="M218.23,-222.16C236.08,-209.26 263,-191.52 289,-181 298.47,-177.17 308.84,-174.06 319.03,-171.55"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="215.74,-219.64 209.78,-228.4 219.9,-225.27 215.74,-219.64"/>
 </g>
 <!-- Node12 -->
 <g id="node12" class="node">
 <title>Node12</title>
 <g id="a_node12"><a xlink:href="classwbt_1_1block_1_1_relative_jacobian.html" target="_top" xlink:title="The wbt::RelativeJacobian class.">
-<polygon fill="none" stroke="black" points="241,-114.5 241,-133.5 396,-133.5 396,-114.5 241,-114.5"/>
-<text text-anchor="middle" x="318.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::RelativeJacobian</text>
+<polygon fill="none" stroke="black" points="301,-114.5 301,-133.5 456,-133.5 456,-114.5 301,-114.5"/>
+<text text-anchor="middle" x="378.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::RelativeJacobian</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node12 -->
 <g id="edge11" class="edge">
 <title>Node1&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M149.61,-220.02C165.28,-198.24 194.68,-162.1 229,-143 236,-139.1 243.73,-136 251.61,-133.54"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="146.62,-218.19 143.76,-228.39 152.36,-222.2 146.62,-218.19"/>
+<path fill="none" stroke="midnightblue" d="M209.61,-220.02C225.28,-198.24 254.68,-162.1 289,-143 296,-139.1 303.73,-136 311.61,-133.54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="206.62,-218.19 203.76,-228.39 212.36,-222.2 206.62,-218.19"/>
 </g>
 <!-- Node13 -->
 <g id="node13" class="node">
 <title>Node13</title>
 <g id="a_node13"><a xlink:href="classwbt_1_1block_1_1_relative_transform.html" target="_top" xlink:title="The wbt::RelativeTransform class.">
-<polygon fill="none" stroke="black" points="237.5,-76.5 237.5,-95.5 399.5,-95.5 399.5,-76.5 237.5,-76.5"/>
-<text text-anchor="middle" x="318.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::RelativeTransform</text>
+<polygon fill="none" stroke="black" points="297.5,-76.5 297.5,-95.5 459.5,-95.5 459.5,-76.5 297.5,-76.5"/>
+<text text-anchor="middle" x="378.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::RelativeTransform</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node13 -->
 <g id="edge12" class="edge">
 <title>Node1&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M145.08,-218.91C157.79,-189.52 186.27,-133.6 229,-105 234.75,-101.15 241.13,-98.07 247.77,-95.6"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="141.73,-217.86 141.12,-228.44 148.19,-220.55 141.73,-217.86"/>
+<path fill="none" stroke="midnightblue" d="M205.08,-218.91C217.79,-189.52 246.27,-133.6 289,-105 294.75,-101.15 301.13,-98.07 307.77,-95.6"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="201.73,-217.86 201.12,-228.44 208.19,-220.55 201.73,-217.86"/>
 </g>
 <!-- Node14 -->
 <g id="node14" class="node">
 <title>Node14</title>
 <g id="a_node14"><a xlink:href="classwbt_1_1block_1_1_set_motor_parameters.html" target="_top" xlink:title="The wbt::SetMotorParameters class.">
-<polygon fill="none" stroke="black" points="232,-38.5 232,-57.5 405,-57.5 405,-38.5 232,-38.5"/>
-<text text-anchor="middle" x="318.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::SetMotorParameters</text>
+<polygon fill="none" stroke="black" points="292,-38.5 292,-57.5 465,-57.5 465,-38.5 292,-38.5"/>
+<text text-anchor="middle" x="378.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::SetMotorParameters</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node14 -->
 <g id="edge13" class="edge">
 <title>Node1&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M142.1,-218.64C151.68,-182.73 177.33,-105.92 229,-67 234.02,-63.22 239.63,-60.15 245.53,-57.68"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="138.69,-217.83 139.63,-228.39 145.48,-219.55 138.69,-217.83"/>
+<path fill="none" stroke="midnightblue" d="M202.1,-218.64C211.68,-182.73 237.33,-105.92 289,-67 294.02,-63.22 299.63,-60.15 305.53,-57.68"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="198.69,-217.83 199.63,-228.39 205.48,-219.55 198.69,-217.83"/>
 </g>
 <!-- Node15 -->
 <g id="node15" class="node">
 <title>Node15</title>
 <g id="a_node15"><a xlink:href="classwbt_1_1block_1_1_set_references.html" target="_top" xlink:title="The wbt::SetReferences class.">
-<polygon fill="none" stroke="black" points="247,-0.5 247,-19.5 390,-19.5 390,-0.5 247,-0.5"/>
-<text text-anchor="middle" x="318.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::SetReferences</text>
+<polygon fill="none" stroke="black" points="307,-0.5 307,-19.5 450,-19.5 450,-0.5 307,-0.5"/>
+<text text-anchor="middle" x="378.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">wbt::block::SetReferences</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node15 -->
 <g id="edge14" class="edge">
 <title>Node1&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M140.12,-218.23C146.77,-176.36 168.3,-78.57 229,-29 234.36,-24.63 240.48,-21.2 246.96,-18.51"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="136.64,-217.85 138.65,-228.25 143.57,-218.87 136.64,-217.85"/>
+<path fill="none" stroke="midnightblue" d="M200.12,-218.23C206.77,-176.36 228.3,-78.57 289,-29 294.36,-24.63 300.48,-21.2 306.96,-18.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="196.64,-217.85 198.65,-228.25 203.57,-218.87 196.64,-217.85"/>
 </g>
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="0,-228.5 0,-247.5 44,-247.5 44,-228.5 0,-228.5"/>
-<text text-anchor="middle" x="22" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">Block</text>
+<polygon fill="none" stroke="#bfbfbf" points="0,-223 0,-253 104,-253 104,-223 0,-223"/>
+<text text-anchor="start" x="8" y="-241" font-family="Helvetica,sans-Serif" font-size="10.00">blockfactory::core</text>
+<text text-anchor="middle" x="52" y="-230" font-family="Helvetica,sans-Serif" font-size="10.00">::Block</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge1" class="edge">
 <title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M54.38,-238C62.3,-238 71.05,-238 79.79,-238"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="54.16,-234.5 44.16,-238 54.16,-241.5 54.16,-234.5"/>
+<path fill="none" stroke="midnightblue" d="M114.32,-238C122.85,-238 131.57,-238 139.99,-238"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="114.04,-234.5 104.04,-238 114.04,-241.5 114.04,-234.5"/>
 </g>
 </g>
 </svg>
