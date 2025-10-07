@@ -25,7 +25,8 @@ target_link_libraries(WBToolboxBase
     YARP::YARP_dev
     iDynTree::idyntree-model
     iDynTree::idyntree-modelio
-    iDynTree::idyntree-high-level)
+    iDynTree::idyntree-high-level
+    Eigen3::Eigen)
 
 target_include_directories(WBToolboxBase PUBLIC
     $<BUILD_INTERFACE:${EIGEN3_INCLUDE_DIR}>
