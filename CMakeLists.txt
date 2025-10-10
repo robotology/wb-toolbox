@@ -3,7 +3,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 cmake_minimum_required(VERSION 3.16)
-project(WB-Toolbox LANGUAGES CXX VERSION 6.0.1)
+project(WB-Toolbox LANGUAGES CXX VERSION 6.0.2)
 
 if(WBT_BUILD_DOCS)
     add_subdirectory(doc)
