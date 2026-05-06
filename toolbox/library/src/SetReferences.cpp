@@ -52,8 +52,9 @@ enum InputIndex
 
 class SetReferences::impl
 {
-public:
-    std::vector<yarp::conf::vocab32_t> controlModes;
+public: 
+    std::vector<yarp::dev::SelectableControlModeEnum> controlModes;
+    //std::vector<yarp::conf::vocab32_t> controlModes;
     bool resetControlMode = true;
 
     double trajectoryReference;
@@ -172,29 +173,29 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
     // ====================
 
     // Initialize the size of std::vectors
-    pImpl->controlModes.assign(dofs, VOCAB_CM_UNKNOWN);
+    pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_IDLE);
 
     // From IControlMode.h.
     //
     // Joint Control Modes:
     if (controlType == "Position") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION);
     }
     else if (controlType == "Position Direct") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION_DIRECT);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION_DIRECT);
     }
     else if (controlType == "Velocity") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_VELOCITY);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_VELOCITY);
     }
     else if (controlType == "Torque") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_TORQUE);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_TORQUE);
     }
     // Motor Control Modes:
     else if (controlType == "PWM") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_PWM);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_PWM);
     }
     else if (controlType == "Current") {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_CURRENT);
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_CURRENT);
     }
     else {
         bfError << "Control Mode not supported.";
@@ -218,14 +219,14 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
 
         // Store the default reference speeds
         pImpl->defaultTrajectoryReference.resize(dofs);
-        if (!interface->getRefSpeeds(pImpl->defaultTrajectoryReference.data())) {
+        if (!interface->getTrajSpeeds(pImpl->defaultTrajectoryReference.data())) {
             bfError << "Failed to get default reference speed.";
             return false;
         }
 
         // Set the new reference speeds
         std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
-        if (!interface->setRefSpeeds(speedInitalization.data())) {
+        if (!interface->setTrajSpeeds(speedInitalization.data())) {
             bfError << "Failed to initialize reference speed.";
             return false;
         }
@@ -252,14 +253,14 @@ bool SetReferences::initialize(BlockInformation* blockInfo)
 
         // Store the default reference accelerations
         pImpl->defaultTrajectoryReference.resize(dofs);
-        if (!interface->getRefAccelerations(pImpl->defaultTrajectoryReference.data())) {
+        if (!interface->getTrajAccelerations(pImpl->defaultTrajectoryReference.data())) {
             bfError << "Failed to get default reference acceleration.";
             return false;
         }
 
         // Set the new reference accelerations
         std::vector<double> speedInitalization(dofs, pImpl->trajectoryReference);
-        if (!interface->setRefAccelerations(speedInitalization.data())) {
+        if (!interface->setTrajAccelerations(speedInitalization.data())) {
             bfError << "Failed to initialize reference acceleration.";
             return false;
         }
@@ -291,7 +292,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     }
 
     // In Position mode, restore the default reference speeds
-    if (pImpl->controlModes.front() == VOCAB_CM_POSITION) {
+    if (pImpl->controlModes.front() == yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION) {
         // Get the interface
         yarp::dev::IPositionControl* interface = nullptr;
         ok = robotInterface->getInterface(interface);
@@ -301,7 +302,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         }
         // Restore default reference speeds
         if (interface) {
-            ok = interface->setRefSpeeds(pImpl->defaultTrajectoryReference.data());
+            ok = interface->setTrajSpeeds(pImpl->defaultTrajectoryReference.data());
             if (!ok) {
                 bfError << "Failed to restore default reference speed.";
                 return false;
@@ -310,7 +311,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
     }
 
     // In Velocity mode, restore the default reference accelerations
-    if (pImpl->controlModes.front() == VOCAB_CM_VELOCITY) {
+    if (pImpl->controlModes.front() == yarp::dev::SelectableControlModeEnum::VOCAB_CM_VELOCITY) {
         // Get the interface
         yarp::dev::IVelocityControl* interface = nullptr;
         ok = robotInterface->getInterface(interface);
@@ -320,7 +321,7 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         }
         // Restore default reference accelerations
         if (interface) {
-            ok = interface->setRefAccelerations(pImpl->defaultTrajectoryReference.data());
+            ok = interface->setTrajAccelerations(pImpl->defaultTrajectoryReference.data());
             if (!ok) {
                 bfError << "Failed to restore default reference acceleration.";
                 return false;
@@ -328,11 +329,11 @@ bool SetReferences::terminate(const BlockInformation* blockInfo)
         }
     }
 
-    // Set all the controlledJoints to VOCAB_CM_POSITION
-    if (pImpl->controlModes.front() != VOCAB_CM_POSITION) {
-        pImpl->controlModes.assign(dofs, VOCAB_CM_POSITION);
+    // Set all the controlledJoints to yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION
+    if (pImpl->controlModes.front() != yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION) {
+        pImpl->controlModes.assign(dofs, yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION);
 
-        ok = icmd->setControlModes(pImpl->controlModes.data());
+        ok = icmd->setControlModes(pImpl->controlModes);
         if (!ok) {
             bfError << "Failed to set control mode.";
             return false;
@@ -376,7 +377,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             return false;
         }
         // Set the control mode to all the controlledJoints
-        if (!icmd->setControlModes(pImpl->controlModes.data())) {
+        if (!icmd->setControlModes(pImpl->controlModes)) {
             bfError << "Failed to set control mode.";
             return false;
         }
@@ -400,10 +401,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
     bool ok = false;
     // TODO: here only the first element is checked
     switch (pImpl->controlModes.front()) {
-        case VOCAB_CM_UNKNOWN:
-            bfError << "Control mode has not been successfully set.";
-            return false;
-        case VOCAB_CM_POSITION: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION: {
             // Do not update the position reference if it didn't change.
             // This would generate a warning.
             const auto oldReference = pImpl->previousReferenceVocabCmPosition;
@@ -426,7 +424,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->positionMove(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_POSITION_DIRECT: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION_DIRECT: {
             // Get the interface
             IPositionDirect* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -439,7 +437,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->setPositions(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_VELOCITY: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_VELOCITY: {
             // Get the interface
             IVelocityControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -452,7 +450,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->velocityMove(pImpl->degBufferReferences.data());
             break;
         }
-        case VOCAB_CM_TORQUE: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_TORQUE: {
             // Get the interface
             ITorqueControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -463,7 +461,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->setRefTorques(bufferReferences);
             break;
         }
-        case VOCAB_CM_PWM: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_PWM: {
             // Get the interface
             IPWMControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -474,7 +472,7 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             ok = interface->setRefDutyCycles(bufferReferences);
             break;
         }
-        case VOCAB_CM_CURRENT: {
+        case yarp::dev::SelectableControlModeEnum::VOCAB_CM_CURRENT: {
             // Get the interface
             ICurrentControl* interface = nullptr;
             if (!robotInterface->getInterface(interface) || !interface) {
@@ -484,6 +482,10 @@ bool SetReferences::output(const BlockInformation* blockInfo)
             // Set the references
             ok = interface->setRefCurrents(bufferReferences);
             break;
+        }
+        default: {
+            bfError << "Control mode has not been successfully set.";
+            return false;
         }
     }
 

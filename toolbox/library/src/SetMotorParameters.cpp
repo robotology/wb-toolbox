@@ -240,10 +240,10 @@ bool SetMotorParameters::initialize(BlockInformation* blockInfo)
     // ------------------------
 
     if (controlType == "Position") {
-        pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_POSITION;
+        pImpl->controlType = yarp::dev::PidControlTypeEnum::VOCAB_PIDTYPE_POSITION;
     }
     else if (controlType == "Torque") {
-        pImpl->controlType = yarp::dev::VOCAB_PIDTYPE_TORQUE;
+        pImpl->controlType = yarp::dev::PidControlTypeEnum::VOCAB_PIDTYPE_TORQUE;
     }
     else {
         bfError << "Control type not recognized.";
