@@ -5,7 +5,7 @@
 # GENERATE THE LIBRARY
 # ====================
 
-find_package(YARP 3.0.0 REQUIRED)
+find_package(YARP 4.0.0 REQUIRED)
 
 # TODO: sooner or later this file will be stored in YARP
 yarp_add_idl(CLOCK_RPC_FILES clock_rpc.thrift)
@@ -20,7 +20,7 @@ add_library(ClockRpc ${CLOCK_RPC_FILES} clock_rpc.thrift)
 set_target_properties(ClockRpc PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Link it with YARP
-find_package(YARP 3.0.0 REQUIRED)
+find_package(YARP 4.0.0 REQUIRED)
 target_link_libraries(ClockRpc YARP::YARP_os)
 
 # Extract the include directory from the files names

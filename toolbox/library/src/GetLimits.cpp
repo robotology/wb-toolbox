@@ -213,7 +213,7 @@ bool GetLimits::output(const BlockInformation* blockInfo)
 
         if (pImpl->limitType == "ControlBoardPosition") {
             for (unsigned i = 0; i < dofs; ++i) {
-                if (!iControlLimits2->getLimits(i, &min, &max)) {
+                if (!iControlLimits2->getPosLimits(i, &min, &max)) {
                     bfError << "Failed to get limits from the interface.";
                     return false;
                 }

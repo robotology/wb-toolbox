@@ -24,7 +24,7 @@ find_package(Matlab COMPONENTS
 )
 
 find_package(YCM 0.9 REQUIRED)
-find_package(YARP 3.0.0 REQUIRED)
+find_package(YARP 4.0.0 REQUIRED)
 
 # Fail if YARP is not compiled as shared library
 # see https://github.com/robotology/codyco-modules/issues/44
